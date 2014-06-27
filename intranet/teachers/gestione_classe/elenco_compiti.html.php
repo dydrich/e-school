@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
+<link rel="stylesheet" href="../reg.css" type="text/css" media="screen,projection" />
+<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
+<link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../../js/prototype.js"></script>
+<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
+<script type="text/javascript" src="../../../js/page.js"></script>
+<script type="text/javascript" src="../../../js/window.js"></script>
+<script type="text/javascript" src="../../../js/window_effects.js"></script>
+<script type="text/javascript">
+
+</script>
+<style>
+tbody tr:hover {
+	background-color: rgba(211, 222, 199, 0.6);
+}
+</style>
+</head>  
+<body>
+<?php include "../header.php" ?>
+<?php include "../navigation.php" ?>
+<div id="main">
+<div id="right_col">
+<?php include "class_working.php" ?>
+</div>
+<div id="left_col">
+<div style="width: 95%; height: 30px; margin: 30px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	Compiti assegnati (<a href="<?php echo $link ?>" style="font-weight: normal"><?php echo $label ?></a>)
+</div>
+<div style="width: 95%; margin: auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+	<div style="width: 20%; float: left; position: relative; top: 30%">Per il...</div>
+	<div style="width: 50%; float: left; position: relative; top: 30%">Compito</div>
+	<div style="width: 10%; float: left; position: relative; top: 30%">Materia</div>
+	<div style="width: 10%; float: left; position: relative; top: 30%">Assegnato</div>
+	<div style="width: 10%; float: left; position: relative; top: 30%">Alunni</div>
+</div>
+<table style="width: 95%; margin: 10px auto 0 auto">
+<?php 
+if($res_act->num_rows < 1){
+?>
+	<tr>
+    	<td colspan="5" style="height: 150px; font-weight: bold; text-transform: uppercase; text-align: center">Nessun compito assegnato</td> 
+    </tr>
+<?php 
+}
+else{
+?>
+
+<?php 
+	$idx = 1;
+	$bc = "";
+	$data = "";
+	while($dt = $res_dates->fetch_assoc()){
+		if($idx > 1)
+			print('<tr><td colspan="5" style="text-align: center; border-width: 0px 1px 1px 1px; border-style: solid; font-weight: bold; font-size: 12px;height: 10px; border-color: #c0c0c0;"></td></tr>');
+		$sel_hw = "SELECT rb_impegni.*, rb_materie.materia AS mat FROM rb_impegni, rb_materie WHERE rb_materie.id_materia = rb_impegni.materia AND classe = ".$_SESSION['__classe__']->get_ID()." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND data_inizio = '".$dt['data_inizio']."' AND rb_impegni.tipo = 2 $teacher ORDER BY data_inizio DESC";
+		//print $sel_hw;
+		$res_hw = $db->execute($sel_hw);
+		$rows = $res_hw->num_rows;
+		$ct = 1;
+		list($di, $oi) = explode(" ", $dt['data_inizio']);
+		setlocale(LC_ALL, "it_IT");
+		$giorno_str = strftime("%A", strtotime($di));
+?>
+	<tr>
+		<td style="width: 20%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #c0c0c0;" rowspan="<?php echo $rows ?>"><?php print utf8_encode($giorno_str)." ". format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/")?></td>
+<?php 
+		while($hw = $res_hw->fetch_assoc()){
+			$bc = "";
+			if(($idx%2) != 0)
+				$bc = "background-color: #e8eaec; ";
+			list($da, $oa) = explode(" ", $hw['data_assegnazione']);
+			$mod = 1;
+			if($_SESSION['__user__']->getUid() != $hw['docente'])
+				$mod = 0;
+?>
+		<?php if($ct > 1) print("<tr>") ?>
+		<td style="width: 50%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #c0c0c0;"><?php if ($hw['docente'] == $_SESSION['__user__']->getUid()): ?><a style="color: #303030; font-weight: normal; text-decoration: none" href="dettaglio_compito.php?t=<?php print $hw['id_impegno'] ?>"><?php endif; ?><?php print $hw['descrizione'] ?><?php if ($hw['docente'] == $_SESSION['__user__']->getUid()): ?></a><?php endif; ?></td>
+		<td style="width: 10%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #c0c0c0;"><?php print $hw['mat'] ?></td>
+		<td style="width: 10%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #c0c0c0;"><?php print format_date($da, SQL_DATE_STYLE, IT_DATE_STYLE, "/")?></td>
+		<td style="width: 10%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #c0c0c0;">Tutti</td>
+	</tr>
+
+<?php 
+			$ct++;
+			$idx++;
+		}
+	}
+?>
+<?php 
+}
+?>
+</table>
+<div style="width: 100%; margin-left: auto; margin-right: auto; margin-top: 40px; text-align: right">
+<a href="dettaglio_compito.php?t=0" style="text-transform: uppercase; margin-right: 20px; text-decoration: none">
+	<img src="../../../images/39.png" />
+	Nuovo compito</a>
+</div> 
+</div>
+<p class="spacer"></p>
+</div>
+<?php include "../footer.php" ?>
+</body>
+</html>

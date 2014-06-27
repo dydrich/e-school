@@ -1,0 +1,340 @@
+1.6.1
+gestione pagelle secondo quadrimestre migliorata
+bug fixes
+
+1.6
+stampa registro di sostegno
+eliminazione chiamate a split()
+in area admin, stampa dell'elenco degli alunni con genitori non registrati al sistema
+
+1.5.2-7
+in admin/adm_parents/genitori.php eliminata la paginazione, a causa di un sistema di calcolo del numero di record errato,
+che non permetteva la visualizzazione degli ultimi record.
+Il link di creazione nuovo genitore e` stato spostato nel context menu
+
+1.5.2-6
+corretti alcuni errori in password_manager.php e aggiunta l'action per la richiesta password in index.php
+
+1.5.2-5
+evitata la visualizzazione del comportamento tra le materie della primaria in common/lessons.php
+
+1.5.2-4
+in dettaglio_genitore inserito l'escape delle variabili php stampate in html come valori javascript
+
+1.5.2-3
+corretto un errore che impediva la visualizzazione di alcuni voti in grades.php (mancato import di RBUtilities)
+
+1.5.2-2
+corretto un errore in sign.php, derivante dal codice provvisorio per i giorni iniziali
+corretto anche, sempre in sign.php, un problema nel codice if-else che stabilisce la prima ora
+
+1.5.2-1
+define dei gruppi di amministrazione in functions.lib
+
+1.5.2
+stampa elenco alunni con genitori non rgeistrati
+
+1.5.1
+eliminazione chiamate a split
+
+1.5.0-5
+eliminazione della vecchia index in admin e passaggio definitivo a jQuery
+
+1.5.0-4
+pulizia codice
+
+1.5.0-3
+pulizia codice in ReportManager e PrimarySchoolReportPDF
+
+1.5.0-2
+inserita la gestione del livello scolare in pagella (genitori)
+
+1.5.0-1
+modificata in parent manager la mail, cancellando l'indicazione del livello scolare e inserendo una nota relativa alla funzione di richiesta nuova password
+
+1.5
+archivio in modulo albo-pretorio
+
+1.4.14-11
+in orario lezioni area genitori e alunni:
+aggiunto controllo per la presenza di lezioni nel sabato
+pulizia del codice in caso di materia non inserita
+
+1.4.14-10
+corretta l'errata visualizzazione dei voti di comportamento nell'area genitori e alunni
+sistemata la visualizzazione dei voti di religione, precedentemente mostrati in forma numerica (genitori e alunni)
+
+1.4.14-9
+aggiunta in normalize_users la trasformazione in minuscolo delle username
+
+1.4.14-8
+sostituita aj_get_class con get_all_classes
+
+1.4.14-7
+gestita la possibilita` di aggiungere a genitori gia` registrati figli di ordini scolastici diversi
+
+1.4.14-6
+sistemato il passaggio del parametro school_order in adm_parents
+
+1.4.14-5
+inserito un controllo sui parametri inseriti in parent_manager.php (real_escape_string)
+
+1.4.14-4
+aumentato il valore di height in admin_row (reg.css)
+
+1.4.14-3
+elenco_alunni.php (admin):
+corretto bug nei nomi con apostrofo
+corretto bug nella cancellazione dall'elenco dei nomei inseriti
+aumentata la larghezza delle colonne nell'elenco alunni
+
+1.4.14-2
+aggiunto il parametro per l'ordine di scuola in genitori.php
+
+1.4.14-1
+corretto un bug nella gestione dello stato scrutini in manager, che non modificava i dati della primaria
+
+1.4.14
+nuova grafica per area admin
+
+1.4.13-14
+funzione getAdminLevel in functions.lib: restituisce il livello di amministrazione di un utente
+
+1.4.13-13
+pulizia codice in ScheduleModule::getDay()
+
+1.4.13-12
+pulizia codice in RBTime::toString()
+
+1.4.13-11
+eliminati i popup di debug in dettaglio_genitore.php (admin), ma solo in locale
+
+1.4.13-10
+eliminata l'indicazione di orientation: landscape nella index
+
+1.4.13-9
+eliminata la segnalazione delle assenze e la pagina assenze dal registro personale della primaria
+
+1.4.13-8
+cancellata una inutile parte di codice in absences.html.php
+
+1.4.13-7
+correzione di stat_reg_reports.php, per mostrare l'ultimo scrutinio disponibile
+
+1.4.13-6
+pulizia del codice per la gestione di date di accesso diverse tra scuola e genitori in pagelle.php
+
+1.4.13-5
+bug fixes in pagella.html.php manager
+
+1.4.13-4
+bug fixes in genitori (pagelle)
+
+1.4.13-3
+code cleaning
+
+1.4.13-2
+apertura statistiche assenza a tutti i docenti della classe se ordine di scuola e` primaria (invariato l'accesso per i soli coordinatori nella secondaria)
+
+1.4.13-1
+inserita in AlboDocument la creazione automatica del progressivo ad apertura anno
+
+1.4.13
+recupero password
+
+1.4.12-4
+bug fixes in ReportManager
+
+1.4.12-3
+bug fixes area registro personale
+
+1.4.12-2
+gestione del non classificato in pagella 1Q
+
+1.4.12-1
+corretto un grave bug nel calcolo delle ore di assenza per materia nello scrutinio
+
+1.4.12
+stampa riepiloghi scrutini
+
+1.4.11-5
+corretto il mancato passaggio dell'ordine di scuola all'update in coord.php
+
+1.4.11-4
+risolto un errore in gestione esiti in scrutini_classe nel primo quadrimestre (non ci sono esiti)
+
+1.4.11-3
+utf-8 in tests.php
+
+1.4.11-2
+aggiunto date_default_timezone_set in start.php
+
+1.4.11-1
+bug fixes
+
+1.4.11
+voti privati (feature #522)
+
+1.4.10-5
+pulizia codice
+
+1.4.10-4
+bug fixes
+
+1.4.10-3
+stampa docente di religione in pagella
+
+1.4.10-2
+stampa consiglio di classe in pagella
+
+1.4.10-1
+passaggio di dettaglio_attivita.php (teachers) a jQuery per utilizzo di timepicker
+
+1.4.10
+backup pagelle per segreteria (primo quadrimestre)
+
+1.4.9-23
+correzione errore di numerazione alunni in registro_classe.html.php
+
+1.4.9-22
+ridimensionamento widget in registro personale index
+
+1.4.9-21
+pulizia codice in index registro personale
+
+1.4.9-20
+back to php 5.4 (no namespaces)
+
+1.4.9-19
+bug fix in data_source.php
+
+1.4.9-18
+utf-8 in student.php
+
+1.4.9-17
+ora l'update della verifica riporta il tipo verifica in tutti i voti
+
+1.4.9-16
+aggiunta dei prepared statement
+
+1.4.9-15
+nuova classe AnnoScolastico
+
+1.4.9-14
+risoluzione bug in RBUtilities::loadYearFromID
+
+1.4.9-13
+inizio separazione classi in classes.php
+
+1.4.9-12
+eliminazione split in intranet
+
+1.4.9-11
+verifica stampa pagelle primo quadrimestre, area manager
+
+1.4.9-10
+correzione bug per valore restituito da executeQuery in data_source.php
+
+1.4.9-9
+verifica stampa pagelle primo quadrimestre
+
+1.4.9-8
+correzione per religione scuola primaria
+
+1.4.9-7
+pulizia codice
+
+1.4.9-6
+corretto un errato valore in isFirstSchoolAdmin
+
+1.4.9-5
+bug fixes
+
+1.4.9-4
+correzione di un errato nome di variabile
+
+1.4.9-3
+documents: nuova gestione registrazione eventi
+documents: pulizia codice
+
+1.4.9-2
+modifica costruttore EventLog
+pulizia codice
+
+1.4.9-1
+modificata la gestione log per permettere il log di ogni tipo di evento
+
+1.4.9
+registrazione eventi login falliti
+
+1.4.8-2
+show_grades: pulizia e utf-8 in locales
+
+1.4.8-1
+UTF-8 in locales (ds: sostegno e lezioni)
+
+1.4.8
+visualizzazione registro di sostegno per ds
+
+1.4.7
+visualizzazione lezioni docente per ds
+
+1.4.6-4
+pulizia codice
+
+1.4.6-3
+pulizia codice
+
+1.4.6-2
+pulizia codice
+ora vengono visualizzati i doppi apici nell'argomento della lezione (firma)
+
+1.4.6-1
+pulizia codice
+registrazione user_type in index intranet per utilizzo in widget di comunication
+
+1.4.6
+il registro per obiettivi mostra ora gli obiettivi per esteso, e non in tooltip
+
+1.4.5-4
+sistemata la gestione degli obiettivi in verifica, in modo che siano ogni volta aggiornati tutti i voti relativi alla verifica stessa
+
+1.4.5-3
+risolto un bug che impediva il download delle pagelle degli anni precedenti
+
+1.4.5-2
+risolto un problema per cui i coordinatori, se insegnanti con una sola materia, non visualizzavano il link alle medie classe (scuola secondaria)
+
+1.4.5-1
+pulizia codice css e html
+
+1.4.5
+migliorata e velocizzata la gestione delle giustificazioni, che ora usa del codice javascript interno a registro_classe.php, e non usa la chiamata
+a elenco_giustificazioni.php
+
+1.4.4-1
+corretto uno strano errore nel passaggio dei parametri in documents/load_module.php
+
+1.4.4
+migliorata la gestione dell'orario, in particolare per la primaria, ma reso in generale piu` veloce
+
+1.4.3-2
+eliminata chiamata a split in grades_list
+
+1.4.3-1
+dettaglio voti per alunno e materia in docente (DS)
+
+1.4.3
+visualizzazione registro personale per ds
+
+1.4.2-2
+aperta la modifica dati alunno a tutto il cdc
+
+1.4.2-1
+media voto generale per alunno in dettaglio_medie.php (area docenti)
+
+1.4.2
+riepilogo medie voto per classe per DS
+
+1.4.1
+visualizzazione assenze giornaliere per DS

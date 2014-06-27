@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Sostegno</title>
+<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../js/jquery_themes/custom-theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script></script>
+</head>
+<body>
+<?php include "header.php" ?>
+<?php include $_SESSION['__administration_group__']."/navigation.php" ?>
+<div id="main">
+<div id="right_col">
+<?php include $_SESSION['__administration_group__']."/menu.php" ?>
+</div>
+<div id="left_col">
+	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+		Gestione sostegno
+	</div>
+	<div style="width: 65%; margin: 30px auto 0 auto; text-align: left; font-size: 1.2em">
+		<p style="width: 90%; border-bottom: 1px solid #CCC"><img src="../../images/13.png" style="margin-right: 15px"><a href="docenti_sostegno.php" style="text-decoration: none; font-size: 1em; text-transform: uppercase; font-weight: bold">Docenti</a></p>
+		<p style="width: 90%; border-bottom: 1px solid #CCC"><img src="../../images/14.png" style="margin-right: 15px"><a href="alunni_sostegno.php" style="text-decoration: none; font-size: 1em; text-transform: uppercase; font-weight: bold">Alunni</a></p>
+	</div>
+<p class="spacer"></p>
+</div>
+</div>
+<?php include "footer.php" ?>	
+</body>
+</html>

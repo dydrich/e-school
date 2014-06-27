@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Firma il registro di classe</title>
+<link rel="stylesheet" href="reg_classe.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="../../../js/page.js"></script>
+<script type="text/javascript">
+var IE = document.all?true:false;
+if (!IE) document.captureEvents(Event.MOUSEMOVE);
+
+var tempX = 0;
+var tempY = 0;
+
+var id_ore = new Array();
+<?php 
+while(list($k, $v) = each($ids)){
+?>
+id_ore[<?php print $k ?>] = <?php print $v ?>; 
+<?php } ?>
+var id_doc = new Array();
+var id_docc = new Array();
+<?php
+foreach ($firme as $x => $f){
+	$doc = $docc = 0;
+	if(isset($f['docente']) && $f['docente'] != ""){
+		$doc = $f['docente'];
+	}
+	if(isset($f['doc_compresenza']) && $f['doc_compresenza'] != ""){
+		$docc = $f['doc_compresenza'];
+	}
+?>
+id_doc[<?php echo $x ?>] = <?php echo $doc ?>;
+id_docc[<?php echo $x ?>] = <?php echo $docc ?>;
+<?php } ?>
+
+$(function(){
+	$('.sign').click(function(event){
+		event.preventDefault();
+		var strs = this.id.split("_");
+		$('#ora').val(strs[1]);
+		visualizza(event);
+	});
+	$('.comp_sign').click(function(event){
+		event.preventDefault();
+		var strs = this.id.split("_");
+		$('#ora').val(strs[1]);
+		sign_compresence();
+	});
+	$('.subj').click(function(event){
+		event.preventDefault();
+		var strs = this.id.split("_");
+		$('#mat').val(strs[1]);
+		firma();
+	});
+	$('.del_sign').click(function(event){
+		event.preventDefault();
+		var strs = this.id.split("_");
+		$('#ora').val(strs[2]);
+		delete_sign();
+	});
+	$('.del_csign').click(function(event){
+		event.preventDefault();
+		var strs = this.id.split("_");
+		$('#ora').val(strs[2]);
+		delete_compresence_sign();
+	});
+	$('.argumentum').button();	   
+	$('.argumentum').click(function(event){
+		event.preventDefault();
+		var strs = this.id.split("_");
+		$('#ora').val(strs[1]);
+		save_topic();
+	});
+	$('.support').click(function(event){
+		event.preventDefault();
+		var strs = this.id.split("_");
+		$('#ora').val(strs[1]);
+		support_sign(strs[2]);
+	});
+	$('.del_ssign').click(function(event){
+		event.preventDefault();
+		var strs = this.id.split("_");
+		$('#ora').val(strs[2]);
+		delete_support_sign(strs[3]);
+	});
+});
+
+var firma = function(){
+    $('#hid').hide();
+    var ora = $('#ora').val();
+    var mat = $('#mat').val();
+    var id_reg = $('#id_reg').val();
+    $('#action').val('sign');
+    
+    var url = "firma.php";
+    $.ajax({
+		type: "POST",
+		url: url,
+		data: {ora: ora, mat: mat, id_reg: id_reg, id_ora: id_ore[ora], action: 'sign'},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+			
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				show_error(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				$('#ora_'+ora).text(json.subject);
+				$('#del_sign_'+ora).show();                  
+                id_ore[ora] = json.id_ora;
+                id_doc[ora] = <?php echo $_SESSION['__user__']->getUid() ?>;
+			}
+		}
+    });
+};
+
+var sign_compresence = function(){
+    var ora = $('#ora').val();
+    var id_reg = $('#id_reg').val();
+    $('#action').val('sign_compresence');
+	if(id_docc[ora] == <?php echo $_SESSION['__user__']->getUid() ?>){
+		return false;
+	}
+	else if(id_docc[ora] != 0){
+		alert("Ora firmata: deve essere cancellata dal docente che ha firmato");
+		return false;
+	}
+	if (id_doc[ora] == <?php echo $_SESSION['__user__']->getUid() ?>){
+		alert('Non puoi firmare anche per la compresenza');
+		return false;
+	}
+
+    var url = "firma.php";
+    $.ajax({
+		type: "POST",
+		url: url,
+		data: {ora: ora, id_reg: id_reg, id_ora: id_ore[ora], action: 'sign_compresence'},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+			
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				show_error(json.message);
+				console.log(json.dbg_message);
+			}
+			else if (json.status == "ko"){
+				show_error(json.message);
+			}
+			else {
+				$('#cfirma_'+ora).text("Compresenza: "+json.teacher);
+				$('#del_csign_'+ora).show();      
+                id_ore[ora] = json.id_ora;
+                id_docc[ora] = <?php echo $_SESSION['__user__']->getUid() ?>;
+			}
+		}
+    });
+};
+
+var support_sign = function(position){
+    var ora = $('#ora').val();
+    var id_reg = $('#id_reg').val();
+    $('#action').val('sign_support');
+	
+    var url = "firma.php";
+    $.ajax({
+		type: "POST",
+		url: url,
+		data: {ora: ora, id_reg: id_reg, id_ora: id_ore[ora], action: 'sign_support', day: '<?php echo $_REQUEST['data'] ?>'},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+			
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				show_error(json.message);
+				console.log(json.dbg_message);
+			}
+			else if (json.status == "ko"){
+				show_error(json.message);
+			}
+			else {
+				$('#support_'+ora+'_'+position).text("Sostegno: "+json.teacher);
+				$('#del_ssign_'+ora+'_'+position).show();
+                id_ore[ora] = json.id_ora;
+                alunni = json.alunni;
+                if (alunni.length == 1){
+	                alink = document.createElement("A");
+	                alink.setAttribute("href", "../sostegno/dettaglio_attivita.php?id="+alunni[0]['attivita']['id']+"&data="+json.day)+"&st="+alunni[0]['id_alunno'];
+	                alink.setAttribute("style", "margin-left: 115px");
+	                alink.appendChild(document.createTextNode("Attivita"));
+	                $('#ct_'+ora+'_'+position).append(alink);
+                }
+                else {
+                    alink = document.createElement("A");
+	                alink.setAttribute("href", "../sostegno/dettaglio_attivita.php?id="+alunni[0].attivita.id+"&data="+json.day+"&st="+alunni[0]['id_alunno']);
+	                alink.setAttribute("style", "margin-left: 115px");			                
+	                alink.setAttribute("id", "att"+alunni[0]['id_alunno']+"_"+id_ore[ora]+"_0");
+	                $('#ct_'+ora+'_'+position).append(alink);
+	                $("#att"+alunni[0]['id_alunno']+"_"+id_ore[ora]+"_0").html("Attivit&agrave; di "+alunni[0]['cognome']);
+               
+                    }
+	                for (var i = 1; i < alunni.length; i++) {
+		                sp = document.createElement("span");
+		                sp.setAttribute("style", "margin: 0 15px 0 15px");
+		                sp.appendChild(document.createTextNode("|"));
+		                sp.setAttribute("id", "sep"+alunni[i]['id_alunno']+"_"+id_ore[ora]+"_0");
+		                $('#ct_'+ora+'_'+position).append(sp);
+						otlink = document.createElement("A");
+						otlink.setAttribute("href", "../sostegno/dettaglio_attivita.php?id="+alunni[i]['attivita']['id']+"&data="+json.day+"&st="+alunni[0]['id_alunno']);				
+						otlink.setAttribute("id", "att"+alunni[i]['id_alunno']+"_"+id_ore[ora]+"_"+i);
+						
+						$('#ct_'+ora+'_'+position).append(otlink);
+		                last = $("#att"+alunni[i]['id_alunno']+"_"+id_ore[ora]+"_"+i);
+		                $("#att"+alunni[i]['id_alunno']+"_"+id_ore[ora]+"_"+i).html("Attivit&agrave; di "+alunni[i]['cognome']);
+	                }
+                }
+			}
+
+    });
+};
+
+var delete_sign = function(){
+	var ora = $('#ora').val();
+    var mat = $('#mat').val();
+    var id_reg = $('#id_reg').val();
+
+    var url = "firma.php";
+    $.ajax({
+		type: "POST",
+		url: url,
+		data: {ora: ora, id_reg: id_reg, id_ora: id_ore[ora], action: 'unsign'},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+			
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				show_error(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				$('#ora_'+ora).text("Firma");
+				$('#del_sign_'+ora).hide();
+				$('#arg'+ora).val('');           
+			}
+		}
+    });
+};
+
+var delete_compresence_sign = function(){
+	var ora = $('#ora').val();
+    var id_reg = $('#id_reg').val();
+
+    var url = "firma.php";
+    $.ajax({
+		type: "POST",
+		url: url,
+		data: {ora: ora, id_reg: id_reg, id_ora: id_ore[ora], action: 'unsign_compresence'},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+			
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				show_error(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				$('#cfirma_'+ora).text("Firma compresenza");
+				$('#del_ssign_'+ora).hide();     
+			}
+		}
+    });
+};
+
+var delete_support_sign = function(position){
+	var ora = $('#ora').val();
+    var id_reg = $('#id_reg').val();
+
+    var url = "firma.php";
+    $.ajax({
+		type: "POST",
+		url: url,
+		data: {ora: ora, id_reg: id_reg, id_ora: id_ore[ora], action: 'unsign_support'},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+			
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				show_error(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				$('#support_'+ora+'_'+position).text("Sostegno");
+				$('#del_ssign_'+ora+'_'+position).hide();
+				$('#ct_'+ora+'_'+position).hide();
+			}
+		}
+    });
+};
+
+var save_topic = function (){
+    var ora = $('#ora').val();
+    var mat = $('#mat').val();
+    var id_reg = $('#id_reg').val();
+    var topic = $('#arg'+ora).val();
+    var signature = $('#ora_'+ora).text();
+
+    if(id_doc[ora] != <?php echo $_SESSION['__user__']->getUid() ?> && id_doc[ora] != 0){
+    	alert("Ora firmata da un altro docente");
+		return false;
+	}
+	else if(id_doc[ora] == 0){
+		alert("Ora non ancora firmata");
+		return false;
+	}
+    
+    if (signature == "Firma"){
+		alert('Non hai ancora firmato');
+		return false;
+    }
+
+    $.ajax({
+		type: "POST",
+		url: "arg.php",
+		data: {ora: ora, id_reg: id_reg, id_ora: id_ore[ora], action: 'save_topic', topic: topic},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+			
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				show_error(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				$('#check_'+ora).show();
+				window.setTimeout("$('#check_"+ora+"').hide(1000)", 2000);
+			}
+		}
+    });
+};
+
+var visualizza = function(e) {
+	if (id_doc[$('#ora').val()] != <?php echo $_SESSION['__user__']->getUid() ?> && id_doc[$('#ora').val()] != 0){
+		alert('Ora firmata: deve essere prima cancellata dal docente che ha firmato');
+		return false;
+	}
+	<?php
+	if (count($materie) == 1){
+		$m = $materie[0];
+	?>
+	document.forms[0].mat.value = <?php print $m['id_materia'] ?>; 
+	firma();
+	<?php
+	}
+	else {
+	?> 
+    var hid = $('#hid');
+    //alert(hid.style.top);
+    if (IE) { // grab the x-y pos.s if browser is IE
+        tempX = event.clientX + document.body.scrollLeft;
+        tempY = event.clientY + document.body.scrollTop;
+    } else {  // grab the x-y pos.s if browser is NS
+        tempX = e.pageX;
+        tempY = e.pageY;
+    }  
+    // catch possible negative values in NS4
+    if (tempX < 0){tempX = 0;}
+    if (tempY < 0){tempY = 0;}  
+    hid.css({top:  parseInt(tempY)+"px"});
+    hid.css({left: parseInt(tempX)+"px"});
+    hid.show();
+    <?php
+	}
+	?>
+    return true;
+};
+
+</script>
+<style>
+table.registro tbody tr:hover {
+	background-color: #F3F3F6;
+}
+</style>
+</head>
+<body>
+<?php 
+setlocale(LC_TIME, "it_IT");
+$giorno_str = utf8_encode(strftime("%A", strtotime($_SESSION['registro']['data'])));
+?>
+<?php include "../header.php" ?>
+<?php include "navigation.php" ?>
+<div id="main" style="clear: both; ">
+<form>
+<table class="registro">
+<thead>
+<tr class="head_tr">
+	<td colspan="4" style="text-align: center; font-weight: bold"><?php print $_SESSION['__classe__']->to_string()." - Registro del giorno $giorno_str ".format_date($_SESSION['registro']['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
+</tr>
+<tr class="title_tr">
+	<td colspan="4" style="text-align: center; font-weight: bold; height: 20px">Firme docente</td>
+</tr>
+</thead>
+<tbody>
+<?php
+reset ($firme);
+foreach ($firme as $x => $ora){
+	/*
+	 * display delete sign link
+	 */
+	$display = "none";
+	/*
+	 * display delete compresence sign link
+	 */
+	$cdisplay = "none";
+	/*
+	 * display delete support sign link
+	*/
+	$sdisplay = "none";
+	
+	$firma = "Firma";
+	if (isset($ora['materia']) && $ora['materia'] != ""){
+		$sel_mat = "SELECT materia FROM rb_materie WHERE id_materia = {$ora['materia']}";
+		try{
+			$firma = $db->executeCount($sel_mat);
+		} catch (MySQLException $ex){
+		
+		}
+		if (($ora['materia'] == 27 || $ora['materia'] == 41 || $ora['materia'] == 33) && ($ora['docente'] != $_SESSION['__user__']->getUid())){
+			$sel_cdoc = "SELECT CONCAT_WS(' ', cognome, nome) FROM rb_utenti WHERE uid = {$ora['docente']}";
+			try{
+				$firma .= ": ".$db->executeCount($sel_cdoc);
+			} catch (MySQLException $ex){
+			
+			}
+		}
+		if ($_SESSION['__user__']->getUid() == $ora['docente']){
+			$display = "inline";
+		}
+	}
+	$cfirma = "Firma compresenza";
+	if (isset($ora['doc_compresenza']) && $ora['doc_compresenza'] != ""){
+		$sel_cdoc = "SELECT CONCAT_WS(' ', cognome, nome) FROM rb_utenti WHERE uid = {$ora['doc_compresenza']}";
+		try{
+			$cfirma = "Compresenza: ".$db->executeCount($sel_cdoc);
+		} catch (MySQLException $ex){
+	
+		}
+		if ($_SESSION['__user__']->getUid() == $ora['doc_compresenza']){
+			$cdisplay = "inline";
+		}
+	}
+	$sos = array();
+	for ($i = 1; $i <= $count_sos; $i++){
+		$sos[$i] = "";
+	}
+	
+	$sostegno = array();
+	if (isset($ora['sostegno']) && count($ora['sostegno']) > 0){
+		$index = 1;
+		foreach ($ora['sostegno'] as $ds){
+			$sos[$index] = $ds;
+			if ($ds != "" && $ds != $_SESSION['__user__']->getUid()){
+				$sel_user = "SELECT CONCAT_WS(' ', cognome, nome) FROM rb_utenti WHERE uid = {$ds}";
+				$sostegno[$index] = $db->executeCount($sel_user);
+			}
+			else if ($ds == $_SESSION['__user__']->getUid()){
+				$sostegno[$index] = $_SESSION['__user__']->getFullName();
+			}
+			else {
+				$sostegno[$index] = "";
+			}
+			$index++;
+		}
+	}
+
+?>
+<tr>
+	<td style="width: 5%; text-align: center; font-weight: bold" rowspan="<?php echo $rowspan ?>"><?php echo $x ?> ora</td>
+	<td style="width: 35%; padding-left: 15px">		
+		<a id="ora_<?php echo $x ?>" class="sign" style="color: black; font-weight: bold" href="#"><?php echo $firma ?></a>
+		<a href="#" id="del_sign_<?php echo $x ?>" class="del_sign" style="display: <?php echo $display ?>; margin-left: 10px">(cancella)</a>
+	</td>
+	<td style="width: 10%; text-align: center">Argomento</td>
+	<td style="width: 50%">
+		<input type="text" style="width: 80%" id="arg<?php echo $x ?>" name="arg<?php echo $x ?>" value="<?php if (isset($ora['argomento'])) echo htmlentities($ora['argomento'], ENT_QUOTES) ?>" />
+		<button id="reg_<?php echo $x ?>" class="argumentum" style="margin-left: 8px; font-size: 0.9em">Registra</button>
+		<img src="../../../images/checkminired.png" id="check_<?php echo $x ?>" style="display: none" />
+	</td>
+</tr>
+<tr>
+	<td style="padding-left: 15px; height: 18px" colspan="3">
+		<a id="cfirma_<?php echo $x ?>" class="comp_sign" style="color: black; font-style: italic" href="#" onclick=""><?php echo $cfirma ?></a>
+		<a href="#" id="del_csign_<?php echo $x ?>" class="del_csign" style="display: <?php echo $cdisplay ?>; margin-left: 5px">(cancella)</a>
+	</td>
+</tr>
+<?php
+	$c = 0;
+	foreach ($sos as $ds){
+		$act_link = "";
+		$display_delete_link = "none";
+		$string = "Sostegno";
+		$c++;
+		if ($sostegno[$c] != ""){
+			$string = "Sostegno: {$sostegno[$c]}";
+			if ($sos[$c] == $_SESSION['__user__']->getUid()){
+				$display_delete_link = "inline";
+				/*
+				 * gestione collegamento alle attivita
+				 */
+				if (count($alunni) == 1){
+					$act_link = '<a href="../sostegno/dettaglio_attivita.php?id='.$alunni[0]['attivita']['id'].'&data='.$_REQUEST['data'].'&st='.$alunni[0]['id_alunno'].'" style="margin-left: 115px">Attivit&agrave;</a>';
+				}
+				else {
+					$act_link = '<a href="../sostegno/dettaglio_attivita.php?id='.$alunni[0]['attivita']['id'].'&data='.$_REQUEST['data'].'&st='.$alunni[0]['id_alunno'].'" style="margin-left: 115px">Attivit&agrave; di '.$alunni[0]['cognome'].'</a>';
+					if (count($alunni) > 1) {
+						for ($z = 1; $z < count($alunni); $z++){
+							$act_link .= '<span style="margin: 0 15px 0 15px">|</span><a href="../sostegno/dettaglio_attivita.php?id='.$alunni[$z]['attivita']['id'].'&data='.$_REQUEST['data'].'&st='.$alunni[$z]['id_alunno'].'" style="">Attivit&agrave; di '.$alunni[$z]['cognome'].'</a>';
+						}
+					}
+				}
+			}
+		}
+?>
+<tr>
+	<td colspan="3" style="padding-left: 15px; height: 18px">
+		<a href="#" id="support_<?php echo $x ?>_<?php echo $c ?>" class="support"><?php echo $string ?></a>
+		<a href="#" id="del_ssign_<?php echo $x ?>_<?php echo $c ?>" class="del_ssign" style="display: <?php echo $display_delete_link ?>; margin-left: 5px">(cancella)</a>
+		<span id="ct_<?php echo $x."_".$c ?>"><?php echo $act_link ?></span>
+	</td>
+<tr>
+<?php 
+	}
+?>
+<tr class="title_tr">
+	<td style="height: 5px" colspan="4">&nbsp;</td>
+<tr>
+<?php
+}
+?>
+</tbody>
+</table>
+<p style="height: 0px">
+<input type="hidden" name="ora" id="ora" value="" />
+<input type="hidden" name="mat" id="mat" value="" />
+<input type="hidden" name="action" id="action" value="" />
+<input type="hidden" name="id_reg" id="id_reg" value="<?php print $_REQUEST['id_reg'] ?>" />
+</p>
+</form>
+</div>
+<!--
+DIV nascosto che contiene le materie
+-->
+<div id="hid" style="display: none; width: 200px; height: 65px; position: absolute">
+<?php
+$k = 0;
+foreach($materie as $m){
+?>
+    <a id="mat_<?php echo $m['id_materia'] ?>" style="font-weight: normal;" class="subj" href="#"><?php echo truncateString($m['materia'], 20) ?></a><br />
+<?php
+    $k++;
+}
+?>
+</div>
+</body>
+</html>

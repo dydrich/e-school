@@ -1,0 +1,118 @@
+@CHARSET "UTF-8";
+
+._bold {
+	font-weight: bold;
+}
+
+._italic {
+	font-style: italic;
+}
+
+._center {
+	text-align: center;
+}
+
+._right {
+	text-align: right;
+}
+
+._elem_center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.fleft {
+	float: left
+}
+
+.fright {
+	float: right
+}
+
+.bclear {
+	clear: both
+}
+
+/* width % */
+.wd_5 {
+	width: 5%;
+}
+.wd_10 {
+	width: 10%;
+}
+.wd_15 {
+	width: 15%;
+}
+.wd_20 {
+	width: 20%;
+}
+.wd_25 {
+	width: 25%;
+}
+.wd_30 {
+	width: 30%;
+}
+.wd_35 {
+	width: 35%;
+}
+.wd_40 {
+	width: 40%;
+}
+.wd_45 {
+	width: 45%;
+}
+.wd_50 {
+	width: 50%;
+}
+.wd_55 {
+	width: 55%;
+}
+.wd_60 {
+	width: 60%;
+}
+.wd_65 {
+	width: 65%;
+}
+.wd_70 {
+	width: 70%;
+}
+.wd_75 {
+	width: 75%;
+}
+.wd_80 {
+	width: 80%;
+}
+.wd_85 {
+	width: 85%;
+}
+.wd_90 {
+	width: 90%;
+}
+.wd_95 {
+	width: 95%;
+}
+
+.first_cell {
+	padding-left: 5px
+}
+
+fieldset{
+	border: 1px solid rgb(211, 222, 199);
+	border-radius: 5px;
+	padding: 5px;
+	margin-bottom: 15px;
+}
+
+legend{
+	padding: 5px;
+	font-weight: bold;
+	margin-left: 5%
+}
+
+a.no_dec {
+	text-decoration: none
+}
+
+.no_border {
+    border: 0
+}
