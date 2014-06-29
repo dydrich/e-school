@@ -25,5 +25,3 @@ while ($st = $result->fetch_assoc()) {
 $return .= $str;
 echo $return; 
 exit;
-
-?>
