@@ -121,4 +121,3 @@ else{
     //header("Location: ".$pathinfo['dirname']."/no_file.php");
 	echo "file non trovato: ".$_SESSION['download'];
 }
-?>
