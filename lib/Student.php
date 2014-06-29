@@ -20,5 +20,3 @@ class Student extends StudentBean{
 		return $this->oldClass;
 	}
 }
-
-?>

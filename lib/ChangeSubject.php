@@ -164,5 +164,3 @@ EDT;
 		return $this->javascript;
 	}
 }
-
-?>

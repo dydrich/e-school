@@ -6,7 +6,6 @@ require_once($_SESSION['__config__']['html_root']."/tcpdf/tcpdf.php");
 
 /**
  * classe personalizzata
- * TODO: realizzare la personalizzazione
  */
 class SchoolPDF extends TCPDF{
 

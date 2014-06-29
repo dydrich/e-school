@@ -43,5 +43,4 @@ class SessionUtils extends DataUtils {
 		$config = $this->utility->loadStudentWSupport($uid, $stid);
 		$_SESSION[$identifier] = $config;
 	}
-	
 }

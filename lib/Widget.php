@@ -46,5 +46,3 @@ abstract class Widget {
 		return $this->innerHTML;
 	}
 }
-
-?>
