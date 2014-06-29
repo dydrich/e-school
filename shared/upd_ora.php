@@ -61,7 +61,6 @@ if(isset($_REQUEST['getID'])){
 			exit;
 		}
 		$sel_new_id = "SELECT id FROM rb_orario WHERE giorno = '{$giorno}' AND ora = {$ora} AND classe = {$classe} AND anno = {$anno}";
-		//print $sel_id;
 		try{
 			$id_ora = $db->executeCount($sel_new_id);
 		} catch (MySQLException $ex){
