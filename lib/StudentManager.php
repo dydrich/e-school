@@ -72,7 +72,7 @@ class StudentManager
 		$pwd = $this->getStudent()->getPwd();
 		$id_classe = $this->student->getClass();
 		$luogo_nascita = $this->student->getBirthPlace();
-		$this->datasource->executeUpdate("INSERT INTO rb_alunni (username, password, nome, cognome, data_nascita, luogo_nascita, codice_fiscale, id_classe, sesso) VALUES ('{$uname}', '{$pwd}', '{$fname}', '{$lname}', ".field_null($luogo_nascita, true).", ".field_null($birthday, true).", ".field_null($cf, true).", {$id_classe}, '{$sex}')");
+		$this->datasource->executeUpdate("INSERT INTO rb_alunni (username, password, nome, cognome, data_nascita, luogo_nascita, codice_fiscale, id_classe, sesso) VALUES ('{$uname}', '{$pwd}', '{$fname}', '{$lname}', ".field_null($birthday, true).", ".field_null($luogo_nascita, true).", ".field_null($cf, true).", {$id_classe}, '{$sex}')");
 	}
 	
 	public function updateStudent(){
