@@ -55,7 +55,7 @@ if($_REQUEST['action'] == "upload"){
 	 * gestione del filesystem
 	 */
 	$file_name = basename( $_FILES['fname']['name']);
-	$file = ereg_replace(" ", "_", basename( $_FILES['fname']['name']));
+	$file = preg_replace("/ /", "_", basename( $_FILES['fname']['name']));
 
 	/**
 	 * gestione file nel filesystem
@@ -82,5 +82,3 @@ if($_REQUEST['action'] == "upload"){
 	flush();
 	flush();
 }
-
-?>
