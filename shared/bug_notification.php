@@ -22,6 +22,3 @@ mail($to, $subject, $text, $headers);
 
 echo "ok";
 exit;
-
-?>
-
