@@ -366,5 +366,4 @@ class ParentBean extends UserBean {
 		$n .= " (" . implode(", ", $this->childrenNames) .")";
 		return $n;
 	}
-
 }
