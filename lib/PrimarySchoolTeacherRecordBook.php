@@ -130,7 +130,7 @@ class PrimarySchoolTeacherRecordBook extends TeacherRecordBook{
 			$this->studentsData[$k]['grades1q'] = array();
 			$this->studentsData[$k]['grades2q'] = array();
 			$sel_marks = "(SELECT data_voto AS data, voto, modificatori, tipologia, descrizione FROM rb_voti WHERE materia = {$subject} AND anno = {$this->year->get_ID()} AND alunno = {$k} ORDER BY data_voto DESC)";
-			$sel_marks .=  " UNION (SELECT data AS data, 'impreparato' AS voto, '' AS modificatori, 2 AS tipologia, 'Interrogazione' AS descizione FROM rb_note_didattiche WHERE tipo = 1 AND materia = {$subject} AND anno = {$this->year->get_ID()} AND alunno = {$k} ORDER BY data  DESC)";
+			$sel_marks .=  " UNION ALL (SELECT data AS data, 'impreparato' AS voto, '' AS modificatori, 2 AS tipologia, 'Interrogazione' AS descizione FROM rb_note_didattiche WHERE tipo = 1 AND materia = {$subject} AND anno = {$this->year->get_ID()} AND alunno = {$k} ORDER BY data  DESC)";
 			$marks = $this->datasource->executeQuery($sel_marks);
 			$rows1 = array();
 			$rows2 = array();
