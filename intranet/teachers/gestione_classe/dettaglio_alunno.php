@@ -17,7 +17,7 @@ if ($res_alunno->num_rows > 0){
 	$alunno = $res_alunno->fetch_assoc();
 }
 $tel = array();
-if (strlen($alunno['telefono']) > 0){
+if (isset($alunno['telefono']) && strlen($alunno['telefono']) > 0){
 	$t = explode(";", $alunno['telefono']);
 	foreach ($t as $row){
 		list($number, $desc) = explode("#", $row);

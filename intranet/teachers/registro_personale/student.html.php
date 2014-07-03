@@ -53,7 +53,7 @@ function change_subject(id){
 function show_menu(e, _gi){
 	grade_id = _gi;
 	<?php 
-	if (0 == $_SESSION['__user_config__']['registro_obiettivi'][0]){
+	if (isset($_SESSION['__user_config__']['registro_obiettivi'][0]) && 0 == $_SESSION['__user_config__']['registro_obiettivi'][0]){
 	?>
 	modifica_voto();
 	<?php
@@ -172,7 +172,7 @@ while($row = $res_voti->fetch_assoc()){
 	<td style="width: 10%; text-align: center"><a href="#" id="grade_<?php echo $row['id_voto'] ?>" class="grade_link" style="font-weight: bold; <?php if($row['voto'] < 6) print("color: rgb(172, 21, 21)") ?>"><?php echo $_voto ?></a></td> 
 	<td style="width: 10%; text-align: center"><span style="font-weight: normal; "><?php print format_date($row['data_voto'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></span></td> 
 	<td style="width: 5%; text-align: center"><span style="font-weight: normal; "><?php print substr($row['label'], 0, 1) ?></span></td> 
-	<td style="width: 25%; text-align: center"><span style="font-weight: normal; "><?php print utf8_decode($row['descrizione']) ?></span></td> 
+	<td style="width: 25%; text-align: center"><span style="font-weight: normal; "><?php print $row['descrizione'] ?></span></td>
 	<td style="width: 25%; text-align: center"><span style="font-weight: normal; "><?php print $row['argomento'] ?></span></td>
 	<td style="width: 25%; text-align: center"><span style="font-weight: normal; "><?php print utf8_decode($row['note']) ?></span></td>   
 </tr>

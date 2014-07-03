@@ -10,13 +10,18 @@ check_permission(DOC_PERM);
 $_SESSION['__path_to_root__'] = "../../../";
 $_SESSION['__path_to_reg_home__'] = "../";
 
+$q = $_REQUEST['q'];
+
 if(isset($_REQUEST['id_voto'])){
 	$sel_voto = "SELECT rb_voti.*, rb_tipologia_prove.label FROM rb_voti, rb_tipologia_prove WHERE rb_voti.tipologia = rb_tipologia_prove.id AND id_voto = ".$_REQUEST['id_voto'];
 	$res_voto = $db->executeQuery($sel_voto);
 	$voto = $res_voto->fetch_assoc();
 }
 
-$selected = $_SESSION['__user_config__']['tipologia_prove'];
+$selected = array();
+if (isset($_SESSION['__user_config__']['tipologia_prove'])){
+	$selected = $_SESSION['__user_config__']['tipologia_prove'];
+}
 if (count($selected) > 0){
 	$sel_prove = "SELECT * FROM rb_tipologia_prove WHERE id IN (".join(",", $selected).")";
 }
@@ -40,5 +45,3 @@ else{
 }
 
 include "mark.html.php";
-
-?>

@@ -117,7 +117,7 @@ tbody a {
 			}
 
 			$tel = array();
-			if (strlen($add['telefono']) > 0){
+			if (isset($add['telefono']) && strlen($add['telefono']) > 0){
 				$t = explode(";", $add['telefono']);
 				foreach ($t as $row){
 					list($number, $desc) = explode("#", $row);
