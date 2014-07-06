@@ -32,6 +32,10 @@
 	<?php
 	}
 	?>
+	<p class="menu_label data_icon">Utility</p>
+	<ul class="menublock" style="" dir="rtl">
+		<li><a href="utility.php">Home</a></li>
+	</ul>
 	<p class="menu_label act_icon">Comunicazioni</p>
 	<ul class="menublock" style="" dir="rtl">
 		<li><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=manager">Home</a></li>
