@@ -12,6 +12,9 @@
 	<div id="esc">
 		<ul style="list-style-type: disc">
 		<li><a href="<?php echo $_SESSION['__path_to_root__'] ?>shared/do_logout.php">Esci</a></li>
+			<?php if (isset($_SESSION['__sudoer__'])): ?>
+				<li><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back">DeSuDo</a></li>
+			<?php endif; ?>
 		</ul>
 	</div>
 </header>
