@@ -504,6 +504,38 @@ class ReportManager {
 			chdir($old_dir);
 			return $file_zip;
 		}
+		else {
+			$folder = "scuola-secondaria";
+			if ($this->schoolOrder == 2){
+				$id_religione = 30;
+				$folder = "scuola-primaria";
+			}
+			$old_dir = getcwd();
+			chdir($_SESSION['__config__']['html_root']."/download/pagelle/{$year_desc}/");
+			$zip = new ZipArchive();
+			$file_zip = $folder."-".$year_desc."-".$session."Q.zip";
+			if (file_exists($file_zip)){
+				unlink($file_zip);
+			}
+			if ($zip->open($file_zip, ZipArchive::CREATE)!==TRUE) {
+				exit("cannot open <$file_zip>\n");
+			}
+			$root_path = "./{$folder}";
+			$files = new RecursiveIteratorIterator (new RecursiveDirectoryIterator($root_path), RecursiveIteratorIterator::LEAVES_ONLY);
+			foreach ($files as $name => $file) {
+				$filePath = $file->getRealPath();
+				$file_dirs = explode("/", $filePath);
+				$act_dirs = array_slice($file_dirs, (count($file_dirs) - 4));
+				$path = implode("/", $act_dirs);
+				//echo $path."\n";
+				if ($file->getBasename() != '.' && $file->getBasename() != '..'){
+					$zip->addFile($filePath, $path);
+				}
+			}
+			$zip->close();
+			chdir($old_dir);
+			return $file_zip;
+		}
 	}
 	
 }

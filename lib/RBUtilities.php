@@ -192,5 +192,69 @@ final class RBUtilities{
 			return round($grade, 0);
 		}
 	}
+
+	/*
+	 * download all reports
+	 */
+	public static function createAllReportsArchive($year_desc){
+		$old_dir = getcwd();
+		chdir($_SESSION['__config__']['html_root']."/download/pagelle/");
+		$zip = new ZipArchive();
+		$file_zip = "pagelle_".$year_desc.".zip";
+		if (file_exists($file_zip)){
+			unlink($file_zip);
+		}
+		if ($zip->open($file_zip, ZipArchive::CREATE)!==TRUE) {
+			exit("cannot open <$file_zip>\n");
+		}
+		$root_path = "./{$year_desc}";
+		$files = new RecursiveIteratorIterator (new RecursiveDirectoryIterator($root_path), RecursiveIteratorIterator::LEAVES_ONLY);
+		foreach ($files as $name => $file) {
+			$filePath = $file->getRealPath();
+			$file_dirs = explode("/", $filePath);
+			$act_dirs = array_slice($file_dirs, (count($file_dirs) - 4));
+			$path = implode("/", $act_dirs);
+			$basename = $file->getBasename();
+			$ext = $file->getExtension();
+			if ($basename != '.' && $basename != '..' && $ext != "zip"){
+				$zip->addFile($filePath, $path);
+			}
+		}
+		$zip->close();
+		chdir($old_dir);
+		return $file_zip;
+	}
+
+	/*
+	 * download all teacher books
+	 */
+	public static function createAllTeachersBooksArchive($year_desc){
+		$old_dir = getcwd();
+		chdir($_SESSION['__config__']['html_root']."/download/registri/");
+		$zip = new ZipArchive();
+		$file_zip = "registri_".$year_desc.".zip";
+		if (file_exists($file_zip)){
+			unlink($file_zip);
+		}
+		if ($zip->open($file_zip, ZipArchive::CREATE)!==TRUE) {
+			exit("cannot open <$file_zip>\n");
+		}
+		$root_path = "./{$year_desc}";
+		$files = new RecursiveIteratorIterator (new RecursiveDirectoryIterator($root_path), RecursiveIteratorIterator::LEAVES_ONLY);
+		foreach ($files as $name => $file) {
+			$filePath = $file->getRealPath();
+			$file_dirs = explode("/", $filePath);
+			$act_dirs = array_slice($file_dirs, (count($file_dirs) - 5));
+			$path = implode("/", $act_dirs);
+			$basename = $file->getBasename();
+			$ext = $file->getExtension();
+			if ($basename != '.' && $basename != '..' && $ext != "zip"){
+				$zip->addFile($filePath, $path);
+			}
+		}
+		$zip->close();
+		chdir($old_dir);
+		return $file_zip;
+	}
 	
 }
