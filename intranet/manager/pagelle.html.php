@@ -115,7 +115,7 @@ var do_backup = function(year, session, area){
 					return false;
 				}
 				else{
-					$('tdbck_'+session).update("<a href='../../modules/documents/download_manager.php?doc=report_backup&area=manager&f="+json.zip+"&sess=1&y="+year+"&area="+area+"' style=''>Scarica il backup</a>");
+					$('tdbck_'+session).update("<a href='../../modules/documents/download_manager.php?doc=report_backup&area=manager&f="+json.zip+"&sess="+session+"&y="+year+"&area="+area+"' style=''>Scarica il backup</a>");
 					console.log(json.zip);
 					$('wait_label').update(json.message);
 					setTimeout("$('wait_label').fade({duration: 1.0})", 4000);
@@ -275,12 +275,29 @@ div.overlay{
 			<tr>
 				<td colspan="2" style="padding-left: 40px">
 					
-					<?php if($pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti'] != "" && $pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti'] <= date("Y-m-d")): ?>
+					<?php if($pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti'] != "" && $pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti'] <= date("Y-m-d")){ ?>
 					<a href="../../shared/no_js.php" id="gen_2">Genera o rigenera pagelle</a><br />
-					<a href="cerca_pagella.php?y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&q=2">Cerca una pagella</a>
-					<?php endif; ?>
+					<a href="cerca_pagella.php?y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&q=2">Cerca una pagella</a><br />
+					<a href="" class="backup" id="backup_<?php echo $_SESSION['__current_year__']->get_ID() ?>_2">Crea il backup pagelle</a><br />
+					<?php
+					$folder = "scuola-secondaria";
+					if ($_SESSION['__school_order__'] == 2){
+						$folder = "scuola-primaria";
+					}
+					$year_desc = $db->executeCount("SELECT descrizione FROM rb_anni WHERE id_anno = ".$_SESSION['__current_year__']->get_ID());
+					$file_zip = $folder."-".$year_desc."-2Q.zip";
+
+					if(file_exists($_SESSION['__config__']['html_root']."/download/pagelle/{$year_desc}/{$file_zip}")){
+						$time = filemtime($_SESSION['__config__']['html_root']."/download/pagelle/{$year_desc}/{$file_zip}");
+					?>
+						<a href='../../modules/documents/download_manager.php?doc=report_backup&area=manager&f=<?php echo $file_zip ?>&sess=2&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&area=<?php echo $_SESSION['__school_order__'] ?>' style=''>Scarica il backup (ultima modifica <?php echo date("d/m/Y H:i:s", $time) ?>)</a>
+					<?php
+						}
+					}
+					?>
 				</td>
 			</tr>
+
 			<tr>
 				<td colspan="2" style="height: 20px"></td>
 			</tr>
@@ -327,25 +344,25 @@ div.overlay{
 					<a href="" class="backup" id="backup_<?php echo $_SESSION['__current_year__']->get_ID() ?>_1">Crea il backup pagelle</a>
 				</td>
 			</tr>
-				<tr>
-					<td id="tdbck_1" colspan="2" style="padding-left: 40px">
-						<?php
-						$folder = "scuola_secondaria";
-						if ($_SESSION['__school_order__'] == 2){
-							$folder = "scuola_primaria";
-						}
-						$year_desc = $db->executeCount("SELECT descrizione FROM rb_anni WHERE id_anno = ".$_SESSION['__current_year__']->get_ID());
-						$file_zip = $folder."-".$year_desc."-1Q.zip";
+			<tr>
+				<td id="tdbck_1" colspan="2" style="padding-left: 40px">
+					<?php
+					$folder = "scuola_secondaria";
+					if ($_SESSION['__school_order__'] == 2){
+						$folder = "scuola_primaria";
+					}
+					$year_desc = $db->executeCount("SELECT descrizione FROM rb_anni WHERE id_anno = ".$_SESSION['__current_year__']->get_ID());
+					$file_zip = $folder."-".$year_desc."-1Q.zip";
 
-						if(file_exists($_SESSION['__config__']['html_root']."/tmp/{$year_desc}/1/{$folder}/{$file_zip}")):
-							$time = filemtime($_SESSION['__config__']['html_root']."/tmp/{$year_desc}/1/{$folder}/{$file_zip}");
-						?>
-							<a href='../../modules/documents/download_manager.php?doc=report_backup&area=manager&f=<?php echo $file_zip ?>&sess=1&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&area=<?php echo $_SESSION['__school_order__'] ?>' style=''>Scarica il backup (ultima modifica <?php echo date("d/m/Y H:i:s", $time) ?>)</a>
-						<?php
-						endif;
-						?>
-					</td>
-				</tr>
+					if(file_exists($_SESSION['__config__']['html_root']."/tmp/{$year_desc}/1/{$folder}/{$file_zip}")){
+						$time = filemtime($_SESSION['__config__']['html_root']."/tmp/{$year_desc}/1/{$folder}/{$file_zip}");
+					?>
+						<a href='../../modules/documents/download_manager.php?doc=report_backup&area=manager&f=<?php echo $file_zip ?>&sess=1&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&area=<?php echo $_SESSION['__school_order__'] ?>' style=''>Scarica il backup (ultima modifica <?php echo date("d/m/Y H:i:s", $time) ?>)</a>
+					<?php
+					}
+					?>
+				</td>
+			</tr>
 			<?php endif; ?>
 			<tr>
 				<td colspan="2" style="height: 20px"></td>
