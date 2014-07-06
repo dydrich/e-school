@@ -852,6 +852,12 @@ div.overlay{
                     <a href="../shared/no_js.php" class="norm" id="norm2_st">Correggi l'uso delle maiuscole nei nomi degli alunni...</a>
                 </td>
             </tr>
+	        <tr>
+		        <td class="col1"><a href="scegli_utente.php" class="sudo" id="sudo1">SuDo</a></td>
+		        <td class="col2">
+			        <a href="scegli_utente.php" class="sudo" id="sudo2">Cambia utente...</a>
+		        </td>
+	        </tr>
         </table>
         </div>
             <?php } ?>
