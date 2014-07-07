@@ -69,7 +69,7 @@ switch($_REQUEST['action']){
 		}
 		break;
 	case 5:     // bulk delete
-		echo "bulk delete";
+		//echo "bulk delete";
 		$ids = $_POST['ids'];
 		$str_ids = implode(",", $ids);
 		$statement = "DELETE FROM rb_utenti WHERE uid IN ({$str_ids})";
@@ -78,6 +78,25 @@ switch($_REQUEST['action']){
 			$db->executeUpdate("DELETE FROM rb_gruppi_utente WHERE uid IN ({$str_ids})");
 			$db->executeUpdate("DELETE FROM rb_genitori_figli WHERE id_genitore IN ({$str_ids})");
 			$db->executeUpdate("DELETE FROM rb_profili WHERE id IN ({$str_ids})");
+			$db->executeUpdate("COMMIT");
+		} catch (MySQLException $ex){
+			$db->executeUpdate("ROLLBACK");
+			print "kosql|".$ex->getMessage()."|".$ex->getQuery();
+			exit;
+		}
+		break;
+	case 6:     // resend email
+		$uid = $_REQUEST['_i'];
+		$uname = $_REQUEST['email'];
+		$to = $_REQUEST['email'];
+		$from = "registro@istitutoiglesiasserraperdosa.it";
+		$subject = "Registro elettronico {$_SESSION['__config__']['intestazione_scuola']}";
+		$headers = "From: {$from}\r\n"."Reply-To: {$from}\r\n" .'X-Mailer: PHP/' . phpversion();
+		$new_clear_passwd = generatePassword(8);
+		$new_cript_passwd = md5($new_clear_passwd);
+		$statement = "UPDATE rb_utenti SET password = '{$new_cript_passwd}' WHERE uid = {$uid}";
+		try{
+			$db->executeUpdate($statement);
 			$db->executeUpdate("COMMIT");
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
@@ -104,13 +123,24 @@ if($_REQUEST['action'] == 1) {
 	$msg .= "username: {$uname}\npassword: {$pclear}\nID: {$max}\n\n";
 	mail("admin@istitutoiglesiasserraperdosa.it", "e-School+ log", $msg, $header);
 }
+else if ($_REQUEST['action'] == 6){
+	$max = $_POST['_i'];
+	$message = "Gentile genitore,\ncome da lei richiesto, il suo account per l'utilizzo del Registro Elettronico è stato attivato.\n ";
+	$message .= "Di seguito troverà i dati e le istruzioni per accedere:\n\n";
+	$message .= "username: {$uname}\npassword: {$new_clear_passwd}\n";
+	$message .= "Procedura di accesso:\nvada su http://www.istitutoiglesiasserraperdosa.it e clicchi sul link 'Registro elettronico'. \nNella finestra seguente selezioni 'Area genitori', inserisca i dati di accesso e clicchi sul pulsante Login. \nInfine clicchi sul link che comparirà, per entrare nell'area riservata.\n\n";
+	$message .= "Per un corretto funzionamento del software, si raccomanda di NON utilizzare il browser Internet Explorer, ma una versione aggiornata di Firefox, Google Chrome, Opera o Safari.\n";
+	$message .= "Le ricordiamo che, in caso di smarrimento della password, pu&ograve; richiederne una nuova usando il link 'Password dimenticata?' presente nella pagine iniziale del Registro.\n";
+	$message .= "Per qualunque problema, non esiti a contattarci.";
+	mail($to, $subject, $message, $headers);
+}
 else {
 	$max = $_POST['_i'];
 }
 /*
  * delete sons in order to reinsert them
 */
-if($_REQUEST['action'] != 1){
+if($_REQUEST['action'] != 1 && $_REQUEST['action'] != 6){
 	$del = "DELETE FROM rb_genitori_figli WHERE id_genitore = ".$_REQUEST['_i'];
 	try{
 		$rdel = $db->executeUpdate($del);
@@ -120,7 +150,7 @@ if($_REQUEST['action'] != 1){
 	}
 }
 
-if($_REQUEST['action'] != 2){
+if($_REQUEST['action'] != 2 && $_REQUEST['action'] != 6){
 	$figli = explode(",", $id_figli);
 	foreach($figli as $figlio){
 		$ins = "INSERT INTO rb_genitori_figli VALUES ($max, $figlio)";

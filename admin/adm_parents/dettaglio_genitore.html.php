@@ -259,6 +259,34 @@ function display_check(field){
 		}
 	}
 }
+
+var resend_email = function(genit){
+	if((trim(document.forms[0].email.value) == "")){
+		alert("inserisci un indirizzo email valido");
+		return;
+	}
+	var email = document.forms[0].email.value;
+	$('_i').setValue(genit);
+	$('action').setValue(6);
+	var url = "parent_manager.php";
+	var req = new Ajax.Request(url,
+		{
+			method:'post',
+			parameters: $('parent_form').serialize(true),
+			onSuccess: function(transport){
+				var response = transport.responseText || "no response text";
+				var dati = response.split(":");
+				if(dati[0] == "ko"){
+					alert(dati[1]);
+					return;
+				}
+				else{
+					_alert("Mail inviata correttamente");
+				}
+			},
+			onFailure: function(){ alert("Si e' verificato un errore...") }
+		});
+};
 </script>
 </head>
 <body>
@@ -360,8 +388,10 @@ function display_check(field){
     </fieldset>
      
     <div style="width: 95%;  margin-top: 30px; padding-bottom: 30px; text-align: right">
-        <a href="#" onclick="go(<?php if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0) print("3, ".$_REQUEST['id']); else print("1, 0"); ?>)" class="standard_link">Registra</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-        <a href="<?php echo $back_link ?>" style="margin-right: 0px;" class="standard_link">Torna all'elenco</a>
+        <a href="#" onclick="go(<?php if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0) print("3, ".$_REQUEST['id']); else print("1, 0"); ?>)" class="standard_link">Registra</a>
+	    <?php if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0): ?>
+	    &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onclick="resend_email(<?php echo $_REQUEST['id'] ?>)" style="margin-right: 0px;" class="standard_link">Invia mail</a>
+	    <?php endif; ?>
     </div>
    	</form>
 	</div>
