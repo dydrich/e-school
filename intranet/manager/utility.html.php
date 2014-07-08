@@ -105,6 +105,12 @@
 				<a id="dw_link2" href='../../modules/documents/download_manager.php?doc=teacherbooks_archive&area=manager&f=<?php echo basename($file_zip) ?>&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&area=<?php echo $_SESSION['__school_order__'] ?>' style=''><?php if ($write): ?>Scarica l'archivio (ultima modifica <?php echo date("d/m/Y H:i:s", $time) ?>)<?php endif; ?></a>
 			</p>
 		</div>
+		<div class="welcome">
+			<p id="w_head">Varie</p>
+			<p class="w_text" style="width: 350px">
+				<a href="../../modules/fc/load_module.php?module=fc&area=manager" id="">Crea le nuove classi prime</a>
+			</p>
+		</div>
 	</div>
 	<p class="spacer"></p>
 </div>
