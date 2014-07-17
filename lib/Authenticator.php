@@ -88,10 +88,10 @@ class Authenticator {
 			*/
 			$classes = array();
 			if ($materia['materia'] != 27 && $materia['materia'] != 41){
-				$sel_cdc = "SELECT rb_classi.id_classe, CONCAT(rb_classi.anno_corso, rb_classi.sezione) AS classe, id_materia FROM rb_classi, rb_cdc WHERE rb_classi.id_classe = rb_cdc.id_classe AND id_docente = ".$user->getUid()." AND id_anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
+				$sel_cdc = "SELECT rb_classi.id_classe, CONCAT(rb_classi.anno_corso, rb_classi.sezione) AS classe, id_materia FROM rb_classi, rb_cdc WHERE anno_corso <> 0 AND rb_classi.id_classe = rb_cdc.id_classe AND id_docente = ".$user->getUid()." AND id_anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
 			}
 			else {
-				$sel_cdc = "SELECT rb_classi.id_classe, CONCAT(rb_classi.anno_corso, rb_classi.sezione) AS classe, '{$materia['materia']}' AS materia FROM rb_classi, rb_assegnazione_sostegno WHERE rb_classi.id_classe = classe AND docente = ".$user->getUid()." AND anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
+				$sel_cdc = "SELECT rb_classi.id_classe, CONCAT(rb_classi.anno_corso, rb_classi.sezione) AS classe, '{$materia['materia']}' AS materia FROM rb_classi, rb_assegnazione_sostegno WHERE anno_corso <> 0 AND rb_classi.id_classe = classe AND docente = ".$user->getUid()." AND anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
 			}
 			$res_cdc = $this->datasource->executeQuery($sel_cdc);
 			foreach ($res_cdc as $row){
@@ -110,7 +110,7 @@ class Authenticator {
 			/*
 			 * estrazione classi in cui si e` coordinatori o segretari ma non docenti
 			*/
-			$sel_other_cls = "SELECT * FROM rb_classi WHERE coordinatore = {$user->getUid()} OR segretario = {$user->getUid()}";
+			$sel_other_cls = "SELECT * FROM rb_classi WHERE anno_corso <> 0 AND (coordinatore = {$user->getUid()} OR segretario = {$user->getUid()})";
 			$res_other_cls = $this->datasource->executeQuery($sel_other_cls);
 			if($res_other_cls != null){
 				foreach ($res_other_cls as $row){
