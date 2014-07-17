@@ -3,29 +3,25 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Elenco ripetenti per assegnazione alle classi</title>
-	<link href="../../css/reg.css" rel="stylesheet" />
-	<link href="../../css/general.css" rel="stylesheet" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
+<link href="../../css/reg.css" rel="stylesheet" />
+<link href="../../css/general.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../modules/documents/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript">
-var shown_up = '<?= $first ?>';
+var shown_up = '<?php echo $first ?>';
 var show_class = function(cls){
-	$('tb'+shown_up).setStyle({display: 'none'});
-	$('tb'+cls).setStyle({display: ''});
+	$('#tb'+shown_up).hide();
+	$('#tb'+cls).show();
 	shown_up = cls;
 };
 
-document.observe("dom:loaded", function(){
-	$$('input[type=checkbox]').invoke("observe", "change", function(event){
+$(function(){
+	$('input[type=checkbox]').change(function(event){
 		upd_student(this.value, this.checked);
 	});
-	$('close_lnk').observe("click", function(event){
+	$('#close_lnk').click(function(event){
 		event.preventDefault();
 		close_step();
 	});
@@ -33,69 +29,81 @@ document.observe("dom:loaded", function(){
 
 var upd_student = function(student, checked){
 	var url = "check_ripetente.php";
-    req = new Ajax.Request(url,
-		  {
-		    	method:'post',
-		    	parameters: {alunno: student, checked: checked},
-		    	onSuccess: function(transport){
-		    		var response = transport.responseText || "no response text";
-		    		//alert(response);
-		    		dati = response.split(";");
-		    		if(dati[0] != "ko"){
-						//alert(response);
-		            }
-		            else{
-		                alert("Aggiornamento non riuscito. Query: "+dati[1]+"\nErrore: "+dati[2]);
-		                return;
-		            }
-		    	},
-		    	onFailure: function(){ alert("Si e' verificato un errore...") }
-		  });
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {school_order: <?php echo $school_order ?>, alunno: student, checked: checked},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+
+			}
+		}
+	});
 };
 
 var close_step = function(){
 	var url = "aggiorna_stato.php";
-    req = new Ajax.Request(url,
-		  {
-		    	method:'post',
-		    	parameters: {step: 1},
-		    	onSuccess: function(transport){
-		    		var response = transport.responseText || "no response text";
-		    		//alert(response);
-		    		dati = response.split(";");
-		    		if(dati[0] != "ko"){
-						document.location.href = "new_year_classes.php";
-		            }
-		            else{
-		                alert("Aggiornamento non riuscito. Query: "+dati[1]+"\nErrore: "+dati[2]);
-		                return;
-		            }
-		    	},
-		    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-		  });
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {school_order: <?php echo $school_order ?>, step: 1},
+		dataType: 'json',
+		error: function() {
+			alert("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				document.location.href = "new_year_classes.php?school_order=<?php echo $school_order ?>";
+			}
+		}
+	});
 };
 
 </script>
-<style>
-tbody tr:hover {
-	background-color: #FAF6B7;
-}
-</style>
 </head>
 <body>
-    <div id="header">
-		<div class="wrap">
-			<?php include "../header.php" ?>
-		</div>
+<?php include "../header.php" ?>
+<?php include "../navigation.php" ?>
+<div id="main">
+	<div id="right_col">
+		<?php include "menu.php" ?>
 	</div>
-	<div class="wrap">
-	<div id="main" style="background-color: #FFFFFF; padding-bottom: 30px; width: 100%">
+	<div id="left_col">
+		<div class="group_head">Elenco alunni classi <?php echo $cl_label." ".$sc_label ?> (estratti <?php echo $res_alunni->num_rows ?> alunni)</div>
         <form method="post">
-        <div style="width: 95%; margin: auto; text-align: center">[ 
+        <div style="width: 95%; margin: 10px auto 0 auto; text-align: center">[
         <?php 
         foreach($classi as $cls){
         ?>
-        	<a href="#" onclick="show_class('<?= $cls ?>')" style="margin: 0 5px 0 5px"><?= $cls ?></a>
+        	<a href="#" onclick="show_class('<?php echo $cls ?>')" style="margin: 0 5px 0 5px"><?= $cls ?></a>
         <?php 
         }
         ?>
@@ -103,10 +111,10 @@ tbody tr:hover {
         <?php 
         while(list($k, $classe) = each($alunni)){
         ?>
-        <table class="admin_table" id="tb<?= $k ?>" style="<?php if($k != $first) print("display: none") ?>">
+        <table class="admin_table" id="tb<?php echo $k ?>" style="<?php if($k != $first) print("display: none") ?>">
         <thead>
             <tr class="admin_title_row">
-                <td colspan="2">Elenco alunni classe <?= $k ?></td>
+                <td colspan="2">Elenco alunni classe <?php echo $k ?></td>
             </tr>
             <tr>
             	<td style="padding-left: 10px; width: 75%" class="adm_titolo_elenco_first">Alunno</td>
@@ -122,9 +130,9 @@ tbody tr:hover {
         foreach ($classe as $al){
         ?>
         	<tr style="border-bottom: 1px solid #CCCCCC">
-            	<td style="padding-left: 10px; width: 75%"><?= $al['cognome']." ".$al['nome'] ?></td>
+            	<td style="padding-left: 10px; width: 75%"><?php echo $al['cognome']." ".$al['nome'] ?></td>
                 <td style="width: 25%" class="_center">
-                	<input type="checkbox" name="al<?= $al['id_alunno'] ?>" value="<?= $al['id_alunno'] ?>" <?php if($al['ripetente'] == 1) print "checked" ?> />
+                	<input type="checkbox" name="al<?php echo $al['id_alunno'] ?>" value="<?php echo $al['id_alunno'] ?>" <?php if($al['ripetente'] == 1) print "checked" ?> />
                 </td>
             </tr>
         <?php 
@@ -148,7 +156,8 @@ tbody tr:hover {
         ?>
         </form>
         </div>
-        <?php include "../footer.php" ?>
-	</div>
+	<p class="spacer"></p>
+</div>
+<?php include "../footer.php" ?>
 </body>
 </html>

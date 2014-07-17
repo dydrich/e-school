@@ -45,7 +45,7 @@ else if(isset($_SESSION['school_order']) && $_SESSION['school_order'] != 0){
 
 $anno = $_SESSION['__current_year__']->get_ID();
 $params = "";
-$sel_venues = "SELECT * FROM rb_sedi WHERE id_sede IN (SELECT sede FROM {$classes_table}) ORDER BY id_sede";
+$sel_venues = "SELECT * FROM rb_sedi WHERE (ordine_di_scuola = 0 OR ordine_di_scuola = {$school_order}) ORDER BY id_sede";
 $res_venues = $db->execute($sel_venues);
 $venues = array();
 while($venue = $res_venues->fetch_assoc()){
@@ -64,7 +64,9 @@ while($ord = $res_ordini->fetch_assoc()){
 	$ordini[$ord['id_tipo']] = $ord;
 }
 
-$sel_cls = "SELECT id_classe, anno_corso, tempo_prolungato, musicale, sezione, ordine_di_scuola, rb_sedi.nome FROM {$classes_table}, rb_sedi, rb_tipologia_scuola WHERE sede = rb_sedi.id_sede AND ordine_di_scuola = id_tipo AND rb_tipologia_scuola.attivo = 1 $params ORDER BY sede, sezione, anno_corso ";
+$sel_cls = "SELECT id_classe, anno_corso, tempo_prolungato, musicale, sezione, {$classes_table}.ordine_di_scuola, rb_sedi.nome ";
+$sel_cls .= "FROM {$classes_table}, rb_sedi, rb_tipologia_scuola ";
+$sel_cls .= "WHERE anno_corso <> 0 AND sede = rb_sedi.id_sede AND {$classes_table}.ordine_di_scuola = id_tipo AND rb_tipologia_scuola.attivo = 1 $params ORDER BY sede, sezione, anno_corso ";
 
 if(!isset($_GET['second'])){
     $res_cls = $db->execute($sel_cls);

@@ -630,12 +630,24 @@ div.overlay{
                     <a href="../shared/no_js.php" id="new_year_lnk_1">Crea il record relativo al nuovo anno scolastico...</a>
                 </td>
             </tr>
+	        <?php endif; ?>
+		    <?php if($admin_level == 1 || $admin_level == 0): ?>
             <tr>
-                <td class="col1"><a href="adm_classes/new_year_classes.php">Attivazione classi </a></td>
+                <td class="col1"><a href="adm_classes/new_year_classes.php?school_order=1">Classi scuola secondaria di primo grado </a></td>
                 <td class="col2">
-                    <a href="adm_classes/new_year_classes.php">Gestisci le classi per il nuovo anno...</a>
+                    <a href="adm_classes/new_year_classes.php?school_order=1">Gestisci le classi della scuola secondaria per il nuovo anno...</a>
                 </td>
             </tr>
+			<?php endif; ?>
+		    <?php if($admin_level == 2 || $admin_level == 0): ?>
+            <tr>
+	            <td class="col1"><a href="adm_classes/new_year_classes.php?school_order=2">Classi scuola primaria </a></td>
+	            <td class="col2">
+		            <a href="adm_classes/new_year_classes.php?school_order=2">Gestisci le classi della scuola primaria per il nuovo anno...</a>
+	            </td>
+            </tr>
+			<?php endif; ?>
+		        <?php if ($admin_level == 0): ?>
             <tr>
                 <td class="col1"><a href="adm_students/load_students.php">Importa alunni</a></td>
                 <td class="col2">

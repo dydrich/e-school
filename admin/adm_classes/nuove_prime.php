@@ -13,7 +13,11 @@ check_permission(ADM_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "../";
 
-$sel_sezioni = "SELECT DISTINCT(sezione) FROM rb_classi ORDER BY sezione";
+$admin_level = getAdminLevel($_SESSION['__user__']);
+$navigation_label = "Area amministrazione";
+$school_order = $_REQUEST['school_order'];
+
+$sel_sezioni = "SELECT DISTINCT(sezione) FROM rb_classi WHERE ordine_di_scuola = {$school_order} ORDER BY sezione";
 try{
 	$res_sezioni = $db->executeQuery($sel_sezioni);
 } catch (MySQLException $ex){
