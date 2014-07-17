@@ -50,7 +50,7 @@ try{
 
 try{
 	$db->executeUpdate("UPDATE rb__classi, rb_classi SET attiva = 0 WHERE rb__classi.id_classe = rb_classi.id_classe AND anno_corso = {$term_cls} AND ordine_di_scuola = {$school_order} ");
-	$del_classes = "UPDATE rb_classi SET anno_corso = 0 WHERE anno_corso = {$term_cls} AND ordine_di_scuola = {$school_order}";
+	$del_classes = "DELETE FROM rb_classi WHERE anno_corso = {$term_cls} AND ordine_di_scuola = {$school_order}";
 	$db->executeUpdate($del_classes);
 	$db->executeUpdate("UPDATE rb_config SET valore = 2 WHERE variabile = 'stato_avanzamento_nuove_classi_{$school_order}'");
 	$db->executeUpdate("COMMIT");
