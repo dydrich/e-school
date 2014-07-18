@@ -38,6 +38,9 @@ final class RBUtilities{
 	public function loadClassFromUserID($uid){
 		$sel_classe = "SELECT rb_classi.*, rb_sedi.nome FROM rb_classi, rb_sedi, rb_alunni WHERE sede = id_sede AND rb_classi.id_classe = rb_alunni.id_classe AND rb_alunni.id_alunno = {$uid}";
 		$res_classe = $this->datasource->executeQuery($sel_classe);
+		if (!$res_classe){
+			return false;
+		}
 		$cls = new Classe($res_classe[0], $this->datasource->getSource());
 		return $cls;
 	}
