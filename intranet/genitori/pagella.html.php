@@ -31,8 +31,9 @@ var get = function(file){
 	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
 		Area genitori: schede di valutazione e pagelle
 	</div>
+<?php if ($is_active){ ?>
 	<div class="welcome">
-		<p id="w_head"><?php echo $_SESSION['__current_year__']->to_string() ?> - <?php echo $_SESSION['__classe__']->to_string() ?></p>
+		<p id="w_head"><?php echo $_SESSION['__current_year__']->to_string() ?> - <?php if ($is_active) echo $_SESSION['__classe__']->to_string() ?></p>
 <?php 
 if (count($pagelle) > 0) {
 	$pagella1q = $pagelle[0];
@@ -80,8 +81,8 @@ if (count($pagelle) > 0) {
 }
 ?>
 	</div>
-
 <?php
+}
 
 if(count($pagelle_old) > 0){
 	$anno = 0;

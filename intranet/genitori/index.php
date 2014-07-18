@@ -22,5 +22,3 @@ $utils->registerCurrentClassFromUser($_SESSION['__current_son__'], "__classe__")
 $navigation_label = "Registro elettronico genitori: alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
 
 include "index.html.php";
-
-?>
