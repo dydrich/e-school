@@ -38,7 +38,7 @@ class Authenticator {
 	}
 	
 	public function schoolLogin($nick, $pass){		
-		$sel_user = "SELECT rb_utenti.uid, nome, cognome, username, accessi, permessi FROM rb_utenti, rb_gruppi_utente WHERE rb_utenti.uid = rb_gruppi_utente.uid AND username = '{$nick}' AND password = '".trim($pass)."' AND gid NOT IN (4,8) ";
+		$sel_user = "SELECT rb_utenti.uid, nome, cognome, username, accessi, permessi FROM rb_utenti, rb_gruppi_utente WHERE rb_utenti.uid = rb_gruppi_utente.uid AND username = '{$nick}' AND password = '".trim($pass)."' AND gid NOT IN (8) ";
 		$res_utente = $this->datasource->executeQuery($sel_user);
 		if ($res_utente == null){
 			return false;
