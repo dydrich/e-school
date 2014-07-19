@@ -36,7 +36,7 @@ var coord = function(classe){
 				console.log(json.dbg_message);
 			}
 			else {
-				$('#cls_desc').text(json.cls);
+				$('#cls_desc').text(json.cls.classe);
 				$('#coordinatore').empty();
 				$('#coordinatore').append("<option value='0'>.</option>");
 				for (var i = 0; i < json.data.coordinatore.length; i++){

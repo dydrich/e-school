@@ -1,51 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Elenco alunni da assegnare alle classi</title>
-	<link href="../../css/reg.css" rel="stylesheet" />
-	<link href="../../css/general.css" rel="stylesheet" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
+<link href="../../css/reg.css" rel="stylesheet" />
+<link href="../../css/general.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../modules/documents/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript">
 function upd_cls(sel, student){
+	//alert($('#'+sel).val());
 	var url = "update_class.php";
-    var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {cls: sel.value, stud_id: student},
-			    	onSuccess: function(transport){
-			    		var response = transport.responseText || "no response text";
-				    	//alert(response);
-			    		dati = response.split(";");
-			    		if(dati[0] == "ok"){
-							$('tr_'+student).hide();
-							var st_count = parseInt($('st_count').innerHTML);
-							$('st_count').update(--st_count);
-			            }
-			    		else if(dati[0] == "kosql"){
-				            sqlalert();
-			                console.log("Aggiornamento non riuscito. Query: "+dati[1]+"\nErrore: "+dati[2]);
-			                return;
-			            }
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-	  //alert(sel.parentNode.parentNode);
-	  sel.parentNode.parentNode.setStyle({backgroundColor: 'rgba(200, 200, 200, .3)'});
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {cls: $('#'+sel).val(), stud_id: student},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				$('#tr_'+student).hide();
+				var st_count = parseInt($('#st_count').text());
+				$('#st_count').text(--st_count);
+			}
+		}
+	});
 }
 
-document.observe("dom:loaded", function(event){
-	$$('.alpha_lnk').invoke("observe", "mouseover", function(event){
-		this.setStyle({cursor: 'pointer'});
+$(function(){
+	$('.alpha_lnk').mouseover(function(event){
+		$('#'+this.id).css({cursor: 'pointer'});
 	});
-	$$('.alpha_lnk').invoke("observe", "click", function(event){
-		document.location.href = 'alunni_liberi.php?lettera='+this.innerHTML;
+	$('.alpha_lnk').click(function(event){
+		document.location.href = 'alunni_liberi.php?lettera='+$('#'+this.id).text();
 	});
 });
 
@@ -112,13 +115,14 @@ table tbody tr:hover {
             	<td style="padding-right: 12px; color: #003366; text-align: right"><?php echo $x ?>.</td>
                 <td style="padding-left: 2px; color: #003366; text-align: left"><?php echo $stud['cognome']." ".$stud['nome'] ?></td>
                 <td style="color: #003366;">
-                <select name="cls" id="cls" style="width: 95%; font-size: 11px; border: 1px solid #CCCCCC" onchange="upd_cls(this, <?php echo $stud['id_alunno'] ?>)">
+                <select name="cls_<?php echo $stud['id_alunno'] ?>" id="cls_<?php echo $stud['id_alunno'] ?>" style="width: 95%; font-size: 11px; border: 1px solid #CCCCCC" onchange="upd_cls(this.id, <?php echo $stud['id_alunno'] ?>)">
                 	<option value="0" selected="selected" >Seleziona</option>
                 <?php
                 $res_classi->data_seek(0);
-                while($_class = $res_classi->fetch_assoc()){
+                while($row = $res_classi->fetch_assoc()){
+	                print_r($row);
                 ?>
-                	<option value="<?php echo $_class['id_classe'].";".$_class['ordine_di_scuola'] ?>" <?php if($_class['id_classe'] == $_REQUEST['id_classe']) echo("selected") ?> ><?php echo $_class['classe']." - ".$_class['nome'] ?></option>
+                	<option value="<?php echo $row['id_classe'].";".$row['ordine_di_scuola'] ?>"><?php echo $row['classe']." - ".$row['nome'] ?></option>
                 <?php 
                 }
                 ?>

@@ -3,33 +3,38 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>Elenco alunni ripetenti non assegnati</title>
-	<link href="../../css/reg.css" rel="stylesheet" />
-	<link href="../../css/general.css" rel="stylesheet" />
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
+<link href="../../css/reg.css" rel="stylesheet" />
+<link href="../../css/general.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../modules/documents/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javascript">
 function upd_cls(sel, student, row){
 	var url = "update_class.php";
-    var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {cls: sel.value, stud_id: student},
-			    	onSuccess: function(transport){
-			    		var response = transport.responseText || "no response text";
-				    	dati = response.split(";");
-			    		if(dati[0] == "ok"){
-							//sel.parentNode.parentNode.setStyle({display: 'none'});
-			            }
-			            else if(dati[0] == "kosql"){
-				            sqlalert();
-			                console.log("Aggiornamento non riuscito. Query: "+dati[1]+"\nErrore: "+dati[2]);
-			                return;
-			            }
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {cls: $('#'+sel).val(), stud_id: student},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+		}
+	});
 }
 </script>
 </head>
@@ -59,7 +64,7 @@ function upd_cls(sel, student, row){
             	<td style="padding-right: 12px; color: #003366; text-align: right"><?php print $x ?>.</td>
                 <td style="padding-left: 2px; color: #003366; text-align: left"><?php print $stud['cognome']." ".$stud['nome'] ?></td>
                 <td style="color: #003366;">
-                <select name="cls<?php echo $stud['id_alunno']  ?>" id="cls<?php echo $stud['id_alunno']  ?>" style="width: 95%; font-size: 11px; border: 1px solid #CCCCCC" onchange="upd_cls(this, <?php print $stud['id_alunno'] ?>, <?php print $x ?>, '<?php print $stud['classe'] ?>')">
+                <select name="cls<?php echo $stud['id_alunno']  ?>" id="cls<?php echo $stud['id_alunno']  ?>" style="width: 95%; font-size: 11px; border: 1px solid #CCCCCC" onchange="upd_cls(this.id, <?php print $stud['id_alunno'] ?>, <?php print $x ?>, '<?php print $stud['classe'] ?>')">
                 	<option value="0">Seleziona</option>
                 <?php
                 $res_classi->data_seek(0);
