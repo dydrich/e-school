@@ -5,87 +5,189 @@
 <title>Classi</title>
 <link href="../../css/reg.css" rel="stylesheet" />
 <link href="../../css/general.css" rel="stylesheet" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
+<link rel="stylesheet" href="../../modules/documents/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript">
-var win;
-var classi = new Array();
-<?php 
-while($class = $res_cls->fetch_assoc()){
-?>
-classi.push('<?php echo $class['anno_corso'].$class['sezione'] ?>');
-<?php 
-}
-?>
-
+var cls = 0;
 var coord = function(classe){
-	win = new Window({className: "mac_os_x", url: "coord.php?offset=<?php print $offset ?>&id="+classe,  width:450, height: 160, zIndex: 100, resizable: true, title: "Coordinatore di classe", showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});
-	win.showCenter(true);
+	cls = classe;
+	var url = "get_cdc.php";
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {cls: classe},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				$('#cls_desc').text(json.cls);
+				$('#coordinatore').empty();
+				$('#coordinatore').append("<option value='0'>.</option>");
+				for (var i = 0; i < json.data.coordinatore.length; i++){
+					var t = json.data.coordinatore[i];
+					var selected = '';
+					if (t.uid == json.cls.coordinatore){
+						selected = "selected";
+					}
+					$('#coordinatore').append("<option value='"+ t.uid+"'  "+selected+">"+ t.cognome+" "+ t.nome+"</option>");
+				}
+				$('#segretario').empty();
+				$('#segretario').append("<option value='0'>.</option>");
+				for (var i = 0; i < json.data.segretario.length; i++){
+					var t = json.data.segretario[i];
+					var selected = '';
+					if (t.uid == json.cls.segretario){
+						selected = "selected";
+					}
+					$('#segretario').append("<option value='"+ t.uid+"' "+selected+">"+ t.cognome+" "+ t.nome+"</option>");
+				}
+				$('#coord').dialog({
+					autoOpen: true,
+					show: {
+						effect: "appear",
+						duration: 500
+					},
+					hide: {
+						effect: "slide",
+						duration: 300
+					},
+					buttons: [{
+						text: "Chiudi",
+						click: function() {
+							$( this ).dialog( "close" );
+						}
+					}],
+					modal: true,
+					width: 450,
+					title: 'Coordinatore e segretario',
+					open: function(event, ui){
+
+					}
+				});
+			}
+		}
+	});
 };
 
-var update_class = function(class_id, action, students){
-	if(action == 'delete'){
-		if(students > 0){
-			alert("Impossibile cancellare la classe: ci sono degli studenti assegnati ad essa. Elimina o sposta gli studenti prima di procedere con la cancellazione");
-			return false; 
-		}
-		if(!confirm("Sei sicuro di voler cancellare questa classe?")){
-			return false;
-		}	
-	}
-	
+var del_class = function(class_id){
 	var url = "class_manager.php";
-    req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {cls: class_id, action: action},
-			    	onSuccess: function(transport){
-			    		var response = transport.responseText || "no response text";
-				    	//alert(response);
-			    		dati = response.split("|");
-			    		if(dati[0] == "ok"){
-				    		_alert("Classe cancellata correttamente");
-							$('row_'+class_id).hide();
-			            }
-			            else{
-			                alert("Operazione non riuscita. Si prega di riprovare tra qualche minuto.");
-			                console.log("Query: "+dati[1]+"\nErrore: "+dati[2]);
-			                return;
-			            }
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {cls: class_id, action: "delete"},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else if (json.status == "no_del"){
+				alert(json.message);
+				return false;
+			}
+			else {
+				_alert("Classe cancellata correttamente");
+				$('#row_'+class_id).hide();
+			}
+		}
+	});
+};
+
+var upd_cdc = function(sel){
+	var doc = $('#'+sel).val();
+	if(doc == 0){
+		alert("Docente non selezionato");
+		return;
+	}
+	var url = "class_manager.php";
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {action: 'upgrade', cls: cls, field: sel, value: doc, is_char: 0},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				$('#coord').hide();
+			}
+		}
+	});
 };
 
 <?php echo $page_menu->getJavascript() ?>
 
-document.observe("dom:loaded", function(){
-	$$('table tbody > tr').invoke("observe", "mouseover", function(event){
+$(function(){
+	$('table tbody > tr').mouseover(function(event){
 		//alert(this.id);
 		var strs = this.id.split("_");
-		$('link_'+strs[1]).setStyle({display: 'block'});
+		$('#link_'+strs[1]).show();
 	});
-	$$('table tbody > tr').invoke("observe", "mouseout", function(event){
+	$('table tbody > tr').mouseout(function(event){
 		//alert(this.id);
 		var strs = this.id.split("_");
-		$('link_'+strs[1]).setStyle({display: 'none'});
+		$('#link_'+strs[1]).hide();
 	});
-	$$('table tbody a.coord_link').invoke("observe", "click", function(event){
+	$('table tbody a.coord_link').click(function(event){
 		event.preventDefault();
 		var strs = this.parentNode.id.split("_");
 		coord(strs[1], 0);
 	});
-	$$('table tbody a.del_link').invoke("observe", "click", function(event){
+	$('table tbody a.del_link').click(function(event){
 		event.preventDefault();
 		var strs = this.parentNode.id.split("_");
-		update_class(strs[1], 'delete', this.readAttribute("st"));
+		del_class(strs[1]);
+	});
+	$('#close_btn').click(function(event){
+		event.preventDefault();
+		$('#coord').hide();
+
+	});
+	$('#coordinatore').change(function(event){
+		upd_cdc('coordinatore');
+	});
+	$('#segretario').change(function(event){
+		upd_cdc('segretario');
 	});
 });
 
@@ -202,6 +304,34 @@ document.observe("dom:loaded", function(){
         </div>
         <?php include "../footer.php" ?>
 	</div>
-	<?php $page_menu->toHTML() ?>
+<div id="coord" style="display: none">
+	<p style="text-align: center; font-size: 1.1em; font-weight: bold; margin-top: 10px">Coordinatore di classe: <span id="cls_desc"></span></p>
+	<form action="cdc.php?upd=1" method="post">
+		<div style="text-align: left">
+			<table style="width: 420px; margin: auto">
+				<tr>
+					<td class="popup_title" style="width: 230px; padding-top: 1px; padding-bottom: 1px; font-weight: bold">Coordinatore</td>
+					<td style="width: 190px; padding-top: 5px; padding-bottom: 5px">
+						<select name="coordinatore" id="coordinatore" style="width: 180px; font-size: 11px">
+							<option value="0">Nessuno</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="popup_title" style="width: 230px; padding-top: 1px; padding-bottom: 1px; font-weight: bold">Segretario</td>
+					<td style="width: 190px; padding-top: 5px; padding-bottom: 5px">
+						<select name="segretario" id="segretario" style="width: 180px; font-size: 11px">
+							<option value="0">Nessuno</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="height: 15px">&nbsp;&nbsp;&nbsp;</td>
+				</tr>
+			</table>
+		</div>
+	</form>
+</div>
+<?php $page_menu->toHTML() ?>
 </body>
 </html>

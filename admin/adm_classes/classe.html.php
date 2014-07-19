@@ -3,40 +3,46 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Dettaglio classe</title>
-	<link href="../../css/reg.css" rel="stylesheet" />
-	<link href="../../css/general.css" rel="stylesheet" />
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
+<link href="../../css/reg.css" rel="stylesheet" />
+<link href="../../css/general.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../modules/documents/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javascript">
 function upd_cls(){
-	if($F('anno_corso') < 0 || $F('sezione') == -1 || $F('sede') == -1){
+	if($('#anno_corso').val() < 0 || $('#sezione').val() == -1 || $('#sede').val() == -1){
 		alert("I campi anno, sezione e sede sono obbligatori");
 		return false;
 	}
     var url = "class_manager.php";
-    $('action').value = "insert";
-    var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: $('myform').serialize(true),
-			    	onSuccess: function(transport){
-			    		var response = transport.responseText || "no response text";
-			    		//alert(response);
-			    		dati = response.split("|");
-			    		if(dati[0] != "ko"){
-							alert("Operazione conclusa con successo");
-			            }
-			            else{
-			                alert("Operazione non riuscita. Si prega di riprovare tra qualche minuto.");
-			                console.log(" Query: "+dati[1]+"\nErrore: "+dati[2]);
-			                return;
-			            }
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-	
+    $('#action').val("insert");
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: $('#myform').serialize(true),
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				alert("Operazione conclusa con successo");
+			}
+		}
+	});
 }
 
 var upd_field = function(field){
@@ -58,28 +64,36 @@ var upd_field = function(field){
 		}
 	}
 	var url = "class_manager.php";
-    var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {action: 'upgrade', field: name, value: value, is_char: is_char, cls: <?php echo $_REQUEST['id'] ?>},
-			    	onSuccess: function(transport){
-			    		var response = transport.responseText || "no response text";
-			    		dati = response.split("|");
-			    		if(dati[0] != "ko"){
-							//alert(response);
-			            }
-			            else{
-			                alert("Aggiornamento non riuscito. Si prega di riprovare tra qualche minuto.");
-			                console.log(" Query: "+dati[1]+"\nErrore: "+dati[2]);
-			                return;
-			            }
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {action: 'upgrade', field: name, value: value, is_char: is_char, cls: <?php echo $_REQUEST['id'] ?>},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				alert("Operazione conclusa con successo");
+			}
+		}
+	});
 };
 
-document.observe("dom:loaded", function(){
-	$('go_link').observe("click", function(event){
+$(function(){
+	$('#go_link').click(function(event){
 		event.preventDefault();
 		upd_cls();
 	});
@@ -104,12 +118,12 @@ document.observe("dom:loaded", function(){
 	            <td style="width: 50%; padding-top: 3px; padding-bottom: 3px">
 	                <select name="anno_corso" id="anno_corso" style="width: 90%; font-size: 11px" <?php if(isset($cls)){ ?>onchange="upd_field(this)"<?php } ?>>
 	                    <option value="-1">.</option>
-	                    <option value="1" <?php if($cls && $cls->get_anno() == 1) echo "selected" ?>>1</option>
-	                    <option value="2" <?php if($cls && $cls->get_anno() == 2) echo "selected" ?>>2</option>
-	                    <option value="3" <?php if($cls && $cls->get_anno() == 3) echo "selected" ?>>3</option>
+	                    <option value="1" <?php if(isset($cls) && $cls->get_anno() == 1) echo "selected" ?>>1</option>
+	                    <option value="2" <?php if(isset($cls) && $cls->get_anno() == 2) echo "selected" ?>>2</option>
+	                    <option value="3" <?php if(isset($cls) && $cls->get_anno() == 3) echo "selected" ?>>3</option>
 	                    <?php if($admin_level != MIDDLE_SCHOOL){ ?>
-	                    <option value="4" <?php if($cls && $cls->get_anno() == 4) echo "selected" ?>>4</option>
-	                    <option value="5" <?php if($cls && $cls->get_anno() == 5) echo "selected" ?>>5</option>
+	                    <option value="4" <?php if(isset($cls) && $cls->get_anno() == 4) echo "selected" ?>>4</option>
+	                    <option value="5" <?php if(isset($cls) && $cls->get_anno() == 5) echo "selected" ?>>5</option>
 	                    <?php } ?>
 	    		    </select>
 	            </td>
@@ -122,7 +136,7 @@ document.observe("dom:loaded", function(){
 	                    <?php 
 	                    foreach ($sezioni as $sez){
 	                    ?>
-	                    <option value="<?php echo $sez ?>" <?php if($cls && $cls->get_sezione() == $sez) echo "selected" ?>><?php echo $sez ?></option>
+	                    <option value="<?php echo $sez ?>" <?php if(isset($cls) && $cls->get_sezione() == $sez) echo "selected" ?>><?php echo $sez ?></option>
 	                    <?php 
 	                    }
 	                    ?>
@@ -139,7 +153,7 @@ document.observe("dom:loaded", function(){
 	                    <?php 
 	                    while($sede = $res_sedi->fetch_assoc()){
 	                    ?>
-	                    <option value="<?php echo $sede['id_sede'] ?>" <?php if($cls && $cls->get_sede() == $sede['id_sede']) echo "selected" ?>><?php echo $sede['nome'] ?></option>
+	                    <option value="<?php echo $sede['id_sede'] ?>" <?php if(isset($cls) && $cls->get_sede() == $sede['id_sede']) echo "selected" ?>><?php echo $sede['nome'] ?></option>
 	                    <?php 
 	                    }
 	                    ?>
@@ -156,7 +170,7 @@ document.observe("dom:loaded", function(){
 	                    <?php 
 	                    while($ordine = $res_ordini->fetch_assoc()){
 	                    ?>
-	                    <option value="<?php echo $ordine['id_tipo'] ?>" <?php if($cls && $cls->getSchoolOrder() == $ordine['id_tipo']) echo "selected" ?>><?php echo $ordine['tipo'] ?></option>
+	                    <option value="<?php echo $ordine['id_tipo'] ?>" <?php if(isset($cls) && $cls->getSchoolOrder() == $ordine['id_tipo']) echo "selected" ?>><?php echo $ordine['tipo'] ?></option>
 	                    <?php 
 	                    }
 	                    ?>
@@ -173,7 +187,7 @@ document.observe("dom:loaded", function(){
 	                    <?php 
 	                    while($module = $res_modules->fetch_assoc()){
 	                    ?>
-	                    <option value="<?php echo $module['id_modulo'] ?>" <?php if($cls && $cls->get_modulo_orario()->getID() == $module['id_modulo']) echo "selected" ?>>Mod. <?php echo $module['id_modulo'] ?> (<?php echo $module['giorni'] ?> giorni - <?php echo $module['ore_settimanali'] ?> ore)</option>
+	                    <option value="<?php echo $module['id_modulo'] ?>" <?php if(isset($cls) && $cls->get_modulo_orario()->getID() == $module['id_modulo']) echo "selected" ?>>Mod. <?php echo $module['id_modulo'] ?> (<?php echo $module['giorni'] ?> giorni - <?php echo $module['ore_settimanali'] ?> ore)</option>
 	                    <?php 
 	                    }
 	                    ?>
@@ -188,13 +202,13 @@ document.observe("dom:loaded", function(){
 	        <tr>
 	        	<td class="popup_title" style="width: 50%">Tempo prolungato</td>
 	            <td style="width: 50%; padding-top: 3px; padding-bottom: 3px">
-	                <input type="checkbox" id="tempo_prolungato" name="tempo_prolungato" value="1" <?php if($cls && $cls->isFullTime()) echo "checked" ?>  <?php if(isset($cls)){ ?>onchange="upd_field(this)"<?php } ?>/>
+	                <input type="checkbox" id="tempo_prolungato" name="tempo_prolungato" value="1" <?php if(isset($cls) && $cls->isFullTime()) echo "checked" ?>  <?php if(isset($cls)){ ?>onchange="upd_field(this)"<?php } ?>/>
 	            </td>
 	        </tr>
 	        <tr>
 	        	<td class="popup_title" style="width: 50%">Corso musicale</td>
 	            <td style="width: 50%; padding-top: 3px; padding-bottom: 3px">
-	                <input type="checkbox" id="musicale" name="musicale" value="1" <?php if($cls && $cls->isMusicale()) echo "checked" ?>  <?php if(isset($cls)){ ?>onchange="upd_field(this)"<?php } ?>/>
+	                <input type="checkbox" id="musicale" name="musicale" value="1" <?php if(isset($cls) && $cls->isMusicale()) echo "checked" ?>  <?php if(isset($cls)){ ?>onchange="upd_field(this)"<?php } ?>/>
 	            </td>
 	        </tr>
 	        <tr>
@@ -204,12 +218,12 @@ document.observe("dom:loaded", function(){
 	            </td>
 	        </tr>
 	    </table>
-	    <div style="margin-right: 10px; width: 95%; text-align: right">
-	    	<?php if($_REQUEST['id'] == 0){ ?><a href="../../shared/no_js.php" id="go_link" class="standard_link nav_link_first">Salva le modifiche</a>|<?php } ?>
-	        <a href="classi.php?school_order=<?php echo $_GET['school_order'] ?><?php if($offset != 0) echo "&second=1&offset={$offset}" ?>" id="close_btn" class="nav_link_last standard_link">Torna all'elenco classi</a>
-	    </div>
 	    </div>
 		</form>
+		<div style="margin: 10px 10px 0 0; width: 88%; text-align: right">
+			<?php if($_REQUEST['id'] == 0){ ?><a href="../../shared/no_js.php" id="go_link" class="standard_link nav_link_first">Salva le modifiche</a>|<?php } ?>
+			<a href="classi.php?school_order=<?php echo $_GET['school_order'] ?><?php if($offset != 0) echo "&second=1&offset={$offset}" ?>" id="close_btn" class="nav_link_last standard_link">Torna all'elenco classi</a>
+		</div>
 	</div>
 	<p class="spacer"></p>
 </div>

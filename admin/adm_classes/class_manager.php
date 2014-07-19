@@ -9,11 +9,14 @@ require_once "../../lib/start.php";
 check_session();
 check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
 
 $classe = $_POST['cls'];
 $year 	= $_SESSION['__current_year__']->get_ID();
-$school_level = $_POST['ordine_di_scuola'];
+if (isset($_POST['ordine_di_scuola'])) {
+	$school_level = $_POST['ordine_di_scuola'];
+}
 $tempo_prolungato = $musicale = 0;
 if(isset($_POST['tempo_prolungato'])){
 	$tempo_prolungato = $_POST['tempo_prolungato'];
@@ -24,6 +27,13 @@ if(isset($_POST['musicale'])){
 
 switch($_POST['action']){
 	case 'delete':
+		$stds_count = $db->executeCount("SELECT COUNT(*) FROM rb_alunni WHERE id_classe = {$classe}");
+		if ($stds_count > 0) {
+			$response['message'] = "Impossibile cancellare la classe: contiene {$stds_count} alunni";
+			$response['status'] = "no_del";
+			echo json_encode($response);
+			exit;
+		}
 		$query = "DELETE FROM rb_classi WHERE id_classe = $classe";
 		break;
 	case 'update':
@@ -47,16 +57,22 @@ try{
 	}
 	$res = $db->executeUpdate($query);
 	if($_POST['action'] == "insert"){
-		$db->executeUpdate("INSERT INTO rb__classi (id_classe, anno_creazione) VALUES ($res, $year)");
+		$db->executeUpdate("INSERT INTO rb__classi (id_classe, anno_creazione, annocorso_creazione, attiva, sezione, ordine) VALUES ($res, $year, {$_POST['anno_corso']}, 1, '{$_POST['sezione']}', {$school_level})");
 		$db->executeUpdate("COMMIT");
+	}
+	if ($_POST['action'] == "delete") {
+		$db->executeUpdate("DELETE FROM rb__classi WHERE id_classe = {$classe}");
 	}
 } catch (MySQLException $ex){
 	if($_POST['action'] == "insert"){
 		$db->executeUpdate("ROLLBACK");
 	}
-	print "ko|".$ex->getQuery()."|".$ex->getMessage();
+	$response['status'] = "kosql";
+	$response['message'] = $ex->getMessage();
+	$response['query'] = $ex->getQuery();
+	echo json_encode($response);
 	exit;
 }
 
-print "ok";
+echo json_encode($response);
 exit;

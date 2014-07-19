@@ -161,11 +161,12 @@ else if ($res_sost->num_rows > 0){
 	            <td colspan="2" style="height: 15px">&nbsp;&nbsp;&nbsp;</td>
 	        </tr>
 	    </table>
-	    <div style="margin-right: 10px; width: 95%; text-align: right">
-	        <a href="classi.php?school_order=<?php echo $classe['ordine_di_scuola'] ?>" id="close_btn" class="standard_link">Torna all'elenco classi</a>
-	    </div>
+
 	    </div>
 		</form>
+		<div style="margin: 10px 10px 0 0 ; width: 95%; text-align: right">
+			<a href="classi.php?school_order=<?php echo $classe['ordine_di_scuola'] ?>" id="close_btn" class="standard_link">Torna all'elenco classi</a>
+		</div>
 	</div>
 	<p class="spacer"></p>
 </div>
