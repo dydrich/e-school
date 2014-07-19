@@ -58,8 +58,9 @@ EEE;
 		echo "</".$this->element.">";
 	}
 	
-	public function setJavascript($code){
+	public function setJavascript($code, $library = "prototype"){
 		if($code == ""){
+			if ($library == "prototype"){
 $this->javascript = <<<EDT
 function show_menu(el) {
 	if($('cmenu').style.display == "none") {
@@ -85,6 +86,35 @@ document.observe("dom:loaded", function(){
 	})
 });
 EDT;
+			}
+			else if ($library == "jquery"){
+				$this->javascript = <<<EDT
+function show_menu(el) {
+	if($('#cmenu').css('display') == "none") {
+	    position = getElementPosition(el);
+	    dimensions_h = $('#'+el).height();
+	    dimensions_w = $('#'+el).width();
+	    ftop = position['top'] + dimensions_h;
+	    fleft = position['left'] - 91 + dimensions_w;
+	    $('#cmenu').css({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
+	    $('#cmenu').slideDown(1000);
+	}
+	else {
+		$('#cmenu').slideUp(500);
+	}
+}
+$(function(){
+	$('#show_menu').click(function(event){
+		event.preventDefault();
+		show_menu("cont_menu");
+	});
+	$('#cmenu').mouseleave(function(event){
+		event.preventDefault();
+		show_menu("cmenu");
+	})
+});
+EDT;
+			}
 		}
 		else {
 			$this->javascript = $code;
