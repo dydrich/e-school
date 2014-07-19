@@ -15,11 +15,12 @@ $classe = $_POST['cls'];
 $materia = $_POST['mat'];
 $docente = $_POST['doc'];
 $action = "";
-if ($_POST['action']) {
+if (isset($_POST['action'])) {
 	$action = $_POST['action'];
 }
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
 
 switch ($action){
 	case "del":
@@ -30,15 +31,19 @@ switch ($action){
 		$upd = "INSERT INTO rb_assegnazione_sostegno (anno, classe, docente, ore) VALUES ({$anno}, {$classe}, {$docente}, {$ore})";
 		break;
 	default:
-		$upd = "UPDATE rb_cdc SET id_docente = $docente WHERE id_materia = $materia AND id_anno = $anno AND id_classe = $classe";
+		$upd = "UPDATE rb_cdc SET id_docente = {$docente} WHERE id_materia = {$materia} AND id_anno = {$anno} AND id_classe = {$classe}";
 		break;
 }
 
 try{
 	$db->executeUpdate($upd);
 } catch (MySQLException $ex){
-	print "ko|".$ex->getQuery()."|".$ex->getMessage();
+	$response['status'] = "kosql";
+	$response['message'] = $ex->getMessage();
+	$response['query'] = $ex->getQuery();
+	echo json_encode($response);
 	exit;
 }
-print "ok|$upd";
-exit();
+
+echo json_encode($response);
+exit;
