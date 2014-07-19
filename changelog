@@ -1,4 +1,8 @@
-1.8.1
+1.8.6
+area admin/classe portata a jquery (escluso orario.php)
+in PageMenu ora si puo` indicare la libreria per la quale generare il javascript
+
+1.8.5
 revisione gestione classi per nuovo anno
 attivazione modulo fc
 
