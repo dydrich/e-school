@@ -32,7 +32,7 @@ try{
 $myclass = $res_classe->fetch_assoc();
 $classes_table = "rb_vclassi_s{$myclass['ordine_di_scuola']}";
 
-$sel_classi = "SELECT CONCAT_WS(' ', anno_corso, sezione) AS classe, id_classe, ordine_di_scuola, nome FROM {$classes_table}, rb_sedi WHERE sede = id_sede ORDER BY sezione, classe";
+$sel_classi = "SELECT CONCAT_WS(' ', anno_corso, sezione) AS classe, id_classe, {$classes_table}.ordine_di_scuola, nome FROM {$classes_table}, rb_sedi WHERE sede = id_sede ORDER BY sezione, classe";
 $res_classi = $db->executeQuery($sel_classi);
 
 $navigation_label = "Area amministrazione: gestione classi";

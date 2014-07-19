@@ -33,6 +33,7 @@ $school_order = null;
 if (isset($_GET['school_order'])){
 	$classes_table = "rb_vclassi_s{$_GET['school_order']}";
 	$school_order = $_GET['school_order'];
+	$_SESSION['__school_order__'] = $_GET['school_order'];
 }
 else if(isset($_SESSION['__school_order__']) && $_SESSION['__school_order__'] != 0){
 	$classes_table = "rb_vclassi_s{$_SESSION['__school_order__']}";
@@ -96,7 +97,7 @@ $colspan = 4;
 $link = basename($_SERVER['PHP_SELF']);
 $count_name = "count_cls";
 $row_class = "admin_void";
-$nav_params = "&school_order={$_GET['school_order']}";
+$nav_params = "&school_order={$school_order}";
 
 /*
  * procedura guidata prima installazione
