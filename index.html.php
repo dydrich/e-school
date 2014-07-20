@@ -174,21 +174,27 @@ var newpwd_form = function(){
 };
 
 document.observe("dom:loaded", function(){
-	$('parents').observe("click", function(event){
-		event.preventDefault();
-		area = 1;
-		load_login();
-	});
-	$('school').observe("click", function(event){
-		event.preventDefault();
-		area = 3;
-		load_login();
-	});
-	$('students').observe("click", function(event){
-		event.preventDefault();
-		area = 2;
-		load_login();
-	});
+	if ($('parents')){
+		$('parents').observe("click", function(event){
+			event.preventDefault();
+			area = 1;
+			load_login();
+		});
+	}
+	if ($('school')){
+		$('school').observe("click", function(event){
+			event.preventDefault();
+			area = 3;
+			load_login();
+		});
+	}
+	if ($('students')){
+		$('students').observe("click", function(event){
+			event.preventDefault();
+			area = 2;
+			load_login();
+		});
+	}
 	$('back_link').observe("click", function(event){
 		event.preventDefault();
 		login_back();
