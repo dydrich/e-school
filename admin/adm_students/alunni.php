@@ -45,7 +45,7 @@ if (isset($_REQUEST['order'])){
 	$nav_params = "&order=".$db->real_escape_string($_REQUEST['order']);
 }
 
-$sel_user = "SELECT id_alunno, rb_alunni.nome, cognome, username, password, rb_alunni.id_classe, CONCAT(anno_corso,sezione) AS classe, codice, rb_sedi.nome AS sede FROM rb_alunni, {$classes_table}, rb_tipologia_scuola, rb_sedi WHERE rb_alunni.id_classe = {$classes_table}.id_classe AND id_tipo = ordine_di_scuola AND sede = id_sede AND rb_alunni.attivo = '1' ";
+$sel_user = "SELECT id_alunno, rb_alunni.nome, cognome, username, password, rb_alunni.id_classe, CONCAT(anno_corso,sezione) AS classe, codice, rb_sedi.nome AS sede FROM rb_alunni, {$classes_table}, rb_tipologia_scuola, rb_sedi WHERE rb_alunni.id_classe = {$classes_table}.id_classe AND id_tipo = {$classes_table}.ordine_di_scuola AND sede = id_sede AND rb_alunni.attivo = '1' ";
 if(isset($_REQUEST['sezione']) && isset($_REQUEST['classe'])){
 	$filtered = true;
 	$query .= "&classe=".$_REQUEST['classe']."&sezione=".$_REQUEST['sezione'];

@@ -417,7 +417,7 @@ $(function(){
 }
 
 div.overlay{
-    background-image: url(../images/overlay.png);
+    background-image: url('../images/overlay.png');
     position: absolute;
     top: 0px;
     left: 0px;

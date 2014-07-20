@@ -347,6 +347,11 @@ table {
 	background-position: right top
 }
 
+.change_icon {
+    background: url(../images/42.png) no-repeat;
+    background-position: right top
+}
+
 .nav_div {
 	float: left; 
 	text-transform: uppercase; 
