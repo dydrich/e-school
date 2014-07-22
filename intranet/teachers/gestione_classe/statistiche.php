@@ -73,6 +73,5 @@ $doc->load($path.$filename);
 //print "Aperto file $filename";
 $xpath = new DOMXPath($doc);
 $statistiche = $doc->getElementsByTagName("statistiche")->item($pos);
-//print $statistiche->localName." == ".$pos;
 
 include "statistiche.html.php";
