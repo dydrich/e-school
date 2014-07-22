@@ -24,7 +24,7 @@ else if(isset($_SESSION['school_order']) && $_SESSION['school_order'] != 0){
 
 $school_orders = array("1" => "scuola media", "2" => "scuola primaria", "3" => "scuola dell'infanzia");
 
-$sel_cls = "SELECT id_classe, anno_corso, sezione, ordine_di_scuola, rb_sedi.nome FROM {$classes_table}, rb_sedi, rb_tipologia_scuola WHERE sede = rb_sedi.id_sede AND ordine_di_scuola = id_tipo AND rb_tipologia_scuola.attivo = 1 ORDER BY sezione, anno_corso, sede ";
+$sel_cls = "SELECT id_classe, anno_corso, sezione, ordine_di_scuola, rb_sedi.nome FROM {$classes_table}, rb_sedi, rb_tipologia_scuola WHERE sede = rb_sedi.id_sede AND {$classes_table}.ordine_di_scuola = id_tipo AND rb_tipologia_scuola.attivo = 1 ORDER BY sezione, anno_corso, sede ";
 $res_cls = $db->execute($sel_cls);
 $classi = array();
 while ($row = $res_cls->fetch_assoc()){

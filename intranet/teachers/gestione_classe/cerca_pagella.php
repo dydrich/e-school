@@ -45,5 +45,3 @@ try{
 $_SESSION['no_file'] = array("referer" => "intranet/teachers/gestione_classe/cerca_pagella.php", "path" => "intranet/teachers/", "relative" => "gestione_classe/cerca_pagella.php");
 
 include "cerca_pagella.html.php";
-
-?>
