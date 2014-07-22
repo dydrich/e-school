@@ -35,5 +35,3 @@ $check_data2 = "SELECT COUNT(*) FROM rb_scrutini WHERE anno = $anno AND quadrime
 $count_data2 = $db->executeCount($check_data2);
 
 include_once "wiz_first_install.html.php";
-
-?>
