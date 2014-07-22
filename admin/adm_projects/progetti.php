@@ -50,6 +50,3 @@ $link = basename($_SERVER['PHP_SELF']);
 $count_name = "count_projects";
 
 include "progetti.html.php";
-
-
-?>

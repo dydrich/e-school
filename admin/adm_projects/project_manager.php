@@ -76,6 +76,3 @@ switch($_POST['action']){
 
 print "ok";
 exit;
-
-
-?>

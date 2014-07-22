@@ -13,5 +13,3 @@ $sel_docenti = "SELECT cognome, nome, uid FROM rb_docenti, rb_utenti WHERE uid =
 $res_docenti = $db->executeQuery($sel_docenti);
 
 include "elenco_docenti.html.php";
-
-?>

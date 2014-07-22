@@ -54,5 +54,3 @@ else{
 }
 
 include "dettaglio_progetto.html.php";
-
-?>
