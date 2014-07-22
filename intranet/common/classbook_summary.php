@@ -34,5 +34,3 @@ $sel_assenze_alunni = "SELECT SUM(TIME_TO_SEC((TIMEDIFF((CASE WHEN (rb_reg_alunn
 $res_assenze_alunni = $db->execute($sel_assenze_alunni);
 $al = $res_assenze_alunni->fetch_assoc();
 //print $sel_assenze_alunni."<br/>";
-
-?>

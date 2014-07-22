@@ -89,11 +89,11 @@ else{
 	}
 }
 ?>
-<form>
-<input type="hidden" name="id_impegno" id="impegno" />
-<input type="hidden" name="tipo" id="tipo" />
-</form>
-</div>
+	<form>
+	<input type="hidden" name="id_impegno" id="impegno" />
+	<input type="hidden" name="tipo" id="tipo" />
+	</form>
+	</div>
 <p class="spacer"></p>
 </div>
 <?php include "footer.php" ?>

@@ -29,5 +29,3 @@ while($mat = $res_materie->fetch_assoc()){
 }
 
 include "../common/schedule.html.php";
-
-?>

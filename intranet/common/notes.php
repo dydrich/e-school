@@ -54,5 +54,3 @@ $alunno = $res_alunno->fetch_assoc();
 
 $link = "riepilogo_note.php?n=1";
 include "../common/notes.html.php";
-
-?>

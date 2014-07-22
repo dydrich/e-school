@@ -135,10 +135,12 @@ $background = "";
 $index = 1;
 $array_voti = array();
 while($row = $res_note->fetch_assoc()){
-	if($index % 2)
+	if($index % 2) {
 		$background = "background-color: #e8eaec";
-	else
+	}
+	else {
 		$background = "";
+	}
 ?>
 		<tr style="border-bottom: 1px solid rgb(211, 222, 199)">  
 			<td style="width: 20%; text-align: center; "><?php print format_date($row['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td> 
