@@ -25,5 +25,3 @@ $navigation_label = "Registro elettronico genitori: alunno ".$_SESSION['__sons__
 $student_id = $_SESSION['__current_son__'];
 
 include "../common/notes.php";
-
-?>

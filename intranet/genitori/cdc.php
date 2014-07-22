@@ -31,5 +31,3 @@ while($_cdc = $res_cdc->fetch_assoc()){
 $navigation_label = "Registro elettronico genitori: alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
 
 include "cdc.html.php";
-
-?>

@@ -19,5 +19,3 @@ $student = $_SESSION['__current_son__'];
 include "../common/classbook_summary.php";
 
 include "riepilogo_registro.html.php";
-
-?>

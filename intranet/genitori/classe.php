@@ -35,5 +35,3 @@ $num_righe = intval((count($alunni) + 1) / 2);
 $navigation_label = "Registro elettronico genitori: alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
 
 include "classe.html.php";
-
-?>

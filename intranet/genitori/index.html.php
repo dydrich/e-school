@@ -16,24 +16,24 @@
 <?php include "header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main">
-<div id="right_col">
-<?php include "sons_menu.php" ?>
-<?php include "class_working.php" ?>
-</div>
-<div id="left_col">
-	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
-		Area genitori
+	<div id="right_col">
+	<?php include "sons_menu.php" ?>
+	<?php include "class_working.php" ?>
 	</div>
-	<div class="welcome">
-		<p id="w_head">Bentornato <?php echo $_SESSION['__user__']->getFullName() ?></p>
-		<p class="w_text">
-			Sei entrato nell'area riservata ai genitori della intranet della <?php echo $_SESSION['__config__']['intestazione_scuola'] ?>.<br />
-			In quest'area avrai accesso a varie informazioni riguardanti i tuoi figli e potrai comunicare con il personale della scuola, sia docente che non docente.<br />
-		</p>
+	<div id="left_col">
+		<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+			Area genitori
+		</div>
+		<div class="welcome">
+			<p id="w_head">Bentornato <?php echo $_SESSION['__user__']->getFullName() ?></p>
+			<p class="w_text">
+				Sei entrato nell'area riservata ai genitori della intranet della <?php echo $_SESSION['__config__']['intestazione_scuola'] ?>.<br />
+				In quest'area avrai accesso a varie informazioni riguardanti i tuoi figli e potrai comunicare con il personale della scuola, sia docente che non docente.<br />
+			</p>
+		</div>
+		<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_msg.php'; ?>
 	</div>
-	<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_msg.php'; ?>
-</div>
-<p class="spacer"></p>
+	<p class="spacer"></p>
 </div>
 <?php include "footer.php" ?>
 </body>
