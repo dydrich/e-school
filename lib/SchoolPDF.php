@@ -117,5 +117,4 @@ class SchoolPDF extends TCPDF{
 		//Print page number
 		$this->Cell($_cellw, 0, $pagenumtxt, 'T', 0, 'R');
 	}
-
 }
