@@ -76,5 +76,3 @@ $statistiche = $doc->getElementsByTagName("statistiche")->item($pos);
 //print $statistiche->localName." == ".$pos;
 
 include "statistiche.html.php";
-
-?>

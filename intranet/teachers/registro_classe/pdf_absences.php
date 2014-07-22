@@ -1,6 +1,6 @@
 <?php
 
-ini_set("display_errors", "1");
+ini_set("display_errors", DISPLAY_ERRORS);
 
 require_once "../../../lib/start.php";
 require_once "../../../lib/SchoolPDF.php";
@@ -150,5 +150,3 @@ $pdf->pageBody($assenze, $author, $alunno, $num_assenze);
 
 //Close and output PDF document
 $pdf->Output('assenze.pdf', 'D');
-
-?>

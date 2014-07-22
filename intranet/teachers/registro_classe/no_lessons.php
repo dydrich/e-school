@@ -34,9 +34,9 @@ function show_note(element){
 	element.getElementsByTagName("span")[0].style.display = "block";
 }
 
-function hide_note(element){
+var hide_note = function(element){
 	element.getElementsByTagName("span")[0].style.display = "none";
-}
+};
 
 var downloadCB = function(){
 	dis = $("dlog").readAttribute("data_disabled");

@@ -132,5 +132,3 @@ if($res_registro->num_rows < 1){
 else{
 	include "registro_classe.html.php";
 }
-
-?>

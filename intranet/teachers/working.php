@@ -135,7 +135,9 @@ $classi = $msarray->getData();
     }
     ?>
 	</ul>
-<?php } ?>
+<?php
+}
+?>
 <?php if(is_installed("com")){ ?> 	
 	    <p class="menu_label com_icon">Comunicazioni</p>
 	    	<ul class="menublock" style="" dir="rtl">

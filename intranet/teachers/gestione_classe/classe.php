@@ -3,7 +3,7 @@
 require_once "../../../lib/start.php";
 require_once "../../../lib/SessionUtils.php";
 
-ini_set("display_errors", "1");
+ini_set("display_errors", DISPLAY_ERRORS);
 
 check_session();
 check_permission(DOC_PERM);
@@ -68,5 +68,3 @@ if(!$vacance){
 $navigation_label = "Registro elettronico - Gestione classe";
 
 include "classe.html.php";
-
-?>

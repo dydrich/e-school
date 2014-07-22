@@ -11,5 +11,3 @@ $_SESSION['__path_to_reg_home__'] = "./";
 $navigation_label = "Registro elettronico - Gestione profilo personale";
 
 include "profile.html.php";
-
-?>

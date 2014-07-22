@@ -20,5 +20,3 @@ list($blog, $blog_perms) = explode("#", $_SESSION['__user__']->getBlog());
 $navigation_label = "Registro elettronico - Gestione dati personali";
 
 include "account.html.php";
-
-?>

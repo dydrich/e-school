@@ -14,5 +14,3 @@ if(!isset($_REQUEST['from']))
 $navigation_label = "Registro elettronico - Modifica password personale";
 
 include "change_password.html.php";
-
-?>

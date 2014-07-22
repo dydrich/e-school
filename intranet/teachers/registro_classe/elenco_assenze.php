@@ -35,5 +35,3 @@ $alunno = $res_alunno->fetch_assoc();
 setlocale(LC_TIME, "it_IT");
 
 include "elenco_assenze.html.php";
-
-?>
