@@ -122,7 +122,9 @@ var already_done = function(){
             </tr>
             <tr class="index_link" id="step3" <?php if($_SESSION['step'] > 3){ ?>style="background-color: #FAF6B7"<?php } ?>>
                 <td style=" width: 30%">
-                	<?php if($_SESSION['step'] == 3){ ?>
+                	<?php
+	                if($_SESSION['step'] == 3){
+		            ?>
 	                <a href="install.php?step=3">Configurazione software</a>
 	                <?php 
 					}

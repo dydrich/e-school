@@ -17,5 +17,3 @@ if($step == 1){
 }
 
 include "install{$step}.html.php";
-
-?>
