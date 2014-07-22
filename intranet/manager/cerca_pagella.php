@@ -40,5 +40,3 @@ try{
 }
 
 include "cerca_pagella.html.php";
-
-?>

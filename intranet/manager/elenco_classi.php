@@ -34,7 +34,7 @@ if ($_SESSION['__school_order__']){
 	$school = $_SESSION['__school_level__'][$_SESSION['__school_order__']];
 }
 
-$sel_cls = "SELECT {$classes_table}.id_classe, anno_corso, tempo_prolungato, sezione, rb_sedi.nome, tipo, COUNT(id_alunno) AS num_alunni FROM {$classes_table} LEFT JOIN rb_alunni ON {$classes_table}.id_classe = rb_alunni.id_classe LEFT JOIN rb_sedi ON sede = rb_sedi.id_sede LEFT JOIN rb_tipologia_scuola ON id_tipo = ordine_di_scuola AND rb_alunni.attivo = '1' GROUP BY {$classes_table}.id_classe, anno_corso, tempo_prolungato, sezione, rb_sedi.nome, tipo ORDER BY $param_order ";
+$sel_cls = "SELECT {$classes_table}.id_classe, anno_corso, tempo_prolungato, sezione, rb_sedi.nome, tipo, COUNT(id_alunno) AS num_alunni FROM {$classes_table} LEFT JOIN rb_alunni ON {$classes_table}.id_classe = rb_alunni.id_classe LEFT JOIN rb_sedi ON sede = rb_sedi.id_sede LEFT JOIN rb_tipologia_scuola ON id_tipo = {$classes_table}.ordine_di_scuola AND rb_alunni.attivo = '1' GROUP BY {$classes_table}.id_classe, anno_corso, tempo_prolungato, sezione, rb_sedi.nome, tipo ORDER BY $param_order ";
 
 if(!isset($_GET['second'])){
 	$res_cls = $db->execute($sel_cls);

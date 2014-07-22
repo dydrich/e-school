@@ -16,7 +16,7 @@ else if($_SESSION['school_order'] != 0){
 	$classes_table = "rb_vclassi_s{$_SESSION['school_order']}";
 }
 
-$sel_classi = "SELECT id_classe, anno_corso, sezione, codice, nome FROM {$classes_table}, rb_tipologia_scuola, rb_sedi WHERE id_sede = sede AND ordine_di_scuola = id_tipo ORDER BY sezione, anno_corso";
+$sel_classi = "SELECT id_classe, anno_corso, sezione, codice, nome FROM {$classes_table}, rb_tipologia_scuola, rb_sedi WHERE id_sede = sede AND {$classes_table}.ordine_di_scuola = id_tipo ORDER BY sezione, anno_corso";
 $res_classi = $db->executeQuery($sel_classi);
 
 if(isset($_REQUEST['filtro_classe']) && ($_REQUEST['filtro_classe'] != "")){
