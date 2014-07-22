@@ -68,5 +68,3 @@ $row_class_menu = " docs_row_menu";
 $nav_params = "&order=$order";
 
 include "elenco_docenti.html.php";
-
-?>

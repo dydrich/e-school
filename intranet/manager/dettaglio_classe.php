@@ -58,5 +58,3 @@ $sel_assenze_alunni = "SELECT rb_alunni.id_alunno, cognome, nome, SUM(TIME_TO_SE
 $res_assenze_alunni = $db->execute($sel_assenze_alunni);
 
 include "dettaglio_classe.html.php";
-
-?>

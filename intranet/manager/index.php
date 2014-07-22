@@ -30,5 +30,3 @@ if (isset($_GET['role'])){
 $navigation_label = "Registro elettronico: area ".$_SESSION['__role__'];
 
 include "index.html.php";
-
-?>

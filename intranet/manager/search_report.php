@@ -52,5 +52,3 @@ while($std = $res_stds->fetch_assoc()){
 }
 echo json_encode($json);
 exit;
-
-?>

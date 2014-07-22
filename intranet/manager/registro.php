@@ -196,7 +196,4 @@ $non_validati = $xml->getElementsByTagName('non_validati')->item(0);
 $a_rischio = $xml->getElementsByTagName('a_rischio')->item(0);
 $classi = $xml->getElementsByTagName('classi')->item(0);
 
-
 include "registro.html.php";
-
-?>
