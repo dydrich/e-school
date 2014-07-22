@@ -5,7 +5,7 @@ require_once "../lib/start.php";
 check_session();
 check_permission(ADM_PERM);
 
-ini_set("display_errors", "1");
+ini_set("display_errors", DISPLAY_ERRORS);
 
 $_SESSION['__path_to_root__'] = "../";
 $_SESSION['__path_to_mod_home__'] = "./";
