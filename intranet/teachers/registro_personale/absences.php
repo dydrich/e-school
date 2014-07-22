@@ -44,6 +44,9 @@ function calcola_minuti_assenza($ingresso, $uscita, $inizio, $fine){
 }
 
 $teacher = $_SESSION['__user__']->getUid();
+if ($_SESSION['__user__']->isSupplyTeacher()) {
+	$teacher .= ",".$_SESSION['__user__']->getUid(true);
+}
 $subject = $_SESSION['__materia__'];
 $signature = $teacher.";".$subject;
 $class = $_SESSION['__classe__']->get_ID();
@@ -103,7 +106,9 @@ $res_students->free();
  *  una seconda query recupera gli orari di ingresso e uscita per ogni alunno
  */
 $sel_hours = "SELECT id_reg, rb_reg_classi.data, rb_reg_classi.ingresso, rb_reg_classi.uscita, ora FROM rb_reg_classi, rb_reg_firme WHERE rb_reg_classi.id_reg = rb_reg_firme.id_registro AND docente = {$teacher} AND materia = {$subject} AND id_classe = $class AND id_anno = ".$_SESSION['__current_year__']->get_ID()."  ORDER BY data, ingresso DESC, ora ASC";
-//print $sel_hours;
+if ($_SESSION['__user__']->isSupplyTeacher()) {
+	$sel_hours = "SELECT id_reg, rb_reg_classi.data, rb_reg_classi.ingresso, rb_reg_classi.uscita, ora FROM rb_reg_classi, rb_reg_firme WHERE rb_reg_classi.id_reg = rb_reg_firme.id_registro AND materia = {$subject} AND id_classe = $class AND id_anno = ".$_SESSION['__current_year__']->get_ID()."  ORDER BY data, ingresso DESC, ora ASC";
+}
 try{
 	$res_hours = $db->executeQuery($sel_hours);
 } catch (MySQLException $ex){
@@ -208,5 +213,3 @@ $change_subject->createLink("text-decoration: none; text-transform: uppercase; f
 $navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 
 include "absences.html.php";
-
-?>

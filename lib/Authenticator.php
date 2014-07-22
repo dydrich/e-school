@@ -77,35 +77,52 @@ class Authenticator {
 		 * subjects and classes : only for teachers
 		 */
 		if($user->isTeacher()){
-			$sel_subject = "SELECT materia, tipologia_scuola FROM rb_docenti WHERE id_docente = ".$user->getUid();
+			$sel_subject = "SELECT materia, tipologia_scuola, ruolo FROM rb_docenti WHERE id_docente = ".$user->getUid();
 			$r_materia = $this->datasource->executeQuery($sel_subject);
 			$materia = $r_materia[0];
 			$user->setSubject($materia['materia']);
 			$user->setSchoolOrder($materia['tipologia_scuola']);
-		
+			$titolare = ($materia['ruolo'] == "S") ? true : false;
+
 			/**
 			 * populate the classes array
 			*/
 			$classes = array();
+			$uid = $user->getUid();
+			echo $uid;
+			if (!$titolare) {
+				$uid = $this->datasource->executeCount("SELECT id_docente_assente FROM rb_supplenze WHERE id_supplente = {$user->getUid()} AND data_fine_supplenza <= NOW()");
+				$user->setSubstitution($uid);
+			}
 			if ($materia['materia'] != 27 && $materia['materia'] != 41){
-				$sel_cdc = "SELECT rb_classi.id_classe, CONCAT(rb_classi.anno_corso, rb_classi.sezione) AS classe, id_materia FROM rb_classi, rb_cdc WHERE anno_corso <> 0 AND rb_classi.id_classe = rb_cdc.id_classe AND id_docente = ".$user->getUid()." AND id_anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
+				$sel_cdc = "SELECT rb_classi.id_classe, CONCAT(rb_classi.anno_corso, rb_classi.sezione) AS classe, id_materia FROM rb_classi, rb_cdc WHERE anno_corso <> 0 AND rb_classi.id_classe = rb_cdc.id_classe AND id_docente = {$uid} AND id_anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
 			}
 			else {
-				$sel_cdc = "SELECT rb_classi.id_classe, CONCAT(rb_classi.anno_corso, rb_classi.sezione) AS classe, '{$materia['materia']}' AS materia FROM rb_classi, rb_assegnazione_sostegno WHERE anno_corso <> 0 AND rb_classi.id_classe = classe AND docente = ".$user->getUid()." AND anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
+				$sel_cdc = "SELECT rb_classi.id_classe, CONCAT(rb_classi.anno_corso, rb_classi.sezione) AS classe, '{$materia['materia']}' AS materia FROM rb_classi, rb_assegnazione_sostegno WHERE anno_corso <> 0 AND rb_classi.id_classe = classe AND docente = {$uid} AND anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
 			}
+			echo $sel_cdc;
 			$res_cdc = $this->datasource->executeQuery($sel_cdc);
+
+			if (!$titolare) {
+				/*
+				 * classi supplente
+				 */
+				$cls_supp = $this->datasource->executeQuery("SELECT classe FROM rb_classi_supplenza, rb_supplenze WHERE rb_classi_supplenza.id_supplenza = rb_supplenze.id_supplenza AND id_supplente = {$user->getUid()} ");
+			}
 			foreach ($res_cdc as $row){
-				if(!isset($classes[$row['id_classe']])){
-					//fwrite($log, "Array created\n");
-					$classes[$row['id_classe']] = array();
-					$classes[$row['id_classe']]['teacher'] = 1;
-					$classes[$row['id_classe']]['coordinatore'] = 0;
-					$classes[$row['id_classe']]['segretario'] = 0;
-					$classes[$row['id_classe']]['materie'] = array();
-					$classes[$row['id_classe']]['classe'] = $row['classe'];
-					$classes[$row['id_classe']]['id_classe'] = $row['id_classe'];
+				if ($titolare || in_array($row['id_classe'], $cls_supp)) {
+					if(!isset($classes[$row['id_classe']])){
+						echo $row['id_classe'];
+						$classes[$row['id_classe']] = array();
+						$classes[$row['id_classe']]['teacher'] = 1;
+						$classes[$row['id_classe']]['coordinatore'] = 0;
+						$classes[$row['id_classe']]['segretario'] = 0;
+						$classes[$row['id_classe']]['materie'] = array();
+						$classes[$row['id_classe']]['classe'] = $row['classe'];
+						$classes[$row['id_classe']]['id_classe'] = $row['id_classe'];
+					}
+					array_push($classes[$row['id_classe']]['materie'], $row['id_materia']);
 				}
-				array_push($classes[$row['id_classe']]['materie'], $row['id_materia']);
 			}
 			/*
 			 * estrazione classi in cui si e` coordinatori o segretari ma non docenti

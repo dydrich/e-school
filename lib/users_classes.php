@@ -63,7 +63,7 @@ abstract class UserBean {
 		return $this->perms;
 	}
 
-	public function getUid(){
+	public function getUid($lecturer = false){
 		return $this->uid;
 	}
 
@@ -216,6 +216,11 @@ class SchoolUserBean extends UserBean{
 	 */
 	private $subject;
 	private $schoolOrder;
+	/*
+	 * is he a supply teacher?
+	 */
+	private $supplyTeacher;
+	private $lecturer;
 	/**
 	 * from table: cdc
 	 * multidimensional array
@@ -262,6 +267,28 @@ class SchoolUserBean extends UserBean{
 			return false;
 		}
 		return true;
+	}
+
+	public function setSubstitution($lecturer) {
+		$this->supplyTeacher = true;
+		$this->lecturer = $lecturer;
+	}
+
+	public function isSupplyTeacher(){
+		return $this->supplyTeacher;
+	}
+
+	public function setSupplyTeacher($st){
+		$this->supplyTeacher = $st;
+	}
+
+	public function getUid($lecturer = false){
+		if ($this->isSupplyTeacher() && $lecturer) {
+			return $this->lecturer;
+		}
+		else {
+			return $this->uid;
+		}
 	}
 }
 

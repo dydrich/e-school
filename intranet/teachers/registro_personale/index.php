@@ -127,7 +127,7 @@ else{
 	$sel_materie = "SELECT rb_materie.id_materia, materia FROM rb_materie, rb_cdc WHERE rb_cdc.id_materia = rb_materie.id_materia AND rb_cdc.id_docente = ".$_SESSION['__user__']->getUid()." AND rb_cdc.id_classe = ". $_REQUEST['cls'] ." AND (rb_cdc.id_materia = rb_materie.id_materia OR rb_cdc.id_materia = rb_materie.idpadre) AND id_anno = ".$_SESSION['__current_year__']->get_ID();
 }
 */
-$sel_materie = "SELECT rb_materie.id_materia, materia FROM rb_materie, rb_cdc WHERE rb_cdc.id_materia = rb_materie.id_materia AND rb_cdc.id_docente = ".$_SESSION['__user__']->getUid()." AND rb_cdc.id_classe = ". $_REQUEST['cls'] ." AND (rb_cdc.id_materia = rb_materie.id_materia OR rb_cdc.id_materia = rb_materie.idpadre) AND pagella = 1 AND id_anno = ".$_SESSION['__current_year__']->get_ID();
+$sel_materie = "SELECT rb_materie.id_materia, materia FROM rb_materie, rb_cdc WHERE rb_cdc.id_materia = rb_materie.id_materia AND rb_cdc.id_docente = ".$_SESSION['__user__']->getUid(true)." AND rb_cdc.id_classe = ". $_REQUEST['cls'] ." AND (rb_cdc.id_materia = rb_materie.id_materia OR rb_cdc.id_materia = rb_materie.idpadre) AND pagella = 1 AND id_anno = ".$_SESSION['__current_year__']->get_ID();
 //print $sel_materie;
 try{
 	$res_materie = $db->executeQuery($sel_materie);
@@ -207,5 +207,3 @@ if (isset($_REQUEST['__goals__']) && $_REQUEST['__goals__'] == 1) {
 else {
 	include "index.html.php";
 }
-
-?>

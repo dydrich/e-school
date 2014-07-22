@@ -45,6 +45,9 @@ $order_to = ($order == "DESC") ? "ASC" : "DESC";
 
 $class = $_SESSION['__classe__']->get_ID();
 $teacher = $_SESSION['__user__']->getUid();
+if ($_SESSION['__user__']->isSupplyTeacher()) {
+	$teacher .= ",".$_SESSION['__user__']->getUid(true);
+}
 $teacher_name = $_SESSION['__user__']->getFullName();
 $class_name = $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 $subject = $_SESSION['__materia__'];
@@ -79,7 +82,9 @@ switch($q){
 }
 
 $sel_lessons = "SELECT rb_reg_firme.*, data, materia, docente, id_classe FROM rb_reg_firme, rb_reg_classi WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND rb_reg_classi.id_reg = id_registro AND rb_reg_classi.id_classe = $class AND materia = $subject AND docente = $teacher $int_time ORDER BY data $order";
-//print $sel_lessons;
+if ($_SESSION['__user__']->isSupplyTeacher()) {
+	$sel_lessons = "SELECT rb_reg_firme.*, data, materia, docente, id_classe FROM rb_reg_firme, rb_reg_classi WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND rb_reg_classi.id_reg = id_registro AND rb_reg_classi.id_classe = $class AND materia = $subject $int_time ORDER BY data $order";
+}
 $res_lessons = $db->execute($sel_lessons);
 
 $change_subject = new ChangeSubject("hid", "", "position: absolute; width: 180px; height: 55px; display: none", "div", $_SESSION['__subjects__']);
@@ -88,5 +93,3 @@ $change_subject->createLink("text-decoration: none; text-transform: uppercase; f
 $navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 
 include "lessons.html.php";
-
-?>

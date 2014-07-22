@@ -96,5 +96,3 @@ else{
 }
 
 include "index.html.php";
-
-?>

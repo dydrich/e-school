@@ -6,6 +6,7 @@
 	?>
 	<ul class="menublock" style="" dir="rtl">
 		<li><a href="elenco_docenti.php">Docenti</a></li>
+		<li><a href="supplenze.php">Supplenze</a></li>
 		<li><a href="elenco_alunni.php">Alunni</a></li>
 		<li><a href="sostegno.php">Sostegno</a></li>
 		<li><a href="elenco_classi.php">Classi</a></li>

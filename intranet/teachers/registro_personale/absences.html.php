@@ -23,8 +23,6 @@ function change_subject(id){
 	document.location.href="absences.php?subject="+id;
 }
 
-str = str0;
-
 function fai(event){
 	if (IE) { // grab the x-y pos.s if browser is IE
         asse_x = event.clientX + document.body.scrollLeft;
