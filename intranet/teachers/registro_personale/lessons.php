@@ -81,10 +81,7 @@ switch($q){
 		$label = ", secondo quadrimestre";
 }
 
-$sel_lessons = "SELECT rb_reg_firme.*, data, materia, docente, id_classe FROM rb_reg_firme, rb_reg_classi WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND rb_reg_classi.id_reg = id_registro AND rb_reg_classi.id_classe = $class AND materia = $subject AND docente = $teacher $int_time ORDER BY data $order";
-if ($_SESSION['__user__']->isSupplyTeacher()) {
-	$sel_lessons = "SELECT rb_reg_firme.*, data, materia, docente, id_classe FROM rb_reg_firme, rb_reg_classi WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND rb_reg_classi.id_reg = id_registro AND rb_reg_classi.id_classe = $class AND materia = $subject $int_time ORDER BY data $order";
-}
+$sel_lessons = "SELECT rb_reg_firme.*, data, materia, docente, id_classe FROM rb_reg_firme, rb_reg_classi WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND rb_reg_classi.id_reg = id_registro AND rb_reg_classi.id_classe = $class AND materia = $subject  $int_time ORDER BY data $order";
 $res_lessons = $db->execute($sel_lessons);
 
 $change_subject = new ChangeSubject("hid", "", "position: absolute; width: 180px; height: 55px; display: none", "div", $_SESSION['__subjects__']);

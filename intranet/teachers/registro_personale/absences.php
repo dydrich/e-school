@@ -105,10 +105,8 @@ $res_students->free();
  *  All'interno del ciclo che attraversa tutti gli id_reg in esame,
  *  una seconda query recupera gli orari di ingresso e uscita per ogni alunno
  */
-$sel_hours = "SELECT id_reg, rb_reg_classi.data, rb_reg_classi.ingresso, rb_reg_classi.uscita, ora FROM rb_reg_classi, rb_reg_firme WHERE rb_reg_classi.id_reg = rb_reg_firme.id_registro AND docente = {$teacher} AND materia = {$subject} AND id_classe = $class AND id_anno = ".$_SESSION['__current_year__']->get_ID()."  ORDER BY data, ingresso DESC, ora ASC";
-if ($_SESSION['__user__']->isSupplyTeacher()) {
-	$sel_hours = "SELECT id_reg, rb_reg_classi.data, rb_reg_classi.ingresso, rb_reg_classi.uscita, ora FROM rb_reg_classi, rb_reg_firme WHERE rb_reg_classi.id_reg = rb_reg_firme.id_registro AND materia = {$subject} AND id_classe = $class AND id_anno = ".$_SESSION['__current_year__']->get_ID()."  ORDER BY data, ingresso DESC, ora ASC";
-}
+$sel_hours = "SELECT id_reg, rb_reg_classi.data, rb_reg_classi.ingresso, rb_reg_classi.uscita, ora FROM rb_reg_classi, rb_reg_firme WHERE rb_reg_classi.id_reg = rb_reg_firme.id_registro AND materia = {$subject} AND id_classe = $class AND id_anno = ".$_SESSION['__current_year__']->get_ID()."  ORDER BY data, ingresso DESC, ora ASC";
+
 try{
 	$res_hours = $db->executeQuery($sel_hours);
 } catch (MySQLException $ex){
