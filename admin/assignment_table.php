@@ -73,6 +73,7 @@ while ($m = $res_mat->fetch_assoc()) {
 	$materie[$m['id_materia']] = $m['materia'];
 	$materie_no_scr[] = $m['id_materia'];
 }
+
 while ($_scr = $res_scr->fetch_assoc()) {
 	$cls[$_scr['classe']]['scr'][] = $_scr['materia'];
 	if (($c = array_search($_scr['materia'], $materie_no_scr)) !== false) {
