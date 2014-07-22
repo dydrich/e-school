@@ -13,7 +13,6 @@ while($type = $res_types->fetch_assoc()){
 	$types[$type['id']] = $type['commento'];
 }
 ?>
-		
 <div class="smallbox" id="working">
 <h2 class="menu_head">Documenti</h2>
 	<p class="menu_label class_icon">Gestisci</p>
