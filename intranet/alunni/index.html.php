@@ -51,7 +51,7 @@ p.w_text:last-of-type{
 	}
 	?>
 	</div>
-	<?php include "last_grades.php" ?>
+<?php include "last_grades.php" ?>
 </div>
 <p class="spacer"></p>
 <p class="spacer"></p>

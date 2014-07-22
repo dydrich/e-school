@@ -65,7 +65,6 @@ $abs_sec = $abs_hours%60;
 $t_m = $abs_hours - $abs_sec;
 $t_m /= 60;
 $ore_assenza = minutes2hours($t_m, "-");
-
 ?>
 		<tr style="border-bottom: 1px solid rgba(211, 222, 199, 0.6); text-align: center; height: 20px">
 			<td style="padding-left: 20px; width: 30%; font-weight: bold">Le tue assenze</td>
