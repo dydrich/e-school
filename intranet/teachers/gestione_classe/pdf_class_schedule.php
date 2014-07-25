@@ -15,7 +15,7 @@ $classe = $_SESSION['__classe__']->get_ID();
 $anno = $_SESSION['__current_year__']->get_ID();
 
 $orario_classe = new Orario();
-$sel_orario = "SELECT * FROM rb_orario WHERE classe = ".$_SESSION['__classe__']->get_ID()." $tempo AND anno = $anno ORDER BY giorno, ora";
+$sel_orario = "SELECT * FROM rb_orario WHERE classe = ".$_SESSION['__classe__']->get_ID()." AND anno = $anno ORDER BY giorno, ora";
 //print $sel_orario;
 $res_orario = $db->execute($sel_orario);
 while($ora = $res_orario->fetch_assoc()){
