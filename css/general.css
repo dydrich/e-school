@@ -116,3 +116,16 @@ a.no_dec {
 .no_border {
     border: 0
 }
+
+.nav_link_first {
+    margin-right: 10px;
+}
+
+.nav_link {
+    margin-right: 10px;
+    margin-left: 10px
+}
+
+.nav_link_last {
+    margin-left: 10px
+}

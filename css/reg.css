@@ -744,19 +744,6 @@ tr.admin_void {
     background-color: rgba(211, 222, 199, .4);
 }
 
-.nav_link_first {
-    margin-right: 10px;
-}
-
-.nav_link {
-    margin-right: 10px;
-    margin-left: 10px
-}
-
-.nav_link_last {
-    margin-left: 10px
-}
-
 .ov_red{
     font-weight: bold;
 }
