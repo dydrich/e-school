@@ -121,10 +121,10 @@ class ScheduleModule{
 				$number_of_hours = $d->getNumberOfHours();
 				$hour_duration = $d->getHourDuration()->getTime();
 				$day = $d->getDay();
-				$starts[$day][1] = $a->toString(RBTIME_SHORT);
+				$starts[$day][1] = $a->toString(RBTime::$RBTIME_SHORT);
 				while($a->getTime() <= $d->getExitTime()->getTime()){
 					$a->add($hour_duration);
-					$starts[$day][] = $a->toString(RBTIME_SHORT);
+					$starts[$day][] = $a->toString(RBTime::$RBTIME_SHORT);
 				}
 			}
 		}
