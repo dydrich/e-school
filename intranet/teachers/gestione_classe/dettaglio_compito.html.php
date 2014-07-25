@@ -4,6 +4,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 <link rel="stylesheet" href="../reg.css" type="text/css" media="screen,projection" />
+<link href="../../../css/general.css" rel="stylesheet" type="text/css"/>
 <link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
 <link href="../../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
@@ -90,7 +91,7 @@ document.observe("dom:loaded", function(){
 <?php 
 while($mat = $res_materie->fetch_assoc()){
 ?>
-			<option <?php if($mat['id_materia'] == $att['materia']) print("selected='selected'") ?> value="<?php print $mat['id_materia'] ?>"><?php print $mat['materia'] ?></option>
+			<option <?php if((isset($att)) && $mat['id_materia'] == $att['materia']) print("selected='selected'") ?> value="<?php print $mat['id_materia'] ?>"><?php print $mat['materia'] ?></option>
 <?php 
 }
 ?>
@@ -114,11 +115,10 @@ while($mat = $res_materie->fetch_assoc()){
 	</table>
 	</form>
 	<div style="width: 92%; margin: 20px 0 0 0; text-align: right">
-		<a href="../../../shared/no_js.php" id="save_button" style="text-transform: uppercase; margin-right: 8px; text-decoration: none">Salva</a>|
 		<?php if($t != 0){ ?>
-		<a href="../../../shared/no_js.php" id="del_button" style="text-transform: uppercase; margin: 0 8px 0 8px; text-decoration: none">Elimina</a>|
+		<a href="../../../shared/no_js.php" id="del_button" class="standard_link nav_link_first">Elimina</a>|
 		<?php } ?>
-		<a href="elenco_compiti.php?all=1" style="text-transform: uppercase; margin-left: 8px; text-decoration: none">Elenco compiti</a>
+		<a href="../../../shared/no_js.php" id="save_button" class="standard_link nav_link_last">Salva</a>
 	</div> 
 </div> 
 <p class="spacer"></p>

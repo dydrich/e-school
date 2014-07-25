@@ -29,7 +29,6 @@ if($t != 0){
 $sel_materie = "SELECT rb_materie.id_materia, rb_materie.materia FROM rb_materie, rb_docenti WHERE (rb_docenti.materia = rb_materie.id_materia OR rb_docenti.materia = rb_materie.idpadre OR rb_materie.idpadre IN (SELECT rb_materie.id_materia FROM rb_materie, rb_docenti WHERE idpadre = rb_docenti.materia AND rb_docenti.id_docente = ".$_SESSION['__user__']->getUid().")) AND rb_docenti.id_docente = ".$_SESSION['__user__']->getUid();
 //print $sel_materie;
 $res_materie = $db->execute($sel_materie);
+$navigation_label = "Registro elettronico - ".$_SESSION['__classe__']->to_string();
 
 include "dettaglio_compito.html.php";
-
-?>

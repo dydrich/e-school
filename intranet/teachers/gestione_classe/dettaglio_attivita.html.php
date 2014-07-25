@@ -4,6 +4,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 <link rel="stylesheet" href="../reg.css" type="text/css" media="screen,projection" />
+<link href="../../../css/general.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
@@ -134,11 +135,10 @@ $(function(){
 		</table>
 		</form>
 		<div style="width: 92%; margin: 20px 0 0 0; text-align: right">
-			<a href="../../../shared/no_js.php" id="save_button" style="text-transform: uppercase; margin-right: 8px; text-decoration: none">Salva</a>|
 			<?php if($t != 0){ ?>
-			<a href="../../../shared/no_js.php" id="del_button" style="text-transform: uppercase; margin: 0 8px 0 8px; text-decoration: none">Elimina</a>|
+			<a href="../../../shared/no_js.php" id="del_button" class="standard_link nav_link_first">Elimina</a>|
 			<?php } ?>
-			<a href="elenco_attivita.php?all=1" style="text-transform: uppercase; margin-left: 8px; text-decoration: none">Elenco attivit&agrave;</a>
+			<a href="../../../shared/no_js.php" id="save_button" class="standard_link nav_link_last">Salva</a>
 		</div> 
 	</div> 
 <p class="spacer"></p>

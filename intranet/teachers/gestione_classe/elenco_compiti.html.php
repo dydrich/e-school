@@ -63,11 +63,11 @@ else{
 		$rows = $res_hw->num_rows;
 		$ct = 1;
 		list($di, $oi) = explode(" ", $dt['data_inizio']);
-		setlocale(LC_ALL, "it_IT");
+		setlocale(LC_ALL, "it_IT.utf8");
 		$giorno_str = strftime("%A", strtotime($di));
 ?>
 	<tr>
-		<td style="width: 20%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #c0c0c0;" rowspan="<?php echo $rows ?>"><?php print utf8_encode($giorno_str)." ". format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/")?></td>
+		<td style="width: 20%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #c0c0c0;" rowspan="<?php echo $rows ?>"><?php print $giorno_str." ". format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/")?></td>
 <?php 
 		while($hw = $res_hw->fetch_assoc()){
 			$bc = "";

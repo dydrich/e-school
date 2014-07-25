@@ -32,5 +32,3 @@ $res_materie = $db->execute($sel_materie);
 $navigation_label = "Registro elettronico - ".$_SESSION['__classe__']->to_string();
 
 include "dettaglio_attivita.html.php";
-
-?>
