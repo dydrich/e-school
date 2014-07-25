@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
+<title><?php echo $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 <link rel="stylesheet" href="../reg.css" type="text/css" media="screen,projection" />
 <link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
@@ -106,7 +106,7 @@ tbody a {
 	$k = 0;
 	while(list($key, $value) = each($materie)){
 	?>
-	    <a style="font-weight: normal;" href="#" onclick="document.forms[0].mat.value = <?php print $key ?>; document.forms[0].teach.value = <?php print $value[2] ?>; materia(event); "><?php print $value[0] ?></a><br />
+	    <a style="font-weight: normal;" href="#" onclick="document.forms[0].mat.value = <?php echo $key ?>; document.forms[0].teach.value = <?php echo $value[2] ?>; materia(event); "><?php echo $value[0] ?></a><br />
 	<?php
 	    $k++;
 	}
@@ -128,10 +128,10 @@ tbody a {
         	reset($materie);
         ?>
         <tr style="border-bottom: 1px solid #C0C0C0;">
-        	<td style="width: 7%; "><?php print $i+1 ?></td>
-        	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(1, $i+1, $classe); if($d != null) print $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(1, $i+1, $classe); if($d != null) print $d->getID() ?>"><?php print $materie[$orario_classe->getMateria($classe, 1, $i+1)][0] ?></a></td>
-        	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(2, $i+1, $classe); if($d != null) print $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(2, $i+1, $classe); if($d != null) print $d->getID() ?>"><?php print $materie[$orario_classe->getMateria($classe, 2, $i+1)][0] ?></a></td>
-        	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(3, $i+1, $classe); if($d != null) print $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(3, $i+1, $classe); if($d != null) print $d->getID() ?>"><?php print $materie[$orario_classe->getMateria($classe, 3, $i+1)][0] ?></a></td>
+        	<td style="width: 7%; "><?php echo $i+1 ?></td>
+        	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(1, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(1, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 1, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 1, $i+1)][0] ?></a></td>
+        	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(2, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(2, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 2, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 2, $i+1)][0] ?></a></td>
+        	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(3, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(3, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 3, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 3, $i+1)][0] ?></a></td>
         </tr>
         <?php 
         }
@@ -152,10 +152,10 @@ tbody a {
         	reset($materie);
         ?>
         <tr style="border-bottom: 1px solid #C0C0C0;">
-        	<td style="width: 7%; "><?php print $i+1 ?></td>
-        	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(4, $i+1, $classe); if($d != null) print $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(4, $i+1, $classe); if($d != null) print $d->getID() ?>"><?php print $materie[$orario_classe->getMateria($classe, 4, $i+1)][0] ?></a></td>
-        	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(5, $i+1, $classe); if($d != null) print $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(5, $i+1, $classe); if($d != null) print $d->getID() ?>"><?php print $materie[$orario_classe->getMateria($classe, 5, $i+1)][0] ?></a></td>
-        	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(6, $i+1, $classe); if($d != null) print $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(6, $i+1, $classe); if($d != null) print $d->getID() ?>"><?php print $materie[$orario_classe->getMateria($classe, 6, $i+1)][0] ?></a></td>
+        	<td style="width: 7%; "><?php echo $i+1 ?></td>
+        	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(4, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(4, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 4, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 4, $i+1)][0] ?></a></td>
+        	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(5, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(5, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 5, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 5, $i+1)][0] ?></a></td>
+        	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(6, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(6, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 6, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 6, $i+1)][0] ?></a></td>
         </tr>
         <?php 
         }
