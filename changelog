@@ -1,3 +1,15 @@
+2.0
+gestione supplenze
+revisione gestione voti
+revisione gestione verifiche
+revisione gestione note didattiche e disciplinari
+
+1.9
+pulizia codice
+gestione genitori con alunni non piu` frequentanti
+revisione gestione classi admin
+attivazione gestione classi nuovo anno per primaria e revisione della procedura
+
 1.8.6
 area admin/classe portata a jquery (escluso orario.php)
 in PageMenu ora si puo` indicare la libreria per la quale generare il javascript
