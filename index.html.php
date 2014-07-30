@@ -44,8 +44,8 @@ function do_login(type){
 						return;
 		      		}
 		      		else if(dati[0] == "ko"){
-		      			alert("I dati inseriti non sono corretti.");
-		      			console.log("Dati errati");
+		      			alert("Login non riuscito.");
+		      			//console.log("Dati errati");
 		      			document.location.href = "index.php";
 		      		}
 		      		if(type == 1 || type == 2){

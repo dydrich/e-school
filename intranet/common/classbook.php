@@ -32,7 +32,7 @@ if ($month == 9) $previous = null;
 $sel_orario_alunno = "SELECT data, rb_reg_alunni.ingresso, rb_reg_alunni.uscita, note, id_alunno, giustificata FROM rb_reg_alunni, rb_reg_classi WHERE id_alunno = {$student_id} AND DATE_FORMAT(data, '%c') = {$month} AND data <= NOW() AND id_anno = {$_SESSION['__current_year__']->get_ID()} AND id_registro = id_reg AND rb_reg_classi.id_classe = ".$_SESSION['__classe__']->get_ID()." ORDER BY data DESC";
 //print $sel_orario_alunno;
 $res_orario_alunno = $db->execute($sel_orario_alunno);
-setlocale(LC_TIME, "it_IT");
+setlocale(LC_TIME, "it_IT.utf8");
 $mesi_scuola = array("Settembre", "Ottobre", "Novembre", "Dicembre", "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno");
 $mesi = array("Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre", );
 ?>
@@ -154,7 +154,7 @@ while($orario_alunno = $res_orario_alunno->fetch_assoc()){
 	}
 ?>
 	<tr style="border-bottom: 1px solid rgba(211, 222, 199, 0.6)">
-		<td style="width: 30%; padding-left: 8px; font-weight: normal; "><?php print ucfirst(utf8_encode($giorno_str))." ". format_date($orario_alunno['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
+		<td style="width: 30%; padding-left: 8px; font-weight: normal; "><?php print ucfirst($giorno_str)." ". format_date($orario_alunno['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
 		<td style="width: 15%; text-align: center; font-weight: normal; " <?php if($assente) print("colspan='2'") ?>><?php if($assente) print "Assente"; else print $entrata ?></td>
 <?php 
 	if(!$assente){	

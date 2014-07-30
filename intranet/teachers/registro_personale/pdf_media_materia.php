@@ -3,7 +3,7 @@
 require_once "../../../lib/start.php";
 require_once "../../../lib/SchoolPDF.php";
 
-ini_set("display_errors", "1");
+ini_set("display_errors", DISPLAY_ERRORS);
 
 check_session();
 check_permission(DOC_PERM);
@@ -72,7 +72,7 @@ while($row = $res_voti->fetch_assoc()){
 	array_push($array_voti[$mese], $row);
 }
 
-setlocale(LC_ALL, "it_IT");
+setlocale(LC_TIME, "it_IT.utf8");
 $author = $_SESSION['__user__']->getFullName();
 
 class MYPDF extends SchoolPDF {
@@ -87,7 +87,7 @@ class MYPDF extends SchoolPDF {
         $this->SetTextColor(0);
         $this->Cell(180, 4, $_SESSION['__current_year__']->to_string()."  - Dettaglio dei voti di ".$alunno['cognome']." ".$alunno['nome']." - Materia: ".strtoupper($materia), 0, 1, "C", 0);
         $this->setCellPaddings(0, 0, 0, 3);
-        $this->SetLineStyle(array('width' => $line_width, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(128, 128, 128)));
+        $this->SetLineStyle(array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(128, 128, 128)));
         $this->Cell(180, 4, "$label - media voto: $media ($num_voti voti)", "B", 0, "C", 0);
         $this->SetTextColor(0);
 	}
@@ -110,11 +110,13 @@ class MYPDF extends SchoolPDF {
 			$x = 2;
 			$label = "Secondo quadrimestre";
 			$start = 5;
+			$end = 10;
 		}
 		else{
 			$label = "Riepilogo generale";
 			$start = 0;
 			$x = 9;
+			$end = 10;
 		}
 		
 		$months = array_slice($this->mesi, $start, $end);
@@ -134,7 +136,12 @@ class MYPDF extends SchoolPDF {
 			if(strlen($x_str) < 2){
 				$x_str = "0".$x;
 			}
-        	$data = $array_voti[$x_str];
+		    if (isset($array_voti[$x_str])) {
+        	    $data = $array_voti[$x_str];
+		    }
+		    else {
+			    $data = array();
+		    }
         	
         	if(count($data) > 0){
         		$this->y_position += 8.0;
@@ -149,6 +156,7 @@ class MYPDF extends SchoolPDF {
 	        	$this->Cell(150, 5, "Mese di ".$mese.": ".count($data)." voti", 0, 1);
 	        	$this->y_position += 2;
         		foreach($data as $row){
+			        setlocale(LC_TIME, "it_IT.utf8");
         			$giorno_str = strftime("%A", strtotime($row['data_voto']));
         			$this->y_position += 4.0;
         			if($this->y_position > 265){
@@ -160,10 +168,10 @@ class MYPDF extends SchoolPDF {
         			$this->SetY($this->y_position);
         			$this->SetFont('', '', 9);
         			$this->SetX(20.0);
-        			$this->Cell(20, 5, ucwords(utf8_encode($giorno_str)), 0, 0);
+        			$this->Cell(20, 5, ucwords($giorno_str), 0, 0);
         			$this->Cell(20, 5, format_date($row['data_voto'], SQL_DATE_STYLE, IT_DATE_STYLE, "/"), 0, 0);
         			$this->Cell(20, 5, ($row['tipologia'] == 'S') ? "Scritto" : "Orale", 0, 0);
-        			$this->Cell(50, 5, $row['descrizione'], 0, 0);
+        			$this->Cell(90, 5, $row['descrizione'], 0, 0);
         			if($row['voto'] < 6)
         				$this->SetTextColor(255, 0, 0);
         			if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30){
@@ -179,9 +187,6 @@ class MYPDF extends SchoolPDF {
         	}
         	$x++;
         }
-        
-        
-        
     }
 }
 
@@ -234,5 +239,3 @@ $pdf->pageBody($array_voti, $author, $alunno, $desc_materia, $tot_voti, $num_vot
 
 //Close and output PDF document
 $pdf->Output('voti_materia.pdf', 'D');
-
-?>

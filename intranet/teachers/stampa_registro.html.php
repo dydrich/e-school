@@ -21,6 +21,7 @@ var tempX = 0;
 var tempY = 0;
 
 var show_menu = function(e, _all, _ff){
+	//alert(_all);
 	if (IE) { // grab the x-y pos.s if browser is IE
         tempX = event.clientX + document.body.scrollLeft;
         tempY = event.clientY + document.body.scrollTop;
@@ -41,13 +42,13 @@ var show_menu = function(e, _all, _ff){
 };
 
 var downloadLog = function(){
-	file = "registro_<?php echo $_SESSION['__current_year__']->get_ID() ?>_<?php echo $_SESSION['__user__']->getUid() ?>_"+cls+"_"+sub;
+	file = "registro_<?php echo $_SESSION['__current_year__']->get_ID() ?>_<?php echo $_SESSION['__user__']->getUid(true) ?>_"+cls+"_"+sub;
 	document.location.href = "../../modules/documents/download_manager.php?doc=teacherbook&area=teachers&f="+file;
 	$('context_menu').style.display = "none";
 };
 
 var downloadAll = function(){
-	file = "registro_<?php echo $_SESSION['__current_year__']->get_ID() ?>_<?php echo $_SESSION['__user__']->getUid() ?>_"+cls+"_"+sub;
+	file = "registro_<?php echo $_SESSION['__current_year__']->get_ID() ?>_<?php echo $_SESSION['__user__']->getUid(true) ?>_"+cls+"_"+sub;
 	document.location.href = "../../modules/documents/download_manager.php?doc=teacherbookall&area=teachers&f="+file;
 	$('context_menu').style.display = "none";
 };
@@ -107,6 +108,7 @@ function loading(time){
 	if ($ordine_scuola == 1){
 		if ($_SESSION['__user__']->getSubject() == 12 || $_SESSION['__user__']->getSubject() == 9){
 			foreach ($classi as $k => $classe){
+				if (in_array($k, $ids)){
 	?>
 		<div id="welcome">
 			<p id="w_head">CLASSE <?php echo $classe['name'] ?></p>
@@ -122,7 +124,8 @@ function loading(time){
 			?>
 			</table>
 		</div>
-	<?php 
+	<?php
+				}
 			}
 		}	
 		else {
@@ -132,20 +135,23 @@ function loading(time){
 			<table style="width: 300px">
 	<?php 
 			foreach ($classi as $k => $classe){
+				if (in_array($k, $ids)){
 	?>
 				<tr style="height: 25px">
 					<td style="width: 100px"><a href="../../shared/no_js.php" class="dlog" id="log_<?php echo $k ?>_<?php echo $_SESSION['__user__']->getSubject() ?>">CLASSE <?php echo $classe['name'] ?></a></td>
 				</tr>
-			<?php 
+			<?php
+				}
 			}
 			?>
 			</table>
 		</div>
-	<?php 
+	<?php
 		}
 	}
 	else if ($ordine_scuola == 2){
 		foreach ($classi as $k => $classe){
+			if (in_array($k, $ids)){
 	?>
 		<div id="welcome">
 			<p id="w_head">CLASSE <?php echo $classe['name'] ?></p>
@@ -156,12 +162,13 @@ function loading(time){
 				<tr style="height: 25px">
 					<td style="width: 200px"><a href="../../shared/no_js.php" class="dlog" id="log_<?php echo $k ?>_<?php echo $i ?>"><?php echo $s['mat'] ?></a></td>
 				</tr>
-			<?php 
+			<?php
 				}
+			}
 			?>
 			</table>
 		</div>
-	<?php 
+	<?php
 		}
 	}	
 	?>

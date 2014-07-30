@@ -45,7 +45,7 @@ $query = "";
 $parents = array();
 $uids = array();
 //if(!isset($_REQUEST['sel'])) {
-	$sel_user = "SELECT rb_utenti.uid, CONCAT_WS(' ', rb_utenti.cognome, rb_utenti.nome) AS nome, CONCAT_WS(' ', rb_alunni.cognome, rb_alunni.nome) AS al_name, CONCAT({$classes_table}.anno_corso, {$classes_table}.sezione) AS desc_classe, codice, rb_sedi.nome AS sede FROM rb_utenti, rb_alunni, rb_genitori_figli, {$classes_table}, rb_gruppi_utente, rb_sedi, rb_tipologia_scuola WHERE {$classes_table}.id_classe = rb_alunni.id_classe AND sede = id_sede AND {$classes_table}.ordine_di_scuola = id_tipo AND rb_utenti.uid = rb_gruppi_utente.uid AND gid = 4 {$params} AND rb_alunni.id_alunno = rb_genitori_figli.id_alunno AND rb_genitori_figli.id_genitore = rb_utenti.uid AND rb_alunni.attivo = 1 ";
+	$sel_user = "SELECT rb_utenti.uid, CONCAT_WS(' ', rb_utenti.cognome, rb_utenti.nome) AS nome, CONCAT_WS(' ', rb_alunni.cognome, rb_alunni.nome) AS al_name, CONCAT({$classes_table}.anno_corso, {$classes_table}.sezione) AS desc_classe, codice, rb_sedi.nome AS sede FROM rb_utenti, rb_alunni, rb_genitori_figli, {$classes_table}, rb_gruppi_utente, rb_sedi, rb_tipologia_scuola WHERE {$classes_table}.id_classe = rb_alunni.id_classe AND sede = id_sede AND {$classes_table}.ordine_di_scuola = id_tipo AND rb_utenti.uid = rb_gruppi_utente.uid AND gid = 4 ".$params." AND rb_alunni.id_alunno = rb_genitori_figli.id_alunno AND rb_genitori_figli.id_genitore = rb_utenti.uid AND rb_alunni.attivo = 1 ";
 	try{
 		$res_user = $db->executeQuery($sel_user);
 	} catch (MySQLException $ex){

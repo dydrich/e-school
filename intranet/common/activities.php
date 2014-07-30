@@ -68,7 +68,7 @@ else{
 	while($row = $res_act->fetch_assoc()){
 		$ct = 1;
 		list($di, $oi) = explode(" ", $row['data_inizio']);
-		setlocale(LC_ALL, "it_IT");
+		setlocale(LC_TIME, "it_IT.utf8");
 		$giorno_str = strftime("%A", strtotime($di));
 		if($di != $data){
 ?>

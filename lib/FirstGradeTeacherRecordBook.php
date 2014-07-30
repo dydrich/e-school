@@ -112,7 +112,7 @@ class FirstGradeTeacherRecordBook extends TeacherRecordBook{
 	}
 	
 	public function loadLessons($cls, $subject){
-		$sel_lessons = "SELECT rb_reg_firme.*, data, materia, docente, id_classe FROM rb_reg_firme, rb_reg_classi WHERE rb_reg_classi.id_reg = id_registro AND rb_reg_classi.id_classe = {$cls} AND materia = {$subject} AND docente = {$this->teacher->getUid()} AND anno = {$this->year->get_ID()} ORDER BY data";
+		$sel_lessons = "SELECT rb_reg_firme.*, data, materia, docente, id_classe FROM rb_reg_firme, rb_reg_classi WHERE rb_reg_classi.id_reg = id_registro AND rb_reg_classi.id_classe = {$cls} AND materia = {$subject} AND anno = {$this->year->get_ID()} ORDER BY data";
 		$lessons = $this->datasource->executeQuery($sel_lessons);
 		
 		$utils = RBUtilities::getInstance($this->datasource);
@@ -245,13 +245,37 @@ class FirstGradeTeacherRecordBook extends TeacherRecordBook{
 		@$this->loadGrades($cls, $subject);
 		$this->loadLessons($cls, $subject);
 		@$this->loadAttachments($cls, $subject);
+		$subs = $this->checkSubstitution($cls);
 		$this->pdf->init($this->teacher, $_cls, $this->pubbID, $mat, $this->attachments);
 		$this->registerRecordBook($cls, $subject);
-		return $this->pdf->createRecordBook($this->teacher, $_cls, $_sub, $this->studentsData, $this->lessons);
+		return $this->pdf->createRecordBook($this->teacher, $_cls, $_sub, $this->studentsData, $this->lessons, $subs);
 	}
 	
 	public function createWholeRecordBook(){
 		
+	}
+
+	private function checkSubstitution($cls){
+		$sel_subs = "SELECT rb_supplenze.*, rb_classi_supplenza.*, CONCAT_WS(' ', cognome, nome) AS doc ";
+		$sel_subs .= "FROM rb_supplenze, rb_classi_supplenza, rb_utenti ";
+		$sel_subs .= "WHERE rb_supplenze.id_supplenza = rb_classi_supplenza.id_supplenza AND id_supplente = uid ";
+		$sel_subs .= "AND id_docente_assente = {$this->teacher->getUid()} AND classe = {$cls} AND anno = {$this->year->get_ID()} ORDER BY data_inizio_supplenza ";
+		$res_subs = $this->datasource->executeQuery($sel_subs);
+		if ($res_subs) {
+			/*
+			 * calcolo giorni supplenza
+			 */
+			$index = 0;
+			foreach ($res_subs as $row) {
+				$days = $this->datasource->executeCount("SELECT COUNT(id_reg) FROM rb_reg_classi WHERE id_classe = {$cls} AND (data BETWEEN '{$row['data_inizio_supplenza']}' AND '{$row['data_fine_supplenza']}')");
+				$res_subs[$index]['days'] = $days;
+				$index++;
+			}
+			return $res_subs;
+		}
+		else {
+			return null;
+		}
 	}
 	
 	private function registerRecordBook($cls, $subject){

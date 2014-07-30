@@ -4,29 +4,59 @@
 <title>Registro di classe</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="../registro_classe/reg_classe.css" type="text/css" media="screen,projection" />
-<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="../../../css/skins/aqua/theme.css" type="text/css" />
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../modules/documents/theme/style.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../js/jquery_themes/custom-theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/window.js"></script>
-<script type="text/javascript" src="../../../js/window_effects.js"></script>
-<script type="text/javascript" src="../../../js/calendar.js"></script>
-<script type="text/javascript" src="../../../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../../../js/calendar-setup.js"></script>
 <script type="text/javascript">
-var win;
+
 var new_test = function(){
-	win = new Window({className: "mac_os_x", url: "new_test.php",  width:400, height:240, zIndex: 100, resizable: true, title: "Nuova verifica", showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});	
-	win.showCenter(true);
+	$('#test').dialog({
+		autoOpen: true,
+		show: {
+			effect: "appear",
+			duration: 500
+		},
+		hide: {
+			effect: "slide",
+			duration: 300
+		},
+		modal: true,
+		width: 550,
+		height: 350,
+		title: 'Nuova verifica',
+		open: function(event, ui){
+
+		}
+	});
+};
+
+var dialogclose = function(){
+	$('#test').dialog("close");
 };
 
 <?php echo $change_subject->getJavascript() ?>
 
 function change_subject(id){
-	document.location.href="tests.php?subj="+id+"&q=<?php print $q ?>";
+	document.location.href="tests.php?subj="+id+"&q=<?php echo $q ?>";
 }
+
+$(function(){
+	$('.test_link').click(function(event){
+		//alert(this.id);
+		event.preventDefault();
+		var strs = this.id.split("_");
+		if (strs[2] == 0) {
+			alert("Non hai i permessi necessari per modificare la verifica");
+			return false;
+		}
+		document.location.href = "test.php?idt="+strs[1];
+	});
+});
+
 </script>
 <style>
 table.registro td {
@@ -41,7 +71,7 @@ table.registro td {
 <!-- div nascosto, per la scelta della materia -->
 <?php $change_subject->toHTML() ?>
 <div style="width: 99%; height: 30px; margin: 30px auto 0 auto; text-align: center; font-size: 1.0em; text-transform: uppercase">
-	<span style="font-size: 1.1em">Elenco verifiche <?php print $label ?></span>
+	<span style="font-size: 1.1em">Elenco verifiche <?php echo $label ?></span>
 	<span style="float: right">Materia: <span id="uscita" style="font-weight: normal; margin-right: 10px; "><?php $change_subject->printLink() ?></span></span>
 </div>
 <div style="width: 99%; margin: auto; height: 35px; text-align: center; text-transform: uppercase; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
@@ -54,9 +84,13 @@ table.registro td {
 <table class="registro" style="width: 99%; margin: 20px auto 0 auto">
 	<thead>
 	</thead>
-	<tbody>
+	<tbody id="tbody">
 	<?php 
 	while($test = $res_tests->fetch_assoc()){
+		$can_modify = 1;
+		if ($test['id_docente'] != $_SESSION['__user__']->getUid()) {
+			$can_modify = 0;
+		}
 		$giorno_str = strftime("%A %d %B", strtotime($test['data_verifica']));
 		$sel_alunni = "SELECT COUNT(alunno) FROM rb_voti WHERE id_verifica = ".$test['id_verifica'];
 		$count_alunni = $db->executeCount($sel_alunni);
@@ -70,11 +104,15 @@ table.registro td {
 		}
 	?>
 	<tr style="border-width: 1px 0 1px 0; border-style: solid; border-color: #CCCCCC">
-		<td style="width: 25%; text-align: left; padding-left: 20px; font-weight: normal; "><?php print utf8_encode($giorno_str) ?></td>
+		<td style="width: 25%; text-align: left; padding-left: 20px; font-weight: normal; "><?php print $giorno_str ?></td>
 		<td style="width: 10%; text-align: center; font-weight: normal;"><?php print ($count_alunni > 0) ? "SI" : "NO" ?></td>
 		<td style="width: 10%; text-align: center; font-weight: normal;"><?php print $count_alunni ?></td>
 		<td style="width: 10%; text-align: center; font-weight: normal;"><?php print $avg ?></td>
-		<td style="width: 45%; text-align: center; font-weight: normal;"><a href="test.php?idt=<?php print $test['id_verifica'] ?>" style="font-weight: normal; "><?php echo $test['prova']."::".$test['argomento'] ?></a></td>
+		<td style="width: 45%; text-align: center; font-weight: normal;">
+			<a id="test_<?php echo $test['id_verifica'] ?>_<?php echo $can_modify ?>" href="#" class="test_link" style="font-weight: normal; ">
+				<?php echo $test['prova']."::".$test['argomento'] ?>
+			</a>
+		</td>
 	</tr>
 	<?php 
 	}
@@ -106,5 +144,8 @@ table.registro td {
 </table>
 </div>
 <?php include "../footer.php" ?>
+<div id="test" style="display: none">
+	<iframe src="new_test.php" style="width: 100%; margin: auto; border: 0; height: 290px"></iframe>
+</div>
 </body>
 </html>

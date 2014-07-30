@@ -115,8 +115,9 @@ class ChangeSubject extends Widget {
 		return count($this->datasource);
 	}
 	
-	public function setJavascript($code){
+	public function setJavascript($code, $library = "prototype"){
 		if($code == ""){
+			if ($library == "prototype"){
 $this->javascript = <<<EDT
 var IE = document.all?true:false;
 if (!IE) document.captureEvents(Event.MOUSEMOVE);
@@ -154,6 +155,46 @@ document.observe("dom:loaded", function(){
 });
 			
 EDT;
+			}
+			else {
+$this->javascript = <<<EDT
+var IE = document.all?true:false;
+if (!IE) document.captureEvents(Event.MOUSEMOVE);
+var tempX = 0;
+var tempY = 0;
+
+function visualizza(e, position) {
+    var hid = document.getElementById("hid");
+    if (IE) {
+        tempX = event.clientX + document.body.scrollLeft;
+        tempY = event.clientY + document.body.scrollTop;
+    } else {
+        tempX = e.pageX;
+        tempY = e.pageY;
+    }
+    if (tempX < 0){tempX = 0;}
+    if (tempY < 0){tempY = 0;}
+    if(position == "center"){
+		tempX -= 90;
+    }
+    else if (position == "right"){
+    	tempX -= 180;
+    }
+    hid.style.top = parseInt(tempY)+"px";
+    hid.style.left = parseInt(tempX)+"px";
+    $('#hid').show();
+    return true;
+}
+
+$(function(){
+	$('#hid').mouseleave(function(event){
+		$('#hid').hide();
+	});
+
+});
+
+EDT;
+			}
 		}
 		else {
 			$this->javascript = $code;

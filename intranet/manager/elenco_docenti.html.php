@@ -23,7 +23,7 @@
 		<div style="width: 40%; float: left; position: relative; top: 30%">Cognome e nome</div>
 		<div style="width: 20%; float: left; position: relative; top: 30%">Materia</div>
 		<div style="width: 30%; float: left; position: relative; top: 30%">Classi</div>
-		<div style="width: 10%; float: left; position: relative; top: 30%">Ruolo</div>
+		<div style="width: 10%; float: left; position: relative; top: 30%">Titolare</div>
 	</div>
    	<table style="width: 95%; margin: 20px auto 0 auto">
 	 	    <?php 
@@ -37,7 +37,12 @@
 	 	    	if($x >= $limit) break;
 	 	    	
 	 	    	if ($docente['id_materia'] != 27 && $docente['id_materia'] != 41){
-		 	    	$sel_classes = "SELECT anno_corso, sezione FROM rb_classi, rb_cdc WHERE rb_classi.id_classe = rb_cdc.id_classe AND rb_cdc.id_docente = ".$docente['uid']." AND id_anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
+			        if ($docente['ruolo'] == 'N') {
+				        $sel_classes = "SELECT anno_corso, sezione FROM rb_classi, rb_classi_supplenza, rb_supplenze WHERE id_classe = classe AND id_supplente = ".$docente['uid']." AND anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
+			        }
+			        else {
+		 	    	    $sel_classes = "SELECT anno_corso, sezione FROM rb_classi, rb_cdc WHERE rb_classi.id_classe = rb_cdc.id_classe AND rb_cdc.id_docente = ".$docente['uid']." AND id_anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
+			        }
 		 	    	//print $sel_classes;
 		 	    	$res_classes = $db->execute($sel_classes);
 		 	    	$classi = array();

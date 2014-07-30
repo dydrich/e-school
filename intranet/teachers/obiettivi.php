@@ -64,22 +64,22 @@ else {
 	}
 	while ($row = $res->fetch_assoc()){
 		if ($row['id_padre'] == ""){
-			if (!$goals[$row['id']]){
+			if (!isset($goals[$row['id']])){
 				$goals[$row['id']] = $row;
 			}
-			if (!$goals[$row['id']]['classi']){
+			if (!isset($goals[$row['id']]['classi'])){
 				$goals[$row['id']]['classi'] = array();
 			}
 			$goals[$row['id']]['classi'][] = $row['dcls'];
 		}
 		else {
-			if (!$goals[$row['id_padre']]['children']){
+			if (!isset($goals[$row['id_padre']]['children'])){
 				$goals[$row['id_padre']]['children'] = array();
 			}
-			if (!$goals[$row['id_padre']]['children'][$row['id']]){
+			if (!isset($goals[$row['id_padre']]['children'][$row['id']])){
 				$goals[$row['id_padre']]['children'][$row['id']] = $row;
 			}
-			if (!$goals[$row['id_padre']]['children'][$row['id']]['classi']){
+			if (!isset($goals[$row['id_padre']]['children'][$row['id']]['classi'])){
 				$goals[$row['id_padre']]['children'][$row['id']]['classi'] = array();
 			}
 			$goals[$row['id_padre']]['children'][$row['id']]['classi'][] = $row['dcls'];
@@ -88,5 +88,3 @@ else {
 }
 
 include "obiettivi.html.php";
-
-?>

@@ -28,7 +28,7 @@
 	if ($subject != 12 && $subject != 9){
 		foreach ($goals as $row){
 			$color = "";
-			if (!$row['children']){
+			if (!isset($row['children'])){
 				$color = "rgba(77, 84, 95, 1)";
 			}
 			else {
@@ -40,7 +40,7 @@
 				<td style="width: 20%"><?php echo join(", ", $row['classi']) ?></td>
 			</tr>
 	<?php
-			if ($row['children']){
+			if (isset($row['children'])){
 				$c = count($row['children']);
 				foreach ($row['children'] as $child){
 					$c--;

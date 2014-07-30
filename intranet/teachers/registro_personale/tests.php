@@ -19,13 +19,14 @@ $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 
-if(isset($_REQUEST['q']))
+if(isset($_REQUEST['q'])) {
 	$q = $_REQUEST['q'];
-else{
-	if(date("Y-m-d") > $fine_q){
+}
+else {
+	if(date("Y-m-d") > $fine_q) {
 		$q = 2;
 	}
-	else{
+	else {
 		$q = 1;
 	}
 }
@@ -44,14 +45,14 @@ switch($q){
 		$label = " secondo quadrimestre";
 }
 
-$sel_tests = "SELECT * FROM rb_verifiche WHERE id_docente = ".$_SESSION['__user__']->getUid()." AND id_anno = ".$_SESSION['__current_year__']->get_ID()." AND id_classe = ".$_SESSION['__classe__']->get_ID();
 if(isset($_REQUEST['subj'])){
 	$subj = $_REQUEST['subj'];
 	$_SESSION['__materia__'] = $_REQUEST['subj'];
 }
-else
+else {
 	$subj = $_SESSION['__materia__'];
-$sel_tests .= " AND id_materia = $subj $int_time ORDER BY valutata, data_verifica DESC";
+}
+$sel_tests = "SELECT * FROM rb_verifiche WHERE id_materia = $subj AND id_anno = ".$_SESSION['__current_year__']->get_ID()." AND id_classe = ".$_SESSION['__classe__']->get_ID()." $int_time ORDER BY valutata, data_verifica DESC";
 $res_tests = $db->execute($sel_tests);
 //print $sel_tests;
 
@@ -61,11 +62,10 @@ $mat = $_SESSION['__user__']->getSubject();
 
 $change_subject = new ChangeSubject("hid", "", "position: absolute; width: 180px; height: 55px; display: none", "div", $_SESSION['__subjects__']);
 $change_subject->createLink("text-decoration: none; text-transform: uppercase; font-weight: bold", "right");
+$change_subject->setJavascript("", "jquery");
 
 $navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 
-setlocale(LC_ALL, "it_IT");
+setlocale(LC_TIME, "it_IT.utf8");
 
 include "tests.html.php";
-
-?>

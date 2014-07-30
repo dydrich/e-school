@@ -23,5 +23,3 @@ $alunno = $_SESSION['__current_son__'];
 $navigation_label = "Registro elettronico - Area genitori";
 
 require '../common/lessons.php';
-
-?>

@@ -31,6 +31,8 @@ hour = "";
 day = "";
 desc = "";
 var giorni = ['', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
+// readonly
+var readonly = <?php if ($readonly) echo "true"; else echo "false" ?>;
 
 function upd_class(classe, id_classe){
 	$('#classe').text(classe);
@@ -44,6 +46,11 @@ function upd_subject(sub, id_sub){
 }
 
 function mod_ora(giorno, ora, classe, materia, descrizione){
+	if (readonly) {
+		alert("Non hai i permessi per modificare l'orario");
+		return false;
+	}
+
 	subject = materia;
 	clas = old_clas = classe;
 	hour = ora;
@@ -228,16 +235,16 @@ table a {
 		?>	
 		<tr style=''>		
 			<td style='width: 20%; border-bottom: 1px dotted gray'>
-				<?php
-				if (isset($classi[$i])):
-				?>
+				<?php if (isset($classi[$i])): ?>
 				<a href='#' onclick='upd_class("<?php print $classi[$i][1] ?>", <?php print $classi[$i][0] ?>)' style='font-weight: normal; color: #373946'><?php print $classi[$i][1] ?></a>
 				<?php endif; ?>
 			</td>		
-			<td style='width: 80%; border-bottom: 1px dotted gray; text-align: left'>		
+			<td style='width: 80%; border-bottom: 1px dotted gray; text-align: left'>
+			<?php if (isset($materie[$i])): ?>
 				<a href='#' onclick='upd_subject("<?php print $materie[$i][1] ?>", <?php print $materie[$i][0] ?>)' style='font-weight: normal; color: #373946'><?php print $materie[$i][1] ?></a>
+			<?php endif; ?>
 			</td>	
-		</tr>	
+		</tr>
 		<?php	
 		}	
 		?>

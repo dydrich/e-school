@@ -36,8 +36,8 @@ class Authenticator {
 				break;
 		}
 	}
-	
-	public function schoolLogin($nick, $pass){		
+
+	public function schoolLogin($nick, $pass){
 		$sel_user = "SELECT rb_utenti.uid, nome, cognome, username, accessi, permessi FROM rb_utenti, rb_gruppi_utente WHERE rb_utenti.uid = rb_gruppi_utente.uid AND username = '{$nick}' AND password = '".trim($pass)."' AND gid NOT IN (8) ";
 		$res_utente = $this->datasource->executeQuery($sel_user);
 		if ($res_utente == null){
@@ -83,15 +83,24 @@ class Authenticator {
 			$user->setSubject($materia['materia']);
 			$user->setSchoolOrder($materia['tipologia_scuola']);
 			$titolare = ($materia['ruolo'] == "S") ? true : false;
+			/*
+			 * supplente: ancora in servizio
+			 */
+			if (!$titolare) {
+				$max_date = $this->datasource->executeCount("SELECT MAX(data_fine_supplenza) FROM rb_supplenze WHERE id_supplente = {$user->getUid()}");
+				if ($max_date < date("Y-m-d")) {
+					return null;
+				}
+			}
 
 			/**
 			 * populate the classes array
 			*/
 			$classes = array();
 			$uid = $user->getUid();
-			echo $uid;
+			//echo $uid;
 			if (!$titolare) {
-				$uid = $this->datasource->executeCount("SELECT id_docente_assente FROM rb_supplenze WHERE id_supplente = {$user->getUid()} AND data_fine_supplenza <= NOW()");
+				$uid = $this->datasource->executeCount("SELECT id_docente_assente FROM rb_supplenze WHERE id_supplente = {$user->getUid()} AND data_fine_supplenza >= NOW()");
 				$user->setSubstitution($uid);
 			}
 			if ($materia['materia'] != 27 && $materia['materia'] != 41){
@@ -100,7 +109,7 @@ class Authenticator {
 			else {
 				$sel_cdc = "SELECT rb_classi.id_classe, CONCAT(rb_classi.anno_corso, rb_classi.sezione) AS classe, '{$materia['materia']}' AS materia FROM rb_classi, rb_assegnazione_sostegno WHERE anno_corso <> 0 AND rb_classi.id_classe = classe AND docente = {$uid} AND anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
 			}
-			echo $sel_cdc;
+			//echo $sel_cdc;
 			$res_cdc = $this->datasource->executeQuery($sel_cdc);
 
 			if (!$titolare) {
@@ -112,7 +121,7 @@ class Authenticator {
 			foreach ($res_cdc as $row){
 				if ($titolare || in_array($row['id_classe'], $cls_supp)) {
 					if(!isset($classes[$row['id_classe']])){
-						echo $row['id_classe'];
+						//echo $row['id_classe'];
 						$classes[$row['id_classe']] = array();
 						$classes[$row['id_classe']]['teacher'] = 1;
 						$classes[$row['id_classe']]['coordinatore'] = 0;
@@ -168,12 +177,7 @@ class Authenticator {
 			$_SESSION['__admin_authentication_timeout__'] = $now;
 		}
 		
-		/*
-		 * for manager area
-		*/
-		define("DS_GROUP", 6);
-		define("SEG_GROUP", 5);
-		define("DSGA_GROUP", 7);
+
 		
 		$perms = ($user->getPerms()) ? $user->getPerms() : $_SESSION['__perms__'];
 		if($user->isInGroup(DS_GROUP)){

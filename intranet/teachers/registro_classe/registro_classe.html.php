@@ -349,8 +349,8 @@ var giustifica_assenza = function(id_alunno, id_registro) {
 <div id="main" style="clear: both; ">
 <form>
 <?php 
-setlocale(LC_TIME, "it_IT");
-$giorno_str = utf8_encode(strftime("%A", strtotime($_SESSION['registro']['data'])));
+setlocale(LC_TIME, "it_IT.utf8");
+$giorno_str = strftime("%A", strtotime($_SESSION['registro']['data']));
 ?>
 <div id="not1" class="notification"></div>
 <table class="registro">
@@ -536,7 +536,7 @@ $forward_link = "registro_classe.php?data=".$data_forward;
     <div id="context_menu" style="position: absolute; width: 160px; height: 60px; display: none; ">
     	<a style="font-weight: normal" href="#" onclick="absent()">Segna come assente</a><br />
     	<a style="font-weight: normal" href="#" onclick="present()">Segna come presente</a><br />
-    	<a style="font-weight: normal" href="#" onclick="list_notes()">Note disciplinari</a><br />
+    	<a style="font-weight: normal" href="#" onclick="list_notes()">Note</a><br />
     </div>
 <!-- fine menu contestuale -->
 <?php include "../footer.php" ?>

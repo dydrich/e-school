@@ -8,7 +8,7 @@ check_permission(DOC_PERM);
 $stid = isset($_REQUEST['stid']) ? $_REQUEST['stid'] : "NULL";
 $nt = "";
 if((!$_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) && (!$_SESSION['__user__']->isAdministrator()) ){
-	$nt = "WHERE id_tiponota = 1";
+	$nt = "WHERE id_tiponota < 10 ";
 }
 $sel_types = "SELECT * FROM rb_tipi_note_disciplinari $nt ORDER BY id_tiponota ASC";
 try{
@@ -29,5 +29,3 @@ if(isset($_REQUEST['id_nota'])){
 }
 
 include "new_note.html.php";
-
-?>

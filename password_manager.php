@@ -17,7 +17,7 @@ switch ($_POST['area']){
 		$area = "student";
 		break;
 	case 3:
-		$area = "school";
+		$area = "simple_school";
 		break;
 }
 

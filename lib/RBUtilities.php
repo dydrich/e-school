@@ -3,6 +3,8 @@
 require_once "data_source.php";
 require_once "classes.php";
 require_once 'AnnoScolastico.php';
+require_once "Authenticator.php";
+require_once 'Subject.php';
 
 final class RBUtilities{
 	
@@ -21,7 +23,7 @@ final class RBUtilities{
 	/**
 	 * Load an instance of RBUtilities - Singleton
 	 * @param MySQLConnection or MySQLDataLoader $conn - db access
-	 * @return RBUtilitiees instance
+	 * @return RBUtilities instance
 	 */
 	public static function getInstance($conn){
 		if(empty(self::$instance)){
@@ -81,6 +83,18 @@ final class RBUtilities{
 		$year = new AnnoScolastico($res_anno[0]);
 		return $year;
 	}
+
+	/**
+	 * Load an instance of Subject
+	 * @param integer $id - the subject id
+	 * @return Subject
+	 */
+	public function loadSubjectFromID($id){
+		$sel_sub = "SELECT * FROM rb_materie WHERE id_materia = {$id}";
+		$res_sub = $this->datasource->executeQuery($sel_sub);
+		$mat = new \eschool\Subject($res_sub[0]['id_materia'], $res_sub[0]['materia']);
+		return $mat;
+	}
 	
 	/**
 	 * Load an instance of some UserBean class
@@ -113,8 +127,7 @@ final class RBUtilities{
 				$children_names = $this->datasource->executeQuery($sel_children_names);
 				$user->setChildrenNames($children_names);
 				break;
-			case "school":
-			default:
+			case "simple_school":
 				$sel_user = "SELECT nome, cognome, username, accessi, permessi FROM rb_utenti WHERE rb_utenti.uid = {$uid} ";
 				$ut = $this->datasource->executeQuery($sel_user);
 				$utente = $ut[0];
@@ -122,11 +135,19 @@ final class RBUtilities{
 				$groups = $this->datasource->executeQuery($sel_gr);
 				$gid = array();
 				foreach ($groups as $group) {
-					
+
 					$gid[] = $group;
 				}
 				$str_groups = join(",", $gid);
 				$user = new SchoolUserBean($uid, $utente['nome'], $utente['cognome'], $gid, $utente['permessi'], $utente['username']);
+				break;
+			case "school":
+			default:
+				$sel_user = "SELECT username, password FROM rb_utenti WHERE rb_utenti.uid = {$uid} ";
+				$ut = $this->datasource->executeQuery($sel_user);
+				$auth = new Authenticator($this->datasource);
+				$user = $auth->login(3, $ut[0]['username'], $ut[0]['password']);
+				//$user = new SchoolUserBean($uid, $utente['nome'], $utente['cognome'], $gid, $utente['permessi'], $utente['username']);
 				break;
 		}
 		return $user;
@@ -258,6 +279,10 @@ final class RBUtilities{
 		$zip->close();
 		chdir($old_dir);
 		return $file_zip;
+	}
+
+	public static function getReligionGrades() {
+		return $voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
 	}
 	
 }

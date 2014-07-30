@@ -91,8 +91,8 @@ function loading(time){
 if($summer){
 	//siamo nelle vacanze estive
 	$_SESSION['no_file'] = array("referer" => "intranet/teachers/registro_classe/registro_classe.php?data=".date("Y-m-d")."&cls=".$_REQUEST['cls'], "path" => "intranet/teachers/", "relative" => "documenti/documenti.php");
-	setlocale(LC_TIME, "it_IT");
-	$giorno_str = utf8_encode(strftime("%A", strtotime($today)) ." ". format_date($fine_lezioni, SQL_DATE_STYLE, IT_DATE_STYLE, "-"));
+	setlocale(LC_TIME, "it_IT.utf8");
+	$giorno_str = strftime("%A", strtotime($today)) ." ". format_date($fine_lezioni, SQL_DATE_STYLE, IT_DATE_STYLE, "-");
 ?>
 	<div id="welcome" style="margin-top: 30px">
 		<p id="w_head">Classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?>: registro non disponibile</p>
@@ -104,6 +104,9 @@ if($summer){
 			<a href="stats.php">Visualizza le statistiche</a>
 		</p>
 	</div>
+	<?php
+	if (!$_SESSION['__user__']->isSupplyTeacher()) {
+	?>
 	<div id="welcome" style="margin-top: 30px">
 		<p id="w_head">Registro PDF</p>
 		<p class="w_text" style="">Da qui puoi gestire la creazione e il download del registro in formato PDF.</p>
@@ -114,6 +117,9 @@ if($summer){
 			<a href="#" onclick="downloadCB()">Scarica il PDF del registro elettronico</a>
 		</p>		
 	</div>
+	<?php
+	}
+	?>
 	<div id="schedule">
 		<p id="s_head">Buone vacanze!</p>
 	</div>
@@ -121,8 +127,8 @@ if($summer){
 }
 else if($today < format_date($inizio_lezioni, IT_DATE_STYLE, SQL_DATE_STYLE, "-")){
 	// le lezioni non sono ancora iniziate
-	setlocale(LC_TIME, "it_IT");
-	$giorno_str = utf8_encode(strftime("%A", strtotime($inizio_lezioni)) ." ". format_date($inizio_lezioni, SQL_DATE_STYLE, IT_DATE_STYLE, "/"));
+	setlocale(LC_TIME, "it_IT.utf8");
+	$giorno_str = strftime("%A", strtotime($inizio_lezioni)) ." ". format_date($inizio_lezioni, SQL_DATE_STYLE, IT_DATE_STYLE, "/");
 ?>
 	<div id="welcome" style="margin-top: 30px">
 		<p id="w_head">Registro non disponibile</p>

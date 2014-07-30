@@ -74,7 +74,4 @@ class MySQLDataLoader extends DBDataLoader{
 	public function prepare($query){
 		return $this->source->prepare($query);
 	}
-
 }
-
-?>

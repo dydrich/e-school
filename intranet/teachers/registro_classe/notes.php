@@ -5,15 +5,20 @@ require_once "../../../lib/start.php";
 check_session();
 check_permission(DOC_PERM);
 
-$student_id = $_REQUEST['al'];
+if (isset($_REQUEST['al'])) {
+	$student_id = $_REQUEST['al'];
+}
 
-if(isset($_REQUEST['order']))
+if(isset($_REQUEST['order'])) {
 	$order = $_REQUEST['order'];
-else
+}
+else {
 	$order = "data";
+}
 
-if(isset($_REQUEST['q']))
+if(isset($_REQUEST['q'])) {
 	$q = $_REQUEST['q'];
+}
 else{
 	$q = 0;
 }
@@ -58,5 +63,3 @@ try{
 $navigation_label = "Registro elettronico ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione()." - Note di classe";
 
 include "notes.html.php";
-
-?>

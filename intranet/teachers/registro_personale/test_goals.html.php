@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Obiettivi didattici per voto</title>
+<title>Obiettivi didattici verifica</title>
 <link rel="stylesheet" href="../registro_classe/reg_classe.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
@@ -14,7 +14,7 @@
 var save_data = function(){
 	$.ajax({
 		type: "POST",
-		url: 'save_test_goals.php',
+		url: 'test_manager.php',
 		data: $('#myform').serialize(true),
 		dataType: 'json',
 		error: function() {
@@ -85,7 +85,7 @@ $(function(){
 </tr>
 <tr class="head_tr_no_bg">
 	<td style="width: 45%; text-align: center; border-right: 0"><span id="ingresso" style="font-weight: bold; ">Obiettivi verifica</span></td> 
-	<td style="width: 55%; text-align: center; border-left: 0"><span id="media" style="font-weight: bold; "><?php echo strtoupper($materia['materia']) ?>, <?php echo $q ?> quadrimestre</span>
+	<td style="width: 55%; text-align: center; border-left: 0"><span id="media" style="font-weight: bold; "><?php echo strtoupper($test->getSubject()->getDescription()) ?>, <?php echo $q ?> quadrimestre</span>
 	<div id="not1"></div>
 	</td>
 </tr>
@@ -96,19 +96,19 @@ $(function(){
 		<table style="width: 90%; margin: auto">
 			<tr>
 				<td style="width: 50%; font-weight: bold; text-align: left; border: 0">Data</td>
-				<td style="width: 50%; text-align: center; border: 0"><?php echo format_date(substr($test['data_verifica'], 0, 10), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
+				<td style="width: 50%; text-align: center; border: 0"><?php echo format_date(substr($test->getTestDate(), 0, 10), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
 			</tr>
 			<tr>
 				<td style="width: 50%; font-weight: bold; text-align: left; border: 0">Tipo</td>
-				<td style="width: 50%; text-align: center; border: 0"><?php echo $test['tipo'] ?></td>
+				<td style="width: 50%; text-align: center; border: 0"><?php echo $prove[$test->getType()] ?></td>
 			</tr>
 			<tr>
 				<td style="width: 50%; font-weight: bold; text-align: left; border: 0">Argomento</td>
-				<td style="width: 50%; text-align: center; border: 0"><?php echo $test['argomento'] ?></td>
+				<td style="width: 50%; text-align: center; border: 0"><?php echo $test->getTopic() ?></td>
 			</tr>
 			<tr>
 				<td style="width: 50%; font-weight: bold; text-align: left; border: 0">Note</td>
-				<td style="width: 50%; text-align: center; border: 0"><?php echo $test['note'] ?></td>
+				<td style="width: 50%; text-align: center; border: 0"><?php echo $test->getAnnotation() ?></td>
 			</tr>				
 		</table>
 	</fieldset>
@@ -122,25 +122,25 @@ $(function(){
 			<?php 
 			foreach ($goals as $row){
 				$color = "";
-				if ($row['idpadre'] == ""){
+				if (isset($row['idpadre']) && $row['idpadre'] == ""){
 					$color = "font-weight: bold";
 				}
 				?>
 					<tr style="border: 0">
 						<td style="width: 70%; border-width: 0 0 1px 0; <?php echo $color ?>"><?php echo $row['nome'] ?></td>
 						<td style="width: 30%; border-width: 0 0 1px 0; text-align: right">
-						<input type="checkbox" id="goal_<?php echo $row['id'] ?>" name="goals[]" value="<?php echo $row['id'] ?>" <?php if (in_array($row['id'], $obj)) echo "checked" ?> />
+						<input type="checkbox" id="goal_<?php echo $row['id'] ?>" name="goals[]" value="<?php echo $row['id'] ?>" <?php if (in_array($row['id'], $test->getLearningObjectives())) echo "checked" ?> />
 						</td>
 					</tr>
 			<?php
-				if ($row['children']){
+				if (isset($row['children'])){
 					foreach ($row['children'] as $child){
 						$color = "";
 			?>
 					<tr style="border: 0">
 						<td style="width: 70%; border-width: 0 0 1px 0; <?php echo $color ?>"><?php echo $child['nome'] ?></td>
 						<td style="width: 30%; border-width: 0 0 1px 0; text-align: right">
-						<input type="checkbox" id="goal_<?php echo $child['id'] ?>" name="goals[]" value="<?php echo $child['id'] ?>" <?php if (in_array($row['id'], $obj)) echo "checked" ?> />
+						<input type="checkbox" id="goal_<?php echo $child['id'] ?>" name="goals[]" value="<?php echo $child['id'] ?>" <?php if (in_array($row['id'], $test->getLearningObjectives())) echo "checked" ?> />
 						</td>
 					</tr>
 			<?php 
@@ -161,7 +161,8 @@ $(function(){
 	</tr>
 </tfoot>
 </table>
-<input type="hidden" id="test" name="test" value="<?php echo $_REQUEST['idv'] ?>" />
+<input type="hidden" id="id_verifica" name="id_verifica" value="<?php echo $_REQUEST['idv'] ?>" />
+<input type="hidden" id="do" name="do" value="save_los" />
 </form>
 </div>
 <?php include "../footer.php" ?>

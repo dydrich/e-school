@@ -11,8 +11,19 @@ ini_set("display_errors", DISPLAY_ERRORS);
 check_session();
 check_permission(DOC_PERM);
 
+$_SESSION['__path_to_root__'] = "../../../";
+$_SESSION['__path_to_reg_home__'] = "../";
+
 if(($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) && ($_SESSION['__user__']->getSubject() == 27)){
 	header("Location: scrutini_classe.php");
+}
+
+if ($_SESSION['__user__']->isSupplyTeacher()) {
+	$last_day = $db->executeCount("SELECT MAX(data_fine_supplenza) FROM rb_supplenze, rb_classi_supplenza WHERE rb_supplenze.id_supplenza = rb_classi_supplenza.id_supplenza AND classe = {$_SESSION['__classe__']->get_ID()}");
+	if ($last_day < date("Y-m-d")) {
+		$_SESSION['__referer__'] = $_SERVER['HTTP_REFERER'];
+		header("Location: {$_SESSION['__path_to_reg_home__']}no_permission.php");
+	}
 }
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
@@ -21,9 +32,6 @@ $navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level
 $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
-
-$_SESSION['__path_to_root__'] = "../../../";
-$_SESSION['__path_to_reg_home__'] = "../";
 
 if(isset($_REQUEST['q'])){
 	$q = $_REQUEST['q'];
@@ -78,5 +86,3 @@ $res_dati = $db->execute($sel_dati);
 $navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 
 include "scrutini.html.php";
-
-?>

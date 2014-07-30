@@ -64,7 +64,7 @@ td a {
 $current = $start;
 while($current < $max){
 	$lday = $lezioni[$current];
-	setlocale(LC_TIME, "it_IT");
+	setlocale(LC_TIME, "it_IT.utf8");
 	$giorno_str = strftime("%A", strtotime($lday['data']));
 	$giorno = ucfirst(substr($giorno_str, 0, 3))." ". format_date($lday['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
 ?>

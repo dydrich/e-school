@@ -26,7 +26,7 @@ else {
 		if ($i == 0){
 			$goal = $row;
 		}
-		if (!$goal['classi']){
+		if (!isset($goal['classi'])){
 			$goal['classi'] = array();
 		}
 		$goal['classi'][$row['classe']] = $row['dcls'];
@@ -55,5 +55,3 @@ $sel_obj = "SELECT * FROM rb_obiettivi WHERE id_padre IS NULL AND docente = {$ui
 $res_obj = $db->execute($sel_obj);
 
 include "obiettivo.html.php";
-
-?>

@@ -72,5 +72,3 @@ $desc_materia = $mt['materia'];
 $navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 
 include "student_notes.html.php";
-
-?>

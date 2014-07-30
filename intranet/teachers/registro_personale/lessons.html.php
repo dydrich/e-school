@@ -18,11 +18,6 @@
 <script type="text/javascript">
 var win;
 var win2;
-var new_test = function(){
-	win = new Window({className: "mac_os_x", url: "new_test.php",  width:400, height:200, zIndex: 100, resizable: true, title: "Nuova verifica", showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});	
-	win.showCenter(true);
-};
-
 <?php echo $change_subject->getJavascript() ?>
 
 function change_subject(id){
@@ -64,7 +59,7 @@ table.registro td {
 	$day = "";
 	$mese = "";
 	while($les = $res_lessons->fetch_assoc()){
-		setlocale(LC_TIME, "it_IT");
+		setlocale(LC_TIME, "it_IT.utf8");
 		list($y, $m, $d) = explode("-", $les['data']);
 		if($group){
 			if($mese != $m){
@@ -72,7 +67,7 @@ table.registro td {
 				print("<tr><td colspan='3' style='height: 20px; vertical-align: middle; font-weight: normal; text-transform: uppercase; font-size: 13m; text-align: center; border-bottom: 1px solid #CCCCCC; background-color: rgba(211, 222, 199, 0.3); '>$str_month</td></tr>");
 			}
 		}
-		$giorno_str = $group ? ucfirst(utf8_encode(strftime("%A %d", strtotime($les['data'])))) : ucfirst(utf8_encode(strftime("%A %d %B", strtotime($les['data']))));
+		$giorno_str = $group ? ucfirst(strftime("%A %d", strtotime($les['data']))) : ucfirst(strftime("%A %d %B", strtotime($les['data'])));
 		$print_day = ($day != $les['data']) ? true : false;
 	?>
 	<tr style="border-bottom: 1px solid #cccccc">

@@ -70,10 +70,10 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 		
 	}
 	
-	public function createRecordBook($teacher, $_cls, $sub, $students, $lessons){
+	public function createRecordBook($teacher, $_cls, $sub, $students, $lessons, $substitutions){
 		$subject = $sub['id'];
 		$cls = $_cls['id'];
-		$this->createCover($teacher, $sub['mat'], $_cls['cls']);
+		$this->createCover($teacher, $sub['mat'], $_cls['cls'], $substitutions);
 		$this->studentsList($students);
 		$this->sessionGrades($students, $subject);
 		$this->lessons($lessons);
@@ -88,7 +88,7 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 		
 	}
 	
-	protected function createCover($teacher, $mat, $cls){
+	protected function createCover($teacher, $mat, $cls, $subs){
 		$this->setPage(1, true);
 		$this->Image($_SESSION['__path_to_root__'].'images/ministero.jpg', 95, 28, 20, 20, 'JPG', '', '', false, '');
 		$this->SetFont('times', 'B', '14');
@@ -103,11 +103,28 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 		$this->SetFont('', 'B', '14');
 		$this->Cell(0, 15, "Classe {$cls}", 0, 1, 'C', 0, '', 0);
 		$this->Cell(0, 15, "Materia: {$mat}", 0, 1, 'C', 0, '', 0);
+
+		if ($subs != null && $subs !== false) {
+			$this->AddPage("P", "A4");
+			$this->setPage(2, true);
+			$this->SetFont('times', 'B', '13');
+			$this->Cell(190, 8, "Elenco supplenze", 'B', 0, 'L', 0, '', 0);
+			$this->Ln();
+			$this->Cell(0, 7, "", 0, 1, 'C', 0, '', 0);
+			$this->SetFont('times', 'B', '11');
+			foreach ($subs as $k => $sub){
+				$this->Cell(100, 7, $sub['doc'], array("B" => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(200, 200, 200))), 0, 'L', 0, '', 0);
+				$this->Cell(90, 7, format_date($sub['data_inizio_supplenza'], SQL_DATE_STYLE, IT_DATE_STYLE, "/")." - ".format_date($sub['data_fine_supplenza'], SQL_DATE_STYLE, IT_DATE_STYLE, "/")." ({$sub['days']} giorni)", array("B" => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(200, 200, 200))), 0, 'L', 0, '', 0);
+				$this->Ln();
+			}
+			$this->_page = 2;
+		}
 	}
 	
 	protected function studentsList($st_list){
 		$this->AddPage("P", "A4");
-		$this->setPage(2, true);
+		$this->_page++;
+		$this->setPage($this->_page, true);
 		$this->SetFont('times', 'B', '13');
 		$this->Cell(115, 8, "Elenco alunni", 'B', 0, 'L', 0, '', 0);
 		$this->Cell(75, 8, "Esito finale", 'B', 0, 'L', 0, '', 0);
@@ -123,7 +140,8 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 
 	protected function sessionGrades($students, $subject){
 		$this->AddPage("P", "A4");
-		$this->setPage(3, true);
+		$this->_page++;
+		$this->setPage($this->_page, true);
 		$this->SetFont('times', 'B', '11');
 		$this->Cell(0, 12, "Valutazioni quadrimestrali", 'B', 1, 'C', 0, '', 0);
 		$this->Cell(101, 8, "Alunno", 'LRTB', 0, 'L', 0, '', 0);
@@ -325,8 +343,8 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 
 	protected function lessons($lessons){
 		$this->AddPage("P", "A4");
-		$this->_page = 4;
-		$this->setPage(4, true);
+		$this->_page++;
+		$this->setPage($this->_page, true);
 		$this->SetFont('helvetica', 'B', '13');
 		$this->Cell(180, 12, "Elenco lezioni", "B", 1, 'C', 0, '', 0, 0, '', 'C');
 		$day = "";

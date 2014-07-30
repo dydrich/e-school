@@ -104,29 +104,6 @@ while(list($k, $v) = each($totali_classe)){
 }
 
 $mat = $_SESSION['__user__']->getSubject();
-/*
-$sel_mat = "SELECT * FROM rb_materie WHERE id_materia = $mat";
-try {
-	$res_mat = $db->executeQuery($sel_mat);
-} catch (MySQLException $ex) {
-	$ex->redirect();
-}
-$_materia = $res_mat->fetch_assoc();
-if($_materia['idpadre'] == "" && $_materia['has_sons'] > 0 && $_materia['pagella'] == 0){
-	$sel_materie = "SELECT rb_materie.id_materia, materia FROM rb_materie, rb_cdc WHERE (rb_cdc.id_materia = rb_materie.idpadre) AND rb_cdc.id_docente = ".$_SESSION['__user__']->getUid()." AND rb_cdc.id_classe = ". $_REQUEST['cls'] ." AND (rb_cdc.id_materia = rb_materie.id_materia OR rb_cdc.id_materia = rb_materie.idpadre) AND id_anno = ".$_SESSION['__current_year__']->get_ID();
-	print $sel_materie;
-}
-
-if($mat == 12){
-	$sel_materie = "SELECT rb_materie.id_materia, materia FROM rb_materie, rb_cdc WHERE rb_cdc.id_docente = ".$_SESSION['__user__']->getUid()." AND ((rb_materie.idpadre = ".$mat." AND has_sons = 0) OR (rb_materie.idpadre = 2)) AND rb_cdc.id_classe = ". $_REQUEST['cls'] ." AND (rb_cdc.id_materia = rb_materie.id_materia OR rb_cdc.id_materia = rb_materie.idpadre) AND id_anno = ".$_SESSION['__current_year__']->get_ID()." GROUP BY rb_materie.id_materia, materia";
-}
-else if($mat == 7){
-	$sel_materie = "SELECT rb_materie.id_materia, materia FROM rb_materie, rb_cdc WHERE (rb_cdc.id_materia = rb_materie.idpadre) AND rb_cdc.id_docente = ".$_SESSION['__user__']->getUid()." AND rb_cdc.id_classe = ". $_REQUEST['cls'] ." AND (rb_cdc.id_materia = rb_materie.id_materia OR rb_cdc.id_materia = rb_materie.idpadre) AND id_anno = ".$_SESSION['__current_year__']->get_ID();
-}
-else{
-	$sel_materie = "SELECT rb_materie.id_materia, materia FROM rb_materie, rb_cdc WHERE rb_cdc.id_materia = rb_materie.id_materia AND rb_cdc.id_docente = ".$_SESSION['__user__']->getUid()." AND rb_cdc.id_classe = ". $_REQUEST['cls'] ." AND (rb_cdc.id_materia = rb_materie.id_materia OR rb_cdc.id_materia = rb_materie.idpadre) AND id_anno = ".$_SESSION['__current_year__']->get_ID();
-}
-*/
 $sel_materie = "SELECT rb_materie.id_materia, materia FROM rb_materie, rb_cdc WHERE rb_cdc.id_materia = rb_materie.id_materia AND rb_cdc.id_docente = ".$_SESSION['__user__']->getUid(true)." AND rb_cdc.id_classe = ". $_REQUEST['cls'] ." AND (rb_cdc.id_materia = rb_materie.id_materia OR rb_cdc.id_materia = rb_materie.idpadre) AND pagella = 1 AND id_anno = ".$_SESSION['__current_year__']->get_ID();
 //print $sel_materie;
 try{
@@ -152,7 +129,7 @@ if (isset($_REQUEST['__goals__']) && $_REQUEST['__goals__'] == 1) {
 		$ex->redirect();
 	}
 	while ($row = $res_goals->fetch_assoc()){
-		if (!$goals[$row['id']]){
+		if (!isset($goals[$row['id']])){
 			$goals[$row['id']] = $row;
 		}
 		$totali_classe[$row['id']] = array("num_prove" => 0, "somma" => 0, "media" => 0, "num_alunni" => $numero_alunni);
@@ -164,6 +141,14 @@ if (isset($_REQUEST['__goals__']) && $_REQUEST['__goals__'] == 1) {
 			unset($vars[$row['id_padre']]);
 		}
 	}
+}
+
+// tipo nota didattica
+$sel_types = "SELECT * FROM rb_tipi_note_didattiche ORDER BY id_tiponota ASC";
+try{
+	$res_types = $db->executeQuery($sel_types);
+} catch (MySQLException $ex){
+	$ex->fake_alert();
 }
 
 /*
@@ -200,6 +185,7 @@ else {
 
 $change_subject = new ChangeSubject("hid", "", "position: absolute; width: 180px; height: 155px; display: none", "div", $materie);
 $change_subject->createLink("text-decoration: none; text-transform: uppercase; font-weight: bold", "left");
+$change_subject->setJavascript("", "jquery");
 
 if (isset($_REQUEST['__goals__']) && $_REQUEST['__goals__'] == 1) {
 	include "index_goals.html.php";

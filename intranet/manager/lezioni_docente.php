@@ -70,7 +70,7 @@ $class_name = $cls->get_anno().$cls->get_sezione();
 $months = array("09", "10", "11", "12", "01", "02", "03", "04", "05");
 $italian_months = array("settembre", "ottobre", "novembre", "dicembre", "gennaio", "febbraio", "marzo", "aprile", "maggio");
 
-$sel_lessons = "SELECT id, data, argomento, rb_materie.materia, id_materia, docente, id_classe FROM rb_reg_firme, rb_reg_classi, rb_materie WHERE rb_materie.id_materia = rb_reg_firme.materia AND anno = {$_SESSION['__current_year__']->get_ID()} AND rb_reg_classi.id_reg = id_registro AND rb_reg_classi.id_classe = {$class} AND docente = {$teacher} {$int_time} ORDER BY data DESC";
+$sel_lessons = "SELECT id, data, argomento, rb_materie.materia, id_materia, docente, id_classe FROM rb_reg_firme, rb_reg_classi, rb_materie WHERE rb_materie.id_materia = rb_reg_firme.materia AND anno = {$_SESSION['__current_year__']->get_ID()} AND rb_reg_classi.id_reg = id_registro AND rb_reg_classi.id_classe = {$class} AND docente = {$teacher} ".$int_time." ORDER BY data DESC";
 $res_lessons = $db->execute($sel_lessons);
 $lessons = array();
 $start_subj = null;
@@ -96,4 +96,3 @@ while ($less = $res_lessons->fetch_assoc()){
 $page_label = "Elenco lezioni del docente {$teacher_name}, classe {$class_name} ";
 
 include "lezioni_docente.html.php";
-

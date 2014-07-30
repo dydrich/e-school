@@ -1,6 +1,7 @@
 <?php
 
 require_once "../../../lib/start.php";
+require_once "../../../lib/Grade.php";
 
 ini_set("display_errors", DISPLAY_ERRORS);
 
@@ -31,15 +32,12 @@ $sel_materia = "SELECT materia FROM rb_materie WHERE id_materia = ".$materia;
 
 $sel_voto = "SELECT rb_voti.*, rb_tipologia_prove.label FROM rb_voti, rb_tipologia_prove WHERE rb_voti.tipologia = rb_tipologia_prove.id AND id_voto = ".$_REQUEST['idv'];
 $query = "SELECT rb_obiettivi.* FROM rb_obiettivi LEFT JOIN rb_obiettivi_classe ON rb_obiettivi.id = id_obiettivo WHERE docente = {$uid} AND rb_obiettivi.anno = {$anno} AND rb_obiettivi_classe.classe = {$class} AND materia = {$materia} ORDER BY id_padre";
-$sel_grades = "SELECT * FROM rb_voti_obiettivo WHERE id_voto = {$_REQUEST['idv']}";
 
 try{
 	$res_alunno = $db->executeQuery($sel_alunno);
 	$res_materia = $db->executeQuery($sel_materia);
 	$res_voto = $db->executeQuery($sel_voto);
 	$res = $db->executeQuery($query);
-	$res_grades = $db->executeQuery($sel_grades);
-	
 } catch (MySQLException $ex){
 	$ex->redirect();
 }
@@ -50,23 +48,21 @@ $alunno = $res_alunno->fetch_assoc();
 $mt = $res_materia->fetch_assoc();
 $desc_materia = $mt['materia'];
 $voto = $res_voto->fetch_assoc();
+$grade = new Grade($_REQUEST['idv'], $voto, new MySQLDataLoader($db));
+$grades = $grade->getLearningObjectives();
+
+/*
 if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30){
 	$voto['voto'] = $voti_religione[$voto['voto']];
 }
-
-$grades = array();
-if ($res_grades->num_rows > 0){
-	while ($g = $res_grades->fetch_assoc()){
-		$grades[$g['obiettivo']] = $g['voto'];
-	}
-}
+*/
 
 while ($row = $res->fetch_assoc()){
 	if ($row['id_padre'] == ""){
-		if (!$goals[$row['id']]){
+		if (!isset($goals[$row['id']])){
 			$goals[$row['id']] = $row;
 		}
-		if ($grades[$row['id']]){
+		if (isset($grades[$row['id']])){
 			$goals[$row['id']]['grade'] = $grades[$row['id']];
 		}
 		else {
@@ -74,13 +70,13 @@ while ($row = $res->fetch_assoc()){
 		}
 	}
 	else {
-		if (!$goals[$row['id_padre']]['children']){
+		if (!isset($goals[$row['id_padre']]['children'])){
 			$goals[$row['id_padre']]['children'] = array();
 		}
-		if (!$goals[$row['id_padre']]['children'][$row['id']]){
+		if (!isset($goals[$row['id_padre']]['children'][$row['id']])){
 			$goals[$row['id_padre']]['children'][$row['id']] = $row;
 		}
-		if ($grades[$row['id']]){
+		if (isset($grades[$row['id']])){
 			$goals[$row['id_padre']]['children'][$row['id']]['grade'] = $grades[$row['id']];
 		}
 		else {
@@ -89,7 +85,7 @@ while ($row = $res->fetch_assoc()){
 	}
 }
 
-if ($_REQUEST['q']){
+if (isset($_REQUEST['q'])){
 	$q = $_REQUEST['q'];
 }
 else {
@@ -101,6 +97,15 @@ else {
 	}
 }
 
-include "voto_obiettivi.html.php";
+$sel_prove = "SELECT * FROM rb_tipologia_prove ";
+try {
+	$res_prove = $db->executeQuery($sel_prove);
+} catch (MySQLException $ex){
+	$ex->redirect();
+	exit;
+}
+while ($row = $res_prove->fetch_assoc()) {
+	$prove[$row['id']] = $row['tipologia'];
+}
 
-?>
+include "voto_obiettivi.html.php";

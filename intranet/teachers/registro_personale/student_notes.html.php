@@ -4,17 +4,14 @@
 <title>Registro di classe</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="../registro_classe/reg_classe.css" type="text/css" media="screen,projection" />
-<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="../../../css/skins/aqua/theme.css" type="text/css" />
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../registro_classe/reg_print.css" type="text/css" media="print" />
+<link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../js/jquery_themes/custom-theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/window.js"></script>
-<script type="text/javascript" src="../../../js/window_effects.js"></script>
-<script type="text/javascript" src="../../../js/calendar.js"></script>
-<script type="text/javascript" src="../../../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../../../js/calendar-setup.js"></script>
 <script type="text/javascript">
 var win;
 var IE = document.all?true:false;
@@ -22,7 +19,10 @@ if (!IE) document.captureEvents(Event.MOUSEMOVE);
 var tempX = 0;
 var tempY = 0;
 
-function _show(e) {
+var action = "";
+var note_id = 0;
+
+var _show = function(e) {
 	var hid = document.getElementById("tipinota");
     //alert(hid.style.top);
     if (IE) { // grab the x-y pos.s if browser is IE
@@ -40,23 +40,234 @@ function _show(e) {
     hid.style.left = parseInt(tempX)+"px";
     hid.style.display = "inline";
     return true;
-}
+};
 
-function new_note(stid){
-	win = new Window({className: "mac_os_x", url: "new_note.php?stid="+stid,  width:400, height:250, zIndex: 100, resizable: true, title: "Note didattica", showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});	
-	win.showCenter(true);
-}
+var new_note = function(){
+	$('#titolo_nota').text("Nuova nota");
+	$('#action').val("new");
+	$('#id_nota').val(0);
+	$('#ndate').val('<?php echo date("d/m/Y") ?>');
+	$('#pop_note').dialog({
+		autoOpen: true,
+		show: {
+			effect: "appear",
+			duration: 500
+		},
+		hide: {
+			effect: "slide",
+			duration: 300
+		},
+		modal: true,
+		width: 450,
+		title: 'Nuova nota',
+		open: function(event, ui){
 
-function update_note(id_note){
-	win = new Window({className: "mac_os_x",  url: "new_note.php?id_nota="+id_note+"&action=update", width:400, height:220, zIndex: 100, resizable: true, title: "Dettaglio nota", showEffect:Effect.BlindDown, hideEffect: Effect.SwitchOff, draggable:true, wiredDrag: true});
-	win.showCenter(true);		
-}
-
-document.observe("dom:loaded", function(){
-	$('tipinota').observe("mouseleave", function(event){
-		this.hide();
+		}
 	});
-	
+};
+
+var update_note = function(id_note, can_modify_annotation){
+	if (can_modify_annotation == 0) {
+		alert("Non hai i permessi per modificare questa nota");
+		return false;
+	}
+	$('#titolo_nota').text("Modifica nota");
+	$('#del_button').show();
+	$.ajax({
+		type: "POST",
+		url: "note_manager.php",
+		data:  {
+			action: 'get',
+			id_nota: id_note,
+			q: <?php echo $q ?>
+		},
+		dataType: 'json',
+		error: function(data, status, errore) {
+			alert("Si e' verificato un errore");
+			return false;
+		},
+		succes: function(result) {
+			alert("ok");
+		},
+		complete: function(data, status){
+			r = data.responseText;
+			var json = $.parseJSON(r);
+			if(json.status == "kosql"){
+				alert("Errore SQL. \nQuery: "+json.query+"\nErrore: "+json.message);
+				return;
+			}
+			else {
+				$('#ndate').val(json.note.data);
+				$('#ntype').val(json.note.tipo);
+				$('#desc').val(json.note.note);
+			}
+		}
+	});
+	$('#action').val("update");
+	$('#id_nota').val(id_note);
+	$('#pop_note').dialog({
+		autoOpen: true,
+		show: {
+			effect: "appear",
+			duration: 500
+		},
+		hide: {
+			effect: "slide",
+			duration: 300
+		},
+		modal: true,
+		width: 450,
+		title: 'Nuovo voto',
+		open: function(event, ui){
+
+		}
+	});
+};
+
+var register_note = function(){
+	if ($('#ndate').val() == "") {
+		alert("Data obbligatoria");
+		return false;
+	}
+	var url = "note_manager.php";
+	ndate = $('#ndate').val();
+	ntype = $('#ntype option:selected').text();
+	desc = $('#desc').val()
+	note_id = $('#id_nota').val();
+	$.ajax({
+		type: "POST",
+		url: url,
+		data:  $('#testform').serialize(true),
+		dataType: 'json',
+		error: function(data, status, errore) {
+			alert("Si e' verificato un errore");
+			return false;
+		},
+		succes: function(result) {
+			alert("ok");
+		},
+		complete: function(data, status){
+			r = data.responseText;
+			var json = $.parseJSON(r);
+			if(json.status == "kosql"){
+				alert("Errore SQL. \nQuery: "+json.query+"\nErrore: "+json.message);
+				return;
+			}
+			else {
+				if ($('#action').val() == 'new'){
+					note_id = json.id;
+					var tr = document.createElement("tr");
+					tr.setAttribute("id", "tr_"+json.id);
+					var td1 = document.createElement("td");
+					td1.setAttribute("style", "width: 20%; text-align: center");
+					var _a = document.createElement("a");
+					_a.setAttribute("href", "#");
+					_a.setAttribute("id", "dn_"+note_id);
+					td1.appendChild(_a);
+					tr.appendChild(td1);
+
+					var td2 = document.createElement("td");
+					td2.setAttribute("style", "width: 30%; text-align: center");
+					var _a = document.createElement("a");
+					_a.setAttribute("href", "#");
+					_a.setAttribute("id", "tn_"+note_id);
+					td2.appendChild(_a);
+					tr.appendChild(td2);
+
+					var td3 = document.createElement("td");
+					td3.setAttribute("style", "width: 50%; text-align: center");
+					var _a = document.createElement("a");
+					_a.setAttribute("href", "#");
+					_a.setAttribute("id", "nn_"+note_id);
+					td3.appendChild(_a);
+					tr.appendChild(td3);
+
+					$('#tbody').prepend(tr);
+
+					$('#dn_'+note_id).click(function(event){
+						//alert(this.id);
+						update_note(note_id);
+					});
+					$('#tn_'+note_id).click(function(event){
+						//alert(this.id);
+						update_note(note_id);
+					});
+					$('#nn_'+note_id).click(function(event){
+						//alert(this.id);
+						update_note(note_id);
+					});
+
+					$('#dn_'+note_id).css({fontWeight: "normal", color: "#303030"});
+					$('#tn_'+note_id).css({fontWeight: "normal", color: "#303030"});
+					$('#nn_'+note_id).css({fontWeight: "normal", color: "#303030"});
+
+					$('#dn_'+note_id).addClass("note_link");
+					$('#tn_'+note_id).addClass("note_link");
+					$('#nn_'+note_id).addClass("note_link");
+
+				}
+
+				$('#dn_'+note_id).text(ndate);
+				$('#tn_'+note_id).text(ntype);
+				$('#nn_'+note_id).text(desc);
+
+				$('#pop_note').dialog("close");
+			}
+		}
+	});
+};
+
+var del_note = function(){
+	note_id = $('#id_nota').val();
+	if(!confirm("Sei sicuro di voler cancellare questa nota?")) {
+		$('#pop_note').dialog("close");
+		return false;
+	}
+	var url = "note_manager.php";
+	$.ajax({
+		type: "POST",
+		url: "note_manager.php",
+		data:  {action: "delete", id_nota: note_id},
+		dataType: 'json',
+		error: function(data, status, errore) {
+			alert("Si e' verificato un errore");
+			return false;
+		},
+		succes: function(result) {
+			alert("ok");
+		},
+		complete: function(data, status){
+			r = data.responseText;
+			var json = $.parseJSON(r);
+			if(json.status == "kosql"){
+				alert("Errore SQL. \nQuery: "+json.query+"\nErrore: "+json.message);
+				return;
+			}
+			else {
+				$('#tr_'+note_id).hide();
+			}
+			$('#pop_note').dialog("close");
+		}
+	});
+};
+
+$(function(){
+	$('#tipinota').mouseleave(function(event){
+		$('#tipinota').hide();
+	});
+	$('.note_link').click(function(event){
+		//alert(this.id);
+		var strs = this.id.split("_");
+		update_note(strs[1], strs[2]);
+	});
+	$('#ndate').datepicker({
+		dateFormat: "dd/mm/yy",
+		altFormat: "dd/mm/yy"
+	});
+	$('#del_button').click(function(event){
+		event.preventDefault();
+		del_note();
+	});
 });
 
 </script>
@@ -84,7 +295,7 @@ $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 	<td style="width: 50%; text-align: center"><span style="font-weight: bold; ">Commento</span></td>   
 </tr>
 </thead>
-<tbody>
+<tbody id="tbody">
 <?php
 if($res_note->num_rows < 1){
 ?>
@@ -97,15 +308,19 @@ $background = "";
 $index = 1;
 $array_voti = array();
 while($row = $res_note->fetch_assoc()){
+	$can_modify_annotation = 1;
+	if ($_SESSION['__user__']->getUid() != $row['docente']) {
+		$can_modify_annotation = 0;
+	}
 	if($index % 2)
 		$background = "background-color: #e8eaec";
 	else
 		$background = "";
 ?>
-<tr> 
-	<td style="width: 20%; text-align: center"><a href="#" onclick="update_note(<?= $row['id_nota'] ?>)" style="font-weight: normal; color: #303030"><?php print format_date($row['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></a></td> 
-	<td style="width: 30%; text-align: center"><a href="#" onclick="update_note(<?= $row['id_nota'] ?>)" style="font-weight: normal; color: #303030"><?php print $row['tipo_nota'] ?></a></td> 
-	<td style="width: 50%; text-align: center"><a href="#" onclick="update_note(<?= $row['id_nota'] ?>)" style="font-weight: normal; color: #303030"><?php print $row['note'] ?></a></td>   
+<tr id="tr_<?php echo $row['id_nota'] ?>">
+	<td style="width: 20%; text-align: center"><a href="#" id="dn_<?php echo $row['id_nota'] ?>_<?php echo $can_modify_annotation ?>" class="note_link" style="font-weight: normal; color: #303030"><?php print format_date($row['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></a></td>
+	<td style="width: 30%; text-align: center"><a href="#" id="tn_<?php echo $row['id_nota'] ?>_<?php echo $can_modify_annotation ?>" class="note_link" style="font-weight: normal; color: #303030"><?php print $row['tipo_nota'] ?></a></td>
+	<td style="width: 50%; text-align: center"><a href="#" id="nn_<?php echo $row['id_nota'] ?>_<?php echo $can_modify_annotation ?>" class="note_link" style="font-weight: normal; color: #303030"><?php print $row['note'] ?></a></td>
 </tr>
 <?php 
 	$index++;
@@ -137,5 +352,50 @@ while($row = $res_note->fetch_assoc()){
     <?php } ?>
     </div>
 <!-- tipi nota -->
+<!-- popup nota -->
+<div id="pop_note" style="display: none">
+	<p style='text-align: center; padding-top: 5px; font-weight: bold; padding-bottom: 10px' id='titolo_nota'>Note didattiche</p>
+	<form id='testform' method='post' onsubmit="_submit()">
+		<table style='text-align: left; width: 95%; margin: auto' id='att'>
+			<tr>
+				<td style="width: 25%; font-weight: bold">Tipo nota *</td>
+				<td style="width: 75%; " colspan="3">
+					<select id="ntype" name="ntype" style="font-size: 11px; border: 1px solid gray; width: 100%">
+						<?php
+						$res_tipi->data_seek(0);
+						while($t = $res_tipi->fetch_assoc()){
+							?>
+							<option value="<?php echo $t['id_tiponota'] ?>"><?php echo utf8_decode($t['descrizione']) ?></option>
+						<?php } ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 25%; font-weight: bold">Data *</td>
+				<td style="width: 75%; font-weight: normal" colspan="3">
+					<input type="hidden" name="action" id="action" value="" />
+					<input type="hidden" name="id_nota" id="id_nota" value="" />
+					<input type="hidden" name="stid" id="stid" value="<?php echo $student_id ?>" />
+					<input type="text" style="font-size: 11px; border: 1px solid gray; width: 99%" id="ndate" name="ndate" readonly="readonly" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 25%; font-weight: bold">Note </td>
+				<td style="width: 75%; " colspan="3">
+					<textarea style="width: 100%; height: 40px; font-size: 11px; border: 1px solid gray" id="desc" name="desc"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" style="padding-top: 20px; text-align: right;">
+					<input type="button" id="del_button" value="Elimina" style="width: 70px; padding: 2px; display: none" />
+					<input type="button" id="manage_link" onclick="register_note()" value="Registra" style="width: 70px; padding: 2px" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" style="height: 10px"></td>
+			</tr>
+		</table>
+	</form>
+</div>
 </body>
 </html>

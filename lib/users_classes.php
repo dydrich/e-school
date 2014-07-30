@@ -217,7 +217,7 @@ class SchoolUserBean extends UserBean{
 	private $subject;
 	private $schoolOrder;
 	/*
-	 * is he a supply teacher?
+	 * is he/she a supply teacher?
 	 */
 	private $supplyTeacher;
 	private $lecturer;
@@ -290,6 +290,14 @@ class SchoolUserBean extends UserBean{
 			return $this->uid;
 		}
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getLecturer(){
+		return $this->lecturer;
+	}
+
 }
 
 class StudentBean extends UserBean {

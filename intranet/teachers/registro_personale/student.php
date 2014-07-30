@@ -3,6 +3,7 @@
 require_once "../../../lib/start.php";
 require_once "../../../lib/Widget.php";
 require_once "../../../lib/ChangeSubject.php";
+require_once "../../../lib/RBUtilities.php";
 
 ini_set("display_errors", DISPLAY_ERRORS);
 
@@ -21,16 +22,19 @@ $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL
 
 $student_id = $_REQUEST['stid'];
 
-if(isset($_REQUEST['q']))
+if(isset($_REQUEST['q'])) {
 	$q = $_REQUEST['q'];
-else{
+}
+else {
 	$q = 0;
 }
 
-if(isset($_REQUEST['subject']))
+if(isset($_REQUEST['subject'])) {
 	$materia = $_REQUEST['subject'];
-else
+}
+else {
 	$materia = $_SESSION['__materia__'];
+}
 	
 switch($q){
 	case 0:
@@ -78,6 +82,7 @@ $class = $_SESSION['__classe__']->get_ID();
 
 $change_subject = new ChangeSubject("hid", "", "position: absolute; width: 180px; height: 55px; display: none", "div", $_SESSION['__subjects__']);
 $change_subject->createLink("text-decoration: none; text-transform: uppercase; font-weight: bold");
+$change_subject->setJavascript("", "jquery");
 
 $messages = array("Voto inserito correttamente", "Voto non inserito", "Voto modificato correttamente", "Voto non modificato", "Voto eliminato correttamente", "Voto non eliminato");
 $msg = "";
@@ -85,8 +90,23 @@ if(isset($_REQUEST['msg'])){
 	$msg = $messages[$_REQUEST['msg']];
 }
 
+$selected = array();
+if (isset($_SESSION['__user_config__']['tipologia_prove'])){
+	$selected = $_SESSION['__user_config__']['tipologia_prove'];
+}
+if (count($selected) > 0){
+	$sel_prove = "SELECT * FROM rb_tipologia_prove WHERE id IN (".join(",", $selected).")";
+}
+else{
+	$sel_prove = "SELECT * FROM rb_tipologia_prove WHERE `default` = 1";
+}
+try {
+	$res_prove = $db->executeQuery($sel_prove);
+} catch (MySQLException $ex){
+	$ex->redirect();
+	exit;
+}
+
 $navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 
 include "student.html.php";
-
-?>

@@ -6,11 +6,18 @@
 </div>
 <div style="width: 90%; text-align: left; margin: auto;">
 <?php
-setlocale(LC_TIME, "it_IT");
-while($note = $res_note->fetch_assoc()){
-	$giorno_str = utf8_encode(strftime("%A", strtotime($note['data'])));
+setlocale(LC_TIME, "it_IT.utf8");
+if ($res_note->num_rows > 0) {
+	while($note = $res_note->fetch_assoc()){
+		$giorno_str = strftime("%A", strtotime($note['data']));
 ?>
 	<div style="height: 20px; padding-bottom: 0px; vertical-align: middle; border-bottom: 1px solid #CCCCCC; padding-left: 20px"><?php echo $giorno_str." ". format_date($note['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?> - <?php echo $note['mat'] ?>::<?php echo $note['tipo_nota']; if ($note['note'] != "") echo "({$note['note']})" ?></div>
+<?php
+	}
+}
+else {
+?>
+	<div style="height: 20px; padding-bottom: 0px; vertical-align: middle; border-bottom: 1px solid #CCCCCC; padding-left: 20px">Nessuna nota inserita</div>
 <?php
 }
 ?>

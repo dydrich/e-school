@@ -37,7 +37,7 @@ if ($user == null){
 	$elf = \eschool\EventLogFactory::getInstance($data, new MySQLDataLoader($db));
 	$log = $elf->getEventLog();
 	$log->logFailedLogin();
-	echo "ko;Login non riuscito: dati errati";
+	echo "ko;Login non riuscito";
 	exit;
 }
 
@@ -56,5 +56,4 @@ else {
 $_SESSION['user_type'] = $user_type;
 
 echo $authenticator->getStringAjax();
-
 exit;

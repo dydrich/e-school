@@ -53,21 +53,24 @@ else{
 	$idx = 1;
 	while($act = $res_act->fetch_assoc()){
 		$bc = "";
-		if(($idx%2) != 0)
+		if(($idx%2) != 0) {
 			$bc = "background-color: #e8eaec; ";
+		}
 		list($da, $oa) = explode(" ", $act['data_assegnazione']);
 		list($di, $oi) = explode(" ", $act['data_inizio']);
 		list($df, $of) = explode(" ", $act['data_fine']);
 		$desc = $act['descrizione'];
-		if($act['note'] != "")
+		if($act['note'] != "") {
 			$desc .= " (".$act['note'].")";
-		$mod = 1;
-		if($_SESSION['__user__']->getUid() != $act['docente'])
-			$mod = 0;
+		}
+		$mod = true;
+		if($_SESSION['__user__']->getUid() != $act['docente']) {
+			$mod = false;
+		}
 			
 ?>
 	<tr>
-		<td style="width: 50%; text-align: left; font-weight: normal; border: 1px solid #c0c0c0; padding-left: 5px;"><?php if ($act['docente'] == $_SESSION['__user__']->getUid()): ?><a style="font-weight: normal" href="dettaglio_attivita.php?t=<?php print $act['id_impegno'] ?>"><?php endif; ?><?php print $desc ?><?php if ($act['docente'] == $_SESSION['__user__']->getUid()): ?></a><?php endif; ?></td>
+		<td style="width: 50%; text-align: left; font-weight: normal; border: 1px solid #c0c0c0; padding-left: 5px;"><?php if ($mod): ?><a style="font-weight: normal" href="dettaglio_attivita.php?t=<?php print $act['id_impegno'] ?>"><?php endif; ?><?php print $desc ?><?php if ($mod): ?></a><?php endif; ?></td>
 		<td style="width: 10%; text-align: left; font-weight: normal; padding-left: 5px; border: 1px solid #c0c0c0;"><?php print format_date($da, SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
 		<td style="width: 10%; text-align: center; font-weight: normal; border: 1px solid #c0c0c0;"><?php print $act['mat'] ?></td>
 		<td style="width: 15%; text-align: center; font-weight: normal; border: 1px solid #c0c0c0;"><?php print format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/")." ".substr($oi, 0, 5) ?></td>

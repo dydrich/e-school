@@ -55,21 +55,47 @@ $docente = $res_docente->fetch_assoc();
 
 $_cl = 0;
 if ($docente['id_materia'] != 27 && $docente['id_materia'] != 41){
-	$sel_classes = "SELECT anno_corso, sezione, rb_classi.id_classe, rb_cdc.id_materia, rb_materie.materia FROM rb_classi, rb_cdc, rb_materie WHERE rb_classi.id_classe = rb_cdc.id_classe AND rb_cdc.id_materia = rb_materie.id_materia AND rb_cdc.id_docente = ".$docente['uid']." AND id_anno = ".$_SESSION['__current_year__']->get_ID()."  AND pagella = 1 ORDER BY rb_classi.sezione, rb_classi.anno_corso";
+	/*
+	 * se supplente, estrazione classi del docente titolare
+	 * confrontare poi con quelle in supplenze
+	 */
+	if ($docente['ruolo'] == 'N') {
+		$sel_cls_supp = "SELECT DISTINCT(classe) AS cl FROM rb_classi_supplenza, rb_supplenze WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND id_supplente = {$docente['uid']}";
+		$res_cls_supp = $db->executeQuery($sel_cls_supp);
+		$cls_supp = array();
+		while ($row = $res_cls_supp->fetch_assoc()) {
+			$cls_supp[] = $row['cl'];
+		}
+		$sel_tit_supp = "SELECT DISTINCT(id_docente_assente) AS doc FROM rb_classi_supplenza, rb_supplenze WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND id_supplente = {$docente['uid']}";
+		$res_tit_supp = $db->executeQuery($sel_tit_supp);
+		$uids_supp = array();
+		while ($row = $res_tit_supp->fetch_assoc()) {
+			$uids_supp[] = $row['doc'];
+		}
+		$sel_classes = "SELECT anno_corso, sezione, rb_classi.id_classe, rb_cdc.id_materia, rb_materie.materia FROM rb_classi, rb_cdc, rb_materie WHERE rb_classi.id_classe = rb_cdc.id_classe AND rb_cdc.id_materia = rb_materie.id_materia AND rb_cdc.id_docente IN (".implode(",", $uids_supp).") AND id_anno = ".$_SESSION['__current_year__']->get_ID()."  AND pagella = 1 ORDER BY rb_classi.sezione, rb_classi.anno_corso";
+	}
+	else {
+		$sel_classes = "SELECT anno_corso, sezione, rb_classi.id_classe, rb_cdc.id_materia, rb_materie.materia FROM rb_classi, rb_cdc, rb_materie WHERE rb_classi.id_classe = rb_cdc.id_classe AND rb_cdc.id_materia = rb_materie.id_materia AND rb_cdc.id_docente = ".$docente['uid']." AND id_anno = ".$_SESSION['__current_year__']->get_ID()."  AND pagella = 1 ORDER BY rb_classi.sezione, rb_classi.anno_corso";
+	}
 	//print $sel_classes;
 	$res_classes = $db->execute($sel_classes);
 	$classi = array();
+	$materie = array();
+
 	while($cl = $res_classes->fetch_assoc()){
-		if ($cls == null && $_cl == 0){
-			$cls = $cl['id_classe'];
-			$_cl = 1;
+		if ($docente['ruolo'] != 'N' || in_array($cl['id_classe'], $cls_supp)) {
+			if ($cls == null && $_cl == 0){
+				$cls = $cl['id_classe'];
+				$_cl = 1;
+			}
+			if(!isset($classi[$cl['id_classe']])){
+				$classi[$cl['id_classe']]['desc'] = $cl['anno_corso'].$cl['sezione'];
+				$classi[$cl['id_classe']]['materie'] = array();
+				$classi[$cl['id_classe']]['alunni'] = array();
+			}
+			$classi[$cl['id_classe']]['materie'][$cl['id_materia']] = $cl['materia'];
+			$materie[$cl['id_materia']] = $cl['id_materia'];
 		}
-		if(!isset($classi[$cl['id_classe']])){
-			$classi[$cl['id_classe']]['desc'] = $cl['anno_corso'].$cl['sezione'];
-			$classi[$cl['id_classe']]['materie'] = array();
-			$classi[$cl['id_classe']]['alunni'] = array();
-		}
-		$classi[$cl['id_classe']]['materie'][$cl['id_materia']] = $cl['materia'];
 	}
 }
 else {
@@ -87,21 +113,41 @@ foreach ($classi as $k => $v){
 	}
 	$idx++;
 }
-$sel_voti = "SELECT voto, alunno, materia, id_classe FROM rb_voti, rb_alunni WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND docente = {$doc} AND alunno = id_alunno {$int_time} ORDER BY id_classe, materia";
+
+/*
+ * ricerca di supplenti
+ */
+if ($docente['ruolo'] != 'N') {
+	$sel_tit_supp = "SELECT DISTINCT(id_supplente) AS doc FROM rb_classi_supplenza, rb_supplenze WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND id_docente_assente = {$docente['uid']}";
+	$res_tit_supp = $db->executeQuery($sel_tit_supp);
+	$uids_supp = array();
+	while ($row = $res_tit_supp->fetch_assoc()) {
+		$uids_supp[] = $row['doc'];
+	}
+	$uids_supp[] = $docente['uid'];
+}
+$sel_voti = "SELECT voto, alunno, materia, id_classe FROM rb_voti, rb_alunni WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND materia IN (".implode(',', $materie).") AND alunno = id_alunno {$int_time} ORDER BY id_classe, materia";
 $res_voti = $db->execute($sel_voti);
 while ($row = $res_voti->fetch_assoc()){
-	$classi[$row['id_classe']]['alunni'][$row['alunno']]['materie'][$row['materia']]['voti'][] = $row['voto'];
+	if (isset($classi[$row['id_classe']])) {
+		$classi[$row['id_classe']]['alunni'][$row['alunno']]['materie'][$row['materia']]['voti'][] = $row['voto'];
+	}
 }
-$sel_medie = "SELECT ROUND(AVG(voto), 2) AS voto, alunno, materia, id_classe FROM rb_voti, rb_alunni WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND docente = {$doc} AND alunno = id_alunno {$int_time} GROUP BY alunno, materia, id_classe ORDER BY id_classe, materia";
+$sel_medie = "SELECT ROUND(AVG(voto), 2) AS voto, alunno, materia, id_classe FROM rb_voti, rb_alunni WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND materia IN (".implode(',', $materie).") AND alunno = id_alunno {$int_time} GROUP BY alunno, materia, id_classe ORDER BY id_classe, materia";
 $res_medie = $db->execute($sel_medie);
 while ($row = $res_medie->fetch_assoc()){
-	$classi[$row['id_classe']]['alunni'][$row['alunno']]['materie'][$row['materia']]['media'] = $row['voto'];
+	if (isset($classi[$row['id_classe']])) {
+		$classi[$row['id_classe']]['alunni'][$row['alunno']]['materie'][$row['materia']]['media'] = $row['voto'];
+	}
 }
 
-$sel_note = "SELECT COUNT(*) AS count, alunno, classe FROM rb_note_didattiche WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND docente = {$doc} GROUP BY alunno, classe"; 
+$uids_supp[] = $docente['uid'];
+$sel_note = "SELECT COUNT(*) AS count, alunno, classe FROM rb_note_didattiche WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND docente IN (".implode(',', $uids_supp).") GROUP BY alunno, classe";
 $res_note = $db->execute($sel_note);
 while ($row = $res_note->fetch_assoc()){
-	$classi[$row['classe']]['alunni'][$row['alunno']]['note'] = $row['count'];
+	if (isset($classi[$row['classe']])) {
+		$classi[$row['classe']]['alunni'][$row['alunno']]['note'] = $row['count'];
+	}
 }
 
 include "registro_docente.html.php";

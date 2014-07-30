@@ -43,7 +43,7 @@ switch($q){
 
 $sel_alunno = "SELECT id_alunno, cognome, nome, anno_corso, sezione FROM rb_alunni, rb_classi WHERE id_alunno = $student_id AND rb_alunni.id_classe = rb_classi.id_classe";
 $sel_materia = "SELECT id_materia, materia FROM rb_materie WHERE tipologia_scuola = {$ordine_scuola}";
-$sel_note = "SELECT rb_note_didattiche.*, rb_tipi_note_didattiche.descrizione AS tipo_nota, rb_materie.materia AS mat FROM rb_note_didattiche, rb_tipi_note_didattiche, rb_materie WHERE id_tiponota = tipo AND rb_materie.id_materia = rb_note_didattiche.materia AND alunno = {$student_id} AND docente = {$teacher} AND anno = {$_SESSION['__current_year__']->get_ID()} $int_time $q_type ORDER BY data DESC";
+$sel_note = "SELECT rb_note_didattiche.*, rb_tipi_note_didattiche.descrizione AS tipo_nota, rb_materie.materia AS mat FROM rb_note_didattiche, rb_tipi_note_didattiche, rb_materie WHERE id_tiponota = tipo AND rb_materie.id_materia = rb_note_didattiche.materia AND alunno = {$student_id} AND docente = {$teacher} AND anno = {$_SESSION['__current_year__']->get_ID()} ".$int_time."  ORDER BY data DESC";
 $sel_teacher = "SELECT CONCAT_WS(' ', cognome, nome) FROM rb_utenti WHERE uid = {$teacher}";
 try{
 	$res_alunno = $db->executeQuery($sel_alunno);

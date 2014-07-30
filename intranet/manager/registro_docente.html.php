@@ -147,7 +147,7 @@ foreach ($classi as $k => $classe){
 	<table id="tab_<?php echo $k ?>" class="wd_95 _elem_center table_tab" style="<?php if ($k != $cls) echo "display: none" ?>">
 	<thead>
 		<tr style="border-bottom: 1px solid #CCC">
-			<td class="_center _bold" colspan="<?php echo $num_subject + 2 ?>">Riepilogo classe <?php echo $classi[$cls]['desc'].$label ?></td>
+			<td class="_center _bold" colspan="<?php echo $num_subject + 2 ?>">Riepilogo classe <?php echo $classe['desc'].$label ?></td>
 		<tr>
 		<tr style="border-bottom: 2px solid #CCC">
 			<td class="_bold" style="width: <?php print $first_column ?>%; padding-left: 8px">Alunno</td>
@@ -179,7 +179,7 @@ foreach ($classi as $k => $classe){
 					$sum[$m] += $alunno['materie'][$m]['media'];
 				}
 			?>
-			<td data-std="<?php echo $x ?>" data-doc="<?php echo $doc ?>" data-subject="<?php echo $m ?>" class="sgrade _center <?php if ($alunno['materie'][$m]['media'] < 6) echo "attention _bold" ?>" style="width: <?php print $other_column ?>%"><?php echo $alunno['materie'][$m]['media'] ?></td>
+			<td data-std="<?php echo $x ?>" data-doc="<?php echo $doc ?>" data-subject="<?php echo $m ?>" class="sgrade _center <?php if (isset($alunno['materie'][$m]) && $alunno['materie'][$m]['media'] < 6) echo "attention _bold" ?>" style="width: <?php print $other_column ?>%"><?php if (isset($alunno['materie'][$m])) echo $alunno['materie'][$m]['media'] ?></td>
 			<?php 
 			}
 			?>
@@ -214,4 +214,3 @@ foreach ($classi as $k => $classe){
 <?php include "footer.php" ?>	
 </body>
 </html>
-	

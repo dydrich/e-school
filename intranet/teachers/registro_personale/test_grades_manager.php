@@ -1,6 +1,8 @@
 <?php
 
 require_once "../../../lib/start.php";
+require_once "../../../lib/Test.php";
+require_once "../../../lib/Grade.php";
 
 check_session();
 check_permission(DOC_PERM);
@@ -8,7 +10,8 @@ check_permission(DOC_PERM);
 $_SESSION['__path_to_root__'] = "../../../";
 $_SESSION['__path_to_reg_home__'] = "../";
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
 
 $voto = $_REQUEST['voto'];
 $alunno = $_REQUEST['alunno'];
@@ -26,10 +29,16 @@ $sel_test = "SELECT * FROM rb_verifiche WHERE id_verifica = $id_verifica";
 try{
 	$res_test = $db->executeQuery($sel_test);
 } catch (MySQLException $ex){
-	print "ko|".$ex->getMessage()."|".$ex->getQuery();
+	$response['status'] = "kosql";
+	$response['message'] = $ex->getMessage();
+	$response['query'] = $ex->getQuery();
+	echo json_encode($response);
 	exit;
 }
 $verifica = $res_test->fetch_assoc();
+
+$test = new \eschool\Test($id_verifica, new MySQLDataLoader($db), null, false);
+
 $argomento = $db->real_escape_string($verifica['argomento']);
 $descrizione = $verifica['prova'];
 $data_voto = substr($verifica['data_verifica'], 0, 10);
@@ -62,7 +71,10 @@ if($id_voto != 0){
 		$db->executeUpdate($query);
 		$db->executeUpdate($obj);
 	} catch (MySQLException $ex){
-		print "ko|".$ex->getMessage()."|".$ex->getQuery();
+		$response['status'] = "kosql";
+		$response['message'] = $ex->getMessage();
+		$response['query'] = $ex->getQuery();
+		echo json_encode($response);
 		exit;
 	}
 }
@@ -83,7 +95,10 @@ else{
 			}
 		}
 	} catch (MySQLException $ex){
-		print "ko|".$ex->getMessage()."|".$ex->getQuery();
+		$response['status'] = "kosql";
+		$response['message'] = $ex->getMessage();
+		$response['query'] = $ex->getQuery();
+		echo json_encode($response);
 		exit;
 	}
 }
@@ -107,7 +122,10 @@ if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30){
 	}
 }
 
-print "ok|$media|$count_alunni|$idv|$mat_m|".round($mat_m);
+$response['media'] = $media;
+$response['count'] = $count_alunni;
+$response['idv'] = $idv;
+$response['media_o'] = $mat_m;
+$response['media_arr'] = round($mat_m);
+echo json_encode($response);
 exit;
-
-?>

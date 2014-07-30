@@ -4,39 +4,67 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Obiettivi didattici per voto</title>
 <link rel="stylesheet" href="../registro_classe/reg_classe.css" type="text/css" media="screen,projection" />
-<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/window.js"></script>
-<script type="text/javascript" src="../../../js/window_effects.js"></script>
 <script type="text/javascript">
 
 var save_grade = function(obj, grade){
 	gradeID = <?php echo $_REQUEST['idv'] ?>;
-	req = new Ajax.Request('save_goal_grade.php',
-			  {
-			    	method:'post',
-			    	parameters: {goal: obj, grade: grade, gradeID: gradeID},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		var dati = response.split(";");
-			      		if (dati[0] == "kosql"){
-							alert("Errore SQL");
-							console.log(dati[1]);
-							console.log(dati[2]);
-			      		}
-			      		if (dati[0] == "ok"){
-							_alert ("Voto aggiornato");
-			      		}
-			    	},
-			    	onFailure: function(){ _alert("Si e' verificato un errore..."); return; }
-			  });
+	$.ajax({
+		type: "POST",
+		url: "grade_manager.php",
+		data:  {goal: obj, grade: grade, gradeID: gradeID, action: "update_los"},
+		dataType: 'json',
+		error: function(data, status, errore) {
+			alert("Si e' verificato un errore");
+			return false;
+		},
+		succes: function(result) {
+			alert("ok");
+		},
+		complete: function(data, status){
+			r = data.responseText;
+			var json = $.parseJSON(r);
+			if(json.status == "kosql"){
+				alert("Errore SQL. \nQuery: "+json.query+"\nErrore: "+json.message);
+				return;
+			}
+			else {
+				$('#not1').text(json.message);
+				$('#not1').dialog({
+					autoOpen: false,
+					show: {
+						effect: "appear",
+						duration: 500
+					},
+					hide: {
+						effect: "slide",
+						duration: 300
+					},
+					buttons: [{
+						text: "Chiudi",
+						click: function() {
+							$( '#not1' ).dialog( "close" );
+						}
+					}],
+					modal: true,
+					width: 450,
+					open: function(event, ui){
+
+					}
+				});
+				$('#not1').dialog('open');
+			}
+		}
+	});
 };
 
-document.observe("dom:loaded", function(){
-	$$('.obj_grade').invoke("observe", "change", function(event){
+$(function(){
+	$('.obj_grade').change(function(event){
 		//alert(this.id);
 		event.preventDefault();
 		var strs = this.id.split("_");
@@ -69,27 +97,27 @@ document.observe("dom:loaded", function(){
 		<table style="width: 90%; margin: auto">
 			<tr>
 				<td style="width: 50%; font-weight: bold; text-align: left; border: 0">Voto</td>
-				<td style="width: 50%; text-align: center; border: 0"><?php echo $voto['voto'] ?></td>
+				<td style="width: 50%; text-align: center; border: 0"><?php echo $grade->getGrade() ?></td>
 			</tr>
 			<tr>
 				<td style="width: 50%; font-weight: bold; text-align: left; border: 0">Data</td>
-				<td style="width: 50%; text-align: center; border: 0"><?php echo $voto['data_voto'] ?></td>
+				<td style="width: 50%; text-align: center; border: 0"><?php echo format_date($grade->getGradeDate(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
 			</tr>
 			<tr>
 				<td style="width: 50%; font-weight: bold; text-align: left; border: 0">Tipo</td>
-				<td style="width: 50%; text-align: center; border: 0"><?php echo $voto['label'] ?></td>
+				<td style="width: 50%; text-align: center; border: 0"><?php echo $prove[$grade->getType()] ?></td>
 			</tr>
 			<tr>
 				<td style="width: 50%; font-weight: bold; text-align: left; border: 0">Prova</td>
-				<td style="width: 50%; text-align: center; border: 0"><?php echo utf8_decode($voto['descrizione']) ?></td>
+				<td style="width: 50%; text-align: center; border: 0"><?php echo utf8_decode($grade->getDescription()) ?></td>
 			</tr>
 			<tr>
 				<td style="width: 50%; font-weight: bold; text-align: left; border: 0">Argomento</td>
-				<td style="width: 50%; text-align: center; border: 0"><?php echo utf8_decode($voto['argomento']) ?></td>
+				<td style="width: 50%; text-align: center; border: 0"><?php echo utf8_decode($grade->getTopic()) ?></td>
 			</tr>
 			<tr>
 				<td style="width: 50%; font-weight: bold; text-align: left; border: 0">Note</td>
-				<td style="width: 50%; text-align: center; border: 0"><?php echo utf8_decode($voto['note']) ?></td>
+				<td style="width: 50%; text-align: center; border: 0"><?php echo utf8_decode($grade->getNote()) ?></td>
 			</tr>				
 		</table>
 	</fieldset>
@@ -103,7 +131,7 @@ document.observe("dom:loaded", function(){
 			<?php 
 			foreach ($goals as $row){
 				$color = "";
-				if ($row['idpadre'] == ""){
+				if (isset($row['idpadre']) && $row['idpadre'] == ""){
 					$color = "font-weight: bold";
 				}
 				?>
@@ -121,7 +149,8 @@ document.observe("dom:loaded", function(){
 								}
 							}
 							else {
-								$i = 100;		
+								$i = 100;
+								echo $row['grade'];
 								while($i > 9){		
 							?>			
 							<option value='<?php print ($i / 10) ?>' <?php if ($row['grade'] == ($i / 10)) echo "selected" ?>><?php print ($i / 10) ?></option>		
@@ -134,7 +163,7 @@ document.observe("dom:loaded", function(){
 						</td>
 					</tr>
 			<?php
-				if ($row['children']){
+				if (isset($row['children'])){
 					foreach ($row['children'] as $child){
 						$color = "";
 			?>
@@ -175,12 +204,13 @@ document.observe("dom:loaded", function(){
 </thead>
 <tfoot>
 	<tr style="height: 30px">
-		<td colspan="2" style="text-align: right"><a href="student.php?stid=<?php echo $student_id ?>&q=<?php echo $q ?>" style="margin-right: 20px">Torna ai voti</a></td>
+		<td colspan="2" style="text-align: right"><a href="student.php?stid=<?php echo $student_id ?>&q=<?php echo $q ?>" class="standard_link" style="margin-right: 20px">Torna ai voti</a></td>
 	</tr>
 </tfoot>
 </table>
 </form>
 </div>
 <?php include "../footer.php" ?>
+<div id="not1"></div>
 </body>
 </html>

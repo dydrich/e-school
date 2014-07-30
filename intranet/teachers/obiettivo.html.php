@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../../js/window.js"></script>
 <script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript">
-var _checked = <?php if ($goal) echo count($goal['classi']); else echo "0" ?>;
+var _checked = <?php if (isset($goal)) echo count($goal['classi']); else echo "0" ?>;
 var registra = function(){
 	msg = "Ci sono degli errori. Ricontrolla il form\n";
 	index = 0;
@@ -99,7 +99,7 @@ var upd_check = function(elem){
 					<?php 
 					while ($row = $res_materie->fetch_assoc()){
 					?>
-						<option value="<?php echo $row['id_materia'] ?>" <?php if ($row['id_materia'] == $goal['materia']) echo "selected" ?>><?php echo $row['materia'] ?></option>
+						<option value="<?php echo $row['id_materia'] ?>" <?php if (isset($goal) && $row['id_materia'] == $goal['materia']) echo "selected" ?>><?php echo $row['materia'] ?></option>
 					<?php 
 					}
 					?>
@@ -108,7 +108,7 @@ var upd_check = function(elem){
 			</tr>
 			<tr>
 				<td style="width: 40%">Obiettivo</td>
-				<td style="width: 60%"><textarea name="obj" id="obj" style="width: 250px; height: 50px; font-size: 11px; border: 1px solid #AAAAAA"><?php if($goal) echo $goal['nome'] ?></textarea></td> 
+				<td style="width: 60%"><textarea name="obj" id="obj" style="width: 250px; height: 50px; font-size: 11px; border: 1px solid #AAAAAA"><?php if(isset($goal)) echo $goal['nome'] ?></textarea></td>
 			</tr>
 			<tr>
 				<td style="width: 40%">Classi</td>
@@ -117,7 +117,7 @@ var upd_check = function(elem){
 				foreach ($classes as $k => $cls){
 					if ($cls['teacher'] == 1){
 						$checked = "";
-						if ($goal){
+						if (isset($goal)){
 							reset($goal['classi']);
 							foreach ($goal['classi'] as $j => $r){
 								if ($j == $cls['id_classe']){
@@ -141,7 +141,7 @@ var upd_check = function(elem){
 					<?php 
 					while ($row = $res_obj->fetch_assoc()){
 					?>
-						<option value="<?php echo $row['id'] ?>" <?php if ($goal && $goal['id_padre'] == $row['id']) echo "selected" ?>><?php echo $row['nome'] ?></option>
+						<option value="<?php echo $row['id'] ?>" <?php if (isset($goal) && $goal['id_padre'] == $row['id']) echo "selected" ?>><?php echo $row['nome'] ?></option>
 					<?php 
 					}
 					?>
@@ -154,7 +154,7 @@ var upd_check = function(elem){
 			<tr>
 				<td colspan="2" style="text-align: right; margin-right: 50px">
 					<a href="#" onclick="registra()" style="text-decoration: none; text-transform: uppercase; margin-right: 10px">Registra</a>
-					<?php if ($goal): ?>
+					<?php if (isset($goal)): ?>
 					|<a href="#" onclick="cancella()" style="text-decoration: none; text-transform: uppercase; margin-left: 10px">Cancella</a>
 					<?php endif; ?>
 				</td> 

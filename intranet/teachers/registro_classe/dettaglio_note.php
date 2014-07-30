@@ -6,16 +6,20 @@ check_session();
 check_permission(DOC_PERM);
 
 $student_id = $_REQUEST['al'];
-if(isset($_REQUEST['msg']))
+if(isset($_REQUEST['msg'])) {
 	$msg = str_replace("_", " ", $_REQUEST['msg']);
+}
 
-if(isset($_REQUEST['order']))
+if(isset($_REQUEST['order'])) {
 	$order = $_REQUEST['order'];
-else
+}
+else {
 	$order = "data";
+}
 
-if(isset($_REQUEST['q']))
+if(isset($_REQUEST['q'])) {
 	$q = $_REQUEST['q'];
+}
 else{
 	$q = 0;
 }
@@ -49,7 +53,7 @@ switch($q){
 
 $sel_alunno = "SELECT * FROM rb_alunni WHERE id_alunno = $student_id";
 $sel_tipi = "SELECT * FROM rb_tipi_note_disciplinari ORDER BY id_tiponota";
-$sel_note = "SELECT rb_note_disciplinari.*, rb_utenti.cognome, rb_utenti.nome, rb_tipi_note_disciplinari.descrizione AS tipo_nota, rb_tipi_note_disciplinari.id_tiponota FROM rb_note_disciplinari, rb_tipi_note_disciplinari, rb_utenti WHERE id_tiponota = tipo AND alunno = {$student_id} AND docente = uid {$int_time} {$q_type} AND anno = {$_SESSION['__current_year__']->get_ID()} ORDER BY $order DESC";
+$sel_note = "SELECT rb_note_disciplinari.*, rb_utenti.cognome, rb_utenti.nome, rb_tipi_note_disciplinari.descrizione AS tipo_nota, rb_tipi_note_disciplinari.id_tiponota FROM rb_note_disciplinari, rb_tipi_note_disciplinari, rb_utenti WHERE id_tiponota = tipo AND alunno = {$student_id} AND docente = uid ".$int_time." ".$q_type." AND anno = {$_SESSION['__current_year__']->get_ID()} ORDER BY $order DESC";
 //print $sel_note;
 try{
 	$res_alunno = $db->executeQuery($sel_alunno);
@@ -63,5 +67,3 @@ $alunno = $res_alunno->fetch_assoc();
 $navigation_label = "Registro elettronico ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione()." - Note disciplinari";
 
 include "dettaglio_note.html.php";
-
-?>

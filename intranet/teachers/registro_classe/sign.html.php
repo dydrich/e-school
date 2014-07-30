@@ -451,8 +451,8 @@ table.registro tbody tr:hover {
 </head>
 <body>
 <?php 
-setlocale(LC_TIME, "it_IT");
-$giorno_str = utf8_encode(strftime("%A", strtotime($_SESSION['registro']['data'])));
+setlocale(LC_TIME, "it_IT.utf8");
+$giorno_str = strftime("%A", strtotime($_SESSION['registro']['data']));
 ?>
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>

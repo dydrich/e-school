@@ -129,3 +129,7 @@ a.no_dec {
 .nav_link_last {
     margin-left: 10px
 }
+
+.attention {
+    color: rgba(200, 6, 6, 1) !important;
+}

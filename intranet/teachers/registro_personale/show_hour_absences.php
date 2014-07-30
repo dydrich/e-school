@@ -102,9 +102,7 @@ while ($row = $res_reg->fetch_assoc()){
 	}
 }
 
-setlocale(LC_TIME, "it_IT");
-$label = ucfirst(utf8_encode(strftime("%A %d %B", strtotime($reg['data']))));
+setlocale(LC_TIME, "it_IT.utf8");
+$label = ucfirst(strftime("%A %d %B", strtotime($reg['data'])));
 
 include "show_hour_absences.html.php";
-
-?>

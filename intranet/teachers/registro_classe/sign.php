@@ -132,7 +132,7 @@ $giorno_str = utf8_encode(strftime("%A", strtotime($dati['data'])));
  * estrarre le materie figlie o figlie di figlie (nel caso di lettere)
  */
 $materie = array();
-if ($_SESSION['__user__']->getSubject() == 27) {
+if ($_SESSION['__user__']->getSubject() == 27 || $_SESSION['__user__']->getSubject() == 41) {
 	$materie[] = array("id_materia" => 27, "has_sons" => 0, "materia" => "Sostegno");
 	/*
 	 * docente di sostegno: estraggo eventuali attivita` inserite
@@ -155,7 +155,7 @@ if ($_SESSION['__user__']->getSubject() == 27) {
 }
 else {
 	$materia_base = array();
-	$sel_materia = "SELECT rb_materie.id_materia, rb_materie.has_sons, rb_materie.materia FROM rb_docenti, rb_materie, rb_cdc WHERE rb_cdc.id_materia = rb_materie.id_materia AND rb_docenti.id_docente = rb_cdc.id_docente AND rb_cdc.id_classe = ".$_SESSION['__classe__']->get_ID()." AND rb_docenti.id_docente = ".$_SESSION['__user__']->getUid()." AND id_anno = ".$_SESSION['__current_year__']->get_ID()." GROUP BY rb_materie.id_materia, rb_materie.has_sons, rb_materie.materia ORDER BY rb_materie.id_materia";
+	$sel_materia = "SELECT rb_materie.id_materia, rb_materie.has_sons, rb_materie.materia FROM rb_docenti, rb_materie, rb_cdc WHERE rb_cdc.id_materia = rb_materie.id_materia AND rb_docenti.id_docente = rb_cdc.id_docente AND rb_cdc.id_classe = ".$_SESSION['__classe__']->get_ID()." AND rb_docenti.id_docente = ".$_SESSION['__user__']->getUid(true)." AND id_anno = ".$_SESSION['__current_year__']->get_ID()." GROUP BY rb_materie.id_materia, rb_materie.has_sons, rb_materie.materia ORDER BY rb_materie.id_materia";
 	//print $sel_materia;
 	$res_materia = $db->executeQuery($sel_materia);
 	while($record = $res_materia->fetch_assoc()){
