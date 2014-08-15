@@ -130,7 +130,7 @@ class Authenticator {
 						$classes[$row['id_classe']]['classe'] = $row['classe'];
 						$classes[$row['id_classe']]['id_classe'] = $row['id_classe'];
 					}
-					array_push($classes[$row['id_classe']]['materie'], $row['id_materia']);
+					@array_push($classes[$row['id_classe']]['materie'], $row['id_materia']);
 				}
 			}
 			/*

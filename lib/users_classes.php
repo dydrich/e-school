@@ -14,6 +14,11 @@ abstract class UserBean {
 	protected $sex;
 	protected $pwd;
 	/**
+	 * for communication module
+	 * uniq ID from table rb_com_utenti
+	 */
+	protected $uniqID;
+	/**
 	 * from table: profili
 	 */
 	protected $profile;
@@ -205,6 +210,20 @@ abstract class UserBean {
 	
 	public function isFirstSchoolAdministrator(){
 		return $this->check_perms(1|2048);
+	}
+
+	/**
+	 * @param int $uniqID
+	 */
+	public function setUniqID($uniqID) {
+		$this->uniqID = $uniqID;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getUniqID() {
+		return $this->uniqID;
 	}
 
 }

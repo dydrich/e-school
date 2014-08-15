@@ -40,7 +40,7 @@ class SessionUtils extends DataUtils {
 	}
 	
 	public function registerStudentWSupport($uid, $stid, $identifier){
-		$config = $this->utility->loadStudentWSupport($uid, $stid);
+		$config = RBUtilities::loadStudentWSupport($uid, $stid, $this->connection);
 		$_SESSION[$identifier] = $config;
 	}
 }

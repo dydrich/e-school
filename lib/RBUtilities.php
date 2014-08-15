@@ -150,6 +150,10 @@ final class RBUtilities{
 				//$user = new SchoolUserBean($uid, $utente['nome'], $utente['cognome'], $gid, $utente['permessi'], $utente['username']);
 				break;
 		}
+		if (is_installed("com")) {
+			$uniqID = $this->datasource->executeCount("SELECT id FROM rb_com_users WHERE uid = {$uid} AND type = '{$area}'");
+			$user->setUniqID($uniqID);
+		}
 		return $user;
 	}
 	
@@ -180,23 +184,23 @@ final class RBUtilities{
 		return 60 - (($to - $from) / 60);
 	}
 	
-	public function loadStudentWSupport($uid, $stid){
+	public static function loadStudentWSupport($uid, $stid, MySQLDataLoader $conn){
 		$sel_st = "SELECT cognome, nome, data_nascita, luogo_nascita, alunno FROM rb_alunni, rb_assegnazione_sostegno WHERE docente = {$uid} AND anno = {$_SESSION['__current_year__']->get_ID()} AND id_alunno = alunno AND alunno = {$stid} ";
-		$res_st = $this->datasource->execute($sel_st);
+		$res_st = $conn->execute($sel_st);
 		
 		if (count($res_st) == 1){
 			$row = $res_st[0];
 			$student = $row;
 		}
 		$sel_indirizzo = "SELECT * FROM rb_indirizzi_alunni WHERE id_alunno = {$stid}";
-		$res_indirizzo = $this->datasource->execute($sel_indirizzo);
+		$res_indirizzo = $$conn->execute($sel_indirizzo);
 		$student['indirizzo'] = array();
 		if (count($res_indirizzo) > 0){
 			$indirizzo = $res_indirizzo[0];
 			$student['indirizzo'] = $indirizzo;
 		}
 		$sel_dati = "SELECT * FROM rb_dati_sostegno WHERE alunno = {$stid}";
-		$res_dati = $this->datasource->execute($sel_dati);
+		$res_dati = $$conn->execute($sel_dati);
 		$student['dati'] = array();
 		if (count($res_dati) > 0){
 			$dati = $res_dati[0];
@@ -282,7 +286,19 @@ final class RBUtilities{
 	}
 
 	public static function getReligionGrades() {
-		return $voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
+		return array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
+	}
+
+	/**
+	 * module: communication
+	 * Load an instance of some UserBean class using the users's uniqID from table rb_com_utenti
+	 * @param integer $uniqID - the user's uniqID
+	 * @return UserBean $user - user
+	 */
+	public function loadUserFromUniqID($uniqID) {
+		$data = $this->datasource->executeQuery("SELECT uid, type FROM rb_com_users WHERE id = ".$uniqID);
+		$udata = $data[0];
+		return $this->loadUserFromUid($udata['uid'], $udata['type']);
 	}
 	
 }
