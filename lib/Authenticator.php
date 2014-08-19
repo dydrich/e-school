@@ -118,19 +118,21 @@ class Authenticator {
 				 */
 				$cls_supp = $this->datasource->executeQuery("SELECT classe FROM rb_classi_supplenza, rb_supplenze WHERE rb_classi_supplenza.id_supplenza = rb_supplenze.id_supplenza AND id_supplente = {$user->getUid()} ");
 			}
-			foreach ($res_cdc as $row){
-				if ($titolare || in_array($row['id_classe'], $cls_supp)) {
-					if(!isset($classes[$row['id_classe']])){
-						//echo $row['id_classe'];
-						$classes[$row['id_classe']] = array();
-						$classes[$row['id_classe']]['teacher'] = 1;
-						$classes[$row['id_classe']]['coordinatore'] = 0;
-						$classes[$row['id_classe']]['segretario'] = 0;
-						$classes[$row['id_classe']]['materie'] = array();
-						$classes[$row['id_classe']]['classe'] = $row['classe'];
-						$classes[$row['id_classe']]['id_classe'] = $row['id_classe'];
+			if ($res_cdc != null && count($res_cdc) > 0) {
+				foreach ($res_cdc as $row){
+					if ($titolare || in_array($row['id_classe'], $cls_supp)) {
+						if(!isset($classes[$row['id_classe']])){
+							//echo $row['id_classe'];
+							$classes[$row['id_classe']] = array();
+							$classes[$row['id_classe']]['teacher'] = 1;
+							$classes[$row['id_classe']]['coordinatore'] = 0;
+							$classes[$row['id_classe']]['segretario'] = 0;
+							$classes[$row['id_classe']]['materie'] = array();
+							$classes[$row['id_classe']]['classe'] = $row['classe'];
+							$classes[$row['id_classe']]['id_classe'] = $row['id_classe'];
+						}
+						@array_push($classes[$row['id_classe']]['materie'], $row['id_materia']);
 					}
-					@array_push($classes[$row['id_classe']]['materie'], $row['id_materia']);
 				}
 			}
 			/*

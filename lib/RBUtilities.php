@@ -102,6 +102,7 @@ final class RBUtilities{
 	 * @param string $area - type of user
 	 */
 	public function loadUserFromUid($uid, $area){
+
 		switch ($area){
 			case "student":
 				$sel_user = "SELECT id_alunno, nome, cognome, username, nickname, accessi, stile, rb_alunni.id_classe, CONCAT(anno_corso, sezione) AS desc_cls FROM rb_alunni, rb_classi WHERE rb_alunni.id_classe = rb_classi.id_classe AND id_alunno = {$uid}";
@@ -147,12 +148,17 @@ final class RBUtilities{
 				$ut = $this->datasource->executeQuery($sel_user);
 				$auth = new Authenticator($this->datasource);
 				$user = $auth->login(3, $ut[0]['username'], $ut[0]['password']);
+				if ($user == null) {
+					$user = $this->loadUserFromUid($uid, 'simple_school');
+				}
 				//$user = new SchoolUserBean($uid, $utente['nome'], $utente['cognome'], $gid, $utente['permessi'], $utente['username']);
 				break;
 		}
 		if (is_installed("com")) {
 			$uniqID = $this->datasource->executeCount("SELECT id FROM rb_com_users WHERE uid = {$uid} AND type = '{$area}'");
+			//echo "setting {$user->getFullName()} $uid to $uniqID.....";
 			$user->setUniqID($uniqID);
+			//echo "done<br>";
 		}
 		return $user;
 	}

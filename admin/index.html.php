@@ -797,31 +797,43 @@ div.overlay{
             <?php } ?>
         </table>
         </div>
-           
-        <div id="tb8" style="display: none">
-	        <div class="group_head">Varie</div>
+		<div id="tb8" style="display: none">
+			<div class="group_head">Varie</div>
+			<table style="" class="admin_table">
+				<?php if(is_installed("wflow")){ ?>
+					<tr>
+						<td class="col1"><a href="adm_workflow/index.php">Workflow</a></td>
+						<td class="col2">
+							<a href="adm_workflow/index.php">Gestisce tutto ci&ograve; che riguarda i processi di workflow relativi alle richieste ...</a>
+						</td>
+					</tr>
+				<?php } if(is_installed("projects")){ ?>
+					<tr>
+						<td class="col1"><a href="adm_projects/progetti.php">Progetti</a></td>
+						<td class="col2">
+							<a href="adm_projects/progetti.php">Gestisci i progetti della scuola</a>
+						</td>
+					</tr>
+				<?php } ?>
+				<tr>
+					<td class="col1"><a href="statistiche_registro.php">Statistiche registro</a></td>
+					<td class="col2">
+						<a href="statistiche_registro.php">Visualizza elenchi e dati statistici riguardo il registro ...</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+        <div id="tb10" style="display: none">
+	        <div class="group_head">Moduli</div>
 	        <table style="" class="admin_table">
-            <?php if(is_installed("wflow")){ ?>
+            <?php if(is_installed("com")){ ?>
             <tr>
-                <td class="col1"><a href="adm_workflow/index.php">Workflow</a></td>
+                <td class="col1"><a href="adm_modules/communication/index.php">Comunicazioni</a></td>
                 <td class="col2">
-                    <a href="adm_workflow/index.php">Gestisce tutto ci&ograve; che riguarda i processi di workflow relativi alle richieste ...</a>
-                </td>
-            </tr>
-            <?php } if(is_installed("projects")){ ?>
-            <tr>
-                <td class="col1"><a href="adm_projects/progetti.php">Progetti</a></td>
-                <td class="col2">
-                    <a href="adm_projects/progetti.php">Gestisci i progetti della scuola</a>
+                    <a href="adm_modules/communication/index.php">Gestione modulo communication</a>
                 </td>
             </tr>
             <?php } ?>
-            <tr>
-                <td class="col1"><a href="statistiche_registro.php">Statistiche registro</a></td>
-                <td class="col2">
-                    <a href="statistiche_registro.php">Visualizza elenchi e dati statistici riguardo il registro ...</a>
-                </td>
-            </tr>
         </table>
         </div>
             <?php if($admin_level == 0){ ?>
