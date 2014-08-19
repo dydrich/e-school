@@ -105,6 +105,7 @@ final class RBUtilities{
 
 		switch ($area){
 			case "student":
+				/*
 				$sel_user = "SELECT id_alunno, nome, cognome, username, nickname, accessi, stile, rb_alunni.id_classe, CONCAT(anno_corso, sezione) AS desc_cls FROM rb_alunni, rb_classi WHERE rb_alunni.id_classe = rb_classi.id_classe AND id_alunno = {$uid}";
 				$ut = $this->datasource->executeQuery($sel_user);
 				$utente = $ut[0];
@@ -113,6 +114,20 @@ final class RBUtilities{
 				$user = new StudentBean($uid, $utente['nome'], $utente['cognome'], $gid, $perms, $utente['username']);
 				$user->setClass($utente['id_classe']);
 				$user->setClassDescritption($utente['desc_cls']);
+				*/
+				$sel_user = "SELECT id_alunno, nome, cognome, username, nickname, accessi, stile, rb_alunni.id_classe, CONCAT(anno_corso, sezione) AS desc_cls, ordine_di_scuola FROM rb_alunni, rb_classi WHERE rb_alunni.id_classe = rb_classi.id_classe AND id_alunno = {$uid} AND attivo = '1'";
+				$res_user = $this->datasource->executeQuery($sel_user);
+				if($res_user == null){
+					return false;
+				}
+				$utente = $res_user[0];
+
+				$gid = array(8);
+				$perms = 256;
+				$user = new StudentBean($utente['id_alunno'], $utente['nome'], $utente['cognome'], $gid, $perms, $utente['username']);
+				$user->setClass($utente['id_classe']);
+				$user->setClassDescritption($utente['desc_cls']);
+				$user->setSchoolOrder($utente['ordine_di_scuola']);
 				break;
 			case "parent":
 				$sel_user = "SELECT nome, cognome, username, accessi FROM rb_utenti WHERE uid = {$uid}";
@@ -144,21 +159,146 @@ final class RBUtilities{
 				break;
 			case "school":
 			default:
-				$sel_user = "SELECT username, password FROM rb_utenti WHERE rb_utenti.uid = {$uid} ";
-				$ut = $this->datasource->executeQuery($sel_user);
+				//$sel_user = "SELECT username, password FROM rb_utenti WHERE rb_utenti.uid = {$uid} ";
+				//$ut = $this->datasource->executeQuery($sel_user);
+				/*
 				$auth = new Authenticator($this->datasource);
 				$user = $auth->login(3, $ut[0]['username'], $ut[0]['password']);
 				if ($user == null) {
 					$user = $this->loadUserFromUid($uid, 'simple_school');
 				}
-				//$user = new SchoolUserBean($uid, $utente['nome'], $utente['cognome'], $gid, $utente['permessi'], $utente['username']);
+				*/
+				$sel_user = "SELECT rb_utenti.uid, nome, cognome, username, accessi, permessi FROM rb_utenti, rb_gruppi_utente WHERE rb_utenti.uid = rb_gruppi_utente.uid AND rb_utenti.uid = {$uid} AND gid NOT IN (8) ";
+				$res_utente = $this->datasource->executeQuery($sel_user);
+				if ($res_utente == null){
+					return false;
+				}
+				$utente = $res_utente[0];
+
+				$sel_gr = "SELECT gid FROM rb_gruppi_utente WHERE uid = {$utente['uid']}";
+				$gid = $this->datasource->executeQuery($sel_gr);
+				$str_groups = join(",", $gid);
+
+				$user = new SchoolUserBean($utente['uid'], $utente['nome'], $utente['cognome'], $gid, $utente['permessi'], $utente['username']);
+				if (in_array(4, $gid)){
+					// genitore
+					$sel_figli = "SELECT id_alunno FROM rb_genitori_figli WHERE id_genitore = ".$utente['uid'];
+					$figli = $this->datasource->executeQuery($sel_figli);
+					if(count($figli) > 0){
+						$_SESSION['__figli__'] = join(",", $figli);
+					}
+					else
+						$_SESSION['__figli__'] = "";
+					$_SESSION['__parent__'] = 1;
+				}
+
+				/**
+				 * profile
+				 */
+				$sel_profile = "SELECT * FROM rb_profili WHERE id = ".$user->getUid();
+				$profile = $this->datasource->executeQuery($sel_profile);
+				if($profile != null){
+					$user->setProfile($profile);
+				}
+
+				/**
+				 * subjects and classes : only for teachers
+				 */
+				if($user->isTeacher()){
+					$sel_subject = "SELECT materia, tipologia_scuola, ruolo FROM rb_docenti WHERE id_docente = ".$user->getUid();
+					$r_materia = $this->datasource->executeQuery($sel_subject);
+					$materia = $r_materia[0];
+					$user->setSubject($materia['materia']);
+					$user->setSchoolOrder($materia['tipologia_scuola']);
+					$titolare = ($materia['ruolo'] == "S") ? true : false;
+
+					/**
+					 * populate the classes array
+					 */
+					$classes = array();
+					$uid = $user->getUid();
+					if (!$titolare) {
+						$user->setSupplyTeacher(true);
+						$uid = $this->datasource->executeCount("SELECT id_docente_assente FROM rb_supplenze WHERE id_supplente = {$user->getUid()} AND data_fine_supplenza >= NOW()");
+						if ($uid != null && $uid !== false) {
+							$user->setSubstitution($uid);
+						}
+						else {
+							$uid = $this->datasource->executeCount("SELECT id_docente_assente FROM rb_supplenze WHERE id_supplente = {$user->getUid()} ORDER BY data_fine_supplenza DESC LIMIT 1");
+						}
+					}
+					if ($materia['materia'] != 27 && $materia['materia'] != 41){
+						$sel_cdc = "SELECT rb_classi.id_classe, CONCAT(rb_classi.anno_corso, rb_classi.sezione) AS classe, id_materia FROM rb_classi, rb_cdc WHERE anno_corso <> 0 AND rb_classi.id_classe = rb_cdc.id_classe AND id_docente = {$uid} AND id_anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
+					}
+					else {
+						$sel_cdc = "SELECT rb_classi.id_classe, CONCAT(rb_classi.anno_corso, rb_classi.sezione) AS classe, '{$materia['materia']}' AS materia FROM rb_classi, rb_assegnazione_sostegno WHERE anno_corso <> 0 AND rb_classi.id_classe = classe AND docente = {$uid} AND anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
+					}
+					$res_cdc = $this->datasource->executeQuery($sel_cdc);
+
+					if (!$titolare) {
+						/*
+						 * classi supplente
+						 */
+						$cls_supp = $this->datasource->executeQuery("SELECT classe FROM rb_classi_supplenza, rb_supplenze WHERE rb_classi_supplenza.id_supplenza = rb_supplenze.id_supplenza AND id_supplente = {$user->getUid()} ");
+					}
+					if ($res_cdc != null && count($res_cdc) > 0) {
+						foreach ($res_cdc as $row){
+							if ($titolare || in_array($row['id_classe'], $cls_supp)) {
+								if(!isset($classes[$row['id_classe']])){
+									//echo $row['id_classe'];
+									$classes[$row['id_classe']] = array();
+									$classes[$row['id_classe']]['teacher'] = 1;
+									$classes[$row['id_classe']]['coordinatore'] = 0;
+									$classes[$row['id_classe']]['segretario'] = 0;
+									$classes[$row['id_classe']]['materie'] = array();
+									$classes[$row['id_classe']]['classe'] = $row['classe'];
+									$classes[$row['id_classe']]['id_classe'] = $row['id_classe'];
+								}
+								@array_push($classes[$row['id_classe']]['materie'], $row['id_materia']);
+							}
+						}
+					}
+					/*
+					 * estrazione classi in cui si e` coordinatori o segretari ma non docenti
+					*/
+					$sel_other_cls = "SELECT * FROM rb_classi WHERE anno_corso <> 0 AND (coordinatore = {$user->getUid()} OR segretario = {$user->getUid()})";
+					$res_other_cls = $this->datasource->executeQuery($sel_other_cls);
+					if($res_other_cls != null){
+						foreach ($res_other_cls as $row){
+							if ($classes[$row['id_classe']]){
+								if($row['coordinatore'] == $user->getUid()){
+									$classes[$row['id_classe']]['coordinatore'] = 1;
+								}
+								if($row['segretario'] == $user->getUid()){
+									$classes[$row['id_classe']]['segretario'] = 1;
+								};
+								continue;
+							}
+							$classes[$row['id_classe']] = array();
+							$classes[$row['id_classe']]['teacher'] = 0;
+							$classes[$row['id_classe']]['coordinatore'] = 0;
+							$classes[$row['id_classe']]['segretario'] = 0;
+							$classes[$row['id_classe']]['materie'] = array();
+							$classes[$row['id_classe']]['classe'] = $row['anno_corso'].$row['sezione'];
+							$classes[$row['id_classe']]['id_classe'] = $row['id_classe'];
+							if($row['coordinatore'] == $user->getUid()){
+								$classes[$row['id_classe']]['coordinatore'] = 1;
+							}
+							if($row['segretario'] == $user->getUid()){
+								$classes[$row['id_classe']]['segretario'] = 1;
+							}
+						}
+					}
+					$user->setClasses($classes);
+					if ($user == null) {
+						$user = $this->loadUserFromUid($uid, 'simple_school');
+					}
+				}
 				break;
 		}
 		if (is_installed("com")) {
 			$uniqID = $this->datasource->executeCount("SELECT id FROM rb_com_users WHERE uid = {$uid} AND type = '{$area}'");
-			//echo "setting {$user->getFullName()} $uid to $uniqID.....";
 			$user->setUniqID($uniqID);
-			//echo "done<br>";
 		}
 		return $user;
 	}

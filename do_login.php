@@ -13,7 +13,9 @@ if(!isset($_SESSION['__current_year__'])){
 }
 
 $_SESSION['__path_to_root__'] = "/";
-header("Content-type: text/plain");
+//header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array();
 
 $nick = $db->real_escape_string($_POST['nick']);
 $pass = $db->real_escape_string($_POST['pass']);
@@ -23,10 +25,15 @@ $authenticator = new Authenticator(new MySQLDataLoader($db));
 try {
 	$user = $authenticator->login($area, $nick, $pass);
 } catch (MySQLException $ex){
-	echo "kosql;".$ex->getQuery().";".$ex->getMessage();
+	$response['status'] = "kosql";
+	$response['query'] = $ex->getQuery();
+	$response['message'] = $ex->getMessage();
+	echo json_encode($response);
 	exit;
 } catch (Exception $e){
-	echo $e->getMessage();
+	$response['status'] = "ko";
+	$response['message'] = $e->getMessage();
+	echo json_encode($response);
 	exit;
 }
 
@@ -37,7 +44,9 @@ if ($user == null){
 	$elf = \eschool\EventLogFactory::getInstance($data, new MySQLDataLoader($db));
 	$log = $elf->getEventLog();
 	$log->logFailedLogin();
-	echo "ko;Login non riuscito";
+	$response['status'] = "ko";
+	$response['message'] = "Login non riuscito";
+	echo json_encode($response);
 	exit;
 }
 
@@ -59,5 +68,7 @@ if (is_installed("com")) {
 	$_SESSION['__user__']->setUniqID($uniqID);
 }
 
-echo $authenticator->getStringAjax();
+//echo $authenticator->getStringAjax();
+$response = $authenticator->getResponse();
+echo json_encode($response);
 exit;

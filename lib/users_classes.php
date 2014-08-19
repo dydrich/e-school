@@ -13,6 +13,7 @@ abstract class UserBean {
 	protected $cf;
 	protected $sex;
 	protected $pwd;
+	protected $accesses;
 	/**
 	 * for communication module
 	 * uniq ID from table rb_com_utenti
@@ -51,6 +52,20 @@ abstract class UserBean {
 
 	public function getLastName(){
 		return $this->lastName;
+	}
+
+	/**
+	 * @param mixed $accesses
+	 */
+	public function setAccesses($accesses) {
+		$this->accesses = $accesses;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getAccesses() {
+		return $this->accesses;
 	}
 	
 	/**

@@ -14,7 +14,7 @@ var area = "";
 
 function check_msie(){
 	if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
-		alert("Stai usando Internet Explorer: il funzionamento del sito non e` garantito con questo browser. Ti consigliamo di utilizzare Firefox o Chrome");
+		alert("Stai usando Internet Explorer: il funzionamento del sito non è garantito con questo browser. Ti consigliamo di utilizzare Firefox o Chrome");
 		return false;
 	}
 	return true;
@@ -35,26 +35,24 @@ function do_login(type){
 		    	method:'post',
 		    	parameters: {nick: nick, pass: pass, param: type},
 		    	onSuccess: function(transport){
-		      		var response = transport.responseText || "no response text";
-		      		//alert(response);
-		      		var dati = response.split(";");
-		      		if(dati[0] == "kosql"){
+		      		var response = transport.responseText.evalJSON();
+		      		//alert(response.group);
+		      		//var dati = response.split(";");
+		      		if(response.status == "kosql"){
 		      			alert("I dati inseriti non sono corretti.");
-		      			console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
+		      			console.log("Errore SQL. \nQuery: "+response.query+"\nErrore: "+response.message);
 						return;
 		      		}
-		      		else if(dati[0] == "ko"){
+		      		else if(response.status == "ko"){
 		      			alert("Login non riuscito.");
 		      			//console.log("Dati errati");
 		      			document.location.href = "index.php";
 		      		}
 		      		if(type == 1 || type == 2){
-		      			if(dati[0] == "G"){
+		      			if(response.group == "G"){
 		            		link = "intranet/genitori/index.php";
 		            		redirect = "intranet/genitori/modifica_password.php?from=first_access";
-		            		if(dati[8] == 1){
-		                		//window.location = redirect;
-		            		}
+
 		            	}
 		            	else{
 		            		link = "intranet/alunni/index.php";
@@ -74,7 +72,8 @@ function do_login(type){
 						area = "";
 						$('back').hide();
 				        $('newpwd').hide();
-		            	gruppi = dati[1].split(",");
+		            	gruppi = response.gids;
+				        //alert(gruppi.length);
 		            	col_length = parseInt(240 / (gruppi.length + 1));
 		            	for(i = 0; i < gruppi.length; i++){
 		            		if(gruppi[i] == 1 || gruppi[i] == 9 || gruppi[i] == 10)
@@ -209,7 +208,7 @@ document.observe("dom:loaded", function(){
 *{margin:0;padding:0;}:focus,:active {outline:0}ul,ol{list-style:none}img{border:0} 
 
 body {
-	background: url(images/body.png) repeat; 
+	background: url('images/body.png') repeat;
 	font-size: 12px; 
 	font-family: Georgia
 }
