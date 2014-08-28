@@ -2,10 +2,10 @@
             $_classi = $dompath->query("classe", $classi);
             $num_cl = $_classi->length;
             ?>
-    <div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+    <div style="width: 95%; height: 30px; margin: 20px auto 0 auto; text-align: center; font-size: 1.1em; font-weight: bold; text-transform: uppercase; color: rgba(30, 67, 137, 1);">
 		Riepilogo classi <?php echo $school ?>
 	</div>
-        <div style="width: 95%; margin: auto; height: 25px; text-align: center; text-transform: uppercase; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+        <div class="outline_line_wrapper">
 			<div style="width: 10%; float: left; position: relative; top: 30%">Classe</div>
 			<div style="width: 15%; float: left; position: relative; top: 30%">Non validati</div>
 			<div style="width: 15%; float: left; position: relative; top: 30%">A rischio</div>
@@ -47,7 +47,7 @@
  	    			$css = "";
  	    		}
 	 	    ?>
-	 	    <tr style="border-bottom: 1px solid rgb(211, 222, 199)">
+	 	    <tr class="manager_row_small">
 	 	    	<td class="<?php echo $css ?>" style="width: 10%; text-align: center; <?php print $style ?>"><a href="dettaglio_classe.php?id=<?php print $att ?>" class="<?php echo $css ?>" style="text-decoration: none; <?php print $style ?>"><?php print $nm->item(0)->nodeValue ?></a></td>
 	 	    	<td class="<?php echo $css ?>" style="width: 15%; text-align: center; <?php print $style ?>"><?php print $nv->item(0)->nodeValue ?></td>
 	 	    	<td class="<?php echo $css ?>" style="width: 15%; text-align: center; <?php print $style ?>"><?php print $ar->item(0)->nodeValue ?></td>

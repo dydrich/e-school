@@ -97,7 +97,7 @@
 }
 
 fieldset{
-	border: 1px solid rgb(211, 222, 199);
+	border: 1px solid rgba(30, 67, 137, .6);
 	border-radius: 5px;
 	padding: 5px;
 	margin-bottom: 15px;
@@ -111,6 +111,11 @@ legend{
 
 a.no_dec {
 	text-decoration: none
+}
+
+a.standard_link {
+    text-decoration: none;
+    text-transform: uppercase
 }
 
 .no_border {

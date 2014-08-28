@@ -2,7 +2,7 @@
 
 require_once "../../lib/start.php";
 
-ini_set("display_errors", "1");
+ini_set("display_errors", DISPLAY_ERRORS);
 
 check_session();
 
@@ -21,5 +21,3 @@ $area = "studenti";
 $alunno = $_SESSION['__user__']->getUid();
 
 include "../common/grades.php";
-
-?>

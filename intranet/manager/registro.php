@@ -24,7 +24,7 @@ $ask = false;
 $path = $_SESSION['__config__']['html_root']."/tmp/absences_summary_".$_SESSION['__current_year__']->get_ID().".xml";
 
 // richiesta esplicita di non usare i dati in cache
-if($_REQUEST['nocache'] == 1){
+if(isset($_REQUEST['nocache']) && $_REQUEST['nocache'] == 1){
 	$nocache = true;
 	//print "true su REQUEST";
 }
@@ -33,7 +33,7 @@ else{
 	if(file_exists($path)){
 		$nocache = false;
 	}
-	if(date("Y-m-d") > $_SESSION['last_stats_absences_manager']){
+	if(isset($_SESSION['last_stats_absences_manager']) && date("Y-m-d") > $_SESSION['last_stats_absences_manager']){
 		$nocache = true;
 		//print "true su controllo data";
 	}

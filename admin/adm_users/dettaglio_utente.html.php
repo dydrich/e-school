@@ -141,8 +141,7 @@ function go(par, user){
 	    </fieldset>
 	    </div>
 	    <div style="width: 95%; margin-right: 0px; text-align: right">
-	        <a href="../../shared/no_js.php" id="save_button" class="standard_link nav_link_first">Registra</a>|
-	        <a href="<?php echo $back_link ?>" id="close_button" class="standard_link nav_link_last">Torna all'elenco</a>
+	        <a href="../../shared/no_js.php" id="save_button" class="standard_link nav_link">Registra</a>
 	    </div>
 		</form>
 	</div>

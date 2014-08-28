@@ -4,6 +4,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Firma il registro di classe</title>
 <link rel="stylesheet" href="reg_classe.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
@@ -87,6 +88,10 @@ $(function(){
 		var strs = this.id.split("_");
 		$('#ora').val(strs[2]);
 		delete_support_sign(strs[3]);
+	});
+	$('#hid').mouseleave(function(event){
+		event.preventDefault();
+		$('#hid').hide();
 	});
 });
 
@@ -598,7 +603,7 @@ foreach ($firme as $x => $ora){
 <?php 
 	}
 ?>
-<tr class="title_tr">
+<tr>
 	<td style="height: 5px" colspan="4">&nbsp;</td>
 <tr>
 <?php

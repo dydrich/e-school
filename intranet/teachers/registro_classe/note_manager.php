@@ -75,6 +75,7 @@ switch($_REQUEST['action']){
 	case "delete":
 		$id_nota = $_REQUEST['id_nota'];
 		try{
+			$notes_count = $db->executeCount("SELECT COUNT(*) FROM rb_note_disciplinari WHERE anno = ".$_SESSION['__current_year__']->get_ID()." AND alunno = (SELECT alunno FROM rb_note_disciplinari WHERE id_nota = ".$id_nota.")");
 			$disciplinaryNote = new \eschool\DisciplinaryNote($id_nota, null, new MySQLDataLoader($db));
 			$disciplinaryNote->delete();
 		} catch (MySQLException $ex){
@@ -85,6 +86,7 @@ switch($_REQUEST['action']){
 			exit;
 		}
 		$id = $id_nota;
+		$response['count'] = $notes_count - 1;
 		break;
 }
 

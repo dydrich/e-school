@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Registro di sostegno</title>
-<link rel="stylesheet" href="../reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
@@ -43,13 +44,13 @@ if ($_SESSION['__sp_student__']){
 	 	<ul>
 			<li>Data di nascita: <?php echo format_date($student['data_nascita'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></li>
 			<li>Luogo di nascita: <?php echo $student['luogo_nascita'] ?></li>
-			<li>Indirizzo: <?php echo $student['indirizzo']['indirizzo'] ?></li>
-			<li>Telefono: <?php echo $student['indirizzo']['telefono1'] ?></li>
+			<li>Indirizzo: <?php if (isset($student['indirizzo']['indirizzo'])) echo $student['indirizzo']['indirizzo'] ?></li>
+			<li>Telefono: <?php if (isset($student['indirizzo']['telefono1'])) echo $student['indirizzo']['telefono1'] ?></li>
 			<li>Classe: <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?></li>
 			<li style="margin-top: 15px">Padre: <?php echo $student['dati']['padre'] ?></li>
 			<li>Madre: <?php echo $student['dati']['madre'] ?></li>
 			<li>Fratelli e sorelle: <?php echo $student['dati']['fratelli_sorelle'] ?></li>
-			<li>Altri componenti: <?php echo $student['dati']['other'] ?></li>
+			<li>Altri componenti: <?php if (isset($student['dati']['other'])) echo $student['dati']['other'] ?></li>
 			<li style="margin-top: 15px">Scuola di provenienza: <?php echo $student['dati']['scuola_provenienza'] ?></li>
 			<li>Classe di provenienza: <?php echo $student['dati']['classe_provenienza'] ?></li>
 		</ul>	

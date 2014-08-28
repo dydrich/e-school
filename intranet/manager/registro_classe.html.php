@@ -89,7 +89,7 @@ td a {
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 90%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		Verifica registro di classe
 		<a href="../../shared/no_js.php" id="imglink" style="float: right">
             <img src="../../images/19.png" id="ctx_img" style="margin: 0 0 4px 0; opacity: 0.5; vertical-align: bottom" />
@@ -99,12 +99,12 @@ td a {
 $current = $start;
 while($current < $max){
 	$lday = $lezioni[$current];
-	setlocale(LC_TIME, "it_IT");
+	setlocale(LC_TIME, "it_IT.utf8");
 	$giorno_str = strftime("%A", strtotime($lday['data']));
 	$giorno = ucfirst(substr($giorno_str, 0, 3))." ". format_date($lday['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
 ?>
 <div style="text-align: left; width: 95%; margin-left: auto; margin-right: auto; margin-bottom: 15px; ">
-<p id="lnk_<?php echo $lday['id_reg'] ?>" class="show_abs" style="text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7); height: 15px"><?php print $giorno ?></p>
+<p id="lnk_<?php echo $lday['id_reg'] ?>" class="show_abs" style="text-align: center; font-weight: bold; border: 1px solid rgba(30, 67, 137, .5);; outline-style: double; outline-color: rgba(30, 67, 137, .5);; background-color: rgba(30, 67, 137, .2);; height: 15px"><?php print $giorno ?></p>
 <div id="abs_<?php echo $lday['id_reg'] ?>" style="text-align: left; width: 100%; margin-left: auto; margin-right: auto; display: none "></div>
 <?php
 	if ($lday){

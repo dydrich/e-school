@@ -4,6 +4,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Registro di classe</title>
 <link rel="stylesheet" href="reg_classe.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
@@ -521,7 +522,7 @@ $forward_link = "registro_classe.php?data=".$data_forward;
 		<a href="#" onclick="go_to()" id="delete" style="font-size: 11px; display: none"> (Vai)</a>
 		<input type="hidden" name="date_to" id="date_to" onchange="nbutton()" />
 	 -->
-		<input type="text" id="gotoday" name="gotoday" style="width: 70px; text-align: center; font-size: 11px; font-family: Georgia; font-weight: normal; background-color: #dce4d5; border: 0; margin: auto" value="Giorno..." />
+		<input type="text" id="gotoday" name="gotoday" style="width: 90px; text-align: center; font-size: 11px; font-family: Georgia; font-weight: normal; background-color: rgba(30, 67, 137, .1); border: 1px solid rgba(30, 67, 137, .5); margin: auto; color: #003366" value="Giorno..." />
 
 		<?php if(!$data_forward){ ?><span style="float: right">Giorno successivo &gt;&gt;</span><?php } else{ ?>
 		<a href="<?php echo $forward_link ?>" style="float: right">Giorno successivo &gt;&gt;</a><?php } ?>

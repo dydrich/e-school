@@ -5,6 +5,14 @@ require_once "../lib/start.php";
 check_session();
 check_permission(ADM_PERM|APS_PERM|AMS_PERM);
 
+/**
+ * selected tab?
+ */
+$tab = 1;
+if (isset($_REQUEST['tab'])) {
+	$tab = $_REQUEST['tab'];
+}
+
 $_SESSION['__school_order__'] = 0;
 $title_label = "";
 $admin_level = 0;

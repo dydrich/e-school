@@ -27,12 +27,12 @@
 	<div id="left_col">
 		<div class="group_head">Modifica variabili d'ambiente</div>
 			<table style="width: 90%; border-collapse: collapse; margin: 20px auto 0 auto">
-				<tr style="background-color: rgba(211, 222, 199, 0.7)">
-					<td colspan="2" style="border: 1px solid #BBBBBB; text-align: center; font-weight: bold"><?php print $_SESSION['__current_year__']->to_string() ?></td>
+				<tr class="title_row">
+					<td colspan="2" style="border: 1px solid #1E4389"><?php print $_SESSION['__current_year__']->to_string() ?></td>
 				</tr>
-				<tr>
-					<td style="width: 30%; border: 1px solid #BBBBBB; padding-left: 10px; font-weight: bold">Variabile</td>
-					<td style="width: 70%; border: 1px solid #BBBBBB; padding-left: 10px; font-weight: bold">Valore</td>
+				<tr class="admin_row_small">
+					<td style="width: 40%; border: 1px solid #1E4389; padding-left: 10px; font-weight: bold">Variabile</td>
+					<td style="width: 60%; border: 1px solid #1E4389; padding-left: 10px; font-weight: bold">Valore</td>
 				</tr>
 					<?php
 						//while(list($k, $v) = each($_SESSION['__config__'])){
@@ -44,8 +44,8 @@
 							}
 					?>
 				<tr style="height: 30px">
-					<td style="width: 30%; border: 1px solid #BBBBBB; padding-left: 10px" id=""><?php print $k ?></td>
-					<td style="width: 70%; border: 1px solid #BBBBBB; padding-left: 10px;">
+					<td style="width: 40%; border: 1px solid #1E4389; padding-left: 10px" id=""><?php print $k ?></td>
+					<td style="width: 60%; border: 1px solid #1E4389; padding-left: 10px;">
 					<p id="<?php print $k ?>" style="margin-top: auto; margin-bottom: auto"><?php echo stripslashes($v) ?></p>
 					<script type="text/javascript"> 
 					new Ajax.InPlaceEditor('<?php print $k ?>', '../shared/env_manager.php', { 

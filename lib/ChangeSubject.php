@@ -159,7 +159,6 @@ EDT;
 			else {
 $this->javascript = <<<EDT
 var IE = document.all?true:false;
-if (!IE) document.captureEvents(Event.MOUSEMOVE);
 var tempX = 0;
 var tempY = 0;
 

@@ -5,6 +5,12 @@ $ore = 8;
 $anno = $_SESSION['__current_year__']->get_ID();
 $classe = $_SESSION['__classe__']->get_ID();
 
+$ordine_scuola = $_SESSION['__classe__']->getSchoolOrder();
+$school_year = $_SESSION['__school_year__'][$ordine_scuola];
+$inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+$fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+$fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+
 // array contenente l'orario iniziale delle ore di lezione
 $inizio_ore = array("", "8:30", "9:30", "10:30", "11:30", "12:30", "14:30", "15:30", "16:30");
 

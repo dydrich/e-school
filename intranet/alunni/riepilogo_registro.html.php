@@ -3,18 +3,52 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area studenti</title>
-<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javascript">
-function dettaglio_assenze(id_alunno){
-	w = window.open_centered("../teachers/registro_classe/elenco_assenze.php?alunno="+id_alunno, "elenco", 400, 500, "");
-}
+	var stid = 0;
 
-function delay(alunno, quadrimestre){
-	w = window.open_centered("../teachers/registro_classe/dettaglio_rit_uscite.php?alunno="+alunno+"&q="+quadrimestre, "el", 400, 500, "");
-}
+	var dettaglio_assenze = function(f_id, q){
+		$('#context_menu').hide();
+		if (f_id == 0) {
+			$('#iframe').attr("src", "../teachers/registro_classe/elenco_assenze.php?alunno=<?php echo $_SESSION['__user__']->getUid() ?>");
+			lab_title = "Elenco assenze";
+		}
+		else {
+			$('#iframe').attr("src", "../teachers/registro_classe/dettaglio_rit_uscite.php?alunno=<?php echo $_SESSION['__user__']->getUid() ?>&q="+q);
+			lab_title = "Ritardi";
+		}
+		$('#abs_pop').dialog({
+			autoOpen: true,
+			show: {
+				effect: "appear",
+				duration: 500
+			},
+			hide: {
+				effect: "slide",
+				duration: 300
+			},
+			modal: true,
+			width: 450,
+			title: lab_title,
+			open: function(event, ui){
+
+			}
+		});
+		//var w = new Window({className: "mac_os_x",  width:400, zIndex: 100, resizable: true, title: "Elenco assenze", url: "elenco_assenze.php?alunno="+stid, showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});
+		//w.showCenter(true);
+	}
+
+	var dialogclose = function(){
+		$('#abs_pop').dialog("close");
+	};
+
 </script>
 </head>
 <body>
@@ -25,13 +59,13 @@ function delay(alunno, quadrimestre){
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		<?php echo $label ?>
 	</div>
-	<div style="width: 95%; margin: 0 auto 20px auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+	<div class="outline_line_wrapper">
 		<div style="width: 30%; float: left; position: relative; top: 30%">&nbsp;</div>
-		<div style="width: 35%; float: left; position: relative; top: 30%">Giorni di lezione</div>
-		<div style="width: 35%; float: left; position: relative; top: 30%">Ore di lezione</div>
+		<div style="width: 35%; float: left; position: relative; top: 25%">Giorni di lezione</div>
+		<div style="width: 35%; float: left; position: relative; top: 25%">Ore di lezione</div>
 	</div>
 	<table style="width: 95%; border-collapse: collapse; margin: auto">
 <?php  
@@ -66,12 +100,15 @@ $t_m = $abs_hours - $abs_sec;
 $t_m /= 60;
 $ore_assenza = minutes2hours($t_m, "-");
 ?>
-		<tr style="border-bottom: 1px solid rgba(211, 222, 199, 0.6); text-align: center; height: 20px">
-			<td style="padding-left: 20px; width: 30%; font-weight: bold">Le tue assenze</td>
-			<td style="width: 35%; "><?php if($assenze > 0) print("<a style='text-decoration: none' href='#' onclick='dettaglio_assenze(".$_SESSION['__user__']->getUid().")'>") ?><?php print $assenze ?> (<?php print $perc_assenze ?> %)<?php if($assenze > 0) print("</a>") ?></td>	
-			<td style="width: 35%; "><?php if($ore_assenza > 0) print("<a style='text-decoration: none' href='#' onclick='delay(".$_SESSION['__user__']->getUid().", \"".$q."\")'>") ?><?php print $ore_assenza ?> (<?php print $perc_hours ?> %)<?php if($ore_assenza > 0) print("</a>") ?></td>
+		<tr>
+			<td colspan="3" class="admin_void">&nbsp;</td>
 		</tr>
-		<tr style="border-bottom: 1px solid rgba(211, 222, 199, 0.6); text-align: center; height: 20px">
+		<tr class="manager_row_small _center">
+			<td style="padding-left: 20px; width: 30%; font-weight: bold">Le tue assenze</td>
+			<td style="width: 35%; "><?php if($assenze > 0) print("<a style='text-decoration: none' href='#' onclick='dettaglio_assenze(0, 0)'>") ?><?php print $assenze ?> (<?php print $perc_assenze ?> %)<?php if($assenze > 0) print("</a>") ?></td>
+			<td style="width: 35%; "><?php if($ore_assenza > 0) print("<a style='text-decoration: none' href='#' onclick='dettaglio_assenze(1, \"".$q."\")'>") ?><?php print $ore_assenza ?> (<?php print $perc_hours ?> %)<?php if($ore_assenza > 0) print("</a>") ?></td>
+		</tr>
+		<tr class="manager_row_small _center">
 			<td style="padding-left: 20px; width: 30%; font-weight: bold">Totale classe</td>
 			<td style="width: 35%; "><?php print $totale['giorni'] ?> (<span class="attention"><?php print $limite_giorni ?></span>)</td>	
 			<td style="width: 35%; "><?php print $tot_ore ?> (<span class="attention"><?php print $limite_ore ?></span>)</td>
@@ -80,7 +117,7 @@ $ore_assenza = minutes2hours($t_m, "-");
 			<td colspan="3" style="height: 30px"></td>
 		</tr>
 		<tr>
-			<td colspan="3" style="margin: 30px auto 0 auto; text-align: center; padding-right: 10px; height: 35px; border-width: 1px 0 1px 0; border-style: solid; border-color: rgba(211, 222, 199, 0.6)">
+			<td colspan="3" style="margin: 30px auto 0 auto; text-align: center; padding-right: 10px; height: 35px; border-width: 1px 0 1px 0; border-style: solid; border-color: rgba(30, 67, 137, .3);">
 				<a href="riepilogo_registro.php?q=1" style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
 					<img style="margin-right: 5px; position: relative; top: 5px" src="../../images/quad.png" />1 Quadrimestre
 				</a>
@@ -97,5 +134,8 @@ $ore_assenza = minutes2hours($t_m, "-");
 <p class="spacer"></p>
 </div>
 <?php include "footer.php" ?>
+<div id="abs_pop" style="display: none">
+	<iframe id="iframe" src="../teachers/registro_classe/elenco_assenze.php" style="width: 100%; height: 450px; margin: 0 auto; padding: 0"></iframe>
+</div>
 </body>
 </html>

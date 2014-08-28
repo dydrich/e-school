@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Admin home page</title>
-	<link href="../../css/reg.css" rel="stylesheet" />
-	<link href="../../css/general.css" rel="stylesheet" />
+<link href="../../css/reg.css" rel="stylesheet" />
+<link href="../../css/general.css" rel="stylesheet" />
 <link rel="stylesheet" href="../../css/themes/default.css" type="text/css"/>
 <link rel="stylesheet" href="../../css/themes/alphacube.css" type="text/css"/>
 <script type="text/javascript" src="../../js/prototype.js"></script>
@@ -34,7 +34,7 @@
             foreach ($classi as $cls){
             ?>
             <tr>
-                <td colspan="2" style="background-color: rgba(211, 222, 199, 0.7)" class="_bold _center">Classe <?php echo $cls['cls']['anno_corso'].$cls['cls']['sezione'] ?>: <?php echo $cls['cls']['nome'] ?> (<?php echo count($cls['alunni']) ?>)</td>
+                <td colspan="2" style="background-color: rgba(30, 67, 137, .6);" class="_bold _center">Classe <?php echo $cls['cls']['anno_corso'].$cls['cls']['sezione'] ?>: <?php echo $cls['cls']['nome'] ?> (<?php echo count($cls['alunni']) ?>)</td>
             </tr>
         	<?php 
 				foreach ($cls['alunni'] as $alunno){

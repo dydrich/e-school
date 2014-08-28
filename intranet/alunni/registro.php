@@ -2,7 +2,7 @@
 
 require_once "../../lib/start.php";
 
-ini_set("display_errors", "1");
+ini_set("display_errors", DISPLAY_ERRORS);
 
 check_session();
 
@@ -15,5 +15,3 @@ $student_id = $_SESSION['__user__']->getUid();
 $navigation_label = "Registro elettronico - Area studenti";
 
 include "../common/classbook.php";
-
-?>

@@ -5,7 +5,8 @@
 <title>Note disciplinari di classe </title>
 <link rel="stylesheet" href="reg_classe.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
@@ -77,6 +78,9 @@
 			}
 			note_manager(strs[1]);
 		});
+		$('#tipinota').mouseleave(function(event){
+			$('#tipinota').hide();
+		});
 	});
 
 </script>
@@ -135,7 +139,7 @@ while($row = $res_note->fetch_assoc()){
 	<td colspan="4">&nbsp;</td>
 </tr>	
 <tr class="nav_tr"> 
-	<td colspan="4" style="text-align: right; "><a href="#" onclick="note_manager(0)" style="margin-right: 30px">Nuova nota</a></td>
+	<td colspan="4" style="text-align: right; "><a href="#" onclick="note_manager(0)" class="standard_link" style="margin-right: 30px">Nuova nota</a></td>
 </tr>
 </tfoot>
 </table>
@@ -152,7 +156,6 @@ while($row = $res_note->fetch_assoc()){
     ?>
     	<a style="font-weight: normal" href="notes.php?q=<?php echo $q ?>&order=data&tipo=<?= $t['id_tiponota'] ?>"><?php echo $t['descrizione'] ?></a><br />
     <?php } ?>
-    	<br /><a style="font-weight: normal" href="#" onclick="$('tipinota').hide()">Chiudi</a>
     </div>
 <!-- tipi nota -->
 <div id="nota" style="display: none">

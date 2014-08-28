@@ -1,5 +1,11 @@
 <?php
 
+$ordine_scuola = $_SESSION['__classe__']->getSchoolOrder();
+$school_year = $_SESSION['__school_year__'][$ordine_scuola];
+$inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+$fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+$fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+
 $sel_act = "SELECT rb_impegni.*, rb_materie.materia AS mat FROM rb_impegni, rb_materie WHERE rb_materie.id_materia = rb_impegni.materia AND classe = ".$_SESSION['__classe__']->get_ID()." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND data_inizio >= NOW() AND rb_impegni.tipo = 2 ORDER BY data_inizio DESC";
 $res_act = $db->execute($sel_act);
 
@@ -9,36 +15,68 @@ $res_act = $db->execute($sel_act);
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area genitori</title>
-<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript">
-function dett(id_impegno){
-	var req = new Ajax.Request('../../shared/get_desc.php',
-			  {
-			    	method:'post',
-			    	parameters: {id_impegno: id_impegno, tipo: '2'},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		if(dati[0] == "ko"){
-				      		alert(dati[1]);
-				      		return false;
-			      		}
-			      		var win = new Window({className: "mac_os_x",  width:300, height:null, zIndex: 100, resizable: true, title: "Dettaglio compito", showEffect:Effect.BlindDown, hideEffect: Effect.SwitchOff, draggable:true, wiredDrag: true});
-		            	win.getContent().update("<div style='font-weight: bold; font-size: 11px; text-align: center; margin-top: 20px' class='Titolo'>"+dati[1]+"</div><div style='text-align: center; font-weight: normal; font-size: 11px; padding: 10px; margin-top: 20px; padding-bottom: 35px'>"+dati[2]+"</div>");     
-		            	win.showCenter(true);
-		            	//alert("Sono alla fine");
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+	var dett = function(id_impegno){
+
+		$.ajax({
+			type: "POST",
+			url: '../../shared/get_desc.php',
+			data: {id_impegno: id_impegno, tipo: '1'},
+			dataType: 'json',
+			error: function() {
+				show_error("Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					alert(json.message);
+					console.log(json.dbg_message);
+				}
+				else {
+					$('#pop_t').text(json.descrizione);
+					$('#pop_d').text(json.note);
+					$('#dialog').dialog({
+						autoOpen: true,
+						show: {
+							effect: "appear",
+							duration: 500
+						},
+						hide: {
+							effect: "slide",
+							duration: 300
+						},
+						buttons: [{
+							text: "Chiudi",
+							click: function() {
+								$( this ).dialog( "close" );
+							}
+						}],
+						modal: true,
+						width: 450,
+						title: 'Dettaglio',
+						open: function(event, ui){
+
+						}
+					});
+				}
+			}
+		});
+
+	};
 </script>
 </head>
 <body>
@@ -50,7 +88,7 @@ function dett(id_impegno){
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 90%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		Compiti, classe <?php echo $_SESSION['__classe__']->get_anno(),$_SESSION['__classe__']->get_sezione() ?>
 	</div>
 <?php 
@@ -68,7 +106,7 @@ else{
 	while($row = $res_act->fetch_assoc()){
 		$ct = 1;
 		list($di, $oi) = explode(" ", $row['data_inizio']);
-		setlocale(LC_ALL, "it_IT");
+		setlocale(LC_ALL, "it_IT.utf8");
 		$giorno_str = strftime("%A", strtotime($di));
 		if($di != $data){
 ?>
@@ -97,5 +135,9 @@ else{
 <p class="spacer"></p>
 </div>
 <?php include "footer.php" ?>
+<div id="dialog" style="display: none">
+	<div id="pop_t" style='font-weight: bold; text-align: center; margin-top: 20px'></div>
+	<div id="pop_d" style='text-align: center; padding: 10px; margin-top: 20px; padding-bottom: 35px'></div>
+</div>
 </body>
 </html>

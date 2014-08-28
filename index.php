@@ -17,5 +17,3 @@ if(!isset($_SESSION['__config__'])){
 }
 
 include "index.html.php";
-
-?>

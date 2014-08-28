@@ -67,20 +67,21 @@ $link = "elenco_note_didattiche.php?materia=".$_REQUEST['materia'];
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
-<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javascript">
 var IE = document.all?true:false;
-if (!IE) document.captureEvents(Event.MOUSEMOVE);
+
 var tempX = 0;
 var tempY = 0;
 
-function _show(e) {
-	var hid = document.getElementById("tipinota");
-    //alert(hid.style.top);
-    if (IE) { // grab the x-y pos.s if browser is IE
+var _show = function(e) {
+	if (IE) { // grab the x-y pos.s if browser is IE
         tempX = event.clientX + document.body.scrollLeft;
         tempY = event.clientY + document.body.scrollTop;
     } else {  // grab the x-y pos.s if browser is NS
@@ -89,13 +90,20 @@ function _show(e) {
     }  
     // catch possible negative values in NS4
     if (tempX < 0){tempX = 0;}
-    if (tempY < 0){tempY = 0;}  
-    hid.style.top = parseInt(tempY)+"px";
-    //alert(hid.style.top);
-    hid.style.left = parseInt(tempX)+"px";
-    hid.style.display = "inline";
+    if (tempY < 0){tempY = 0;}
+	tempY -= 150;
+	$('#tipinota').css({'top': parseInt(tempY)+"px"});
+	//alert(hid.style.top);
+	$('#tipinota').css({'left': parseInt(tempX)+"px"});
+	$('#tipinota').show();
     return true;
-}
+};
+$(function(){
+	$('#tipinota').mouseleave(function(event){
+		event.preventDefault();
+		$('#tipinota').hide();
+	});
+});
 </script>
 <style type="text/css">
 TD{height: 20px; border-color: white}
@@ -111,13 +119,13 @@ TD{height: 20px; border-color: white}
 </div>
 <div id="left_col">
 <?php 
-setlocale(LC_TIME, "it_IT");
+setlocale(LC_TIME, "it_IT.utf8");
 $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
-	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		Note disciplinari di <?php echo $student ?>: <?php print $desc_materia ?> <?php echo $label ?>
 	</div>
-	<div style="width: 95%; margin: 0 auto 20px auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+	<div class="outline_line_wrapper">
 		<div style="width: 20%; float: left; position: relative; top: 30%">Data</div>
 		<div style="width: 30%; float: left; position: relative; top: 30%">Tipo nota</div>
 		<div style="width: 50%; float: left; position: relative; top: 30%">Commento</div>
@@ -142,7 +150,7 @@ while($row = $res_note->fetch_assoc()){
 		$background = "";
 	}
 ?>
-		<tr style="border-bottom: 1px solid rgb(211, 222, 199)">  
+		<tr class="manager_row_small">
 			<td style="width: 20%; text-align: center; "><?php print format_date($row['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td> 
 			<td style="width: 30%; text-align: center; "><?php print $row['tipo_nota'] ?></td> 
 			<td style="width: 50%; text-align: center; "><?php print $row['note'] ?></td>   
@@ -157,10 +165,10 @@ while($row = $res_note->fetch_assoc()){
 		<tr>
 			<td colspan="2" style="text-align: right;"></td>
 			<td style="text-align: right; width: 50%">
-			<div style="width: 100%; height: 20px; border: 1px solid rgb(211, 222, 199); border-radius: 8px; background-color: rgba(211, 222, 199, 0.4)">
+			<div style="width: 100%; height: 20px; border: 1px solid rgb(211, 222, 199); border-radius: 8px; background-color: rgba(30, 67, 137, .1); text-align: center">
 				<span id="ingresso" style="font-weight: bold; "></span>
-				<a href="elenco_note_didattiche.php?materia=<?php echo $_REQUEST['materia'] ?>&q=<?php echo $q ?>&order=<?php if($order == "data") print "tipo"; else print "data" ?>" style="font-weight: normal; text-decoration: none; text-transform: uppercase; position: relative; top: 15%">Ordina per <?php if($order == "data") print "tipo"; else print "data" ?></a> | 
-				<a href="#" onclick="_show(event)" style="font-weight: normal; text-decoration: none; text-transform: uppercase; padding-right: 20px; position: relative; top: 15%">Filtra per tipo nota</a>
+				<a href="elenco_note_didattiche.php?materia=<?php echo $_REQUEST['materia'] ?>&q=<?php echo $q ?>&order=<?php if($order == "data") print "tipo"; else print "data" ?>" style="position: relative; top: 15%" class="standard_link nav_link_first">Ordina per <?php if($order == "data") print "tipo"; else print "data" ?></a>|
+				<a href="#" onclick="_show(event)" style="position: relative; top: 15%" class="standard_link nav_link_last">Filtra per tipo nota</a>
 			</div>
 			</td>
 		</tr>
@@ -171,13 +179,12 @@ while($row = $res_note->fetch_assoc()){
 <?php include "footer.php" ?>
 <!-- tipi nota -->
     <div id="tipinota" style="position: absolute; width: 200px; height: 160px; display: none; ">
-    	<a style="font-weight: normal; font-size: 11px" href="<?= $link ?>&q=<?= $q ?>&order=data">Tutte le note</a><br />
+    	<a style="font-weight: normal; font-size: 11px" href="<?php echo $link ?>&q=<?php echo $q ?>&order=data">Tutte le note</a><br />
     <?php 
     while($t = $res_tipi->fetch_assoc()){
     ?>
-    	<a style="font-weight: normal; font-size: 11px" href="<?= $link ?>&q=<?= $q ?>&order=data&tipo=<?= $t['id_tiponota'] ?>"><?= $t['descrizione'] ?></a><br />
+    	<a style="font-weight: normal; font-size: 11px" href="<?php echo $link ?>&q=<?php echo $q ?>&order=data&tipo=<?= $t['id_tiponota'] ?>"><?= $t['descrizione'] ?></a><br />
     <?php } ?>
-    	<br /><a style="font-weight: normal; font-size: 11px" href="#" onclick="$('tipinota').style.display = 'none'">Chiudi</a>
     </div>
 <!-- tipi nota -->
 </body>

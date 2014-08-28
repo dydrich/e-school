@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Attivita</title>
-<link rel="stylesheet" href="../reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
@@ -20,7 +21,7 @@
 	<?php include "menu_sostegno.php" ?>
 	</div>
 	<div id="left_col">
-		<h2 style="text-align: center; padding-top: 10px">Attivit&agrave; svolte</h2><a href="dettaglio_attivita.php?id=0" style="float: right; margin-right: 40px" class="standard_link">Nuova attivit&agrave;</a>
+		<div class="group_head">Attivit&agrave; svolte</div><a href="dettaglio_attivita.php?id=0" style="float: right; margin-right: 40px" class="standard_link">Nuova attivit&agrave;</a>
 		<table style="width: 80%; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 20px">
 <?php
 if ($res_attivita->num_rows < 1){
@@ -35,7 +36,7 @@ if ($res_attivita->num_rows < 1){
 else {
 	while ($row = $res_attivita->fetch_assoc()){
 ?>
-			<tr style="border-bottom: 1px solid #CCCCCC">
+			<tr class="manager_row_small">
 				<td style="width: 20%"><a href="dettaglio_attivita.php?id=<?php echo $row['id'] ?>"><?php echo format_date($row['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></a></td>
 				<td style="width: 80%"><?php echo stripslashes($row['attivita']) ?></td> 
 			</tr>

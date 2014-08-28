@@ -41,7 +41,7 @@ $mesi = array("Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Lug
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
-<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/prototype.js"></script>
 <script type="text/javascript" src="../../js/scriptaculous.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
@@ -100,10 +100,10 @@ TD{height: 20px}
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		Registro di classe, <?php echo $_SESSION['__classe__']->get_anno(),$_SESSION['__classe__']->get_sezione() ?>
 	</div>
-	<div style="width: 95%; margin: 0 auto 15px auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+	<div class="outline_line_wrapper">
 		<div style="width: 30%; float: left; position: relative; top: 30%">Data</div>
 		<div style="width: 15%; float: left; position: relative; top: 30%">Entrata</div>
 		<div style="width: 15%; float: left; position: relative; top: 30%">Uscita</div>

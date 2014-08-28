@@ -2,6 +2,7 @@
 	<h2 class="menu_head">Menu</h2>
 	<p class="menu_label class_icon">CDC</p>
 	<ul class="menublock" style="" dir="rtl">
+		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>index.php?tab=6">Home</a></li>
 		<?php
 		if((count($_SESSION['__school_level__']) > 1) && $admin_level == 0){
 			foreach ($_SESSION['__school_level__'] as $k => $sl){

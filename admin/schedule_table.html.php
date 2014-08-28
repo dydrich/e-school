@@ -231,11 +231,11 @@ div.overlay{
 		            $sc_order = "SI";
 	            }
             ?>
-            <tr class="admin_row small">
-	            <td style="width:  5%; font-weight: bold"><?php echo $cl->get_anno(),$cl->get_sezione(),' ',$sc_order ?></td>
+            <tr class="admin_row_small">
+	            <td style="width:  10%; font-weight: bold"><?php echo $cl->get_anno(),$cl->get_sezione(),' ',$sc_order ?></td>
 	            <td style="width: 30%; padding-left: 15px">Numero di giorni settimanali: <span style="font-weight: bold"><?php echo $module->getNumberOfDays() ?></span></td>
 	            <td style="width: 30%; padding-left: 15px">Numero di ore settimanali: <span style='font-weight: bold'><?php echo $module->getClassDuration()->toString(RBTime::$RBTIME_SHORT) ?></span></td>
-	            <td style="width: 30%; padding-left: 15px">In archivio: <span style='font-weight: bold'><?php echo $h ?> ore</span></td>
+	            <td style="width: 25%; padding-left: 15px">In archivio: <span style='font-weight: bold'><?php echo $h ?> ore</span></td>
 	            <td style="width:  5%">
 	            	<p style="width: 15px; height: 15px; text-align: center; margin: 1px 0 0 0">
 	            		<a href="../shared/no_js.php" class="img_link" id="imglink_<?php echo $k ?>_<?php echo $cl->get_anno(),$cl->get_sezione() ?>_<?php echo $sc_order ?>">
@@ -267,7 +267,7 @@ div.overlay{
     	<hr style="width: 95%; margin: auto; padding: 0 10px 0 10px; color: rgba(250, 250, 250, 0.2)" />
     </div>
     <div id="menu_cls" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 8px 8px 8px 8px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888">
-    	<p id="menu_label" style="text-align: center; padding: 2px 0 2px 0; width: 100%; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid rgba(231, 231, 231, 0.9); background-color: rgba(231, 231, 231, 0.4)"></p>
+    	<p id="menu_label" style=""></p>
     	<a href="../shared/no_js.php" id="class_reinsert" class="do_link" style="padding-left: 10px;">Reinserisci la classe</a><br />
     	<a href="../shared/no_js.php" id="class_delete" class="do_link" style="padding-left: 10px;">Cancella la classe</a><br />
     	<a href="../shared/no_js.php" id="class_insert" class="do_link" style="padding-left: 10px;">Inserisci la classe</a><br />

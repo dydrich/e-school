@@ -283,11 +283,7 @@ document.observe("dom:loaded", function(){
             }
             include "../../shared/navigate.php";
             ?>
-            <tr class="admin_menu">
-                <td colspan="4" style="text-align: right">
-                    <a href="<?php echo $goback_link ?>"><?php echo $goback ?></a>
-                </td>
-            </tr>
+
             <tr class="admin_void">
                 <td colspan="4">&nbsp;&nbsp;&nbsp;
                 	<input type="hidden" name="mat" id="mat" />

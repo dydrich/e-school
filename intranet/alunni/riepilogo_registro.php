@@ -16,5 +16,3 @@ $navigation_label = "Registro elettronico - Area studenti";
 include "../common/classbook_summary.php";
 
 include "riepilogo_registro.html.php";
-
-?>

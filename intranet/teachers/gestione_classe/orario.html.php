@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php echo $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
-<link rel="stylesheet" href="../reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../../js/prototype.js"></script>
@@ -113,21 +114,21 @@ tbody a {
 	?>
 	</div> 
 	<form method="post">
-	<div style="width: 90%; height: 30px; margin: 30px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		Orario delle lezioni [ <a href="pdf_class_schedule.php">PDF</a> ] 
 	</div>
-	<div style="width: 90%; margin: auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
-		<div style="width: 7%; float: left; position: relative; top: 30%">Ora</div>
-		<div style="width: 31%; float: left; position: relative; top: 30%">Luned&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 30%">Marted&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 30%">Mercoled&igrave;</div>
+	<div class="outline_line_wrapper">
+		<div style="width: 7%; float: left; position: relative; top: 25%">Ora</div>
+		<div style="width: 31%; float: left; position: relative; top: 25%">Luned&igrave;</div>
+		<div style="width: 31%; float: left; position: relative; top: 25%">Marted&igrave;</div>
+		<div style="width: 31%; float: left; position: relative; top: 25%">Mercoled&igrave;</div>
 	</div>
     <table style="margin: 10px auto 0 auto; text-align: center; font-size: 1em; width: 90%">
         <?php 
         for($i = 0; $i < $ore; $i++){
         	reset($materie);
         ?>
-        <tr style="border-bottom: 1px solid #C0C0C0;">
+        <tr style="border-bottom: 1px solid rgba(30, 67, 137, .4)">
         	<td style="width: 7%; "><?php echo $i+1 ?></td>
         	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(1, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(1, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 1, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 1, $i+1)][0] ?></a></td>
         	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(2, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(2, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 2, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 2, $i+1)][0] ?></a></td>
@@ -140,18 +141,18 @@ tbody a {
             <td colspan="4" style="height: 40px"></td>
         </tr>
     </table>
-	<div style="width: 90%; margin: auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
-		<div style="width: 7%; float: left; position: relative; top: 30%">Ora</div>
-		<div style="width: 31%; float: left; position: relative; top: 30%">Gioved&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 30%">Venerd&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 30%">Sabato</div>
+	<div class="outline_line_wrapper">
+		<div style="width: 7%; float: left; position: relative; top: 25%">Ora</div>
+		<div style="width: 31%; float: left; position: relative; top: 25%">Gioved&igrave;</div>
+		<div style="width: 31%; float: left; position: relative; top: 25%">Venerd&igrave;</div>
+		<div style="width: 31%; float: left; position: relative; top: 25%">Sabato</div>
 	</div>       
     <table style="margin: 10px auto 0 auto; text-align: center; font-size: 1em; width: 90%">
         <?php 
         for($i = 0; $i < $ore; $i++){
         	reset($materie);
         ?>
-        <tr style="border-bottom: 1px solid #C0C0C0;">
+        <tr style="border-bottom: 1px solid rgba(30, 67, 137, .4)">
         	<td style="width: 7%; "><?php echo $i+1 ?></td>
         	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(4, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(4, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 4, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 4, $i+1)][0] ?></a></td>
         	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(5, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(5, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 5, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 5, $i+1)][0] ?></a></td>

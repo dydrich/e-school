@@ -24,7 +24,7 @@ $sel_sos = "SELECT CONCAT_WS(' ', rb_utenti.cognome, rb_utenti.nome) AS docente,
 $res_sos = $db->execute($sel_sos);
 $sos = array();
 while ($row = $res_sos->fetch_assoc()){
-	if (!$sos[$row['uid']]){
+	if (!isset($sos[$row['uid']])){
 		$sos[$row['uid']] = array();
 		$sos[$row['uid']]['nome'] = $row['docente'];
 		$sos[$row['uid']]['classi'] = array();

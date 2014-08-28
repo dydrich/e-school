@@ -38,10 +38,10 @@
 		<?php include $_SESSION['__administration_group__']."/menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+		<div class="group_head">
 			<?php echo $page_label ?>
 		</div>
-		<div id="tabs" style="">
+		<div id="tabs" style="margin-top: 10px">
 			<?php
 			foreach ($lessons as $k => $cl){
 				?>
@@ -75,7 +75,7 @@
 					list($y, $m, $d) = explode("-", $lezione['data']);
 					if($mese != $m){
 						$str_month = ucfirst(strftime("%B", strtotime($lezione['data'])));
-						print("<tr><td colspan='2' style='height: 20px; vertical-align: middle; font-weight: normal; text-transform: uppercase; font-size: 13m; text-align: center; border-bottom: 1px solid #CCCCCC; background-color: rgba(211, 222, 199, 0.3); '>$str_month</td></tr>");
+						print("<tr><td colspan='2' style='height: 20px; vertical-align: middle; font-weight: normal; text-transform: uppercase; font-size: 13m; text-align: center; border-bottom: 1px solid rgba(30, 67, 137, .3); background-color: rgba(30, 67, 137, .1); '>$str_month</td></tr>");
 					}
 
 					$giorno_str = ucfirst(strftime("%A %d", strtotime($lezione['data'])));

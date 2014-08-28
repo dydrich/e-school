@@ -198,7 +198,7 @@ while($al = $res_dati->fetch_assoc()){
 <tr>
 	<td colspan="3" style="height: 15px"></td>
 </tr>
-<tr style="font-weight: bold; height: 30px; background-color: #e8eaec">
+<tr style="font-weight: bold; height: 30px; background-color: rgba(30, 67, 137, .3)">
 	<td style="padding-left: 10px">Media classe</td>
 	<td style="text-align: center">
 		<span id="avg" style="padding-right: 10px"></span>

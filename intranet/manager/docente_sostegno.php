@@ -29,7 +29,7 @@ $ore = 0;
 $classi = array();
 while ($row = $res_sos->fetch_assoc()){
 	$user = $row['docente'];
-	if (!$sos[$row['uid']]){
+	if (!isset($sos[$row['uid']])){
 		$sos[$row['uid']] = array();
 		$sos[$row['uid']]['nome'] = $row['docente'];
 		$sos[$row['uid']]['classi'] = array();

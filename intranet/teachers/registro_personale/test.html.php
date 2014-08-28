@@ -150,11 +150,11 @@ table.registro td {
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
-<div style="text-align: center; font-size: 1em; font-weight: bold; margin: auto; width: 95%; text-transform: uppercase">Dettaglio verifica di <?php echo $test->getSubject()->getDescription() ?> del <span id="date_label"><?php echo format_date(substr($test->getTestDate(), 0, 10), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></span></div>
-<fieldset style="width: 95%; margin: auto; border-color: #CCCCCC; border-radius: 10px; background-color: rgba(211, 222, 199, 0.3)">
+<div class="group_head">Dettaglio verifica di <?php echo $test->getSubject()->getDescription() ?> del <span id="date_label"><?php echo format_date(substr($test->getTestDate(), 0, 10), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></span></div>
+<fieldset style="width: 95%; margin: auto; border-radius: 10px; background-color: rgba(222, 222, 222, 0.1)">
 <legend style="margin-left: 15px; font-weight: bold">Dati verifica</legend>
 <table style="border-collapse: collapse; width: 90%; margin-left: auto; margin-right: auto; margin-top: 10px; margin-bottom: 10px">
-	<tr style="height: 25px; border-bottom: 1px solid gray">
+	<tr style="height: 25px; border-bottom: 1px solid rgba(30, 67, 137, .8)">
 		<td style="width: 10%; font-weight: bold">Data e ora</td>
 		<td style="width: 20%; text-align: right;" id="datetm"><?php echo $test->testDateToString() ?></td>
 		<td style="width: 2%"></td>
@@ -165,7 +165,7 @@ table.registro td {
 		<td style="width: 20%; font-weight: bold; text-align: right;" id="avg"><?php echo $test->getAverage() ?></td>
 		
 	</tr>
-	<tr style="height: 25px; border-bottom: 1px solid gray">
+	<tr style="height: 25px; border-bottom: 1px solid rgba(30, 67, 137, .8)">
 		<td style="width: 10%; font-weight: bold">Prova</td>
 		<td style="width: 20%; text-align: right;" id="desc"><?php print $test->getDescription() ?></td>
 		<td style="width: 2%"></td>
@@ -175,11 +175,11 @@ table.registro td {
 		<td style="width: 10%; font-weight: bold">Note</td>
 		<td style="width: 20%; text-align: right;" id="ann"><?php print $test->getAnnotation() ?></td>
 	</tr>
-	<tr style="height: 25px; border-bottom: 1px solid gray">
+	<tr style="height: 25px; border-bottom: 1px solid rgba(30, 67, 137, .8)">
 		<td style="width: 10%; font-weight: bold">Argomento</td>
 		<td colspan="7" id="top"><?php print $test->getTopic() ?></td>
 	</tr>
-	<tr style="height: 25px; border-bottom: 1px solid gray">
+	<tr style="height: 25px; border-bottom: 1px solid rgba(30, 67, 137, .8)">
 		<td style="width: 10%; font-weight: bold">Obiettivi</td>
 		<td colspan="7"><?php echo $string_obj ?></td>
 	</tr>

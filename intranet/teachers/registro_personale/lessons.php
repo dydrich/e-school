@@ -86,6 +86,7 @@ $res_lessons = $db->execute($sel_lessons);
 
 $change_subject = new ChangeSubject("hid", "", "position: absolute; width: 180px; height: 55px; display: none", "div", $_SESSION['__subjects__']);
 $change_subject->createLink("text-decoration: none; text-transform: uppercase; font-weight: bold", "left");
+$change_subject->setJavascript('', 'jquery');
 
 $navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 

@@ -27,7 +27,7 @@ $is_active = $son[3];
 		<li><a href="lezioni.php">Lezioni</a></li>
 	</ul>
 	<?php if(is_installed("com")){ ?> 	
-    <p style="color: #484848; font-size: 1.1em; text-transform: uppercase; background: url(../../images/9.png) no-repeat; background-position: right top; text-align: right; clear: right; padding-right: 30px">Comunicazioni</p>
+    <p class="menu_label com_icon">Comunicazioni</p>
     	<ul class="menublock" style="" dir="rtl">
     		<li><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=genitori">Home</a>&nbsp;&nbsp;&nbsp;</li>
     	</ul>

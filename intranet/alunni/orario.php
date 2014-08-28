@@ -2,7 +2,7 @@
 
 require_once "../../lib/start.php";
 
-ini_set("display_errors", "1");
+ini_set("display_errors", DISPLAY_ERRORS);
 
 check_session();
 
@@ -13,5 +13,3 @@ $area = "alunni";
 $navigation_label = "Registro elettronico - Area studenti";
 
 include "../common/schedule.php";
-
-?>

@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
-<link rel="stylesheet" href="../reg.css" type="text/css" media="screen,projection" />
-<link href="../../../css/general.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="../../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
 <link href="../../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
@@ -61,7 +61,7 @@ document.observe("dom:loaded", function(){
 	<?php include "class_working.php" ?>
 	</div>
 	<div id="left_col">
-	<p style="text-align: center; padding-top: 10px; font-weight: bold"><?php print $title ?></p>
+	<div class="group_head"><?php print $title ?></div>
 	<form id="myform" class="reg_form">
 	<table style="width: 75%; margin: 20px auto 20px auto">
 	<tr>

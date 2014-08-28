@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
-<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/prototype.js"></script>
 <script type="text/javascript" src="../../js/scriptaculous.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
@@ -21,10 +21,10 @@ td a {
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 90%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		<?php echo $label ?>
 	</div>
-	<div style="width: 90%; margin: auto; height: 25px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+	<div class="outline_line_wrapper">
 		<div style="width: 7%; float: left; position: relative; top: 30%">Ora</div>
 		<div style="width: 31%; float: left; position: relative; top: 30%">Luned&igrave;</div>
 		<div style="width: 31%; float: left; position: relative; top: 30%">Marted&igrave;</div>
@@ -38,9 +38,9 @@ td a {
         ?>
         <tr>
 	        <td style="width: 7%; border: 1px solid #c0c0c0"><?php print $inizio_ore[$i+1] ?></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php print $materie[$orario_classe->getMateria($cls, 1, $i+1)] ?><?php if($orario_classe->getDescrizione($cls, 1, $i+1) != "") print (" (".$orario_classe->getDescrizione($cls, 1, $i+1).")") ?></a></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php print $materie[$orario_classe->getMateria($cls, 2, $i+1)] ?><?php if($orario_classe->getDescrizione($cls, 2, $i+1) != "") print (" (".$orario_classe->getDescrizione($cls, 2, $i+1).")") ?></a></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php print $materie[$orario_classe->getMateria($cls, 3, $i+1)] ?><?php if($orario_classe->getDescrizione($cls, 3, $i+1) != "") print (" (".$orario_classe->getDescrizione($cls, 3, $i+1).")") ?></a></td>
+	        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php if (isset($materie[$orario_classe->getMateria($cls, 1, $i+1)])) print $materie[$orario_classe->getMateria($cls, 1, $i+1)] ?><?php if($orario_classe->getDescrizione($cls, 1, $i+1) != "") print (" (".$orario_classe->getDescrizione($cls, 1, $i+1).")") ?></a></td>
+	        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php if (isset($materie[$orario_classe->getMateria($cls, 2, $i+1)])) print $materie[$orario_classe->getMateria($cls, 2, $i+1)] ?><?php if($orario_classe->getDescrizione($cls, 2, $i+1) != "") print (" (".$orario_classe->getDescrizione($cls, 2, $i+1).")") ?></a></td>
+	        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php if (isset($materie[$orario_classe->getMateria($cls, 3, $i+1)])) print $materie[$orario_classe->getMateria($cls, 3, $i+1)] ?><?php if($orario_classe->getDescrizione($cls, 3, $i+1) != "") print (" (".$orario_classe->getDescrizione($cls, 3, $i+1).")") ?></a></td>
         </tr>
         <?php 
         }
@@ -49,7 +49,7 @@ td a {
             <td colspan="4">&nbsp;&nbsp;&nbsp;</td>
         </tr>
     </table>
-    <div style="width: 90%; margin: auto; height: 25px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+    <div class="outline_line_wrapper">
 		<div style="width: 7%; float: left; position: relative; top: 30%">Ora</div>
 		<div style="width: 31%; float: left; position: relative; top: 30%">Gioved&igrave;</div>
 		<div style="width: 31%; float: left; position: relative; top: 30%">Venerd&igrave;</div>
@@ -62,9 +62,9 @@ td a {
         ?>
         <tr>
         <td style="width: 7%; border: 1px solid #c0c0c0"><?php print $inizio_ore[$i+1] ?></td>
-        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php print $materie[$orario_classe->getMateria($cls, 4, $i+1)] ?><?php if($orario_classe->getDescrizione($cls, 4, $i+1) != "") print (" (".$orario_classe->getDescrizione($cls, 4, $i+1).")") ?></a></td>
-        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php print $materie[$orario_classe->getMateria($cls, 5, $i+1)] ?><?php if($orario_classe->getDescrizione($cls, 5, $i+1) != "") print (" (".$orario_classe->getDescrizione($cls, 5, $i+1).")") ?></a></td>
-        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php print $materie[$orario_classe->getMateria($cls, 6, $i+1)] ?><?php if($orario_classe->getDescrizione($cls, 6, $i+1) != "") print (" (".$orario_classe->getDescrizione($cls, 5, $i+1).")") ?></a></td>
+        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php if (isset($materie[$orario_classe->getMateria($cls, 1, $i+4)])) print $materie[$orario_classe->getMateria($cls, 4, $i+1)] ?><?php if($orario_classe->getDescrizione($cls, 4, $i+1) != "") print (" (".$orario_classe->getDescrizione($cls, 4, $i+1).")") ?></a></td>
+        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php if (isset($materie[$orario_classe->getMateria($cls, 1, $i+5)])) print $materie[$orario_classe->getMateria($cls, 5, $i+1)] ?><?php if($orario_classe->getDescrizione($cls, 5, $i+1) != "") print (" (".$orario_classe->getDescrizione($cls, 5, $i+1).")") ?></a></td>
+        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php if (isset($materie[$orario_classe->getMateria($cls, 1, $i+6)])) print $materie[$orario_classe->getMateria($cls, 6, $i+1)] ?><?php if($orario_classe->getDescrizione($cls, 6, $i+1) != "") print (" (".$orario_classe->getDescrizione($cls, 5, $i+1).")") ?></a></td>
         </tr>
         <?php 
         }

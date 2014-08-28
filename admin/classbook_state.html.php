@@ -381,7 +381,8 @@ div.overlay{
         <div id="wait_label" style="position: absolute; display: none; padding-top: 25px">Operazione in corso</div>
     </div>
     <input type="hidden" id="day" />
-	<?php include "footer.php" ?>
+
 	</div>
+<?php include "footer.php" ?>
 </body>
 </html>

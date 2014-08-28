@@ -4,49 +4,108 @@
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <link rel="stylesheet" href="../css/reg.css" type="text/css" />
 <link rel="stylesheet" href="../css/general.css" type="text/css" />
-<link href="../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<link href="../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../js/prototype.js"></script>
-<script type="text/javascript" src="../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../js/controls.js"></script>
+<link rel="stylesheet" href="../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../js/page.js"></script>
-<script type="text/javascript" src="../js/window.js"></script>
+<script type="text/javascript" src="../js/md5-min.js"></script>
 <script type="text/javascript">
-var win; 
-var msg;
-function gruppo(gr){
+var table = 'rb_utenti';
+var id_name = 'uid';
+var uid = 0;
+
+var gruppo = function(gr){
 	document.location.href = "new_pwd.php?gruppo="+gr;
-}
+};
 
-function new_pwd(gruppo, uid, utente){
-	//win = window.open_centered("give_pwd.php?gruppo="+gruppo+"&uid="+uid+"&ut="+utente, "pass", 400, 220, "");
-	win = new Window({className: "mac_os_x", url: "give_pwd.php?gruppo="+gruppo+"&uid="+uid+"&ut="+utente,  width:400, height:220, zIndex: 100, resizable: true, title: "Dettaglio news", showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});
-	win.showCenter(false);
-}
+var new_pwd = function(gruppo, _uid, utente){
+	$('#user_name').text("Modifica password di "+utente);
+	if (gruppo == 2) {
+		table = "rb_alunni";
+		id_name = "id_alunno";
+	}
+	uid = _uid;
+	$('#dialog').dialog({
+		autoOpen: true,
+		show: {
+			effect: "appear",
+			duration: 500
+		},
+		hide: {
+			effect: "slide",
+			duration: 300
+		},
+		buttons: [
+			{
+				text: "Chiudi",
+				click: function() {
+					$( this ).dialog( "close" );
+				}
+			},
+			{
+				text: "Registra",
+				click: function() {
+					save();
+				}
+			}
+		],
+		modal: true,
+		width: 450,
+		title: 'Modifica password',
+		open: function(event, ui){
 
-var timeout; 
-function openInfoDialog() {
-	var html = "<div style='width: 100%, text-align: center; font-size: 12px; font-weight: bold; padding-top: 30px; margin: auto'>"+msg+"</div>";
-	Dialog.info(html, 
-	{
-		width:250, 
-		height:100, 
-		showProgress: false,
-		className: "alphacube"
-	}); 
-	timeout = 2; 
-	setTimeout(infoTimeout, 1000);
-} 
-function infoTimeout() { 
-	timeout--; 
-	if (timeout > 0) { 
-		//Dialog.setInfoMessage(messages[index]); 
-		setTimeout(infoTimeout, 1000); 
-	} 
-	else 
-		Dialog.closeInfo();
-}
+		}
+	});
+};
+
+var save = function(){
+	var patt = /[^a-zA-Z0-9]/;
+	if($('#n_pwd').val() == ""){
+		alert("Password non valida.");
+		return false;
+	}
+	else if($('#n_pwd').val().match(patt)){
+		alert("Password non valida: sono ammessi solo lettere e numeri");
+		return false;
+	}
+	if($('#n_pwd').val() != $('#n_pwd2').val()){
+		alert("Le password inserite sono differenti. Ricontrolla.");
+		return false;
+	}
+	p = hex_md5($('#n_pwd').val());
+	// fake password
+	$('#n_pwd2').val("calatafimi");
+	var url = "adm_pwd_changer.php";
+
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {n_p: p, table: table, campo: id_name, uid: uid, p2: $('#n_pwd').val()},
+		dataType: 'json',
+		error: function() {
+			alert("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				alert(json.message);
+			}
+			$( '#dialog' ).dialog( "close" );
+		}
+	});
+};
+
 </script>
 <style>
 tbody td:hover {background-color: #e8f2fe }
@@ -134,5 +193,14 @@ tbody td:hover {background-color: #e8f2fe }
 	<p class="spacer"></p>
 	</div>
     <?php include "footer.php" ?>
+<div id="dialog" style="width: 100%; border-radius: 0; height: 100%; background-color: whitesmoke; margin: 0; padding-top: 0; display: none">
+	<p class="popup_header" id="user_name"></p>
+	<form class="popup_form" style="width: 95%">
+		<div style="margin-right: auto; margin-left: auto; margin-top: 5px; width: 95%">
+			<div style='font-weight: bold; font-size: 11px; text-align: left; margin-top: 10px; margin-left: 15px' class='popup_title'>Nuova password<input style='width: 180px; float: right; margin-right: 20px' type='password' name='n_pwd' id='n_pwd' autofocus /></div>
+			<div style='font-weight: bold; font-size: 11px; text-align: left; margin: 10px 0 15px 15px' class='popup_title'>Reinserisci<input style='width: 180px; float: right; margin-right: 20px' type='password' name='n_pwd2' id='n_pwd2' /></div>
+		</div>
+	</form>
+</div>
 </body>
 </html>

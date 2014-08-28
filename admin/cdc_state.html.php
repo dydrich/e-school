@@ -171,8 +171,9 @@ var populate_div = function(event){
 							links = dati[1].split("#");
 							$('cl_add_div').update();
 							_p = document.createElement("P");
-							_p.setAttribute("style", "text-align: center; padding: 2px 0 2px 0; width: 100%; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid rgba(231, 231, 231, 0.9); background-color: rgba(231, 231, 231, 0.4)");
-							_p.appendChild(document.createTextNode("Aggiungi una materia"));
+							//_p.setAttribute("style", "text-align: center; padding: 2px 0 2px 0; width: 100%; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid rgba(231, 231, 231, 0.9); background-color: rgba(231, 231, 231, 0.4)");
+							_p.setAttribute("id", "menu_label");
+						    _p.appendChild(document.createTextNode("Aggiungi una materia"));
 							$('cl_add_div').appendChild(_p);
 							for(i = 0; i < links.length; i++){
 								dt = links[i].split("|");
@@ -310,7 +311,7 @@ document.observe("dom:loaded", function(){
             </tr>
             <tr>
             	<td colspan="3">
-            		<div style="width: 100%; text-align: center; background-color: rgba(211, 222, 199, 0.7); border: 1px solid rgba(211, 222, 199, 1); border-radius: 8px; padding: 5px">
+            		<div class="admin_link_wrapper">
             			<a href="../shared/no_js.php" id="add_sub" style="margin-right: 10px">Aggiungi una materia per tutte le classi</a>|
             			<a href="../shared/no_js.php" id="del_sub" style="margin: 0 10px 0 10px">Elimina una materia per tutte le classi</a>|
             			<a href="../shared/no_js.php" id="reins" style="margin-left: 10px">Cancella e reinserisci tutto</a>
@@ -360,7 +361,7 @@ document.observe("dom:loaded", function(){
         </table>
     </div>
     <div id="del_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 8px 8px 8px 8px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888">
-    	<p style="text-align: center; padding: 2px 0 2px 0; width: 100%; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid rgba(231, 231, 231, 0.9); background-color: rgba(231, 231, 231, 0.4)">Elimina una materia</p>
+    	<p class="pop_title">Elimina una materia</p>
     <?php
     reset($materie);
     foreach ($materie as $idm => $mat) {
@@ -371,7 +372,7 @@ document.observe("dom:loaded", function(){
     ?>
     </div>
     <div id="add_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 8px 8px 8px 8px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888">
-    	<p style="text-align: center; padding: 2px 0 2px 0; width: 100%; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid rgba(231, 231, 231, 0.9); background-color: rgba(231, 231, 231, 0.4)">Aggiungi una materia</p>
+    	<p class="pop_title">Aggiungi una materia</p>
     <?php
     foreach ($materie_no_cdc as $mnc) {
     ?>
@@ -380,9 +381,9 @@ document.observe("dom:loaded", function(){
     }
     ?>
     </div>
-    <div id="cl_add_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 8px 8px 8px 8px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888"></div>
-    <div id="menu_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 8px 8px 8px 8px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888">
-    	<p id="menu_label" style="text-align: center; padding: 2px 0 2px 0; width: 100%; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid rgba(231, 231, 231, 0.9); background-color: rgba(231, 231, 231, 0.4)"></p>
+    <div id="cl_add_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #1E4389; border-radius: 8px 8px 8px 8px; display: none; background-color: #FFFFFF"></div>
+    <div id="menu_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #1E4389; border-radius: 8px 8px 8px 8px; display: none; background-color: #FFFFFF">
+    	<p id="menu_label" style=""></p>
     	<a href="../shared/no_js.php" id="cl_del" style="padding-left: 10px;">Cancella il CdC</a><br />
     	<a href="../shared/no_js.php" id="cl_rei" style="padding-left: 10px;">Reinserisci il CdC</a><br />
     	<a href="../shared/no_js.php" id="cl_add" style="padding-left: 10px;">Aggiungi una materia</a><br />

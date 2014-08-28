@@ -3,23 +3,24 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Elenco ritardi</title>
-<link rel="stylesheet" href="reg_classe_popup.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="reg_classe.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
 <script type="text/javascript">
-function show_div(div){
-	if($(div).style.display == "none")
-		Effect.BlindDown(div, { duration: 1.0 });
-	else
-		Effect.SlideUp(div, { duration: 1.0 });
-}
+	function show_div(div){
+		$('#'+div).toggle(500);
+	}
 </script>
 </head>
-<body>
-<div id="main">
-<form>
-	<p style="padding-top: 10px; margin: auto; font-weight: bold; font-size: 12;padding-bottom: 10px; text-align: center"><?php print $alunno['cognome']." ".$alunno['nome'] ?></p>
+<body class="popup_body">
+<div id="popup_main">
+	<p class="popup_header"><?php print $alunno['cognome']." ".$alunno['nome'] ?></p>
+<form class="popup_form">
 	<p style="text-align: left; padding-top: 0px; margin-left: 20px; font-weight: normal; font-size: 11; height: 15px; margin-bottom: 20px">
 		Ritardi: <?php print $somma_ritardi['giorni_ritardo']; if($somma_ritardi['giorni_ritardo'] > 0) {?> per un totale di <?php print substr($somma_ritardi['ore_ritardo'], 0, 5) ?> [ <a href="pdf_delay.php?alunno=<?php print $id_alunno ?>&q=0">PDF</a> ]<?php } ?><br />
 		Uscite anticipate: <?php print $somma_uscite['giorni_anticipo']; if($somma_uscite['giorni_anticipo']){ ?> per un totale di <?php print substr($somma_uscite['ore_perse'], 0, 5) ?> [ <a href="pdf_early_exit.php?alunno=<?php print $id_alunno ?>&q=0">PDF</a> ]<?php } ?>
@@ -35,12 +36,20 @@ foreach($mesi as $mese){
 	if(strlen($x_str) < 2){
 		$x_str = "0".$x;
 	}
+	$label_del = "nessuno";
+	if (isset($ritardi[$x_str]) && count($ritardi[$x_str]) > 0) {
+		$label_del = count($ritardi[$x_str]);
+	}
+	$label_early = "nessuna";
+	if (isset($uscite[$x_str]) && count($uscite[$x_str]) > 0) {
+		$label_early = count($uscite[$x_str]);
+	}
 ?>
 	<p style="margin-left: 10px; height: 10px; text-align: left; margin-bottom: 0px; padding-bottom: 0px">
 		<a href="#" onclick="show_div('<?php print $mese ?>')" style='text-decoration: none; font-weight: bold; color: #373946'>Mese di <?php print $mese ?></a>
 	</p>
 	<div id="<?php print $mese ?>" style="text-align: left; display: none; margin-left: 15px; margin-top: 10px; margin-bottom: 15px">
-		<a href="#" onclick="show_div('<?php print $mese?>_ritardi')">Ritardi: <?php print count($ritardi[$x_str]) ?></a><br />
+		<a href="#" onclick="show_div('<?php print $mese?>_ritardi')">Ritardi: <?php echo $label_del ?></a><br />
 		<div id="<?php print $mese."_ritardi" ?>" style="text-align: left; display: none; margin-left: 15px; margin-top: 0px; margin-bottom: 15px">
 		<?php 
 		foreach($ritardi[$x_str] as $day){
@@ -51,7 +60,7 @@ foreach($mesi as $mese){
 		}
 		?>
 		</div> 
-		<a href="#" onclick="show_div('<?php print $mese?>_uscite')">Uscite anticipate: <?php print count($uscite[$x_str]) ?></a>
+		<a href="#" onclick="show_div('<?php print $mese?>_uscite')">Uscite anticipate: <?php echo $label_early ?></a>
 		<div id="<?php print $mese."_uscite" ?>" style="text-align: left; display: none; margin-left: 15px; margin-top: 0px; margin-bottom: 15px">
 		<?php 
 		foreach($uscite[$x_str] as $day){

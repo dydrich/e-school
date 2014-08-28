@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Gestione materie</title>
-	<link rel="stylesheet" href="../../css/reg.css" type="text/css" />
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" />
+<link rel="stylesheet" href="../../css/general.css" type="text/css" />
 <link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../js/prototype.js"></script>
@@ -84,7 +85,7 @@ document.observe("dom:loaded", function(){
 		<div class="group_head">Elenco materie<div style="float: left"><?php if((count($_SESSION['__school_level__']) > 1) && $_SESSION['__school_order__'] == 0){ $page_menu->printLink(); } ?></div></div>
 		<table class="admin_table">
 		<thead>
-			<tr>
+			<tr class="admin_void">
                 <td style="width: 20%; text-align: right">
 
                 </td>

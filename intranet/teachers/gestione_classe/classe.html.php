@@ -15,7 +15,7 @@
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-	<h2 class="_center"><?php print "Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione()." - ".$_SESSION['__current_year__']->to_string() ?></h2>
+	<div class="group_head"><?php print "Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione()." - ".$_SESSION['__current_year__']->to_string() ?></div>
 	<?php
 	if($vacance){
 	?>

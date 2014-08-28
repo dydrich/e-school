@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Docente sostegno</title>
-<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../js/jquery_themes/custom-theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
@@ -53,11 +53,11 @@ function registra(id){
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		Assegnazione sostegno
 	</div>
  	<form id="my_form" method="post" action="" style="border-radius: 10px; margin-top: 30px; text-align: left; width: 85%; margin-left: auto; margin-right: auto">
-	<fieldset style="width: 90%; margin: auto; border: 1px solid #CCC; border-radius: 8px">
+	<fieldset style="width: 90%; margin: auto; border-radius: 8px">
 	<legend style="font-weight: bold">Dati docente</legend>
 	<table style="width: 90%; margin-left: auto; margin-right: auto; margin-top: 15px; margin-bottom: 15px">
 		<tr>
@@ -74,10 +74,10 @@ function registra(id){
 		</tr>
 	</table>
 	</fieldset>
-	<fieldset style="width: 90%; margin: auto; border: 1px solid #CCC; border-radius: 8px">
+	<fieldset style="width: 90%; margin: 10px auto; border-radius: 8px">
 	<legend style="font-weight: bold">Alunni assegnati</legend>
 	<table style="width: 90%; margin-left: auto; margin-right: auto; margin-top: 15px; margin-bottom: 15px">
-		<tr style="border-bottom: 1px solid #CCC">
+		<tr class="bottom_decoration">
 			<td style="width: 15%; font-weight: bold">Classe</td>
 			<td style="width: 15%; font-weight: bold">Ore</td>
 			<td style="width: 55%; font-weight: bold">Alunno</td>

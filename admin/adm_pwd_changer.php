@@ -5,7 +5,8 @@ require_once "../lib/start.php";
 check_session(AJAX_CALL);
 check_permission(ADM_PERM);
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Password modificata");
 
 $campo = $db->real_escape_string($_REQUEST['campo']);
 $table = $db->real_escape_string($_REQUEST['table']);
@@ -17,11 +18,13 @@ $update_pwd = "UPDATE $table SET $pwd_field = '$new_password' WHERE $campo = $id
 try{
 	$db->executeQuery($update_pwd);
 } catch (MySQLException $ex){
-	$ex->fake_alert();
+	$response['status'] = "ko";
+	$response['message'] = "Formato orario non valido";
+	$res = json_encode($response);
+	echo $res;
 	exit;
 }
 
-$out = "ok";
-
-print $out;
+$res = json_encode($response);
+echo $res;
 exit;

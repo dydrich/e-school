@@ -47,14 +47,14 @@ switch($q){
 		$int_time = "AND (data_voto > '".$fine_q."' AND data_voto <= NOW()) ";
 		$label = ", secondo quadrimestre";
 }
-
 $doc = $_REQUEST['doc'];
 $sel_docente = "SELECT rb_utenti.uid, rb_utenti.nome, rb_utenti.cognome, rb_docenti.*, rb_materie.materia, rb_materie.id_materia FROM rb_docenti, rb_utenti, rb_materie WHERE rb_utenti.uid = rb_docenti.id_docente AND rb_docenti.materia = rb_materie.id_materia AND uid = {$_REQUEST['doc']}";
 $res_docente = $db->execute($sel_docente);
 $docente = $res_docente->fetch_assoc();
-
+//echo $docente['id_materia'];exit;
 $_cl = 0;
 if ($docente['id_materia'] != 27 && $docente['id_materia'] != 41){
+	//echo "IN";exit;
 	/*
 	 * se supplente, estrazione classi del docente titolare
 	 * confrontare poi con quelle in supplenze
@@ -100,6 +100,7 @@ if ($docente['id_materia'] != 27 && $docente['id_materia'] != 41){
 }
 else {
 	header("Location: registro_sostegno.php?doc=".$_REQUEST['doc']);
+	exit;
 }
 $idx = 0;
 $start_cls = null;

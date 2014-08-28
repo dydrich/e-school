@@ -5,7 +5,7 @@
 <title>Dettaglio alunno</title>
 <link rel="stylesheet" href="../../../css/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
@@ -100,7 +100,7 @@ var print_profile = function(){
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-<div class="page_label">
+<div class="group_head">
 	Dettaglio alunno <?php echo $alunno['cognome']." ".$alunno['nome'] ?>
 </div>
 <form id="testform" method="post">

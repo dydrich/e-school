@@ -2,7 +2,7 @@
 	<p>Alunno: <?php echo $alunno['cognome']." ".$alunno['nome'] ?>, classe: <?php echo $alunno['anno_corso'].$alunno['sezione'] ?></p>
 	<p>Materia: <?php echo $materia ?>
 </div>
-<div style="width: 90%; text-align: left; margin: auto;">
+<div style="width: 90%; text-align: left; margin: auto; font-size: 12px">
 <?php
 setlocale(LC_TIME, "it_IT.UTF-8");
 while($voto = $res_voti->fetch_assoc()){

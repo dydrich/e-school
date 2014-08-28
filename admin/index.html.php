@@ -344,6 +344,7 @@ var show_tab = function(tab){
 }
 
 $(function(){
+	show_tab(<?php echo $tab ?>);
 	<?php if($admin_level == 0){ ?>
 	$('#head_lnk').click(function(event){
 		event.preventDefault();

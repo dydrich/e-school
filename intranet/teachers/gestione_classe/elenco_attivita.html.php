@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
-<link rel="stylesheet" href="../reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../../js/prototype.js"></script>
@@ -15,7 +16,7 @@
 </script>
 <style>
 tbody tr:hover {
-	background-color: rgba(211, 222, 199, 0.6);
+	background-color: rgba(30, 67, 137, .1);
 }
 </style>
 </head> 
@@ -28,10 +29,10 @@ tbody tr:hover {
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-<div style="width: 95%; height: 30px; margin: 30px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+<div class="group_head">
 	Attivit&agrave; programmate (<a href="<?php print $link ?>" style="font-weight: normal"><?php print $label ?></a>)
 </div>
-<div style="width: 95%; margin: auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+<div class="outline_line_wrapper">
 	<div style="width: 50%; float: left; position: relative; top: 30%">Attivit&agrave;</div>
 	<div style="width: 10%; float: left; position: relative; top: 30%">Assegnata</div>
 	<div style="width: 10%; float: left; position: relative; top: 30%">Materia</div>
@@ -69,12 +70,12 @@ else{
 		}
 			
 ?>
-	<tr>
-		<td style="width: 50%; text-align: left; font-weight: normal; border: 1px solid #c0c0c0; padding-left: 5px;"><?php if ($mod): ?><a style="font-weight: normal" href="dettaglio_attivita.php?t=<?php print $act['id_impegno'] ?>"><?php endif; ?><?php print $desc ?><?php if ($mod): ?></a><?php endif; ?></td>
-		<td style="width: 10%; text-align: left; font-weight: normal; padding-left: 5px; border: 1px solid #c0c0c0;"><?php print format_date($da, SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
-		<td style="width: 10%; text-align: center; font-weight: normal; border: 1px solid #c0c0c0;"><?php print $act['mat'] ?></td>
-		<td style="width: 15%; text-align: center; font-weight: normal; border: 1px solid #c0c0c0;"><?php print format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/")." ".substr($oi, 0, 5) ?></td>
-		<td style="width: 15%; text-align: center; font-weight: normal; border: 1px solid #c0c0c0;"><?php print format_date($df, SQL_DATE_STYLE, IT_DATE_STYLE, "/")." ".substr($of, 0, 5) ?></td>
+	<tr class="bottom_decoration">
+		<td style="width: 50%; text-align: left; font-weight: normal; padding-left: 5px;"><?php if ($mod): ?><a style="font-weight: normal" href="dettaglio_attivita.php?t=<?php print $act['id_impegno'] ?>"><?php endif; ?><?php print $desc ?><?php if ($mod): ?></a><?php endif; ?></td>
+		<td style="width: 10%; text-align: left; font-weight: normal; padding-left: 5px"><?php print format_date($da, SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
+		<td style="width: 10%; text-align: center; font-weight: normal"><?php print $act['mat'] ?></td>
+		<td style="width: 15%; text-align: center; font-weight: normal; "><?php print format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/")." ".substr($oi, 0, 5) ?></td>
+		<td style="width: 15%; text-align: center; font-weight: normal; "><?php print format_date($df, SQL_DATE_STYLE, IT_DATE_STYLE, "/")." ".substr($of, 0, 5) ?></td>
 	</tr>
 <?php 
 		$idx++;

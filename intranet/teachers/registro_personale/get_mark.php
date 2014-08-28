@@ -30,5 +30,3 @@ else{
 
 print $res;
 exit;
-
-?>

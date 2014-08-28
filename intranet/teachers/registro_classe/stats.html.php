@@ -4,17 +4,15 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Statistiche</title>
 <link rel="stylesheet" href="reg_classe.css" type="text/css" media="screen,projection" />
-<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../../js/window.js"></script>
-<script type="text/javascript" src="../../../js/window_effects.js"></script>
 <script type="text/javascript">
 var IE = document.all?true:false;
-if (!IE) document.captureEvents(Event.MOUSEMOVE);
 var stid = 0;
 
 var tempX = 0;
@@ -31,27 +29,55 @@ function show_menu(e, _stid){
     // catch possible negative values in NS4
     if (tempX < 0){tempX = 0;}
     if (tempY < 0){tempY = 0;}  
-    $('context_menu').style.top = parseInt(tempY)+"px";
+    $('#context_menu').css({'top': parseInt(tempY)+"px"});
     //alert(hid.style.top);
-    $('context_menu').style.left = parseInt(tempX)+"px";
-    $('context_menu').style.display = "inline";
+    $('#context_menu').css({'left': parseInt(tempX)+"px"});
+    $('#context_menu').show();
     stid = _stid;
     return false;
 }
 
-function dettaglio_assenze(){
-	$('context_menu').hide();
-	//w = window.open_centered("elenco_assenze.php?alunno="+stid, "elenco", 400, 500, "");
-	var w = new Window({className: "mac_os_x",  width:400, zIndex: 100, resizable: true, title: "Elenco assenze", url: "elenco_assenze.php?alunno="+stid, showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});
-	w.showCenter(true);
+var dettaglio_assenze = function(f_id, q){
+	$('#context_menu').hide();
+	if (f_id == 0) {
+		$('#iframe').attr("src", "elenco_assenze.php?alunno="+stid);
+		lab_title = "Elenco assenze";
+	}
+	else {
+		$('#iframe').attr("src", "dettaglio_rit_uscite.php?alunno="+stid+"&q="+q);
+		lab_title = "Ritardi";
+	}
+	$('#abs_pop').dialog({
+		autoOpen: true,
+		show: {
+			effect: "appear",
+			duration: 500
+		},
+		hide: {
+			effect: "slide",
+			duration: 300
+		},
+		modal: true,
+		width: 450,
+		title: lab_title,
+		open: function(event, ui){
+
+		}
+	});
+	//var w = new Window({className: "mac_os_x",  width:400, zIndex: 100, resizable: true, title: "Elenco assenze", url: "elenco_assenze.php?alunno="+stid, showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});
+	//w.showCenter(true);
 }
 
-function delay(quadrimestre){
-	$('context_menu').hide();
-	//w = window.open_centered("dettaglio_rit_uscite.php?alunno="+stid+"&q="+quadrimestre, "el", 400, 500, "");
-	var op = new Window({className: "mac_os_x",  width:330, height: 400, zIndex: 100, resizable: true, title: "Elenco ritardi", url: "dettaglio_rit_uscite.php?alunno="+stid+"&q="+quadrimestre, showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});
-	op.showCenter(true);
-}
+var dialogclose = function(){
+	$('#abs_pop').dialog("close");
+};
+
+$(function(){
+	$('context_menu').mouseleave(function(event){
+		event.preventDefault();
+		$('#context_menu').hide();
+	});
+});
 
 </script>
 </head>
@@ -139,10 +165,13 @@ foreach ($presence as $k => $row){
 </div>
 <!-- menu contestuale -->
     <div id="context_menu" style="position: absolute; width: 210px; height: 50px; display: none; ">
-    	<a style="font-weight: normal" href="#" onclick="dettaglio_assenze()">Elenco assenze</a><br />
-    	<a style="font-weight: normal" href="#" onclick="delay(<?php print $q ?>)">Elenco ritardi e uscite anticipate</a><br />
+    	<a style="font-weight: normal" href="#" onclick="dettaglio_assenze(0, 0)">Elenco assenze</a><br />
+    	<a style="font-weight: normal" href="#" onclick="dettaglio_assenze(1, <?php print $q ?>)">Elenco ritardi e uscite anticipate</a><br />
     </div>
 <!-- fine menu contestuale -->
 <?php include "../footer.php" ?>
+<div id="abs_pop" style="display: none">
+	<iframe id="iframe" src="new_note.php" style="width: 100%; height: 450px; margin: 0 auto; padding: 0"></iframe>
+</div>
 </body>
 </html>

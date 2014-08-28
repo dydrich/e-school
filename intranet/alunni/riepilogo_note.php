@@ -15,5 +15,3 @@ $navigation_label = "Registro elettronico - Area alunni";
 $student_id = $_SESSION['__user__']->getUid();
 
 include "../common/notes.php";
-
-?>
