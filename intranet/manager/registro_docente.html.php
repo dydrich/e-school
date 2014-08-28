@@ -10,6 +10,7 @@
 <script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script>
 var _class = <?php echo $start_cls ?>;
+var mat = <?php if (count($id_materie) == 1) echo $id_materie[0]; else echo 0; ?>;
 $(function() {
     $(".tab").click(function(){
 		data = this.id.split("_");
@@ -95,7 +96,11 @@ var show_grades = function(std, doc, q, subj){
 };
 
 var load_lessons = function(doc){
-	document.location.href = "lezioni_docente.php?doc="+doc+"&cls="+_class;
+	url = "lezioni_docente.php?doc="+doc+"&cls="+_class;
+	if (mat != 0) {
+		url += "&mat="+mat;
+	}
+	document.location.href = url;
 };
 
 </script>

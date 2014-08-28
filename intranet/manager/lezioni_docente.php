@@ -92,6 +92,9 @@ while ($less = $res_lessons->fetch_assoc()){
 	}
 	$lessons[$less['id_materia']]['lezioni'][$less['id']] = $less;
 }
+if ($start_subj == null && isset($_REQUEST['mat'])) {
+	$start_subj = $_REQUEST['mat'];
+}
 
 $page_label = "Elenco lezioni del docente {$teacher_name}, classe {$class_name} ";
 

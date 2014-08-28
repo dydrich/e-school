@@ -81,6 +81,7 @@ if ($docente['id_materia'] != 27 && $docente['id_materia'] != 41){
 	$res_classes = $db->execute($sel_classes);
 	$classi = array();
 	$materie = array();
+	$id_materie = array();
 
 	while($cl = $res_classes->fetch_assoc()){
 		if ($docente['ruolo'] != 'N' || in_array($cl['id_classe'], $cls_supp)) {
@@ -95,6 +96,9 @@ if ($docente['id_materia'] != 27 && $docente['id_materia'] != 41){
 			}
 			$classi[$cl['id_classe']]['materie'][$cl['id_materia']] = $cl['materia'];
 			$materie[$cl['id_materia']] = $cl['id_materia'];
+			if (!in_array($cl['id_materia'], $id_materie)) {
+				$id_materie[] = $cl['id_materia'];
+			}
 		}
 	}
 }
