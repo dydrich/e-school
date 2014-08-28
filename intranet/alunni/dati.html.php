@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area studenti</title>
-<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/prototype.js"></script>
 <script type="text/javascript" src="../../js/scriptaculous.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
@@ -43,22 +44,22 @@ var registra = function(){
 <?php include "profile_working.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		E-profile
 	</div>
 	<form id="my_form" method="post" action="dati.php" style="border: 1px solid #666666; border-radius: 10px; margin-top: 20px; text-align: left; width: 460px; margin-left: auto; margin-right: auto">
 	<table style="width: 400px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 30px">
 		<tr id="email_row">
 			<td style="width: 60%" id="email_label">Email</td>
-			<td style="width: 40%"><input type="text" name="email" style="width: 250px; font-size: 11px; border: 1px solid" value="<?php if(isset($profile)) print $profile['email']; ?>" /></td> 
+			<td style="width: 40%"><input type="text" name="email" style="width: 250px; font-size: 11px; " value="<?php if(isset($profile)) print $profile['email']; ?>" /></td>
 		</tr>
 		<tr id="mess_row">
 			<td style="width: 60%" id="mess_label">Messenger</td>
-			<td style="width: 40%"><input type="text" name="mess" style="width: 250px; font-size: 11px; border: 1px solid" value="<?php if(isset($profile)) print $profile['messenger']; ?>" /></td> 
+			<td style="width: 40%"><input type="text" name="mess" style="width: 250px; font-size: 11px; " value="<?php if(isset($profile)) print $profile['messenger']; ?>" /></td>
 		</tr>
 		<tr id="blog_row">
 			<td style="width: 60%" id="blog_label">Blog</td>
-			<td style="width: 40%"><input type="text" name="blog" style="width: 250px; font-size: 11px; border: 1px solid" value="<?php if(isset($profile)) print $profile['blog']; ?>" /></td> 
+			<td style="width: 40%"><input type="text" name="blog" style="width: 250px; font-size: 11px; " value="<?php if(isset($profile)) print $profile['blog']; ?>" /></td>
 		</tr>
 		<tr>
 			<td colspan="2">&nbsp;</td> 

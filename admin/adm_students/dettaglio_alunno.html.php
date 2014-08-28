@@ -242,9 +242,9 @@ document.observe("dom:loaded", function(){
 		<?php include "../adm_users/menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Dettaglio genitore</div>
+		<div class="group_head">Dettaglio alunno</div>
     <form action="dettaglio_alunno.php?upd=1&offset=<?php print $offset ?>&order=<?php print $_REQUEST['order'] ?>" method="post" id="st_form" class="popup_form">
-    <fieldset id="account_field" style="width: 95%; border: 1px solid #BBB; padding-top: 10px; margin-left: auto; margin-right: auto; <?php if($type == 1) echo "display: none" ?>">
+    <fieldset id="account_field" style="width: 95%; padding-top: 10px; margin-left: auto; margin-right: auto; <?php if($type == 1) echo "display: none" ?>">
     <legend id="account_legend" style="font-weight: bold;">Account</legend>
     <table style="width: 95%">
         <tr class="popup_row header_row">
@@ -283,7 +283,7 @@ document.observe("dom:loaded", function(){
         </tr>
     </table>
     </fieldset>
-    <fieldset style="width: 95%; border: 1px solid #BBB; padding-top: 10px; margin-top: 30px; margin-left: auto; margin-right: auto; <?php if($type == 2) echo "display: none" ?>">
+    <fieldset style="width: 95%; padding-top: 10px; margin-top: 30px; margin-left: auto; margin-right: auto; <?php if($type == 2) echo "display: none" ?>">
     <legend style="font-weight: bold">Dati personali</legend>
     <table style="width: 95%">
         <tr class="popup_row header_row">
@@ -301,8 +301,8 @@ document.observe("dom:loaded", function(){
         <tr class="popup_row">
             <td class="popup_title" style="width: 30%">Codice fiscale</td>
             <td colspan="2" style="width: 70%">
-                <input class="form_input" type="text" name="cf" id="cf" style="width: 40%" value="<?php if(isset($alunno)) print($alunno['codice_fiscale']) ?>" style="width: 380px; font-size: 11px" />
-            	<div style="float: right; width: 55%; text-align: right">
+                <input class="form_input" type="text" name="cf" id="cf" style="width: 34%" value="<?php if(isset($alunno)) print($alunno['codice_fiscale']) ?>" style="width: 380px; font-size: 11px" />
+            	<div style="float: right; width: 59%; text-align: right">
             	<span class="popup_title" style="padding-right: 5px">Sesso *</span>
             	<select class="form_input" name="sesso" style="width: 70%">
             		<option value="M" <?php if(isset($alunno) && ($alunno['sesso'] == "M")) print("selected='selected'") ?>>Maschio</option>
@@ -314,7 +314,7 @@ document.observe("dom:loaded", function(){
         <tr class="popup_row">
             <td class="popup_title" style="width: 30%">Data di nascita </td>
             <td colspan="2" style="width: 70%">
-                <input class="form_input" type="text" id="sel3" name="data_nascita" style="width: 40%" value="<?php if(isset($alunno)) print(format_date($alunno['data_nascita'], SQL_DATE_STYLE, IT_DATE_STYLE, "/")) ?>" />
+                <input class="form_input" type="text" id="sel3" name="data_nascita" style="width: 34%" value="<?php if(isset($alunno)) print(format_date($alunno['data_nascita'], SQL_DATE_STYLE, IT_DATE_STYLE, "/")) ?>" />
                 <script type="text/javascript">
                 <?php 
                 if(isset($alunno) && $alunno['data_nascita'] != ""){
@@ -331,9 +331,9 @@ document.observe("dom:loaded", function(){
 					timeFormat	: "24"					
 				});
 	        	</script>
-	        	<div style="float: right; width: 55%; text-align: right">
+	        	<div style="float: right; width: 64%; text-align: right">
                 <span class="popup_title" style="padding-right: 5px">Classe *</span>
-            	<select class="form_input" name="classe" id="classe" style="width: 70%; margin-left: 1px">
+            	<select class="form_input" name="classe" id="classe" style="width: 64%; margin-left: 1px">
             		<option value="all">Scegli una classe</option>
             	<?php
 				while($cls = $res_classi->fetch_assoc()){
@@ -367,8 +367,7 @@ document.observe("dom:loaded", function(){
     </table>
     </fieldset> 
     <div style="width: 95%;  margin: 30px auto 0 auto; padding-bottom: 20px; text-align: right">
-        <a href="../../shared/no_js.php" id="save_button" class="standard_link nav_link_first">Registra</a>|
-        <a href="<?php echo $back_link ?>" id="close_button" class="standard_link nav_link_last">Torna all'elenco</a>
+        <a href="../../shared/no_js.php" id="save_button" class="standard_link nav_link">Registra</a>
     </div>
    	</form>
    	</div>

@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti - obiettivi didattici</title>
-<link rel="stylesheet" href="reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 <link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../js/prototype.js"></script>
@@ -89,8 +90,8 @@ var upd_check = function(elem){
 	<?php include "profile_menu.php" ?>
 	</div>
 	<div id="left_col">
-		<h2 style="text-align: center; padding-top: 10px"><?php echo $label ?></h2>
-		<form id="my_form" method="post" action="goal_manager.php?oid=<?php echo $_GET['oid'] ?>" style="border: 1px solid #666666; border-radius: 10px; margin-top: 30px; text-align: left; width: 460px; margin-left: auto; margin-right: auto">
+		<div class="group_head"><?php echo $label ?></div>
+		<form id="my_form" method="post" action="goal_manager.php?oid=<?php echo $_GET['oid'] ?>" style="border: 1px solid rgba(30, 67, 137, .8); border-radius: 10px; margin-top: 30px; text-align: left; width: 460px; margin-left: auto; margin-right: auto">
 		<table style="width: 400px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 20px">
 			<tr>
 				<td style="width: 40%">Materia</td>

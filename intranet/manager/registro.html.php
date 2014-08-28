@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
-<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/prototype.js"></script>
 <script type="text/javascript" src="../../js/scriptaculous.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
@@ -21,7 +21,7 @@ var update_stats = function(){
 </script>
 <style type="text/css">
 tbody tr:hover {
-	background-color: rgba(211, 222, 199, 0.6)
+	background-color: rgba(30, 67, 137, .1);
 }
 </style>
 </head>
@@ -33,9 +33,9 @@ tbody tr:hover {
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		Statistiche assenze aggiornate al <?php print $data_creazione.", ore ".$ora_creazione ?>
-		<a style="float: right; font-size: 0.9em" href="#" onclick="update_stats()">Aggiorna statistiche</a>
+		<a style="float: right; margin-right: 5px; font-size: 0.9em; color: #003366" href="#" onclick="update_stats()">Aggiorna statistiche</a>
 	</div>
    	<?php include "registro_".$_REQUEST['do'].".php" ?>			
 </div>

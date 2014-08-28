@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
-<link rel="stylesheet" href="../reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link href="../../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
 <script type="text/javascript" src="../../../js/prototype.js"></script>
 <script type="text/javascript" src="../../../js/scriptaculous.js"></script>
@@ -172,7 +173,7 @@ document.observe("dom:loaded", function(){
 <?php include "../working.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 30%; margin: 20px auto 0 auto; text-transform: uppercase; font-size: 1.1em">Sostituzioni</div>
+	<div class="group_head">Sostituzioni</div>
 	<div style="width: 70%; margin: 30px auto">
 		<a href="#" id="show_new_sig">Firma per una sostituzione</a>
 		<div style="width: 95%; border: 1px solid #DDDDDD; margin: 5px 0 0 0; display: none; padding: 10px" id="new_sig">

@@ -164,8 +164,6 @@ class Authenticator {
 		$update = "UPDATE rb_alunni SET accessi = (accessi + 1) WHERE id_alunno = ".$res_user;
 		$upd = $this->datasource->executeUpdate($update);
 
-
-		
 		$this->stringAjax = "S;".$user->getUsername().";".$res_user.";".$user->getFirstName().";".$user->getLastName().";".$nick.";".$_SESSION['__accessi__'].";".$first_access;
 		
 		return $user;

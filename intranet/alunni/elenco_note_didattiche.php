@@ -16,5 +16,3 @@ $student = $_SESSION['__user__']->getFullName();
 $navigation_label = "Registro elettronico - Area studenti";
 
 include "../common/didactic_notes.php";
-
-?>

@@ -30,10 +30,10 @@
 		<?php include $_SESSION['__administration_group__']."/menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+		<div class="group_head">
 			Registro personale del docente <?php echo $docente['nome']." ".$docente['cognome'] ?>
 		</div>
-		<div id="tabs" style="">
+		<div id="tabs" style="margin-top: 10px">
 			<?php
 			foreach ($alunni as $alunno){
 				?>
@@ -60,13 +60,13 @@
 					list($y, $m, $d) = explode("-", $activity['data']);
 					if($mese != $m){
 						$str_month = ucfirst(strftime("%B", strtotime($activity['data'])));
-						print("<tr><td colspan='2' style='height: 20px; vertical-align: middle; font-weight: normal; text-transform: uppercase; font-size: 13m; text-align: center; border-bottom: 1px solid #CCCCCC; background-color: rgba(211, 222, 199, 0.3); '>$str_month</td></tr>");
+						print("<tr class='title_row'><td colspan='2' style='height: 20px; vertical-align: middle; font-weight: normal; text-transform: uppercase; font-size: 1em; text-align: center; border-bottom: 1px solid #CCCCCC; background-color: rgba(211, 222, 199, 0.3); '>$str_month</td></tr>");
 					}
 
 					$giorno_str = ucfirst(strftime("%A %d", strtotime($activity['data'])));
 					$print_day = ($day != $activity['data']) ? true : false;
 				?>
-				<tr style="border-bottom: 1px solid #CCC">
+				<tr style="border-bottom: 1px solid rgba(30, 67, 137, .5);">
 					<td style="width: 25%; padding-left: 8px"><?php if($print_day) print $giorno_str ?></td>
 					<td style="width: 75%"><?php echo $activity['attivita'] ?></td>
 				</tr>

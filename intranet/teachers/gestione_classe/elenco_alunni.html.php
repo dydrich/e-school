@@ -36,7 +36,6 @@ $(function(){
 
 var stid = 0;
 var IE = document.all?true:false;
-if (!IE) document.captureEvents(Event.MOUSEMOVE);
 var tempX = 0;
 var tempY = 0;
 
@@ -68,7 +67,7 @@ var print_profile = function(){
 </script>
 <style>
 tbody tr:hover {
-	background-color: rgba(211, 222, 199, 0.6);
+	background-color:  rgba(30, 67, 137, .1);
 }
 tbody a {
 	text-decoration: none
@@ -83,10 +82,10 @@ tbody a {
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-<div class="page_label">
+<div class="group_head">
 	Elenco alunni (<?php print $res_alunni->num_rows ?>)
 </div>
-<div class="outline_line">
+<div class="outline_line_wrapper">
 	<div class="outline_cell wd_30">Nome e cognome</div>
 	<div class="outline_cell wd_15 _right">Data nascita</div>
 	<div class="outline_cell wd_30">Indirizzo</div>

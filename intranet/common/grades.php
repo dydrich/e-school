@@ -64,7 +64,7 @@ $voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Bu
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area genitori</title>
-<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/prototype.js"></script>
 <script type="text/javascript" src="../../js/scriptaculous.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
@@ -99,12 +99,12 @@ function show_div(div, subjectID){
 				      			//alert(html);
 					      		for(i = 2; i < dati.length; i++){
 						      		riga = dati[i].split("#");
-					      			html += "<tr style=''><td style='width: 20%; border-bottom: 1px solid #dddddd'>"+riga[0]+"</td><td style='width: 55%; border-bottom: 1px solid #dddddd'>"+riga[4]+"</td><td style='width: 25%;border-bottom: 1px solid #dddddd; text-align: center'>"+riga[1]+riga[2]+"</td></tr>";
+					      			html += "<tr class='manager_row_xsmall'><td style='width: 20%; '>"+riga[0]+"</td><td style='width: 55%; '>"+riga[4]+"</td><td style='width: 25%; text-align: center'>"+riga[1]+riga[2]+"</td></tr>";
 					      		}
 					      		html += "</table>";
 					      		$(div).innerHTML = html;
 				      		}
-						    $('line_'+subjectID).setStyle({'backgroundColor': 'rgba(230,230,230,1)'});
+						    $('line_'+subjectID).setStyle({'backgroundColor': 'rgba(30, 67, 137, .1)'});
 				    	},
 				    	onFailure: function(){ alert("Si e' verificato un errore..."); }
 				  });
@@ -117,8 +117,6 @@ function show_div(div, subjectID){
 }
 </script>
 <style type="text/css">
-TD{height: 20px}
-TD a {text-decoration: none; font-size: 12px}
 </style>
 </head>
 <body>
@@ -130,10 +128,10 @@ TD a {text-decoration: none; font-size: 12px}
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 90%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		<?php echo $label ?>, classe <?php echo $_SESSION['__classe__']->get_anno(),$_SESSION['__classe__']->get_sezione() ?>
 	</div>
-	<div style="width: 90%; margin: 0 auto 20px auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+	<div class="outline_line_wrapper">
 		<div style="width: 55%; float: left; position: relative; top: 30%">Materia</div>
 		<div style="width: 15%; float: left; position: relative; top: 30%">Media voto</div>
 		<div style="width: 15%; float: left; position: relative; top: 30%">Numero voti</div>
@@ -168,9 +166,9 @@ while($row = $res_materie->fetch_assoc()){
 	else
 		$note = "<a href='elenco_note_didattiche.php?q=".$q."&materia=".$row['id_materia']."'>".$res_note->num_rows."</a>";
 ?>
-	<div style="border-bottom: 1px solid #dddddd; width: 90%; height: auto; margin: auto;" class="_hov">
+	<div style="width: 90%; height: auto; margin: auto;" class="_hov">
 		<table style="width: 100%; ">
-			<tr id="line_<?php print $row['id_materia'] ?>">
+			<tr id="line_<?php print $row['id_materia'] ?>" class="manager_row_small">
 			<td style="padding-left: 20px; width: 55%; height: 20px; font-weight: normal; color: inherit;">
 				<a href="#" onclick="show_div('div_<?php print $row['id_materia'] ?>', <?php print $row['id_materia'] ?>)"><?php print $row['materia'] ?></a>
 			</td>

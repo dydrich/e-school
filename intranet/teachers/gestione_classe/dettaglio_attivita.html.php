@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
-<link rel="stylesheet" href="../reg.css" type="text/css" media="screen,projection" />
-<link href="../../../css/general.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="../../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
@@ -84,8 +84,8 @@ $(function(){
 	<?php include "class_working.php" ?>
 	</div>
 	<div id="left_col">
-		<p style="text-align: center; padding-top: 20px; text-transform: uppercase; font-size: 1.1em"><?php print $title ?></p>
-		<form id="myform" class="reg_form">
+		<div class="group_head"><?php print $title ?></div>
+		<form id="myform" class="reg_form" style="margin-top: 15px">
 		<table style="width: 75%; margin: 20px auto 20px auto">
 		<tr>
 			<td style="width: 20%" class="label_form">Inizio</td>

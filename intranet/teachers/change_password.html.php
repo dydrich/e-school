@@ -4,6 +4,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 <link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 <link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../js/prototype.js"></script>
@@ -56,7 +57,7 @@ function registra(){
 	<?php include "profile_menu.php" ?>
 	</div>
 	<div id="left_col">
-		<h2 style="text-align: center; padding-top: 10px">Modifica password</h2>
+		<div class="group_head">Modifica password</div>
 		<form id="my_form" method="post" action="../../shared/new_pwd.php" style="border: 1px solid #666666; border-radius: 10px; margin-top: 30px; text-align: left; width: 460px; margin-left: auto; margin-right: auto">
 		<table style="width: 400px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 20px">
 			<tr>

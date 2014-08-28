@@ -4,8 +4,9 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Dettaglio note disciplinari</title>
 <link rel="stylesheet" href="reg_classe.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
@@ -17,7 +18,7 @@ if (!IE) document.captureEvents(Event.MOUSEMOVE);
 var tempX = 0;
 var tempY = 0;
 
-function _show(e) {
+var _show = function(e) {
 	var hid = $('#tipinota');
     //alert(hid.style.top);
     if (IE) { 
@@ -34,7 +35,7 @@ function _show(e) {
     hid.css({left: parseInt(tempX)+"px"});
     hid.show();
     return true;
-}
+};
 
 var note_manager = function(stid, nid){
 	//win = new Window({className: "mac_os_x", url: "new_note.php?stid="+stid,  width:400, height:210, zIndex: 100, resizable: true, title: "Note didattica", showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});
@@ -94,6 +95,7 @@ setlocale(LC_TIME, "it_IT.utf8");
 $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
 <table class="registro">
+<thead>
 <tr class="head_tr">
 	<td colspan="4"><?php echo $_SESSION['__current_year__']->to_string() ?>::classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?> - Note disciplinari di <?php print $alunno['cognome']." ".$alunno['nome'] ?> <span style="float: right; padding-right: 10px" ><!-- <a href="pdf_media_materia.php?stid=<?php print $student_id ?>&q=<?php print $q ?>">[ PDF ]</a> --></span></td>
 </tr>
@@ -106,11 +108,12 @@ $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 	<td style="width: 20%; text-align: center; "><span style="font-weight: bold; ">Docente</span></td>  
 	<td style="width: 45%; text-align: center; "><span style="font-weight: bold; ">Commento</span></td>   
 </tr>
+</thead>
 <tbody id="tbody">
 <?php
 if($res_note->num_rows < 1){
 ?>
-<tr>
+<tr id="no_notes_tr" >
 	<td colspan="4" style="height: 50px; text-align: center; font-weight: bold">Nessuna annotazione presente</td>
 </tr>	
 <?php 	
@@ -137,14 +140,16 @@ while($row = $res_note->fetch_assoc()){
 }
 ?>
 </tbody>
+<tfoot>
 <tr>
 	<td colspan="4">&nbsp;</td>
 </tr>	
 <tr class="nav_tr">
 	<td colspan="4" style="text-align: right; "
-		><a href="#" onclick="note_manager(<?php echo $alunno['id_alunno'] ?>, 0)" style="margin-right: 30px">Nuova nota</a>
+		><a href="#" onclick="note_manager(<?php echo $alunno['id_alunno'] ?>, 0)" class="standard_link" style="margin-right: 30px">Nuova nota</a>
 	</td>
 </tr>
+</tfoot>
 </table>
 </form>
 </div>

@@ -1,6 +1,7 @@
 <?php
 
 require_once "../../../lib/start.php";
+require_once __DIR__."/../../../lib/RBUtilities.php";
 
 check_session();
 check_permission(DOC_PERM|GEN_PERM|STD_PERM);
@@ -8,7 +9,14 @@ check_permission(DOC_PERM|GEN_PERM|STD_PERM);
 $_SESSION['__path_to_root__'] = "../../../";
 $_SESSION['__path_to_reg_home__'] = "../";
 
-$ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
+if ($_SESSION['__user__'] instanceof StudentBean || $_SESSION['__user__'] instanceof SchoolUserBean) {
+	$ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
+}
+else if ($_SESSION['__user__'] instanceof ParentBean) {
+	$rb = RBUtilities::getInstance($db);
+	$st = $rb->loadUserFromUid($_SESSION['__current_son__'], 'student');
+	$ordine_scuola = $st->getSchoolOrder();
+}
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
 $navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level__'][$ordine_scuola]);
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");

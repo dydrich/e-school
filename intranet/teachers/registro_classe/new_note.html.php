@@ -3,10 +3,10 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Nota disciplinare</title>
-<link rel="stylesheet" href="reg_classe_popup.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="reg_classe.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
@@ -37,7 +37,7 @@ var note_manager = function(){
 			else {
 				if ($('#action').val() == "insert") {
 					var tr = document.createElement("tr");
-					tr.setAttribute("id", "row"+json.id)
+					tr.setAttribute("id", "row"+json.id);
 					if ($('#type').val() == 14) {
 						tr.setAttribute("style", "background-color: rgba(131, 2, 29, 0.2)");
 					}
@@ -120,6 +120,7 @@ var note_manager = function(){
 					tr.appendChild(td);
 
 					parent.$('#tbody').prepend(tr);
+					parent.$('#no_notes_tr').hide();
 				}
 				else {
 					parent.$('#datlink_<?php echo $stid ?>_'+json.id).text($('#_date').val());
@@ -160,8 +161,18 @@ var del_note = function(id_nota){
 				return;
 			}
 			else{
-				alert("Nota eliminata");
+				alert("Nota eliminata --"+json.count);
 				parent.$('#row'+json.id).hide();
+				if (json.count == 0) {
+					var tr = document.createElement("tr");
+					tr.setAttribute("id", "no_notes_tr");
+					var td = document.createElement("td");
+					td.setAttribute("colspan", "4");
+					td.setAttribute("style", "height: 50px; text-align: center; font-weight: bold");
+					td.appendChild(document.createTextNode("Nessuna nota presente"));
+					tr.appendChild(td);
+					parent.$('#tbody').prepend(tr);
+				}
 			}
 			parent.dialogclose();
 		}
@@ -194,15 +205,15 @@ $(function(){
 
 </script>
 </head>
-<body>
-<div id="main">
-	<p style='text-align: center; padding-top: 5px; font-weight: bold' id='titolo'>Note disciplinari</p>
-	<form id='testform' action='manage_test.php' method='post' onsubmit="_submit()">
+<body class="popup_body">
+<div id="popup_main">
+	<p class="popup_header" id='titolo'>Note disciplinari</p>
+	<form id='testform' action='manage_test.php' method='post' class="popup_form" onsubmit="_submit()">
 		<table style='text-align: left; width: 95%; margin: auto' id='att'>
 		<tr>
 			<td style="width: 25%; font-weight: bold">Tipo nota *</td>
 			<td style="width: 75%; " colspan="3">
-				<select id="type" name="type" style="font-size: 11px; border: 1px solid #AAAAAA; background-color: rgba(211, 222, 199, 0.7); width: 100%">
+				<select id="type" name="type" style="font-size: 11px; width: 100%">
 				<?php 
 				while($t = $res_types->fetch_assoc()){
 				?>

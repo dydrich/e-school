@@ -70,11 +70,11 @@ table.registro td {
 <div id="main" style="clear: both; ">
 <!-- div nascosto, per la scelta della materia -->
 <?php $change_subject->toHTML() ?>
-<div style="width: 99%; height: 30px; margin: 30px auto 0 auto; text-align: center; font-size: 1.0em; text-transform: uppercase">
+<div class="group_head">
 	<span style="font-size: 1.1em">Elenco verifiche <?php echo $label ?></span>
 	<span style="float: right">Materia: <span id="uscita" style="font-weight: normal; margin-right: 10px; "><?php $change_subject->printLink() ?></span></span>
 </div>
-<div style="width: 99%; margin: auto; height: 35px; text-align: center; text-transform: uppercase; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+<div class="outline_line_wrapper">
 	<div style="width: 25%; float: left; position: relative"><img src="../../../images/70.png" /><br />Data</div>
 	<div style="width: 10%; float: left; position: relative"><img src="../../../images/54.png" /><br />Valutata</div>
 	<div style="width: 10%; float: left; position: relative"><img src="../../../images/14.png" /><br />Num. alunni</div>

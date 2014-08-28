@@ -58,5 +58,3 @@ if($_REQUEST['param'] == "avg")
 else
 	print "($avg)";
 exit;
-
-?>

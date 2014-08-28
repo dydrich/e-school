@@ -64,5 +64,3 @@ $row_class = "docs_row";
 $row_class_menu = " docs_row_menu";
 
 include "elenco_classi.html.php";
-
-?>

@@ -28,10 +28,10 @@
 		<?php include $_SESSION['__administration_group__']."/menu_supplenze.php" ?>
 	</div>
 	<div id="left_col">
-		<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+		<div class="group_head">
 			Elenco supplenze <?php echo $label ?>
 		</div>
-		<div style="width: 95%; margin: auto; height: 25px; text-align: center; text-transform: uppercase; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+		<div class="outline_line_wrapper">
 			<div style="width: 25%; float: left; position: relative; top: 30%">Titolare</div>
 			<div style="width: 25%; float: left; position: relative; top: 30%">Supplente</div>
 			<div style="width: 15%; float: left; position: relative; top: 30%">Classi</div>

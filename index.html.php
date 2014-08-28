@@ -64,8 +64,8 @@ function do_login(type){
 						area = "";
 						$('back').hide();
 				        $('newpwd').hide();
-		            	$('login_form').innerHTML += "<div style='height: 120px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='"+link+"'>Accedi all'area privata</a></div>";
-		            	$('login_form').innerHTML += "<div style='height: 120px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='<?php print $_SESSION['__config__']['root_site'] ?>/shared/do_logout.php'>Logout</a></div>";
+		            	$('login_form').innerHTML += "<div class='start_link' style='height: 120px; text-align: center'><a href='"+link+"'>Accedi all'area privata</a></div>";
+		            	$('login_form').innerHTML += "<div class='start_link' style='height: 120px; text-align: center'><a href='<?php print $_SESSION['__config__']['root_site'] ?>/shared/do_logout.php'>Logout</a></div>";
 		      		}
 		      		else {
 			      		$('login_form').update("");
@@ -74,26 +74,26 @@ function do_login(type){
 				        $('newpwd').hide();
 		            	gruppi = response.gids;
 				        //alert(gruppi.length);
-		            	col_length = parseInt(240 / (gruppi.length + 1));
+		            	col_length = parseInt(300 / (gruppi.length + 1));
 		            	for(i = 0; i < gruppi.length; i++){
 		            		if(gruppi[i] == 1 || gruppi[i] == 9 || gruppi[i] == 10)
-		            			$('login_form').innerHTML += "<div style='height: "+col_length+"px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='admin/index.php'>Amministrazione</a></div>";
+		            			$('login_form').innerHTML += "<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='admin/index.php'>Amministrazione</a></div>";
 		            		if(gruppi[i] == 2)
-		            			$('login_form').innerHTML += "<div style='height: "+col_length+"px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='intranet/teachers/index.php'>Accedi come docente</a></div>";
+		            			$('login_form').innerHTML += "<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='intranet/teachers/index.php'>Accedi come docente</a></div>";
 		            		if(gruppi[i] == 3)
-		            			$('login_form').innerHTML += "<div style='height: "+col_length+"px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='intranet/ata/index.php'>Accedi come ATA</a></div>";
+		            			$('login_form').innerHTML += "<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='intranet/ata/index.php'>Accedi come ATA</a></div>";
 		            		if(gruppi[i] == 4)
-		            			$('login_form').innerHTML += "<div style='height: "+col_length+"px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='intranet/genitori/index.php'>Accedi come genitore</a></div>";
+		            			$('login_form').innerHTML += "<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='intranet/genitori/index.php'>Accedi come genitore</a></div>";
 		            		if(gruppi[i] == 6)
-			            			$('login_form').innerHTML += "<div style='height: "+col_length+"px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='intranet/manager/index.php?role=6'>Accedi come DS</a></div>";
+			            			$('login_form').innerHTML += "<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='intranet/manager/index.php?role=6'>Accedi come DS</a></div>";
 			            	if(gruppi[i] == 5)
-		            			$('login_form').innerHTML += "<div style='height: "+col_length+"px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='intranet/manager/index.php?role=5'>Accedi alle funzioni di segreteria</a></div>";
+		            			$('login_form').innerHTML += "<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='intranet/manager/index.php?role=5'>Accedi alle funzioni di segreteria</a></div>";
 		            		if(gruppi[i] == 7)
-		            			$('login_form').innerHTML += "<div style='height: "+col_length+"px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='intranet/manager/index.php?role=7'>Accedi come DSGA</a></div>";
+		            			$('login_form').innerHTML += "<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='intranet/manager/index.php?role=7'>Accedi come DSGA</a></div>";
 
 			            	}
 		      		}
-	            	$('login_form').innerHTML += "<div style='height: "+col_length+"px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='<?php print $_SESSION['__config__']['root_site'] ?>/shared/do_logout.php'>Logout</a></div>";
+	            	$('login_form').innerHTML += "<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='<?php print $_SESSION['__config__']['root_site'] ?>/shared/do_logout.php'>Logout</a></div>";
 		    	},
 		    	onFailure: function(){ alert("Si e' verificato un errore..."); }
 		  });
@@ -125,7 +125,7 @@ var send_email = function(_area){
 };
 
 var load_login = function(){
-	$('login_form').update("<form id='myform' method='post' action='#'>	<div id='r1' style='margin: 40px auto 0 auto; height: 60px; '>		<div style='width: 50%; float: left; text-align: right'>			<input type='text' autofocus name='nick' id='nick' style='width: 90%; color: #EEEEEE; border: 2px solid #FFFFFF; border-radius: 5px; box-shadow: 0 0 5px #FFFFFF; background-color:transparent; font-size: 1.5em; margin: auto' />		</div>		<div style='width: 25%; float: left; text-align: center; color: #FFFFFF; font-size: 1.15em; text-transform: uppercase; text-shadow: 0 0 5px #FFFFFF; padding-top: 7px'>			Login		</div>	</div>	<div id='r2' style='clear: left; margin: 0 auto 0 auto; height: 60px;'>		<div style='width: 50%; float: left; text-align: right'>			<input type='password' name='pass' id='pass' style='width: 90%; color: #EEEEEE; border: 2px solid #FFFFFF; border-radius: 5px; box-shadow: 0 0 5px #FFFFFF; background-color:transparent; font-size: 1.5em; margin: auto' />		</div>		<div style='width: 25%; float: left; text-align: center; color: #FFFFFF; font-size: 1.15em; text-transform: uppercase; text-shadow: 0 0 5px #FFFFFF; padding-top: 7px'>			Password		</div>		<div style='width: 25%; float: left; text-align: center; color: #FFFFFF; background: url() no-repeat'>			<img src='images/pwd.png' />		</div>	</div>	<div id='r3' style='clear: left; height: 120px; text-align: center'>		<input type='button' onclick='do_login("+area+")' style='width: 90px; heigth: 45px; border: 2px solid #FFFFFF; border-radius: 5px; box-shadow: 0 0 5px #FFFFFF; background-color: transparent; color: #EEEEEE; font-size: 1.15em; margin-top: 20px' value='LOGIN' />	</div></form>");
+	$('login_form').update("<form id='myform' method='post' action='#'>	<div id='r1' style='margin: 40px auto 0 auto; height: 60px; '>		<div style='width: 50%; float: left; text-align: right'>			<input type='text' autofocus name='nick' id='nick' style='' />		</div>		<div class='login_label'>Username</div>	</div>	<div id='r2' style='clear: left; margin: 0 auto 0 auto; height: 60px;'>		<div style='width: 50%; float: left; text-align: right'>			<input type='password' name='pass' id='pass' style='' />		</div>		<div class='login_label'>Password</div>		<div style='width: 25%; float: left; text-align: center; color: #FFFFFF'>			<img src='images/login.jpeg' />		</div>	</div>	<div id='r3' style='clear: left; height: 120px; text-align: center'><input id='button' type='button' onclick='do_login("+area+")' style='' value='LOGIN' />	</div></form>");
 	$('nick').focus();
 	$('back').show();
 	if (area != 2){
@@ -145,7 +145,7 @@ var load_login = function(){
 };
 
 var login_back = function(){
-	$('login_form').update('<div style="width: 33%; text-align: center; padding-top: 10%; float: left"><a href="#" id="parents"><img src="./images/genitori.png" /></a></div><div style="width: 33%; text-align: center; padding-top: 20%; float: left"><a href="#" id="students"><img src="./images/studenti.png" /></a></div><div style="width: 33%; text-align: center; padding-top: 10%; float: left"><a href="#" id="school"><img src="./images/scuola.png" /></a></div>');
+	$('login_form').update('<div class="area"><a href="#" id="parents"><img src="./images/genitori.jpg" class="area_img"  /><div>Area genitori</div></a></div><div class="area" id="center_el"><a href="#" id="students"><img src="./images/studenti2.png" /><div>Area studenti</div></a></div><div class="area" id="area_school"><a href="#" id="school"><img src="./images/scuola.jpeg" /><div>Area scuola</div></a></div>');
 	$('back').hide();
 	$('newpwd').hide();
 	$('parents').observe("click", function(event){
@@ -166,7 +166,7 @@ var login_back = function(){
 };
 
 var newpwd_form = function(){
-	$('login_form').update("<form id='myform' method='post' action='#'><div id='r1' style='margin: 40px auto 0 auto; height: 60px; '><div style='width: 75%; float: left; text-align: right'><input type='email' autofocus name='email' id='email' style='width: 90%; color: #EEEEEE; border: 2px solid #FFFFFF; border-radius: 5px; box-shadow: 0 0 5px #FFFFFF; background-color:transparent; font-size: 1.5em; margin: auto' /></div><div style='width: 25%; float: left; text-align: center; color: #FFFFFF; font-size: 1.15em; text-transform: uppercase; text-shadow: 0 0 5px #FFFFFF; padding-top: 7px'>Email</div></div><div id='t1' style='clear:left; width: 90%; margin: auto; height: 60px; color: #FFFFFF'><p style='padding: 10px; font-size: 1.1em'>Inserisci l'indirizzo email col quale ti sei registrato e riceverai a breve una mail, contenente le istruzioni per modificare la tua password.</p></div><div id='r3' style='clear: left; height: 120px; text-align: center'><input type='button' onclick='send_email("+area+")' style='width: 110px; heigth: 45px; border: 2px solid #FFFFFF; border-radius: 5px; box-shadow: 0 0 5px #FFFFFF; background-color: transparent; color: #EEEEEE; font-size: 1.15em; margin-top: 20px' value='Invia richiesta' /></div></form>");
+	$('login_form').update("<form id='myform' method='post' action='#'><div id='r1' style='margin: 40px auto 0 auto; height: 60px; '><div style='width: 75%; float: left; text-align: right'><input type='email' autofocus name='email' id='email' style='' /></div><div class='login_label'>Email</div></div><div id='t1' style=''><p style='padding: 10px; font-size: 1.1em'>Inserisci l'indirizzo email col quale ti sei registrato e riceverai a breve una mail, contenente le istruzioni per modificare la tua password.</p></div><div id='r3' style='clear: left; height: 120px; text-align: center; margin-top: 50px'><input id='mail_button' type='button' onclick='send_email("+area+")' value='Invia richiesta' /></div></form>");
 	$('email').focus();
 	$('back').show();
 	$('newpwd').hide();
@@ -205,13 +205,6 @@ document.observe("dom:loaded", function(){
 });
 </script>
 <style>
-*{margin:0;padding:0;}:focus,:active {outline:0}ul,ol{list-style:none}img{border:0} 
-
-body {
-	background: url('images/body.png') repeat;
-	font-size: 12px; 
-	font-family: Georgia
-}
 #links a {
 	display: block;
 	height: 25px;
@@ -235,47 +228,62 @@ body {
 		<?php 
 		if(!isset($_SESSION['__user__'])){ 
 		?>
-			<div class="area"><a href="#" id="parents"><img src="./images/genitori.png" class="area_img"  /></a></div>
-			<div class="area" id="center_el"><a href="#" id="students"><img src="./images/studenti.png" /></a></div>
-			<div class="area"><a href="#" id="school"><img src="./images/scuola.png" /></a></div>
+			<div class="area">
+				<a href="#" id="parents">
+					<img src="./images/genitori.jpg" class="area_img"  />
+					<div>Area genitori</div>
+				</a>
+			</div>
+			<div class="area" id="center_el">
+				<a href="#" id="students">
+					<img src="./images/studenti2.png" />
+					<div>Area studenti</div>
+				</a>
+			</div>
+			<div class="area" id="area_school">
+				<a href="#" id="school">
+					<img src="./images/scuola.jpeg" />
+					<div>Area scuola</div>
+				</a>
+			</div>
 		<?php 
 		}
 		else {
 			$groups = $_SESSION['__user__']->getGroups();
-			$col_length = 240 / (count($groups) + 1);
+			$col_length = 300 / (count($groups) + 1);
 			for($i = 0; $i < count($groups); $i++){
 				if($groups[$i] == 1 || $groups[$i] == 9 || $groups[$i] == 10){
-					print("<div style='height: {$col_length}px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='./admin/index.php'>Amministrazione</a></div>");
+					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a style='' href='./admin/index.php'>Amministrazione</a></div>");
 				}
 				if($groups[$i] == 2){
-					print("<div style='height: {$col_length}px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='intranet/teachers/index.php'>Accedi come docente</a></div>");
+					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/teachers/index.php'>Accedi come docente</a></div>");
 				}
 				if($groups[$i] == 3){
-					print("<div style='height: {$col_length}px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='intranet/ata/index.php'>Accedi come ATA</a></div>");
+					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/ata/index.php'>Accedi come ATA</a></div>");
 				}
 				if($groups[$i] == 4){
-					print("<div style='height: {$col_length}px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='intranet/genitori/index.php'>Accedi come genitore</a></div>");
+					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/genitori/index.php'>Accedi come genitore</a></div>");
 				}
 				if($groups[$i] == 5){
-					print("<div style='height: {$col_length}px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='intranet/manager/index.php?role=5'>Accedi alle funzioni di segreteria</a></div>");
+					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/manager/index.php?role=5'>Accedi alle funzioni di segreteria</a></div>");
 				}
 				if($groups[$i] == 6){
-					print("<div style='height: {$col_length}px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='intranet/manager/index.php?role=6'>Accedi come DS</a></div>");
+					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/manager/index.php?role=6'>Accedi come DS</a></div>");
 				}
 				if($groups[$i] == 7){
-					print("<div style='height: {$col_length}px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='intranet/manager/index.php?role=7'>Accedi come DSGA</a></div>");
+					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/manager/index.php?role=7'>Accedi come DSGA</a></div>");
 				}
 				if($groups[$i] == 8){
-					print("<div style='height: {$col_length}px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='intranet/alunni/index.php'>Accedi all'area studenti</a></div>");
+					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/alunni/index.php'>Accedi all'area studenti</a></div>");
 				}
 			
 			}
-			print("<div style='height: {$col_length}px; text-align: center'><a style='position: relative; top: 40%; color: #EEEEEE; text-shadow: 0 0 5px #FFFFFF; font-size: 1.6em; text-transform: uppercase' href='shared/do_logout.php'>Logout</a></div>");
+			print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='shared/do_logout.php'>Logout</a></div>");
 		} ?>
 		</div>
 		<nav>
-			<div id="back" style="width: 500px; margin: 10px auto 0 auto; text-align: center; display: none"><a href="#" id="back_link" style="color: #EEEEEE; font-size: 1.5em; text-shadow: 0 0 5px #FFFFFF;">Indietro</a></div>
-			<div id="newpwd" style="width: 500px; margin: 10px auto 0 auto; text-align: center; display: none"><a href="#" id="newpwd_link" style="color: #EEEEEE; font-style: italic; font-size: 1.2em; text-shadow: 0 0 5px #FFFFFF;">Password dimenticata?</a></div>
+			<div id="back" style="width: 500px; margin: 10px auto 0 auto; text-align: center; display: none"><a href="#" id="back_link" style="color: #EEEEEE; font-size: 1.5em; text-shadow: 0 0 2px #FFFFFF; text-decoration: underline">Indietro</a></div>
+			<div id="newpwd" style="width: 500px; margin: 10px auto 0 auto; text-align: center; display: none"><a href="#" id="newpwd_link" style="color: #EEEEEE; font-style: italic; font-size: 1.2em; text-shadow: 0 0 2px #FFFFFF;; text-decoration: underline">Password dimenticata?</a></div>
 		</nav>
 	</section>	
 </body>

@@ -107,7 +107,7 @@ while($al = $res_alunni->fetch_assoc()){
 ?>
 </tbody>
 <tfoot>
-<tr style="height: 30px; background-color: #e8eaec">
+<tr style="height: 30px; background-color: rgba(30, 67, 137, .4)">
 <td style="width: <?php print $first_column ?>%; padding-left: 8px; font-weight: bold">Media classe</td>
 	<?php
 	

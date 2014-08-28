@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Inserimento alunni</title>
-	<link href="../../css/reg.css" rel="stylesheet" />
-	<link href="../../css/general.css" rel="stylesheet" />
+<link href="../../css/reg.css" rel="stylesheet" />
+<link href="../../css/general.css" rel="stylesheet" />
 <link href="../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
 <script type="text/javascript" src="../../js/prototype.js"></script>
 <script type="text/javascript" src="../../js/scriptaculous.js"></script>
@@ -131,8 +131,7 @@ var save = function(_continue){
 	</table>
 	</fieldset>
 	<div style="width: 95%; text-align: right; margin: 15px auto 25px auto">
-		<a href="../index.php" style="float: left" class="standard_link">Torna al menu</a>
-    	<a href="#" onclick="save(false)" class="standard_link nav_link_first">Salva e concludi</a>|
+		<a href="#" onclick="save(false)" class="standard_link nav_link_first">Salva e concludi</a>|
     	<a href="#" onclick="save(true)" class="standard_link nav_link_last">Salva e continua</a>
     </div>
 	</form>	             

@@ -16,10 +16,10 @@
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		Elenco docenti <?php print strtolower($_SESSION['__current_year__']->to_string()) ?> (<?php echo $l_ext ." - ".$r_ext ?> <span style="text-transform: lowercase">di</span> <?php echo $_SESSION['count_teac'] ?>)
 	</div>
-	<div style="width: 95%; margin: auto; height: 25px; text-align: center; text-transform: uppercase; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+	<div class="outline_line_wrapper">
 		<div style="width: 40%; float: left; position: relative; top: 30%">Cognome e nome</div>
 		<div style="width: 20%; float: left; position: relative; top: 30%">Materia</div>
 		<div style="width: 30%; float: left; position: relative; top: 30%">Classi</div>
@@ -80,7 +80,7 @@
 	<tr>
 		<td colspan="2" style="text-align: right;"></td>
 		<td colspan="2" style="text-align: center">
-		<div style="margin-left: 30%; width: 70%; height: 20px; border: 1px solid rgb(211, 222, 199); border-radius: 8px; background-color: rgba(211, 222, 199, 0.4)">
+		<div style="margin-left: 30%; width: 70%; height: 20px; border: 1px solid rgba(30, 67, 137, .3);; border-radius: 8px; background-color: rgba(30, 67, 137, .1);">
 			<span id="ingresso" style="font-weight: bold; "></span>
 			<a href="elenco_docenti.php?order=<?php if($order == "name") print "subject"; else print "name" ?>" style="font-weight: normal; text-decoration: none; text-transform: uppercase; position: relative; top: 15%">Ordina per <?php if($order == "name") print "materia"; else print "nome" ?></a> 
 		</div>

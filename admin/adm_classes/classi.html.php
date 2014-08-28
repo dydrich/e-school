@@ -208,7 +208,7 @@ $(function(){
             <tr>
             	<td style="padding-left: 10px; width: 23%" class="adm_titolo_elenco_first"></td>
                 <td style="width: 70%; padding-left: 15px" class="adm_titolo_elenco">Consiglio di classe</td>
-                <td style="padding-left: 10px; width: 7%" class="adm_titolo_elenco_last _center">Alunni</td>
+                <td style="padding-right: 5px; width: 7%" class="adm_titolo_elenco_last _center">Alunni</td>
             </tr>
             <tr class="admin_row_before_text">
                 <td colspan="3"></td>
@@ -291,8 +291,7 @@ $(function(){
             ?>
             <tr class="admin_menu">
                 <td colspan="4">
-                	<a href="classe.php?id=0&offset=<?php echo $offset ?>&school_order=<?php echo $_GET['school_order'] ?>" id="nc_link" class="nav_link_first">Nuova classe</a>|
-                    <a href="<?php echo $goback_link ?>" class="nav_link_last"><?php echo $goback ?></a>
+                	<a href="classe.php?id=0&offset=<?php echo $offset ?>&school_order=<?php echo $_GET['school_order'] ?>" id="nc_link" class="nav_link standard_link">Nuova classe</a>
                 </td>
             </tr>
             <tr class="admin_void">

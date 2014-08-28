@@ -11,7 +11,7 @@
         <div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.2em; color: #373946; font-weight: bold">
 			Alunni non validati
 		</div>
-        <div style="width: 95%; margin: auto; height: 25px; text-align: center; text-transform: uppercase; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+        <div class="outline_line_wrapper">
 			<div style="width: 40%; float: left; position: relative; top: 30%">Alunno</div>
 			<div style="width: 10%; float: left; position: relative; top: 30%">Classe</div>
 			<div style="width: 10%; float: left; position: relative; top: 30%">Assenze</div>
@@ -23,7 +23,7 @@
 	 	    <?php 
 	 	    if($num_nv == 0){
 	 	    ?>
-	 	    <tr>
+	 	    <tr class="manager_row_small">
 	 	    	<td colspan="5" style="height: 50px; vertical-align: middle; font-weight: bold; text-align: center">Nessun alunno con oltre il 25% di assenze</td>
 	 	    </tr>
 	 	    <?php 
@@ -39,7 +39,7 @@
 					$h_abs = $dompath->query("ore_assenza", $a);
 					$per = $dompath->query("perc_ore", $a);
 	 	    ?>
-	 	    <tr style="border-bottom: 1px solid #C0C0C0">
+	 	    <tr class="manager_row_small">
 	 	    	<td style="width: 40%; "><a href="dettaglio_alunno.php?id=<?php print $att ?>" style="text-decoration: none"><?php print $nm->item(0)->nodeValue ?></a></td>
 	 	    	<td style="width: 10%; text-align: center"><?php print $cls->item(0)->nodeValue ?></td>
 	 	    	<td style="width: 10%; text-align: right; padding-right: 25px"><?php print $abs->item(0)->nodeValue ?></td>
@@ -61,7 +61,7 @@
 	 	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.2em; color: #373946; font-weight: bold">
 			Alunni a rischio
 		</div>
-        <div style="width: 95%; margin: auto; height: 25px; text-align: center; text-transform: uppercase; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+        <div class="outline_line_wrapper">
 			<div style="width: 40%; float: left; position: relative; top: 30%">Alunno</div>
 			<div style="width: 10%; float: left; position: relative; top: 30%">Classe</div>
 			<div style="width: 10%; float: left; position: relative; top: 30%">Assenze</div>
@@ -73,7 +73,7 @@
 	 	    <?php 
 	 	    if($num_ar == 0){
 	 	    ?>
-	 	    <tr>
+	 	    <tr class="manager_row_small">
 	 	    	<td colspan="5" style="height: 50px; vertical-align: middle; font-weight: bold; text-align: center">Nessun alunno con oltre il 20% di assenze</td>
 	 	    </tr>
 	 	    <?php 
@@ -93,7 +93,7 @@
 					$h_abs = $dompath->query("ore_assenza", $a);
 					$per = $dompath->query("perc_ore", $a);
 	 	    ?>
-	 	    <tr style="border-bottom: 1px solid #C0C0C0">
+	 	    <tr class="manager_row_small">
 	 	    	<td style="width: 40%"><a href="dettaglio_alunno.php?id=<?php print $att ?>" style="text-decoration: none"><?php print $nm->item(0)->nodeValue ?></a></td>
 	 	    	<td style="width: 10%; text-align: right; padding-right: 25px"><?php print $cls->item(0)->nodeValue ?></td>
 	 	    	<td style="width: 10%; text-align: right; padding-right: 25px"><?php print $abs->item(0)->nodeValue ?></td>

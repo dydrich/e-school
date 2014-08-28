@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Diagnosi</title>
-<link rel="stylesheet" href="../reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
@@ -53,9 +54,9 @@ function registra(){
 	<?php include "menu_sostegno.php" ?>
 	</div>
 	<div id="left_col">
-		<h2 style="text-align: center; padding-top: 10px">Dati clinici</h2>
+		<div class="group_head">Dati clinici</div>
 		<div id="not1" class="notification"></div>
-		<form id="my_form" method="post" action="aggiorna_dati_nucleo.php" style="border: 1px solid #666666; border-radius: 10px; margin-top: 30px; text-align: left; width: 80%; margin-left: auto; margin-right: auto">
+		<form id="my_form" method="post" action="aggiorna_dati_nucleo.php" style="border: 1px solid rgba(30, 67, 137, .8); border-radius: 10px; margin-top: 30px; text-align: left; width: 80%; margin-left: auto; margin-right: auto">
 		<table style="width: 90%; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 20px">
 			<tr>
 				<td style="width: 40%">Terapia</td>

@@ -26,5 +26,3 @@ else{
 $navigation_label = "Registro elettronico - Comunicazioni {$area}";
 
 include "send_mail.html.php";
-
-?>

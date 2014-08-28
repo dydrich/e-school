@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../registro_classe/reg_print.css" type="text/css" media="print" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../js/jquery_themes/custom-theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
@@ -458,7 +458,7 @@ if($numero_alunni > 0){
 ?>
 </tbody>
 <tfoot>
-<tr style="height: 30px; background-color: #e8eaec">
+<tr style="height: 30px; background-color: rgba(30, 67, 137, .3)">
 	<td style="width: 40%; font-weight: bold; padding-left: 8px">
 		Totale classe
 	</td>

@@ -145,12 +145,8 @@ document.observe("dom:loaded", function(){
             ?>
             <tr class="admin_menu">
                 <td colspan="3" align="right">
-                    <a href="dettaglio_alunno.php?id=0&type=0" id="new_button" class="nav_link_first">Nuovo studente</a>|
-                    <a href="../index.php" class="nav_link_last">Torna menu</a>
+                    <a href="dettaglio_alunno.php?id=0&type=0" id="new_button" class="standard_link nav_link_first">Nuovo studente</a>
                 </td>
-            </tr>
-            <tr>
-                <td colspan="3" class=""></td>
             </tr>
         </tfoot>
         </table>

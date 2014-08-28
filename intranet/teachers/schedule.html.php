@@ -4,6 +4,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 <link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
@@ -155,14 +156,14 @@ table a {
 <?php include "profile_menu.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 90%; height: 30px; margin: 30px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		Orario personale del docente  [ <a href="pdf_personal_schedule.php">PDF</a> ] 
 	</div>
-	<div style="width: 90%; margin: auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
-		<div style="width: 7%; float: left; position: relative; top: 30%">Ora</div>
-		<div style="width: 31%; float: left; position: relative; top: 30%">Luned&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 30%">Marted&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 30%">Mercoled&igrave;</div>
+	<div class="outline_line_wrapper">
+		<div style="width: 7%; float: left; position: relative; top: 25%">Ora</div>
+		<div style="width: 31%; float: left; position: relative; top: 25%">Luned&igrave;</div>
+		<div style="width: 31%; float: left; position: relative; top: 25%">Marted&igrave;</div>
+		<div style="width: 31%; float: left; position: relative; top: 25%">Mercoled&igrave;</div>
 	</div>
 	<form method="post">
         <table style="margin: 10px auto 0 auto; text-align: center; font-size: 1em; width: 90%">
@@ -183,11 +184,11 @@ table a {
             <td colspan="4" style="height: 40px"></td>
         </tr>
         </table>
-	<div style="width: 90%; margin: auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
-		<div style="width: 7%; float: left; position: relative; top: 30%">Ora</div>
-		<div style="width: 31%; float: left; position: relative; top: 30%">Gioved&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 30%">Venerd&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 30%">Sabato</div>
+	<div class="outline_line_wrapper">
+		<div style="width: 7%; float: left; position: relative; top: 25%">Ora</div>
+		<div style="width: 31%; float: left; position: relative; top: 25%">Gioved&igrave;</div>
+		<div style="width: 31%; float: left; position: relative; top: 25%">Venerd&igrave;</div>
+		<div style="width: 31%; float: left; position: relative; top: 25%">Sabato</div>
 	</div>     
 		<table style="margin: 10px auto 0 auto; text-align: center; font-size: 1em; width: 90%">
 	        <?php 

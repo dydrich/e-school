@@ -106,8 +106,7 @@ input {
             </tr>
 			<tr>
                 <td style="padding-top: 20px; text-align: right" colspan="2">
-                	<a href="#" onclick="go()" class="standard_link nav_link_first">Registra</a>|
-                	<a href="index.php" class="standard_link nav_link_last">Torna al menu</a>
+                	<a href="#" onclick="go()" class="standard_link nav_link">Registra</a>
                 </td>
 			</tr>
 		</table>

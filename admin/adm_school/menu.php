@@ -2,6 +2,7 @@
 	<h2 class="menu_head">Menu</h2>
 	<p class="menu_label class_icon">Scuola</p>
 	<ul class="menublock" style="" dir="rtl">
+		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>index.php">Home</a></li>
 		<?php if($admin_level == 0): ?>
 		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>adm_school/sedi.php">Sedi</a></li>
 		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>adm_school/moduli_orario.php">Moduli orario</a></li>

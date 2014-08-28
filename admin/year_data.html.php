@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <link rel="stylesheet" href="../css/reg.css" type="text/css" />
+<link rel="stylesheet" href="../css/general.css" type="text/css" />
 <link rel="stylesheet" href="../css/skins/aqua/theme.css" type="text/css" />
 <script type="text/javascript" src="../js/prototype.js"></script>
 <script type="text/javascript" src="../js/scriptaculous.js"></script>
@@ -392,8 +393,7 @@ input {
 			</tr>
 			<tr>
                 <td style="padding-top: 20px; text-align: right" colspan="4">
-                	<a href="#" onclick="go()" class="standard_link nav_link_first">Registra</a>|
-                	<a href="index.php" class="standard_link nav_link_last">Torna al menu</a>
+                	<a href="#" onclick="go()" class="standard_link nav_link">Registra</a>
                 	<input type="hidden" name="school_order" id="school_order" value="<?php echo $_GET['school_order'] ?>" />
                 </td>
 			</tr>

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
-<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
 <link href="../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
 <link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
@@ -103,11 +103,11 @@ document.observe("dom:loaded", function(){
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		Pagelle online <?php echo $school ?>
 	</div>
-	<form class="reg_form" id="search_form" style="height: 150px;">
-	<div style="width: 45%; margin-left: 20px; float: left">
+	<form class="reg_form" id="search_form" style="height: 150px; margin-top: 10px">
+	<div style="width: 45%; margin: 10px 0 0px 20px; float: left">
 		<table style="width: 95%">
 			<tr id="tr_anno">
 				<td style="width: 40%">Anno scolastico</td>

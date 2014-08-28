@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../registro_classe/reg_print.css" type="text/css" media="print" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../js/jquery_themes/custom-theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
@@ -354,7 +354,7 @@ while($row = $res_note->fetch_assoc()){
 <!-- tipi nota -->
 <!-- popup nota -->
 <div id="pop_note" style="display: none">
-	<p style='text-align: center; padding-top: 5px; font-weight: bold; padding-bottom: 10px' id='titolo_nota'>Note didattiche</p>
+	<p class="popup_header" id='titolo_nota'>Note didattiche</p>
 	<form id='testform' method='post' onsubmit="_submit()">
 		<table style='text-align: left; width: 95%; margin: auto' id='att'>
 			<tr>

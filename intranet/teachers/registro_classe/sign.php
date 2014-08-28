@@ -1,7 +1,7 @@
 <?php
 
 /***
- * file: reg_orario.php
+ * file: sign.php
  * 
  * permette al docente di firmare il registro per le ore nelle quali ha fatto lezione,
  * indicando anche la materia e l'argomento svolto 

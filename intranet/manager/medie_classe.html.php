@@ -19,16 +19,16 @@
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 90%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		Riepilogo medie generali <?php print $label ?>
 	</div>
-<table class="manager_table" style="width: 100%">
+<table class="manager_table" style="width: 100%; margin-top: 10px">
 <thead>
-<tr style="height: 25px; background-color: rgba(211, 222, 199, 0.8);">
+<tr style="height: 25px; background-color: rgba(30, 67, 137, .3);">
 	<td style="text-align: center; "><span id="ingresso" style="font-weight: bold; "><?php print $_SESSION['__classe__']->to_string() ?></span></td>
 	<td colspan="<?php echo ($num_colonne - 1) ?>" style="font-weight: bold; text-align: center">Quadro riassuntivo della classe</td>
 </tr>
-<tr style="border-bottom: 2px solid #CCC">
+<tr class="manager_row_small">
 	<td style="width: <?php echo $first_column_width ?>%; font-weight: bold; padding-left: 12px">Alunno</td>
 	<?php 
 	foreach ($materie as $materia){
@@ -46,15 +46,17 @@ foreach ($alunni as $al){
 	$student_sum = 0;
 	$num_materie = $res_materie->num_rows;
 ?>
-<tr style="border-bottom: 1px solid #CCC">
+<tr class="manager_row_small">
 	<td style="width: <?php print $first_column ?>%; padding-left: 8px; font-weight:normal;">
 		<?php if($idx < 10) print "&nbsp;&nbsp;"; ?><?php echo $idx.". " ?>
-		<span style="font-weight: normal"><?php print $al['cognome']." ".substr($al['nome'], 0, 1) ?> (</span><span class="<?php if($al['media'] < 6 && $al['media'] > 0) print("attention") ?> _bold"><?php echo $al['media'] ?></span>)
+		<span style="font-weight: normal"><?php print $al['cognome']." ".substr($al['nome'], 0, 1) ?> (</span><span class="<?php if(isset($al['media']) && $al['media'] < 6 && $al['media'] > 0) print("attention") ?> _bold"><?php if(isset($al['media'])) echo $al['media'] ?></span>)
 	</td>
 	<?php 
 	reset($materie);
 	foreach ($materie as $materia){
-		$avg = $al['voti'][$materia['id_materia']];
+		if (isset($al['voti'][$materia['id_materia']])) {
+			$avg = $al['voti'][$materia['id_materia']];
+		}
 	?>
 	<td style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold;"><span class="<?php if($avg < 6 && $avg > 0) print("attention") ?>"><?php echo $avg ?></span></td>
 <?php
@@ -63,8 +65,8 @@ foreach ($alunni as $al){
 	echo "</tr>";
 }
 ?>
-<tr style="background-color: #e8eaec; height: 30px">
-	<td style="width: <?php print $first_column ?>%; padding-left: 8px; font-weight:bold;">Media classe</td>
+<tr style="background-color: rgba(30, 67, 137, .1); height: 30px">
+	<td style="width: <?php print $first_column ?>%; padding-left: 8px; font-weight:bold; border-bottom: rgba(30, 67, 137, .3)">Media classe</td>
 <?php 
 reset($materie);
 foreach ($materie as $materia){
@@ -75,14 +77,14 @@ foreach ($materie as $materia){
 		$ex->redirect();
 	}
 ?>
-	<td style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold;<?php print $background ?>"><span class="<?php if($class_avg < 6 && $class_avg > 0) print("attention") ?>"><?php echo $class_avg ?></span></td>
+	<td style="width: <?php echo $column_width ?>%; text-align: center; border-bottom: rgba(30, 67, 137, .3); font-weight: bold;<?php print $background ?>"><span class="<?php if($class_avg < 6 && $class_avg > 0) print("attention") ?>"><?php echo $class_avg ?></span></td>
 <?php 
 }
 ?>
 </tr>
 </tbody>
 <tfoot>
-<tr>
+<tr style="border-top: 1px solid rgba(30, 67, 137, .3)">
 	<td colspan="<?php echo $num_colonne ?>" style="height: 15px"></td>
 </tr>
 <tr class="nav_tr">
@@ -97,6 +99,9 @@ foreach ($materie as $materia){
 			<img style="margin-right: 5px; position: relative; top: 5px" src="../../images/quad.png" />Totale
 		</a>
 	</td>
+</tr>
+<tr>
+	<td colspan="<?php echo $num_colonne ?>" style="height: 15px"></td>
 </tr>
 </tfoot>
 </table>

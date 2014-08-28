@@ -149,7 +149,7 @@ $(function(){
 * {font-size: 12px}
 </style>
 </head>
-<body style="margin: 0; background-image: none">
+<body style="margin: 0; background-color: white">
 <div id="" style='width: 100%; margin: 0; text-align: center; height: 100%'>
 	<p style='text-align: center; padding-top: 5px; font-weight: bold' id='titolo'><?php echo $label ?></p>
 	<form id='testform' action='' method='post'>

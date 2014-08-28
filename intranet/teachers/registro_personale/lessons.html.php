@@ -4,29 +4,45 @@
 <title>Registro di classe</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="../registro_classe/reg_classe.css" type="text/css" media="screen,projection" />
-<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="../../../css/skins/aqua/theme.css" type="text/css" />
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/window.js"></script>
-<script type="text/javascript" src="../../../js/window_effects.js"></script>
-<script type="text/javascript" src="../../../js/calendar.js"></script>
-<script type="text/javascript" src="../../../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../../../js/calendar-setup.js"></script>
 <script type="text/javascript">
 var win;
 var win2;
 <?php echo $change_subject->getJavascript() ?>
 
-function change_subject(id){
+var change_subject = function(id){
 	document.location.href="lessons.php?subject="+id+"&q=<?php print $q ?>";
-}
+};
 
 var show_absences = function(id){
-	win2 = new Window({className: "mac_os_x", url: "show_hour_absences.php?idh="+id,  width:400, height:300, zIndex: 100, resizable: true, title: "Elenco assenze", showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});	
-	win2.showCenter(true);
+	$('#iframe').attr("src", "show_hour_absences.php?idh="+id);
+	$('#if_pop').dialog({
+		autoOpen: true,
+		show: {
+			effect: "appear",
+			duration: 500
+		},
+		hide: {
+			effect: "slide",
+			duration: 400
+		},
+		modal: true,
+		width: 450,
+		title: 'Assenze ora',
+		open: function(event, ui){
+
+		}
+	});
+};
+
+var dialogclose = function(){
+	$('#if_pop').dialog("close");
 };
 
 </script>
@@ -42,13 +58,13 @@ table.registro td {
 <div id="main" style="clear: both; ">
 <!-- div nascosto, per la scelta della materia -->
 <?php $change_subject->toHTML() ?>
-<div style="width: 99%; height: 30px; margin: 30px auto 0 auto; text-align: center; font-size: 1.0em; text-transform: uppercase">
-	<span style="float: left">Materia: <span id="uscita" style="font-weight: normal; "><?php $change_subject->printLink() ?></span></span>
-			<span style="font-size: 1.1em">Elenco lezioni<?php print $label ?> (<?php echo $res_lessons->num_rows ?> ore)</span><a href="lessons.php?q=<?= $q ?>&order=<?= $order ?><?= $_group ?>" style="float: right; font-weight: normal"><?= $link_label ?></a>
+<div class="group_head">
+	<span style="float: left; padding-left: 10px">Materia: <span id="uscita" style="font-weight: normal; "><?php $change_subject->printLink() ?></span></span>
+			<span style="font-size: 1.1em">Elenco lezioni<?php print $label ?> (<?php echo $res_lessons->num_rows ?> ore)</span><a href="lessons.php?q=<?php echo $q ?>&order=<?php echo $order ?><?php echo $_group ?>" style="float: right; font-weight: normal; padding-right: 10px "><?php echo $link_label ?></a>
 </div>
-<div style="width: 99%; margin: auto; height: 35px; text-align: center; text-transform: uppercase; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+<div class="outline_line_wrapper">
 	<div style="width: 10%; float: left; position: relative"><img src="../../../images/70.png" /><br />Data</div>
-	<div style="width: 15%; float: left; position: relative; top: 30%"><img src="../../../images/<?php echo $image ?>" style="margin-left: 8px" onclick="document.location.href='lessons.php?group=<?= $group ? "1" : "0" ?>&q=<?= $q ?>&order=<?= $order_to ?>'" /></div>
+	<div style="width: 15%; float: left; position: relative; top: 30%"><img src="../../../images/<?php echo $image ?>" style="margin-left: 8px" onclick="document.location.href='lessons.php?group=<?php echo $group ? "1" : "0" ?>&q=<?php echo $q ?>&order=<?php echo $order_to ?>'" /></div>
 	<div style="width: 75%; float: left; position: relative"><img src="../../../images/35.png" /><br />Argomento</div>
 </div>
 <table class="registro" style="width: 99%; margin: 20px auto 0 auto">
@@ -64,7 +80,7 @@ table.registro td {
 		if($group){
 			if($mese != $m){
 				$str_month = ucfirst(strftime("%B", strtotime($les['data'])));
-				print("<tr><td colspan='3' style='height: 20px; vertical-align: middle; font-weight: normal; text-transform: uppercase; font-size: 13m; text-align: center; border-bottom: 1px solid #CCCCCC; background-color: rgba(211, 222, 199, 0.3); '>$str_month</td></tr>");
+				print("<tr><td colspan='3' style='height: 20px; vertical-align: middle; font-weight: normal; text-transform: uppercase; font-size: 13m; text-align: center; border-bottom: 1px solid rgba(30, 67, 137, .4); background-color: rgba(30, 67, 137, .2); '>$str_month</td></tr>");
 			}
 		}
 		$giorno_str = $group ? ucfirst(strftime("%A %d", strtotime($les['data']))) : ucfirst(strftime("%A %d %B", strtotime($les['data'])));
@@ -103,5 +119,8 @@ table.registro td {
 </table>
 </div> 
 <?php include "../footer.php" ?>
+<div id="if_pop" style="display: none">
+	<iframe id="iframe" src="show_hour_absences.php" style="width: 100%; height: 380px; margin: 0 auto; padding: 0"></iframe>
+</div>
 </body> 
 </html>

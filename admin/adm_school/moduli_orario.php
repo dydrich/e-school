@@ -7,6 +7,8 @@ check_session();
 check_permission(ADM_PERM);
 
 $admin_level = 0;
+$_SESSION['__path_to_root__'] = "../../";
+$_SESSION['__path_to_mod_home__'] = "../";
 
 $sel_modules = "SELECT * FROM rb_moduli_orario ORDER BY id_modulo";
 $res_modules = $db->execute($sel_modules);

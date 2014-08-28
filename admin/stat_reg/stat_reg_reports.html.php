@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Admin home page</title>
-	<link href="../../css/reg.css" rel="stylesheet" />
-	<link href="../../css/general.css" rel="stylesheet" />
+<link href="../../css/reg.css" rel="stylesheet" />
+<link href="../../css/general.css" rel="stylesheet" />
 <link rel="stylesheet" href="../../css/themes/default.css" type="text/css"/>
 <link rel="stylesheet" href="../../css/themes/alphacube.css" type="text/css"/>
 <script type="text/javascript" src="../../js/prototype.js"></script>
@@ -32,7 +32,7 @@
                 foreach ($classi as $k => $cls){
             ?>
             <tr>
-                <td colspan="2" style="background-color: rgba(211, 222, 199, 0.7)" class="_bold _center">Classe <?php echo $cls['cls']['anno_corso'].$cls['cls']['sezione'] ?> <span id="cls_<?php echo $k ?>"></span></td>
+                <td colspan="2" style="background-color: rgba(30, 67, 137, .6);" class="_bold _center">Classe <?php echo $cls['cls']['anno_corso'].$cls['cls']['sezione'] ?> <span id="cls_<?php echo $k ?>"></span></td>
             </tr>
         	<?php 
         		$ok = $ko = 0;
@@ -47,7 +47,7 @@
 						$ok++;
 					}
 			?>
-			<tr>
+			<tr class="bottom_decoration">
                 <td style="width: 50%; color: <?php echo $color ?>"><?php echo $alunno['cognome'], " ", $alunno['nome'] ?></td>
                 <td style="width: 50%; color: <?php echo $color ?>"><?php echo $alunno['dw'] ?></td>
             </tr>

@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Admin home page</title>
-	<link href="../css/reg.css" rel="stylesheet" />
-	<link href="../css/general.css" rel="stylesheet" />
+<link href="../css/reg.css" rel="stylesheet" />
+<link href="../css/general.css" rel="stylesheet" />
 <link rel="stylesheet" href="../css/themes/default.css" type="text/css"/>
 <link rel="stylesheet" href="../css/themes/alphacube.css" type="text/css"/>
 <script type="text/javascript" src="../js/prototype.js"></script>
@@ -45,22 +45,22 @@ div.overlay{
 <?php include "navigation.php" ?>
 <div id="main">
 	<div id="right_col">
-		<?php include "reg_menu.php" ?>
+		<?php include "stat_menu.php" ?>
 	</div>
 	<div id="left_col">
 		<div class="group_head">
 			Statistiche registro elettronico <?php echo $title_label ?>
 		</div>
-        <table style="width: 90%; margin: 20px auto 0 auto; border-collapse: collapse" class="admin_table">
+        <table style="margin: 20px auto 0 auto;" class="admin_table">
             <tr>
-                <td colspan="2" style="background-color: rgba(211, 222, 199, 0.7)" class="_bold _center">Genitori</td>
+                <td colspan="2" class="_bold _center title_row">Genitori</td>
             </tr>
             <?php 
             if((count($_SESSION['__school_level__']) > 1)){ 
             	if( $admin_level == 0){
             ?>
-            <tr>
-                <td class="a"><a href="stat_reg/stat_reg_parents.php">Statistiche genitori</a></td>
+            <tr class="admin_row_small">
+                <td ><a href="stat_reg/stat_reg_parents.php">Statistiche genitori</a></td>
                 <td style="width: 50%">
                     <a href="stat_reg/stat_reg_parents.php">Statistiche dei genitori iscritti al registro</a>
                 </td>
@@ -70,7 +70,7 @@ div.overlay{
             	foreach ($_SESSION['__school_level__'] as $k => $sl){
 					if($admin_level == $k || $admin_level == 0){
             ?>
-            <tr>
+            <tr class="admin_row_small">
             	<td style="width: 50%"><a href="stat_reg/stat_reg_parents.php?school_order=<?php echo $k ?>">Statistiche genitori <?php echo $sl ?></a></td>
                 <td style="">
                     <a href="stat_reg/stat_reg_parents.php?school_order=<?php echo $k ?>">Statistiche account genitori per la <?php echo $sl ?></a>
@@ -80,7 +80,7 @@ div.overlay{
             		}
             	} 
 			} else{ ?>
-            <tr>
+            <tr class="admin_row_small">
             	<td style="width: 30%; color: #003366"><a href="stat_reg/stat_reg_parents.php?school_order=<?php echo $_SESSION['__only_school_level__'] ?>">Statistiche genitori</a></td>
                 <td style="color: #003366">
                     <a href="stat_reg/stat_reg_parents.php?school_order=<?php echo $_SESSION['__only_school_level__'] ?>">Statistiche dei genitori iscritti al registro </a>
@@ -91,7 +91,7 @@ div.overlay{
             	<td colspan="2">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="2"  style="background-color: rgba(211, 222, 199, 0.7)" class="_bold _center">Pagelle</td>
+                <td colspan="2"  class="_bold _center title_row">Pagelle</td>
             </tr>
             <?php 
             if((count($_SESSION['__school_level__']) > 1)){ 
@@ -128,14 +128,11 @@ div.overlay{
             <tr>
             	<td colspan="2">&nbsp;</td>
             </tr>
-            <tr>
+            <tr class="admin_menu">
                 <td style="width: 50%"></td>
                 <td style="text-align: right">
 	                <a href="<?php print $_SESSION['__config__']['root_site'] ?>" class="standard_link">Torna all'Home Page</a>
                 </td>
-            </tr>
-            <tr class="admin_void">
-                <td colspan="2">&nbsp;&nbsp;&nbsp;</td>
             </tr>
             <tr class="admin_void">
                 <td colspan="2">&nbsp;&nbsp;&nbsp;</td>

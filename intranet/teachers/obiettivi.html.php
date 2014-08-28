@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti - Obiettivi didattici</title>
-<link rel="stylesheet" href="reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 <link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../js/prototype.js"></script>
@@ -29,10 +30,10 @@
 		foreach ($goals as $row){
 			$color = "";
 			if (!isset($row['children'])){
-				$color = "rgba(77, 84, 95, 1)";
+				$color = "rgba(30, 67, 137, .8);";
 			}
 			else {
-				$color = "rgba(211, 222, 199, .4)";
+				$color = "#EF6C6C";
 			} 
 	?>
 			<tr style="border-bottom: 1px solid <?php echo $color ?>; height: 25px">

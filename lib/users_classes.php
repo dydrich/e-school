@@ -100,7 +100,12 @@ abstract class UserBean {
 	}
 
 	public function getBirthday(){
-		return $this->profile['birthday'];
+		if (isset($this->profile['birthday'])) {
+			return $this->profile['birthday'];
+		}
+		else {
+			return null;
+		}
 	}
 
 	public function setAddress($add){
@@ -108,7 +113,12 @@ abstract class UserBean {
 	}
 
 	public function getAddress(){
-		return $this->profile['address'];
+		if (isset($this->profile['address'])) {
+			return $this->profile['address'];
+		}
+		else {
+			return null;
+		}
 	}
 
 	public function setPhone($n){
@@ -116,7 +126,12 @@ abstract class UserBean {
 	}
 
 	public function getPhone(){
-		return $this->profile['phone'];
+		if (isset($this->profile['phone'])) {
+			return $this->profile['phone'];
+		}
+		else {
+			return null;
+		}
 	}
 
 	public function setMobile($n){
@@ -124,7 +139,12 @@ abstract class UserBean {
 	}
 
 	public function getMobile(){
-		return $this->profile['mobile'];
+		if (isset($this->profile['mobile'])) {
+			return $this->profile['mobile'];
+		}
+		else {
+			return null;
+		}
 	}
 
 	public function setEmail($email){
@@ -132,7 +152,12 @@ abstract class UserBean {
 	}
 
 	public function getEmail(){
-		return $this->profile['email'];
+		if (isset($this->profile['email'])) {
+			return $this->profile['email'];
+		}
+		else {
+			return null;
+		}
 	}
 
 	public function setWeb($web){
@@ -140,7 +165,12 @@ abstract class UserBean {
 	}
 
 	public function getWeb(){
-		return $this->profile['web'];
+		if (isset($this->profile['web'])) {
+			return $this->profile['web'];
+		}
+		else {
+			return null;
+		}
 	}
 
 	public function setMessenger($m){
@@ -148,7 +178,12 @@ abstract class UserBean {
 	}
 
 	public function getMessenger(){
-		return $this->profile['messenger'];
+		if (isset($this->profile['messenger'])) {
+			return $this->profile['messenger'];
+		}
+		else {
+			return null;
+		}
 	}
 
 	public function setBlog($b){
@@ -156,7 +191,12 @@ abstract class UserBean {
 	}
 
 	public function getBlog(){
-		return $this->profile['blog'];
+		if (isset($this->profile['blog'])) {
+			return $this->profile['blog'];
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public function setCf($cf){
@@ -434,5 +474,9 @@ class ParentBean extends UserBean {
 		$n = parent::getFullName($order);
 		$n .= " (" . implode(", ", $this->childrenNames) .")";
 		return $n;
+	}
+
+	public function getSchoolOrder() {
+
 	}
 }

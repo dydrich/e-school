@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
-<link rel="stylesheet" href="../reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../../js/prototype.js"></script>
@@ -28,15 +29,15 @@ tbody tr:hover {
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-<div style="width: 95%; height: 30px; margin: 30px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+<div class="group_head">
 	Compiti assegnati (<a href="<?php echo $link ?>" style="font-weight: normal"><?php echo $label ?></a>)
 </div>
-<div style="width: 95%; margin: auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
-	<div style="width: 20%; float: left; position: relative; top: 30%">Per il...</div>
-	<div style="width: 50%; float: left; position: relative; top: 30%">Compito</div>
-	<div style="width: 10%; float: left; position: relative; top: 30%">Materia</div>
-	<div style="width: 10%; float: left; position: relative; top: 30%">Assegnato</div>
-	<div style="width: 10%; float: left; position: relative; top: 30%">Alunni</div>
+<div class="outline_line_wrapper">
+	<div style="width: 20%; float: left; position: relative; top: 25%">Per il...</div>
+	<div style="width: 50%; float: left; position: relative; top: 25%">Compito</div>
+	<div style="width: 10%; float: left; position: relative; top: 25%">Materia</div>
+	<div style="width: 10%; float: left; position: relative; top: 25%">Assegnato</div>
+	<div style="width: 10%; float: left; position: relative; top: 25%">Alunni</div>
 </div>
 <table style="width: 95%; margin: 10px auto 0 auto">
 <?php 
@@ -67,7 +68,7 @@ else{
 		$giorno_str = strftime("%A", strtotime($di));
 ?>
 	<tr>
-		<td style="width: 20%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #c0c0c0;" rowspan="<?php echo $rows ?>"><?php print $giorno_str." ". format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/")?></td>
+		<td style="width: 20%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: rgba(30, 67, 137, .5)" rowspan="<?php echo $rows ?>"><?php print $giorno_str." ". format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/")?></td>
 <?php 
 		while($hw = $res_hw->fetch_assoc()){
 			$bc = "";
@@ -79,10 +80,10 @@ else{
 				$mod = 0;
 ?>
 		<?php if($ct > 1) print("<tr>") ?>
-		<td style="width: 50%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #c0c0c0;"><?php if ($hw['docente'] == $_SESSION['__user__']->getUid()): ?><a style="color: #303030; font-weight: normal; text-decoration: none" href="dettaglio_compito.php?t=<?php print $hw['id_impegno'] ?>"><?php endif; ?><?php print $hw['descrizione'] ?><?php if ($hw['docente'] == $_SESSION['__user__']->getUid()): ?></a><?php endif; ?></td>
-		<td style="width: 10%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #c0c0c0;"><?php print $hw['mat'] ?></td>
-		<td style="width: 10%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #c0c0c0;"><?php print format_date($da, SQL_DATE_STYLE, IT_DATE_STYLE, "/")?></td>
-		<td style="width: 10%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #c0c0c0;">Tutti</td>
+		<td style="width: 50%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: rgba(30, 67, 137, .4)"><?php if ($hw['docente'] == $_SESSION['__user__']->getUid()): ?><a style="color: #303030; font-weight: normal; text-decoration: none" href="dettaglio_compito.php?t=<?php print $hw['id_impegno'] ?>"><?php endif; ?><?php print $hw['descrizione'] ?><?php if ($hw['docente'] == $_SESSION['__user__']->getUid()): ?></a><?php endif; ?></td>
+		<td style="width: 10%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: rgba(30, 67, 137, .4)"><?php print $hw['mat'] ?></td>
+		<td style="width: 10%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: rgba(30, 67, 137, .4)"><?php print format_date($da, SQL_DATE_STYLE, IT_DATE_STYLE, "/")?></td>
+		<td style="width: 10%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: rgba(30, 67, 137, .4)">Tutti</td>
 	</tr>
 
 <?php 

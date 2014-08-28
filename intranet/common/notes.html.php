@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area studenti</title>
-<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/prototype.js"></script>
 <script type="text/javascript" src="../../js/scriptaculous.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
@@ -45,13 +45,13 @@ function _show(e) {
 </div>
 <div id="left_col">
 <?php 
-setlocale(LC_TIME, "it_IT");
+setlocale(LC_TIME, "it_IT.utf8");
 $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
-	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		<?php print $_SESSION['__current_year__']->to_string() ?> - Note disciplinari di <?php print $alunno['cognome']." ".$alunno['nome'] ?> <span style="float: right; padding-right: 10px" ></span>
 	</div>
-	<div style="width: 95%; margin: 0 auto 20px auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+	<div class="outline_line_wrapper">
 		<div style="width: 10%; float: left; position: relative; top: 30%">Data</div>
 		<div style="width: 25%; float: left; position: relative; top: 30%">Tipo</div>
 		<div style="width: 20%; float: left; position: relative; top: 30%">Docente</div>
@@ -76,7 +76,7 @@ else{
 		else
 			$background = "";
 ?>
-	<tr style="border-bottom: 1px solid rgb(211, 222, 199)"> 
+	<tr class="manager_row_small">
 		<td style="width: 10%; text-align: center; "><?php print format_date($row['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td> 
 		<td style="width: 25%; text-align: center; "><?php print $row['tipo_nota'] ?></td> 
 		<td style="width: 20%; text-align: center; "><?php if($row['id_tiponota'] > 1) print "--"; else print $row['cognome']." ".$row['nome'] ?></td>
@@ -106,7 +106,7 @@ else{
 		<td colspan="4" style="height: 30px">&nbsp;</td>
 	</tr>
 	<tr>
-		<td colspan="4" style="tmargin: 30px auto 0 auto; text-align: center; padding-right: 10px; height: 35px; border-width: 1px 0 1px 0; border-style: solid; border-color: rgba(211, 222, 199, 0.6)">
+		<td colspan="4" style="tmargin: 30px auto 0 auto; text-align: center; padding-right: 10px; height: 35px; border-width: 1px 0 1px 0; border-style: solid; border-color: rgba(30, 67, 137, .3);">
 			<a href="riepilogo_note.php?q=1" style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
 				<img style="margin-right: 5px; position: relative; top: 5px" src="../../images/quad.png" />1 Quadrimestre
 			</a>

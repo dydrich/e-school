@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
-<link rel="stylesheet" href="reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 <link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../js/prototype.js"></script>
@@ -51,11 +52,11 @@ document.observe("dom:loaded", function(){
 	<?php include "profile_menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div style="width: 90%; height: 30px; margin: 30px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+		<div class="group_head">
 		Configurazione registro 
 		</div>
 		<form method="post" name="st_form" id="st_form">
-		<div style="width: 45%; margin: auto; border: 1px solid #CCCCCC; padding: 20px">
+		<div style="width: 45%; margin: 15px auto; border: 1px solid rgba(30, 67, 137, .5);; padding: 20px">
 			<span>Quali tipologie di prove vuoi utilizzare?</span>
 			<ul>
 		<?php 

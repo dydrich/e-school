@@ -45,7 +45,7 @@ $uscite = array();
 
 $mesi = array("Settembre", "Ottobre", "Novembre", "Dicembre", "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno");
 
-$sel_ritardi = "SELECT data, rb_reg_alunni.ingresso AS ingresso FROM rb_reg_classi, rb_reg_alunni WHERE id_anno = ".$_SESSION['__current_year__']->get_ID()." $par_tot AND id_reg = id_registro AND rb_reg_alunni.ingresso IS NOT NULL AND rb_reg_alunni.ingresso > rb_reg_classi.ingresso AND id_alunno = $id_alunno ";
+$sel_ritardi = "SELECT data, rb_reg_alunni.ingresso AS ingresso FROM rb_reg_classi, rb_reg_alunni WHERE id_anno = ".$_SESSION['__current_year__']->get_ID()." AND id_reg = id_registro AND rb_reg_alunni.ingresso IS NOT NULL AND rb_reg_alunni.ingresso > rb_reg_classi.ingresso AND id_alunno = $id_alunno ";
 $res_ritardi = $db->execute($sel_ritardi);
 while($as = $res_ritardi->fetch_assoc()){
 	$data = explode("-", $as['data']);
@@ -54,7 +54,7 @@ while($as = $res_ritardi->fetch_assoc()){
 		$ritardi[$mese] = array();
 	array_push($ritardi[$mese], $as);
 }
-$sel_uscite = "SELECT data, rb_reg_alunni.uscita AS uscita FROM rb_reg_classi, rb_reg_alunni WHERE id_anno = ".$_SESSION['__current_year__']->get_ID()." $par_tot AND id_reg = id_registro AND rb_reg_alunni.ingresso IS NOT NULL AND rb_reg_alunni.uscita < rb_reg_classi.uscita AND id_alunno = $id_alunno ";
+$sel_uscite = "SELECT data, rb_reg_alunni.uscita AS uscita FROM rb_reg_classi, rb_reg_alunni WHERE id_anno = ".$_SESSION['__current_year__']->get_ID()." AND id_reg = id_registro AND rb_reg_alunni.ingresso IS NOT NULL AND rb_reg_alunni.uscita < rb_reg_classi.uscita AND id_alunno = $id_alunno ";
 $res_uscite = $db->execute($sel_uscite);
 while($as = $res_uscite->fetch_assoc()){
 	$data = explode("-", $as['data']);
@@ -64,10 +64,10 @@ while($as = $res_uscite->fetch_assoc()){
 	array_push($uscite[$mese], $as);
 }
 	
-$sel_somma_ritardi = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC((TIMEDIFF(rb_reg_alunni.ingresso, rb_reg_classi.ingresso))))) AS ore_ritardo, COUNT(rb_reg_alunni.ingresso) AS giorni_ritardo FROM rb_reg_classi, rb_reg_alunni WHERE id_anno = ".$_SESSION['__current_year__']->get_ID()." $par_tot AND id_reg = id_registro AND rb_reg_alunni.ingresso IS NOT NULL AND id_alunno = $id_alunno AND rb_reg_alunni.ingresso > rb_reg_classi.ingresso ";
+$sel_somma_ritardi = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC((TIMEDIFF(rb_reg_alunni.ingresso, rb_reg_classi.ingresso))))) AS ore_ritardo, COUNT(rb_reg_alunni.ingresso) AS giorni_ritardo FROM rb_reg_classi, rb_reg_alunni WHERE id_anno = ".$_SESSION['__current_year__']->get_ID()." AND id_reg = id_registro AND rb_reg_alunni.ingresso IS NOT NULL AND id_alunno = $id_alunno AND rb_reg_alunni.ingresso > rb_reg_classi.ingresso ";
 $res_somma_ritardi = $db->execute($sel_somma_ritardi);
 $somma_ritardi = $res_somma_ritardi->fetch_assoc();
-$sel_somma_uscite  = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC((TIMEDIFF(rb_reg_classi.uscita, rb_reg_alunni.uscita))))) AS ore_perse, COUNT(rb_reg_alunni.uscita) AS giorni_anticipo FROM rb_reg_classi, rb_reg_alunni WHERE id_anno = ".$_SESSION['__current_year__']->get_ID()." $par_tot AND id_reg = id_registro AND rb_reg_alunni.ingresso IS NOT NULL AND id_alunno = $id_alunno AND rb_reg_classi.uscita > rb_reg_alunni.uscita ";
+$sel_somma_uscite  = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC((TIMEDIFF(rb_reg_classi.uscita, rb_reg_alunni.uscita))))) AS ore_perse, COUNT(rb_reg_alunni.uscita) AS giorni_anticipo FROM rb_reg_classi, rb_reg_alunni WHERE id_anno = ".$_SESSION['__current_year__']->get_ID()." AND id_reg = id_registro AND rb_reg_alunni.ingresso IS NOT NULL AND id_alunno = $id_alunno AND rb_reg_classi.uscita > rb_reg_alunni.uscita ";
 $res_somma_uscite = $db->execute($sel_somma_uscite);
 $somma_uscite = $res_somma_uscite->fetch_assoc();
 

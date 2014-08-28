@@ -3,13 +3,16 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area genitori</title>
-<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javascript">
 var IE = document.all?true:false;
-if (!IE) document.captureEvents(Event.MOUSEMOVE);
 var stid = 0;
 
 var tempX = 0;
@@ -25,38 +28,62 @@ function show_menu(e){
     }  
     // catch possible negative values in NS4
     if (tempX < 0){tempX = 0;}
-    if (tempY < 0){tempY = 0;}  
-    $('context_menu').style.top = parseInt(tempY)+"px";
-    //alert(hid.style.top);
-    $('context_menu').style.left = parseInt(tempX)+"px";
-    $('context_menu').show();
+    if (tempY < 0){tempY = 0;}
+	$('#context_menu').css({top: parseInt(tempY)+"px"});
+	//alert(hid.style.top);
+	$('#context_menu').css({left: parseInt(tempX)+"px"});
+	$('#context_menu').show(300);
     return false;
 }
 
-function dettaglio_assenze(id_alunno){
-	$('context_menu').hide();
-	w = window.open_centered("../teachers/registro_classe/elenco_assenze.php?alunno="+id_alunno, "elenco", 400, 500, "");
+var dettaglio_assenze = function(f_id, stid, q){
+	$('#context_menu').hide();
+	if (f_id == 0) {
+		$('#iframe').attr("src", "../teachers/registro_classe/elenco_assenze.php?alunno=<?php print($_SESSION['__current_son__']) ?>");
+		lab_title = "Elenco assenze";
+	}
+	else {
+		$('#iframe').attr("src", "../teachers/registro_classe/dettaglio_rit_uscite.php?alunno=<?php print($_SESSION['__current_son__']) ?>&del=1&q="+q);
+		lab_title = "Ritardi";
+	}
+	$('#abs_pop').dialog({
+		autoOpen: true,
+		show: {
+			effect: "appear",
+			duration: 500
+		},
+		hide: {
+			effect: "slide",
+			duration: 300
+		},
+		modal: true,
+		width: 450,
+		title: lab_title,
+		open: function(event, ui){
+
+		}
+	});
+	//var w = new Window({className: "mac_os_x",  width:400, zIndex: 100, resizable: true, title: "Elenco assenze", url: "elenco_assenze.php?alunno="+stid, showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});
+	//w.showCenter(true);
 }
 
-function delay(alunno, quadrimestre){
-	$('context_menu').hide();
-	w = window.open_centered("../teachers/registro_classe/dettaglio_rit_uscite.php?alunno="+alunno+"&q="+quadrimestre, "el", 400, 500, "");
-}
+var dialogclose = function(){
+	$('#abs_pop').dialog("close");
+};
 
-document.observe("dom:loaded", function(){
-	$('det_abs').observe("click", function(event){
+$(function(){
+	$('#det_abs').click(function(event){
 		event.preventDefault();
-		dettaglio_assenze(<?php print($_SESSION['__current_son__']) ?>);
+		dettaglio_assenze(0, 0);
 	});
-	$('rit').observe("click", function(event){
+	$('#rit').click(function(event){
 		event.preventDefault();
-		document.forms[0].del.value = 1;
-		delay(<?php echo $_SESSION['__current_son__'] ?>, <?php echo $q ?>);
+		dettaglio_assenze(1, <?php echo $q ?>);
 	});
-	$('context_menu').observe("mouseleave", function(event){
-		$('context_menu').hide();
+	$('#context_menu').mouseleave(function(event){
+		$('#context_menu').hide();
 	});
-	$('lnk').observe("click", function(event){
+	$('#lnk').click(function(event){
 		event.preventDefault();
 		show_menu(event);
 	});
@@ -73,10 +100,10 @@ document.observe("dom:loaded", function(){
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		<?php echo $label ?>
 	</div>
-	<div style="width: 95%; margin: 0 auto 20px auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+	<div class="outline_line_wrapper">
 		<div style="width: 40%; float: left; position: relative; top: 30%">Alunno</div>
 		<div style="width: 15%; float: left; position: relative; top: 30%">Assenze</div>
 		<div style="width: 15%; float: left; position: relative; top: 30%">% di assenze</div>
@@ -126,7 +153,7 @@ $ore_assenza = minutes2hours($t_m, "-");
 		<tr>
 			<td colspan="5" style="height: 30px">&nbsp;</td>
 		</tr>
-		<tr style="text-align: center; height: 25px; background-color: rgba(211, 222, 199, 0.4)">
+		<tr class="manager_row_menu" style="text-align: center; height: 25px">
 			<td style="font-weight: bold; padding-left: 8px; border-radius: 8px 0 0 8px">Dati complessivi</td>
 			<td colspan="2" style="font-weight: bold">Giorni di lezione: <?php print $totale['giorni'] ?> (<span class="attention"><?php print $limite_giorni ?></span>)</td>
 			<td colspan="2" style="font-weight: bold; border-radius: 0 8px 8px 0">Ore di lezione: <?php print $ore ?> (<span class="attention"><?php print $limite_ore ?></span>)</td>
@@ -153,10 +180,13 @@ $ore_assenza = minutes2hours($t_m, "-");
 </div>
 <?php include "footer.php" ?>
 <!-- menu contestuale -->
-    <div id="context_menu" style="position: absolute; width: 210px; height: 50px; display: none; ">
+    <div id="context_menu" style="position: absolute; width: 210px; height: 50px; display: none; " class="context_menu">
     	<a style="font-weight: normal; font-size: 11px" href="../../shared/no_js.php" id="det_abs">Elenco assenze</a><br />
     	<a style="font-weight: normal; font-size: 11px" href="../../shared/no_js.php" id="rit">Elenco ritardi e uscite anticipate</a><br />
     </div>
 <!-- fine menu contestuale -->
+<div id="abs_pop" style="display: none">
+	<iframe id="iframe" src="../teachers/registro_classe/elenco_assenze.php" style="width: 100%; height: 450px; margin: 0 auto; padding: 0"></iframe>
+</div>
 </body>
 </html>

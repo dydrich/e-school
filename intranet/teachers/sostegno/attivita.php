@@ -40,7 +40,10 @@ if($today > $fine_lezioni){
 */
 $param = "";
 $c = intval(date("m"));
-$month = $_GET['m'];
+$month = "current";
+if (isset($_GET['m'])) {
+	$month = $_GET['m'];
+}
 if ($month == "current"){
 	if ($c == 7 || $c == 8){
 		$month = 6;
@@ -49,7 +52,7 @@ if ($month == "current"){
 		$month = $c;
 	}
 }
-if ($_GET['m']){
+if (isset($_GET['m'])){
 	$param = "AND DATE_FORMAT(data, '%c') = {$month}";
 }
 
@@ -60,7 +63,7 @@ if ($previous < 1) $previous = 12;
 if ($month == 6) $next = null;
 if ($month == 9) $previous = null;
 $start = 0;
-$max = count($lezioni);
+
 $mesi_scuola = array("Settembre", "Ottobre", "Novembre", "Dicembre", "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno");
 $num_mesi_scuola = array(9, 10, 11, 12, 1, 2, 3, 4, 5, 6);
 $mesi = array("Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre", );

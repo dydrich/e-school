@@ -25,5 +25,3 @@ if($_REQUEST['from'] == "first_access")
 
 print $out;
 exit;
-
-?>

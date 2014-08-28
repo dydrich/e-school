@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
-<link rel="stylesheet" href="../teachers/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/prototype.js"></script>
 <script type="text/javascript" src="../../js/scriptaculous.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
@@ -22,21 +23,21 @@ td a {
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-	<div style="width: 90%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.1em; text-transform: uppercase">
+	<div class="group_head">
 		Orario delle lezioni, classe <?php echo $_SESSION['__classe__']->get_anno(),$_SESSION['__classe__']->get_sezione() ?>
 	</div>
-	<div style="width: 90%; margin: auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+	<div class="outline_line_wrapper">
 		<div style="width: 7%; float: left; position: relative; top: 30%">Ora</div>
 		<div style="width: 31%; float: left; position: relative; top: 30%">Luned&igrave;</div>
 		<div style="width: 31%; float: left; position: relative; top: 30%">Marted&igrave;</div>
 		<div style="width: 31%; float: left; position: relative; top: 30%">Mercoled&igrave;</div>
 	</div>
 	<table style="margin: 10px auto 0 auto; text-align: center; font-size: 1em; width: 90%; border-collapse: collapse">
-		<tr style="background-color: rgba(211, 222, 199, 0.3)">
-	        <td style="width: 7%; border: 1px solid #c0c0c0"></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0">Ingresso ore: <?php echo $schedule_module->getDay(1)->getEnterTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0">Ingresso ore: <?php echo $schedule_module->getDay(2)->getEnterTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0">Ingresso ore: <?php echo $schedule_module->getDay(3)->getEnterTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
+		<tr class="manager_row_small">
+	        <td style="width: 7%"></td>
+	        <td style="width: 31%">Ingresso ore: <?php echo $schedule_module->getDay(1)->getEnterTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
+	        <td style="width: 31%">Ingresso ore: <?php echo $schedule_module->getDay(2)->getEnterTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
+	        <td style="width: 31%">Ingresso ore: <?php echo $schedule_module->getDay(3)->getEnterTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
         </tr>
         <?php 
         for($i = 0; $i < $ore; $i++){
@@ -45,37 +46,37 @@ td a {
         	$mar = $orario_classe->searchHour(2, $i + 1, $classe);
         	$mer = $orario_classe->searchHour(3, $i + 1, $classe);
         ?>
-        <tr>
-	        <td style="width: 7%; border: 1px solid #c0c0c0"><?php print $i+1 ?></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php if($lun) print $materie[$lun->getMateria()]; if($lun && $lun->getDescrizione() != "") print (" (".$lun->getDescrizione().")") ?></a></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php if($mar) print $materie[$mar->getMateria()]; if($mar && $mar->getDescrizione() != "") print (" (".$mar->getDescrizione().")") ?></a></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php if($mer) print $materie[$mer->getMateria()]; if($mer && $mer->getDescrizione() != "") print (" (".$mer->getDescrizione().")") ?></a></td>
+        <tr class="manager_row_small">
+	        <td style="width: 7%"><?php print $i+1 ?></td>
+	        <td style="width: 31%"><a href="#"><?php if($lun) print $materie[$lun->getMateria()]; if($lun && $lun->getDescrizione() != "") print (" (".$lun->getDescrizione().")") ?></a></td>
+	        <td style="width: 31%"><a href="#"><?php if($mar) print $materie[$mar->getMateria()]; if($mar && $mar->getDescrizione() != "") print (" (".$mar->getDescrizione().")") ?></a></td>
+	        <td style="width: 31%"><a href="#"><?php if($mer) print $materie[$mer->getMateria()]; if($mer && $mer->getDescrizione() != "") print (" (".$mer->getDescrizione().")") ?></a></td>
         </tr>
         <?php 
         }
         ?>
-        <tr style="background-color: rgba(211, 222, 199, 0.3)">
-	        <td style="width: 7%; border: 1px solid #c0c0c0"></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0">Uscita ore: <?php echo $schedule_module->getDay(1)->getExitTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0">Uscita ore: <?php echo $schedule_module->getDay(2)->getExitTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0">Uscita ore: <?php echo $schedule_module->getDay(3)->getExitTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
+        <tr class="manager_row_small">
+	        <td style="width: 7%"></td>
+	        <td style="width: 31%">Uscita ore: <?php echo $schedule_module->getDay(1)->getExitTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
+	        <td style="width: 31%">Uscita ore: <?php echo $schedule_module->getDay(2)->getExitTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
+	        <td style="width: 31%">Uscita ore: <?php echo $schedule_module->getDay(3)->getExitTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
         </tr>
         <tr>
             <td colspan="4">&nbsp;&nbsp;&nbsp;</td>
         </tr>
     </table>
-    <div style="width: 90%; margin: auto; height: 30px; text-align: center; font-weight: bold; border: 1px solid rgb(211, 222, 199); outline-style: double; outline-color: rgb(211, 222, 199); background-color: rgba(211, 222, 199, 0.7)">
+    <div class="outline_line_wrapper">
 		<div style="width: 7%; float: left; position: relative; top: 30%">Ora</div>
 		<div style="width: 31%; float: left; position: relative; top: 30%">Gioved&igrave;</div>
 		<div style="width: 31%; float: left; position: relative; top: 30%">Venerd&igrave;</div>
 		<div style="width: 31%; float: left; position: relative; top: 30%">Sabato</div>
 	</div>
     <table style="margin: 10px auto 0 auto; text-align: center; font-size: 1em; width: 90%; border-collapse: collapse">
-    	<tr style="background-color: rgba(211, 222, 199, 0.3)">
-	        <td style="width: 7%; border: 1px solid #c0c0c0"></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0">Ingresso ore: <?php echo $schedule_module->getDay(4)->getEnterTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0">Ingresso ore: <?php echo $schedule_module->getDay(5)->getEnterTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0"><?php if ($schedule_module->getDay(6)): ?>Ingresso ore: <?php echo $schedule_module->getDay(6)->getEnterTime()->toString(RBTime::$RBTIME_SHORT) ?><?php endif; ?></td>
+    	<tr class="manager_row_small">
+	        <td style="width: 7%"></td>
+	        <td style="width: 31%">Ingresso ore: <?php echo $schedule_module->getDay(4)->getEnterTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
+	        <td style="width: 31%">Ingresso ore: <?php echo $schedule_module->getDay(5)->getEnterTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
+	        <td style="width: 31%"><?php if ($schedule_module->getDay(6)): ?>Ingresso ore: <?php echo $schedule_module->getDay(6)->getEnterTime()->toString(RBTime::$RBTIME_SHORT) ?><?php endif; ?></td>
         </tr>
         <?php 
         for($i = 0; $i < $ore; $i++){
@@ -89,20 +90,20 @@ td a {
 		        $sab = null;
 	        }
         ?>
-        <tr>
-	        <td style="width: 7%; border: 1px solid #c0c0c0"><?php print $i+1 ?></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php if($gio) print $materie[$gio->getMateria()]; if($gio && $gio->getDescrizione() != "") print (" (".$gio->getDescrizione().")") ?></a></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php if($ven) print $materie[$ven->getMateria()]; if($ven && $ven->getDescrizione() != "") print (" (".$ven->getDescrizione().")") ?></a></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0"><a href="#"><?php if($sab) print $materie[$sab->getMateria()]; if($sab && $sab->getDescrizione() != "") print (" (".$sab->getDescrizione().")") ?></a></td>
+        <tr class="manager_row_small">
+	        <td style="width: 7%"><?php print $i+1 ?></td>
+	        <td style="width: 31%"><a href="#"><?php if($gio) print $materie[$gio->getMateria()]; if($gio && $gio->getDescrizione() != "") print (" (".$gio->getDescrizione().")") ?></a></td>
+	        <td style="width: 31%"><a href="#"><?php if($ven) print $materie[$ven->getMateria()]; if($ven && $ven->getDescrizione() != "") print (" (".$ven->getDescrizione().")") ?></a></td>
+	        <td style="width: 31%"><a href="#"><?php if($sab) print $materie[$sab->getMateria()]; if($sab && $sab->getDescrizione() != "") print (" (".$sab->getDescrizione().")") ?></a></td>
         </tr>
         <?php 
         }
         ?>
-        <tr style="background-color: rgba(211, 222, 199, 0.3)">
-	        <td style="width: 7%; border: 1px solid #c0c0c0"></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0">Uscita ore: <?php echo $schedule_module->getDay(4)->getExitTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0">Uscita ore: <?php echo $schedule_module->getDay(5)->getExitTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
-	        <td style="width: 31%; border: 1px solid #c0c0c0"><?php if ($schedule_module->getDay(6)): ?>Uscita ore: <?php echo $schedule_module->getDay(6)->getExitTime()->toString(RBTime::$RBTIME_SHORT) ?><?php endif; ?></td>
+        <tr class="manager_row_small">
+	        <td style="width: 7%"></td>
+	        <td style="width: 31%">Uscita ore: <?php echo $schedule_module->getDay(4)->getExitTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
+	        <td style="width: 31%">Uscita ore: <?php echo $schedule_module->getDay(5)->getExitTime()->toString(RBTime::$RBTIME_SHORT) ?></td>
+	        <td style="width: 31%"><?php if ($schedule_module->getDay(6)): ?>Uscita ore: <?php echo $schedule_module->getDay(6)->getExitTime()->toString(RBTime::$RBTIME_SHORT) ?><?php endif; ?></td>
         </tr>
         <tr>
         	<td colspan="4">&nbsp;&nbsp;&nbsp;</td>

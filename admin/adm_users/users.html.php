@@ -128,8 +128,7 @@ document.observe("dom:loaded", function(){
             ?>
             <tr class="admin_menu">
                 <td colspan="3">
-                	<a href="dettaglio_utente.php?id=0" id="add" class="standard_link nav_link_first">Nuovo utente</a>|
-                    <a href="<?php echo $goback_link ?>" class="standard_link nav_link_last"><?php echo $goback ?></a>
+                	<a href="dettaglio_utente.php?id=0" id="add" class="standard_link nav_link">Nuovo utente</a>
                 </td>
             </tr>
         </tfoot>

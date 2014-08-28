@@ -97,7 +97,7 @@ var set_f = function(id_es){
 								$('st_'+stid).parentNode.parentNode.setStyle({backgroundColor: 'rgba(225,11,52,.2)'});
 			     			}
 			     			else{
-			     				$('st_'+stid).parentNode.parentNode.setStyle({backgroundColor: 'rgba(211, 222, 199, 0.7)'});
+			     				$('st_'+stid).parentNode.parentNode.setStyle({backgroundColor: 'rgba(30, 67, 137, .2)'});
 			     			}	
 			     		}
 			     		show_context_menu('');
@@ -210,7 +210,7 @@ while($al = $res_alunni->fetch_assoc()){
 				$st_bckg = "background-color: rgba(225,11,52,.2);";
 			}
 			else {
-				$st_bckg = "background-color: rgba(211, 222, 199, 0.7);";
+				$st_bckg = "background-color: rgba(30, 67, 137, .2);";
 			}
 		}
 	}

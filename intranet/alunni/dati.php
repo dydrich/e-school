@@ -22,5 +22,3 @@ if($res_profile->num_rows > 0)
 	$profile = $res_profile->fetch_assoc();
 
 include "dati.html.php";
-
-?>

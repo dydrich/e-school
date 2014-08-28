@@ -4,6 +4,7 @@
 <title>Dettaglio materia</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="../../css/reg.css" rel="stylesheet" />
+<link href="../../css/general.css" rel="stylesheet" />
 <link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../js/prototype.js"></script>
@@ -114,8 +115,7 @@ function go(par, sede){
         </tr>
         <tr>
             <td colspan="2" style="margin-right: 30px; text-align: right">
-                <a href="../../shared/no_js.php" id="save_button" class="standard_link nav_link_first">Registra</a>|
-                <a  href="materie.php" id="close_button" class="standard_link nav_link_last">Torna all'elenco</a>
+                <a href="../../shared/no_js.php" id="save_button" class="standard_link nav_link">Registra</a>
             </td>
         </tr>
     </table>

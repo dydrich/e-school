@@ -13,5 +13,3 @@ $navigation_label = "Registro elettronico - Area studenti";
 $area = "studenti";
 
 include "../common/homeworks.php";
-
-?>
