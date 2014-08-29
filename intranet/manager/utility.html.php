@@ -85,7 +85,7 @@
 				$write = true;
 			}
 			?>
-				<a id="dw_link1" href='../../modules/documents/download_manager.php?doc=report_backup&area=manager&f=<?php echo basename($file_zip) ?>&sess=0&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&area=<?php echo $_SESSION['__school_order__'] ?>' style=''><?php if ($write): ?>Scarica l'archivio (ultima modifica <?php echo date("d/m/Y H:i:s", $time) ?>)<?php endif; ?></a>
+				<a id="dw_link1" href='../../modules/documents/download_manager.php?doc=report_backup&area=manager&f=<?php echo basename($file_zip) ?>&sess=0&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>' style=''><?php if ($write): ?>Scarica l'archivio (ultima modifica <?php echo date("d/m/Y H:i:s", $time) ?>)<?php endif; ?></a>
 			</p>
 		</div>
 		<div class="welcome">
@@ -102,7 +102,7 @@
 					$write = true;
 				}
 				?>
-				<a id="dw_link2" href='../../modules/documents/download_manager.php?doc=teacherbooks_archive&area=manager&f=<?php echo basename($file_zip) ?>&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&area=<?php echo $_SESSION['__school_order__'] ?>' style=''><?php if ($write): ?>Scarica l'archivio (ultima modifica <?php echo date("d/m/Y H:i:s", $time) ?>)<?php endif; ?></a>
+				<a id="dw_link2" href='../../modules/documents/download_manager.php?doc=teacherbooks_archive&area=manager&f=<?php echo basename($file_zip) ?>&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>' style=''><?php if ($write): ?>Scarica l'archivio (ultima modifica <?php echo date("d/m/Y H:i:s", $time) ?>)<?php endif; ?></a>
 			</p>
 		</div>
 		<div class="welcome">

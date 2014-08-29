@@ -1,3 +1,6 @@
+3.0.2
+eliminato un warning per passaggio di parametri errati in utility.php
+
 3.0.1
 risolto bug in .manager/lezioni_docente.php (bug #34) che, in caso di supplente o docente che non aveva lezioni, perdeva
 la materia e andava in errore nel ricaricare i voti (registro_docente.php)
