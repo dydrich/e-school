@@ -250,7 +250,7 @@ input {
 			<tr>
 				<td colspan="4">
 				<input type="hidden" id="hid_date" />
-				<input type="hidden" id="id_anno" name="id_anno" value="<?php if($year && $action == "update") print $year->get_ID(); ?>" />
+				<input type="hidden" id="id_anno" name="id_anno" value="<?php if(isset($year)) echo $year->getYear()->get_ID(); ?>" />
 				<input type="hidden" id="vacanze" name="vacanze" />
 				<script type="text/javascript">
 				var anno = new Date(2012, 8);

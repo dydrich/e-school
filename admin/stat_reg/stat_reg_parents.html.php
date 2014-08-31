@@ -27,7 +27,7 @@
 	<div id="left_col">
 		<div class="group_head">Genitori non registrati (<?php echo $num_alunni ?> totali)</div>
 		<div style="margin-right: 20px; text-align: right; padding: 5px; margin-top: 10px">
-			<a href="print_stat_reg_parents.php?school_order=<?php echo $_GET['school_order'] ?>" class="standard_link">Stampa report</a>
+			<a href="print_stat_reg_parents.php<?php if(isset($_GET['school_order'])) echo "?school_order=".$_GET['school_order'] ?>" class="standard_link">Stampa report</a>
 		</div>
         <table style="width: 90%; margin: 20px auto 0 auto; border-collapse: collapse" class="admin_table">
             <?php 

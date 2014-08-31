@@ -129,7 +129,7 @@ $(function(){
 	</div>
 	<div id="left_col">
 		<div class="group_head"><div style="float: left"><?php $page_menu->printLink() ?></div> Elenco genitori: estratti <?php echo $_SESSION['count_parents'] ?> (<?php echo $first." - ".$last ?>)</div>
-    <form>
+    <form class="no_border">
     <?php $page_menu->toHTML() ?>
         <table class="admin_table">
         <thead>

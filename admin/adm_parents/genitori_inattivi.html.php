@@ -142,7 +142,7 @@ var del_all = function(){
 	</div>
 	<div id="left_col">
 		<div class="group_head">Elenco genitori inattivi</div>
-        <form id="myform" method="post">
+        <form id="myform" method="post" class="no_border">
         <table class="admin_table">
         <thead>
             <tr>

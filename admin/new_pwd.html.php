@@ -121,7 +121,7 @@ tbody td:hover {background-color: #e8f2fe }
 	</div>
 	<div id="left_col">
 		<div class="group_head">Modifica password utente</div>
-    <form>
+    <form class="no_border">
         <table class="admin_table">
         <thead>
             <tr class="admin_row" style="border: 0">

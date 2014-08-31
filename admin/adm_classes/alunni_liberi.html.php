@@ -5,7 +5,7 @@
 <title>Elenco alunni da assegnare alle classi</title>
 <link href="../../css/reg.css" rel="stylesheet" />
 <link href="../../css/general.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../modules/documents/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
@@ -77,7 +77,7 @@ table tbody tr:hover {
 	</div>
 	<div id="left_col">
 		<div class="group_head">Elenco alunni non assegnati alle classi (estratti <span id="st_count"><?php echo $res_alunni->num_rows ?></span> alunni)</div>
-		<form method="post">
+		<form method="post" class="no_border">
         <table class="admin_table">
         <thead>
             <tr class="admin_void">
@@ -137,12 +137,6 @@ table tbody tr:hover {
             <tfoot>
             <tr class="admin_void">
                 <td colspan="3"></td>
-            </tr>
-            <tr class="admin_menu">
-                <td colspan="3">
-                	<a href="classi.php" class="nav_link_first">Vai alle classi</a>|
-                    <a href="../index.php" class="nav_link_last">Torna al menu</a>
-                </td>
             </tr>
             <tr class="admin_void">
                 <td colspan="3"></td>

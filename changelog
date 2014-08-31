@@ -1,3 +1,10 @@
+3.0.4
+migliorie grafiche e pulizia codice
+
+3.0.3
+spostamento della gestione account su AccountManager (non alunni), solo admin
+implementazione parziale (javascript e admin footer) del sistema di notifiche con jquery
+
 3.0.2
 eliminato un warning per passaggio di parametri errati in utility.php
 

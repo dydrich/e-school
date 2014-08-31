@@ -5,7 +5,7 @@
 <title>Classi</title>
 <link href="../../css/reg.css" rel="stylesheet" />
 <link href="../../css/general.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../modules/documents/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
@@ -202,7 +202,7 @@ $(function(){
 	</div>
 	<div id="left_col">
 		<div class="group_head"><div style="float: left"><?php $page_menu->printLink() ?></div> Elenco classi <?php echo truncateString($ordini[$school_order]['tipo'], 57) ?> <?php if(isset($sede)) echo " [{$sede}]" ?>: pagina <?php print $page ?> di <?php print $pagine ?></div>
-        <form method="post">
+        <form method="post" class="no_border">
         <table class="admin_table">
         <thead>
             <tr>

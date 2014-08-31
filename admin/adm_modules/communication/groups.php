@@ -28,7 +28,6 @@ $limit = 20;
 
 if (!isset($_SESSION['threads'])) {
 	$sel_th = "SELECT rb_com_threads.* FROM rb_com_threads WHERE type = 'G' ORDER BY name";
-	echo $sel_th;
 	try {
 		$res_th = $db->executeQuery($sel_th);
 	} catch (MySQLException $ex) {

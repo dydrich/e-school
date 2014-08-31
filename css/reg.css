@@ -704,12 +704,13 @@ div.group_head{
     border-radius: 5px 0 0 5px;
     width: 100%;
     margin-left: 2%;
+    margin-bottom: 15px;
     text-transform: uppercase;
 }
 
 .admin_table {
     width: 90%;
-    margin: 20px auto 0 auto;
+    margin: 5px auto 0 auto;
     border-collapse: collapse;
 }
 

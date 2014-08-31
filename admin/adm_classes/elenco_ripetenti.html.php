@@ -5,7 +5,7 @@
 <title>Elenco alunni ripetenti non assegnati</title>
 <link href="../../css/reg.css" rel="stylesheet" />
 <link href="../../css/general.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../modules/documents/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
@@ -47,7 +47,7 @@ function upd_cls(sel, student, row){
 	</div>
 	<div id="left_col">
 		<div class="group_head">Elenco alunni ripetenti da assegnare (estratti <?php echo $res_alunni->num_rows ?> alunni)</div>
-		<form method="post">
+		<form method="post" class="no_border">
         <table class="admin_table">
         <thead>
             <tr class="admin_void">
@@ -85,11 +85,6 @@ function upd_cls(sel, student, row){
             <tfoot>
             <tr class="admin_void">
                 <td colspan="3"></td>
-            </tr>
-            <tr class="admin_menu">
-                <td colspan="3">
-                    <a href="../index.php">Torna al menu</a>
-                </td>
             </tr>
             <tr class="admin_void">
                 <td colspan="3"></td>

@@ -70,7 +70,7 @@ function upd_modulo(cbox){
 	</div>
 	<div id="left_col">
 		<div class="group_head">Modifica moduli installati</div>
-    <form>
+    <form class="no_border">
         <table class="admin_table">
         	<thead>
             </thead>

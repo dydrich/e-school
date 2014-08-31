@@ -5,7 +5,7 @@
 	<title>Elenco gruppi</title>
 	<link href="../../../css/reg.css" rel="stylesheet" />
 	<link href="../../../css/general.css" rel="stylesheet" />
-	<link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../../js/page.js"></script>

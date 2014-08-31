@@ -122,6 +122,11 @@ a.standard_link {
     border: 0
 }
 
+form.no_border {
+    border: 0;
+    padding: 0
+}
+
 .nav_link_first {
     margin-right: 10px;
 }

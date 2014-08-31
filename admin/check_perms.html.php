@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-	<link rel="stylesheet" href="../css/reg.css" type="text/css" />
-	<link rel="stylesheet" href="../css/general.css" type="text/css" />
+<link rel="stylesheet" href="../css/reg.css" type="text/css" />
+<link rel="stylesheet" href="../css/general.css" type="text/css" />
 <script type="text/javascript" src="../js/prototype.js"></script>
 <script type="text/javascript" src="../js/page.js"></script>
 <script type="text/javascript">
@@ -64,7 +64,7 @@ var check = function(uid, name){
 	</div>
 	<div id="left_col">
 		<div class="group_head">Verifica permessi utente</div>
-    <form>
+    <form class="no_border">
         <table class="admin_table">
         <thead>
             <tr class="admin_void" style="border: 0; height: 5px">

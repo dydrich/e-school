@@ -248,7 +248,7 @@ document.observe("dom:loaded", function(){
 	    </div>
 	    <div id="left_col">
 		   <div class="group_head">Elenco Docenti: pagina <?php print $page ?> di <?php print $pagine ?></div>
-		<form method="post" style="width: 100%">
+		<form method="post" style="width: 100%" class="no_border">
         <table class="admin_table">
             <tr>
                 <td style="width: 30%" class="adm_titolo_elenco_first">Nome e cognome</td>

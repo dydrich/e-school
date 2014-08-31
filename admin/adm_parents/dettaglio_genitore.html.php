@@ -311,7 +311,7 @@ $(function(){
 	<div id="left_col">
 		<div class="group_head">Dettaglio genitore</div>
     <form action="dettaglio_genitore.php?upd=1" method="post" id="parent_form" class="popup_form">
-    <fieldset id="account_field" style="width: 95%; border: 1px solid #BBB; padding-top: 10px; margin-left: auto; margin-right: auto; display: <?php if(!$show_account) echo "none" ?>">
+    <fieldset id="account_field" style="width: 95%; padding-top: 10px; margin-left: auto; margin-right: auto; display: <?php if(!$show_account) echo "none" ?>">
     <legend id="account_legend" style="font-weight: bold;">Account</legend>
     <table style="width: 95%">
         <tr class="popup_row header_row">
@@ -350,7 +350,7 @@ $(function(){
         </tr>
     </table>
     </fieldset>
-    <fieldset style="width: 95%; border: 1px solid #BBB; padding-top: 10px; margin-top: 30px; margin-left: auto; margin-right: auto">
+    <fieldset style="width: 95%; padding-top: 10px; margin-top: 30px; margin-left: auto; margin-right: auto">
     <legend style="font-weight: bold">Dati personali</legend>
     <table style="width: 95%">
         <tr class="popup_row header_row">
