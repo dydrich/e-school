@@ -92,7 +92,7 @@ document.observe("dom:loaded", function(){
 	<div id="left_col">
 		<div class="group_head"><div style="float: left"><?php $page_menu->printLink() ?></div>Elenco alunni: pagina <?php print $page ?> di <?php print $pagine ?> (estratti <?php print $_SESSION['count_alunni'] ?> alunni) <span style="text-decoration: underline"><?php print $query_label ?></span></div>
 	<?php $page_menu->toHTML() ?>
-	<form>
+	<form class="no_border">
         <table class="admin_table">
         <thead>
             <tr>
@@ -124,9 +124,9 @@ document.observe("dom:loaded", function(){
                 <td style="padding-left: 10px; ">
                 	<span class="ov_red" style="font-weight: bold"><?php echo stripslashes($user['cognome']." ".$user['nome']) ?></span>
                 	<div id="link_<?php echo $user['id_alunno'] ?>" style="display: none">
-                	<a href="dettaglio_alunno.php?id=<?php print $user['id_alunno'] ?>&type=1" class="mod_link">Modifica alunno</a>
+                	<a href="dettaglio_alunno.php?id=<?php print $user['id_alunno'] ?>&type=1?order=" class="mod_link">Modifica alunno</a>
                 	<span style="margin-left: 5px; margin-right: 5px">|</span>
-                	<a href="dettaglio_alunno.php?id=<?php print $user['id_alunno'] ?>&type=2" class="acc_link">Modifica account</a>
+                	<a href="dettaglio_alunno.php?id=<?php print $user['id_alunno'] ?>&type=2&order=" class="acc_link">Modifica account</a>
                 	<span style="margin-left: 5px; margin-right: 5px">|</span>
                 	<a href="student_manager.php?action=2&_id=<?php echo $user['id_alunno'] ?>" class="del_link">Cancella</a>
                 	</div>

@@ -50,27 +50,46 @@ function in_array(ar, val){
     return false;
 }
 
-function genera_password(nome, cognome, _alert, get_clear_password){
-	//alert("Ricevo "+nome+" e "+cognome);
-	ar_nome = nome.split("");
-	nm_rev = ar_nome.reverse();
-	ar_cognome = cognome.split("");
-	cg_rev = ar_cognome.reverse();
-	var pwd = nm_rev[0]+nm_rev[1]+nm_rev[2]+nm_rev[3];
-	pwd += (Math.random()*100).toString().substr(0,2);
-	pwd += cg_rev[0]+cg_rev[1]+nm_rev[0]+nm_rev[1];
-	pass = pwd.toLowerCase();
-	if(_alert){
-		alert("La nuova password e': "+pass);
-	}
-	if(get_clear_password){
-		var ret = new Array();
-		ret[0] = hex_md5(pass);
-		ret[1] = pass;
-		return ret;
-	}
-	return hex_md5(pass);
-}
+var genera_password = function(path, _alert, get_clear_password){
+    var url = path+"shared/account_manager.php";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {action: 'get_pwd'},
+        dataType: 'json',
+        async: false,
+        error: function() {
+            j_alert("error", "Errore di trasmissione dei dati");
+        },
+        succes: function() {
+
+        },
+        complete: function(data){
+            r = data.responseText;
+            if(r == "null"){
+                return false;
+            }
+            var json = $.parseJSON(r);
+            if (json.status == "ko"){
+                j_alert("error", json.message);
+                return;
+            }
+            else {
+                pass = json.pwd;
+                epass = json.epwd;
+
+            }
+        }
+    });
+    if(_alert){
+        alert("La nuova password e': "+pass);
+    }
+    if(get_clear_password){
+        var ret = epass+";"+pass;
+        return ret;
+    }
+    return epass;
+};
 
 window.open_centered = function(url, name, width, height, options){
 	var leftS = (screen.width - width) / 2;
@@ -209,6 +228,19 @@ var yellow_fade = function(elem){
 		window.clearInterval(intv);	
 };
 
+var deleteArrayElement = function(elem, myarray){
+    var c = myarray.length;
+    for(var i = 0; i < c; i++){
+        if(myarray[i] == elem){
+            //alert("JS: Ho trovato "+elem);
+            for(var x = i+1; x < c; x++){
+                myarray[i++] = myarray[x];
+            }
+            myarray.pop();
+        }
+    }
+};
+
 var select_level = function(path, page, level){
 	var url = path+"shared/set_school_order.php";
 	$.ajax({
@@ -227,4 +259,61 @@ var select_level = function(path, page, level){
 			document.location.href = page;
 		}
     });
+};
+
+var load_jalert = function(){
+    $('#alert').dialog({
+        autoOpen: false,
+        dialogClass: 'no_display ui-state-highlight',
+        show: {
+            effect: "fadeIn",
+            duration: 800
+        },
+        hide: {
+            effect: "fadeOut",
+            duration: 500
+        },
+        modal: true,
+        width: 200,
+        title: '',
+        open: function(event, ui){
+
+        }
+    });
+
+    $('#error').dialog({
+        autoOpen: false,
+        dialogClass: 'no_display ui-state-error',
+        show: {
+            effect: "fadeIn",
+            duration: 800
+        },
+        hide: {
+            effect: "fadeOut",
+            duration: 500
+        },
+        modal: true,
+        width: 200,
+        title: '',
+        open: function(event, ui){
+
+        }
+    });
+};
+
+var j_alert = function(type, msg){
+    if (type == "alert") {
+        $('#alertmessage').text(msg);
+        $('#alert').dialog("open");
+        window.setTimeout(function(){
+            $('#alert').dialog("close");
+        }, 3000);
+    }
+    else {
+        $('#errormessage').text(msg);
+        $('#error').dialog("open");
+        window.setTimeout(function(){
+            $('#error').dialog("close");
+        }, 3000);
+    }
 };

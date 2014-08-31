@@ -5,91 +5,131 @@
 <title>Genitori inattivi</title>
 <link href="../../css/reg.css" rel="stylesheet" />
 <link href="../../css/general.css" rel="stylesheet" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
+<link rel="stylesheet" href="../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript">
-document.observe("dom:loaded", function(){
-	$$('table tbody > tr').invoke("observe", "mouseover", function(event){
+$(function(){
+	load_jalert();
+	$('table tbody > tr').mouseover(function(event){
 		//alert(this.id);
 		var strs = this.id.split("_");
-		$('link_'+strs[1]).setStyle({display: 'block'});
+		$('#link_'+strs[1]).show();
 	});
-	$$('table tbody > tr').invoke("observe", "mouseout", function(event){
+	$('table tbody > tr').mouseout(function(event){
 		//alert(this.id);
 		var strs = this.id.split("_");
-		$('link_'+strs[1]).setStyle({display: 'none'});
+		$('#link_'+strs[1]).hide();
 	});
-	var checkboxes = $$("#myform input[type=checkbox]");
-	$('select_all').observe("click", function(event){
-		checkboxes.each(function(box){
-	        box.checked = $('select_all').checked;
-	    });
+	$('#select_all').change(function(event){
+		if ($('#select_all').is(":checked")) {
+			bol = true;
+		}
+		else {
+			bol = false;
+		}
+		check_all(bol);
 	});
-	$$('table tbody a.del_link').invoke("observe", "click", function(event){
+	$('table tbody a.del_link').click(function(event){
 		event.preventDefault();
 		var strs = this.parentNode.id.split("_");
-		del_user(strs[1], 'delete', this.readAttribute("st"));
+		alert(strs[1]);
+		del_user(strs[1]);
 	});
 });
 
-function del_user(id){
-	if(!confirm("Sei sicuro di voler cancellare questo utente?"))
-        return false;
-	var url = "parent_manager.php";
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {action: 2, _i: id},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		if(dati[0] == "kosql"){
-				      		sqlalert();
-							console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-							return;
-			      		}
-			      		$('row_'+id).hide();
-			      		link = "genitori_inattivi.php";
-			      		_alert("Utente cancellato correttamente");
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+var check_all = function(bol){
+	$("input[type=checkbox]").each(function(){
+		if ($(this).attr("id") != "select_all") {
+			$(this).prop("checked", bol);
+		}
+	});
+};
 
-function del_all(){
-	if(!confirm("Sei sicuro di voler cancellare tutti gli utenti selezionati?"))
+var del_user = function(id){
+	if(!confirm("Sei sicuro di voler cancellare questo utente?")) {
         return false;
+	}
 	var url = "parent_manager.php";
-	$('action').setValue(5);
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: $('myform').serialize(true),
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		if(dati[0] == "kosql"){
-				      		sqlalert();
-							console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-							return;
-			      		}
-			      		//$('row_'+id).hide();
-			      		link = "genitori_inattivi.php";
-			      		_alert("Operazione completata");
-			      		window.setTimeout("document.location.href = link", 2000);
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {action: 2, _i: id},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+				return;
+			}
+			else if (json.status == "ko"){
+				j_alert("error", json.message);
+				return;
+			}
+			else {
+				$('#row_'+id).hide();
+				j_alert("alert", "Utente cancellato correttamente");
+				window.setTimeout(function(){
+					document.location.href = "genitori_inattivi.php";
+				}, 3000);
+			}
+		}
+	});
+};
+
+var del_all = function(){
+	if(!confirm("Sei sicuro di voler cancellare tutti gli utenti selezionati?")) {
+        return false;
+	}
+	var url = "parent_manager.php";
+	$('#action').val(5);
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: $('#myform').serialize(true),
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+				return;
+			}
+			else if (json.status == "ko"){
+				j_alert("error", json.message);
+				return;
+			}
+			else {
+				j_alert("alert", "Operazione completata");
+				window.setTimeout(function(){
+					document.location.href = "genitori_inattivi.php";
+				}, 3000);
+			}
+		}
+	});
+};
 
 </script>
 </head>
@@ -106,7 +146,7 @@ function del_all(){
         <table class="admin_table">
         <thead>
             <tr>
-            	<td style="width: 15%; text-align: center" class="adm_titolo_elenco_first"><input type="checkbox" name="select_all" id="select_all" /></td>
+            	<td style="width: 15%; text-align: center" class="adm_titolo_elenco_first"><input type="checkbox" name="select_all" id="select_all" value="on" /></td>
                 <td style="width: 45%" class="adm_titolo_elenco">Genitore</td>
                 <td style="width: 40%" class="adm_titolo_elenco_last">Username</td>
                 

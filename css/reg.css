@@ -10,6 +10,16 @@ h2 {
     font-weight: bold;
 }
 
+form {
+    border: 1px solid rgba(30, 67, 137, .9);
+    border-radius: 10px;
+    padding: 15px 0px 15px 0px;
+    margin-top: 0px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto
+}
+
 input, select, textarea, checkbox {
     background-color: rgba(30, 67, 137, .1);
     border-radius: 2px;

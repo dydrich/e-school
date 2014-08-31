@@ -151,13 +151,13 @@ else
 $page_menu = new PageMenu("cmenu", "page_menu", "height: 180px; width: 180px; display: none", "div");
 $html =  <<<EOT
 <br />
-<a href="alunni.php?order=desc_classe" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per classe</a><br />
-<a href="alunni.php" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per nome</a><br />
+<p><a href="alunni.php?order=desc_classe" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per classe</a></p>
+<p><a href="alunni.php" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per nome</a></>
 EOT;
 if($school_order == 0){
 	$html .= '<a href="alunni.php?order=tipologia" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per scuola</a><br />';
 }
-$html .= '<a href="../../shared/no_js.php" id="filter_button" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Filtra elenco</a><br />';
+$html .= '<p></p><a href="../../shared/no_js.php" id="filter_button" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Filtra elenco</a></p>';
 
 $page_menu->setInnerHTML($html);
 $page_menu->setPathToRoot($_SESSION['__path_to_root__']);

@@ -4,10 +4,20 @@ class AccountManager{
 	
 	private $user_;
 	private $datasource_;
+	private $table_;
+	private $field_;
 	
 	public function __construct(UserBean $u, DataLoader $dl){
 		$this->user_ = $u;
 		$this->datasource_ = $dl;
+		if ($this->user_ instanceof StudentBean){
+			$this->table_ = 'rb_alunni';
+			$this->field_ = 'id_alunno';
+		}
+		else {
+			$this->table_ = 'rb_utenti';
+			$this->field_ = 'uid';
+		}
 	}
 	
 	public function recoveryPasswordViaEmail(){
@@ -49,9 +59,84 @@ class AccountManager{
 	}
 	
 	public function changePassword($newPwd){
-		$smt = $this->datasource_->prepare("UPDATE rb_utenti SET password = ? WHERE uid = ?");
+		if ($this->user_ instanceof StudentBean){
+			$table = 'rb_alunni';
+		}
+		else {
+			$table = 'rb_utenti';
+		}
+		$smt = $this->datasource_->prepare("UPDATE {$table} SET password = ? WHERE uid = ?");
 		$smt->bind_param("si", $newPwd, $this->user_->getUid());
 		$smt->execute();
 	}
-	
+
+	public function updateAccount($uname, $pwd) {
+		$smt = $this->datasource_->prepare("UPDATE {$this->table_} SET username = ?, password = ? WHERE uid = ?");
+		$smt->bind_param("ssi", $uname, $pwd, $this->user_->getUid());
+		$smt->execute();
+	}
+
+	public static function generatePassword($length=9, $strength=0) {
+		$vowels = 'aeuy';
+		$consonants = 'bcdghjmnpqrstvz';
+		if ($strength & 1) {
+			$consonants .= 'BCDGHJLMNPQRSTVWXZ';
+		}
+		if ($strength & 2) {
+			$vowels .= "AEUY";
+		}
+		if ($strength & 4) {
+			$consonants .= '23456789';
+		}
+		if ($strength & 8) {
+			$consonants .= '@#$%';
+		}
+
+		$password = '';
+		$alt = time() % 2;
+		for ($i = 0; $i < $length; $i++) {
+			if ($alt == 1) {
+				$password .= $consonants[(rand() % strlen($consonants))];
+				$alt = 0;
+			} else {
+				$password .= $vowels[(rand() % strlen($vowels))];
+				$alt = 1;
+			}
+		}
+		$pwd = array();
+		$pwd['c'] = $password;
+		$pwd['e'] = md5($password);
+		return $pwd;
+	}
+
+	public static function generateLogin($names, $nome, $cognome){
+		// analizzo il nome: se composto, utilizzo solo il primo
+		if(preg_match("/ /", $nome)){
+			$nomi = explode(" ", $nome);
+		}
+		else{
+			$nomi[0] = $nome;
+			$nomi[1] = "";
+		}
+		// elimino eventuali accenti (apostrofi) e spazi (solo dal cognome)
+		$nm = strtolower(preg_replace("/'/", "", $nomi[0].$nomi[1]));
+		$cm = strtolower(preg_replace("/'/", "", trim($cognome)));
+		$cm = strtolower(preg_replace("/ /", "", $cm));
+		// creo la login e verifico
+		$login = $nm.".".$cm;
+		$base_login = $login;
+		$length = count($login);
+		$ok = false;
+		// valore numerico per la creazione di login univoche
+		$index = 1;
+		while(!$ok){
+			if(!in_array($login, $names)){
+				return $login;
+			}
+			else{
+				$login = $base_login.$index;
+				$index++;
+			}
+		}
+	}
 }

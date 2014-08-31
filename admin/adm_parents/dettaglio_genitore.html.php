@@ -5,22 +5,17 @@
 <title>Dettaglio genitore</title>
 <link href="../../css/reg.css" rel="stylesheet" />
 <link href="../../css/general.css" rel="stylesheet" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
+<link rel="stylesheet" href="../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javascript" src="../../js/md5-min.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript">
 var messages = new Array('', 'Genitore inserito con successo', 'Genitore cancellato con successo', 'Genitore modificato con successo');
 var new_account = false;
 var new_data = false;
 var oldLink = null;
-var _win;
+
 <?php if(isset($genitore)) print("var old_login = '".$genitore['username']."';\n") ?>
 var id_alunni = new Array;
 <?php
@@ -34,174 +29,186 @@ if($_i != 0){
 }
 ?>
 
-function go(par, genit){
-    $('_i').setValue(genit);
-    $('action').setValue(par);
+var go = function(par, genit){
+    $('#_i').val(genit);
+    $('#action').val(par);
     var url = "parent_manager.php";
-    //alert($F('pwd'));
-	var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: $('parent_form').serialize(true),
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		if(dati[0] == "kosql"){
-							alert("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-							return;
-			      		}
-			      		else if (dati[0] == "ko"){
-							alert(dati[1]);
-							return;
-			      		}
-			      		link = "genitori.php?msg="+par;
-			      		_alert(messages[par]);
-			      		setTimeout("document.location.href='dettaglio_genitore.php?id=0&school_order=<?php echo $school_order ?>'", 2000);
-			      		if(par != 1){
-				      		//reset_form();
-							link += "&second=1&offset=<?php print $offset ?>";
-			      		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore...");}
-			  });
-    
-}
+    $.ajax({
+		type: "POST",
+		url: url,
+		data: $('#parent_form').serialize(true),
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
 
-var reset_form = function(){
-	$('us').setValue("");
-	$('pwd').setValue("");
-	$('nome').setValue("");
-	$('cognome').setValue("");
-	$('email').setValue("");
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+				return;
+			}
+			else if (json.status == "ko"){
+				j_alert("error", json.message);
+				return;
+			}
+			else {
+				j_alert("alert", json.message);
+				setTimeout("document.location.href='dettaglio_genitore.php?id='+$('#_i').val()+'&school_order=<?php echo $school_order ?>'", 2000);
+			}
+		}
+	});
 };
 
-function verifica(){
-    //alert("ok");
-	var nick = $F('us');
-	var url = "../../shared/verifica_login.php";
-	var id = <?php print $_REQUEST['id'] ?>;
-	var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {nick: nick, table: 'rb_genitori', id: id},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		var x = $("check");
-			            x.update("");
-			            var dati = response.split("|");
-			      		if(dati[0] == "ko"){
-							alert("Si e` verificato un errore. Riprova tra qualche minuto");
-							console.log(dati[1]);
-			      		}
-			      		else if(dati[1] > 0){
-			      			x.setStyle({color: "red"});
-			                x.update("<br />Login gi&agrave; presente.");
-			                return;
-			     		}
-			     		else{
-			     			x.update("<img src='../../images/54.png' style='width: 15px; height: 15px; vertical-align: bottom' />");
-			            	new_account = true;
-			            	document.getElementById("account_button").onclick = account_wrapper;
-			     		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+var reset_form = function(){
+	$('#us').val("");
+	$('#pwd').val("");
+	$('#nome').val("");
+	$('#cognome').val("");
+	$('#email').val("");
+};
 
-function reg(par){
+var reg = function(par){
     var id = <?php print $_REQUEST['id'] ?>;
     if(par == 1){
-		var nick = document.forms[0].uname.value;
-		var pwd =  document.forms[0].pwd.value;
-		var url = "modifica_account.php";
-		var req = new Ajax.Request(url,
-				  {
-				    	method:'post',
-				    	parameters: {nick: nick, pwd: pwd, id: id},
-				    	onSuccess: function(transport){
-				      		var response = transport.responseText || "no response text";
-				      		var dati = response.split("|");
-				      		if(dati[0] == "ko"){
-				      			alert("Non e` stato possibile modificare l'account per un errore del server. Riprova tra qualche minuto");
-				      			console.log(dati[1]+"===>"+dati[2]);
-				                return;
-				     		}
-				     		else{
-				     			new_account = false;
-								document.getElementById("account_button").onclick = no_change;
-								var field = document.getElementById("account_field");
-								var legend = document.getElementById("account_legend");
-								field.style.border = "1px solid ";
-								field.style.color = "#000000";
-								_alert("Account modificato correttamente");
-				     		}
-				    	},
-				    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-				  });
-	}
-}
+		var nick = $('#uname').val();
+		var pwd =  $('#pwd').val();
+		var url = "../../shared/account_manager.php";
+	    $.ajax({
+		    type: "POST",
+		    url: url,
+		    data: {nick: nick, pwd: pwd, id: id},
+		    dataType: 'json',
+		    error: function() {
+			    j_alert("error", "Errore di trasmissione dei dati");
+		    },
+		    succes: function() {
 
-function gen_pwd(){
-	var pass = genera_password(document.forms[0].nome.value, document.forms[0].cognome.value, false, true);
-	//alert(pass);
-	document.forms[0].pwd.value = pass[0];
-	$('pclear').value = pass[1];
+		    },
+		    complete: function(data){
+			    r = data.responseText;
+			    if(r == "null"){
+				    return false;
+			    }
+			    var json = $.parseJSON(r);
+			    if (json.status == "kosql"){
+				    j_alert("error", json.message);
+				    console.log(json.dbg_message);
+				    return;
+			    }
+			    else if (json.status == "ko"){
+				    j_alert("error", json.message);
+				    return;
+			    }
+			    else {
+				    new_account = false;
+				    $('#account_button').click(function(){
+					    no_change();
+				    });
+				    $('#account_field').css({border: "1px solid black"});
+				    j_alert("alert", json.message);
+			    }
+		    }
+	    });
+    }
+};
+
+var gen_pwd = function(){
+	pass = genera_password('<?php echo $_SESSION['__path_to_root__'] ?>', false, true);
+	passws = pass.split(";");
+	$('#pwd').val(passws[0]);
+	$('#pclear').val(passws[1]);
 	new_account = true;
-	$("account_button").setAttribute("onclick", "account_wrapper()");
-	$('account_button').show();
+	$('#account_button').click(function(){
+		reg(1);
+	});
+	$('#account_button').show();
 	var field = document.getElementById("account_field");
 	var legend = document.getElementById("account_legend");
-	field.style.border = "1px solid #ff0000";
-	field.style.color = "#ff0000";
-}
+	$('#account_field').css({border: "1px solid #ff0000", color: "#ff0000"});
+};
 
-function gen_login(){
-	if ($('useemail').checked){
-		$('us').value = $F('email');
+var gen_login = function(){
+	if ($('#useemail').is(":checked")){
+		$('#us').val($('#email').val());
 		return;
 	}
 	if((trim(document.forms[0].nome.value) == "") || (trim(document.forms[0].cognome.value) == "")){
 		alert("inserisci nome e cognome per generare la username");
 		return;
 	}
-	var nome = document.forms[0].nome.value;
-	var cognome = document.forms[0].cognome.value;
-	var url = "crea_login.php";
-	var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {nome: nome, cognome: cognome},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		var dati = response.split(":");
-			      		if(dati[0] == "ko"){
-			      			alert(dati[1]);
-			                return;
-			     		}
-			     		else{
-			     			document.forms[0].us.value = response;
-			     		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore...") }
-			  });
-	
-}
+	var nome = $('#nome').val();
+	var cognome = $('#cognome').val();
+	var url = "../../shared/account_manager.php";
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {nome: nome, cognome: cognome, action: "get_user_login"},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
 
-function no_change(){
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+				return;
+			}
+			else if (json.status == "ko"){
+				j_alert("error", json.message);
+				return;
+			}
+			else {
+				$('#us').val(json.login);
+			}
+		}
+	});
+};
+
+var no_change = function(){
 	alert("Nessun dato modificato");
-}
+};
 
-function account_wrapper(){
-	reg(1);
-}
+var add_student = function(){
+	$('#list').dialog({
+		autoOpen: true,
+		show: {
+			effect: "fadeIn",
+			duration: 500
+		},
+		hide: {
+			effect: "fadeOut",
+			duration: 300
+		},
+		modal: true,
+		width: 470,
+		title: 'Elenco alunni',
+		open: function(event, ui){
 
-function add_student(){
-	_win = new Window({className: "mac_os_x", url: "elenco_alunni.php?school_order=<?php echo $_GET['school_order'] ?>", top: 100, left: 700, width:450, height:500, zIndex: 100, resizable: true, title: "Elenco alunni", showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});
-	_win.showCenter(false);
-}
+		}
+	});
+};
 
-function del(id){
+var dialogclose = function(){
+	$('#list').dialog("close");
+};
+
+var del = function(id){
 	var campo = "al"+id;
 	delete id_alunni[id];
 	var stringa_nomi = document.getElementById("figli").innerHTML;
@@ -209,22 +216,9 @@ function del(id){
 	stringa_nomi = crea_stringa_nomi(id_alunni);
 	document.getElementById("figli").innerHTML = stringa_nomi;
 	document.forms[0].id_figli.value = crea_stringa_id(id_alunni);
-}
+};
 
-function deleteArrayElement(elem, myarray){
-	var c = myarray.length;
-   	for(var i = 0; i < c; i++){
-   		if(myarray[i] == elem){
-      		//alert("JS: Ho trovato "+elem);
-			for(var x = i+1; x < c; x++){
-         		myarray[i++] = myarray[x];
-         	}
-         	myarray.pop();   
-   		}
-	}
-}
-
-function crea_stringa_nomi(ar){
+var crea_stringa_nomi = function(ar){
 	str = "";
 	for(chiave in ar){
 		if(!isNaN(chiave)){
@@ -236,29 +230,29 @@ function crea_stringa_nomi(ar){
 		return str.substr(0, (str.length - 3)); 
 	//alert(str);
 	return str;
-}
+};
 
-function crea_stringa_id(ar){
+var crea_stringa_id = function(ar){
 	var _a = new Array;
 	for(chiave in ar){
 		if(!isNaN(chiave))
 			_a.push(chiave);
 	}	
 	return _a.join();
-}
+};
 
-function display_check(field){
+var display_check = function(field){
 	if(field.value != old_login){
 		new_account = true;
-		$('account_button').show();
+		$('#account_button').show();
 	}
 	else{
-		if($F('pwd').empty()){
+		if($('#pwd').val() == ""){
 			new_account = false;
-			$('account_button').hide();
+			$('#account_button').hide();
 		}
 	}
-}
+};
 
 var resend_email = function(genit){
 	if((trim(document.forms[0].email.value) == "")){
@@ -266,27 +260,45 @@ var resend_email = function(genit){
 		return;
 	}
 	var email = document.forms[0].email.value;
-	$('_i').setValue(genit);
-	$('action').setValue(6);
+	$('#_i').val(genit);
+	$('#action').val(6);
 	var url = "parent_manager.php";
-	var req = new Ajax.Request(url,
-		{
-			method:'post',
-			parameters: $('parent_form').serialize(true),
-			onSuccess: function(transport){
-				var response = transport.responseText || "no response text";
-				var dati = response.split(":");
-				if(dati[0] == "ko"){
-					alert(dati[1]);
-					return;
-				}
-				else{
-					_alert("Mail inviata correttamente");
-				}
-			},
-			onFailure: function(){ alert("Si e' verificato un errore...") }
-		});
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: $('#parent_form').serialize(true),
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+				return;
+			}
+			else if (json.status == "ko"){
+				j_alert("error", json.message);
+				return;
+			}
+			else {
+				j_alert("alert", "Mail inviata correttamente");
+			}
+		}
+	});
 };
+
+$(function(){
+	load_jalert();
+});
 </script>
 </head>
 <body>
@@ -374,14 +386,14 @@ var resend_email = function(genit){
                 <input type="hidden" name="action" id="action" />
     			<input type="hidden" name="_i" id="_i" />
     			<input type="hidden" name="gruppi" id="gruppi" value="4" />
-    			<input type="hidden" name="alunni" id="alunni" value="<?php print $a ?>" />
+    			<input type="hidden" name="alunni" id="alunni" value="" />
     			<input type="hidden" name="pclear" id="pclear" />
 	            <input type="hidden" name="school_order" id="school_order" value="<?php echo $_GET['school_order'] ?>" />
             </td>
             <td style="text-align: right; width: 25%"><a href="#" onclick="add_student()" class="standard_link">Aggiungi</a></td>
         </tr>
         <tr class="popup_row">
-            <td colspan="3" style="height: 5px"><input type="hidden" name="id_figli" value="<?php if(count($id_figli) > 0){ print join(",", array_keys($id_figli));} ?>" /></td>
+            <td colspan="3" style="height: 5px"><input type="hidden" name="id_figli" value="<?php if(isset($id_figli) && count($id_figli) > 0){ print join(",", array_keys($id_figli));} ?>" /></td>
         </tr>
         
     </table>
@@ -396,6 +408,9 @@ var resend_email = function(genit){
    	</form>
 	</div>
 	<p class="spacer"></p>
+</div>
+<div id="list" style="display: none">
+	<iframe id="iframe" src="elenco_alunni.php?school_order=<?php echo $_GET['school_order'] ?>" style="width: 450px; height: 500px; border: 0; margin: auto"></iframe>
 </div>
 <?php include "../footer.php" ?>
 </body>

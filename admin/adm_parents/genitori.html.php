@@ -3,32 +3,24 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Elenco genitori</title>
-<link rel="stylesheet" href="../../css/reg.css" type="text/css" />
-<link rel="stylesheet" href="../../css/general.css" type="text/css" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link href="../../css/reg.css" rel="stylesheet" />
+<link href="../../css/general.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript">
-var win;
-var usr_win;
-var _win;
 var id_alunni = new Array;
-var messages = new Array('', 'Genitore inserito con successo', 'Genitore cancellato con successo', 'Genitore modificato con successo');
 
-function filtro(){
-	cls = $F('mysel');
+var filtro = function(){
+	cls = $('#mysel').val();
 	if(cls == 0)
 		document.location.href = "genitori.php";
 	else
 		document.location.href = "genitori.php?classe="+cls;
-}
+};
 
-function go(val){
+var go = function(val){
 	if(val == 1){
 		if(trim(document.forms[0].parent.value) == "")
 			document.location.href = "genitori.php";
@@ -43,75 +35,92 @@ function go(val){
 			document.location.href = "genitori.php?aname="+trim(document.forms[0].student.value);
 		}
 	}
-}
+};
 
-function filtro_nome(val){
+var filtro_nome = function(val){
 	if(val == 2){
-		$('stud_td').update("<input type='text' name='student' style='font-size: 10px; width: 150px; border: 1px solid #CCCCCC; color: #777' />&nbsp;&nbsp;<input type='button' value='filtra' style='border: 1px solid #CCCCCC; width: 40px' onclick='go(2)' />");
+		$('#stud_td').html("<input type='text' name='student' style='font-size: 10px; width: 150px; border: 1px solid #CCCCCC; color: #777' />&nbsp;&nbsp;<input type='button' value='filtra' style='border: 1px solid #CCCCCC; width: 40px' onclick='go(2)' />");
 	}
 	else{
-		$('par_td').update("<input type='text' name='parent' style='font-size: 10px; width: 150px; border: 1px solid #CCCCCC; color: #777' />&nbsp;&nbsp;<input type='button' value='filtra' style='border: 1px solid #CCCCCC; width: 40px' onclick='go(1)' />");
+		$('#$par_td').html("<input type='text' name='parent' style='font-size: 10px; width: 150px; border: 1px solid #CCCCCC; color: #777' />&nbsp;&nbsp;<input type='button' value='filtra' style='border: 1px solid #CCCCCC; width: 40px' onclick='go(1)' />");
 	}
-}
+};
 
-function del_user(id){
+var del_user = function(id){
 	if(!confirm("Sei sicuro di voler cancellare questo utente?"))
         return false;
 	var url = "parent_manager.php";
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {action: 2, _i: id},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		if(dati[0] == "kosql"){
-				      		sqlalert();
-							console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-							return;
-			      		}
-			      		link = "genitori.php?offset=<?php print $offset ?>&school_order=<?php echo $school_order ?>";
-			      		_alert("Utente cancellato correttamente");
-			      		window.setTimeout("document.location.href = link", 2000);;
-			      		//parent.win.close();
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {action: 2, _i: id},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+				return;
+			}
+			else if (json.status == "ko"){
+				j_alert("error", json.message);
+				return;
+			}
+			else {
+				link = "genitori.php?offset=<?php print $offset ?>&school_order=<?php echo $school_order ?>";
+				j_alert("alert", "Utente cancellato correttamente");
+				window.setTimeout(function(){
+					document.location.href = link;
+				}, 3000);
+			}
+		}
+	});
+};
 
 var IE = document.all?true:false;
-if (!IE) document.captureEvents(Event.MOUSEMOVE);
 var tempX = 0;
 var tempY = 0;
 
 <?php echo $page_menu->getJavascript() ?>
+$(function(){
+	load_jalert();
+
 <?php if(count($ordered_parents) > 0) { ?>
-document.observe("dom:loaded", function(){
-	$$('table tbody > tr').invoke("observe", "mouseover", function(event){
+	$('table tbody > tr').mouseover(function(event){
 			//alert(this.id);
 			var strs = this.id.split("_");
-			if($('link_'+strs[1]))
-				$('link_'+strs[1]).setStyle({display: 'block'});
+			if($('#link_'+strs[1]))
+				$('#link_'+strs[1]).show();
 	});
-	$$('table tbody > tr').invoke("observe", "mouseout", function(event){
+	$('table tbody > tr').mouseout(function(event){
 			//alert(this.id);
 			var strs = this.id.split("_");
-			if($('link_'+strs[1]))
-				$('link_'+strs[1]).setStyle({display: 'none'});
+			if($('#link_'+strs[1]))
+				$('#link_'+strs[1]).hide();
 	});
-	$$('table tbody a.del_link').invoke("observe", "click", function(event){
+	$('table tbody a.del_link').click(function(event){
 		event.preventDefault();
 		var strs = this.parentNode.id.split("_");
 		del_user(strs[1]);
 	});
-});
+
 <?php } ?>
+});
 
 </script>
 <title>Registro elettronico</title>
 </head>
-<body <?php if(isset($_REQUEST['msg'])){ ?>onload="openInfoDialog(messages[<?php print $_REQUEST['msg'] ?>], 2)"<?php } ?>>
+<body>
 <?php include "../header.php" ?>
 <?php include "../navigation.php" ?>
 <div id="main">

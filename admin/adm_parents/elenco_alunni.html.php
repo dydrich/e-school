@@ -3,8 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Elenco alunni</title>
-	<link href="../../css/reg.css" rel="stylesheet" />
-	<link href="../../css/general.css" rel="stylesheet" />
+<link href="../../css/reg.css" rel="stylesheet" />
+<link href="../../css/general.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javaScript">
@@ -68,9 +69,8 @@
 
 </script>
 </head>
-<body style="background-color: whitesmoke; margin: 0; background-image: none">
-	<div id="left_col" style="width: 100%; border-radius: 0; height: 100%; background-color: whitesmoke; margin: 0">
-    <p class="popup_header">Seleziona i tuoi figli</p>
+<body class="popup_body">
+	<p class="popup_header">Seleziona i tuoi figli</p>
     <form class="popup_form" style="width: 95%">
     <div style="margin-right: auto; margin-left: auto; margin-top: 20px; width: 95%">
     	<table style="margin-right: auto; margin-left: auto; width: 95%">
@@ -135,7 +135,5 @@
     <input type="hidden" name="teachers" />
     </div>
     </form>
-	</div>
-<div style="width: 90%; margin: 20px auto 0 auto; text-align: right"><a href="#" onclick="parent._win.close()" class="standard_link" style="color: #003366; text-decoration: none">Chiudi</a></div>
 </body>
 </html>

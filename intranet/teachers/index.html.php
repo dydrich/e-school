@@ -47,7 +47,6 @@
 	</div>
 </div>
 <p class="spacer"></p>
-<p class="spacer"></p>
 </div>
 <?php include "footer.php" ?>
 </body>

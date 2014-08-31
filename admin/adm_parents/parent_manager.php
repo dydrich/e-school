@@ -1,11 +1,13 @@
 <?php
 
 require_once "../../lib/start.php";
+require_once '../../lib/AccountManager.php';
 
 check_session(AJAX_CALL);
 check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "");
 
 if ($_REQUEST['action'] != 2 && $_REQUEST['action'] != 5){
 	$nome = $db->real_escape_string($_POST['nome']);
@@ -15,7 +17,10 @@ if ($_REQUEST['action'] != 2 && $_REQUEST['action'] != 5){
 	$pwd = $_REQUEST['pwd'];
 	$pclear = $_REQUEST['pclear'];
 	if (!isset($_REQUEST['email'])){
-		echo "ko|Tutti i campi del modulo sono obbligatori";
+		$response['status'] = "ko";
+		$response['message'] = "Tutti i campi del modulo sono obbligatori";
+		$res = json_encode($response);
+		echo $res;
 		exit;
 	}
 	$to = $_REQUEST['email'];
@@ -38,7 +43,11 @@ switch($_REQUEST['action']){
 			$db->executeUpdate("COMMIT");
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
-			print "kosql|".$ex->getMessage()."|".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
+			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$res = json_encode($response);
+			echo $res;
 			exit;
 		}
 		break;
@@ -52,7 +61,11 @@ switch($_REQUEST['action']){
 			$db->executeUpdate("COMMIT");
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
-			print "kosql|".$ex->getMessage()."|".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
+			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$res = json_encode($response);
+			echo $res;
 			exit;
 		}
 		break;
@@ -64,7 +77,11 @@ switch($_REQUEST['action']){
 			$db->executeUpdate("COMMIT");
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
-			print "kosql|".$ex->getMessage()."|".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
+			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$res = json_encode($response);
+			echo $res;
 			exit;
 		}
 		break;
@@ -81,7 +98,11 @@ switch($_REQUEST['action']){
 			$db->executeUpdate("COMMIT");
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
-			print "kosql|".$ex->getMessage()."|".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
+			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$res = json_encode($response);
+			echo $res;
 			exit;
 		}
 		break;
@@ -92,7 +113,7 @@ switch($_REQUEST['action']){
 		$from = "registro@istitutoiglesiasserraperdosa.it";
 		$subject = "Registro elettronico {$_SESSION['__config__']['intestazione_scuola']}";
 		$headers = "From: {$from}\r\n"."Reply-To: {$from}\r\n" .'X-Mailer: PHP/' . phpversion();
-		$new_clear_passwd = generatePassword(8);
+		$new_clear_passwd = AccountManager::generatePassword(8, 4);
 		$new_cript_passwd = md5($new_clear_passwd);
 		$statement = "UPDATE rb_utenti SET password = '{$new_cript_passwd}' WHERE uid = {$uid}";
 		try{
@@ -100,7 +121,11 @@ switch($_REQUEST['action']){
 			$db->executeUpdate("COMMIT");
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
-			print "kosql|".$ex->getMessage()."|".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
+			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$res = json_encode($response);
+			echo $res;
 			exit;
 		}
 		break;
@@ -134,34 +159,44 @@ else if ($_REQUEST['action'] == 6){
 	$message .= "Per qualunque problema, non esiti a contattarci.";
 	mail($to, $subject, $message, $headers);
 }
-else {
+else if ($_REQUEST['action'] != 5) {
 	$max = $_POST['_i'];
 }
 /*
  * delete sons in order to reinsert them
 */
-if($_REQUEST['action'] != 1 && $_REQUEST['action'] != 6){
+if($_REQUEST['action'] != 1 && $_REQUEST['action'] != 6 && $_REQUEST['action'] != 5){
 	$del = "DELETE FROM rb_genitori_figli WHERE id_genitore = ".$_REQUEST['_i'];
 	try{
 		$rdel = $db->executeUpdate($del);
 	} catch (MySQLException $ex){
-		print "kosql|".$ex->getMessage()."|".$ex->getQuery();
+		$response['status'] = "kosql";
+		$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
+		$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+		$res = json_encode($response);
+		echo $res;
 		exit;
 	}
 }
 
-if($_REQUEST['action'] != 2 && $_REQUEST['action'] != 6){
+if($_REQUEST['action'] != 2 && $_REQUEST['action'] != 6 && $_REQUEST['action'] != 5){
 	$figli = explode(",", $id_figli);
 	foreach($figli as $figlio){
 		$ins = "INSERT INTO rb_genitori_figli VALUES ($max, $figlio)";
 		try{
 			$rins = $db->executeUpdate($ins);
 		} catch (MySQLException $ex){
-			print "kosql|".$ex->getMessage()."|".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
+			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$res = json_encode($response);
+			echo $res;
 			exit;
 		}
 	}
 }
 
-print "ok";
+$response['message'] = "Operazione completata con successo";
+$res = json_encode($response);
+echo $res;
 exit;

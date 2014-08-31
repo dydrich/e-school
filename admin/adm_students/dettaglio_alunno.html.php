@@ -78,36 +78,6 @@ var clean_form = function(){
 	$('classe').options.selectedIndex = 0;
 };
 
-function verifica(){
-    //alert("ok");
-	var nick = $F('uname');
-	if(nick == ""){
-		alert("Username non presente");
-		return false;
-	}
-	var url = "../../shared/verifica_login.php";
-	var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {nick: nick},
-			    	onSuccess: function(transport){
-			    		$('check').update("");
-			      		var response = transport.responseText || "no response text";
-			      		if(response == "ko"){
-			      			$('check').setStyle({color: "red"});
-			                $('check').update("<br />Login gi&agrave; presente.");
-			                return;
-			     		}
-			     		else{
-			     			$('check').update("<img src='../../images/54.png' style='width: 15px; height: 15px; vertical-align: bottom' />");
-			            	new_account = true;
-			            	
-			     		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
-
 function reg(par){
     var id = <?php print $_REQUEST['id'] ?>;
     if(par == 1){
@@ -243,7 +213,7 @@ document.observe("dom:loaded", function(){
 	</div>
 	<div id="left_col">
 		<div class="group_head">Dettaglio alunno</div>
-    <form action="dettaglio_alunno.php?upd=1&offset=<?php print $offset ?>&order=<?php print $_REQUEST['order'] ?>" method="post" id="st_form" class="popup_form">
+    <form action="dettaglio_alunno.php?upd=1&offset=<?php print $offset ?>&order=<?php if(isset($_REQUEST['order'])) echo $_REQUEST['order'] ?>" method="post" id="st_form" style="width: 75%">
     <fieldset id="account_field" style="width: 95%; padding-top: 10px; margin-left: auto; margin-right: auto; <?php if($type == 1) echo "display: none" ?>">
     <legend id="account_legend" style="font-weight: bold;">Account</legend>
     <table style="width: 95%">

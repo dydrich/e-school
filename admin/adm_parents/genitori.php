@@ -85,6 +85,7 @@ EOT;
 $page_menu->setInnerHTML($html);
 $page_menu->setPathToRoot($_SESSION['__path_to_root__']);
 $page_menu->createLink();
+$page_menu->setJavascript('', 'jquery');
 
 /*
 if(isset($_REQUEST['classe'])){
