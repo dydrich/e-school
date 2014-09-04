@@ -1,7 +1,22 @@
+html {
+    height: 100%
+}
+
 body {
-    background-color: #1E4389;
+    #background-color: #1E4389;
     font-size: 12px;
     font-family: 'Helvetica', sans-serif;
+    height: 100%;
+    margin: 0;
+
+    background: rgb(30, 67, 137);
+    background: -moz-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: -webkit-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: -o-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: -ms-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: linear-gradient(180deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
 
 }
 
@@ -181,7 +196,7 @@ table {
 #right_col {
     float: right;
     width: 270px;
-    background-color: #ef6c6c;
+    background-color: #DB5355;
     border-radius: 0 0 0 0;
 }
 
@@ -699,8 +714,8 @@ div.group_head{
     text-align: center;
     font-weight: bold;
     font-size: 1.1em;
-    background-color: #EF6C6C;
-    border: 1px solid #EF6C6C;
+    background-color: #DB5355;
+    border: 1px solid #DB5355;
     border-radius: 5px 0 0 5px;
     width: 100%;
     margin-left: 2%;
@@ -837,7 +852,7 @@ fieldset {
     vertical-align: middle;
     width: 95%;
     height: 20px;
-    background-color: #EF6C6C;
+    background-color: #DB5355;
     border: 1px solid rgba(30, 67, 137, 1);
     border-radius: 8px;
     padding-top: 10px
@@ -867,7 +882,7 @@ p#menu_label {
     font-weight: bold;
     margin-bottom: 8px;
     border-bottom: 1px solid rgba(30, 67, 137, .6);
-    background-color: #EF6C6C;
+    background-color: #DB5355;
 }
 
 div.admin_link_wrapper {
@@ -886,7 +901,7 @@ p.pop_title {
     font-weight: bold;
     margin-bottom: 8px;
     border-bottom: 1px solid rgba(30, 67, 137, .6);
-    background-color: #EF6C6C;
+    background-color: #DB5355;
 }
 
 .outline_line_wrapper {

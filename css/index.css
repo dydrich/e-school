@@ -1,10 +1,27 @@
 *{margin:0;padding:0;}:focus,:active {outline:0}ul,ol{list-style:none}img{border:0}
 
+html {
+    height: 100%
+}
+
 body {
-    background-color: #1E4389;
+    #background-color: #1E4389;
     font-size: 12px;
     font-family: Georgia
+    height: 100%;
+    margin: 0;
+
+    background: rgb(30, 67, 137);
+    background: -moz-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: -webkit-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: -o-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: -ms-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: linear-gradient(180deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+
 }
+
 
 .area {
     width: 33%;
