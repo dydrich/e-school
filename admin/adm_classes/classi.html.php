@@ -113,7 +113,7 @@ var del_class = function(class_id){
 				return false;
 			}
 			else {
-				_alert("Classe cancellata correttamente");
+				alert("Classe cancellata correttamente");
 				$('#row_'+class_id).hide();
 			}
 		}
