@@ -49,7 +49,7 @@ switch($_POST['action']){
 			$begin = $db->executeUpdate("BEGIN");
 			$del_teacher = "DELETE FROM rb_docenti WHERE id_docente = ".$_POST['_i'];
 			$d1 = $db->executeUpdate($del_teacher);
-			$statement = "DELETE FROM rb_utenti WHERE uid = ".$_POST['_i'];
+			$statement = "UPDATE rb_utenti SET attivo = 0, password = 'NON ATTIVO' WHERE uid = ".$_POST['_i'];
            	$recordset = $db->execute($statement);
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
@@ -140,6 +140,3 @@ try {
 }
 
 print "ok|$msg|$sel_teacher";
-
-?>
-

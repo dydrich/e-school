@@ -16,7 +16,7 @@ else
 
 $limit = 10;
 
-$sel_user = "SELECT uid, nome, cognome, username, password FROM rb_utenti ORDER BY cognome, uid ";
+$sel_user = "SELECT uid, nome, cognome, username, password FROM rb_utenti WHERE attivo = 1 ORDER BY cognome, uid ";
 
 if(!isset($_GET['second'])){
     $res_user = $db->execute($sel_user);
