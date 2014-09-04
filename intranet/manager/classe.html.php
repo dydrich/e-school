@@ -43,11 +43,12 @@ table tbody tr:hover {
 		<?php echo $label ?>
 	</div>
 	<div class="outline_line_wrapper">
+		<div style="width: 5%; float: left; position: relative; top: 25%"></div>
 	<?php 
 	$max = count($widths);
 	for($i = 0; $i < $max; $i++){
 	?>
-		<div style="width: <?php echo $widths[$i] ?>%; float: left; position: relative; top: 30%"><?php echo $fields[$i] ?></div>
+		<div style="width: <?php echo $widths[$i] ?>%; float: left; position: relative; top: 25%"><?php echo $fields[$i] ?></div>
 	<?php 
 	}
 	?>
@@ -57,14 +58,15 @@ table tbody tr:hover {
    		<?php 
    		reset($widths);
    		reset($fields);
+	    reset($data);
    		$x = 1;
-   		while($row = $result->fetch_assoc()){
+   		foreach ($data as $row) {
    			reset($widths);
    		?>
 	 	<tr class="docs_row">
 	 		<td style="width: 5%; text-align: right; font-weight: bold"><?php if ($_REQUEST['show'] == "alunni") echo $x ?></td>
-	 		<td style="width: <?php echo $widths[0] - 5 ?>%; text-align: left; padding-left: 20px"><?php echo $row['cognome']." ".$row['nome'] ?></td>
-	 		<td style="width: <?php echo $widths[1] ?>%; text-align: center; padding-left: 20px"><?php echo $row['sec_f'] ?></td>
+	 		<td style="width: <?php echo $widths[0] - 5 ?>%; text-align: left; padding-left: 20px"><?php echo $row['nome'] ?></td>
+	 		<td style="width: <?php echo $widths[1] ?>%; text-align: center; padding-left: 20px"><?php echo implode(', ', $row['sec_f']) ?></td>
  	    </tr>
  	    <?php
  	    	$x++;
