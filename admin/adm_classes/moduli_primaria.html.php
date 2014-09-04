@@ -222,8 +222,8 @@
 			}
 			?>
 		</div>
-		<div style="clear: left; width: 100%; text-align: right; margin: 0 0 10% 0">
-			<button id="button" style="margin-right: 20px">Aggiungi modulo</button>
+		<div style="clear: left; width: 100%; text-align: right; margin: 0 0 5% 0">
+			<button id="button" style="margin: 10px 20px 0 0">Aggiungi modulo</button>
 		</div>
 	</div>
 </div>
