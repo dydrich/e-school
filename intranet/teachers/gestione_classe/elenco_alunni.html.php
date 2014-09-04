@@ -5,7 +5,7 @@
 <title>Elenco alunni</title>
 <link rel="stylesheet" href="../../../css/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
@@ -144,7 +144,7 @@ tbody a {
 	?>
 </tbody>
 </table>
-<form id="testform" method="post">
+<form id="testform" method="post" class="no_border">
 <p>
 	<input type="hidden" name="fname" id="fname" />
 	<input type="hidden" name="lname" id="lname" />
