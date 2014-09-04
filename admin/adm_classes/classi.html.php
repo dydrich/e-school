@@ -301,7 +301,6 @@ $(function(){
         </table>
         </form>
         </div>
-        <?php include "../footer.php" ?>
 	</div>
 <div id="coord" style="display: none">
 	<p style="text-align: center; font-size: 1.1em; font-weight: bold; margin-top: 10px">Coordinatore di classe: <span id="cls_desc"></span></p>
@@ -332,5 +331,6 @@ $(function(){
 	</form>
 </div>
 <?php $page_menu->toHTML() ?>
+<?php include "../footer.php" ?>
 </body>
 </html>
