@@ -613,6 +613,14 @@ div.overlay{
                 </td>
             </tr>
             <?php endif; ?>
+	        <?php if($admin_level == 2 || $admin_level == 0): ?>
+		        <tr>
+			        <td class="col1"><a href="adm_classes/moduli_primaria.php">Moduli scuola primaria</a></td>
+			        <td class="col2">
+				        <a href="adm_classes/moduli_primaria.php">Associa le classi per creare i moduli...</a>
+			        </td>
+		        </tr>
+	        <?php endif; ?>
             <tr>
                 <td class="col1"><a href="adm_classes/alunni_liberi.php">Alunni senza classe</a></td>
                 <td class="col2">
