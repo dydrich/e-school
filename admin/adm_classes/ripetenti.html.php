@@ -98,7 +98,7 @@ var close_step = function(){
 	</div>
 	<div id="left_col">
 		<div class="group_head">Elenco alunni classi <?php echo $cl_label." ".$sc_label ?> (estratti <?php echo $res_alunni->num_rows ?> alunni)</div>
-        <form method="post">
+        <form method="post" class="no_border">
         <div style="width: 95%; margin: 10px auto 0 auto; text-align: center">[
         <?php 
         foreach($classi as $cls){
