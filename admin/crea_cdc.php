@@ -38,6 +38,9 @@ else if ($_REQUEST['school_order']){
 	$selected_class = "WHERE ordine_di_scuola = {$_REQUEST['school_order']}";
 	$class_to_update = "AND ordine_di_scuola = {$_REQUEST['school_order']}";
 }
+else {
+	$selected_class = "WHERE 1 ";
+}
 $sel_classi = "SELECT id_classe, musicale, sede, ordine_di_scuola FROM rb_classi $selected_class AND anno_corso <> 0 ORDER BY id_classe";
 try{
 	$res_classi = $db->executeQuery($sel_classi);
