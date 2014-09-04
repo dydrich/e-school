@@ -58,7 +58,7 @@ function crea_cdc(){
 			}
 			var json = $.parseJSON(r);
 			if (json.status == "kosql"){
-				show_error(json.message);
+				alert(json.message);
 				console.log(json.dbg_message);
 			}
 			else {
