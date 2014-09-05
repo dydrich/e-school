@@ -115,6 +115,7 @@
 		};
 
 		$(function(){
+			load_jalert();
 			$('#button').button();
 			$('#button').click(function(){
 				add_module();

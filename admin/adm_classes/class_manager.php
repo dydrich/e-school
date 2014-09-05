@@ -70,9 +70,16 @@ switch($_POST['action']){
 		try {
 			$db->executeUpdate("INSERT INTO rb_classi_modulo (id_modulo, classe) VALUES ({$_POST['idm']}, {$_POST['idc']})");
 		} catch (MySQLException $ex){
-			$response['status'] = "kosql";
-			$response['message'] = $ex->getMessage();
-			$response['query'] = $ex->getQuery();
+			if (substr($ex->getMessage(), 0, 9) == "Duplicate") {
+				$response['status'] = "ko";
+				$response['dbg_message'] = $ex->getMessage();
+			}
+			else {
+				$response['status'] = "kosql";
+				$response['message'] = "Si è verificato un errore. Riprova tra qualche minuto";
+				$response['dbg_message'] = $ex->getMessage();
+				$response['query'] = $ex->getQuery();
+			}
 			echo json_encode($response);
 			exit;
 		}
