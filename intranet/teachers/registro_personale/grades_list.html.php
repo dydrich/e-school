@@ -3,7 +3,7 @@
 <head>
 <title>Registro di classe</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="../registro_classe/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/site_themes/blue_red/reg_classe.css" type="text/css" media="screen,projection" />
 <link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="../../../css/skins/aqua/theme.css" type="text/css" />

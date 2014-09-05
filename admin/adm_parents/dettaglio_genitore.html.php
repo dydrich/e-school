@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Dettaglio genitore</title>
-<link href="../../css/reg.css" rel="stylesheet" />
+<link href="../../css/site_themes/blue_red/reg.css" rel="stylesheet" />
 <link href="../../css/general.css" rel="stylesheet" />
 <link rel="stylesheet" href="../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>

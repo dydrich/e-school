@@ -3,7 +3,7 @@
 <head>
 <title>Dettaglio sede</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="../../css/reg.css" rel="stylesheet" />
+<link href="../../css/site_themes/blue_red/reg.css" rel="stylesheet" />
 <link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../js/prototype.js"></script>

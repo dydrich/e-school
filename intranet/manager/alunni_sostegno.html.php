@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Alunni</title>
-<link rel="stylesheet" href="../../css/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/site_themes/blue_red/reg.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/prototype.js"></script>
 <script type="text/javascript" src="../../js/scriptaculous.js"></script>
 <script type="text/javascript" src="../../js/controls.js"></script>

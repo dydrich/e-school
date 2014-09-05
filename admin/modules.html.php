@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <meta name="author" content="" />
-<link rel="stylesheet" href="../css/reg.css" type="text/css" />
+<link rel="stylesheet" href="../css/site_themes/blue_red/reg.css" type="text/css" />
 <link rel="stylesheet" href="../css/general.css" type="text/css" />
 <link href="../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>

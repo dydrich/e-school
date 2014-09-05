@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Filtra alunni</title>
-	<link href="../../css/reg.css" rel="stylesheet" />
+	<link href="../../css/site_themes/blue_red/reg.css" rel="stylesheet" />
 	<link href="../../css/general.css" rel="stylesheet" />
 <script type="text/javascript" src="../../js/prototype.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>

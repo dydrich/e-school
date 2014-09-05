@@ -75,7 +75,7 @@ table {
     width: 60px;
     float: left ;
     border-bottom: 3px solid #FFFFFF;
-    background: url(../images/esci.png) no-repeat;
+    background: url(../../../images/esci.png) no-repeat;
     background-position:right bottom;
     padding-bottom: 5px
 }
@@ -160,7 +160,7 @@ table {
     width: 250px;
     padding: 0 0 10px 30px;
     border-bottom: 1px solid #6B6E67;
-    background: url(../images/70.png) no-repeat;
+    background: url(../../../images/70.png) no-repeat;
     background-position: left baseline;
     text-transform: uppercase;
     font-size: 1.1em
@@ -171,7 +171,7 @@ table {
     padding: 3px 0 0 30px;
     line-height: 16px;
     font-family: Arial, sans-serif;
-    background: url(../images/list.png) no-repeat;
+    background: url(../../../images/list.png) no-repeat;
     background-position: left bottom;
 }
 
@@ -215,7 +215,7 @@ table {
     width: 280px;
     padding: 0 0 10px 30px;
     border-bottom: 1px solid #1E4389;
-    background: url(../images/26.png) no-repeat;
+    background: url(../../../images/26.png) no-repeat;
     font-weight: bold;
 }
 
@@ -318,7 +318,7 @@ table {
 
 .menu_head {
     font-size: 1.5em;
-    background: url(../images/39.png) no-repeat;
+    background: url(../../../images/39.png) no-repeat;
     background-position: left baseline;
     width: 60%; float: right;
     border-bottom: 1px solid #6B6E67;
@@ -327,7 +327,7 @@ table {
 
 .menu_docs_head {
     font-size: 1.5em;
-    background: url(../images/9.png) no-repeat;
+    background: url(../../../images/9.png) no-repeat;
     background-position: left baseline;
     width: 60%; float: right;
     border-bottom: 1px solid #6B6E67;
@@ -344,47 +344,47 @@ table {
 }
 
 .act_icon {
-    background: url(../images/14.png) no-repeat;
+    background: url(../../../images/14.png) no-repeat;
     background-position: right top;
 }
 
 .class_icon {
-    background: url(../images/31.png) no-repeat;
+    background: url(../../../images/31.png) no-repeat;
     background-position: right top
 }
 
 .pers_icon {
-    background: url(../images/13.png) no-repeat;
+    background: url(../../../images/13.png) no-repeat;
     background-position: right top
 }
 
 .schedule_icon {
-    background: url(../images/35.png) no-repeat;
+    background: url(../../../images/35.png) no-repeat;
     background-position: right top
 }
 
 .data_icon {
-    background: url(../images/33.png) no-repeat;
+    background: url(../../../images/33.png) no-repeat;
     background-position: right top
 }
 
 .day_icon {
-    background: url(../images/70.png) no-repeat;
+    background: url(../../../images/70.png) no-repeat;
     background-position: right top
 }
 
 .com_icon {
-    background: url(../images/57.png) no-repeat;
+    background: url(../../../images/57.png) no-repeat;
     background-position: right top
 }
 
 .mod_icon {
-    background: url(../images/39.png) no-repeat;
+    background: url(../../../images/39.png) no-repeat;
     background-position: right top
 }
 
 .change_icon {
-    background: url(../images/42.png) no-repeat;
+    background: url(../../../images/42.png) no-repeat;
     background-position: right top
 }
 

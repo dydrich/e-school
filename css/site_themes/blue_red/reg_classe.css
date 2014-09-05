@@ -1,0 +1,338 @@
+@CHARSET "UTF-8";
+
+html {
+    height: 100%
+}
+
+body {
+    #background-color: #1E4389;
+    font-size: 12px;
+    font-family: 'Helvetica', sans-serif;
+    height: 100%;
+    margin: 0;
+
+    background: rgb(30, 67, 137);
+    background: -moz-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: -webkit-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: -o-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: -ms-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: linear-gradient(180deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+
+}
+
+input, select, textarea {
+    background-color: rgba(30, 67, 137, .1);
+    border-radius: 2px;
+    border: 1px solid rgba(30, 67, 137, .6);
+    font-size: 1em
+}
+
+#box1{
+	height: 50px;
+	width: 400px;
+	float: left;
+	border-bottom: 3px solid #FFFFFF; 
+	padding-bottom: 5px
+}
+
+#mid{
+	height: 50px;
+	width: 160px;
+	float: left;
+	 
+	padding-bottom: 5px
+}
+
+#box2 {
+	height: 50px;
+	width: 400px;
+	float: left;
+	border-bottom: 3px solid #FFFFFF;
+	padding-bottom: 5px
+}
+#box3 {
+	height: 50px;
+	width: 60px;
+	float: left ;
+	border-bottom: 3px solid #FFFFFF;
+	background: url(../../../../../images/esci.png) no-repeat;
+	background-position:right bottom;
+	padding-bottom: 5px
+}
+
+#header {
+	height: 120px; 
+	width: 1020px; 
+	margin: 0 auto 0 auto	
+}
+#header a {
+	color: #FFFFFF;
+	text-decoration: none;
+	font-size: 1.1em;
+	text-transform: uppercase
+}
+
+#sc_firstrow {
+	font-weight: bold; 
+	font-size: 1.8em; 
+	color: #FFFFFF; 
+	height: 20px;
+	margin: 10px 0 0 0; 
+	line-height: 25px
+}
+
+#sc_secondrow {
+	font-weight: bold; 
+	font-size: 1.1em; 
+	color: #FFFFFF; 
+	text-align: right; 
+	height: 30px; 
+	line-height: 28px; 
+	text-transform: uppercase
+}
+
+#user_firstrow {
+	font-weight: bold; 
+	font-size: 1.1em; 
+	color: #FFFFFF; 
+	text-align: right; 
+	padding-right: 10px; 
+	height: 20px; 
+	margin: 10px 0 0 0; 
+	line-height: 25px
+}
+
+#user_secondrow {
+	font-weight: bold; 
+	font-size: 1.1em; 
+	color: #FFFFFF; 
+	text-align: right; 
+	height: 30px; 
+	line-height: 28px; 
+}
+
+#esc {
+	clear: both; 
+	width: 70px; 
+	color: #FFFFFF; 
+	text-align: right; 
+	padding-right: 10px; 
+	font-size: 1em; 
+	margin: 0 0 10px auto; 
+	padding-top: 2px
+}
+
+#main {
+	width: 1020px; 
+	background-color: #F3F3F6;
+	margin: 0 auto 0 auto;
+	padding: 30px 0 30px 0;
+}
+
+#main a {
+    color: #1E4389;
+    text-decoration: none;
+}
+
+#navigation {
+	width: 1020px;
+	margin: auto; 
+	height: 30px;
+	text-align: left;
+	color: #DDDDDD; 
+	font-size: 1.2em; 
+	font-weight: normal; 
+	margin: 0 auto 0 auto;
+    background-color: #3C3C3C;
+    border-radius: 10px 10px 0 0;
+    padding-top: 6px
+}
+#navigation a {
+	color: #DDDDDD;
+	text-decoration: none;
+	font-size: 1em;
+	text-transform: uppercase;
+	text-decoration: none
+}
+
+#head_label {
+	float: left; 
+	width: 500px; 
+	margin-left: 20px;
+	height: 25px; 
+	top: 20%;
+    color: #FFFFFF;
+}
+
+#footer {
+	font-size: 1em; 
+	color: #FFFFFF;
+	width: 1020px;
+    width: 1020px;
+    margin: 10px auto 0 auto;
+    text-align: right;
+    heigth: 15px;
+
+}
+
+#footer span {
+    border-top: 1px solid white;
+}
+
+#footer a {
+    text-decoration: none;
+    color: #FFFFFF
+}
+
+.tooltip { 
+    position: absolute;
+    top: 1em; 
+    left: 1em; 
+    width: 15em;
+    border: 1px solid #AAAAAA; 
+    background-color: rgb(211, 222, 199);
+    border-radius: 8px 8px 8px 8px;
+    padding: 10px;
+    color: #373946;
+    font-size: 12px;
+    text-align: center;
+    text-decoration: none
+}
+
+table.registro {
+	width: 95%; 
+	border-collapse: collapse;
+	margin: 0 auto 0 auto;
+}
+
+table.registro tbody a {
+	text-decoration: none;
+}
+
+table.registro tr.nav_tr {
+	background-color: rgba(30, 67, 137, .2);
+	height: 2.5em;
+}
+
+table.registro tr.head_tr_no_bg {
+	height: 2.1em;
+}
+
+table.registro tr.title_tr {
+	background-color: rgba(30, 67, 137, .3);
+}
+
+table.registro tr.head_tr {
+	background-color: rgba(239, 108, 108, 0.9);
+	height: 2.5em;
+	font-weight: bold;
+	text-align: center
+}
+
+table.registro td {
+	border: 1px solid rgba(30, 67, 137, .6);
+}
+
+table.registro tbody tr:hover {
+	background-color: rgba(30, 67, 137, .1);
+}
+
+.attention {
+	color: rgb(200, 6, 6);
+}
+
+._bold{
+	font-weight: bold
+}
+
+.nav_div {
+	float: left; 
+	text-transform: uppercase; 
+	width: 120px	
+}
+
+.nav_div a {
+    font-weight: normal;
+    position: relative;
+    top: 5px;
+}
+
+.page_menu{
+	background-color: rgb(211, 222, 199); 
+	padding: 10px; 
+	border: 1px solid #AAAAAA; 
+	border-radius: 10px 10px 10px 10px;
+	color: #222222;
+	box-shadow: 0 0 8px  #888;
+	z-index: 100
+}
+
+#context_menu, #pop, #hid {
+	background-color: #E4E7EF;
+	padding: 10px; 
+	border: 1px solid rgba(30, 67, 137, .6);
+	border-radius: 0px 10px 0px 10px;
+	color: #222222;
+	z-index: 100
+}
+#context_menu a, #pop a, #hid a, .page_menu a {
+	text-decoration: none;
+    color: rgba(30, 67, 137, 1);
+}
+
+#tipinota {
+	position: absolute; 
+	width: 300px;
+	height: 130px;
+	border: 1px solid rgba(30, 67, 137, .6);
+	background-color: #E4E7EF;
+	padding: 10px 0 0 10px; 
+	border-radius: 8px; 
+}
+
+#tipinota a {
+	color: #222222;
+	text-decoration: none
+}
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 45%; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+.ui-timepicker-rtl dl dd { margin: 0 45% 10px 10px; }
+
+div.group_head{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    font-weight: normal;
+    font-size: 1.1em;
+    background-color: #EF6C6C;
+    border: 1px solid #EF6C6C;
+    border-radius: 5px;
+    width: 95%;
+    text-transform: uppercase;
+    margin: auto
+}
+
+.outline_line_wrapper {
+    width: 95%;
+    margin: 15px auto 15px auto;
+    height: 35px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    border: 1px solid rgba(30, 67, 137, .5);
+    outline-style: double;
+    outline-color: rgba(30, 67, 137, .5);
+    background-color: rgba(30, 67, 137, .8);
+}

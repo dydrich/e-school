@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Gestione record scrutini</title>
-<link href="../css/reg.css" rel="stylesheet" />
+<link href="../css/site_themes/blue_red/reg.css" rel="stylesheet" />
 <link href="../css/general.css" rel="stylesheet" />
 <link rel="stylesheet" href="../css/themes/default.css" type="text/css"/>
 <link rel="stylesheet" href="../css/themes/alphacube.css" type="text/css"/>
