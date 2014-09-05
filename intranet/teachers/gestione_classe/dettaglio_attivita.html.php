@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="../../../css/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../modules/communication/theme/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
@@ -24,7 +24,7 @@ function save_activity(){
 		data: $('#myform').serialize(),
 		dataType: 'json',
 		error: function() {
-			alert("Errore di trasmissione dei dati");
+			j_alert("error", "Errore di trasmissione dei dati");
 		},
 		succes: function() {
 
@@ -36,11 +36,12 @@ function save_activity(){
 			}
 			var json = $.parseJSON(r);
 			if (json.status == "kosql"){
-				alert(json.message);
+				j_alert('error', json.message);
 				console.log(json.dbg_message);
 			}
 			else {
-				document.location.href = "elenco_attivita.php";
+				j_alert('alert', json.message);
+				//document.location.href = "elenco_attivita.php";
 			}
 		}
 	});
@@ -49,6 +50,7 @@ function save_activity(){
 var oldLink = null;
 
 $(function(){
+	load_jalert();
 	$('#save_button').click(function(event){
 		event.preventDefault();
 		save_activity();

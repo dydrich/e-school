@@ -3,7 +3,7 @@
 <head>
 <title>Registro di classe</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="../registro_classe/reg_classe.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../registro_classe/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../registro_classe/reg_print.css" type="text/css" media="print" />
 <link rel="stylesheet" href="../../../modules/communication/theme/style.css" type="text/css" media="screen,projection" />
