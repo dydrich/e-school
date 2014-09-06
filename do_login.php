@@ -68,6 +68,14 @@ if (is_installed("com")) {
 	$_SESSION['__user__']->setUniqID($uniqID);
 }
 
+/*
+ * tema grafico
+ */
+$id_theme = $db->executeCount("SELECT valore FROM rb_configurazioni_utente, rb_configurazioni WHERE nome = 'tema' AND id_configurazione = configurazione AND utente = {$user->getUid()}");
+if ($id_theme != "" && $id_theme != null) {
+	$_SESSION['__user_theme__'] = $db->executeCount("SELECT directory FROM rb_themes WHERE id_tema = {$id_theme}");
+}
+
 //echo $authenticator->getStringAjax();
 $response = $authenticator->getResponse();
 echo json_encode($response);

@@ -625,3 +625,19 @@ function getAdminLevel($user){
 		return $_SESSION['__school_order__'];
 	}
 }
+
+/**
+ * getTheme
+ *
+ * @desc restituisce il tema selezionato dall'utente, se presente, altrimenti quello di default
+ * @return string (directory tema selezionato)
+ *
+ */
+function getTheme() {
+	if (isset($_SESSION['__user_theme__'])) {
+		return $_SESSION['__user_theme__'];
+	}
+	else {
+		return $_SESSION['default_theme'];
+	}
+}

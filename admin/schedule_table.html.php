@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Gestione record orario</title>
-	<link href="../css/site_themes/blue_red/reg.css" rel="stylesheet" />
+	<link href="../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
 	<link href="../css/general.css" rel="stylesheet" />
 <link rel="stylesheet" href="../css/skins/aqua/theme.css" type="text/css"  />
 <link rel="stylesheet" href="../css/themes/default.css" type="text/css"/>

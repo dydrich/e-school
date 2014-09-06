@@ -41,7 +41,7 @@ $_SESSION['__area_label__'] = "Area amministrazione";
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Admin home page</title>
-	<link rel="stylesheet" href="../../css/site_themes/blue_red/reg.css" type="text/css" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" />
 <script type="text/javascript" src="../../js/prototype.js"></script>
 <script type="text/javascript" src="../../js/scriptaculous.js"></script>

@@ -38,4 +38,10 @@ if (isset($_SESSION['__config__'])){
 	define("DISPLAY_ERRORS", $_SESSION['__config__']['debug']);
 }
 
+/*
+ * default theme
+ */
+$id_theme = $db->executeCount("SELECT valore FROM rb_config WHERE variabile = 'selected_theme'");
+$_SESSION['default_theme'] = $db->executeCount("SELECT directory FROM rb_themes WHERE id_tema = {$id_theme}");
+
 date_default_timezone_set("Europe/Rome");

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
-<link rel="stylesheet" href="../../css/site_themes/blue_red/reg.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link href="../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
 <link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>

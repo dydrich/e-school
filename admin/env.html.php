@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="../css/site_themes/blue_red/reg.css" type="text/css" />
+<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
 <link rel="stylesheet" href="../css/general.css" type="text/css" />
 <link href="../css/themes/default.css" rel="stylesheet" type="text/css"/>
 <link href="../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>

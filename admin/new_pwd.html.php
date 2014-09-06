@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<link rel="stylesheet" href="../css/site_themes/blue_red/reg.css" type="text/css" />
+<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
 <link rel="stylesheet" href="../css/general.css" type="text/css" />
-<link rel="stylesheet" href="../css/jquery/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../js/page.js"></script>

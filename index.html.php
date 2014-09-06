@@ -8,7 +8,7 @@
 <script type="text/javascript" src="./js/controls.js"></script>
 <script type="text/javascript" src="./js/page.js"></script>
 <script type="text/javascript" src="./js/md5-min.js"></script>
-<link href="css/site_themes/blue_red/index.css" rel="stylesheet" type="text/css"/>
+<link href="css/site_themes/<?php echo getTheme() ?>/index.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
 var area = "";
 

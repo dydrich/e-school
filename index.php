@@ -1,6 +1,6 @@
 <?php 
 
-//ini_set("display_errors", "1");
+ini_set("display_errors", "1");
 
 if(file_exists("./install/to_be_installed")){
 	session_start();
