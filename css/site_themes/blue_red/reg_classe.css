@@ -57,7 +57,7 @@ input, select, textarea {
 	width: 60px;
 	float: left ;
 	border-bottom: 3px solid #FFFFFF;
-	background: url(../../../../../images/esci.png) no-repeat;
+	background: url(../../../images/esci.png) no-repeat;
 	background-position:right bottom;
 	padding-bottom: 5px
 }
@@ -273,7 +273,8 @@ table.registro tbody tr:hover {
 	background-color: #E4E7EF;
 	padding: 10px; 
 	border: 1px solid rgba(30, 67, 137, .6);
-	border-radius: 0px 10px 0px 10px;
+	border-radius: 0px 0px 0px 0px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 	color: #222222;
 	z-index: 100
 }

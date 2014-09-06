@@ -36,15 +36,15 @@ $is_teacher_in_this_class = $_SESSION['__user__']->isTeacherInClass($_SESSION['_
 <nav id="navigation">
 	<div id="head_label" style="width: 390px"><p style="margin-top: 5px; vertical-align: top"><?php echo $navigation_label ?></p></div>
 	<?php if($is_teacher_in_this_class && $_SESSION['__user__']->getSubject() != 27 && $_SESSION['__user__']->getSubject() != 44){ ?>
-	<div class="nav_div" style="width: 95px"><a href="index.php?q=<?php echo $qd.$qsub ?>" style="position: relative; top: 5px">Registro</a></div>
+	<div class="nav_div" style="width: 95px"><a href="index.php?q=<?php echo $qd.$qsub ?>" style="position: relative; top: 5px">&middot; Registro</a></div>
 		<?php if ($ordine_scuola == 1): ?>
-	<div class="nav_div" style="width: 95px"><a href="absences.php" style="position: relative; top: 5px">Assenze</a></div>
+	<div class="nav_div" style="width: 95px"><a href="absences.php" style="position: relative; top: 5px">&middot; Assenze</a></div>
 		<?php endif; ?>
-	<div class="nav_div" style="width: 95px"><a href="tests.php" style="position: relative; top: 5px">Verifiche</a></div>
-	<div class="nav_div" style="width: 95px"><a href="lessons.php" style="position: relative; top: 5px">Lezioni</a></div>
-	<div class="nav_div" style="width: 95px"><a href="scrutini.php?q=<?php echo $_q ?>" style="position: relative; top: 5px">Scrutini</a></div>
+	<div class="nav_div" style="width: 95px"><a href="tests.php" style="position: relative; top: 5px">&middot; Verifiche</a></div>
+	<div class="nav_div" style="width: 95px"><a href="lessons.php" style="position: relative; top: 5px">&middot; Lezioni</a></div>
+	<div class="nav_div" style="width: 95px"><a href="scrutini.php?q=<?php echo $_q ?>" style="position: relative; top: 5px">&middot; Scrutini</a></div>
 	<?php } else { ?>
-	<div class="nav_div" style="width: 95px"><a href="scrutini_classe.php?q=<?php echo $_q ?>" style="position: relative; top: 5px">Scrutini</a></div>
+	<div class="nav_div" style="width: 95px"><a href="scrutini_classe.php?q=<?php echo $_q ?>" style="position: relative; top: 5px">&middot; Scrutini</a></div>
 	<?php } ?>
-	<div class="nav_div" style="width: 95px"><a href="../index.php" style="position: relative; top: 5px">Home </a></div>
+	<div class="nav_div" style="width: 95px"><a href="../index.php" style="position: relative; top: 5px">&middot; Home </a></div>
 </nav>
