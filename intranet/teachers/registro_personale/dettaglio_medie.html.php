@@ -54,7 +54,7 @@ foreach ($alunni as $al){
 	}
 ?>
 <tr style="border-bottom: 1px solid #CCC">
-	<td style="width: <?php print $first_column ?>%; padding-left: 8px; font-weight:normal;">
+	<td style="width: <?php print $first_column_width ?>%; padding-left: 8px; font-weight:normal;">
 		<?php if($idx < 10) print "&nbsp;&nbsp;"; ?><?php echo $idx.". " ?>
 		<span style="font-weight: normal"><?php print $al['cognome']." ".substr($al['nome'], 0, 1) ?> (</span><span class="<?php if(isset($al['media']) && ($al['media'] < 6 && $al['media'] > 0)) print("attention") ?> _bold"><?php echo $al['media'] ?></span>)
 	</td>
@@ -63,6 +63,10 @@ foreach ($alunni as $al){
 	foreach ($materie as $materia){
 		if (isset($al['voti'][$materia['id_materia']])){
 			$avg = $al['voti'][$materia['id_materia']];
+			if ($materia['id_materia'] == 26 || $materia['id_materia'] == 30) {
+				$voti_rel = RBUtilities::getReligionGrades();
+				$avg = $voti_rel[RBUtilities::convertReligionGrade($avg)];
+			}
 		}
 		else {
 			$avg = 0;
@@ -76,18 +80,22 @@ foreach ($alunni as $al){
 }
 ?>
 <tr style="background-color: #e8eaec; height: 30px">
-	<td style="width: <?php print $first_column ?>%; padding-left: 8px; font-weight:bold;">Media classe</td>
+	<td style="width: <?php print $first_column_width ?>%; padding-left: 8px; font-weight:bold;">Media classe</td>
 <?php 
 reset($materie);
 foreach ($materie as $materia){
 	$sel_voti = "SELECT ROUND(AVG(voto), 2) FROM rb_voti, rb_alunni WHERE alunno = id_alunno AND id_classe = ".$_SESSION['__classe__']->get_ID()." AND materia = ".$materia['id_materia']." AND anno = ".$_SESSION['__current_year__']->get_ID()." $int_time ";
 	try{
 		$class_avg = $db->executeCount($sel_voti);
+		if ($materia['id_materia'] == 26 || $materia['id_materia'] == 30) {
+			$voti_rel = RBUtilities::getReligionGrades();
+			$class_avg = $voti_rel[RBUtilities::convertReligionGrade($class_avg)];
+		}
 	} catch (MySQLException $ex){
 		$ex->redirect();
 	}
 ?>
-	<td style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold;<?php print $background ?>"><span class="<?php if($class_avg < 6 && $class_avg > 0) print("attention") ?>"><?php echo $class_avg ?></span></td>
+	<td style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold"><span class="<?php if($class_avg < 6 && $class_avg > 0) print("attention") ?>"><?php echo $class_avg ?></span></td>
 <?php 
 }
 ?>
