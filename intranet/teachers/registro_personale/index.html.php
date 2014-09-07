@@ -497,8 +497,8 @@ if($numero_alunni > 0){
 </tr>
 <tr class="nav_tr">
 	<td colspan="<?php echo $tot_col ?>" style="text-align: center; height: 40px">
-		<input type="hidden" name="id_materia" value="<?php print $idm ?>" />
-		<input type="hidden" name="materia" value="<?php print $_mat ?>" />
+		<input type="hidden" name="id_materia" value="<?php if (isset($idm)) echo $idm ?>" />
+		<input type="hidden" name="materia" value="<?php if (isset($_mat)) echo $_mat ?>" />
 			<a href="index.php?q=1&subject=<?php echo $_SESSION['__materia__'] ?>" style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
 				<img style="margin-right: 5px; position: relative; top: 5px" src="../../../images/quad.png" />1 Quadrimestre
 			</a>
