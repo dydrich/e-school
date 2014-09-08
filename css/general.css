@@ -119,7 +119,7 @@ a.standard_link {
 }
 
 .no_border {
-    border: 0
+    border: 0 !important;
 }
 
 form.no_border {
