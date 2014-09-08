@@ -71,8 +71,6 @@ $sel_somma_uscite  = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC((TIMEDIFF(CASE WHEN rb_
 $res_somma_uscite = $db->executeQuery($sel_somma_uscite);
 $somma_uscite = $res_somma_uscite->fetch_assoc();
 //print $sel_uscite;
-setlocale(LC_TIME, "it_IT");
+setlocale(LC_TIME, "it_IT.utf8");
 
 include "dettaglio_rit_uscite.html.php";
-
-?>
