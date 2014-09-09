@@ -5,31 +5,40 @@
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 <link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript">
-function show_t(div){
+
+$(function(){
+	load_jalert();
+	$('#birthday').datepicker({
+		dateFormat: "dd/mm/yy",
+		changeYear: true,
+		yearRange: "1940:<?php echo date("Y") ?>"
+	})
+});
+
+var show_t = function(div){
 	act = "hide";
-	if($(div).style.display == "none"){
+	if($('#'+div).is(":hidden")){
 		act = "show";
 	}
 	for(var i = 1; i < 9; i++){
-		if(act == "hide" && div.id == ("pfield"+i))
+		if(act == "hide" && div == ("pfield"+i))
 			continue;
-		$('pfield'+i).hide();
+		$('#pfield'+i).hide();
 	}
-	if(act == "show")
-		Effect.Appear(div, { duration: 1.0 });
-	else
-		Effect.Fade(div, { duration: 1.0 });
-}
+	if(act == "show") {
+		$('#'+div).show(1000);
+	}
+	else {
+		$('#'+div).hide(1000);
+	}
+};
 
-function _submit(form){
+var _submit = function(form){
 	// stringhe permessi
 	<?php 
 	$perms_string = strval(DOC_PERM);
@@ -40,35 +49,50 @@ function _submit(form){
 	var students = <?php print STD_PERM ?>;
 	var ata = <?php print ATA_PERM ?>;
 	for(i = 1; i < 9; i++){
-		if($('par'+i).checked)
+		if($('#par'+i).checked)
 			perms[i] += parents;
-		if($('stu'+i).checked)
+		if($('#stu'+i).checked)
 			perms[i] += students;
-		if($('ata'+i).checked)
+		if($('#ata'+i).checked)
 			perms[i] += ata;
 	}
-	$('perms').value = perms.join(",");
-	var req = new Ajax.Request('profile_manager.php',
-			  {
-			    	method:'post',
-			    	parameters: $('profile_form').serialize(true),
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		var dati = response.split("#");
-			     		if(dati[0] == "ko"){
-				     		alert("Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
-				     		return;
-			     		}
-			     		else{
-			     			alert("Operazione completata con successo");
-			     		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+	$('#perms').val(perms.join(","));
+	$.ajax({
+		type: "POST",
+		url: 'profile_manager.php',
+		data: $('#profile_form').serialize(true),
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else if(json.status == "ko") {
+				j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+				return;
+			}
+			else {
+				j_alert("alert", "Operazione completata con successo");
+			}
+		}
+	});
+};
 </script>
 <style>
-input {font-size: 0.9em }	
+	.ui-datepicker-year {
+		color: white
+	}
 </style>
 </head>
 <body>
@@ -85,9 +109,9 @@ input {font-size: 0.9em }
 <tr>
 <td style="">
 <div class="field" id="field1">
-	<a href="#" onclick="show_t($('pfield1'))" style="font-weight: bolder; font-size: 1.1em;  background-color: rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
+	<a href="#" onclick="show_t('pfield1')" style="font-weight: bolder; font-size: 1.1em;  background-color: rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
 	<span style="font-weight: bold; padding: 0 10px 0 0">Data di nascita</span>
-	<input type="text" style="width: 205px; float: right" name="birthday" value="<?php if(isset($birthday)) print $birthday ?>" />
+	<input type="text" style="width: 205px; float: right" name="birthday" id="birthday" value="<?php if(isset($birthday)) print $birthday ?>" />
 	<div style="display: none; padding-top: 5px" id="pfield1">Visibile per...
 	<table style="width: 95%; margin-top: 5px; margin-left: auto; margin-right: auto; border-collapse: collapse">
 	<tr>
@@ -110,7 +134,7 @@ input {font-size: 0.9em }
 <tr>
 <td style="">
 <div class="field" id="field2">
-	<a href="#" onclick="show_t($('pfield2'))" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
+	<a href="#" onclick="show_t('pfield2')" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
 	<span style="font-weight: bold; padding-right: 10px">Indirizzo</span>
 	<input type="text" style="width: 205px; float: right" name="address" value="<?php if(isset($address)) print $address ?>" />
 	<div style="display: none; padding-top: 5px" id="pfield2">Visibile per...
@@ -135,7 +159,7 @@ input {font-size: 0.9em }
 <tr>
 <td style="">
 <div class="field" id="field3">
-	<a href="#" onclick="show_t($('pfield3'))" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
+	<a href="#" onclick="show_t('pfield3')" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
 	<span style="font-weight: bold; padding-right: 10px">Telefono fisso</span>
 	<input type="text" style="border: 1px solid #AAAAAA; width: 205px; float: right" name="phone" value="<?php if(isset($phone)) print $phone ?>" />
 	<div style="display: none; padding-top: 5px" id="pfield3">Visibile per...
@@ -160,7 +184,7 @@ input {font-size: 0.9em }
 <tr>
 <td style="">
 <div class="field" id="field4">
-	<a href="#" onclick="show_t($('pfield4'))" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
+	<a href="#" onclick="show_t('pfield4')" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
 	<span style="font-weight: bold; padding-right: 10px">Cellulare</span>
 	<input type="text" style="width: 205px; float: right" name="cellphone" value="<?php if(isset($cellphone)) print $cellphone ?>" />
 	<div style="display: none; padding-top: 5px" id="pfield4">Visibile per...
@@ -187,7 +211,7 @@ input {font-size: 0.9em }
 <tr>
 <td style="">
 <div class="field" id="field5">
-	<a href="#" onclick="show_t($('pfield5'))" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
+	<a href="#" onclick="show_t('pfield5')" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
 	<span style="font-weight: bold; padding-right: 10px">Email</span>
 	<input type="text" style="border: 1px solid #AAAAAA; width: 205px; float: right" name="email"  value="<?php if(isset($email)) print $email ?>" />
 	<div style="display: none; padding-top: 5px" id="pfield5">Visibile per...
@@ -212,7 +236,7 @@ input {font-size: 0.9em }
 <tr>
 <td style="">
 <div class="field" id="field6">
-	<a href="#" onclick="show_t($('pfield6'))" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
+	<a href="#" onclick="show_t('pfield6')" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
 	<span style="font-weight: bold; padding-right: 10px">Messenger</span>
 	<input type="text" style="width: 205px; float: right" name="messenger"  value="<?php if(isset($messenger)) print $messenger ?>" />
 	<div style="display: none; padding-top: 5px" id="pfield6">Visibile per...
@@ -237,7 +261,7 @@ input {font-size: 0.9em }
 <tr>
 <td style="">
 <div class="field" id="field7">
-	<a href="#" onclick="show_t($('pfield7'))" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
+	<a href="#" onclick="show_t('pfield7')" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
 	<span style="font-weight: bold; padding-right: 10px">Sito Web</span>
 	<input type="text" style="width: 205px; float: right"  name="web"  value="<?php if(isset($website)) print $website ?>" />
 	<div style="display: none; padding-top: 5px" id="pfield7">Visibile per...
@@ -262,7 +286,7 @@ input {font-size: 0.9em }
 <tr>
 <td style="">
 <div class="field" id="field8">
-	<a href="#" onclick="show_t($('pfield8'))" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
+	<a href="#" onclick="show_t('pfield8')" style="font-weight: bolder; font-size: 1.1em; background-color:  rgba(30, 67, 137, .8); color: white; text-decoration: none">+</a>
 	<span style="font-weight: bold; padding-right: 10px">Blog</span>
 	<input type="text" style="width: 205px; float: right" name="blog"  value="<?php if(isset($blog)) print $blog ?>" />
 	<div style="display: none; padding-top: 5px" id="pfield8">Visibile per...

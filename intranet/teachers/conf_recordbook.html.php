@@ -5,39 +5,49 @@
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 <link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript">
 var save_data = function(){
 	var url = "../../shared/save_user_config.php";
-	$('field').value = "registro_obiettivi";
-	req = new Ajax.Request(url,
-		  {
-		    	method:'post',
-		    	parameters: $('st_form').serialize(true),
-		    	onSuccess: function(transport){
-			    	var response = transport.responseText || "no response text";
-			    	dati = response.split("#");
-		    		if(dati[0] == "kosql"){
-			    		sqlalert();
-		    			console.log('Modificata non riuscita: '+dati[1], 2);
-		    			return;
-		    		}
-		    		else{
-		    			_alert('Configurazione completata', 2);
-		    		}
-		    	},
-		    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-		  });
+	$('#field').val("registro_obiettivi");
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: $('#st_form').serialize(true),
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				sqlalert();
+				console.log(json.dbg_message);
+			}
+			else if(json.status == "ko") {
+				j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+				return;
+			}
+			else {
+				j_alert("alert", json.message);
+			}
+		}
+	});
 };
 
-document.observe("dom:loaded", function(){
-	$('save_btn').observe("click", function(event){
+$(function(){
+	load_jalert();
+	$('#save_btn').click(function(event){
 		event.preventDefault();
 		save_data();
 	});
@@ -55,14 +65,19 @@ document.observe("dom:loaded", function(){
 		<div class="group_head">
 		Configurazione registro 
 		</div>
-		<form method="post" name="st_form" id="st_form">
+		<form method="post" name="st_form" id="st_form" class="no_border">
 		<div style="width: 45%; margin: 15px auto; border: 1px solid rgba(30, 67, 137, .5); padding: 20px">
 			<span>Vuoi attivare gli obiettivi didattici?</span>
 			<ul>
 		<?php 
 		
 		?>
-		<li><label for="active" style="margin-right: 10px">SI<input type="radio" name="active" id="active" value="1" <?php if (1 == $active) echo "checked" ?> /></label><label for="active" style="margin: 0 10px 0 40px">NO<input type="radio" name="active" id="active" value="0" <?php if (0 == $active) echo "checked" ?> /></label></li>
+				<li>
+					<label for="active" style="margin-right: 10px">SI</label>
+					<input type="radio" name="active" id="active" value="1" <?php if (1 == $active) echo "checked" ?> />
+					<label for="active" style="margin: 0 10px 0 40px">NO</label>
+					<input type="radio" name="active" id="active" value="0" <?php if (0 == $active) echo "checked" ?> />
+				</li>
 		</ul>
 		<div style="text-align: right; width: 100%; height: 20px; margin-right: 30px; margin-top: 20px"><a href="../../shared/no_js.php" id="save_btn" style="text-transform: uppercase; text-decoration: none">Salva</a></div>
 		</div>

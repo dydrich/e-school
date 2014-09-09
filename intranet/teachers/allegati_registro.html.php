@@ -5,16 +5,12 @@
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 <link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript">
 var IE = document.all?true:false;
-if (!IE) document.captureEvents(Event.MOUSEMOVE);
 var all = 0;
 var ff = "";
 
@@ -31,11 +27,11 @@ var show_menu = function(e, _all, _ff){
     }  
     // catch possible negative values in NS4
     if (tempX < 0){tempX = 0;}
-    if (tempY < 0){tempY = 0;}  
-    $('context_menu').style.top = parseInt(tempY)+"px";
-    //alert(hid.style.top);
-    $('context_menu').style.left = parseInt(tempX)+"px";
-    $('context_menu').style.display = "inline";
+    if (tempY < 0){tempY = 0;}
+	$('#context_menu').css({top: parseInt(tempY)+"px"});
+	//alert(hid.style.top);
+	$('#context_menu').css({left: parseInt(tempX)+"px"});
+	$('#context_menu').show();
     all = _all;
     ff = _ff;
     return false;
@@ -47,45 +43,51 @@ var download_file = function(){
 	<?php else: ?>
 	document.location.href = "../../modules/documents/download_manager.php?doc=teacherbook_att&area=teachers&f="+ff+"&cls=<?php echo $_GET['cls'] ?>&std=<?php echo $_REQUEST['std'] ?>";
 	<?php endif; ?>
-	$('context_menu').style.display = "none";
+	$('#context_menu').hide();
 };
 
 var delete_file = function(){
-	$('context_menu').style.display = "none";
-	var req = new Ajax.Request('../../modules/documents/document_manager.php',
-			  {
-			    	method:'post',
-			    	parameters: {cls: <?php echo $_GET['cls'] ?>, sub: <?php echo $_GET['sub'] ?>, std: <?php echo $_GET['std'] ?>, doc_type: 'teacherbook_att', action: 2, id: all, f: ff},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		var dati = response.split("|");
-			      		if (dati[0] == "ok"){
-							_alert ("File cancellato");
-			      		}
-			      		$("att_"+all).style.display = "none";			      		
-			    	},
-			    	onFailure: function(){ _alert("Si e' verificato un errore..."); return; }
-			  });
+	$('#context_menu').hide();
+	$.ajax({
+		type: "POST",
+		url: '../../modules/documents/document_manager.php',
+		data: {cls: <?php echo $_GET['cls'] ?>, sub: <?php echo $_GET['sub'] ?>, std: <?php echo $_GET['std'] ?>, doc_type: 'teacherbook_att', action: 2, id: all, f: ff},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else if(json.status == "ko") {
+				j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+				return;
+			}
+			else {
+				j_alert("alert", "File cancellato")
+			}
+			$("#att_"+all).hide();
+		}
+	});
 };
 
 var loaded = false;
 function loading(time){
-	openInfoDialog("Attendere il caricamento del file...", time);
+	background_process("Attendere il caricamento del file...", time);
 }
 
-document.observe("dom:loaded", function(){
-	$$('a.clog').invoke("observe", "click", function(event){
-		//alert(this.id);
-		event.preventDefault();
-		var strs = this.id.split("_");
-		createLog(strs[1], strs[2]);
-	});
-	$$('a.dlog').invoke("observe", "click", function(event){
-		//alert(this.id);
-		event.preventDefault();
-		var strs = this.id.split("_");
-		downloadLog(strs[1], strs[2]);
-	});
+$(function(){
+	load_jalert();
 });
 
 </script>
@@ -134,7 +136,7 @@ document.observe("dom:loaded", function(){
 </div>
 <?php include "footer.php" ?>
 <!-- menu contestuale -->
-    <div id="context_menu" style="position: absolute; width: 210px; height: 50px; display: none; ">
+    <div id="context_menu" class="context_menu" style="position: absolute; width: 210px; height: 50px; display: none; ">
     	<a style="font-weight: normal; text-decoration: none" href="#" onclick="download_file()">Scarica file</a><br />
     	<a style="font-weight: normal; text-decoration: none" href="#" onclick="delete_file()">Elimina file</a><br />
     </div>

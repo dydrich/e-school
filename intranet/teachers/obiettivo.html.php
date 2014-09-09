@@ -5,21 +5,17 @@
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti - obiettivi didattici</title>
 <link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/md5-min.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript">
 var _checked = <?php if (isset($goal)) echo count($goal['classi']); else echo "0" ?>;
 var registra = function(){
 	msg = "Ci sono degli errori. Ricontrolla il form\n";
 	index = 0;
 	ok = true;
-	if(trim($F('obj')).empty()){
+	if($('#obj').val() == ""){
 		index++;
 		msg += index+". Non hai inserito alcun obiettivo.\n";
 		ok = false;
@@ -33,43 +29,73 @@ var registra = function(){
 		alert(msg);
 		return false;
 	}
-	
-	req = new Ajax.Request('goal_manager.php',
-			  {
-			    	method:'post',
-			    	parameters: $('my_form').serialize(true),
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		_alert("Operazione eseguita con successo");
-		            	if(dati[1] == "redirect"){
-							window.location = "index.php";
-		            	}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+	$.ajax({
+		type: "POST",
+		url: 'goal_manager.php',
+		data: $('#my_form').serialize(true),
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else if(json.status == "ko") {
+				j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+				return;
+			}
+			else {
+				j_alert("alert", "Operazione eseguita");
+			}
+		}
+	});
 };
 
 var cancella = function(){
 	if(!confirm("Sei sicuro di voler cancellare questo obiettivo?")){
 		return false;
 	}
-	$('action').value = 2;
-	alert($('action').value);
-	req = new Ajax.Request('goal_manager.php',
-			  {
-			    	method:'post',
-			    	parameters: $('my_form').serialize(true),
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		_alert("Operazione eseguita con successo");
-		            	window.location = "obiettivi.php";
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+	$('#action').val(2);
+	$.ajax({
+		type: "POST",
+		url: 'goal_manager.php',
+		data: $('#my_form').serialize(true),
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else if(json.status == "ko") {
+				j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+				return;
+			}
+			else {
+				j_alert("alert", "Operazione eseguita");
+			}
+		}
+	});
 };
 
 var upd_check = function(elem){
@@ -80,6 +106,10 @@ var upd_check = function(elem){
 		_checked--;
 	}
 };
+
+$(function(){
+	load_jalert();
+});
 </script>
 </head>
 <body>

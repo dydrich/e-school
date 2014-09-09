@@ -24,7 +24,8 @@ if ($ordine_scuola == 2){
 }
 
 ini_set("display_errors", DISPLAY_ERRORS);
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "");
 
 $rb = RBUtilities::getInstance($db);
 
@@ -52,7 +53,18 @@ else if (isset($_POST['std'])){
 	$type = "support";
 }
 
-$log_manager = new TeacherRecordBookManager($user, $db, $path, $_SESSION['__current_year__'], $_SESSION['__school_year__'][$ordine_scuola], $type);
-$log_manager->createRecordBook($cls, $field);
+try {
+	$log_manager = new TeacherRecordBookManager($user, $db, $path, $_SESSION['__current_year__'], $_SESSION['__school_year__'][$ordine_scuola], $type);
+	$log_manager->createRecordBook($cls, $field);
+} catch (MySQLException $ex) {
+	$response['status'] = "kosql";
+	$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
+	$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+	$res = json_encode($response);
+	echo $res;
+	exit;
+}
 
-echo "ok";
+$res = json_encode($response);
+echo $res;
+exit;

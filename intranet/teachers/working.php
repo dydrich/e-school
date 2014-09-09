@@ -137,11 +137,33 @@ $classi = $msarray->getData();
 	</ul>
 <?php
 }
+if ($_SESSION['__user__']->getSchoolOrder() == 2) {
+?>
+	<p class="menu_label act_icon">Programmazione</p>
+	<ul class="menublock" style="" dir="rtl">
+		<?php
+		$modules = $_SESSION['__user__']->getModules();
+		if (count($modules) > 0) {
+			foreach ($modules as $k => $module) {
+				$provv = array();
+				foreach ($module as $cl) {
+					$provv[] = $_SESSION['__user__']->getClasses()[$cl]['classe'];
+				}
+				$link = "Mod. ".join(", ", $provv)."";
+		?>
+				<li><a href="<?php echo $_SESSION['__path_to_reg_home__'] ?>registro_programmazione.php?module=<?php echo $k ?>"><?php echo $link ?></a></li>
+		<?php
+			}
+		}
+		?>
+	</ul>
+<?php
+}
 ?>
 <?php if(is_installed("com")){ ?> 	
 	    <p class="menu_label com_icon">Comunicazioni</p>
-	    	<ul class="menublock" style="" dir="rtl">
-	    		<li><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=teachers">Home</a>&nbsp;&nbsp;&nbsp;</li>
-	    	</ul>
+        <ul class="menublock" style="" dir="rtl">
+            <li><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=teachers">Home</a>&nbsp;&nbsp;&nbsp;</li>
+        </ul>
 <?php } ?>
 </div>

@@ -5,16 +5,12 @@
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 <link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript">
 	var IE = document.all?true:false;
-	if (!IE) document.captureEvents(Event.MOUSEMOVE);
 	var cls = 0;
 	var std = 0;
 
@@ -32,10 +28,10 @@
 		// catch possible negative values in NS4
 		if (tempX < 0){tempX = 0;}
 		if (tempY < 0){tempY = 0;}
-		$('context_menu').style.top = parseInt(tempY)+"px";
+		$('#context_menu').css({top: parseInt(tempY)+"px"});
 		//alert(hid.style.top);
-		$('context_menu').style.left = parseInt(tempX)+"px";
-		$('context_menu').style.display = "inline";
+		$('#context_menu').css({left: parseInt(tempX)+"px"});
+		$('#context_menu').show();
 		cls = _all;
 		std = _ff;
 		return false;
@@ -44,13 +40,13 @@
 	var downloadLog = function(){
 		file = "registro-sostegno_<?php echo $_SESSION['__current_year__']->get_ID() ?>_<?php echo $_SESSION['__user__']->getUid() ?>_"+cls+"_"+std;
 		document.location.href = "../../modules/documents/download_manager.php?doc=teacherbook&area=teachers&f="+file;
-		$('context_menu').style.display = "none";
+		$('#context_menu').hide();
 	};
 
 	var downloadAll = function(){
 		file = "registro-sostegno_<?php echo $_SESSION['__current_year__']->get_ID() ?>_<?php echo $_SESSION['__user__']->getUid() ?>_"+cls+"_"+std;
 		document.location.href = "../../modules/documents/download_manager.php?doc=teacherbookall&area=teachers&f="+file+"&support=1";
-		$('context_menu').style.display = "none";
+		$('#context_menu').hide();
 	};
 
 	var attach = function(){
@@ -59,31 +55,49 @@
 
 	var createLog = function(){
 		loading(20);
-		var req = new Ajax.Request('print_log.php',
-			{
-				method:'post',
-				parameters: {cls: cls, std: std},
-				onSuccess: function(transport){
-					var response = transport.responseText || "no response text";
-					var dati = response.split("|");
-					if (dati[0] == "ok"){
-						$('msg_div').update("Il registro e` stato creato");
-						timeout = 3;
-					}
-				},
-				onFailure: function(){ _alert("Si e' verificato un errore..."); return; }
-			});
-		$('context_menu').style.display = "none";
+		$.ajax({
+			type: "POST",
+			url: 'print_log.php',
+			data: {cls: cls, std: std},
+			dataType: 'json',
+			error: function() {
+				j_alert("error", "Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					alert(json.message);
+					console.log(json.dbg_message);
+				}
+				else if(json.status == "ko") {
+					j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+					return;
+				}
+				else {
+					$('#background_msg').text("Il registro è stato creato");
+					timeout = 3;
+				}
+			}
+		});
+		$('#context_menu').hide();
 	};
 
-	document.observe("dom:loaded", function(){
-		$$('a.dlog').invoke("observe", "click", function(event){
+	$(function(){
+		load_jalert();
+		$('a.dlog').click(function(event){
 			//alert(this.id);
 			event.preventDefault();
 			var strs = this.id.split("_");
 			show_menu(event, strs[1], strs[2]);
 		});
-		$('context_menu').observe("mouseleave", function(event){
+		$('#context_menu').mouseleave(function(event){
 			event.preventDefault();
 			this.hide();
 		})
@@ -91,7 +105,7 @@
 
 	var loaded = false;
 	function loading(time){
-		openInfoDialog("Attendere la creazione del registro...", time);
+		background_process("Attendere la creazione del registro...", time);
 	}
 
 </script>
@@ -152,7 +166,7 @@
 </div>
 <?php include "footer.php" ?>
 <!-- menu contestuale -->
-<div id="context_menu" style="position: absolute; width: 210px; height: 60px; display: none; ">
+<div id="context_menu" class="context_menu" style="position: absolute; width: 210px; height: 60px; display: none; ">
 	<a style="font-weight: normal; text-decoration: none" href="#" onclick="attach()">Gestisci allegati</a><br />
 	<a style="font-weight: normal; text-decoration: none" href="#" onclick="downloadLog()">Scarica solo il registro</a><br />
 	<a style="font-weight: normal; text-decoration: none" href="#" onclick="downloadAll()">Scarica registro e allegati</a><br />

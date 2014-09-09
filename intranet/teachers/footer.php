@@ -13,3 +13,4 @@
 		<span class="_bold" id="errormessage" style="font-size: 1.2em"></span>
 	</p>
 </div>
+<div id='background_msg' style='width: 200px; text-align: center; font-size: 12px; font-weight: bold; padding-top: 30px; margin: auto'></div>

@@ -165,13 +165,13 @@ table a {
 		<div style="width: 31%; float: left; position: relative; top: 25%">Marted&igrave;</div>
 		<div style="width: 31%; float: left; position: relative; top: 25%">Mercoled&igrave;</div>
 	</div>
-	<form method="post">
+	<form method="post" class="no_border">
         <table style="margin: 10px auto 0 auto; text-align: center; font-size: 1em; width: 90%">
         <?php 
         for($i = 0; $i < $ore; $i++){
         	reset($orario_doc);
         ?>
-	        <tr>
+	        <tr style="border-top: 1px solid #c0c0c0">
 	        	<td style="width: 7%; border-bottom: 1px solid; border-right: 1px solid; border-left: 1px solid; border-color: #c0c0c0"><?php print $i+1 ?></td>
 	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid;; border-color: #c0c0c0"><a style="font-weight: normal" href="#" onclick="mod_ora(1, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[1][$i + 1])) print ($orario_doc[1][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[1][$i + 1])) print ($orario_doc[1][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[1][$i + 1])) print ($orario_doc[1][$i + 1]['descrizione']); else print ""; ?>')" id="ora_1_<?php print ($i + 1) ?>"><?php if(isset($orario_doc[1][$i + 1])) {print ($orario_doc[1][$i + 1]['cl'].$orario_doc[1][$i + 1]['sezione']." -- ".substr($orario_doc[1][$i + 1]['mat'], 0, 19)); if($orario_doc[1][$i + 1]['descrizione'] != "") print(" (".$orario_doc[1][$i + 1]['descrizione'].")");} else print "--"; ?></a></td>
 	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid;; border-color: #c0c0c0"><a style="font-weight: normal" href="#" onclick="mod_ora(2, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[2][$i + 1])) print ($orario_doc[2][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[2][$i + 1])) print ($orario_doc[2][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[2][$i + 1])) print ($orario_doc[2][$i + 1]['descrizione']); else print ""; ?>')" id="ora_2_<?php print ($i + 1) ?>"><?php if(isset($orario_doc[2][$i + 1])) {print ($orario_doc[2][$i + 1]['cl'].$orario_doc[2][$i + 1]['sezione']." -- ".substr($orario_doc[2][$i + 1]['mat'], 0, 19)); if($orario_doc[2][$i + 1]['descrizione'] != "") print(" (".$orario_doc[2][$i + 1]['descrizione'].")");}else print "--"; ?></a></td>
@@ -195,7 +195,7 @@ table a {
 	        for($i = 0; $i < $ore; $i++){
 	        	reset($orario_doc);
 	        ?>
-	        <tr>
+	        <tr style="border-top: 1px solid #c0c0c0">
 	        	<td style="width: 7%; border-bottom: 1px solid; border-left: 1px solid; border-right: 1px solid; border-color: #c0c0c0"><?php print $i+1 ?></td>
 	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid; border-color: #c0c0c0"><a style="font-weight: normal" href="#" onclick="mod_ora(4, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[4][$i + 1])) print ($orario_doc[4][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[4][$i + 1])) print ($orario_doc[4][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[4][$i + 1])) print ($orario_doc[4][$i + 1]['descrizione']); else print ""; ?>')" id="ora_4_<?php print ($i + 1) ?>"><?php if(isset($orario_doc[4][$i + 1])) {print ($orario_doc[4][$i + 1]['cl'].$orario_doc[4][$i + 1]['sezione']." -- ".substr($orario_doc[4][$i + 1]['mat'], 0, 19)); if($orario_doc[4][$i + 1]['descrizione'] != "") print(" (".$orario_doc[4][$i + 1]['descrizione'].")");}else print "--"; ?></a></td>
 	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid; border-color: #c0c0c0"><a style="font-weight: normal" href="#" onclick="mod_ora(5, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[5][$i + 1])) print ($orario_doc[5][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[5][$i + 1])) print ($orario_doc[5][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[5][$i + 1])) print ($orario_doc[5][$i + 1]['descrizione']); else print ""; ?>')" id="ora_5_<?php print ($i + 1) ?>"><?php if(isset($orario_doc[5][$i + 1])) {print ($orario_doc[5][$i + 1]['cl'].$orario_doc[5][$i + 1]['sezione']." -- ".substr($orario_doc[5][$i + 1]['mat'], 0, 19)); if($orario_doc[5][$i + 1]['descrizione'] != "") print(" (".$orario_doc[5][$i + 1]['descrizione'].")");}else print "--"; ?></a></td>

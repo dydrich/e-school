@@ -26,26 +26,26 @@ if ($subject == 12) {
 		$ex->redirect();
 	}
 	while ($row = $res->fetch_assoc()){
-		if (!$goals[$row['materia']]){
+		if (!isset($goals[$row['materia']])){
 			$goals[$row['materia']] = array();
 		}
 		if ($row['id_padre'] == ""){
-			if (!$goals[$row['materia']][$row['id']]){
+			if (!isset($goals[$row['materia']][$row['id']])){
 				$goals[$row['materia']][$row['id']] = $row;
 			}
-			if (!$goals[$row['materia']][$row['id']]['classi']){
+			if (!isset($goals[$row['materia']][$row['id']]['classi'])){
 				$goals[$row['materia']][$row['id']]['classi'] = array();
 			}
 			$goals[$row['materia']][$row['id']]['classi'][] = $row['dcls'];
 		}
 		else {
-			if (!$goals[$row['materia']][$row['id_padre']]['children']){
+			if (!isset($goals[$row['materia']][$row['id_padre']]['children'])){
 				$goals[$row['materia']][$row['id_padre']]['children'] = array();
 			}
-			if (!$goals[$row['materia']][$row['id_padre']]['children'][$row['id']]){
+			if (!isset($goals[$row['materia']][$row['id_padre']]['children'][$row['id']])){
 				$goals[$row['materia']][$row['id_padre']]['children'][$row['id']] = $row;
 			}
-			if (!$goals[$row['materia']][$row['id_padre']]['children'][$row['id']]['classi']){
+			if (!isset($goals[$row['materia']][$row['id_padre']]['children'][$row['id']]['classi'])){
 				$goals[$row['materia']][$row['id_padre']]['children'][$row['id']]['classi'] = array();
 			}
 			$goals[$row['materia']][$row['id_padre']]['children'][$row['id']]['classi'][] = $row['dcls'];
