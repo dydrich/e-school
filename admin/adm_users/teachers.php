@@ -43,7 +43,7 @@ if($pagine < 1)
     $pagine = 1;
 
 // estraggo le materie
-$sel_m = "SELECT id_materia, materia, tipologia_scuola FROM rb_materie WHERE idpadre IS NULL AND (id_materia > 2) ORDER BY materia";
+$sel_m = "SELECT id_materia, materia, tipologia_scuola FROM rb_materie WHERE idpadre IS NULL AND (id_materia > 2 AND id_materia <> 40) ORDER BY materia";
 $res_m = $db->execute($sel_m);
 
 // tipologie scuola

@@ -22,7 +22,7 @@ if($tip_sc != 999){
 	$params = "AND tipologia_scuola = {$tip_sc}";
 }
 
-$sel_m = "SELECT id_materia, rb_materie.materia FROM rb_materie WHERE idpadre IS NULL AND (id_materia <> 1) {$params} ORDER BY rb_materie.materia";
+$sel_m = "SELECT id_materia, rb_materie.materia FROM rb_materie WHERE idpadre IS NULL AND (id_materia > 2 AND id_materia <> 40) {$params} ORDER BY rb_materie.materia";
 try{
 	$res_m = $db->executeQuery($sel_m);
 } catch(MYSQLException $ex){
