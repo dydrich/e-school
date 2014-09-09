@@ -46,7 +46,10 @@ foreach($rows as $row){
 		
 		$insert = "INSERT INTO rb_alunni (username, password, cognome, nome, data_nascita, luogo_nascita, codice_fiscale, sesso, id_classe, attivo, accessi, ripetente) VALUES ('$username', '$pwd', '$cognome', '$nome', ".field_null($data, true).", ".field_null($luogo, true).", ".field_null($cf, true).", '$sex', ".field_null($id_classe, false).", '1', 0, $rip)";
 		try{
-			$db->executeUpdate($insert);
+			$uid = $db->executeUpdate($insert);
+			if (is_installed("com")) {
+				//$db->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_alunni', 'student')");
+			}
 			fwrite($log, "{$cognome} {$nome} (".substr($cod_classe, 0, 2)."): {$username}:{$pwd_chiaro}\n");
 			$ok++;
 		} catch (MySQLException $ex) {
@@ -80,7 +83,10 @@ foreach($rows as $row){
 		
 		$insert = "INSERT INTO rb_alunni (username, password, cognome, nome, codice_fiscale, data_nascita, luogo_nascita, sesso, id_classe, attivo, accessi) VALUES ('{$username}', '{$pwd}', '{$cognome}', '{$nome}', NULL, '{$data}', '{$luogo}', '$sex', $id_classe, '1', 0)";
 		try{
-			$db->executeUpdate($insert);
+			$uid = $db->executeUpdate($insert);
+			if (is_installed("com")) {
+				$db->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_alunni', 'student')");
+			}
 			//echo $insert;
 			fwrite($log, $insert."=>{$pwd_chiaro}\n");
 			$ok++;

@@ -40,6 +40,12 @@ switch($_REQUEST['action']){
 			$db->executeUpdate("INSERT INTO rb_gruppi_utente (gid, uid) VALUES (4, {$recordset})");
 			/* insert profile for email */
 			$db->executeUpdate("INSERT INTO rb_profili (id, email) VALUES ({$recordset}, '{$to}')");
+			/*
+			 * rb_com_users
+			 */
+			if (is_installed("com")) {
+				$db->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_utenti', 'parent')");
+			}
 			$db->executeUpdate("COMMIT");
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");

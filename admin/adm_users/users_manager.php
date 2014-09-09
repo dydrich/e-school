@@ -11,6 +11,18 @@ if($_REQUEST['action'] != 2){
 	$nome = utf8_encode($db->real_escape_string(trim($_POST['nome'])));
 	$cognome = utf8_encode($db->real_escape_string(trim($_POST['cognome'])));
 	$gruppi = implode(",", $_POST['gruppi']);
+	/*
+	 * rb_com_users
+	 */
+	$type = "";
+	foreach ($_POST['gruppi'] as $_g) {
+		if ($_g == 2 || $_g == 3 || $_g == 5 || $_g == 6 || $_g == 7) {
+			$type = "school";
+		}
+		else if ($_g == 4) {
+			$type = "parent";
+		}
+	}
 }
 $uid = $_REQUEST['_i'];
 header("Content-type: text/plain");
@@ -34,6 +46,10 @@ switch($_POST['action']){
 			$statement = "INSERT INTO rb_utenti (username, password, nome, cognome, accessi, permessi) VALUES ('$uname', '$pwd', '$nome', '$cognome', 0, $sum)";
            	$recordset = $db->executeUpdate($statement);
            	$uid = $recordset;
+			if (is_installed("com")) {
+				echo "INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_utenti', '$type')";
+				$db->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_utenti', '$type')");
+			}
         } catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
 			$ex->fake_alert();
