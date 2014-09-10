@@ -52,7 +52,11 @@ try{
 }
 
 // elenco docenti per sostegno
-$sel_teac = "SELECT uid, nome, cognome FROM rb_utenti, rb_docenti WHERE id_docente = uid AND (materia = 27 OR materia = 41)  ORDER BY cognome, nome";
+$sostegno = 27;
+if ($_SESSION['school_order'] == 2) {
+	$sostegno = 41;
+}
+$sel_teac = "SELECT uid, nome, cognome FROM rb_utenti, rb_docenti WHERE id_docente = uid AND materia = ".$sostegno."  ORDER BY cognome, nome";
 $res_teac = $db->execute($sel_teac);
 
 $navigation_label = "Area amministrazione: gestione classi";
