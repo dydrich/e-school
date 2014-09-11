@@ -61,11 +61,13 @@ class AccountManager{
 	public function changePassword($newPwd){
 		if ($this->user_ instanceof StudentBean){
 			$table = 'rb_alunni';
+			$field = 'id_alunno';
 		}
 		else {
 			$table = 'rb_utenti';
+			$field = 'uid';
 		}
-		$smt = $this->datasource_->prepare("UPDATE {$table} SET password = ? WHERE uid = ?");
+		$smt = $this->datasource_->prepare("UPDATE {$table} SET password = ? WHERE $field = ?");
 		$smt->bind_param("si", $newPwd, $this->user_->getUid());
 		$smt->execute();
 	}
