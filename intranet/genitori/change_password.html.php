@@ -20,10 +20,6 @@ var registra = function(){
 		alert("Password non valida.");
 		return false;
 	}
-	else if($('#new_pwd').val().match(patt)){
-		alert("Password non valida: sono ammessi solo lettere e numeri");
-		return false;
-	}
 	if($('#new_pwd').val() != $('#cfm_pwd').val()){
 		alert("Le password inserite sono differenti. Ricontrolla.");
 		return false;
