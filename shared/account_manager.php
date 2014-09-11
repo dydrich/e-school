@@ -97,4 +97,28 @@ switch ($_REQUEST['action']) {
 			echo $res;
 			exit;
 		}
+		$res = json_encode($response);
+		echo $res;
+		exit;
+		break;
+	case "change_personal_password":
+		$pwd = $db->real_escape_string($_POST['new_pwd']);
+
+		try{
+			$user = $_SESSION['__user__'];
+			$account_manager = new AccountManager($user, new MySQLDataLoader($db));
+			$account_manager->changePassword($pwd);
+		} catch (MySQLException $ex){
+			$response['status'] = "kosql";
+			$response['message'] = "Si è verificato un errore. Riprova tra qualche minuto";
+			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$res = json_encode($response);
+			echo $res;
+			exit;
+		}
+		$response['message'] = "Password modificata";
+		$res = json_encode($response);
+		echo $res;
+		exit;
+		break;
 }
