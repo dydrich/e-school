@@ -73,7 +73,7 @@
 	</div>
 	<div id="left_col">
 		<div class="group_head">Modifica password</div>
-		<form id="my_form" method="post" action="../../shared/new_pwd.php" style="border: 1px solid #666666; border-radius: 10px; margin-top: 30px; text-align: left; width: 460px; margin-left: auto; margin-right: auto">
+		<form id="my_form" method="post" action="../../shared/account_manager.php" style="border: 1px solid #666666; border-radius: 10px; margin-top: 30px; text-align: left; width: 460px; margin-left: auto; margin-right: auto">
 		<table style="width: 400px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 20px">
 			<tr>
 				<td style="width: 60%">Nuova password</td>

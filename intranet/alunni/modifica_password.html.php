@@ -5,51 +5,63 @@
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area studenti</title>
 <link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javascript" src="../../js/md5-min.js"></script>
 <script type="text/javascript">
-function registra(){
-	var patt = /[^a-zA-Z0-9]/;
-	if(trim(document.forms[0].new_pwd.value) == ""){
-		alert("Password non valida.");
-		return false;
+	$(function(){
+		load_jalert();
+	});
+	var registra = function(){
+		var patt = /[^a-zA-Z0-9]/;
+		if($('#new_pwd').val() == ""){
+			alert("Password non valida.");
+			return false;
+		}
+		else if($('#new_pwd').val().match(patt)){
+			alert("Password non valida: sono ammessi solo lettere e numeri");
+			return false;
+		}
+		if($('#new_pwd').val() != $('#cfm_pwd').val()){
+			alert("Le password inserite sono differenti. Ricontrolla.");
+			return false;
+		}
+		p = hex_md5($('#new_pwd').val());
+		// fake password
+		$('#new_pwd').val("calatafimi");
+		$.ajax({
+			type: "POST",
+			url: '../../shared/account_manager.php',
+			data: {new_pwd: p, action: "change_personal_password"},
+			dataType: 'json',
+			error: function() {
+				j_alert("error", "Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					alert(json.message);
+					console.log(json.dbg_message);
+				}
+				else if(json.status == "ko") {
+					j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+					return;
+				}
+				else {
+					j_alert("alert", json.message);
+				}
+			}
+		});
 	}
-	else if(document.forms[0].new_pwd.value.match(patt)){
-		alert("Password non valida: sono ammessi solo lettere e numeri");
-		return false;
-	}
-	if(trim(document.forms[0].new_pwd.value) != trim(document.forms[0].cfm_pwd.value)){
-		alert("Le password inserite sono differenti. Ricontrolla.");
-		return false;
-	}
-	p = hex_md5(document.forms[0].new_pwd.value);
-	// fake password
-	document.forms[0].new_pwd.value = "calatafimi";
-	var url = "../../shared/new_pwd.php";
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {new_pwd: p, table: "rb_alunni", campo: "id_alunno", p2: document.forms[0].new_pwd.value, from: "<?php print $_REQUEST['from'] ?>"},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		dati = response.split(";");
-			      		if(dati[0] == "ko"){
-			      			alert("Password non modificata: "+dati[1]);
-			            	window.close();
-			                return;
-			     		}
-			     		else{
-			     			alert("Password modificata correttamente");
-			            	if(dati[1] == "redirect"){
-								window.location = "index.php";
-			            	}
-			     		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
 </script>
 </head>
 <body>
@@ -63,7 +75,7 @@ function registra(){
 	<div class="group_head">
 		Modifica password
 	</div>
-	<form id="my_form" method="post" action="../../shared/new_pwd.php" style="border: 1px solid #666666; border-radius: 10px; margin-top: 30px; text-align: left; width: 460px; margin-left: auto; margin-right: auto">
+	<form id="my_form" method="post" action="../../shared/account_manager.php" style="border: 1px solid #666666; border-radius: 10px; margin-top: 30px; text-align: left; width: 460px; margin-left: auto; margin-right: auto">
 	<table style="width: 400px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 20px">
 		<tr>
 			<td style="width: 60%">Nuova password</td>
