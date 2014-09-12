@@ -42,7 +42,7 @@ class StudentManager
 	}
 	
 	public function deleteStudent(){
-		$this->datasource->executeUpdate("UPDATE rb_alunni SET attivo = '0', id_classe = NULL WHERE id_alunno = {$this->student->getUid()}");
+		$this->datasource->executeUpdate("UPDATE rb_alunni SET attivo = '0', password = 'NON ATTIVO', id_classe = NULL WHERE id_alunno = {$this->student->getUid()}");
 	}
 	
 	public function updateAccount(){
