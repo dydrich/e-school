@@ -16,10 +16,12 @@ $school_order = $_REQUEST['school_order'];
 if ($school_order == 1){
 	$term_cls = 3;
 	$attivo = 'L';
+	$pwd = 'LICENZIATO';
 }
 else {
 	$term_cls = 5;
 	$attivo = '0';
+	$pwd = 'PROVV';
 }
 
 $t_step = $_REQUEST['t_step'];
@@ -35,7 +37,7 @@ try{
 	$idp = $db->executeCount("SELECT MAX(id_pubblicazione) FROM rb_pagelle ");
 	$db->executeUpdate("UPDATE rb_alunni, rb_classi SET ripetente = 0 WHERE rb_alunni.id_classe = rb_classi.id_classe AND ordine_di_scuola = {$school_order}");
 	$sel_ripet = "UPDATE rb_alunni, rb_pagelle, rb_esiti, rb_classi SET ripetente = 1, rb_alunni.id_classe = NULL WHERE rb_alunni.id_alunno = rb_pagelle.id_alunno AND rb_pagelle.esito = id_esito AND positivo = 0 AND rb_alunni.id_classe = rb_classi.id_classe AND ordine_di_scuola = {$school_order} AND id_pubblicazione = {$idp}";
-	$del_students = "UPDATE rb_alunni, rb_pagelle, rb_esiti, rb_classi SET attivo = '{$attivo}' WHERE rb_alunni.id_alunno = rb_pagelle.id_alunno AND rb_pagelle.esito = id_esito AND positivo = 1 AND rb_alunni.id_classe = rb_classi.id_classe AND ordine_di_scuola = {$school_order} AND anno_corso = {$term_cls} AND id_pubblicazione = {$idp}";
+	$del_students = "UPDATE rb_alunni, rb_pagelle, rb_esiti, rb_classi SET password = '{$pwd}',  attivo = '{$attivo}' WHERE rb_alunni.id_alunno = rb_pagelle.id_alunno AND rb_pagelle.esito = id_esito AND positivo = 1 AND rb_alunni.id_classe = rb_classi.id_classe AND ordine_di_scuola = {$school_order} AND anno_corso = {$term_cls} AND id_pubblicazione = {$idp}";
 	//echo $del_students;
 	$db->executeUpdate($sel_ripet);
 	$db->executeUpdate($del_students);
