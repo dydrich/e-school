@@ -53,7 +53,7 @@ var upd_cls = function(sel, student){
 	</div>
 	<div id="left_col">
 		<div class="group_head">Elenco alunni classe <?php echo $myclass['anno_corso'].$myclass['sezione'] ?> - <?php echo $myclass['nome'] ?> (<span id="st_count"><?php print $res_alunni->num_rows ?></span>)</div>
-		<form method="post">
+		<form method="post" class="no_border">
         <table class="admin_table">
         <thead>
             <tr>
