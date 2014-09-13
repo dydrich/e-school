@@ -15,6 +15,9 @@
 <script type="text/javascript">
 	
 </script>
+<style>
+	form {border: 0}
+</style>
 <title>Registro elettronico</title>
 </head>
 <body>
