@@ -77,7 +77,7 @@ else if($_REQUEST['action'] == 4){
 $student_manager = new StudentManager($db, $studentBean);
 $student_manager->setExistClassbook($exist_reg);
 $student_manager->setExistReport($exist_rep);
-if($school_year){
+if(isset($school_year)){
 	$student_manager->setSchoolYear($school_year);
 }
 

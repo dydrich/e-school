@@ -52,7 +52,7 @@ var go = function(par, student){
 				console.log(json.dbg_message);
 			}
 			else {
-				j_alert("alert", "Operazione conclusa con successo");
+				j_alert("alert", json.message);
 			}
 		}
 	});
@@ -104,7 +104,7 @@ var reg = function(par){
 				    console.log(json.dbg_message);
 			    }
 			    else {
-				    j_alert("alert", "Operazione conclusa con successo");
+				    j_alert("alert", json.message);
 				    new_account = false;
 				    $('#account_field').css({border: '1px solid ', color: '#000000'});
 			    }

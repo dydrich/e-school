@@ -160,6 +160,7 @@ if($school_order == 0){
 $html .= '<p></p><a href="../../shared/no_js.php" id="filter_button" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Filtra elenco</a></p>';
 
 $page_menu->setInnerHTML($html);
+$page_menu->setJavascript('', 'jquery');
 $page_menu->setPathToRoot($_SESSION['__path_to_root__']);
 $page_menu->createLink();
 
