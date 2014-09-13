@@ -5,18 +5,10 @@
 <title>Dettaglio alunno</title>
 <link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
 <link href="../../css/general.css" rel="stylesheet" />
-<link href="../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/calendar.js"></script>
-<script type="text/javascript" src="../../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../../js/calendar-setup.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script type="text/javascript" src="../../js/md5-min.js"></script>
 <script type="text/javascript">
 var messages = new Array('', 'Alunno inserito con successo', 'Alunno cancellato con successo', 'Alunno modificato con successo', 'Account modificato con successo');
@@ -25,11 +17,11 @@ if($_i != 0){
 	echo "var old_login = '{$alunno['username']}';\n";	
 }
 ?>
-function go(par, student){
-    $('_i').setValue(student);
-    $('action').setValue(par);
-    var nick = $F('uname');
-	var pwd =  $F('pwd');
+var go = function(par, student){
+    $('#_i').val(student);
+    $('#action').val(par);
+    var nick = $('#uname').val();
+	var pwd =  $('#pwd').val();
 	<?php if($type != 1){ ?>
 	if(nick == "" || pwd == ""){
 		alert("Username o password non presente");
@@ -38,51 +30,50 @@ function go(par, student){
 	<?php } ?>
     var url = "student_manager.php";
     //alert(url);
-	var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: $('st_form').serialize(true),
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("#");
-			      		if(dati[0] == "kosql"){
-				      		sqlalert();
-							console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-							return;
-			      		}
-			      		
-			      		link = "alunni.php?msg="+par;
-			      		if(par != 1){
-							link += "&second=1&offset=<?php print $offset ?>";
-			      		}
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: $('#st_form').serialize(true),
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
 
-						_alert(messages[par]);
-						if(par == 1){
-							clean_form();
-						}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore...");}
-			  });
-	  
-}
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				j_alert("alert", "Operazione conclusa con successo");
+			}
+		}
+	});
+};
 
 var clean_form = function(){
 	//alert("clean");
-	$('uname').value = "";
-	$('pwd').value = "";
-	$('nome').value = "";
-	$('cognome').value = "";
-	$('cf').value = "";
-	$('sel3').value = "";
-	$('classe').options.selectedIndex = 0;
+	$('#uname').val("");
+	$('#pwd').val("");
+	$('#nome').val("");
+	$('#cognome').val("");
+	$('#cf').val("");
+	$('#sel3').val("");
+	$('#classe').options.selectedIndex = 0;
 };
 
-function reg(par){
+var reg = function(par){
     var id = <?php print $_REQUEST['id'] ?>;
     if(par == 1){
-		var nick = $F('uname');
-		var pwd =  $F('pwd');
+		var nick = $('#uname').val();
+		var pwd =  $('#pwd').val();
 		<?php if($type == 1){ ?>
 		if(nick == "" || pwd == ""){
 			alert("Username o password non presente");
@@ -90,100 +81,130 @@ function reg(par){
 		}
 		<?php } ?>
 		var url = "student_manager.php";
-		var req = new Ajax.Request(url,
-				  {
-				    	method:'post',
-				    	parameters: {uname: nick, pwd: pwd, _i: id, action: 4},
-				    	onSuccess: function(transport){
-				    		$('check').update("");
-				      		var response = transport.responseText || "no response text";
-				      		var dati = response.split("#");
-				      		if(dati[0] == "kosql"){
-					      		sqlalert();
-					      		console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-				                return;
-				     		}
-				     		else{
-				     			new_account = false;
-				     			$('account_field').setStyle({border: '1px solid ', color: '#000000'});
-				     			_alert(messages[4]);
-					      	}
-							
-				    	},
-				    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-				  });
+	    $.ajax({
+		    type: "POST",
+		    url: url,
+		    data: {uname: nick, pwd: pwd, _i: id, action: 4},
+		    dataType: 'json',
+		    error: function() {
+			    j_alert("error", "Errore di trasmissione dei dati");
+		    },
+		    succes: function() {
+
+		    },
+		    complete: function(data){
+			    $('#check').text("");
+			    r = data.responseText;
+			    if(r == "null"){
+				    return false;
+			    }
+			    var json = $.parseJSON(r);
+			    if (json.status == "kosql"){
+				    j_alert("error", json.message);
+				    console.log(json.dbg_message);
+			    }
+			    else {
+				    j_alert("alert", "Operazione conclusa con successo");
+				    new_account = false;
+				    $('#account_field').css({border: '1px solid ', color: '#000000'});
+			    }
+		    }
+	    });
 	}
-}
+};
 
-function gen_pwd(){
-	var pass = genera_password($F('nome'), $F('cognome'), true, false);
-	$('pwd').setValue(pass);
+var gen_pwd = function(){
+	pass = genera_password('<?php echo $_SESSION['__path_to_root__'] ?>', false, true);
+	passws = pass.split(";");
+	$('#pwd').val(passws[0]);
+	//$('#pclear').val(passws[1]);
 	new_account = true;
-	$('account_field').setStyle({border: '1px solid #ff0000', color: '#ff0000'});
-}
+	$('#account_field').css({border: "1px solid #ff0000", color: "#ff0000"});
+};
 
-function gen_login(){
-	if((trim($F('nome')) == "") || (trim($F('cognome')) == "")){
+var gen_login = function(){
+	if(($('#nome').val() == "") || ($('#cognome').val() == "")){
 		alert("Inserisci nome e cognome per generare la username");
 		return;
 	}
-	var nome = $F('nome');
-	var cognome = $F('cognome');
-	var url = "crea_login.php";
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {nome: nome, cognome: cognome},
-			    	onSuccess: function(transport){
-			    		//var x = document.getElementById("check");
-			            $('check').update("");
-			      		var response = transport.responseText || "no response text";
-			      		if(response == "ko"){
-			      			alert(response);
-			                return;
-			     		}
-			     		else{
-			     			$('uname').setValue(response);
-			     		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+	var nome = $('#nome').val();
+	var cognome = $('#cognome').val();
+	var url = "../../shared/account_manager.php";
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {nome: nome, cognome: cognome, action: "get_student_login"},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
 
-function no_change(){
+		},
+		complete: function(data){
+			$('#check').text("");
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+				return;
+			}
+			else if (json.status == "ko"){
+				j_alert("error", json.message);
+				return;
+			}
+			else {
+				$('#uname').val(json.login);
+			}
+		}
+	});
+};
+
+var no_change = function(){
 	alert("Nessun dato modificato");
-}
+};
 
-function account_wrapper(){
+var account_wrapper = function(){
 	reg(1);
-}
+};
 
-document.observe("dom:loaded", function(){
+$(function(){
+	load_jalert();
+	$('#sel3').datepicker({
+		dateFormat: "dd/mm/yy",
+		changeYear: true,
+		changeMonth: true,
+		yearRange: "1990:<?php echo date("Y") ?>"
+	})
 	<?php if($_REQUEST['id'] == 0){ ?>
-	$('gen_uname').observe("click", function(event){
+	$('#gen_uname').click(function(event){
 		event.preventDefault();
 		gen_login();
 	});
 	<?php } ?>
 	<?php if($_REQUEST['id'] != 0 && $type != 1){ ?>
 	
-	$('verify').observe("click", function(event){
+	$('#verify').click(function(event){
 		event.preventDefault();
 		verifica();
 	});	
 	<?php } ?>
-	$('gen_pass').observe("click", function(event){
+	$('#gen_pass').click(function(event){
 		event.preventDefault();
 		gen_pwd();
 	});
-	$('uname').observe("blur", function(event){
-		if(old_login != $F('uname')){
+	$('#uname').blur(function(event){
+		if(old_login != $('#uname').val){
 			new_account = true;
 			
-			$('account_field').setStyle({border: '1px solid #ff0000', color: '#ff0000'});
+			$('#account_field').css({border: '1px solid #ff0000', color: '#ff0000'});
 		}
 	});
-	$('save_button').observe("click", function(event){
+	$('#save_button').click(function(event){
 		event.preventDefault();
 		<?php 
 		if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0){
@@ -203,6 +224,10 @@ document.observe("dom:loaded", function(){
 });
 
 </script>
+<style>
+	.ui-datepicker-month {color: white}
+	.ui-datepicker-year {color: white}
+</style>
 </head>
 <body>
 <?php include "../header.php" ?>
@@ -285,22 +310,6 @@ document.observe("dom:loaded", function(){
             <td class="popup_title" style="width: 30%">Data di nascita </td>
             <td colspan="2" style="width: 70%">
                 <input class="form_input" type="text" id="sel3" name="data_nascita" style="width: 34%" value="<?php if(isset($alunno)) print(format_date($alunno['data_nascita'], SQL_DATE_STYLE, IT_DATE_STYLE, "/")) ?>" />
-                <script type="text/javascript">
-                <?php 
-                if(isset($alunno) && $alunno['data_nascita'] != ""){
-                	list($y, $m, $d) = explode("-", $alunno['data_nascita']);
-                	$m--;
-                }
-                ?>
-	            Calendar.setup({
-	                date		: new Date(<?php if(isset($alunno) && $alunno['data_nascita'] != "") print("$y, $m, $d") ?>),
-					inputField	: "sel3",
-					ifFormat	: "%d/%m/%Y",
-					showsTime	: false,
-					firstDay	: 1,
-					timeFormat	: "24"					
-				});
-	        	</script>
 	        	<div style="float: right; width: 64%; text-align: right">
                 <span class="popup_title" style="padding-right: 5px">Classe *</span>
             	<select class="form_input" name="classe" id="classe" style="width: 64%; margin-left: 1px">
@@ -313,7 +322,7 @@ document.observe("dom:loaded", function(){
 					}
 					$class_string .= $cls['nome'].")";
             	?>
-            		<option <?php if($cls['id_classe'] == $alunno['id_classe']) print("selected='selected'") ?> value="<?php print $cls['id_classe'].";".$cls['anno_corso'].$cls['sezione'] ?>"><?php echo $class_string ?></option>
+            		<option <?php if (isset($alunno) && $cls['id_classe'] == $alunno['id_classe']) print("selected='selected'") ?> value="<?php print $cls['id_classe'].";".$cls['anno_corso'].$cls['sezione'] ?>"><?php echo $class_string ?></option>
             	<?php
 				}
             	?>

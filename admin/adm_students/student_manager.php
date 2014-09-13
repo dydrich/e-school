@@ -8,6 +8,9 @@ ini_set("display_errors", DISPLAY_ERRORS);
 check_session(AJAX_CALL);
 check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
 
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Password modificata");
+
 $id_anno = $_SESSION['__current_year__']->get_ID();
 
 $ordine_scuola = "";
@@ -86,17 +89,27 @@ switch($_POST['action']){
 			$db->executeUpdate("COMMIT");
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
-			echo "kosql#".$ex->getMessage()."#".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['dbg_message'] = "Query: {$ex->getQuery()} ------ Errore: {$ex->getMessage()}";
+			$response['message'] = "Errore nella registrazione dei dati";
+			$res = json_encode($response);
+			echo $res;
 			exit;
 		}
+		$response['message'] = "Alunno inserito";
 	break;
 	case 2:     // cancellazione
 		try{
 			$student_manager->deleteStudent();
 		} catch (MySQLException $ex){
-			echo "kosql#".$ex->getMessage()."#".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['dbg_message'] = "Query: {$ex->getQuery()} ------ Errore: {$ex->getMessage()}";
+			$response['message'] = "Errore nella registrazione dei dati";
+			$res = json_encode($response);
+			echo $res;
 			exit;
 		}
+		$response['message'] = "Alunno cancellato";
 	break;
 	case 3:     // modifica
 		try{
@@ -108,20 +121,29 @@ switch($_POST['action']){
 			$db->executeUpdate("COMMIT");
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
-			echo "kosql#".$ex->getMessage()."#".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['dbg_message'] = "Query: {$ex->getQuery()} ------ Errore: {$ex->getMessage()}";
+			$response['message'] = "Errore nella registrazione dei dati";
+			$res = json_encode($response);
+			echo $res;
 			exit;
 		}
+		$response['message'] = "Alunno modificato";
 	break;
 	case 4:     // account 
 		try{
 			$student_manager->updateAccount();
 		} catch (MySQLException $ex){
-			echo "kosql#".$ex->getMessage()."#".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['dbg_message'] = "Query: {$ex->getQuery()} ------ Errore: {$ex->getMessage()}";
+			$response['message'] = "Errore nella registrazione dei dati";
+			$res = json_encode($response);
+			echo $res;
 			exit;
 		}
+		$response['message'] = "Account modificato";
 	break;
 }
-header("Content-type: text/plain");
-
-print "ok";
+$res = json_encode($response);
+echo $res;
 exit;
