@@ -4,16 +4,18 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
 <link rel="stylesheet" href="../css/general.css" type="text/css" />
-<link href="../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../js/prototype.js"></script>
-<script type="text/javascript" src="../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../js/controls.js"></script>
-<script type="text/javascript" src="../js/window.js"></script>
-<script type="text/javascript" src="../js/window_effects.js"></script>
+<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../js/jquery.jeditable.mini.js"></script>
 <script type="text/javascript" src="../js/page.js"></script>
 <script type="text/javascript">
-	
+	$(function(){
+		$('.edit').editable('../shared/env_manager.php', {
+			indicator : 'Saving...',
+			tooltip   : 'Click to edit...'
+		});
+	});
 </script>
 <style>
 	form {border: 0}
@@ -38,7 +40,7 @@
 					<td style="width: 60%; border: 1px solid #1E4389; padding-left: 10px; font-weight: bold">Valore</td>
 				</tr>
 					<?php
-						//while(list($k, $v) = each($_SESSION['__config__'])){
+						$res_env->data_seek(0);
 						while($row = $res_env->fetch_assoc()){
 							$k = $row['variabile'];
 							$v = $row['valore'];
@@ -49,12 +51,8 @@
 				<tr style="height: 30px">
 					<td style="width: 40%; border: 1px solid #1E4389; padding-left: 10px" id=""><?php print $k ?></td>
 					<td style="width: 60%; border: 1px solid #1E4389; padding-left: 10px;">
-					<p id="<?php print $k ?>" style="margin-top: auto; margin-bottom: auto"><?php echo stripslashes($v) ?></p>
-					<script type="text/javascript"> 
-					new Ajax.InPlaceEditor('<?php print $k ?>', '../shared/env_manager.php', { 
-						callback: function(form, value) { return 'f=<?php print $k ?>&val='+encodeURIComponent(value); }
-					});
-					</script>
+					<p id="<?php print $k ?>" class="edit" style="margin-top: auto; margin-bottom: auto"><?php echo stripslashes($v) ?></p>
+
 					</td >	
 				</tr>
 				<?php } ?>
