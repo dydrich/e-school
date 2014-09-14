@@ -3,7 +3,7 @@
 require_once "../../../lib/start.php";
 require_once "../../../lib/OutcomeTablePDF.php";
 
-ini_set("display_errors", "1");
+ini_set("display_errors", DISPLAY_ERRORS);
 
 check_session();
 check_permission(DOC_PERM);

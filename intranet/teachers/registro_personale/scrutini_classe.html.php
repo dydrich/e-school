@@ -1,126 +1,134 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Registro di classe</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_print.css" type="text/css" media="print" />
-<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="../../../css/skins/aqua/theme.css" type="text/css" />
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/window.js"></script>
-<script type="text/javascript" src="../../../js/window_effects.js"></script>
-<script type="text/javascript" src="../../../js/calendar.js"></script>
-<script type="text/javascript" src="../../../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../../../js/calendar-setup.js"></script>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Registro di classe</title>
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="print" />
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../../js/page.js"></script>
 <script type="text/javascript">
 var stid = 0;
 var upd_grade = function(sel, alunno, subj){
 	var url = "upd_grade.php";
 	//alert(subj);
-	var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {grade: sel.value, alunno: alunno, q: <?php echo $q ?>, subj: subj},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		var dati = response.split(";");
-			      		if(dati[0] == "kosql"){
-							sqlalert();
-							console.log(dati[1]+"\n"+dati[2]);
-							return false;
-			     		}
-			     		else{
-					        <?php if ($ordine_scuola == 1): ?>
-			     			$('avg'+alunno).update(dati[1]+"/"+dati[2]);
-			     			if(parseInt(dati[1]) < <?php echo $_SESSION['__config__']['limite_sufficienza'] ?>)
-			     				$('avg'+alunno).addClassName("attention");
-			     			else
-			     				$('avg'+alunno).removeClassName("attention");
-					        <?php endif; ?>
-			     		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {grade: sel.value, alunno: alunno, q: <?php echo $q ?>, subj: subj},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				<?php if ($ordine_scuola == 1): ?>
+				$('#avg'+alunno).text(json.avg+"/"+json.avg2);
+				if(parseInt(json.avg) < <?php echo $_SESSION['__config__']['limite_sufficienza'] ?>)
+					$('#avg'+alunno).addClass("attention");
+				else
+					$('#avg'+alunno).removeClass("attention");
+				<?php endif; ?>
+			}
+		}
+	});
 };
 
 function show_menu(el) {
-	if($('menu_div').style.display == "none") {
-	    position = getElementPosition(el);
-	    dimensions = $(el).getDimensions();
-	    ftop = position['top'] + dimensions.height;
-	    fleft = position['left'] - 140 + dimensions.width;
-	    console.log("top: "+ftop+"\nleft: "+fleft);
-	    $('menu_div').setStyle({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
-	    $('menu_div').blindDown({duration: 0.5});
+	if($('#menu_div').is(":hidden")) {
+		position = getElementPosition(el);
+		ftop = position['top'] + $('#'+el).height();
+		fleft = position['left'] - 140 + $('#'+el).width();
+		console.log("top: "+ftop+"\nleft: "+fleft);
+		$('#menu_div').css({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
+		$('#menu_div').show(500);
 	}
 	else {
-		$('menu_div').hide();
+		$('#menu_div').hide();
 	}
 }
 
 function show_context_menu(el) {
-	if($('context_menu').style.display == "none") {
-	    position = getElementPosition(el);
-	    dimensions = $(el).getDimensions();
-	    ftop = position['top'] + dimensions.height;
-	    fleft = position['left'] - 50 + dimensions.width;
-	    console.log("top: "+ftop+"\nleft: "+fleft);
-	    $('context_menu').setStyle({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
-	    $('context_menu').blindDown({duration: 0.5});
+	if($('#context_menu').is(":hidden")) {
+		position = getElementPosition(el);
+		ftop = position['top'] + $('#'+el).height();
+		fleft = position['left'] - 140 + $('#'+el).width();
+		console.log("top: "+ftop+"\nleft: "+fleft);
+		$('#context_menu').css({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
+		$('#context_menu').show(500);
 	}
 	else {
-		$('context_menu').hide();
+		$('#context_menu').hide();
 	}
 }
 
 var set_f = function(id_es){
 	var url = "set_outcome.php";
 	//alert(url);
-	var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {outcome: id_es, alunno: stid},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		var dati = response.split(";");
-			      		if(dati[0] == "kosql"){
-							sqlalert();
-							console.log(dati[1]+"\n"+dati[2]);
-							return false;
-			     		}
-			     		else{
-			     			if (dati[1] == 0){
-								$('st_'+stid).parentNode.parentNode.setStyle({backgroundColor: 'rgba(225,11,52,.2)'});
-			     			}
-			     			else{
-			     				$('st_'+stid).parentNode.parentNode.setStyle({backgroundColor: 'rgba(30, 67, 137, .2)'});
-			     			}	
-			     		}
-			     		show_context_menu('');
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {outcome: id_es, alunno: stid},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				if (json.positivo == 0){
+					$('#st_'+stid).parentNode.parentNode.css({backgroundColor: 'rgba(225,11,52,.2)'});
+				}
+				else{
+					$('#st_'+stid).parentNode.parentNode.css({backgroundColor: 'rgba(30, 67, 137, .2)'});
+				}
+			}
+			show_context_menu('');
+		}
+	});
 };
 
-document.observe("dom:loaded", function(){
-	$('imglink').observe("click", function(event){
+$(function(){
+	load_jalert();
+	$('#imglink').click(function(event){
 		event.preventDefault();
 		show_menu('imglink');
 	});
-	$('menu_div').observe("mouseleave", function(event){
+	$('#menu_div').mouseleave(function(event){
 		event.preventDefault();
-        $('menu_div').hide();
+        $('#menu_div').hide();
     });
-	$('context_menu').observe("mouseleave", function(event){
+	$('#context_menu').mouseleave(function(event){
 		event.preventDefault();
-		$('context_menu').hide();
+		$('#context_menu').hide();
 	});
 <?php if ($q == 2): ?>
-	$$('.setstid').invoke("observe", "click", function(event){
+	$('.setstid').click(function(event){
 		//alert(this.id);
 		event.preventDefault();
 		var strs = this.id.split("_");
@@ -128,7 +136,7 @@ document.observe("dom:loaded", function(){
 		show_context_menu(this.id);
 	});
 <?php else: ?>
-	$$('.setstid').invoke("observe", "click", function(event){
+	$('.setstid').click(function(event){
 		//alert(this.id);
 		event.preventDefault();
 		// do_nothing();
@@ -217,7 +225,7 @@ while($al = $res_alunni->fetch_assoc()){
 	$background = "background-color: #e8eaec";
 ?>
 <tr>
-	<td style="<?php echo $st_bckg ?>width: <?php echo $first_column ?>%; padding-left: 8px; font-weight: bold"><?php if($idx < 9) echo "&nbsp;&nbsp;"; ?><?php echo ($idx+1).". " ?>
+	<td style="<?php echo $st_bckg ?>width: <?php echo $first_column_width ?>%; padding-left: 8px; font-weight: bold"><?php if($idx < 9) echo "&nbsp;&nbsp;"; ?><?php echo ($idx+1).". " ?>
 		<span style="font-weight: normal"><a href="../../shared/no_js.php" class="setstid" id="st_<?php echo $al['id_alunno'] ?>"><?php echo $al['cognome']." ".substr($al['nome'], 0, 1) ?>.</a></span>
 		<span style="float: right; margin-right: 18px; font-weight: bold" id="avg<?php echo $al['id_alunno'] ?>"></span>	
 	</td>
@@ -323,9 +331,9 @@ while($al = $res_alunni->fetch_assoc()){
 	if ($ordine_scuola == 1):
 ?>	
 	<script>
-		$('avg<?php echo $al['id_alunno'] ?>').innerHTML = "<?php echo $student_avg; ?> / <?php echo $student_corrected_avg ?>";
+		$('#avg<?php echo $al['id_alunno'] ?>').html("<?php echo $student_avg; ?> / <?php echo $student_corrected_avg ?>");
 		if(<?php echo $student_avg; ?> < <?php echo $_SESSION['__config__']['limite_sufficienza'] ?>)
-			$('avg<?php echo $al['id_alunno'] ?>').addClassName("attention");
+			$('#avg<?php echo $al['id_alunno'] ?>').addClass("attention");
 	</script>
 <?php
 	endif;

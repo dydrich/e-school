@@ -10,6 +10,9 @@ check_permission(DOC_PERM);
 $_SESSION['__path_to_root__'] = "../../../";
 $_SESSION['__path_to_reg_home__'] = "../";
 
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
+
 $id_alunno = $_REQUEST['alunno'];
 if(isset($_REQUEST['subj']))
 	$materia = $_REQUEST['subj'];
@@ -29,10 +32,15 @@ try{
 	$avg = $db->executeCount($sel_avg);
 	$avg2 = $db->executeCount($sel_avg2);
 } catch (MySQLException $ex){
-	echo "koslq;".$ex->getQuery().";".$ex->getMessage();
+	$response['status'] = "kosql";
+	$response['message'] = $ex->getMessage();
+	$response['query'] = $ex->getQuery();
+	echo json_encode($response);
 	exit;
 }
 
-header("Content-type: text/plain");
-print "ok;{$avg};{$avg2}";
+$response['avg'] = $avg;
+$response['avg2'] = $avg2;
+
+echo json_encode($response);
 exit;

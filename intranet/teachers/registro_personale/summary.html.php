@@ -1,20 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Registro di classe</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Registro di classe</title>
 <link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
-<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="../../../css/skins/aqua/theme.css" type="text/css" />
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/window.js"></script>
-<script type="text/javascript" src="../../../js/window_effects.js"></script>
-<script type="text/javascript" src="../../../js/calendar.js"></script>
-<script type="text/javascript" src="../../../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../../../js/calendar-setup.js"></script>
+<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/general.css" type="text/css" />
+<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../js/page.js"></script>
 <script type="text/javascript">
 
 <?php
@@ -40,15 +34,15 @@ function fai(event){
 }
 
 function get_caption(x, y){
-	if($('pop').style.display == "inline"){
-		$('pop').style.display = "none";
+	if($('#pop').is(":visible")){
+		$('#pop').hide()
 		return;
 	}
    
-	$('pop').innerHTML = str;
-	$('pop').style.left = parseInt(asse_x)+"px";
-	$('pop').style.top = parseInt(asse_y)+"px";
-	$('pop').style.display = "inline";
+	$('#pop').html(str);
+	$('#pop').css({left: parseInt(asse_x)+"px"});
+	$('#pop').css({top: parseInt(asse_y)+"px"});
+	$('#pop').show();
 }
 
 </script>
@@ -58,7 +52,7 @@ function get_caption(x, y){
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
 <?php 
-setlocale(LC_TIME, "it_IT");
+setlocale(LC_TIME, "it_IT.utf8");
 $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
 <table class="registro">

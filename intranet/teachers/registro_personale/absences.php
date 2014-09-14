@@ -207,6 +207,7 @@ while($row = $res_hours->fetch_assoc()){
 $mat = $_SESSION['__user__']->getSubject();
 $change_subject = new ChangeSubject("hid", "", "position: absolute; width: 180px; height: 55px; display: none", "div", $_SESSION['__subjects__']);
 $change_subject->createLink("text-decoration: none; text-transform: uppercase; font-weight: bold");
+$change_subject->setJavascript('', 'jquery');
 
 $navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 

@@ -5,158 +5,163 @@
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 <link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link href="../../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/calendar.js"></script>
-<script type="text/javascript" src="../../../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../../../js/calendar-setup.js"></script>
 <script type="text/javascript">
 var toggle_div = function(div){
-	if($(div).readAttribute("id") == 'new_sig'){
+	if(div == 'new_sig'){
 		other_div = 'old_sig';
 	}
 	else{
 		other_div = 'new_sig';
 	}
 	
-	if($(div).style.display == "none"){
-		$(other_div).fade({duration: .5});
-		$(div).appear({duration: 1.0});
+	if($('#'+div).is(":hidden")){
+		$('#'+other_div).fadeOut(500);
+		$('#'+div).show(1000);
 	}
 	else {
-		$(div).fade({duration: 1.0});
+		$(div).fadeIn(1000);
 	}
 };
 
 var firma = function(id_registro, ora, id_ora, action){
 	var url = "firma.php";
-	
-    req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {id_reg: id_registro, ora: ora, id_ora: id_ora, action: action, mat: 33},
-			    	onSuccess: function(transport){
-			    		var response = transport.responseText || "no response text";
-			    		var json = response.evalJSON();
-			    		if(json.status == "kosql"){
-			    			sqlalert();
-			    			console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-			    			return;
-			    		}
-			    		else{
-				    		if (action == 'sign'){
-				    			$("p_"+ora).update("");
-				    			var span = document.createElement('span');
-								span.setStyle({marginRight: '20px'});
-								span.appendChild(document.createTextNode(ora+ " ora"));
-								$("p_"+ora).appendChild(span);
-								_body = document.createElement("span");	
-								_body.appendChild(document.createTextNode("Sostituzione"));
-								$("p_"+ora).appendChild(_body);
-				    		}
-				    		else {
-								$('tr_'+id_ora).hide();
-				    		}
-			    		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {id_reg: id_registro, ora: ora, id_ora: id_ora, action: action, mat: 33},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else if(json.status == "ko") {
+				j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+				return;
+			}
+			else {
+				if (action == 'sign'){
+					$("#p_"+ora).html("");
+					$('<span style="margin-right: 20px">'+ora+' ora</span>').appendTo($("#p_"+ora));
+					var span = document.createElement('span');
+					$('<span>Sostituzione</span>').appendTo($("#p_"+ora));
+				}
+				else {
+					$('#tr_'+id_ora).hide();
+				}
+			}
+		}
+	});
 };
 
 var load_signatures = function(){
-	if($F('classe') == 0 || $F('data') == ""){
+	if($('#classe').val() == 0 || $('#data').val() == ""){
 		alert("Scegli una classe ed una data per firmare");
 		return false;
 	}
 	var url = "get_signatures.php";
-	
-    req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {data: $F('data'), classe: $F('classe')},
-			    	onSuccess: function(transport){
-			    		var response = transport.responseText || "no response text";
-			    		dati = response.split("#");
-			    		if(dati[0] == "kosql"){
-			    			sqlalert();
-			    			console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-			    			return;
-			    		}
-			    		else{
-			    			$('signatures').update("");
-			    			var json = dati[1].evalJSON();
-			    			for(data in json){
-								var t = json[data];
-								var _p = document.createElement('p');
-								_p.setStyle({
-									borderBottom: '1px solid #CCCCCC',
-									lineHeight: '10px'
-								});
-								_p.setAttribute("id", "p_"+t.ora);
-								var span = document.createElement('span');
-								span.setStyle({marginRight: '20px'});
-								span.appendChild(document.createTextNode(t.ora+ " ora"));
-								_p.appendChild(span);
-								if(t.dmat != 0){
-									_body = document.createElement("span");	
-									_body.appendChild(document.createTextNode(t.dmat));
-								}
-								else{
-									var update = 0;
-									if(t.id != 0){
-										update = 1;
-									}
-									_body = document.createElement("a");
-									_body.appendChild(document.createTextNode("Firma"));
-									_body.setStyle({textDecoration: 'none'});
-									_body.setAttribute("onclick", "firma("+t.id_registro+", "+t.ora+", "+t.id+", 'sign')");
-									_body.setAttribute("href", "#");
-								}
-								_p.appendChild(_body);
-								$('signatures').appendChild(_p);
-								$('signatures').setStyle({
-									backgroundColor: 'rgba(211, 222, 199, 0.2)',
-									padding: '10px',
-									border: '1px solid rgba(211, 222, 199, 1)',
-									borderRadius: '6px'
-								});
-			    			}
-			    		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {data: $('#data').val(), classe: $('#classe').val()},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else if(json.status == "ko") {
+				j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+				return;
+			}
+			else {
+				$('#signatures').html("");
+				for(data in json.firme){
+					var t = json.firme[data];
+					alert(t.id_registro);
+					$('<p id="p_'+ t.ora+'" style="border-bottom: 1px solid #CCC; line-height: 10px"><span style="margin-right: 20px">'+ t.ora+' ora</span></p>').appendTo($('#signatures'));
+					if(t.dmat != 0){
+						$('<span>'+ t.dmat+'</span>')
+					}
+					else{
+						var update = 0;
+						if(t.id != 0){
+							update = 1;
+						}
+						$('<a href="#" onclick="firma('+t.id_registro+', '+t.ora+', '+t.id+', \'sign\')" style="text-decoration: none">Firma</a>').appendTo($('#p_'+ t.ora));
+					}
+					$('#signatures').css({
+						backgroundColor: 'rgba(211, 222, 199, 0.2)',
+						padding: '10px',
+						border: '1px solid rgba(211, 222, 199, 1)',
+						borderRadius: '6px'
+					});
+				}
+			}
+		}
+	});
 };
 
 var set_data = function(){
-	if($F('data') != ""){
-		$('tr_classe').appear({duration: .5});
+	if($('data').val() != ""){
+		$('#tr_classe').show(500);
 	}
 	else{
-		$('tr_classe').hide();
+		$('#tr_classe').hide();
 	}
 };
 
-document.observe("dom:loaded", function(){
-	$('show_new_sig').observe("click", function(event){
+$(function(){
+	load_jalert();
+	$('#data').datepicker({
+		dateFormat: "dd/mm/yy"
+	});
+	$('#show_new_sig').click(function(event){
 		toggle_div('new_sig');
 	});
-	$('show_sig').observe("click", function(event){
+	$('#show_sig').click(function(event){
 		toggle_div('old_sig');
 	});
-	$('classe').observe("change", function(event){
+	$('#classe').change(function(event){
 		load_signatures();
 	});
-	$$('tr.show_del').invoke("observe", "mouseover", function(event){
+	$('tr.show_del').mouseover(function(event){
 		var strs = this.id.split("_");
-		$('unsign_'+strs[1]).setStyle({display: 'block'});
+		$('#unsign_'+strs[1]).show();
 	});
-	$$('tr.show_del').invoke("observe", "mouseout", function(event){
+	$('tr.show_del').mouseout(function(event){
 		var strs = this.id.split("_");
-		$('unsign_'+strs[1]).setStyle({display: 'none'});
+		$('#unsign_'+strs[1]).hide();
 	});
-	$$('a.del_sign').invoke("observe", "click", function(event){
+	$('a.del_sign').click(function(event){
 		var strs = this.id.split("_");
 		var idreg = this.dataset.idreg;
 		var ora = this.dataset.ora;
@@ -184,16 +189,6 @@ document.observe("dom:loaded", function(){
 					<td style="width: 30%">Data</td>
 					<td style="width: 70%">
 						<input type="text" id="data" name="data" style="width: 95%" onchange="set_data()" />
-						<script type="text/javascript">
-			            Calendar.setup({
-			                date		: new Date(),
-							inputField	: "data",
-							ifFormat	: "%d/%m/%Y",
-							showsTime	: false,
-							firstDay	: 1,
-							timeFormat	: "24"					
-						});
-			        	</script>
 					</td>
 				</tr>
 				<tr id="tr_classe" style="display: none">

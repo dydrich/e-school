@@ -5,45 +5,41 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/window.js"></script>
-<script type="text/javascript" src="../../../js/window_effects.js"></script>
 <script type="text/javascript">
-function go_to(){
-	var dt = $F('date_to');
+var go_to = function() {
+	var dt = $('#date_to').val();
 	ar = dt.split("/");
 	nw_dt = ar[2]+"-"+ar[1]+"-"+ar[0];
 	document.location.href = "registro_classe.php?data="+nw_dt;
-}
+};
 
-function nbutton(){
-	//$('dt').innerHTML = "Vai al "+$F('date_to');
-	//$('dt').setAttribute('onclick', 'go_to()');
-	$('delete').show();
-}
+var nbutton = function() {
+	$('#delete').show();
+};
 
-function reset(){
-	$('dt').update("Giorno...");
-	$('delete').hide();
-}
+var reset = function() {
+	$('#dt').text("Giorno...");
+	$('#delete').hide();
+};
 
-function show_note(element){ 
+var show_note = function(element){
 	element.getElementsByTagName("span")[0].style.display = "block";
-}
+};
 
 var hide_note = function(element){
 	element.getElementsByTagName("span")[0].style.display = "none";
 };
 
 var downloadCB = function(){
-	dis = $("dlog").readAttribute("data_disabled");
+	dis = $("#dlog").attr("data_disabled");
 	dis = 0;
 	if (dis == 1){
-		_alert("Registro non disponibile: crealo prima di scaricarlo");
+		j_alert("error", "Registro non disponibile: crealo prima di scaricarlo");
 		return false; 
 	}
 	else {
@@ -53,31 +49,42 @@ var downloadCB = function(){
 };
 
 var createCB = function(){
-	loading(20);
-	var req = new Ajax.Request('print_classbook.php',
-			  {
-			    	method:'post',
-			    	parameters: {cls: <?php echo $_SESSION['__classe__']->get_ID() ?>},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		var dati = response.split("|");
-			      		if (dati[0] == "ok"){
-			      			timeout = 0;
-			      		}
-			      		else if (dati[0] == "no_permission"){
-							document.location.href = "../no_permission.php";
-			      		}
-			      		$("dlog").setAttribute("data_disabled", 0);
-			      		
-			    	},
-			    	onFailure: function(){ _alert("Si e' verificato un errore imprevisto..."); return; }
-			  });
+	background_process("Attendere la creazione del registro...", 20);
+	$.ajax({
+		type: "POST",
+		url: 'print_classbook.php',
+		data: {cls: <?php echo $_SESSION['__classe__']->get_ID() ?>},
+		dataType: 'json',
+		error: function() {
+			timeout = 0;
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			timeout = 0;
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else if(json.status == "no_permission") {
+				document.location.href = "../no_permission.php";
+			}
+			else {
+				$("#dlog").attr("data_disabled", 0);
+			}
+		}
+	});
 };
 
 var loaded = false;
-function loading(time){
-	openInfoDialog("Attendere la creazione del registro...", time);
-}
+
 </script>
 </head>
 <body>

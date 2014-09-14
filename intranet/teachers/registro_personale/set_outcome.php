@@ -13,18 +13,32 @@ $_SESSION['__path_to_reg_home__'] = "../";
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
 
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
+
 $alunno = $_POST['alunno'];
 $esito = $_POST['outcome'];
 
 $sel_es = "SELECT * FROM rb_esiti WHERE id_esito = {$esito}";
-$res_es = $db->executeQuery($sel_es);
-$row_es = $res_es->fetch_assoc();
+try{
+	$res_es = $db->executeQuery($sel_es);
+	$row_es = $res_es->fetch_assoc();
+} catch (MySQLException $ex){
+	$response['status'] = "kosql";
+	$response['message'] = $ex->getMessage();
+	$response['query'] = $ex->getQuery();
+	echo json_encode($response);
+	exit;
+}
 
 $sel_idpubblicazione = "SELECT MAX(id_pagella) AS id_pagella FROM rb_pubblicazione_pagelle WHERE anno = {$_SESSION['__current_year__']->get_ID()}";
 try{
 	$res_idp = $db->executeQuery($sel_idpubblicazione);
 } catch (MySQLException $ex){
-	echo "kosql;".$ex->getQuery().";".$ex->getMessage();
+	$response['status'] = "kosql";
+	$response['message'] = $ex->getMessage();
+	$response['query'] = $ex->getQuery();
+	echo json_encode($response);
 	exit;
 }
 $row = $res_idp->fetch_assoc();
@@ -34,8 +48,13 @@ $upd = "UPDATE rb_pagelle SET esito = {$esito} WHERE id_pubblicazione = {$idp} A
 try{
 	$res = $db->executeUpdate($upd);
 } catch (MySQLException $ex){
-	echo "kosql;".$ex->getQuery().";".$ex->getMessage();
+	$response['status'] = "kosql";
+	$response['message'] = $ex->getMessage();
+	$response['query'] = $ex->getQuery();
+	echo json_encode($response);
 	exit;
 }
 
-echo "ok;".$row_es['positivo'];
+$response['positivo'] = $row_es['positivo'];
+echo json_encode($response);
+exit;

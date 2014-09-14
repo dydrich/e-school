@@ -1,106 +1,150 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Registro di classe</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_print.css" type="text/css" media="print" />
-<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="../../../css/skins/aqua/theme.css" type="text/css" />
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/window.js"></script>
-<script type="text/javascript" src="../../../js/window_effects.js"></script>
-<script type="text/javascript" src="../../../js/calendar.js"></script>
-<script type="text/javascript" src="../../../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../../../js/calendar-setup.js"></script>
-<script type="text/javascript">
-var stid = 0;
-<?php echo $change_subject->getJavascript() ?>
-function change_subject(id){
-	document.location.href="scrutini.php?subject="+id+"&q=<?php print $q ?>";
-}
-
-var alunni = new Array();
-<?php 
-while($r = $res_dati->fetch_assoc()){
-?>
-alunni.push(<?php echo$r['alunno'] ?>);
-<?php 
-}
-?>
-document.observe("dom:loaded", function(){
-	for(var i = 0; i < alunni.length; i++){
-		alunno = alunni[i];
-		//alert(alunno);
-		var on_arch = $('abstd_'+alunno).innerHTML;
-		
-		var req = new Ajax.Updater('grade_'+alunno, 'get_grade_absences.php', { method: 'post', parameters: {req: "grade", alunno: alunno, q: <?php echo $q ?>} });
-		var req2 = new Ajax.Updater('abs_'+alunno, 'get_grade_absences.php', { method: 'post', parameters: {req: "absences", alunno: alunno, tot: 0, q: <?php echo $q ?>} });
-		if(on_arch == 0) 
-			var req3 = new Ajax.Updater('abstd_'+alunno, 'get_grade_absences.php', { method: 'post', parameters: {req: "absences", alunno: alunno, tot: 1, q: <?php echo $q ?>} });
-		$('grade_'+alunno).appear({duration: 1.5});
-		<?php if ($ordine_scuola == 1) : ?>
-		$('abs_'+alunno).appear({duration: 1.5});
-		<?php endif; ?>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Registro di classe</title>
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../../js/page.js"></script>
+	<script type="text/javascript">
+	var stid = 0;
+	<?php echo $change_subject->getJavascript() ?>
+	function change_subject(id){
+		document.location.href="scrutini.php?subject="+id+"&q=<?php print $q ?>";
 	}
-	upd_avg();
-	$('imglink').observe("click", function(event){
-		event.preventDefault();
-		show_menu('imglink');
+
+	var alunni = new Array();
+	<?php
+	while($r = $res_dati->fetch_assoc()){
+	?>
+	alunni.push(<?php echo$r['alunno'] ?>);
+	<?php
+	}
+	?>
+	$(function(){
+		load_jalert();
+		for(var i = 0; i < alunni.length; i++){
+			alunno = alunni[i];
+			//alert(alunno);
+			var on_arch = $('#abstd_'+alunno).html();
+			$('#grade_'+alunno).load(
+				'get_grade_absences.php',
+				{
+					req: 'grade',
+					alunno: alunno,
+					q: <?php echo $q ?>
+				}
+			);
+			$('#abs_'+alunno).load(
+				'get_grade_absences.php',
+				{
+					req: "absences",
+					alunno: alunno,
+					tot: 0,
+					q: <?php echo $q ?>
+				}
+			);
+			if(on_arch == 0) {
+				$('#abstd_'+alunno).load(
+					'get_grade_absences.php',
+					{
+						req: "absences",
+						alunno: alunno,
+						tot: 1,
+						q: <?php echo $q ?>
+					}
+				);
+			}
+			/*
+			var req = new Ajax.Updater('grade_'+alunno, 'get_grade_absences.php', { method: 'post', parameters: {req: "grade", alunno: alunno, q: <?php echo $q ?>} });
+			var req2 = new Ajax.Updater('abs_'+alunno, 'get_grade_absences.php', { method: 'post', parameters: {req: "absences", alunno: alunno, tot: 0, q: <?php echo $q ?>} });
+			if(on_arch == 0)
+				var req3 = new Ajax.Updater('abstd_'+alunno, 'get_grade_absences.php', { method: 'post', parameters: {req: "absences", alunno: alunno, tot: 1, q: <?php echo $q ?>} });
+			*/
+			$('#grade_'+alunno).show(1500);
+			<?php if ($ordine_scuola == 1) : ?>
+			$('#abs_'+alunno).show(1500)
+			<?php endif; ?>
+		}
+		upd_avg();
+		$('#imglink').click(function(event){
+			event.preventDefault();
+			show_menu('imglink');
+		});
+		$('#menu_div').mouseleave(function(event){
+			event.preventDefault();
+			$('#menu_div').hide();
+		});
 	});
-	$('menu_div').observe("mouseleave", function(event){
-		event.preventDefault();
-		$('menu_div').hide();
-	});
-});
 
-var upd_avg = function(){
-	var url = "get_avg.php";
-	var req = new Ajax.Updater('avg', url, { method: 'post', parameters: {param: 'avg', q: <?php echo $q ?>} });
-	var req2 = new Ajax.Updater('avg2', url, { method: 'post', parameters: {param: 'grd', q: <?php echo $q ?>} });
+	var upd_avg = function(){
+		var url = "get_avg.php";
+		$('#avg').load(
+			url,
+			{
+				param: 'avg',
+				q: <?php echo $q ?>
+			}
+		);
+		$('#avg2').load(
+			url,
+			{
+				param: 'grd',
+				q: <?php echo $q ?>
+			}
+		);
+		//var req = new Ajax.Updater('avg', url, { method: 'post', parameters: {param: 'avg', q: <?php echo $q ?>} });
+		//var req2 = new Ajax.Updater('avg2', url, { method: 'post', parameters: {param: 'grd', q: <?php echo $q ?>} });
 
-};
+	};
 
-var upd_grade = function(sel, alunno){
-	var url = "upd_grade.php";
-	//alert(url);
-	var req = new Ajax.Request(url,
-	  {
-	    	method:'post',
-	    	parameters: {grade: sel.value, alunno: alunno, q: <?php echo $q ?>},
-	    	onSuccess: function(transport){
-	      		var response = transport.responseText || "no response text";
-	      		var dati = response.split(";");
-	      		if(dati[0] == "kosql"){
-					sqlalert();
-					console.log("Voto non inserito. Dettaglio: "+dati[1]+"---"+dati[2]);
+	var upd_grade = function(sel, alunno){
+		var url = "upd_grade.php";
+		//alert(url);
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: {grade: sel.value, alunno: alunno, q: <?php echo $q ?>},
+			dataType: 'json',
+			error: function() {
+				j_alert("error", "Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
 					return false;
-	     		}
-	     		upd_avg();
-	     		
-	    	},
-	    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-	  });
-};
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					alert(json.message);
+					console.log(json.dbg_message);
+				}
+				else {
+					upd_avg();
+				}
+			}
+		});
+	};
 
-function show_menu(el) {
-	if($('menu_div').style.display == "none") {
-		position = getElementPosition(el);
-		dimensions = $(el).getDimensions();
-		ftop = position['top'] + dimensions.height;
-		fleft = position['left'] - 140 + dimensions.width;
-		console.log("top: "+ftop+"\nleft: "+fleft);
-		$('menu_div').setStyle({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
-		$('menu_div').blindDown({duration: 0.5});
-	}
-	else {
-		$('menu_div').hide();
-	}
-}
-</script>
+	var show_menu = function(el) {
+		if($('#menu_div').is(":hidden")) {
+			position = getElementPosition(el);
+			ftop = position['top'] + $('#'+el).height();
+			fleft = position['left'] - 140 + $('#'+el).width();
+			console.log("top: "+ftop+"\nleft: "+fleft);
+			$('#menu_div').css({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
+			$('#menu_div').show(500);
+		}
+		else {
+			$('#menu_div').hide();
+		}
+	};
+	</script>
 </head>
 <body>
 <?php include "../header.php" ?>

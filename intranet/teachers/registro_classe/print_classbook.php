@@ -28,7 +28,9 @@ $classe = $rb->loadClassFromClassID($cls);
 $cb = new Classbook($classe, $school_year, "", $db, $path);
 $cb->createPDF();
 
-header("Content-type: text/plain");
-echo "ok";
+$response = array("status" => "ok", "message" => "");
+header("Content-type: application/json");
 
-?>
+$res = json_encode($response);
+echo $res;
+exit;

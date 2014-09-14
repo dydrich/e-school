@@ -33,6 +33,7 @@ $voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Bu
 
 $change_subject = new ChangeSubject("hid", "", "position: absolute; width: 180px; height: 105px; display: none", "div", $_SESSION['__subjects__']);
 $change_subject->createLink("text-decoration: none; text-transform: uppercase; font-weight: bold", "left");
+$change_subject->setJavascript('', 'jquery');
 
 if(isset($_REQUEST['subject']))
 	$_SESSION['__materia__'] = $_REQUEST['subject'];
