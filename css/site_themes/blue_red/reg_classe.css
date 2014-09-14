@@ -260,12 +260,12 @@ table.registro tbody tr:hover {
 }
 
 .page_menu{
-	background-color: rgb(211, 222, 199); 
+	background-color: #E4E7EF;
 	padding: 10px; 
-	border: 1px solid #AAAAAA; 
+	border: 1px solid rgba(30, 67, 137, .6);
 	border-radius: 10px 10px 10px 10px;
 	color: #222222;
-	box-shadow: 0 0 8px  #888;
+	box-shadow:  0 2px 4px rgba(0, 0, 0, 0.2);
 	z-index: 100
 }
 
