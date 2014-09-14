@@ -5,13 +5,11 @@
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 <link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/window.js"></script>
-<script type="text/javascript" src="../../../js/window_effects.js"></script>
 <script type="text/javascript">
 
 </script>

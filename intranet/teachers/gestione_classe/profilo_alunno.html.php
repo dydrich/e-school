@@ -12,11 +12,10 @@
 <script type="text/javascript">
 var stid = 0;
 var IE = document.all?true:false;
-if (!IE) document.captureEvents(Event.MOUSEMOVE);
 var tempX = 0;
 var tempY = 0;
 
-function repeating_switch(student, is_repeating){
+var repeating_switch = function(student, is_repeating){
 	var rep = 0;
 	if(is_repeating == 0){
 		rep = 1;
@@ -31,7 +30,7 @@ function repeating_switch(student, is_repeating){
 			  {
 			    	parameters: {student: student, repeat: rep, action: 'switch'},
 			  });
-}
+};
 
 var new_address = true;
 

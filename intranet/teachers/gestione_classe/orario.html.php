@@ -5,60 +5,63 @@
 <title><?php echo $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 <link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/window.js"></script>
-<script type="text/javascript" src="../../../js/window_effects.js"></script>
 <script type="text/javascript">
 var IE = document.all?true:false;
-if (!IE) document.captureEvents(Event.MOUSEMOVE);
 
 var tempX = 0;
 var tempY = 0;
 
-function materia(event){
+$(function(){
+	load_jalert();
+});
+
+var materia = function(event){
     //alert("ok");   
-    document.getElementById('hid').style.display = "none";
+    $('#hid').hide();
     var uid = document.forms[0].id_ora.value;
     var mat = document.forms[0].mat.value;
     var teacher = document.forms[0].teach.value;
     var url = "../../../shared/upd_ora.php";
-    //var data = "uid="+uid+"&mat="+mat+"&teacher="+teacher;
-    //alert(data);
-    //httpRequest("POST", url, true, modMateria, data);
-    var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {uid: uid, mat: mat, teacher: teacher},
-			    	onSuccess: function(transport){
-			    		var response = transport.responseText || "no response text";
-			      		dati = response.evalJSON();
-			      		if(dati.status == "kosql"){
-			      			alert("Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
-			      			console.log(dati.dbg_message);
-				     		return;
-			     		}
-			     		else{
-			     			var materia = dati.materia;
-			                var id_ora = "ora"+dati.id_ora;
-			                var x = document.getElementById(id_ora);
-			                $(id_ora).update(materia);
-			     		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore...") }
-			  });
-    
-}
+	$.ajax({
+		type: "POST",
+		url: url,
+		data:  {uid: uid, mat: mat, teacher: teacher},
+		dataType: 'json',
+		error: function() {
+			alert("Errore di trasmissione dei dati");
+		},
+		succes: function() {
 
-function visualizza(e) {
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				var materia = json.materia;
+				$('#ora'+json.id_ora).text(materia);
+			}
+		}
+	});
+};
+
+var visualizza = function(e) {
 	<?php 
     if($_SESSION['__classe__']->getSchoolOrder() == 1 && !$coordinatore){
     ?>
     //do_nothing();
-    alert("Modifica permessa solamente al coordinatore della classe");
+    j_alert("error", "Modifica permessa solamente al coordinatore della classe");
     return false;
     <?php 
     }
@@ -84,7 +87,7 @@ function visualizza(e) {
     <?php 
     }
     ?>
-}
+};
 
 </script>
 <style>
@@ -113,7 +116,7 @@ tbody a {
 	}
 	?>
 	</div> 
-	<form method="post">
+	<form method="post" class="no_border">
 	<div class="group_head">
 		Orario delle lezioni [ <a href="pdf_class_schedule.php">PDF</a> ] 
 	</div>

@@ -5,78 +5,74 @@
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
 <link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link href="../../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
-<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/window.js"></script>
-<script type="text/javascript" src="../../../js/window_effects.js"></script>
-<script type="text/javascript" src="../../../js/calendar.js"></script>
-<script type="text/javascript" src="../../../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../../../js/calendar-setup.js"></script>
 <script type="text/javascript">
 var y = <?php echo $year ?>;
 var q = <?php echo $q ?>;
 var search = function(){
-	if(($F('cognome').empty())){
+	if(($('#cognome').val() == "")){
 		alert("E' obbligatorio indicare il cognome");
 		yellow_fade("tr_cognome");
 		return false;
 	}
 	var url = "../../manager/report_manager.php";
-	var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {y: y, cls: <?php echo $_SESSION['__classe__']->get_ID() ?>, lname: $F('cognome'), q: q, action: "search"},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-						if(response.substr(0, 5) == "kosql"){
-			      			var dati = response.split("#");
-						
-				      		if(dati[0] == "kosql"){
-								sqlalert();
-								console.log(dati[1]+"\n"+dati[2]);
-								return false;
-				     		}
-						}
-						else if(response.substr(0, 5) == "nostd"){
-							var dati = response.split("#");
-							//alert(dati[1]);
-							$('container').update("Nessun alunno in archivio per i parametri richiesti");
-						}
-			     		else{
-				     		//alert(response);
-				     		var json = response.evalJSON();
-				     		var print_string = "";
-				     		for(data in json){
-					     		var t = json[data];
-					     		//alert(t.del);
-					     		if (t.del == 1){ 
-					     			//print_string += "<p><a href='#' onclick='dwld_file(\"../../../lib/download_manager.php?dw_type=report&f="+t.file+"&sess=1&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1&delete=1\")' style=''>"+t.nome+" (1 quadrimestre)</a></p>";
-					     			print_string += "<p><a href='#' onclick='dwld_file(\"../../../modules/documents/download_manager.php?doc=report&school_order=<?php echo $school ?>&area=teachers&f="+t.file+"&sess=1&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1&delete=1\")' style=''>"+t.nome+" (1 quadrimestre)</a></p>";
-					     		}
-					     		else {
-					     			//print_string += "<p><a href='../../../lib/download_manager.php?dw_type=report&f="+t.file+"&sess=2&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1' style=''>"+t.nome+" (2 quadrimestre)</a></p>";
-					     			print_string += "<p><a href='../../../modules/documents/download_manager.php?doc=report&school_order=<?php echo $school ?>&area=teachers&f="+t.file+"&sess=2&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1' style=''>"+t.nome+" (2 quadrimestre)</a></p>";
-					     		}
-				     		}
-				     		$('container').update(print_string);
-			     		}
-			     		
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {y: y, cls: <?php echo $_SESSION['__classe__']->get_ID() ?>, lname: $('#cognome').val(), q: q, action: "search"},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert('error', json.message);
+				console.log(json.dbg_message);
+			}
+			else if(json.status == "nostd"){
+				$('#container').text("Nessun alunno in archivio per i parametri richiesti");
+			}
+			else {
+				var print_string = "";
+				for(data in json){
+					var t = json[data];
+					//alert(t.del);
+					if (t.del == 1){
+						//print_string += "<p><a href='#' onclick='dwld_file(\"../../../lib/download_manager.php?dw_type=report&f="+t.file+"&sess=1&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1&delete=1\")' style=''>"+t.nome+" (1 quadrimestre)</a></p>";
+						print_string += "<p><a href='#' onclick='dwld_file(\"../../../modules/documents/download_manager.php?doc=report&school_order=<?php echo $school ?>&area=teachers&f="+t.file+"&sess=1&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1&delete=1\")' style=''>"+t.nome+" (1 quadrimestre)</a></p>";
+					}
+					else {
+						//print_string += "<p><a href='../../../lib/download_manager.php?dw_type=report&f="+t.file+"&sess=2&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1' style=''>"+t.nome+" (2 quadrimestre)</a></p>";
+						print_string += "<p><a href='../../../modules/documents/download_manager.php?doc=report&school_order=<?php echo $school ?>&area=teachers&f="+t.file+"&sess=2&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1' style=''>"+t.nome+" (2 quadrimestre)</a></p>";
+					}
+				}
+				$('#container').html(print_string);
+			}
+		}
+	});
 };
 
 var dwld_file = function(href){
 	document.location = href;
-	$('container').update('');
+	$('#container').text('');
 };
 
-document.observe("dom:loaded", function(){
-	$('search_lnk').observe("click", function(event){
+$(function(){
+	load_jalert();
+	$('#search_lnk').click(function(event){
 		event.preventDefault();
 		search();
 	});

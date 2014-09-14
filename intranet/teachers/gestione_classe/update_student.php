@@ -110,5 +110,3 @@ switch($_REQUEST['action']){
 }
 
 exit;
-
-?>

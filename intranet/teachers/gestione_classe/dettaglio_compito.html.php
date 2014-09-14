@@ -5,47 +5,62 @@
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 <link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link href="../../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<link href="../../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
-<script type="text/javascript" src="../../../js/prototype.js"></script>
-<script type="text/javascript" src="../../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript" src="../../../js/window.js"></script>
-<script type="text/javascript" src="../../../js/window_effects.js"></script>
-<script type="text/javascript" src="../../../js/calendar.js"></script>
-<script type="text/javascript" src="../../../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../../../js/calendar-setup.js"></script>
 <script type="text/javascript">
-function save_homework(){
+var save_homework = function(){
 	//alert($('myform').serialize());
 	if(document.forms[0].del.value == 1){
 		if(!confirm("Sei sicuro di voler cancellare questo compito?"))
 			return false;
 	}
-	var req = new Ajax.Request('save_homework.php',
-			  {
-			    	method:'post',
-			    	parameters: $('myform').serialize(),
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		var dati = response.split("#");
-			     		alert(dati[1]);
-			     		parent.location.href = '<?php echo $ref ?>';
-			     		//window.close();
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore...") }
-			  });
-}
+	$.ajax({
+		type: "POST",
+		url: "save_homework.php",
+		data: $('#myform').serialize(),
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert('error', json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				j_alert('alert', json.message);
+				window.setTimeout(function(){
+					document.location.href = '<?php echo $ref ?>';
+				}, 2000);
+			}
+		}
+	});
+};
 
 var oldLink = null;
 
-document.observe("dom:loaded", function(){
-	$('save_button').observe("click", function(event){
+$(function(){
+	load_jalert();
+	$('#sel3').datepicker({
+		dateFormat: "dd/mm/yy"
+	});
+	$('#save_button').click(function(event){
 		event.preventDefault();
 		save_homework();
 	});
-	$('del_button').observe("click", function(event){
+	$('#del_button').click(function(event){
 		event.preventDefault();
 		document.forms[0].del.value = 1;
 		save_homework();
@@ -68,19 +83,6 @@ document.observe("dom:loaded", function(){
 		<td style="width: 20%" class="label_form">Per il</td>
 		<td style="width: 80%">
 			<input id="sel3" type="text" value="<?php if($upd == 1) print format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>" style="width: 100%; border: 1px solid #c0c0c0; font-size: 11px; padding-top: 3px" name="data_inizio" />&nbsp;
-			<script type="text/javascript">
-	            Calendar.setup({
-	                date		: new Date(),
-					inputField	: "sel3",
-					ifFormat	: "%d/%m/%Y",
-					showsTime	: false,
-					firstDay	: 1,
-					timeFormat	: "24",
-					dateStatusFunc :    function (date) {
-	            	    return (date.getDay() == 0) ? true : false;
-					}
-				});
-	        </script>
 		</td>
 	</tr>
 	<tr>

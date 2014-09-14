@@ -29,12 +29,5 @@ $is_teacher_in_this_class = $_SESSION['__user__']->isTeacherInClass($_SESSION['_
 	<?php endif; ?>
  </ul>
  <?php if(is_installed("com")){ ?>
- <!-- 
-<p class="menu_label com_icon">Comunicazioni</p>
- <ul class="menublock" dir="rtl"> 	
-  	<li style="padding-left: 20px"><a href="send_mail.php?d=students" style="font-size: 11px; font-weight: normal">Alunni</a></li>
-  	<li style="padding-left: 20px"><a href="send_mail.php?d=parents" style="font-size: 11px; font-weight: normal">Genitori</a></li>
-</ul>
- -->
-<?php } ?>
+ <?php } ?>
 </div> 

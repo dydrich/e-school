@@ -11,6 +11,7 @@
 <script type="text/javascript" src="../../../js/page.js"></script>
 <script type="text/javascript">
 $(function(){
+	load_jalert();
 	$('#birth').datepicker({
 		dateFormat: "dd/mm/yy",
 		changeYear: true,
@@ -75,13 +76,11 @@ var save = function(area){
 			}
 			var json = $.parseJSON(r);
 			if (json.status == "kosql"){
-				alert(json.message);
+				j_alert("error", json.message);
 				console.log(json.dbg_message);
 			}
 			else {
-				$('#not'+area).text(json.message);
-				$('#not'+area).show(1000);
-				window.setTimeout(function(){$('#not'+area).hide(1000);}, 2000);
+				j_alert("alert", json.message);
 			}
 		}
     });
@@ -103,7 +102,7 @@ var print_profile = function(){
 <div class="group_head">
 	Dettaglio alunno <?php echo $alunno['cognome']." ".$alunno['nome'] ?>
 </div>
-<form id="testform" method="post">
+<form id="testform" method="post" class="no_border">
 <input type="hidden" id="area" name="area" />
 <input type="hidden" id="stid" name="stid" value="<?php echo $_REQUEST['stid'] ?>" />
 <fieldset class="wd_90 _elem_center">
