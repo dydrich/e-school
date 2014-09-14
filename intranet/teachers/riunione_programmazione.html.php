@@ -30,6 +30,9 @@
 			$('.card_title').click(function(){
 				$(this).siblings('div.card_longcontent').toggle(1000);
 			});
+			$('.card_title').css({
+				cursor: "pointer"
+			});
 		});
 
 		var action = '<?php if ($_REQUEST['rid'] == 0) echo "insert"; else echo "update" ?>';
