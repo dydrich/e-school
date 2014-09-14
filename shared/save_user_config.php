@@ -3,7 +3,8 @@
 require_once "../lib/start.php";
 require_once "../lib/SessionUtils.php";
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Configurazione salvata");
 
 switch ($_POST['field']){
 	case "tipologia_prove":
@@ -19,14 +20,17 @@ switch ($_POST['field']){
 				$db->executeUpdate("INSERT INTO rb_parametri_utente (id_utente, id_parametro, valore) VALUES ({$_SESSION['__user__']->getUid()}, 1, '{$string}')");
 			}
 		} catch (MySQLException $ex){
-			echo "kosql#".$ex->getQuery()."#".$ex->getMessage();
+			$response['status'] = "kosql";
+			$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
+			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$res = json_encode($response);
+			echo $res;
 			exit;
 		}
 		break;
 	case "registro_obiettivi":
 		$string = $_POST['active'];
 		$check_exist = $db->executeCount("SELECT COUNT(*) FROM rb_parametri_utente WHERE id_utente = {$_SESSION['__user__']->getUid()} AND id_parametro = 2");
-		echo $check_exist;
 		try {
 			if($check_exist){
 				// update
@@ -36,13 +40,27 @@ switch ($_POST['field']){
 				$db->executeUpdate("INSERT INTO rb_parametri_utente (id_utente, id_parametro, valore) VALUES ({$_SESSION['__user__']->getUid()}, 2, '{$string}')");
 			}
 		} catch (MySQLException $ex){
-			echo "kosql#".$ex->getQuery()."#".$ex->getMessage();
+			$response['status'] = "kosql";
+			$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
+			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$res = json_encode($response);
+			echo $res;
 			exit;
 		}
 		break;
 }
-$ses_ut = SessionUtils::getInstance($db);
-$ses_ut->registerUserConfig($_SESSION['__user__']->getUID(), "__user_config__");
+try {
+	$ses_ut = SessionUtils::getInstance($db);
+	$ses_ut->registerUserConfig($_SESSION['__user__']->getUID(), "__user_config__");
+} catch (MySQLException $ex) {
+	$response['status'] = "kosql";
+	$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
+	$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+	$res = json_encode($response);
+	echo $res;
+	exit;
+}
 
-echo "ok";
+$res = json_encode($response);
+echo $res;
 exit;

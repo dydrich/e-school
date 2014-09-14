@@ -159,15 +159,6 @@ final class RBUtilities{
 				break;
 			case "school":
 			default:
-				//$sel_user = "SELECT username, password FROM rb_utenti WHERE rb_utenti.uid = {$uid} ";
-				//$ut = $this->datasource->executeQuery($sel_user);
-				/*
-				$auth = new Authenticator($this->datasource);
-				$user = $auth->login(3, $ut[0]['username'], $ut[0]['password']);
-				if ($user == null) {
-					$user = $this->loadUserFromUid($uid, 'simple_school');
-				}
-				*/
 				$sel_user = "SELECT rb_utenti.uid, nome, cognome, username, accessi, permessi FROM rb_utenti, rb_gruppi_utente WHERE rb_utenti.uid = rb_gruppi_utente.uid AND rb_utenti.uid = {$uid} AND gid NOT IN (8) ";
 				$res_utente = $this->datasource->executeQuery($sel_user);
 				if ($res_utente == null){
@@ -265,7 +256,7 @@ final class RBUtilities{
 					$res_other_cls = $this->datasource->executeQuery($sel_other_cls);
 					if($res_other_cls != null){
 						foreach ($res_other_cls as $row){
-							if ($classes[$row['id_classe']]){
+							if (isset($classes[$row['id_classe']])){
 								if($row['coordinatore'] == $user->getUid()){
 									$classes[$row['id_classe']]['coordinatore'] = 1;
 								}
@@ -290,9 +281,26 @@ final class RBUtilities{
 						}
 					}
 					$user->setClasses($classes);
+					/*
+					 * scuola primaria: moduli classe
+					 */
+
+					if ($user->getSchoolOrder() == 2 && count($classes) > 0) {
+						$modules = array();
+						$clkeys = array_keys($classes);
+						$mod = $this->datasource->executeQuery("SELECT rb_classi_modulo.* FROM rb_classi_modulo, rb_moduli_primaria WHERE id_modulo = rb_moduli_primaria.id AND anno = ".$_SESSION['__current_year__']->get_ID()." AND classe IN (".join(",", $clkeys).")");
+						foreach ($mod as $row) {
+							if (!isset($modules[$row['id_modulo']])) {
+								$modules[$row['id_modulo']] = array();
+							}
+							$modules[$row['id_modulo']][] = $row['classe'];
+						}
+						$user->setModules($modules);
+					}
 					if ($user == null) {
 						$user = $this->loadUserFromUid($uid, 'simple_school');
 					}
+
 				}
 				break;
 		}

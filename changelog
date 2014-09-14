@@ -1,3 +1,23 @@
+3.0.18
+associazione classi, nella parte finale della procedura di creazione nuove classi, ora associa in modo automatico la classe all'alunno
+
+3.0.17
+gestione alunno in admin a jquery
+
+3.0.16
+azzeramento password degli alunni delle classi terminali all'apertura del nuovo anno
+
+3.0.15
+risolto bug #48 (cambio password) col completamento del passaggio ad AccountManager
+portati tutti i footer al codice nuove notifiche
+ora si possono usare caratteri speciali per la password
+
+3.0.14
+ora cdc.php mostra nella scelta del docente di sostegno solo quelli dell'ordine di scuola scelto
+
+3.0.13
+bug fixes: inserimento uniqID in creazione utente, comportamento mostrato tra le tipologie insegnante
+
 3.0.12
 code cleaning and utf8 in registro_classe
 

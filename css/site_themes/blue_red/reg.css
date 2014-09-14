@@ -405,7 +405,7 @@ table {
 }
 
 .field {
-    border: 1px solid #373946;
+    border: 1px solid #C5C5C5;
     padding: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -417,7 +417,7 @@ table {
 .context_menu, #hid, #tipinota, .tooltip, #d_tp {
     background-color: #E4E7EF;
     padding: 10px;
-    border: 1px solid rgba(30, 67, 137, .8);
+    border: 1px solid rgba(30, 67, 137, .2);
     border-radius: 0px 0px 0px 0px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     color: #222222;
@@ -914,8 +914,51 @@ p.pop_title {
     text-align: center;
     text-transform: uppercase;
     font-weight: bold;
-    border: 1px solid rgba(30, 67, 137, .5);
-    outline-style: double;
-    outline-color: rgba(30, 67, 137, .5);
-    background-color: rgba(30, 67, 137, .8);
+    border: 1px solid rgba(30, 67, 137, .1);
+    #outline-style: solid;
+    #outline-color: rgba(30, 67, 137, .1);
+    #background-color: rgba(30, 67, 137, .8);
+}
+
+div.card {
+    width: 100%;
+    border: 1px solid rgba(215, 215, 215, 1);
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 5px;
+    margin-bottom: 10px;
+}
+
+div.card_title {
+    width: 100%;
+    height: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(215, 215, 215, 1);
+    #color: #777777;
+    color: #DB5355;
+    padding-top: 5px;
+}
+
+div.card_content {
+    width: 100%;
+    height: 35px;
+    font-size: 1em;
+    border-top: 1px solid rgba(215, 215, 215, 1);
+    padding-top: 5px;
+    #color: #555555;
+    color: rgba(30, 67, 137, 1);
+}
+
+div.card_longcontent {
+    width: 100%;
+    height: 55px;
+    font-size: 1em;
+    border-top: 1px solid rgba(215, 215, 215, 1);
+    padding-top: 5px;
+    #color: #555555;
+    color: rgba(30, 67, 137, 1);
 }

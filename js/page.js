@@ -112,7 +112,7 @@ window._alert = function(string){
 };
 
 window.sqlalert = function(){
-	openInfoDialog("Si e` verificato un errore. Si prega di contattare il responsabile del software per la risoluzione", 3);
+	j_alert("error", "Si e` verificato un errore. Si prega di contattare il responsabile del software per la risoluzione", 3);
 };
 
 function valida_data(strData){
@@ -170,7 +170,7 @@ function valida_data(strData){
 var timeout;
 var exec_code;
 function openInfoDialog(msg, tm) {
-	var html = "<div id='msg_div' style='width: 100%, text-align: center; font-size: 12px; font-weight: bold; padding-top: 30px; margin: auto'>"+msg+"</div>";
+	var html = "<div id='msg_div' style='width: 100%; text-align: center; font-size: 12px; font-weight: bold; padding-top: 30px; margin: auto'>"+msg+"</div>";
 	Dialog.info(html, 
 	{
 		width:250, 
@@ -315,5 +315,45 @@ var j_alert = function(type, msg){
         window.setTimeout(function(){
             $('#error').dialog("close");
         }, 3000);
+    }
+};
+
+/*
+codice per la visualizzazione durante processi in background
+versione per jquery
+ */
+var exec_code;
+var background_process = function(msg, tm) {
+    $('#background_msg').text(msg);
+    $('#background_msg').dialog({
+        autoOpen: true,
+        dialogClass: 'no_display ui-state-highlight',
+        show: {
+            effect: "fadeIn",
+            duration: 800
+        },
+        hide: {
+            effect: "fadeOut",
+            duration: 1000
+        },
+        modal: true,
+        width: 200,
+        title: '',
+        open: function(event, ui){
+
+        }
+    });
+    timeout = tm;
+    setTimeout(background_progress, 1000);
+};
+
+var background_progress = function() {
+    timeout--;
+    if (timeout > 0) {
+        //Dialog.setInfoMessage(messages[index]);
+        setTimeout(background_progress, 1000);
+    }
+    else{
+        $('#background_msg').dialog("close");
     }
 };

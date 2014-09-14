@@ -303,6 +303,11 @@ class SchoolUserBean extends UserBean{
 	 */
 	private $classes = array();
 
+	/*
+	 * primary school
+	 */
+	private $modules;
+
 	public function setSubject($subject){
 		$this->subject = $subject;
 	}
@@ -370,6 +375,20 @@ class SchoolUserBean extends UserBean{
 	 */
 	public function getLecturer(){
 		return $this->lecturer;
+	}
+
+	/**
+	 * @param mixed $modules
+	 */
+	public function setModules($modules) {
+		$this->modules = $modules;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getModules() {
+		return $this->modules;
 	}
 
 }
