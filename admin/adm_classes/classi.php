@@ -34,6 +34,7 @@ if (isset($_GET['school_order'])){
 	$classes_table = "rb_vclassi_s{$_GET['school_order']}";
 	$school_order = $_GET['school_order'];
 	$_SESSION['__school_order__'] = $_GET['school_order'];
+	$_SESSION['school_order'] = $_GET['school_order'];
 }
 else if(isset($_SESSION['__school_order__']) && $_SESSION['__school_order__'] != 0){
 	$classes_table = "rb_vclassi_s{$_SESSION['__school_order__']}";
