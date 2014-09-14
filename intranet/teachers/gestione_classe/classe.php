@@ -59,10 +59,10 @@ if(!$vacance){
 	$sel_day3_act = "SELECT rb_impegni.*, rb_materie.materia AS mat FROM rb_impegni, rb_materie WHERE rb_materie.id_materia = rb_impegni.materia AND classe = ".$_SESSION['__classe__']->get_ID()." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND data_fine LIKE '$day3%' AND rb_impegni.tipo = 1 ORDER BY data_inizio DESC";
 	$res_day3_act = $db->execute($sel_day3_act);
 	
-	setlocale(LC_TIME, "it_IT");
-	$tom 	 = ucfirst(utf8_encode(strftime("%A %d %B", strtotime($day2))));
-	$tod 	 = ucfirst(utf8_encode(strftime("%A %d %B", strtotime($day1))));
-	$post_tm = ucfirst(utf8_encode(strftime("%A %d %B", strtotime($day3))));
+	setlocale(LC_TIME, "it_IT.utf8");
+	$tom 	 = ucfirst(strftime("%A %d %B", strtotime($day2)));
+	$tod 	 = ucfirst(strftime("%A %d %B", strtotime($day1)));
+	$post_tm = ucfirst(strftime("%A %d %B", strtotime($day3)));
 }
 
 $navigation_label = "Registro elettronico - Gestione classe";
