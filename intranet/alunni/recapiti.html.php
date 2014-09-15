@@ -5,32 +5,52 @@
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area studenti</title>
 <link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javascript">
 var registra = function(){
-	if(trim($F('indirizzo')).empty() && trim($F('telefono')).empty() && trim($F('cellulare')).empty()){
+	if($('#indirizzo').val() == "" && $('#telefono').val() == "" && $('#cellulare').val() == ""){
 		alert("Non hai inserito nessun recapito");
 		return false;
 	}
-	req = new Ajax.Request('save_profile.php',
-		  {
-		    	method:'post',
-		    	parameters: $('my_form').serialize(true),
-		    	onSuccess: function(transport){
-		      		var response = transport.responseText || "no response text";
-		      		//alert(response);
-		      		var dati = response.split("|");
-		      		if(dati[0] == "ko"){
-			      		alert(dati[1]);
-			      		return false;
-		      		}
-		      		alert("Profilo modificato correttamente");
-		    	},
-		    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-		  });
+	$.ajax({
+		type: "POST",
+		url: 'save_profile.php',
+		data: $('#my_form').serialize(true),
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else if(json.status == "ko") {
+				j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+				return;
+			}
+			else {
+				j_alert("alert", json.message);
+			}
+		}
+	});
 };
+
+$(function(){
+	load_jalert();
+});
 	
 </script>
 </head>
