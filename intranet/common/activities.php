@@ -43,7 +43,7 @@ var dett = function(id_impegno){
 			}
 			var json = $.parseJSON(r);
 			if (json.status == "kosql"){
-				alert(json.message);
+				j_alert("error", json.message);
 				console.log(json.dbg_message);
 			}
 			else {
@@ -77,6 +77,10 @@ var dett = function(id_impegno){
 	});
 
 };
+
+$(function(){
+	load_jalert();
+});
 </script>
 </head>
 <body>

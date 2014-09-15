@@ -5,37 +5,34 @@
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area studenti</title>
 <link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
 <script>
-document.observe("dom:loaded", function(){
-	$('imglink').observe("click", function(event){
+$(function(){
+	$('#imglink').click(function(event){
 		event.preventDefault();
 		show_menu('imglink');
 	});
-	$('menu_div').observe("mouseleave", function(event){
+	$('#menu_div').mouseleave(function(event){
 		event.preventDefault();
-        $('menu_div').hide();
+        $('#menu_div').hide();
     });
 });
 
 function show_menu(el) {
-	if($('menu_div').style.display == "none") {
+	if($('#menu_div').is(":hidden")) {
 	    position = getElementPosition(el);
-	    dimensions = $(el).getDimensions();
-	    ftop = position['top'] + dimensions.height;
-	    fleft = position['left'] - 180 + dimensions.width;
-	    console.log("top: "+ftop+"\nleft: "+fleft);
-	    $('menu_div').setStyle({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
-	    $('menu_div').blindDown({duration: 0.5});
+		ftop = position['top'] + $('#'+el).height();
+		fleft = position['left'] - 180 + $('#'+el).width();
+		console.log("top: "+ftop+"\nleft: "+fleft);
+		$('#menu_div').css({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
+		$('#menu_div').slideToggle(600);
 	}
 	else {
-		$('menu_div').hide();
+		$('#menu_div').slideUp();
 	}
 }
 </script>

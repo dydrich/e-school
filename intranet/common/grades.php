@@ -65,54 +65,70 @@ $voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Bu
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area genitori</title>
 <link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javascript">
 function show_div(div, subjectID){
 	// recupero i voti da visualizzare
-	if($(div).style.display == "none"){
+	if($('#'+div).is(":hidden")){
 		url = "../common/get_marks.php";
-		var req = new Ajax.Request(url,
-				  {
-				    	method:'post',
-				    	parameters: {subjectID: subjectID, q: <?php print $q ?>, ric: "<?php echo $area ?>"},
-				    	onSuccess: function(transport){
-				      		var response = transport.responseText || "no response text";
-				      		if(response == "ko"){
-								alert("Dati non accessibili. Riprova tra qualche secondo");
-								//alert(response);
-								return;
-				      		}
-				      		//alert(response);
-				      		$(div).innerHTML = "";
-				      		var dati = response.split(";");
-				      		if(dati[1] == "kosql"){
-								sqlalert();
-								exit;
-				      		}
-				      		if(dati[1] == 0){
-				      			$(div).innerHTML = "<span style='padding-left: 30px; padding-bottom: 20px'>Nessun voto presente</span>";
-				      		}
-				      		else{
-				      			var html = "<table style='margin-left: 30px; width: 80%; margin-bottom: 20px'>";
-				      			//alert(html);
-					      		for(i = 2; i < dati.length; i++){
-						      		riga = dati[i].split("#");
-					      			html += "<tr class='manager_row_xsmall'><td style='width: 20%; '>"+riga[0]+"</td><td style='width: 55%; '>"+riga[4]+"</td><td style='width: 25%; text-align: center'>"+riga[1]+riga[2]+"</td></tr>";
-					      		}
-					      		html += "</table>";
-					      		$(div).innerHTML = html;
-				      		}
-						    $('line_'+subjectID).setStyle({'backgroundColor': 'rgba(30, 67, 137, .1)'});
-				    	},
-				    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-				  });
-		Effect.BlindDown(div, { duration: 2.0 });
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: {subjectID: subjectID, q: <?php print $q ?>, ric: "<?php echo $area ?>"},
+			dataType: 'json',
+			error: function() {
+				j_alert("error", "Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				$('#'+div).html("");
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					alert(json.message);
+					console.log(json.dbg_message);
+				}
+				else if(json.status == "ko") {
+					j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+					return;
+				}
+				else {
+
+					if(json.numero_voti == 0){
+						$('#'+div).html("<span style='padding-left: 30px; padding-bottom: 20px'>Nessun voto presente</span>");
+					}
+					else{
+						var html = "<table style='margin-left: 30px; width: 80%; margin-bottom: 20px'>";
+						//alert(json.voti.length);
+						for(data in json.voti){
+							riga = json.voti[data];
+							if (riga.data != "" && riga.data != undefined) {
+								html += "<tr class='manager_row_xsmall'><td style='width: 20%; '>"+riga.data+"</td><td style='width: 55%; '>"+riga.desc+"</td><td style='width: 25%; text-align: center'>"+riga.voto+"</td></tr>";
+								//$('<div style="width: 80%; margin-left: 30px; background-color: rgba(30, 67, 137, .1); border-bottom: 1px solid rgba(30, 67, 137, .2)">'+riga.data+': <span class="_bold _right">'+riga.voto+'</span></div>').appendTo($('#'+div));
+							}
+						}
+						html += "</table>";
+						$('#'+div).html(html);
+					}
+					$('#line_'+subjectID).css({'backgroundColor': 'rgba(30, 67, 137, .1)'});
+				}
+			}
+		});
+		$('#'+div).show();
 	}	
 	else{
-		Effect.SlideUp(div, { duration: 2.0 });
-		$('line_'+subjectID).setStyle({'backgroundColor': ''});
+		$('#'+div).hide(1000);
+		$('#line_'+subjectID).css({'backgroundColor': ''});
 	}
 }
 </script>

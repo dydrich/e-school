@@ -37,10 +37,10 @@ if (isset($_GET['view']) && $_GET['view'] == "m"){
 	if ($_GET['f'] == "sub"){
 		$qsubject = " AND materia = {$_GET['sub']} ";
 	}
-	$sel_lessons = "SELECT data, ora, materia, argomento, rb_reg_alunni.ingresso AS ingresso FROM rb_reg_firme, rb_reg_classi, rb_reg_alunni WHERE rb_reg_classi.id_classe = ".$_SESSION['__classe__']->get_ID()." AND rb_reg_firme.id_registro = id_reg AND id_reg = rb_reg_alunni.id_registro AND id_alunno = {$alunno} AND data <= '{$today}' AND DATE_FORMAT(data, '%c') = {$month} {$qsubject} ORDER BY data DESC, ora ASC";
+	$sel_lessons = "SELECT data, ora, materia, argomento, rb_reg_alunni.ingresso AS ingresso FROM rb_reg_firme, rb_reg_classi, rb_reg_alunni WHERE rb_reg_classi.id_classe = ".$_SESSION['__classe__']->get_ID()." AND rb_reg_firme.id_registro = id_reg AND id_reg = rb_reg_alunni.id_registro AND id_alunno = {$alunno} AND data >= '{$inizio_lezioni}' AND data <= '{$today}' AND DATE_FORMAT(data, '%c') = {$month} {$qsubject} ORDER BY data DESC, ora ASC";
 }
 else {
-	$sel_lessons = "SELECT data, ora, materia, argomento, rb_reg_alunni.ingresso AS ingresso FROM rb_reg_firme, rb_reg_classi, rb_reg_alunni WHERE rb_reg_classi.id_classe = ".$_SESSION['__classe__']->get_ID()." AND rb_reg_firme.id_registro = id_reg AND id_reg = rb_reg_alunni.id_registro AND id_alunno = {$alunno} AND data <= '{$today}' ORDER BY data DESC, ora ASC";
+	$sel_lessons = "SELECT data, ora, materia, argomento, rb_reg_alunni.ingresso AS ingresso FROM rb_reg_firme, rb_reg_classi, rb_reg_alunni WHERE rb_reg_classi.id_classe = ".$_SESSION['__classe__']->get_ID()." AND rb_reg_firme.id_registro = id_reg AND id_reg = rb_reg_alunni.id_registro AND id_alunno = {$alunno} AND data >= '{$inizio_lezioni}' AND data <= '{$today}' ORDER BY data DESC, ora ASC";
 }
 $res_lessons = $db->execute($sel_lessons);
 $lezioni = array();

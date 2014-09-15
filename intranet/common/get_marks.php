@@ -4,7 +4,7 @@ require_once "../../lib/start.php";
 require_once "../../lib/ArrayMultiSort.php";
 require_once '../../lib/RBUtilities.php';
 
-ini_set("display_errors", "1");
+ini_set("display_errors", DISPLAY_ERRORS);
 
 check_session();
 
@@ -52,25 +52,29 @@ if(isset($_REQUEST['ric']) && ($_REQUEST['ric'] == "genitori")){
 	$studente = $_SESSION['__current_son__'];
 }
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
 
 $sel_marks = "(SELECT data_voto AS data, voto, modificatori, tipologia, descrizione FROM rb_voti WHERE materia = {$_REQUEST['subjectID']} AND anno = ".$_SESSION['__current_year__']->get_ID()." AND alunno = ".$studente." AND privato = 0 $int_time ORDER BY data_voto DESC)";
 $sel_marks .=  " UNION (SELECT data AS data, 'impreparato' AS voto, '' AS modificatori, 2 AS tipologia, 'Interrogazione' AS descizione FROM rb_note_didattiche WHERE tipo = 1 AND materia = {$_REQUEST['subjectID']} AND anno = ".$_SESSION['__current_year__']->get_ID()." AND alunno = ".$studente." $note_time ORDER BY data  DESC)";
 try{
 	$res_marks = $db->execute($sel_marks);
 } catch (MySQLException $ex){
-	print ("kosql;".$ex->getMessage());
+	$response['status'] = "kosql";
+	$response['message'] = $ex->getMessage()." === ".$ex->getQuery();
+	echo json_encode($response);
 	exit;
 }
 $values = array();
 $rows = array();
 $voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
-$res = "ok;".$res_marks->num_rows.";";
+$response['numero_voti'] = $res_marks->num_rows;
+
 while($row = $res_marks->fetch_assoc()){
 	if ($_REQUEST['subjectID'] == $id_religione){
 		$row['voto'] = $voti_religione[RBUtilities::convertReligionGrade($row['voto'])];
 	}
-	$ar = array("data" => $row['data'], "voto" => $row['voto'], "mod" => $row['modificatori'], "tipologia" => $row['tipologia'], "desc" => $row['descrizione']);
+	$ar = array("data" => format_date($row['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/"), "voto" => $row['voto'], "mod" => $row['modificatori'], "tipologia" => $row['tipologia'], "desc" => $row['descrizione']);
 	array_push($rows, $ar);
 }
 $msarray = new ArrayMultiSort($rows);
@@ -78,15 +82,7 @@ $msarray->setSortFields(array("data"));
 $msarray->sort();
 $ordered_grades = $msarray->getData();
 
-foreach ($ordered_grades as $r){
-	$r['data'] = format_date($r['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
-	$l = join("#", $r);
-	array_push($values, $l);
-}
+$response['voti'] = $ordered_grades;
 
-$res .= join(";", $values);
-
-print $res;
+echo json_encode($response);
 exit;
-
-?>
