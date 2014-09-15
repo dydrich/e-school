@@ -5,9 +5,21 @@ require_once "../../lib/start.php";
 $alunno = $_REQUEST['alunno'];
 $id = $_REQUEST['id'];
 
-$upd = "UPDATE rb_assegnazione_sostegno SET alunno = {$alunno} WHERE id = {$id}";
-$update_var = $db->executeUpdate($upd);
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
 
-header("Content-type: text/plain");
-echo "ok";
+$upd = "UPDATE rb_assegnazione_sostegno SET alunno = {$alunno} WHERE id = {$id}";
+try {
+	$update_var = $db->executeUpdate($upd);
+} catch (MySQLException $ex) {
+	$response['status'] = "ko";
+	$response['message'] = "Si è verificato un errore";
+	$response['dbg_message'] = $ex->getMessage()."--".$ex->getQuery();
+	$res = json_encode($response);
+	echo $res;
+	exit;
+}
+
+$res = json_encode($response);
+echo $res;
 exit;

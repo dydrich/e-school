@@ -4,35 +4,44 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Alunni</title>
 <link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script>
 var del = function(id){
 	var url = "elimina_segnalazione.php";
-	var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {id: id},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-						if(response.substr(0, 5) == "kosql"){
-			      			var dati = response.split("#");
-						
-				      		if(dati[0] == "kosql"){
-								sqlalert();
-								console.log(dati[1]+"\n"+dati[2]);
-								return false;
-				     		}
-						}
-						else{
-			     			$('row'+id).hide();
-			     		}
-			     		
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {id: id},
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				sqlalert();
+				console.log(json.dbg_message);
+				return;
+			}
+			else if(json.status == "ko") {
+				j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+				return;
+			}
+			else {
+				$('#row'+id).hide();
+			}
+		}
+	});
 };
 </script>
 </head>

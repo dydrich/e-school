@@ -8,7 +8,8 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
 
 $year = $_SESSION['__current_year__']->get_ID();
 $q = $_REQUEST['q'];
@@ -24,10 +25,14 @@ $upd = "UPDATE rb_pubblicazione_pagelle SET {$field} = {$stato} WHERE quadrimest
 try{
 	$db->executeQuery($upd);
 } catch (MySQLException $ex){
-	echo "kosql#".$ex->getMessage()."#".$ex->getQuery();
+	$response['status'] = "kosql";
+	$response['message'] = "Si è verificato un errore";
+	$response['dbg_message'] = $ex->getMessage()."--".$ex->getQuery();
+	$res = json_encode($response);
+	echo $res;
 	exit;
 }
 
-echo "ok";
-
-?>
+$res = json_encode($response);
+echo $res;
+exit;

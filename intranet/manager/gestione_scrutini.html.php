@@ -4,17 +4,11 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
 <link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<link href="../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
-<script type="text/javascript" src="../../js/calendar.js"></script>
-<script type="text/javascript" src="../../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../../js/calendar-setup.js"></script>
+<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript">
 var timestamp;
 var tm = 0;
@@ -23,38 +17,47 @@ var timer;
 
 var change_status = function(q){
 	var url = "modifica_stato_scrutinio.php";
-	var stato = $F('status'+q+'q');
+	var stato = $('status'+q+'q').val();
 	//alert(q+"  "+stato);
-	var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {q: q, stato: stato},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		var dati = response.split("#");
-			      		if(dati[0] == "kosql"){
-			      			sqlalert();
-							//console.log(dati[1]+"\n"+dati[2]);
-							return false;
-			     		}
-			     		else{
-				     		_alert("Stato scrutinio modificato");	
-			     		}
-			     		
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {q: q, stato: stato},
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				sqlalert();
+				console.log(json.dbg_message);
+				return;
+			}
+			else if(json.status == "ko") {
+				j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+				return;
+			}
+			else {
+				j_alert("alert", json.message);
+			}
+		}
+	});
+
 };
 
-
-
-
-document.observe("dom:loaded", function(){
-	$('status1q').observe("change", function(event){
+$(function(){
+	$('#status1q').change(function(event){
 		event.preventDefault();
 		change_status(1);
 	});
-	$('status2q').observe("change", function(event){
+	$('#status2q').change(function(event){
 		event.preventDefault();
 		change_status(2);
 	});
