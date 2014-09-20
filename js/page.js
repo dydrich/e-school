@@ -221,9 +221,9 @@ function getElementPosition(elemID) {
 
 var yellow_fade = function(elem){
 	var trasp = 1;
-	$(elem).setStyle({backgroundColor: "rgba(238, 238, 76, 1)"});
+	$('#'+elem).setStyle({backgroundColor: "rgba(238, 238, 76, 1)"});
 	var i = 0;
-	var intv = window.setInterval(function(){trasp -= 0.1; i++; $(elem).setStyle({backgroundColor: "rgba(238, 238, 76, "+trasp+")"});}, 200);
+	var intv = window.setInterval(function(){trasp -= 0.1; i++; $('#'+elem).setStyle({backgroundColor: "rgba(238, 238, 76, "+trasp+")"});}, 200);
 	if(i > 10)
 		window.clearInterval(intv);	
 };
@@ -356,4 +356,8 @@ var background_progress = function() {
     else{
         $('#background_msg').dialog("close");
     }
+};
+
+var loading = function(string, time){
+    background_process(string, time);
 };

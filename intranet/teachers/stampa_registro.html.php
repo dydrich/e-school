@@ -55,7 +55,7 @@ var attach = function(){
 };
 
 var createLog = function(){
-	loading(20);
+	loading("Creazione registro in corso", 20);
 	$.ajax({
 		type: "POST",
 		url: 'print_log.php',
@@ -105,9 +105,6 @@ $(function(){
 });
 
 var loaded = false;
-function loading(time){
-	background_process("Attendere la creazione del registro...", time);
-}
 
 </script>
 </head>
