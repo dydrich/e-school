@@ -25,8 +25,8 @@
     </div>
 </header>
 <section class="wrap">
-    <div id="login_form" style="font-size: 2em; font-weight: bold; text-align: center; padding: 75px 15px 0 15px">
-        Il sito è temporaneamente inutilizzabile. Ci scusiamo per il disagio
+    <div id="login_form" style="font-size: 2.5em; font-weight: bold; text-align: center; padding: 95px 35px 0 35px">
+        Il sito è temporaneamente inutilizzabile. <br /><br />Ci scusiamo per il disagio
     </div>
 </section>
 </body>
