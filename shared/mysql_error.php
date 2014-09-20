@@ -7,40 +7,52 @@ include "../lib/start.php";
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<link rel="stylesheet" href="../css/main.css" type="text/css" />
 <title>Registro elettronico</title>
-<script type="text/javascript" src="../js/prototype.js"></script>
-<script type="text/javascript" src="../js/scriptaculous.js"></script>
-<script type="text/javascript">
-var send_email = function(){
-	var url = "bug_notification.php";
-	alert("Bug notification");
-	req = new Ajax.Request(url,
-		  {
-		    	method:'post',
-		    	onSuccess: function(transport){
-			    	var response = transport.responseText || "no response text";
-			    	dati = response.split("#");
-		    		if(dati[0] == "ko"){
-			    		alert("KO");
-		    			return;
-		    		}
-		    		else{
-		    			alert('Segnalazione inviata', 2);
-		    		}
-		    	},
-		    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-		  });
-};
-/*
-document.observe("dom:loaded", function(){
-	$('send_bug').observe("click", function(event){
-		event.preventDefault();
-		send_email();
-	});	
-});
-*/
-</script>
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+	var send_email = function(){
+		var url = "bug_notification.php";
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: {cls: cls},
+			dataType: 'json',
+			error: function() {
+				alert("Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					alert(json.message);
+					console.log(json.dbg_message);
+				}
+				else {
+					j_alert ("alert", "Segnalazione inviata");
+				}
+			}
+		});
+	};
+	/*
+	document.observe("dom:loaded", function(){
+		$('send_bug').observe("click", function(event){
+			event.preventDefault();
+			send_email();
+		});
+	});
+	*/
+	</script>
 </head>
 <body>
 	<div id="header">
