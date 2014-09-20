@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javascript">
 var timestamp;
 var tm = 0;
@@ -17,8 +18,8 @@ var timer;
 
 var change_status = function(q){
 	var url = "modifica_stato_scrutinio.php";
-	var stato = $('status'+q+'q').val();
-	//alert(q+"  "+stato);
+	var stato = $('#status'+q+'q').val();
+	alert(q+"  "+stato);
 	$.ajax({
 		type: "POST",
 		url: url,
@@ -53,6 +54,7 @@ var change_status = function(q){
 };
 
 $(function(){
+	load_jalert();
 	$('#status1q').change(function(event){
 		event.preventDefault();
 		change_status(1);

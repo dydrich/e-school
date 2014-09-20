@@ -3,230 +3,166 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<link href="../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
-<script type="text/javascript" src="../../js/calendar.js"></script>
-<script type="text/javascript" src="../../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../../js/calendar-setup.js"></script>
-<script type="text/javascript">
-var timestamp;
-var tm = 0;
-var complete = false;
-var timer;
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+	var timestamp;
+	var tm = 0;
+	var complete = false;
+	var timer;
 
-var publish = function(q){
-	quad = q;
-	alert(quad);
-	if(quad == 3) quad = 2;
-	var url = "registra_pagelle.php";
-	var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {q: quad, data: timestamp},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		var dati = response.split("#");
-			      		if(dati[0] == "kosql"){
-			      			sqlalert();
-							//console.log(dati[1]+"\n"+dati[2]);
-							return false;
-			     		}
-			     		else{
-				     		$('q'+q+'_text').update("Online dal "+$F('q'+q+'_val')+" alle ore "+$F('q'+q+'_h'));
-				     		yellow_fade('upd_tr'+q);	
-			     		}
-			     		
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-};
-
-var create_report = function(q){
-	var url = "report_manager.php";
-	leftS = (screen.width - 200) / 2;
-	$('wait_label').setStyle({left: leftS+"px"});
-	$('wait_label').setStyle({top: "300px"});
-	$('wait_label').update("Operazione in corso");
-	$('over1').show();
-	$('wait_label').appear({duration: 0.8});
-	var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {action: "create_final_report", y: <?php echo $_SESSION['__current_year__']->get_ID() ?>},
-			    	onSuccess: function(transport){
-			    		complete = true;
-				    	clearTimeout(timer);
-			      		var response = transport.responseText || "no response text";
-			      		var dati = response.split("#");
-			      		if(dati[0] == "kosql"){
-			      			$('over1').hide();
-			    			setTimeout("sqlalert()", 100);
-							//console.log(dati[1]+"\n"+dati[2]);
-							return false;
-			     		}
-			     		else{
-			     			$('wait_label').update("Operazione conclusa");
-							setTimeout("$('wait_label').fade({duration: 2.0})", 2000);
-							setTimeout("$('over1').hide()", 3700);
-							//setTimeout("_alert('Pagelle create')", 3800);
-			     		}
-			     		
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-	upd_str();
-};
-
-var do_backup = function(year, session, area){
-	//alert("doing backup for area "+ area+", session "+session+" on year "+year);
-	//document.location.href = "report_manager.php?action=do_backup&q="+session+"&y="+year;
-	//return;
-	tm = 0;
-	complete = false;
-	var url = "report_manager.php";
-	leftS = (screen.width - 200) / 2;
-	$('wait_label').setStyle({left: leftS+"px"});
-	$('wait_label').setStyle({top: "300px"});
-	$('wait_label').update("Operazione in corso");
-	$('over1').show();
-	$('wait_label').appear({duration: 0.8});
-	upd_str();
-	var req = new Ajax.Request(url,
-		{
-			method:'post',
-			parameters: {action: "do_backup", y: <?php echo $_SESSION['__current_year__']->get_ID() ?>, q: session},
-			onSuccess: function(transport){
-				complete = true;
-				clearTimeout(timer);
-				var response = transport.responseText || "no response text";
-				var json = response.evalJSON();
-				console.log(json.status);
-				if(json.status == "kosql"){
-					$('over1').hide();
-					setTimeout("sqlalert()", 100);
-					//console.log(dati[1]+"\n"+dati[2]);
-					return false;
-				}
-				else{
-					$('tdbck_'+session).update("<a href='../../modules/documents/download_manager.php?doc=report_backup&area=manager&f="+json.zip+"&sess="+session+"&y="+year+"&area="+area+"' style=''>Scarica il backup</a>");
-					console.log(json.zip);
-					$('wait_label').update(json.message);
-					setTimeout("$('wait_label').fade({duration: 1.0})", 4000);
-					setTimeout("$('over1').hide()", 5100);
-				}
+	var publish = function(q){
+		quad = q;
+		if(quad == 3) quad = 2;
+		var url = "registra_pagelle.php";
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: {q: quad, data: $('#q'+quad+"_val").val(), ora: $('#q'+quad+"_h").val()},
+			dataType: 'json',
+			error: function() {
+				alert("Errore di trasmissione dei dati");
+			},
+			succes: function() {
 
 			},
-			onFailure: function(){ alert("Si e' verificato un errore..."); }
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					alert(json.message);
+					console.log(json.dbg_message);
+				}
+				else {
+					$('#q'+q+'_text').text("Online dal "+$('#q'+q+'_val').val()+" alle ore "+$('#q'+q+'_h').val());
+					yellow_fade('upd_tr'+q);
+				}
+			}
 		});
+	};
 
-};
+	var create_report = function(q){
+		var url = "report_manager.php";
+		loading("Creazione pagelle in corso", 10);
 
-var upd_str = function(){
-	tm++;
-	//alert(tm);
-	if(tm > 5){ 
-		tm = 0;
-		$('wait_label').update("Operazione in corso");
-	}
-	else
-		$('wait_label').innerHTML += ".";
-	timer = setTimeout("upd_str()", 1000);
-};
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: {action: "create_final_report", y: <?php echo $_SESSION['__current_year__']->get_ID() ?>},
+			dataType: 'json',
+			error: function() {
+				alert("Errore di trasmissione dei dati");
+			},
+			succes: function() {
 
-var _hide = function(){
-	$('over1').hide();
-	$('wait_label').hide();
-};
+			},
+			complete: function(data){
+				r = data.responseText;
+				complete = true;
+				clearTimeout(timer);
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					alert(json.message);
+					console.log(json.dbg_message);
+				}
+				else {
+					$('#background_msg').text("Operazione conclusa");
+				}
+			}
+		});
+	};
 
-var yellow_fade = function(elem){
-	var trasp = 1;
-	$(elem).setStyle({backgroundColor: "rgba(238, 238, 76, 1)"});
-	var i = 0;
-	var intv = window.setInterval(function(){trasp -= 0.1; i++; $(elem).setStyle({backgroundColor: "rgba(238, 238, 76, "+trasp+")"});}, 200);
-	if(i > 10)
-		window.clearInterval(intv);	
-};
+	var do_backup = function(year, session, area){
+		var url = "report_manager.php";
+		loading("Creazione backup in corso", 10);
 
-var split_date = function(q){
-	timestamp = $F('q'+q+'_val');
-	date_time = $('q'+q+'_val').value;
-	date = date_time.substr(0, 10);
-	time = date_time.substr(11, 5);
-	$('q'+q+'_val').value = date;
-	$('q'+q+'_h').value = time;
-};
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: {action: "do_backup", y: <?php echo $_SESSION['__current_year__']->get_ID() ?>, q: session},
+			dataType: 'json',
+			error: function() {
+				alert("Errore di trasmissione dei dati");
+			},
+			succes: function() {
 
-document.observe("dom:loaded", function(){
-	<?php if($pagelle[$_SESSION['__current_year__']->get_ID()][1]['disponibili_docenti'] == "" || (isset($_REQUEST['force_modification']) && $_REQUEST['force_modification'] == 1)): ?>
-	$('publisher1').observe("click", function(event){
-		event.preventDefault();
-		publish(1);
+			},
+			complete: function(data){
+				r = data.responseText;
+				complete = true;
+				clearTimeout(timer);
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					alert(json.message);
+					console.log(json.dbg_message);
+				}
+				else {
+					$('#tdbck_'+session).text("<a href='../../modules/documents/download_manager.php?doc=report_backup&area=manager&f="+json.zip+"&sess="+session+"&y="+year+"&area="+area+"' style=''>Scarica il backup</a>");
+					console.log(json.zip);
+					$('#background_msg').text("Operazione conclusa");
+				}
+			}
+		});
+	};
+
+	$(function(){
+		<?php if((isset($pagelle[$_SESSION['__current_year__']->get_ID()][1]['disponibili_docenti']) && $pagelle[$_SESSION['__current_year__']->get_ID()][1]['disponibili_docenti'] == "") || (isset($_REQUEST['force_modification']) && $_REQUEST['force_modification'] == 1)): ?>
+		$('#publisher1').click(function(event){
+			event.preventDefault();
+			publish(1);
+		});
+		<?php
+		 else:
+		 ?>
+		$('.backup').click(function(event){
+			//alert(this.id);
+			var strs = this.id.split("_");
+			y = strs[1];
+			q = strs[2];
+			event.preventDefault();
+			do_backup(y, q, <?php echo $_SESSION['__school_order__'] ?>);
+		});
+		<?php endif; ?>
+		<?php if((isset($pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti']) && $pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti'] == "") || (isset($_REQUEST['force_modification']) && $_REQUEST['force_modification'] == 3)){ ?>
+		$('#publisher').click(function(event){
+			event.preventDefault();
+			//alert(3);
+			publish(2);
+		});
+		<?php } ?>
+		$('#gen_2').click(function(event){
+			event.preventDefault();
+			create_report(2);
+		});
+		$('#q2_val').datepicker({
+			dateFormat: "dd/mm/yy"
+		});
+		$('#q1_val').datepicker({
+			dateFormat: "dd/mm/yy"
+		});
+		$('#q2_h').timepicker({
+
+		});
+		$('#q1_h').timepicker({
+
+		});
 	});
-	<?php
-	 else:
-	 ?>
-	$$('.backup').invoke("observe", "click", function(event){
-		//alert(this.id);
-		var strs = this.id.split("_");
-		y = strs[1];
-		q = strs[2];
-		event.preventDefault();
-		do_backup(y, q, <?php echo $_SESSION['__school_order__'] ?>);
-	});
-	<?php endif; ?>
-	<?php if($pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti'] == "" || (isset($_REQUEST['force_modification']) && $_REQUEST['force_modification'] == 3)){ ?>
-	$('publisher').observe("click", function(event){
-		event.preventDefault();
-		alert(3);
-		publish(3);
-	});
-	<?php } ?>
-	$('gen_2').observe("click", function(event){
-		event.preventDefault();
-		create_report(2);
-	});
-});	
 
-</script>
-<style>
-#wait_label{
-	width: 200px;
-	height: 80px;
-	text-align: center;
-	background-color: #000000; 
-	border: 1px solid #CCCCCC; 
-	border-radius: 8px 8px 8px 8px;
-	color: white;
-	font-weight: bold;
-	vertical-align: middle;
-}
-.index_link {#border-bottom: 1px solid #CCCCCC;}
-.group_head{
-	padding-top: 5px; 
-	padding-bottom: 5px; 
-	text-align: center; 
-	font-weight: bold; 
-	background-color: #E7E7E7; 
-	border-radius: 5px 5px 5px 5px
-}
-div.overlay{
-    background-image: url(../../images/overlay.png);
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: 90;
-    width: 100%;
-    height: 100%;
-}
-
-</style>
+	</script>
 </head>
 <body>
 <?php include "header.php" ?>
@@ -244,27 +180,22 @@ div.overlay{
 		<table style="width: 550px">
 			<tr id="upd_tr3">
 				<td style="width: 30%; font-weight: bold">Pagella finale </td>
-				<td style="width: 70%" id="q3_text">
-				<?php if($pagelle[$_SESSION['__current_year__']->get_ID()][2]['data_pubblicazione'] == "" || (isset($_REQUEST['force_modification']) && $_REQUEST['force_modification'] == 3)){ ?>
+				<td style="width: 70%" id="q2_text">
+				<?php if((isset($pagelle[$_SESSION['__current_year__']->get_ID()][2]['data_pubblicazione']) && $pagelle[$_SESSION['__current_year__']->get_ID()][2]['data_pubblicazione'] == "") || (isset($_REQUEST['force_modification']) && $_REQUEST['force_modification'] == 2)){ ?>
 				<a href="#" id="sel3" style="text-decoration: none">Pubblica le pagelle il </a>
-				<input type="text" onchange="split_date(3)" style="margin-left: 8px; width: 65px; border: 1px solid #DAE5CE; border-radius: 5px; font-size: 0.9em" name="q3_val" id="q3_val" />
+				<input type="text" style="margin-left: 8px; width: 65px; border: 1px solid #DAE5CE; border-radius: 5px; font-size: 0.9em" name="q2_val" id="q2_val" />
 				<label for="f_h" style="margin-left: 15px">alle ore </label>
-				<input type="text" style="margin-left: 8px; width: 35px; border: 1px solid #DAE5CE; border-radius: 5px; font-size: 0.9em" name="q3_h" id="q3_h" />
+				<input type="text" style="margin-left: 8px; width: 35px; border: 1px solid #DAE5CE; border-radius: 5px; font-size: 0.9em" name="q2_h" id="q2_h" />
 				<a href="../../shared/no_js.php" id="publisher" style="margin-left: 10px">Registra</a>
-				<script type="text/javascript">
-		            Calendar.setup({
-		                date		: new Date(),
-						inputField	: "q3_val",
-						ifFormat	: "%d/%m/%Y %H:%M",
-						showsTime	: true,
-						firstDay	: 1,
-						timeFormat	: "24"				
-					});
-		        </script>
 				<?php } 
-				else{ 
-					$d = format_date($pagelle[$_SESSION['__current_year__']->get_ID()][2]['data_pubblicazione'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
-					$h = substr($pagelle[$_SESSION['__current_year__']->get_ID()][2]['ora_pubblicazione'], 0, 5);
+				else{
+					if(isset($pagelle[$_SESSION['__current_year__']->get_ID()][2]['data_pubblicazione'])) {
+						$d = format_date($pagelle[$_SESSION['__current_year__']->get_ID()][2]['data_pubblicazione'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
+						$h = substr($pagelle[$_SESSION['__current_year__']->get_ID()][2]['ora_pubblicazione'], 0, 5);
+					}
+					else {
+						$d = $h = "";
+					}
 				?>
 				Online dal <?php echo $d ?> alle ore <?php echo $h ?> (<a href="pagelle.php?force_modification=3" id="mod">modifica</a>)
 				<?php } ?>
@@ -273,7 +204,7 @@ div.overlay{
 			<tr>
 				<td colspan="2" style="padding-left: 40px">
 					
-					<?php if($pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti'] != "" && $pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti'] <= date("Y-m-d")){ ?>
+					<?php if(isset($pagelle[$_SESSION['__current_year__']->get_ID()][2]['data_pubblicazione']) && $pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti'] != "" && $pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti'] <= date("Y-m-d")){ ?>
 					<a href="../../shared/no_js.php" id="gen_2">Genera o rigenera pagelle</a><br />
 					<a href="cerca_pagella.php?y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&q=2">Cerca una pagella</a><br />
 					<a href="" class="backup" id="backup_<?php echo $_SESSION['__current_year__']->get_ID() ?>_2">Crea il backup pagelle</a><br />
@@ -305,33 +236,28 @@ div.overlay{
 			<tr id="upd_tr1">
 				<td style="width: 30%">Primo Quadrimestre</td>
 				<td style="width: 70%" id="q1_text">
-				<?php if($pagelle[$_SESSION['__current_year__']->get_ID()][1]['data_pubblicazione'] == "" || (isset($_REQUEST['force_modification']) && $_REQUEST['force_modification'] == 1)){ ?>
+				<?php if((isset($pagelle[$_SESSION['__current_year__']->get_ID()][1]['data_pubblicazione']) && $pagelle[$_SESSION['__current_year__']->get_ID()][1]['data_pubblicazione'] == "") || (isset($_REQUEST['force_modification']) && $_REQUEST['force_modification'] == 1)){ ?>
 				<a href="#" id="sel" style="text-decoration: none">Pubblica le pagelle il </a>
-				<input type="text" onchange="split_date(1)" style="margin-left: 8px; width: 65px; border: 1px solid #DAE5CE; border-radius: 5px; font-size: 0.9em" name="q1_val" id="q1_val" />
+				<input type="text" style="margin-left: 8px; width: 65px; border: 1px solid #DAE5CE; border-radius: 5px; font-size: 0.9em" name="q1_val" id="q1_val" />
 				<label for="q1_h" style="margin-left: 15px">alle ore </label>
 				<input type="text" style="margin-left: 8px; width: 35px; border: 1px solid #DAE5CE; border-radius: 5px; font-size: 0.9em" name="q1_h" id="q1_h" />
 				<a href="#" id="publisher1" style="margin-left: 10px">Registra</a>
-				<script type="text/javascript">
-		            Calendar.setup({
-		                date		: new Date(),
-						inputField	: "q1_val",
-						ifFormat	: "%d/%m/%Y %H:%M",
-						showsTime	: true,
-						firstDay	: 1,
-						timeFormat	: "24"				
-					});
-		        </script>
 				<?php
 				}
-				else{ 
-					$d = format_date($pagelle[$_SESSION['__current_year__']->get_ID()][1]['data_pubblicazione'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
-					$h = substr($pagelle[$_SESSION['__current_year__']->get_ID()][1]['ora_pubblicazione'], 0, 5);
+				else{
+					if(isset($pagelle[$_SESSION['__current_year__']->get_ID()][1]['data_pubblicazione'])) {
+						$d = format_date($pagelle[$_SESSION['__current_year__']->get_ID()][1]['data_pubblicazione'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
+						$h = substr($pagelle[$_SESSION['__current_year__']->get_ID()][1]['ora_pubblicazione'], 0, 5);
+					}
+					else {
+						$d = $h = "";
+					}
 				?>
 				Online dal <?php echo $d ?> alle ore <?php echo $h ?> (<a href="pagelle.php?force_modification=1" id="mod">modifica</a>)
 				<?php } ?>
 				</td>
 			</tr>
-			<?php if($pagelle[$_SESSION['__current_year__']->get_ID()][1]['disponibili_docenti'] != "" && $pagelle[$_SESSION['__current_year__']->get_ID()][1]['disponibili_docenti'] <= date("Y-m-d")): ?>
+			<?php if(isset($pagelle[$_SESSION['__current_year__']->get_ID()][1]['disponibili_docenti']) && $pagelle[$_SESSION['__current_year__']->get_ID()][1]['disponibili_docenti'] != "" && $pagelle[$_SESSION['__current_year__']->get_ID()][1]['disponibili_docenti'] <= date("Y-m-d")): ?>
 			<tr>
 				<td colspan="2" style="padding-left: 40px">
 					<a href="cerca_pagella.php?y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&q=1">Cerca una scheda</a><br />
@@ -378,7 +304,7 @@ div.overlay{
 				if($k != $_SESSION['__current_year__']->get_ID()){
 					$desc = $db->executeCount("SELECT descrizione FROM rb_anni WHERE id_anno = {$k}");
 		?>
-			<a href="cerca_pagella.php?y=<?php echo $k ?>&q=2" class="search">Anno scolastico <?php echo $desc ?></a>
+			<p><a href="cerca_pagella.php?y=<?php echo $k ?>&q=2" class="search">Anno scolastico <?php echo $desc ?></a></p>
 		<?php
 				}
 			}

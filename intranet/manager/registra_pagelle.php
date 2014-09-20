@@ -10,9 +10,11 @@ $_SESSION['__path_to_mod_home__'] = "./";
 
 $school = $_SESSION['__school_level__'][$_SESSION['__school_order__']];
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
 
-list($date, $h) = explode(" ", $_REQUEST['data']);
+$date = $_REQUEST['data'];
+$h = $_REQUEST['ora'];
 $date = format_date($date, IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $h = $h.":00";
 
@@ -28,10 +30,14 @@ $upd = "UPDATE rb_pubblicazione_pagelle SET {$field[0]} = '{$date}', {$field[1]}
 try{
 	$db->executeQuery($upd);
 } catch (MySQLException $ex){
-	echo "kosql#".$ex->getMessage()."#".$ex->getQuery();
+	$response['status'] = "kosql";
+	$response['message'] = "Si è verificato un errore";
+	$response['dbg_message'] = $ex->getMessage()."--".$ex->getQuery();
+	$res = json_encode($response);
+	echo $res;
 	exit;
 }
 
-echo "ok";
-
-?>
+$res = json_encode($response);
+echo $res;
+exit;
