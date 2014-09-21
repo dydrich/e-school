@@ -127,8 +127,8 @@ class ClassbookManager
 					continue;
 				}
 				else{
-					$enter = $mod->getDay($day_number)->getEnterTime()->toString(RBTIME_LONG);
-					$exit = $mod->getDay($day_number)->getExitTime()->toString(RBTIME_LONG);
+					$enter = $mod->getDay($day_number)->getEnterTime()->toString(RBTime::$RBTIME_LONG);
+					$exit = $mod->getDay($day_number)->getExitTime()->toString(RBTime::$RBTIME_LONG);
 					$insert = "INSERT INTO rb_reg_classi (id_classe, id_anno, data, ingresso, uscita) VALUES ($id_classe, ".$this->year->getYear()->get_ID().",'$day', '{$enter}', '{$exit}')";
 					$this->datasource->executeUpdate($insert);
 				}
@@ -138,9 +138,7 @@ class ClassbookManager
 			$sel_alunni = "SELECT id_alunno, id_classe FROM rb_alunni WHERE attivo = '1' AND id_classe = $id_classe";
 			$res_alunni = $this->datasource->executeQuery($sel_alunni);
 			$param = "";
-			if($this->dayOnly){
-				$param = "AND data = '{$this->dayOnly}'";
-			}
+
 			foreach ($res_alunni as $alunno){
 				$id_alunno = $alunno['id_alunno'];
 				$sel_registro = "SELECT id_reg, ingresso, uscita FROM rb_reg_classi WHERE id_classe = $id_classe $param AND id_anno = ".$this->year->getYear()->get_ID();
@@ -169,8 +167,8 @@ class ClassbookManager
 			}
 			else{
 				
-				$enter = $mod->getDay($day_number)->getEnterTime()->toString(RBTIME_LONG);
-				$exit = $mod->getDay($day_number)->getExitTime()->toString(RBTIME_LONG);
+				$enter = $mod->getDay($day_number)->getEnterTime()->toString(RBTime::$RBTIME_LONG);
+				$exit = $mod->getDay($day_number)->getExitTime()->toString(RBTime::$RBTIME_LONG);
 				$insert = "INSERT INTO rb_reg_classi (id_classe, id_anno, data, ingresso, uscita) VALUES ({$id_classe}, ".$this->year->getYear()->get_ID().",'$day', '{$enter}', '{$exit}')";
 				$this->datasource->executeUpdate($insert);
 			}
@@ -202,8 +200,8 @@ class ClassbookManager
 		foreach ($this->classes as $cls){
 			$id_classe = $cls->get_ID();
 			$mod = $cls->get_modulo_orario();
-			$enter = $mod->getDay($day_number)->getEnterTime()->toString(RBTIME_LONG);
-			$exit = $mod->getDay($day_number)->getExitTime()->toString(RBTIME_LONG);
+			$enter = $mod->getDay($day_number)->getEnterTime()->toString(RBTime::$RBTIME_LONG);
+			$exit = $mod->getDay($day_number)->getExitTime()->toString(RBTime::$RBTIME_LONG);
 			$insert = "INSERT INTO rb_reg_classi (id_classe, id_anno, data, ingresso, uscita) VALUES ($id_classe, ".$this->year->getYear()->get_ID().",'{$d}', '{$enter}', '{$exit}')";
 			$this->datasource->executeUpdate($insert);
 			
@@ -237,8 +235,8 @@ class ClassbookManager
 		$cls = $this->getClassFromID($cl);
 		$id_classe = $cls->get_ID();
 		$mod = $cls->get_modulo_orario();
-		$enter = ($mod->getDay($day_number)) ? $mod->getDay($day_number)->getEnterTime()->toString(RBTIME_LONG) : "08:30";
-		$exit = ($mod->getDay($day_number)) ? $mod->getDay($day_number)->getExitTime()->toString(RBTIME_LONG) : "13:30";
+		$enter = ($mod->getDay($day_number)) ? $mod->getDay($day_number)->getEnterTime()->toString(RBTime::$RBTIME_LONG) : "08:30";
+		$exit = ($mod->getDay($day_number)) ? $mod->getDay($day_number)->getExitTime()->toString(RBTime::$RBTIME_LONG) : "13:30";
 		$insert = "INSERT INTO rb_reg_classi (id_classe, id_anno, data, ingresso, uscita) VALUES ($id_classe, ".$this->year->getYear()->get_ID().",'{$d}', '{$enter}', '{$exit}')";
 		$this->datasource->executeUpdate($insert);
 				

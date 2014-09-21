@@ -323,7 +323,9 @@ codice per la visualizzazione durante processi in background
 versione per jquery
  */
 var exec_code;
-var background_process = function(msg, tm) {
+var bckg_timer;
+var timeout;
+var background_process = function(msg, tm, show_progress) {
     $('#background_msg').text(msg);
     $('#background_msg').dialog({
         autoOpen: true,
@@ -344,17 +346,40 @@ var background_process = function(msg, tm) {
         }
     });
     timeout = tm;
-    setTimeout(background_progress, 1000);
+    bckg_timer = setTimeout(function() {
+        background_progress(msg, show_progress);
+    }, 1000);
 };
 
-var background_progress = function() {
+var background_progress = function(msg, show_progress) {
     timeout--;
     if (timeout > 0) {
-        //Dialog.setInfoMessage(messages[index]);
-        setTimeout(background_progress, 1000);
+        if (show_progress) {
+            tm++;
+            //alert(tm);
+            if(tm > 5){
+                tm = 0;
+                new_msg = msg.substr(0, msg.length - 5);
+                $('#background_msg').text(new_msg);
+            }
+            else {
+                msg += ".";
+                $('#background_msg').text(msg);
+            }
+        }
+        bckg_timer = setTimeout(
+            function() {
+                background_progress(msg, show_progress);
+            },
+            1000
+        );
     }
     else{
-        $('#background_msg').dialog("close");
+        clearTimeout(bckg_timer);
+        $('#background_msg').text("Operazione conclusa");
+        setTimeout(function() {
+            $('#background_msg').dialog("close");
+        }, 2000);
     }
 };
 
@@ -362,14 +387,4 @@ var loading = function(string, time){
     background_process(string, time);
 };
 var tm = 0;
-var upd_str = function(){
-    tm++;
-    //alert(tm);
-    if(tm > 5){
-        tm = 0;
-        $('#background_msg').text("Caricamento in corso");
-    }
-    else
-        $('#background_msg').text($('#background_msg').text()+".");
-    timer = setTimeout("upd_str()", 1000);
-};
+

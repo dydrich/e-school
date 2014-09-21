@@ -5,11 +5,15 @@ require_once "../lib/start.php";
 check_session(AJAX_CALL);
 check_permission(ADM_PERM);
 
-header("Content-type: text/plain");
+$response = array("status" => "ok", "message" => "");
+header("Content-type: application/json");
 
 $cls = $_POST['cls'];
 if(!is_numeric($cls)){
-	echo "ko;Classe non esistente";
+	$response['status'] = "ko";
+	$response['message'] = "Classe non esistente";
+	$res = json_encode($response);
+	echo $res;
 	exit;
 }
 if($_POST['action'] == "student_insert"){
@@ -21,15 +25,22 @@ else {
 try{
 	$res_sts = $db->executeQuery($sel_sts);
 } catch(MySQLException $ex){
-	echo "kosql;".$ex->getQuery().";".$ex->getMessage();
+	$response['status'] = "kosql";
+	$response['query'] = $ex->getQuery();
+	$response['dbg_message'] = $ex->getMessage();
+	$response['message'] = "Errore nella registrazione dei dati";
+	$res = json_encode($response);
+	echo $res;
 	exit;
 }
 
 $sts = array();
-$out = "ok;";
+
 while($row = $res_sts->fetch_assoc()){
-	$sts[] = $row['id_alunno']."#".$row['name'];
+	$sts[] = array("id" => $row['id_alunno'], "name" => $row['name']);
 }
 
-$out .= join("|", $sts);
-echo $out; exit;
+$response['data'] = $sts;
+$res = json_encode($response);
+echo $res;
+exit;

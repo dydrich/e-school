@@ -1,3 +1,36 @@
+3.0.23
+jquery per l'area admin, escluso root e load_students.php in adm_students, dovuto alla difficolta' di prova
+bug fixes
+eliminazione codice moduli project e workflow
+nuovo sistema di notifiche e nuova funzione background_process
+
+3.0.22
+jquery per tutta l'area intranet
+jquery per shared
+pulizia codice
+eliminazione vecchio upload_manager in shared
+bug fixes
+
+3.0.21
+portata a jquery tutta la intranet, con eccezione di 2 script in manager
+vari bug fixes
+code cleaning
+correzioni grafiche
+
+3.0.20
+intranet/teachers: gestione_classe: porting a jquery e nuovo sistema di notifiche
+
+3.0.19-1
+cursor pointer in card_title
+
+3.0.19
+gestione moduli primaria
+registro di programmazione
+bug fixes
+migliorie grafiche
+code cleaning
+salvataggio configurazioni utente
+
 3.0.18
 associazione classi, nella parte finale della procedura di creazione nuove classi, ora associa in modo automatico la classe all'alunno
 

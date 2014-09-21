@@ -6,16 +6,18 @@ require_once "../lib/ClassbookManager.php";
 check_session(AJAX_CALL);
 check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
 
-header("Content-type: text/plain");
+$response = array("status" => "ok", "message" => "");
+header("Content-type: application/json");
 
 $school_order = $_POST['school_order'];
 $school_year = $_SESSION['__school_year__'][$school_order];
 $school_year->setSchoolOrder($school_order);
 $clmanager = new ClassbookManager($db, $school_year);
 $clmanager->init();
-$return = "ok";
 
-$day = format_date($_POST['day'], IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+if (isset($_POST['day']) && $_POST['day'] != "" && $_POST['day'] != 0) {
+	$day = format_date($_POST['day'], IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+}
 $_class = $_POST['cls'];
 $std = $_POST['std'];
 
@@ -26,7 +28,12 @@ if ($_REQUEST['action']) {
 				$clmanager->delete();
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
@@ -35,7 +42,12 @@ if ($_REQUEST['action']) {
 				$clmanager->insert();
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
@@ -44,7 +56,12 @@ if ($_REQUEST['action']) {
 				$clmanager->reinsert();
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
@@ -53,7 +70,12 @@ if ($_REQUEST['action']) {
 				$clmanager->deleteClass($_class);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}			
 			break;
@@ -62,7 +84,12 @@ if ($_REQUEST['action']) {
 				$clmanager->insertClass($_class);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
@@ -71,7 +98,12 @@ if ($_REQUEST['action']) {
 				$clmanager->reinsertClass($_class);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
@@ -80,7 +112,12 @@ if ($_REQUEST['action']) {
 				$clmanager->deleteStudent($std);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
@@ -89,7 +126,12 @@ if ($_REQUEST['action']) {
 				$clmanager->insertStudent($std);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
@@ -98,7 +140,12 @@ if ($_REQUEST['action']) {
 				$clmanager->reinsertStudent($std);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
@@ -107,11 +154,19 @@ if ($_REQUEST['action']) {
 				$x = $clmanager->deleteDay($day);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			if (!$x){
-				echo "ko;Il giorno richiesto non e` presente in archivio";
+				$response['status'] = "ko";
+				$response['message'] = "Il giorno richiesto non è presente in archivio";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
@@ -120,11 +175,19 @@ if ($_REQUEST['action']) {
 					$x = $clmanager->deleteClassDay($day, $_class);
 				} catch (MySQLException $ex){
 					$db->execute("ROLLBACK");
-					echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+					$response['status'] = "kosql";
+					$response['query'] = $ex->getQuery();
+					$response['dbg_message'] = $ex->getMessage();
+					$response['message'] = "Errore nella registrazione dei dati";
+					$res = json_encode($response);
+					echo $res;
 					exit;
 				}
 				if (!$x){
-					echo "ko;Il giorno richiesto non e` presente in archivio";
+					$response['status'] = "ko";
+					$response['message'] = "Il giorno richiesto non è presente in archivio";
+					$res = json_encode($response);
+					echo $res;
 					exit;
 				}
 				break;
@@ -133,11 +196,19 @@ if ($_REQUEST['action']) {
 				$x = $clmanager->insertDay($day);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			if (!$x){
-				echo "ko;Il giorno richiesto e` presente in archivio";
+				$response['status'] = "ko";
+				$response['message'] = "Il giorno richiesto non è presente in archivio";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
@@ -146,11 +217,19 @@ if ($_REQUEST['action']) {
 					$x = $clmanager->insertClassDay($day, $_class);
 				} catch (MySQLException $ex){
 					$db->execute("ROLLBACK");
-					echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+					$response['status'] = "kosql";
+					$response['query'] = $ex->getQuery();
+					$response['dbg_message'] = $ex->getMessage();
+					$response['message'] = "Errore nella registrazione dei dati";
+					$res = json_encode($response);
+					echo $res;
 					exit;
 				}
 				if (!$x){
-					echo "ko;Il giorno richiesto e` presente in archivio";
+					$response['status'] = "ko";
+					$response['message'] = "Il giorno richiesto non è presente in archivio";
+					$res = json_encode($response);
+					echo $res;
 					exit;
 				}
 				break;
@@ -159,11 +238,19 @@ if ($_REQUEST['action']) {
 				$clmanager->reinsertDay($day);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			if (!$x){
-				echo "ko;Il giorno richiesto non e` presente in archivio";
+				$response['status'] = "ko";
+				$response['message'] = "Il giorno richiesto non è presente in archivio";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
@@ -172,7 +259,12 @@ if ($_REQUEST['action']) {
 				$clmanager->checkIntegrity(false);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
@@ -181,7 +273,12 @@ if ($_REQUEST['action']) {
 				$clmanager->checkIntegrity(true);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
@@ -190,12 +287,18 @@ if ($_REQUEST['action']) {
 				$clmanager->deleteHolydays();
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['query'] = $ex->getQuery();
+				$response['dbg_message'] = $ex->getMessage();
+				$response['message'] = "Errore nella registrazione dei dati";
+				$res = json_encode($response);
+				echo $res;
 				exit;
 			}
 			break;
 	}
 }
 
-echo "ok";
+$res = json_encode($response);
+echo $res;
 exit;
