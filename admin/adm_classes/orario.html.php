@@ -1,77 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<title>Gestione orario di classe</title>
-<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../../css/general.css" rel="stylesheet" />
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript">
-var IE = document.all?true:false;
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>Gestione orario di classe</title>
+	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
+	<link href="../../css/general.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+	var IE = document.all?true:false;
 
-var tempX = 0;
-var tempY = 0;
+	var tempX = 0;
+	var tempY = 0;
 
-function materia(event){
-    //alert("ok");
-    document.getElementById('hid').style.display = "none";
-    var uid = document.forms[0].id_ora.value;
-    var mat = document.forms[0].mat.value;
-    var teacher = document.forms[0].teach.value;
-    var url = "../../shared/upd_ora.php";
-    var req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {uid: uid, mat: mat, teacher: teacher},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		dati = response.evalJSON();
-			      		if(dati.status == "kosql"){
-			      			alert("Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
-							console.log(dati.dbg_message);
-				     		return;
-			     		}
-			     		else{
-			     			var materia = dati.materia;
-			                var id_ora = "ora"+dati.id_ora;
-			                $(id_ora).update(materia);
-			     		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+	var materia = function(event){
+	    //alert("ok");
+	    $('#hid').hide();
+	    var uid = document.forms[0].id_ora.value;
+	    var mat = document.forms[0].mat.value;
+	    var teacher = document.forms[0].teach.value;
+	    var url = "../../shared/upd_ora.php";
 
-function visualizza(e) {
-    var hid = document.getElementById("hid");
-    //alert(hid.style.top);
-    if (IE) { // grab the x-y pos.s if browser is IE
-        tempX = event.clientX + document.body.scrollLeft;
-        tempY = event.clientY + document.body.scrollTop;
-    } else {  // grab the x-y pos.s if browser is NS
-        tempX = e.pageX;
-        tempY = e.pageY;
-    }  
-    // catch possible negative values in NS4
-    if (tempX < 0){tempX = 0;}
-    if (tempY < 0){tempY = 0;}  
-    hid.style.top = parseInt(tempY)+"px";
-    //alert(hid.style.top);
-    hid.style.left = parseInt(tempX)+"px";
-    hid.style.display = "inline";
-    return true;
-}
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: {uid: uid, mat: mat, teacher: teacher},
+			dataType: 'json',
+			error: function() {
+				show_error("Errore di trasmissione dei dati");
+			},
+			succes: function() {
 
-document.observe("dom:loaded", function(){
-	$('hid').observe("mouseleave", function(event){
-		event.preventDefault();
-        $('hid').hide();
-    });
-});
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					alert(json.message);
+					console.log(json.dbg_message);
+				}
+				else {
+					var materia = json.materia;
+					var id_ora = "ora"+json.id_ora;
+					$('#'+id_ora).text(materia);
+				}
+			}
+		});
 
-</script>
+	};
+
+	var visualizza = function(e) {
+	    var hid = document.getElementById("hid");
+	    //alert(hid.style.top);
+	    if (IE) { // grab the x-y pos.s if browser is IE
+	        tempX = event.clientX + document.body.scrollLeft;
+	        tempY = event.clientY + document.body.scrollTop;
+	    } else {  // grab the x-y pos.s if browser is NS
+	        tempX = e.pageX;
+	        tempY = e.pageY;
+	    }
+	    // catch possible negative values in NS4
+	    if (tempX < 0){tempX = 0;}
+	    if (tempY < 0){tempY = 0;}
+	    hid.style.top = parseInt(tempY)+"px";
+	    //alert(hid.style.top);
+	    hid.style.left = parseInt(tempX)+"px";
+	    hid.style.display = "inline";
+	    return true;
+	};
+
+	$(function(){
+		load_jalert();
+		$('#hid').mouseleave(function(event){
+			event.preventDefault();
+	        $('#hid').hide();
+	    });
+	});
+
+	</script>
 </head>
 <body>
 	<!--

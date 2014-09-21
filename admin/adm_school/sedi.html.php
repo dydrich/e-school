@@ -3,61 +3,65 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Elenco sedi</title>
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
+	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
+	<link href="../../css/general.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javascript">
-var messages = new Array('', 'Sede inserita con successo', 'Sede cancellata con successo', 'Sede modificata con successo');
-var index = 0;
-<?php 
-if(isset($_REQUEST['msg'])){
-?>
-index = <?php print $_REQUEST['msg'] ?>;
-<?php } ?>
 
-function del_sede(id){
+var del_sede = function(id){
 	if(!confirm("Sei sicuro di voler cancellare questa sede?"))
         return false;
-	var url = "sites_manager.php";
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {action: 2, _i: id},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		if(dati[0] == "ko"){
-							alert("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-							return;
-			      		}
-			      		link = "sedi.php?msg=2&second=1&offset=<?php print $offset ?>";
-			      		//alert(link);
-			      		document.location.href = link;
-			      		//parent.win.close();
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+	var url = "venues_manager.php";
 
-document.observe("dom:loaded", function(){
-	$$('table tbody > tr').invoke("observe", "mouseover", function(event){
+	$.ajax({
+		type: "POST",
+		url: url,
+		data:  {action: 2, _i: id},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				link = "sedi.php?msg=2&second=1&offset=<?php print $offset ?>";
+				j_alert("alert", json.message);
+				window.setTimeout(function() {
+					document.location.href = link;
+				}, 2000);
+			}
+		}
+	});
+};
+
+$(function(){
+	load_jalert();
+	$('table tbody > tr').mouseover(function(event){
 		//alert(this.id);
 		var strs = this.id.split("_");
-		$('link_'+strs[1]).setStyle({display: 'block'});
+		$('#link_'+strs[1]).show();
 	});
-	$$('table tbody > tr').invoke("observe", "mouseout", function(event){
+	$('table tbody > tr').mouseout(function(event){
 			//alert(this.id);
 			var strs = this.id.split("_");
-			$('link_'+strs[1]).setStyle({display: 'none'});
+			$('#link_'+strs[1]).hide();
 	});
 
-	$$('table tbody a.del_link').invoke("observe", "click", function(event){
+	$('table tbody a.del_link').click(function(event){
 			event.preventDefault();
 			var strs = this.parentNode.id.split("_");
 			del_sede(strs[1]);
@@ -67,7 +71,7 @@ document.observe("dom:loaded", function(){
 </script>
 <title>Registro elettronico</title>
 </head>
-<body <?php if(isset($_REQUEST['msg'])) print("onload='openInfoDialog(messages[".$_REQUEST['msg']."], 2)'") ?>>
+<body>
 <?php include "../header.php" ?>
 <?php include "../navigation.php" ?>
 <div id="main">
@@ -97,7 +101,7 @@ document.observe("dom:loaded", function(){
                 	<div id="link_<?php echo $sede['id_sede'] ?>" style="display: none">
                 	<a href="dettaglio_sede.php?id=<?php echo $sede['id_sede'] ?>" class="mod_link">Modifica</a>
                 	<span style="margin-left: 5px; margin-right: 5px">|</span>
-                	<a href="sites_manager.php?action=2&_id=<?php echo $sede['id_sede'] ?>" class="del_link">Cancella</a>
+                	<a href="venues_manager.php?action=2&_id=<?php echo $sede['id_sede'] ?>" class="del_link">Cancella</a>
                 	</div>
                 </td>
                 <td><?php echo $sede['indirizzo'] ?></td>
@@ -108,6 +112,9 @@ document.observe("dom:loaded", function(){
             ?>
             </tbody>
             <tfoot>
+            <tr class="admin_void">
+	            <td colspan="2"></td>
+            </tr>
             <tr class="admin_menu">
                 <td colspan="2">
                     <a href="dettaglio_sede.php?id=0" id="new_site" class="standard_link nav_link_last">Nuova sede</a>

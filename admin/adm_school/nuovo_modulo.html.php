@@ -1,67 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Nuovo modulo</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../../css/general.css" rel="stylesheet" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
-<script type="text/javaScript">
-function go(){
-	msg = "Ci sono degli errori nel modulo: \n";
-	index = 1;
-	ok = true;
-	if ($F('giorni').empty() || isNaN($F('giorni')) || ($F('giorni') > 6) || ($F('giorni') < 1)){
-		msg += index+". Numero di giorni assente o non valido (inserire un numero compreso tra 1 e 6)\n";
-		index++;
-		ok = false;
-	}
-	if ($F('ore').empty() || isNaN($F('ore'))){
-		msg += index+". Numero di ore settimanali assente o non valido (inserire un numero)\n";
-		index++;
-		ok = false;
-	}
-	if(!ok){
-		alert(msg);
-		return false;
-	}
-	$('action').setValue("new_module");
-    var url = "module_manager.php";
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: $('site_form').serialize(true),
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		if(dati[0] == "ko"){
-				      		_alert("Impossibile completare l'operazione. Si prega di riprovare tra poco");
-							console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-							return;
-			      		}
-			      		
-			      		document.location.href = "dettaglio_modulo.php?idm="+dati[1];
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+	<title>Nuovo modulo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
+	<link href="../../css/general.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javaScript">
+	var go = function(){
+		msg = "Ci sono degli errori nel modulo: \n";
+		index = 1;
+		ok = true;
+		$giorni = $('#giorni').val();
+		$ore = $('#ore').val();
+		if ($giorni == "" || isNaN($giorni) || ($giorni > 6) || ($giorni < 1)){
+			msg += index+". Numero di giorni assente o non valido (inserire un numero compreso tra 1 e 6)\n";
+			index++;
+			ok = false;
+		}
+		if ($ore == "" || isNaN($ore)){
+			msg += index+". Numero di ore settimanali assente o non valido (inserire un numero)\n";
+			index++;
+			ok = false;
+		}
+		if(!ok){
+			alert(msg);
+			return false;
+		}
+		$('#action').val("new_module");
+	    var url = "module_manager.php";
 
-document.observe("dom:loaded", function(){
-	$('save_button').observe("click", function(event){
-		event.preventDefault();
-		go();
+		$.ajax({
+			type: "POST",
+			url: url,
+			data:  $('#site_form').serialize(true),
+			dataType: 'json',
+			error: function() {
+				show_error("Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					alert(json.message);
+					console.log(json.dbg_message);
+				}
+				else {
+					document.location.href = "dettaglio_modulo.php?idm="+json.idm;
+				}
+			}
+		});
+	};
+
+	$(function(){
+		$('#save_button').click(function(event){
+			event.preventDefault();
+			go();
+		});
 	});
-});
 
-</script>
+	</script>
 </head>
 <body>
 <?php include "../header.php" ?>

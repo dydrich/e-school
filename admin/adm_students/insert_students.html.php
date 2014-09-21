@@ -1,54 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Inserimento alunni</title>
-<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../../css/general.css" rel="stylesheet" />
-<link href="../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/calendar.js"></script>
-<script type="text/javascript" src="../../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../../js/calendar-setup.js"></script>
-<script type="text/javascript">
-var save = function(_continue){
-	var req = new Ajax.Request('manage_student.php',
-			  {
-			    	method:'post',
-			    	asynchronous: false,
-			    	parameters: $('_form').serialize(true),
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-		            	if(dati[0] == "kosql"){
-							sqlalert();
-							console.log(dati[1]+"\n"+dati[2]);
-							return false;
-		            	}
-		            	else if(dati[0] == "ok"){
-							$('fname').value = "";
-							$('lname').value = "";
-							$('sex').selectedIndex = 0;
-							$('cls').selectedIndex = 0;
-							$('fname').focus();
-							if(!_continue){
-								document.location.href = "../../shared/get_file.php?f=<?php echo $log_file ?>&dir=tmp&delete=1";
-								//document.location.href = "alunni.php?school_order=<?php echo $school_order ?>";
-							}
-		            	}
-		            	else {
-							_alert("Inserimento non completato. Riprovare tra poco o segnalare il problema agli sviluppatori");
-							return;
-		            	}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-};
-</script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Inserimento alunni</title>
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		var save = function(_continue){
+
+			$.ajax({
+				type: "POST",
+				url: 'manage_student.php',
+				data: $('#_form').serialize(true),
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						j_alert("error", json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						$('#fname').val("");
+						$('#lname').val("");
+						$('#sex').val(0);
+						$('#cls').val(0);
+						$('#fname').focus();
+						if(!_continue){
+							document.location.href = "../../shared/get_file.php?f=<?php echo $log_file ?>&dir=tmp&delete=1";
+							//document.location.href = "alunni.php?school_order=<?php echo $school_order ?>";
+						}
+					}
+				}
+			});
+		};
+
+		$(function(){
+			load_jalert();
+			$('#data_nascita').datepicker({
+				dateFormat: "dd/mm/yy",
+				changeYear: true,
+				changeMonth: true
+			});
+		});
+	</script>
+
+	<style>
+		.ui-datepicker-month {
+			color: white
+		}
+		.ui-datepicker-year {
+			color: white
+		}
+	</style>
 </head>
 <body onload="$('fname').focus()">
 <?php include "../header.php" ?>
@@ -93,16 +110,6 @@ var save = function(_continue){
 			<td class="popup_title" style="width: 30%">Data di nascita</td>
 			<td style="width: 70%">
 				<input type="text" name="data_nascita" id="data_nascita" style="width: 320px;" class="form_input" />
-				<script type="text/javascript">
-	            Calendar.setup({
-	                date		: new Date(),
-					inputField	: "data_nascita",
-					ifFormat	: "%d/%m/%Y",
-					showsTime	: false,
-					firstDay	: 1,
-					timeFormat	: "24"					
-				});
-	        	</script>
 			</td>
 		</tr>
 		<tr class="popup_row">

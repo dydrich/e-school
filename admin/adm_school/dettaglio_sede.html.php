@@ -3,49 +3,73 @@
 <head>
 <title>Dettaglio sede</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
+	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
+	<link href="../../css/general.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javaScript">
-var messages = new Array('', 'Sede inserita con successo', 'Sede cancellata con successo', 'Sede modificata con successo');
-function go(par, sede){
+
+var go = function (par, sede){
     if(par == 2){
         if(!confirm("Sei sicuro di voler cancellare questa sede?"))
             return false;
     }
-    $('_i').setValue(sede);
-    $('action').setValue(par);
-    var url = "sites_manager.php";
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: $('site_form').serialize(true),
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		if(dati[0] == "ko"){
-							alert("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-							return;
-			      		}
-			      		
-			      		link = "sedi.php?msg="+par;
-			      		if(par != 1){
-							link += "&second=1&offset=<?php print $offset ?>";
-			      		}
-			      		_alert(messages[par]);	
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+    $('#_i').val(sede);
+    $('#action').val(par);
+    var url = "venues_manager.php";
 
-<?php include "../popup_dom.php" ?>
+	$.ajax({
+		type: "POST",
+		url: url,
+		data:  $('#site_form').serialize(true),
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				j_alert("alert", json.message);
+			}
+		}
+	});
+};
+
+$(function(){
+	load_jalert();
+	$('.form_input').focus(function(event){
+		$(this).css({outline: '1px solid blue'});
+	});
+	$('.form_input').blur(function(event){
+		$(this).css({outline: ''});
+	});
+	$('#save_button').click(function(event){
+		event.preventDefault();
+		go(<?php if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0) print("3, ".$_REQUEST['id']); else print("1, 0"); ?>);
+	});
+	<?php if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0){
+    ?>
+	$('#del_button').click(function(event){
+		event.preventDefault();
+		go(2, <?php print $_REQUEST['id'] ?>);
+	});
+	<?php
+	}
+	?>
+});
 
 </script>
 </head>
@@ -58,7 +82,7 @@ function go(par, sede){
 	</div>
 	<div id="left_col">
 	<div class="group_head">Dettaglio sede o plesso</div>
-    <form action="sites_manager.php" method="post" id="site_form" class="popup_form">
+    <form action="venues_manager.php" method="post" id="site_form" class="popup_form">
     <table class="popup_table">
         <tr class="popup_row header_row">
             <td style="width: 30%"><label for="titolo" class="popup_title">Nome</label></td>

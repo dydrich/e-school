@@ -83,6 +83,7 @@ while($tipo = $res_tipologie->fetch_assoc()){
 if($_SESSION['__school_order__'] == 0){
 	$page_menu = new PageMenu("cmenu", "page_menu", "height: 150px; width: 180px; display: none", "div");
 	$page_menu->setDatasource($tipologie);
+	$page_menu->setJavascript('', 'jquery');
 	$page_menu->createInnerHTML();
 	$page_menu->setPathToRoot($_SESSION['__path_to_root__']);
 	$page_menu->createLink();

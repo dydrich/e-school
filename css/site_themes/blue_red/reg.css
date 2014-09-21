@@ -581,7 +581,7 @@ div.accordion {
     background-color: #E4E7EF;
     padding: 10px;
     border: 1px solid #AAAAAA;
-    border-radius: 10px 10px 10px 10px;
+    border-radius: 4px ;
     color: #222222;
     box-shadow: 0 0 8px  #888;
     z-index: 100

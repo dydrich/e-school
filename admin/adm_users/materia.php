@@ -13,22 +13,27 @@ check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
 $id = $_POST['uid'];
 $mat = $_POST['mat'];
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
 
 $upd = "UPDATE rb_docenti SET materia = $mat WHERE id_docente = $id";
 $_SESSION['q'] = $upd;
 try{
 	$rs = $db->executeUpdate($upd);
 } catch (MySQLException $ex){
-    $ex->fake_alert();
-    exit;
+	$response['status'] = "kosql";
+	$response['message'] = "Operazione non completata a causa di un errore";
+	$response['dbg_message'] = $ex->getMessage();
+	$response['query'] = $ex->getQuery();
+	echo json_encode($response);
+	exit;
 }
 $_SESSION['q'] = $upd;
 
 $sel_m = "SELECT materia FROM rb_materie WHERE id_materia = $mat";
 $res_m = $db->executeQuery($sel_m);
 $m = $res_m->fetch_assoc();
-$res = "ok;doc_".$id.";".$m['materia'];
 
-print $res;
+$response['subject'] = $m['materia'];
+echo json_encode($response);
 exit;

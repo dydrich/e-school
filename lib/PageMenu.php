@@ -95,7 +95,7 @@ function show_menu(el) {
 	    dimensions_h = $('#'+el).height();
 	    dimensions_w = $('#'+el).width();
 	    ftop = position['top'] + dimensions_h;
-	    fleft = position['left'] - 91 + dimensions_w;
+	    fleft = position['left'] - 10 + dimensions_w;
 	    $('#cmenu').css({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
 	    $('#cmenu').slideDown(1000);
 	}

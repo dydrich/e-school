@@ -6,7 +6,8 @@ require_once "../../lib/ScheduleModule.php";
 check_session();
 check_permission(ADM_PERM);
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
 
 $module = new ScheduleModule($db, $_POST['module']);
 $day = $module->getDay($_POST['day']);
@@ -20,21 +21,38 @@ if ($previuos < 1){
 	$previuos = 6;
 }
 if(!$day){
-	echo "noday|||||".$giorni[$_POST['day']]."|".$_POST['day']."|".$next."|".$previuos."|".$giorni[$next]."|".$giorni[$previuos]."|0|";
+	$response['status'] = "noday";
+	$response['day_legend'] = $giorni[$_POST['day']];
+	$response['cday'] = $_POST['day'];
+	$response['next'] = $next;
+	$response['previuos'] = $previuos;
+	$response['next_button'] = $giorni[$next];
+	$response['previous_button'] = $giorni[$previuos];
+	$response['has_canteen'] = 0;
+	echo json_encode($response);
 	exit;
 }
 $hc = ($day->hasCanteen()) ? 1 : 0;
 
-$string = "ok|".($day->getHourDuration()->getTime() / 60)."|";
-$string .= $day->getNumberOfHours()."|".$day->getEnterTime()->toString(RBTime::$RBTIME_SHORT)."|".$day->getExitTime()->toString(RBTime::$RBTIME_SHORT)."|";
-$string .= $giorni[$_POST['day']]."|".$_POST['day']."|".$next."|".$previuos."|".$giorni[$next]."|".$giorni[$previuos]."|";
-$string .= $hc."|";
-if($day->hasCanteen()){
-	$string .= $day->getCanteenStart()->toString(RBTime::$RBTIME_SHORT)."|".($day->getCanteenDuration()->getTime() / 60)."|";
+$response['durata'] = $day->getHourDuration()->getTime() / 60;
+$response['ore'] = $day->getNumberOfHours();
+$response['start'] = $day->getEnterTime()->toString(RBTime::$RBTIME_SHORT);
+$response['end'] = $day->getExitTime()->toString(RBTime::$RBTIME_SHORT);
+$response['day_legend'] = $giorni[$_POST['day']];
+$response['cday'] = $_POST['day'];
+$response['next'] = $next;
+$response['previous'] = $previuos;
+$response['next_button'] = $giorni[$next];
+$response['previous_button'] = $giorni[$previuos];
+$response['has_canteen'] = $hc;
+if($day->hasCanteen()) {
+	$response['canteen_start'] = $day->getCanteenStart()->toString(RBTime::$RBTIME_SHORT);
+	$response['canteen_ends'] = $day->getCanteenDuration()->getTime() / 60;
 }
 else {
-	$string ."||";
+	$response['canteen_start'] = "";
+	$response['canteen_ends'] = "";
 }
 
-echo $string;
+echo json_encode($response);
 exit;

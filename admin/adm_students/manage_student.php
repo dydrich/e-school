@@ -8,7 +8,8 @@ check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "../";
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
 
 $nome = $db->real_escape_string($_REQUEST['fname']);
 $cognome = $db->real_escape_string($_REQUEST['lname']);
@@ -44,10 +45,14 @@ try{
 	}
 	fwrite($log, "{$cognome} {$nome}:{$username}:{$pwd_chiaro}\n");
 } catch (MySQLException $ex){
-	print "kosql|".$ex->getMessage()."|".$ex->getQuery();
 	fclose($log);
+	$response['status'] = "kosql";
+	$response['message'] = "Operazione non completata a causa di un errore";
+	$response['dbg_message'] = $ex->getMessage();
+	$response['query'] = $ex->getQuery();
+	echo json_encode($response);
 	exit;
 }
 fclose($log);
-print "ok";
+echo json_encode($response);
 exit;

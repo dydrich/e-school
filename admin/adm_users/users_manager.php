@@ -25,7 +25,10 @@ if($_REQUEST['action'] != 2){
 	}
 }
 $uid = $_REQUEST['_i'];
-header("Content-type: text/plain");
+
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
+
 switch($_POST['action']){
 	case 1:     // inserimento
 		$gruppi_utente = explode(",", $gruppi);
@@ -37,7 +40,12 @@ switch($_POST['action']){
 		try{
 			$sum = $db->executeCount($sel_sum);
 		} catch (MySQLException $ex){
-			$ex->fake_alert();
+			$response['status'] = "kosql";
+			$response['message'] = "Operazione non completata a causa di un errore";
+			$response['dbg_message'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
+			exit;
 		}
 
 		// need a transaction
@@ -52,7 +60,12 @@ switch($_POST['action']){
 			}
         } catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
-			$ex->fake_alert();
+			$response['status'] = "kosql";
+			$response['message'] = "Operazione non completata a causa di un errore";
+			$response['dbg_message'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
+			exit;
 		}
 		$msg = "Utente inserito correttamente";
 		break;
@@ -69,7 +82,12 @@ switch($_POST['action']){
            	$recordset = $db->execute($statement);
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
-			$ex->fake_alert();
+			$response['status'] = "kosql";
+			$response['message'] = "Operazione non completata a causa di un errore";
+			$response['dbg_message'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
+			exit;
        	}
         $msg = "Utente cancellato correttamente";
 		break;
@@ -83,13 +101,23 @@ switch($_POST['action']){
 		try{
            	$sum = $db->executeCount($sel_sum);
         } catch (MySQLException $ex){
-			$ex->fake_alert();
+			$response['status'] = "kosql";
+			$response['message'] = "Operazione non completata a causa di un errore";
+			$response['dbg_message'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
+			exit;
 		}
 		$statement = "UPDATE rb_utenti SET nome = '$nome', cognome = '$cognome', permessi = $sum WHERE uid = ".$_POST['_i'];
 		try{
 			$recordset = $db->execute($statement);
 		} catch (MySQLException $ex){
-			$ex->fake_alert();
+			$response['status'] = "kosql";
+			$response['message'] = "Operazione non completata a causa di un errore";
+			$response['dbg_message'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
+			exit;
 		}
 		$msg = "Utente aggiornato correttamente";
 		break;
@@ -113,7 +141,11 @@ if($_POST['action'] != 2){
 		$db->executeUpdate("COMMIT");
 	} catch (MySQLException $ex) {
 		$db->executeUpdate("ROLLBACK");
-		print "ko|".$ex->getMessage()."|".$ex->getQuery();
+		$response['status'] = "kosql";
+		$response['message'] = "Operazione non completata a causa di un errore";
+		$response['dbg_message'] = $ex->getMessage();
+		$response['query'] = $ex->getQuery();
+		echo json_encode($response);
 		exit;
 	}
 	// verifico se il record esiste
@@ -131,7 +163,12 @@ if($_POST['action'] != 2){
 				$db->executeUpdate("COMMIT");
 	        } catch (MySQLException $ex){
 	       		$db->executeUpdate("ROLLBACK");
-				$ex->fake_alert();
+				$response['status'] = "kosql";
+				$response['message'] = "Operazione non completata a causa di un errore";
+				$response['dbg_message'] = $ex->getMessage();
+				$response['query'] = $ex->getQuery();
+				echo json_encode($response);
+				exit;
 	       	}
 		}
 	}
@@ -143,7 +180,12 @@ if($_POST['action'] != 2){
 			try{
 				$db->executeUpdate("DELETE FROM rb_docenti WHERE id_docente = ".$_POST['_i']);
 			} catch(MySQLException $ex){
-				$ex->fake_alert();
+				$response['status'] = "kosql";
+				$response['message'] = "Operazione non completata a causa di un errore";
+				$response['dbg_message'] = $ex->getMessage();
+				$response['query'] = $ex->getQuery();
+				echo json_encode($response);
+				exit;
 			}
 		}
 	}
@@ -152,7 +194,14 @@ try {
 	$db->executeUpdate("COMMIT");
 } catch (MySQLException $ex) {
 	$db->executeUpdate("ROLLBACK");
-	$ex->fake_alert();
+	$response['status'] = "kosql";
+	$response['message'] = "Operazione non completata a causa di un errore";
+	$response['dbg_message'] = $ex->getMessage();
+	$response['query'] = $ex->getQuery();
+	echo json_encode($response);
+	exit;
 }
 
-print "ok|$msg|$sel_teacher";
+$response['message'] = $msg;
+echo json_encode($response);
+exit;

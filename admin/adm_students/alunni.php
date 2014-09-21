@@ -37,6 +37,18 @@ else{
 	$_SESSION['school_order'] = 0;
 }
 
+/*
+ * filtri
+ */
+$classi = array("1" => "Prima", "2" => "Seconda", "3" => "Terza");
+if($school_order == 2 || $school_order == 0){
+	$classi['4'] = "Quarta";
+	$classi['5'] = "Quinta";
+}
+
+$sel_sezioni = "SELECT DISTINCT(sezione) FROM {$classes_table} ORDER BY sezione";
+$res_sezioni = $db->executeQuery($sel_sezioni);
+
 // indica se attivati i filtri
 $filtered = false;
 $query = "";
@@ -152,12 +164,12 @@ $page_menu = new PageMenu("cmenu", "page_menu", "height: 180px; width: 180px; di
 $html =  <<<EOT
 <br />
 <p><a href="alunni.php?order=desc_classe" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per classe</a></p>
-<p><a href="alunni.php" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per nome</a></>
+<p><a href="alunni.php" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per nome</a></></p>
 EOT;
 if($school_order == 0){
 	$html .= '<a href="alunni.php?order=tipologia" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per scuola</a><br />';
 }
-$html .= '<p></p><a href="../../shared/no_js.php" id="filter_button" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Filtra elenco</a></p>';
+$html .= '<p><a href="../../shared/no_js.php" id="filter_button" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Filtra elenco</a></p>';
 
 $page_menu->setInnerHTML($html);
 $page_menu->setJavascript('', 'jquery');

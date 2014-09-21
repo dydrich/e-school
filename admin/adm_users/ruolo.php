@@ -31,6 +31,8 @@ try{
 	exit;
 }
 
-header("Content-type: text/plain");
-print $updated_role.";rl_".$id;
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
+$response['value'] = $updated_role;
+echo json_encode($response);
 exit;

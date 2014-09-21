@@ -361,3 +361,15 @@ var background_progress = function() {
 var loading = function(string, time){
     background_process(string, time);
 };
+var tm = 0;
+var upd_str = function(){
+    tm++;
+    //alert(tm);
+    if(tm > 5){
+        tm = 0;
+        $('#background_msg').text("Caricamento in corso");
+    }
+    else
+        $('#background_msg').text($('#background_msg').text()+".");
+    timer = setTimeout("upd_str()", 1000);
+};

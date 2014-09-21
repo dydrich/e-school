@@ -12,7 +12,9 @@ header("Content-type: application/json");
 
 $uid = $_POST['uid'];
 if(!is_numeric($uid)){
-	echo "ko;L'utente richiesto non esiste";
+	$response['status'] = "ko";
+	$response['message'] = "L'utente richiesto non esiste";
+	echo json_encode($response);
 	exit;
 }
 
@@ -26,7 +28,11 @@ $sel_m = "SELECT id_materia, rb_materie.materia FROM rb_materie WHERE idpadre IS
 try{
 	$res_m = $db->executeQuery($sel_m);
 } catch(MYSQLException $ex){
-	echo "kosql#".$ex->getQuery()."#".$ex->getMessage();
+	$response['status'] = "kosql";
+	$response['message'] = "Operazione non completata a causa di un errore";
+	$response['dbg_message'] = $ex->getMessage();
+	$response['query'] = $ex->getQuery();
+	echo json_encode($response);
 	exit;
 }
 
@@ -36,5 +42,7 @@ while($m = $res_m->fetch_assoc()){
 }
 $height = $res_m->num_rows * 20;
 
-echo "ok#".json_encode($materie)."#".$height;
+$response['height'] = $height;
+$response['materie'] = $materie;
+echo json_encode($response);
 exit;

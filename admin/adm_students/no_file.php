@@ -12,17 +12,13 @@ $_SESSION['__path_to_mod_home__'] = "../";
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Inserimento alunni</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Inserimento alunni</title>
 	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
 	<link href="../../css/general.css" rel="stylesheet" />
-<link href="../../css/skins/aqua/theme.css" type="text/css" rel="stylesheet"  />
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
 </head>
-<body onload="$('fname').focus()">
+<body>
 <div id="header">
 	<div class="wrap" style="text-align: center">
 		<?php include "../header.php" ?>

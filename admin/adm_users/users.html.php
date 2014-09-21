@@ -1,72 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<title>Elenco utenti</title>
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
-<link rel="stylesheet" href="../../css/general.css" type="text/css" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
-<script type="text/javascript">
-var messages = new Array('', 'Utente inserito con successo', 'Utente cancellato con successo', 'Utente modificato con successo');
-var index = 0;
-<?php 
-if(isset($_REQUEST['msg'])){
-?>
-index = <?php print $_REQUEST['msg'] ?>;
-<?php } ?>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>Elenco utenti</title>
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
 
-function del_user(id){
-	if(!confirm("Sei sicuro di voler cancellare questo utente?"))
-        return false;
-	var url = "users_manager.php";
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {action: 2, _i: id},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		if(dati[0] == "ko"){
-							alert("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-							return;
-			      		}
-			      		link = "users.php?msg=2&second=1&offset=<?php print $offset ?>";
-			      		//alert(link);
-			      		document.location.href = link;
-			      		//parent.win.close();
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+		var del_user = function(id){
+			if(!confirm("Sei sicuro di voler cancellare questo utente?"))
+		        return false;
+			var url = "users_manager.php";
 
-document.observe("dom:loaded", function(){
-	$$('table tbody > tr').invoke("observe", "mouseover", function(event){
-			//alert(this.id);
-			var strs = this.id.split("_");
-			$('link_'+strs[1]).setStyle({display: 'block'});
-	});
-	$$('table tbody > tr').invoke("observe", "mouseout", function(event){
-			//alert(this.id);
-			var strs = this.id.split("_");
-			$('link_'+strs[1]).setStyle({display: 'none'});
-	});
-	$$('table tbody a.del_link').invoke("observe", "click", function(event){
-		event.preventDefault();
-		var strs = this.parentNode.id.split("_");
-		del_user(strs[1]);
-	});
-});
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {action: 2, _i: id},
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-</script>
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						j_alert("error", json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						j_alert("alert", json.message);
+						$('#row_'+id).hide();
+					}
+				}
+			});
+		};
+
+		$(function(){
+			load_jalert();
+			$('table tbody > tr').mouseover(function(event){
+					//alert(this.id);
+					var strs = this.id.split("_");
+					$('#link_'+strs[1]).show();
+			});
+			$('table tbody > tr').mouseout(function(event){
+					//alert(this.id);
+					var strs = this.id.split("_");
+					$('#link_'+strs[1]).hide();
+			});
+			$('table tbody a.del_link').click(function(event){
+				event.preventDefault();
+				var strs = this.parentNode.id.split("_");
+				del_user(strs[1]);
+			});
+		});
+
+	</script>
 </head>
-<body <?php if(isset($_REQUEST['msg'])){ ?>onload="openInfoDialog(messages[<?php print $_REQUEST['msg'] ?>], 2)"<?php } ?>>
+<body>
 <?php include "../header.php" ?>
 <?php include "../navigation.php" ?>
 <div id="main">

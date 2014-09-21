@@ -16,6 +16,9 @@ if($_POST['action'] != 2){
 }
 $id = $_REQUEST['_i'];
 
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
+
 switch($_POST['action']){
 	case 1:     // inserimento
 		$statement = "INSERT INTO rb_materie (materia, has_sons, pagella, idpadre, tipologia_scuola) VALUES ('{$materia}', 0, {$report}, ".field_null($parent, false).", {$type})";
@@ -28,7 +31,11 @@ switch($_POST['action']){
 			$db->executeQuery("COMMIT");
 		} catch (MySQLException $ex){
 			$db->executeQuery("ROLLBACK");
-			print "ko|".$ex->getMessage()."|".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['message'] = "Operazione non completata a causa di un errore";
+			$response['dbg_message'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
 			exit;
 		}
 		break;
@@ -45,7 +52,11 @@ switch($_POST['action']){
 			$db->executeQuery("COMMIT");
 		} catch (MySQLException $ex){
 			$db->executeQuery("ROLLBACK");
-			print "ko|".$ex->getMessage()."|".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['message'] = "Operazione non completata a causa di un errore";
+			$response['dbg_message'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
 			exit;
 		}
 		break;
@@ -67,13 +78,15 @@ switch($_POST['action']){
 			$db->executeQuery("COMMIT");
 		} catch (MySQLException $ex){
 			$db->executeQuery("ROLLBACK");
-			print "ko|".$ex->getMessage()."|".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['message'] = "Operazione non completata a causa di un errore";
+			$response['dbg_message'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
 			exit;
 		}
 		break;
 }
-header("Content-type: text/plain");
 
-
-print "ok|".$msg;
+echo json_encode($response);
 exit;

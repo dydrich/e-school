@@ -1,63 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Dettaglio utente</title>
-<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../../css/general.css" rel="stylesheet" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/md5-min.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
-<script type="text/javaScript">
-var messages = new Array('', 'Utente inserito con successo', 'Utente cancellato con successo', 'Utente modificato con successo');
-var timeout;
-var msg;
-function go(par, user){
-    if(par == 1){
-    	if(trim($F('pwd')) != trim($F('pwd2'))){
-    		alert("Le password inserite sono differenti. Ricontrolla.");
-    		return false;
-    	}
-    	$('pwd').setValue(hex_md5($F('pwd')));
-    	// fake password
-    	$('pwd2').setValue("calatafimi");
-    }
-    $('_i').setValue(user);
-    $('action').setValue(par);
-    var url = "users_manager.php";
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: $('user_form').serialize(true),
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		if(dati[0] == "ko"){
-							alert("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-							parent.win.close();
-							return;
-			      		}
-			      		
-			      		link = "users.php?msg="+par;
-			      		if(par != 1){
-							link += "&second=1&offset=<?php print $offset ?>";
-			      		}
-						_alert(messages[par]);						
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Dettaglio utente</title>
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript" src="../../js/md5-min.js"></script>
+	<script type="text/javaScript">
+	var go = function(par, user){
+	    if(par == 1){
+	        if($('#pwd').val() != $('#pwd2').val()){
+	            alert("Le password inserite sono differenti. Ricontrolla.");
+	            return false;
+	        }
+	        $('#pwd').val(hex_md5($('#pwd').val()));
+	        // fake password
+	        $('#pwd2').val("calatafimi");
+	    }
+	    $('#_i').val(user);
+	    $('#action').val(par);
+	    var url = "users_manager.php";
 
-<?php include "../popup_dom.php" ?>
-	 
-</script>
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: $('#user_form').serialize(true),
+			dataType: 'json',
+			error: function() {
+				j_alert("error", "Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					j_alert("error", json.message);
+					console.log(json.dbg_message);
+				}
+				else {
+					j_alert("alert", json.message);
+				}
+			}
+		});
+	};
+
+	$(function(){
+		load_jalert();
+		$('.form_input').focus(function(event){
+			$(this).css({outline: '1px solid blue'});
+		});
+		$('.form_input').blur(function(event){
+			$(this).css({outline: ''});
+		});
+		$('#save_button').click(function(event){
+			event.preventDefault();
+			go(<?php if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0) print("3, ".$_REQUEST['id']); else print("1, 0"); ?>);
+		});
+		<?php if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0){
+		?>
+		$('#del_button').click(function(event){
+			event.preventDefault();
+			go(2, <?php print $_REQUEST['id'] ?>);
+		});
+		<?php
+		}
+		?>
+	});
+
+	</script>
 </head>
 <body>
 <?php include "../header.php" ?>
