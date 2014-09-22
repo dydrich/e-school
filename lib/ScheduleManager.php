@@ -23,12 +23,12 @@ class ScheduleManager{
 	}
 	
 	public function deleteSchedule(){
-		$this->datasource->executeQuery("DELETE FROM rb_orario WHERE anno = {$this->yearID}");
+		$this->datasource->executeUpdate("DELETE FROM rb_orario WHERE anno = {$this->yearID}");
 	}
 	
 	public function deleteClassSchedule(Classe $class){
 		$classID = $class->get_ID();
-		$this->datasource->executeQuery("DELETE FROM rb_orario WHERE anno = {$this->yearID} AND classe = {$classID}");
+		$this->datasource->executeUpdate("DELETE FROM rb_orario WHERE anno = {$this->yearID} AND classe = {$classID}");
 	}
 	
 	public function insertSchedule(){
@@ -80,5 +80,3 @@ class ScheduleManager{
 		return $this->classes;
 	}
 }
-
-?>
