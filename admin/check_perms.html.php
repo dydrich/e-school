@@ -1,58 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
-<link rel="stylesheet" href="../css/general.css" type="text/css" />
-<script type="text/javascript" src="../js/prototype.js"></script>
-<script type="text/javascript" src="../js/page.js"></script>
-<script type="text/javascript">
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
+	<link rel="stylesheet" href="../css/general.css" type="text/css" />
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../js/page.js"></script>
+	<script type="text/javascript">
 
-var check = function(uid, name){
-	url = "permission_check.php";
-	
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {uid: uid},
-			    	onSuccess: function(transport){
-			    		var response = transport.responseText || "no response text";
-			    		dati = response.split("#");
-			    		if(dati[0] == "kosql"){
-			    			sqlalert();
-			    			console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-			    			return;
-			    		}
-			    		else{
-				    		// reset
-				    		for(k = 1; k <= <?php echo $groups->num_rows ?>; k++){
-								$('gr_'+k).update("NO");
-				    		}
-				    		$('is_admin').update("NO");
-				    		$('is_ps_admin').update("NO");
-				    		$('is_ms_admin').update("NO");
+	var check = function(uid, name){
+		url = "permission_check.php";
 
-				    		$('us_label').update(name);
-				    		gids = dati[0].split(",");
-							for(i = 0; i < gids.length; i++){
-								$('gr_'+gids[i]).update("SI");
-							}
-							if(dati[1] == 1){
-								$('is_admin').update("SI");
-							}
-							if(dati[2] == 1){
-								$('is_ps_admin').update("SI");
-							}
-							if(dati[3] == 1){
-								$('is_ms_admin').update("SI");
-							}
-							$('panel').show();
-			    		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-};
-</script>
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: {uid: uid},
+			dataType: 'json',
+			error: function() {
+				console.log(json.dbg_message);
+				j_alert("error", "Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					console.log(json.dbg_message);
+					console.log(json.query);
+					j_alert("error", json.message);
+				}
+				else {
+					for(k = 1; k <= <?php echo $groups->num_rows ?>; k++){
+						$('#gr_'+k).text("NO");
+					}
+					$('#is_admin').text("NO");
+					$('#is_ps_admin').text("NO");
+					$('#is_ms_admin').text("NO");
+
+					$('#us_label').text(name);
+					gids = json.gid;
+					for(i = 0; i < gids.length; i++){
+						$('#gr_'+gids[i]).text("SI");
+					}
+					if(json.admin == 1){
+						$('#is_admin').text("SI");
+					}
+					if(json.psadmin == 1){
+						$('#is_ps_admin').text("SI");
+					}
+					if(json.msadmin == 1){
+						$('#is_ms_admin').text("SI");
+					}
+					$('#panel').show();
+				}
+			}
+		});
+	};
+	</script>
 <title>Verifica permessi utente</title>
 </head>
 <body>

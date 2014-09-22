@@ -1,202 +1,143 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<title>Gestione record orario</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>Gestione record orario</title>
 	<link href="../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
 	<link href="../css/general.css" rel="stylesheet" />
-<link rel="stylesheet" href="../css/skins/aqua/theme.css" type="text/css"  />
-<link rel="stylesheet" href="../css/themes/default.css" type="text/css"/>
-<link rel="stylesheet" href="../css/themes/alphacube.css" type="text/css"/>
-<script type="text/javascript" src="../js/prototype.js"></script>
-<script type="text/javascript" src="../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../js/controls.js"></script>
-<script type="text/javascript" src="../js/window.js"></script>
-<script type="text/javascript" src="../js/window_effects.js"></script>
-<script type="text/javascript" src="../js/calendar.js"></script>
-<script type="text/javascript" src="../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../js/calendar-setup.js"></script>
-<script type="text/javascript" src="../js/page.js"></script>
-<script type="text/javascript">
-var IE = document.all?true:false;
-if (!IE) document.captureEvents(Event.MOUSEMOVE);
-var tempX = 0;
-var tempY = 0;
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../js/page.js"></script>
+	<script type="text/javascript">
+	var IE = document.all?true:false;
+	var tempX = 0;
+	var tempY = 0;
 
-var selected_class = new Object;
-selected_class.id = 0;
-selected_class.desc = "";
-var need_class = false;
+	var selected_class = {};
+	selected_class.id = 0;
+	selected_class.desc = "";
+	var need_class = false;
 
-var show_div = function(e, div){
-	if (IE) { 
-        tempX = e.clientX + document.body.scrollLeft;
-        tempY = e.clientY + document.body.scrollTop;
-    } else {  
-        tempX = e.pageX;
-        tempY = e.pageY;
-    }
-    if (div != "menu_div") {
-    	tempY -= 10;
-    }
-    tempX -= 100;
-    if (tempX < 0){tempX = 0;}
-    if (tempY < 0){tempY = 0;}  
-    $(div).style.top = parseInt(tempY)+"px";
-    $(div).style.left = parseInt(tempX)+"px";
-    $(div).show();
-};
+	var show_div = function(e, div){
+		if (IE) {
+	        tempX = e.clientX + document.body.scrollLeft;
+	        tempY = e.clientY + document.body.scrollTop;
+	    } else {
+	        tempX = e.pageX;
+	        tempY = e.pageY;
+	    }
+	    if (div != "menu_div") {
+	        tempY -= 10;
+	    }
+	    tempX -= 100;
+	    if (tempX < 0){tempX = 0;}
+	    if (tempY < 0){tempY = 0;}
+	    $('#'+div).css({top: parseInt(tempY)+"px"});
+	    $('#'+div).css({left: parseInt(tempX)+"px"});
+	    $('#'+div).show();
+	};
 
-function show_menu(el) {
-	if($('menu_div').style.display == "none") {
-	    position = getElementPosition(el);
-	    dimensions = $(el).getDimensions();
-	    ftop = position['top'] + dimensions.height;
-	    fleft = position['left'] - 150 + dimensions.width;
-	    console.log("top: "+ftop+"\nleft: "+fleft);
-	    $('menu_div').setStyle({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
-	    $('menu_div').show();
+	function show_menu(el) {
+		if($('#menu_div').is(":hidden")) {
+		    position = getElementPosition(el);
+		    ftop = position['top'] + $('#'+el).height();
+		    fleft = position['left'] - 25 + $('#'+el).width();
+		    console.log("top: "+ftop+"\nleft: "+fleft);
+		    $('#menu_div').css({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
+		    $('#menu_div').show();
+		}
+		else {
+			$('#menu_div').hide();
+		}
 	}
-	else {
-		$('menu_div').hide();
-	}
-}
 
-var tm = 0;
-var complete = false;
-var timer;
+	var do_action = function(action){
+		var url = "schedule_manager.php";
+		background_process("Operazione in corso", 20, true);
 
-var do_action = function(action){
-	var url = "schedule_manager.php";
-	leftS = (screen.width - 200) / 2;
-	$('wait_label').setStyle({left: leftS+"px"});
-	$('wait_label').setStyle({top: "300px"});
-	$('wait_label').update("Operazione in corso");
-	$('over1').show();
-	$('wait_label').appear({duration: 0.8});
-	req = new Ajax.Request(url,
-		  {
-		    	method:'post',
-		    	parameters: {action: action, cls: selected_class.id},
-		    	onSuccess: function(transport){
-			    	complete = true;
-			    	clearTimeout(timer);
-		    		var response = transport.responseText || "no response text";
-		    		dati = response.split(";");
-		    		//$('wait_label').style.display = "none";
-		    		if(dati[0] == "kosql"){
-		    			$('over1').hide();
-		    			setTimeout("sqlalert()", 100);
-		    			console.log("Errore: "+dati[1]+" in: "+dati[2]);
-		    			return false;
-		    		}
-		    		else if (dati[0] == "ko"){
-		    			$('over1').hide();
-		    			setTimeout("_alert(dati[1])", 100);
-						return;
-		    		}
-		    		else{
-		    			$('wait_label').update("Operazione conclusa");
-						setTimeout("$('wait_label').fade({duration: 2.0})", 2000);
-						setTimeout("document.location.href = document.location.href", 3800);
-		    		}
-		    	},
-		    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-		  });
-	upd_str();
-};
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: {action: action, cls: selected_class.id},
+			dataType: 'json',
+			error: function() {
+				clearTimeout(bckg_timer);
+				$('#background_msg').text("Errore di trasmissione dei dati");
+				setTimeout(function() {
+					$('#background_msg').dialog("close");
+				}, 2000);
+				console.log(json.dbg_message);
+				//j_alert("error", "Errore di trasmissione dei dati");
+			},
+			succes: function() {
 
-var upd_str = function(){
-	tm++;
-	//alert(tm);
-	if(tm > 5){ 
-		tm = 0;
-		$('wait_label').update("Operazione in corso");
-	}
-	else
-		$('wait_label').innerHTML += ".";
-	timer = setTimeout("upd_str()", 1000);
-};
+			},
+			complete: function(data){
+				clearTimeout(bckg_timer);
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					$('#background_msg').text(json.message);
+					setTimeout(function() {
+						$('#background_msg').dialog("close");
+					}, 2000);
+					console.log(json.dbg_message);
+				}
+				else {
+					$('#background_msg').text("Operazione conclusa");
+					setTimeout(function() {
+						document.location.href = document.location.href;
+					}, 1500);
+				}
+			}
+		});
+	};
 
-var _hide = function(){
-	$('over1').hide();
-	$('wait_label').hide();
-};
+	$(function(){
+		load_jalert();
+		$('#imglink').click(function(event){
+			event.preventDefault();
+			show_menu('imglink');
+		});
+		$('#menu_div').mouseleave(function(event){
+			event.preventDefault();
+	        $('#menu_div').hide();
+	    });
+		$('.img_click').mouseover(function(event){
+			event.preventDefault();
+			p = this.parentNode.parentNode;
+			$(p).css({backgroundColor: "rgba(231, 231, 231, 0.8)", border: "1px solid #AAAAAA", borderRadius: "5px"});
+		});
+		$('.img_click').mouseout(function(event){
+			event.preventDefault();
+			p = this.parentNode.parentNode;
+			$(p).css({backgroundColor: "", border: "0", borderRadius: "5px"});
+		});
+		$('.img_link').click(function(event){
+			event.preventDefault();
+			var strs = this.id.split("_");
+			selected_class.id = strs[1];
+			selected_class.desc = strs[2];
+			selected_class.order = strs[3];
+			$('#menu_label').text("Classe "+selected_class.desc+" "+selected_class.order);
+			show_div(event, 'menu_cls');
+		});
+		$('#menu_cls').mouseleave(function(event){
+			event.preventDefault();
+	        $('#menu_cls').hide();
+	    });
 
-document.observe("dom:loaded", function(){
-	$('imglink').observe("click", function(event){
-		event.preventDefault();
-		show_menu('imglink');
+		$('.do_link').click(function(event){
+			event.preventDefault();
+			do_action(this.id);
+	    });
+
 	});
-	$('menu_div').observe("mouseleave", function(event){
-		event.preventDefault();
-        $('menu_div').hide();
-    });
-	$$('.img_click').invoke("observe", "mouseover", function(event){
-		event.preventDefault();
-		p = this.parentNode.parentNode;
-		p.setStyle({backgroundColor: "rgba(231, 231, 231, 0.8)", border: "1px solid #AAAAAA", borderRadius: "5px"});
-	});
-	$$('.img_click').invoke("observe", "mouseout", function(event){
-		event.preventDefault();
-		p = this.parentNode.parentNode;
-		p.setStyle({backgroundColor: "", border: "0", borderRadius: "5px"});
-	});
-	$$('.img_link').invoke("observe", "click", function(event){
-		event.preventDefault();
-		var strs = this.id.split("_");
-		selected_class.id = strs[1];
-		selected_class.desc = strs[2];
-		selected_class.order = strs[3];
-		$('menu_label').update("Classe "+selected_class.desc+" "+selected_class.order);
-		show_div(event, 'menu_cls');
-	});
-	$('menu_cls').observe("mouseleave", function(event){
-		event.preventDefault();
-        $('menu_cls').hide();
-    });
-	
-	$$('.do_link').invoke("observe", "click", function(event){
-		event.preventDefault();
-		do_action(this.id);
-    });
-    
-});
-</script>
-<style>
-#wait_label{
-	width: 200px;
-	height: 40px;
-	text-align: center;
-	background-color: #000000; 
-	border: 1px solid #CCCCCC; 
-	border-radius: 8px 8px 8px 8px;
-	color: white;
-	font-weight: bold;
-	vertical-align: middle;
-}
-.group_head{
-	padding-top: 5px; 
-	padding-bottom: 5px; 
-	text-align: center; 
-	font-weight: bold; 
-	background-color: #E7E7E7; 
-	border-radius: 5px 5px 5px 5px
-}
-div.overlay{
-    background-image: url(../images/overlay.png);
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: 90;
-    width: 100%;
-    height: 100%;
-}
-.small{
-	height: 20px
-}
-</style>
-<title>Registro elettronico</title>
+	</script>
 </head>
 <body>
 <?php include "header.php" ?>

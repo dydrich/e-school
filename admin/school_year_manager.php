@@ -6,7 +6,10 @@ require_once "../lib/start.php";
 check_session();
 check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
 
-ini_set("display_errors", "1");
+ini_set("display_errors", DISPLAY_ERRORS);
+
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
 
 $symanager = new SchoolYearManager($db);
 if(isset($_POST['school_order'])){
@@ -28,8 +31,12 @@ switch($_REQUEST['action']){
 			$id = $symanager->createNewYear($start, $end);
 			$symanager->doCommit();
 		} catch (MySQLException $ex){
-			echo "kosql#".$ex->getQuery()."#".$ex->getMessage();
 			$symanager->doRollback();
+			$response['status'] = "kosql";
+			$response['message'] = "Operazione non completata a causa di un errore";
+			$response['dbg_message'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
 			exit;
 		}
 		break;
@@ -42,8 +49,12 @@ switch($_REQUEST['action']){
 			$symanager->doCommit();
 			$_SESSION['__current_year__'] = $symanager->getYear()->getYear();
 		} catch (MySQLException $ex){
-			echo "kosql#".$ex->getQuery()."#".$ex->getMessage();
 			$symanager->doRollback();
+			$response['status'] = "kosql";
+			$response['message'] = "Operazione non completata a causa di un errore";
+			$response['dbg_message'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
 			exit;
 		}
 		break;
@@ -71,8 +82,12 @@ switch($_REQUEST['action']){
 			$symanager->doCommit();
 			$_SESSION['__school_year__'][$_SESSION['__school_order__']] = $symanager->getYear();
 		} catch (MySQLException $ex){
-			echo "kosql#".$ex->getQuery()."#".$ex->getMessage();
 			$symanager->doRollback();
+			$response['status'] = "kosql";
+			$response['message'] = "Operazione non completata a causa di un errore";
+			$response['dbg_message'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
 			exit;
 		}
 	default:
@@ -80,5 +95,5 @@ switch($_REQUEST['action']){
 		break;
 }
 
-echo "ok";
+echo json_encode($response);
 exit;

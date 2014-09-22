@@ -164,7 +164,7 @@ var get_student = function(action){
 					_cl = "reins_link";
 				}
 
-				$("p style='text-align: center; padding: 2px 0 2px 0; width: 100%; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid rgba(231, 231, 231, 0.9); background-color: rgba(231, 231, 231, 0.4)'>"+sstr+"</p>").appendTo($('#list_div'));
+				$("p style='text-align: center; padding: 2px 0 2px 0; width: 100%; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid rgba(231, 231, 231, 0.9); background-color: #DB5355'>"+sstr+"</p>").appendTo($('#list_div'));
 
 				for(i in links){
 					dt = links[i];
@@ -316,7 +316,7 @@ $(function(){
     	<a href="../shared/no_js.php" id="day_insert" class="day_link" style="padding-left: 10px;">Inserisci un giorno</a><br />
     </div>
     <div id="menu_cls" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border-radius: 8px 8px 8px 8px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888">
-    	<p id="menu_label" style="text-align: center; padding: 2px 0 2px 0; width: 100%; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid rgba(231, 231, 231, 0.9); background-color: rgba(231, 231, 231, 0.4)"></p>
+    	<p id="menu_label" style="text-align: center; padding: 2px 0 2px 0; width: 100%; font-weight: bold; margin-bottom: 8px; "></p>
     	<a href="../shared/no_js.php" id="class_reinsert" class="do_link" style="padding-left: 10px;">Reinserisci la classe</a><br />
     	<a href="../shared/no_js.php" id="class_delete" class="do_link" style="padding-left: 10px;">Cancella la classe</a><br />
     	<a href="../shared/no_js.php" id="class_insert" class="do_link" style="padding-left: 10px;">Inserisci la classe</a><br />

@@ -1,64 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<meta name="author" content="" />
-<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
-<link rel="stylesheet" href="../css/general.css" type="text/css" />
-<link href="../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../js/prototype.js"></script>
-<script type="text/javascript" src="../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../js/page.js"></script>
-<script type="text/javascript">
-var win; 
-var msg;
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
+	<link rel="stylesheet" href="../css/general.css" type="text/css" />
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../js/page.js"></script>
+	<script type="text/javascript">
 
-var timeout; 
-function openInfoDialog() {
-	var html = "<div style='width: 100%, text-align: center; font-size: 12px; font-weight: bold; padding-top: 30px; margin: auto'>"+msg+"</div>";
-	Dialog.info(html, 
-	{
-		width:250, 
-		height:100, 
-		showProgress: false,
-		className: "alphacube"
-	}); 
-	timeout = 2; 
-	setTimeout(infoTimeout, 1000);
-} 
-function infoTimeout() { 
-	timeout--; 
-	if (timeout > 0) { 
-		//Dialog.setInfoMessage(messages[index]); 
-		setTimeout(infoTimeout, 1000); 
-	} 
-	else 
-		Dialog.closeInfo();
-}
+	var upd_modulo = function(cbox){
+		var url = "aggiorna_modulo.php";
 
-function upd_modulo(cbox){
-	var url = "simula_installazione_modulo.php";
-	
-    req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {field: cbox.name, value: cbox.checked},
-			    	onSuccess: function(transport){
-			    		var response = transport.responseText || "no response text";
-			    		dati = response.split(";");
-			    		if(dati[0] == "ko"){
-			    			alert("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-			    			return;
-			    		}
-			    		else{
-							alert("Operazione conclusa con successo");
-			    		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
-</script>
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: {field: cbox.name, value: cbox.checked},
+			dataType: 'json',
+			error: function() {
+				console.log(json.dbg_message);
+				j_alert("error", "Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					console.log(json.dbg_message);
+					console.log(json.query);
+					j_alert("error", json.message);
+				}
+				else {
+					j_alert("alert", json.message);
+				}
+			}
+		});
+	};
+
+	$(function(){
+		load_jalert();
+	});
+	</script>
 <title>Modifica moduli installati</title>
 </head>
 <body>

@@ -6,7 +6,7 @@ require_once './lib/AccountManager.php';
 
 header("Content-type: application/json");
 
-$response = array("status" => "ok", "message" => "Operazione completata");
+$response = array("status" => "ok", "message" => "Password modificata correttamente");
 
 $area = "";
 switch ($_POST['area']){

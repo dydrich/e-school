@@ -1,58 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
-<link rel="stylesheet" href="../css/skins/aqua/theme.css" type="text/css" />
-<script type="text/javascript" src="../js/prototype.js"></script>
-<script type="text/javascript" src="../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../js/controls.js"></script>
-<script type="text/javascript" src="../js/calendar.js"></script>
-<script type="text/javascript" src="../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../js/calendar-setup.js"></script>
-<script type="text/javascript" src="../js/page.js"></script>
-<script type="text/javascript">
-var year = <?php echo $y ?>;
-var go = function(){
-	//alert($('vacanze').value);
-	var url = "school_year_manager.php?action=<?php echo $action ?>";
-	
-    req = new Ajax.Request(url,
-	  {
-	    	method:'post',
-	    	parameters: $('myform').serialize(true),
-	    	onSuccess: function(transport){
-	    		var response = transport.responseText || "no response text";
-	    		dati = response.split("#");
-	    		if(dati[0] == "kosql"){
-		    		sqlalert();
-	    			console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-	    			return;
-	    		}
-	    		else{
-					alert("Anno scolastico creato o modificato con successo");
-					document.location.href = "index.php";
-	    		}
-	    	},
-	    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-	  });
-};
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
+	<link rel="stylesheet" href="../css/general.css" type="text/css" />
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../js/page.js"></script>
+	<script type="text/javascript">
+	var year = <?php echo $y ?>;
+	var go = function(){
+		//alert($('vacanze').value);
+		var url = "school_year_manager.php?action=<?php echo $action ?>";
 
-var load_default = function(load_on_update){
-	if(load_on_update){
-		<?php if ($action != "new"): ?>
-		$('data_inizio').value = '<?php print format_date($year->get_data_apertura(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>';
-		$('data_fine').value = '<?php print format_date($year->get_data_chiusura(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>';
-		<?php endif; ?>
-	}
-	else{
-		$('data_inizio').value = '01/09/'+year;
-		$('data_fine').value = '31/08/'+(year+1);
-	}
-};
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: $('#myform').serialize(true),
+			dataType: 'json',
+			error: function() {
+				j_alert("error", "Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					j_alert("error", json.message);
+					console.log(json.dbg_message);
+				}
+				else {
+					j_alert("alert", "Anno scolastico creato o modificato con successo");
+				}
+			}
+		});
+	};
+
+	var load_default = function(load_on_update){
+		if(load_on_update){
+			<?php if ($action != "new"): ?>
+			$('#data_inizio').val('<?php print format_date($year->get_data_apertura(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>');
+			$('#data_fine').val('<?php print format_date($year->get_data_chiusura(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>');
+			<?php endif; ?>
+		}
+		else{
+			$('#data_inizio').val('01/09/'+year);
+			$('#data_fine').val('31/08/'+(year+1));
+		}
+	};
+
+	$(function(){
+		load_jalert();
+		load_default(true);
+		$('#data_inizio').datepicker({
+			dateFormat: "dd/mm/yy"
+		});
+		$('#data_fine').datepicker({
+			dateFormat: "dd/mm/yy"
+		});
+	})
 
 
-</script>
+	</script>
 <title>Gestione anno scolastico</title>
 <style>
 input {
@@ -60,7 +75,7 @@ input {
 }
 </style>
 </head>
-<body onload="load_default(true); ">
+<body>
 <?php include "header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main">
@@ -84,24 +99,6 @@ input {
             </tr>
             <tr>
             	<td colspan="2">
-            	<script type="text/javascript">
-				Calendar.setup({
-					date		: new Date(year, 8),
-					inputField	: "data_inizio",
-					ifFormat	: "%d/%m/%Y",
-					showsTime	: false,
-					firstDay	: 1,
-					timeFormat	: "24"
-				});
-				Calendar.setup({
-					date		: new Date(year+1, 7),
-					inputField	: "data_fine",
-					ifFormat	: "%d/%m/%Y",
-					showsTime	: false,
-					firstDay	: 1,
-					timeFormat	: "24"
-				});
-				</script>
             	</td>
             </tr>
 			<tr>

@@ -1,119 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
 	<link href="../../css/general.css" rel="stylesheet" />
-<link href="../../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
-<link href="../../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../js/prototype.js"></script>
-<script type="text/javascript" src="../../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../../js/controls.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/window.js"></script>
-<script type="text/javascript" src="../../js/window_effects.js"></script>
-<script type="text/javascript">
-var tm = 0;
-var complete = false;
-var timer;
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		var import_data = function(){
+			var url = "import_students.php";
 
-var import_data = function(){
-	var url = "import_students.php";
-	
-	leftS = (screen.width - 200) / 2;
-	$('wait_label').setStyle({left: leftS+"px"});
-	$('wait_label').setStyle({top: "300px"});
-	$('over1').show();
-	$('wait_label').appear({duration: 0.8});
-	//$('wait_label').show();
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {file: $F('server_file'), school_order: $F('school_order')},
-			    	onSuccess: function(transport){
-			    		complete = true;
-				    	clearTimeout(timer);
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split(";");
-			      		if(dati[0] == "ok"){
-			      			$('load_info').update(dati[1]);
-				      		$('tot').update(dati[2]);
-				      		$('err').update(dati[3]);
-				      		$('info_div').show();
-				      		if(dati[4]){
-								$('errors_info').innerHTML += dati[4];
-				      		}
-				      		$('dw_link').setAttribute("href", "../../shared/get_file.php?f="+dati[5]+"&delete=1&dir="+dati[6]);
-				      		$('dw_link').show();
-				      		$('wait_label').update("Operazione conclusa");
-							setTimeout("$('wait_label').fade({duration: 2.0})", 2000);
-							//setTimeout("$('wait_label').hide()", 2000);
-							setTimeout("$('over1').hide()", 3800);
-			      		}
-			      		
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-	upd_str();
-};
+			background_process("Operazione in corso", 20, true);
 
-var upd_str = function(){
-	tm++;
-	//alert(tm);
-	if(tm > 5){ 
-		tm = 0;
-		$('wait_label').update("Caricamento in corso");
-	}
-	else
-		$('wait_label').innerHTML += ".";
-	timer = setTimeout("upd_str()", 1000);
-};
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {file: $('#server_file').val(), school_order: $('#school_order').val()},
+				dataType: 'json',
+				error: function() {
+					clearTimeout(bckg_timer);
+					$('#background_msg').text("Errore di trasmissione dei dati");
+					setTimeout(function() {
+						$('#background_msg').dialog("close");
+					}, 2000);
+					console.log(json.dbg_message);
+					//j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-var _hide = function(){
-	$('over1').hide();
-	$('wait_label').hide();
-};
+				},
+				complete: function(data){
+					clearTimeout(bckg_timer);
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						$('#background_msg').text(json.message);
+						setTimeout(function() {
+							$('#background_msg').dialog("close");
+						}, 2000);
+						console.log(json.dbg_message);
+					}
+					else {
+						$('#load_info').text(json/ok);
+						$('#tot').text(json.tot);
+						$('#err').text(json.ko);
+						$('#info_div').show();
+						if(json.dbg_message){
+							$('#errors_info').html(json.dbg_message+"===="+json.query);
+						}
+						$('#dw_link').attr("href", "../../shared/get_file.php?f="+json.log_path+"&delete=1&dir=tmp");
+						$('#dw_link').show();
+						$('#background_msg').text("Operazione conclusa");
+					}
+				}
+			});
+		};
 
-document.observe("dom:loaded", function(){
-	$('import_button').observe("click", function(event){
-		event.preventDefault();
-		import_data();
-	});
-});
+		$(function(){
+			load_jalert();
+			$('#import_button').click(function(event){
+				event.preventDefault();
+				import_data();
+			});
+		});
 
-</script>
-<style>
-#wait_label{
-	width: 200px;
-	height: 40px;
-	text-align: center;
-	background-color: #000000; 
-	border: 1px solid #CCCCCC; 
-	border-radius: 8px 8px 8px 8px;
-	color: white;
-	font-weight: bold;
-	vertical-align: middle;
-}
-div.overlay{
-    background-image: url(../../images/overlay.png);
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: 90;
-    width: 100%;
-    height: 100%;
-}
-.group_head{
-	padding-top: 5px; 
-	padding-bottom: 5px; 
-	text-align: center; 
-	font-weight: bold; 
-	background-color: #E7E7E7; 
-	border-radius: 5px 5px 5px 5px
-}
-</style>
+	</script>
 </head>
 <body>
 <?php include "../header.php" ?>

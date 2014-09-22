@@ -7,7 +7,8 @@ require_once "../lib/RBUtilities.php";
 check_session(AJAX_CALL);
 check_permission(ADM_PERM);
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
 
 $schedule_manager = new ScheduleManager($db, $_SESSION['__current_year__']->get_ID());
 $return = "ok";
@@ -24,7 +25,11 @@ if ($_REQUEST['action']) {
 				$schedule_manager->deleteSchedule();
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['message'] = "Operazione non completata a causa di un errore";
+				$response['dbg_message'] = $ex->getMessage();
+				$response['query'] = $ex->getQuery();
+				echo json_encode($response);
 				exit;
 			}
 			break;
@@ -33,7 +38,11 @@ if ($_REQUEST['action']) {
 				$schedule_manager->insertSchedule();
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['message'] = "Operazione non completata a causa di un errore";
+				$response['dbg_message'] = $ex->getMessage();
+				$response['query'] = $ex->getQuery();
+				echo json_encode($response);
 				exit;
 			}
 			break;
@@ -42,7 +51,11 @@ if ($_REQUEST['action']) {
 				$schedule_manager->reinsertSchedule();
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['message'] = "Operazione non completata a causa di un errore";
+				$response['dbg_message'] = $ex->getMessage();
+				$response['query'] = $ex->getQuery();
+				echo json_encode($response);
 				exit;
 			}
 			break;
@@ -51,7 +64,11 @@ if ($_REQUEST['action']) {
 				$schedule_manager->deleteClassSchedule($_class);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['message'] = "Operazione non completata a causa di un errore";
+				$response['dbg_message'] = $ex->getMessage();
+				$response['query'] = $ex->getQuery();
+				echo json_encode($response);
 				exit;
 			}			
 			break;
@@ -60,7 +77,11 @@ if ($_REQUEST['action']) {
 				$schedule_manager->insertClassSchedule($_class);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['message'] = "Operazione non completata a causa di un errore";
+				$response['dbg_message'] = $ex->getMessage();
+				$response['query'] = $ex->getQuery();
+				echo json_encode($response);
 				exit;
 			}
 			break;
@@ -69,12 +90,16 @@ if ($_REQUEST['action']) {
 				$schedule_manager->reinsertClassSchedule($_class);
 			} catch (MySQLException $ex){
 				$db->execute("ROLLBACK");
-				echo "kosql;".$ex->getMessage().";".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['message'] = "Operazione non completata a causa di un errore";
+				$response['dbg_message'] = $ex->getMessage();
+				$response['query'] = $ex->getQuery();
+				echo json_encode($response);
 				exit;
 			}
 			break;
 	}
 }
 
-echo "ok";
+echo json_encode($response);
 exit;

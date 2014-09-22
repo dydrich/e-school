@@ -1,61 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dettaglio parametro</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../css/general.css" rel="stylesheet" />
-<link href="../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../js/prototype.js"></script>
-<script type="text/javascript" src="../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../js/controls.js"></script>
-<script type="text/javascript" src="../js/page.js"></script>
-<script type="text/javascript" src="../js/window.js"></script>
-<script type="text/javascript" src="../js/window_effects.js"></script>
-<script type="text/javaScript">
-var messages = new Array('', 'Parametro inserito con successo', 'Parametro cancellato con successo', 'Parametro modificato con successo');
-function go(par, sede){
-    if(par == 2){
-        if(!confirm("Sei sicuro di voler cancellare questo parametro?"))
-            return false;
-    }
-    $('_i').setValue(sede);
-    $('action').setValue(par);
-    var url = "params_manager.php";
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: $('site_form').serialize(true),
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		if(dati[0] == "ko"){
-							alert("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-							return;
-			      		}
-			      		
-			      		_alert(messages[par]);	
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Dettaglio parametro</title>
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
+	<link rel="stylesheet" href="../css/general.css" type="text/css" />
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../js/page.js"></script>
+	<script type="text/javaScript">
 
-document.observe("dom:loaded", function(){
-	$$('.form_input').invoke("observe", "focus", function(event){
-		this.setStyle({outline: '1px solid blue'});
-	});
-	$$('.form_input').invoke("observe", "blur", function(event){
-		this.setStyle({outline: ''});
-	});
-	$('save_button').observe("click", function(event){
-		event.preventDefault();
-		go(<?php if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0) print("3, ".$_REQUEST['id']); else print("1, 0"); ?>);
-	});
-});
+	var go = function(par, sede){
+	    if(par == 2){
+	        if(!confirm("Sei sicuro di voler cancellare questo parametro?"))
+	            return false;
+	    }
+	    $('#_i').val(sede);
+	    $('#action').val(par);
+	    var url = "params_manager.php";
 
-</script>
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: $('#site_form').serialize(true),
+			dataType: 'json',
+			error: function() {
+				console.log(json.dbg_message);
+				j_alert("error", "Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					console.log(json.dbg_message);
+					console.log(json.query);
+					j_alert("error", json.message);
+				}
+				else {
+					j_alert("alert", "Operazione conclusa");
+				}
+			}
+		});
+	};
+
+	$(function(){
+		load_jalert();
+		$('.form_input').focus(function(event){
+			$(this).css({outline: '1px solid blue'});
+		});
+		$('.form_input').blur(function(event){
+			$(this).css({outline: ''});
+		});
+		$('#save_button').click(function(event){
+			event.preventDefault();
+			go(<?php if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0) print("3, ".$_REQUEST['id']); else print("1, 0"); ?>);
+		});
+	});
+
+	</script>
 </head>
 <body>
 <?php include "header.php" ?>

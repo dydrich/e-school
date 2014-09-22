@@ -3,14 +3,10 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Attivazione del software</title>
-<link rel="stylesheet" href="../css/main.css" type="text/css" />
-<link rel="stylesheet" href="../css/themes/default.css" type="text/css"/>
-<link rel="stylesheet" href="../css/themes/alphacube.css" type="text/css"/>
-<script type="text/javascript" src="../js/prototype.js"></script>
-<script type="text/javascript" src="../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../js/controls.js"></script>
-<script type="text/javascript" src="../js/window.js"></script>
-<script type="text/javascript" src="../js/window_effects.js"></script>
+<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
+<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../js/page.js"></script>
 <script type="text/javascript">
 var cdc_created = <?php print $exist_cdc ?>;
@@ -25,97 +21,144 @@ var timer;
 
 function crea_cdc(){
 	if(cdc_created){
-		_alert("Operazione gia` effettuata");
-		return false;
+		if(!confirm("I dati relativi ai consigli di classe sono gia' presenti in archivio. Vuoi modificarli?")) {
+			return false;
+		}
+		else {
+			document.location.href = "cdc_state.php";
+			return false;
+		}
 	}
 	var url = "crea_cdc.php";
-	
-    req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	onSuccess: function(transport){
-			    		var response = transport.responseText || "no response text";
-			    		dati = response.split(";");
-			    		if(dati[0] == "kosql"){
-			    			sqlalert();
-			    			console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-			    			return;
-			    		}
-			    		else{
-							_alert("Operazione conclusa con successo");
-							cdc_created = 999;
-			    		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				j_alert("alert", "Operazione conclusa con successo");
+				cdc_created = 999;
+			}
+		}
+	});
 }
 
 function crea_orario(){
 	action = "insert";
 	if(schedule_created){
-		_alert("Operazione gia` effettuata");
-		return false;
+		if(!confirm("I dati relativi all'orario sono gia' presenti in archivio. Vuoi cancellarli e ricrearli? ATTENZIONE: cliccando su OK tutte le modifiche apportate all'orario verranno perse.")) {
+			return false;
+		}
+		else {
+			action = "reinsert";
+		}
 	}
 	var url = "popola_tabella_orario.php";
-	
-    req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {action: action},
-			    	onSuccess: function(transport){
-			    		var response = transport.responseText || "no response text";
-			    		dati = response.split(";");
-			    		if(dati[0] == "kosql"){
-			    			sqlalert();
-			    			console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-			    			return;
-			    		}
-			    		else{
-							_alert("Operazione conclusa con successo");
-							schedule_created = 999;
-			    		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {action: action},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+			}
+			else if(json.status == "ko"){
+				j_alert("error", json.message);
+			}
+			else {
+				j_alert("alert", "Operazione conclusa con successo");
+				schedule_created = 999;
+			}
+		}
+	});
 }
 
 var crea_registro = function(){
 	if(reg_created){
-		_alert("Operazione gia` effettuata");
-		return false;
+		if(!confirm("I dati relativi al registro di classe sono gia' presenti in archivio. Vuoi modificarli?")) {
+			return false;
+		}
+		else {
+			document.location.href = "classbook_state.php";
+			return false;
+		}
 	}
 	var url = "classbook_manager.php";
 	leftS = (screen.width - 200) / 2;
-	$('wait_label').setStyle({left: leftS+"px"});
-	$('wait_label').setStyle({top: "300px"});
-	$('over1').show();
-	$('wait_label').appear({duration: 0.8});
-	req = new Ajax.Request(url,
-		  {
-		    	method:'post',
-		    	parameters: {action: "insert"},
-		    	onSuccess: function(transport){
-			    	complete = true;
-			    	clearTimeout(timer);
-		    		var response = transport.responseText || "no response text";
-		    		dati = response.split("#");
-		    		//$('wait_label').style.display = "none";
-		    		if(dati[0] == "ko"){
-		    			$('wait_label').update("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-						setTimeout("$('wait_label').fade({duration: 2.0})", 2000);
-						setTimeout("$('overlay').hide()", 3800);
-		    			//alert("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-		    			return;
-		    		}
-		    		else{
-		    			$('wait_label').update("Operazione conclusa");
-						setTimeout("$('wait_label').fade({duration: 2.0})", 2000);
-						setTimeout("$('over1').hide()", 3800);
-						reg_created = 999;
-		    		}
-		    	},
-		    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-		  });
+	$('#wait_label').css("left", leftS+"px");
+	$('#wait_label').css("top", "300px");
+	$('#over1').show();
+	$('#wait_label').show(800);
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {action: "insert"},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				console.log(json.dbg_message);
+				$('#wait_label').text(json.message);
+				setTimeout("$('#wait_label').hide(2000)", 2000);
+				setTimeout("$('#overlay').hide()", 3800);
+
+			}
+			else if(json.status == "ko"){
+				$('#wait_label').text(json.message);
+				setTimeout("$('#wait_label').hide(2000)", 2000);
+				setTimeout("$('#overlay').hide()", 3800);
+				return;
+			}
+			else {
+				$('#wait_label').text("Operazione conclusa");
+				setTimeout("$('#wait_label').hide(2000)", 2000);
+				setTimeout("$('#over1').hide()", 3800);
+				reg_created = 999;
+			}
+		}
+	});
+
 	upd_str();
 };
 
@@ -127,49 +170,81 @@ var pop_scrutini = function(){
 	}
 	else{
 		var url = "popola_tabella_scrutini.php";
-		req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {quadrimestre: 1, action: "reinsert"},
-			    	onSuccess: function(transport){
-				    	complete = true;
-				    	clearTimeout(timer);
-			    		var response = transport.responseText || "no response text";
-			    		dati = response.split(";");
-			    		//$('wait_label').style.display = "none";
-			    		if(dati[0] == "ko"){
-			    			sqlalert();
-			    			console.log(dati[1]+"\n"+dati[2]);
-			    			return;
-			    		}
-			    		else{
-			    			scr_created1 = 999;
-			    			req2 = new Ajax.Request(url,
-			    					  {
-			    					    	method:'post',
-			    					    	parameters: {quadrimestre: 2, action: "reinsert"},
-			    					    	onSuccess: function(transport){
-			    						    	complete = true;
-			    						    	clearTimeout(timer);
-			    					    		var response = transport.responseText || "no response text";
-			    					    		dati = response.split(";");
-			    					    		//$('wait_label').style.display = "none";
-			    					    		if(dati[0] == "ko"){
-			    					    			sqlalert();
-			    					    			console.log(dati[1]+"\n"+dati[2]);
-			    					    			return;
-			    					    		}
-			    					    		else{
-			    									_alert("Operazione conclusa");
-			    									scr_created2 = 999;
-			    					    		}
-			    					    	},
-			    					    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			    					  });
-			    		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: {quadrimestre: 1, action: "reinsert"},
+			dataType: 'json',
+			error: function() {
+				show_error("Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				complete = true;
+				clearTimeout(timer);
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					console.log(json.dbg_message);
+					$('#wait_label').text(json.message);
+					setTimeout("$('#wait_label').hide(2000)", 2000);
+					setTimeout("$('#overlay').hide()", 3800);
+
+				}
+				else if(json.status == "ko"){
+					$('#wait_label').text(json.message);
+					setTimeout("$('#wait_label').hide(2000)", 2000);
+					setTimeout("$('#overlay').hide()", 3800);
+					return;
+				}
+				else {
+					scr_created1 = 999;
+					$.ajax({
+						type: "POST",
+						url: url,
+						data: {quadrimestre: 2, action: "reinsert"},
+						dataType: 'json',
+						error: function() {
+							j_alert("error", "Errore di trasmissione dei dati");
+						},
+						succes: function() {
+
+						},
+						complete: function(data){
+							complete = true;
+							clearTimeout(timer);
+							r = data.responseText;
+							if(r == "null"){
+								return false;
+							}
+							var json = $.parseJSON(r);
+							if (json.status == "kosql"){
+								console.log(json.dbg_message);
+								$('#wait_label').text(json.message);
+								setTimeout("$('#wait_label').hide(2000)", 2000);
+								setTimeout("$('#overlay').hide()", 3800);
+
+							}
+							else if(json.status == "ko"){
+								$('#wait_label').text(json.message);
+								setTimeout("$('#wait_label').hide(2000)", 2000);
+								setTimeout("$('#overlay').hide()", 3800);
+								return;
+							}
+							else {
+								scr_created2 = 999;
+							}
+						}
+					});
+				}
+			}
+		});
 	}
 };
 
@@ -192,26 +267,41 @@ var _hide = function(){
 
 var close_and_go = function(){
 	var url = "../shared/update_env.php";
-	
-    req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {field: 'installazione_completata', value: '1'},
-			    	onSuccess: function(transport){
-			    		var response = transport.responseText || "no response text";
-			    		dati = response.split(";");
-			    		if(dati[0] == "kosql"){
-			    			sqlalert();
-			    			console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-			    			return;
-			    		}
-			    		else{
-							document.location.href = "index.php";
-			    		}
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
+
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {field: 'installazione_completata', value: '1'},
+		dataType: 'json',
+		error: function() {
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				j_alert("error", json.message);
+				console.log(json.dbg_message);
+			}
+			else if(json.status == "ko"){
+				j_alert("error", json.message);
+			}
+			else {
+				document.location.href = "index.php";
+			}
+		}
+	});
 };
+
+$(function(){
+	load_jalert();
+})
 
 </script>
 <style>

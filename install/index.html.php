@@ -4,13 +4,6 @@
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Installazione software</title>
 <link rel="stylesheet" href="../css/main.css" type="text/css" />
-<link rel="stylesheet" href="../css/themes/default.css" type="text/css"/>
-<link rel="stylesheet" href="../css/themes/alphacube.css" type="text/css"/>
-<script type="text/javascript" src="../js/prototype.js"></script>
-<script type="text/javascript" src="../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../js/controls.js"></script>
-<script type="text/javascript" src="../js/window.js"></script>
-<script type="text/javascript" src="../js/window_effects.js"></script>
 <script type="text/javascript" src="../js/page.js"></script>
 <script type="text/javascript">
 var forward_not_perm = function(){

@@ -11,11 +11,20 @@ $_SESSION['__path_to_root__'] = "../";
 $_SESSION['__path_to_mod_home__'] = "./";
 $_SESSION['__area_label__'] = "Area amministrazione";
 
+$response = array("status" => "ok", "message" => "");
+header("Content-type: application/json");
+
 $sel_user = "SELECT uid, nome, cognome, username, accessi, permessi FROM rb_utenti WHERE uid = {$_POST['uid']}";
 try{
 	$res_utenti = $db->execute($sel_user);
 } catch(MYSQLException $ex){
-	echo "kosql#".$ex->getQuery()."#".$ex->getMessage();
+	$response['status'] = "kosql";
+	$response['query'] = $ex->getQuery();
+	$response['dbg_message'] = $ex->getMessage();
+	$response['message'] = "Errore nella registrazione dei dati";
+	$res = json_encode($response);
+	echo $res;
+	exit;
 }
 $utente = $res_utenti->fetch_assoc();
 
@@ -23,35 +32,41 @@ $sel_gr = "SELECT gid FROM rb_gruppi_utente WHERE uid = {$utente['uid']}";
 try{
 	$groups = $db->executeQuery($sel_gr);
 } catch(MYSQLException $ex){
-	echo "kosql#".$ex->getQuery()."#".$ex->getMessage();
+	$response['status'] = "kosql";
+	$response['query'] = $ex->getQuery();
+	$response['dbg_message'] = $ex->getMessage();
+	$response['message'] = "Errore nella registrazione dei dati";
+	$res = json_encode($response);
+	echo $res;
+	exit;
 }
 $gid = array();
 while($group = $groups->fetch_assoc()) {
 	$gid[] = $group['gid'];
 }
-$str_groups = join(",", $gid);
+$response['gid'] = $gid;
 
 $user = new SchoolUserBean($utente['uid'], $utente['nome'], $utente['cognome'], $gid, $utente['permessi'], '');
 
-$out = $str_groups."#";
 if($user->isAdministrator()){
-	$out .= "1#";
+	$response['admin'] = 1;
 }
 else {
-	$out .= "0#";
+	$response['admin'] = 0;
 }
 if($user->isPrimarySchoolAdministrator()){
-	$out .= "1#";
+	$response['psadmin'] = 1;
 }
 else {
-	$out .= "0#";
+	$response['psadmin'] = 0;
 }
 if($user->isMiddleSchoolAdministrator()){
-	$out .= "1#";
+	$response['msadmin'] = 1;
 }
 else {
-	$out .= "0#";
+	$response['msadmin'] = 0;
 }
 
-echo $out;
+$res = json_encode($response);
+echo $res;
 exit;

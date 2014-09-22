@@ -11,6 +11,9 @@ $_SESSION['__path_to_root__'] = "../";
 $_SESSION['__path_to_mod_home__'] = "./";
 $_SESSION['__area_label__'] = "Area amministrazione";
 
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
+
 $f = $_POST['file'];
 $school_order = $_POST['school_order'];
 $rows = file("../../tmp/{$f}");
@@ -48,13 +51,16 @@ foreach($rows as $row){
 		try{
 			$uid = $db->executeUpdate($insert);
 			if (is_installed("com")) {
-				//$db->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_alunni', 'student')");
+				$db->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_alunni', 'student')");
 			}
 			fwrite($log, "{$cognome} {$nome} (".substr($cod_classe, 0, 2)."): {$username}:{$pwd_chiaro}\n");
 			$ok++;
 		} catch (MySQLException $ex) {
 			$ko++;
-			$errs .= $ex->getMessage().$ex->getQuery()."<br />";
+			$response['status'] = "kosql";
+			$response['message'] = "Operazione non completata a causa di un errore";
+			$response['dbg_message'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
 		}
 	}
 	else if ($school_order == 2){
@@ -92,10 +98,19 @@ foreach($rows as $row){
 			$ok++;
 		} catch (MySQLException $ex) {
 			$ko++;
-			$errs .= $ex->getMessage().$ex->getQuery()."<br />";
+			$response['status'] = "kosql";
+			$response['message'] = "Operazione non completata a causa di un errore";
+			$response['dbg_message'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
 		}
 	}
 }
 fclose($log);
-echo "ok;{$ok};{$tot};{$ko};{$errs};{$log_path};tmp;";
+
+$response['ok'] = $ok;
+$response['tot'] = $tot;
+$response['ko'] = $ko;
+$response['log_path'] = $log_path;
+//echo "ok;{$ok};{$tot};{$ko};{$errs};{$log_path};tmp;";
+echo json_encode($response);
 exit;

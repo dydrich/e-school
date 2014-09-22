@@ -3,15 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>Registro elettronico::login</title>
-<script type="text/javascript" src="./js/prototype.js"></script>
-<script type="text/javascript" src="./js/scriptaculous.js"></script>
-<script type="text/javascript" src="./js/controls.js"></script>
-<script type="text/javascript" src="./js/page.js"></script>
-<script type="text/javascript" src="./js/md5-min.js"></script>
 <link href="css/site_themes/<?php echo getTheme() ?>/index.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript">
-
-</script>
 </head>
 <body>
 <header id="header">

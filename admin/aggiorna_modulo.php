@@ -5,7 +5,8 @@ require_once "../lib/start.php";
 check_session(AJAX_CALL);
 check_permission(ADM_PERM);
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Modulo aggiornato");
 
 $mod = $_REQUEST['field'];
 $val = $_REQUEST['value'];
@@ -15,7 +16,12 @@ $_SESSION['update'] = $update;
 try{
 	$db->executeQuery($update);
 } catch (MySQLException $ex){
-	$ex->fake_alert();
+	$response['status'] = "kosql";
+	$response['query'] = $ex->getQuery();
+	$response['dbg_message'] = $ex->getMessage();
+	$response['message'] = "Errore nella registrazione dei dati";
+	$res = json_encode($response);
+	echo $res;
 	exit;
 }
 
@@ -27,6 +33,6 @@ while($mod = $res_modules->fetch_assoc()){
 	$_SESSION['__modules__'][$mod['code_name']]['installed'] = $mod['active'];
 }
 
-$out = "ok";
-print $out;
+$res = json_encode($response);
+echo $res;
 exit;

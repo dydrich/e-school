@@ -1,3 +1,13 @@
+3.0.25
+completato il passagio a jquery. Rimangono fuori: year_data.php in admin (a causa del widget data con la multiselezione) e l'installazione (che va comunque rifatta da capo)
+pulizia codice
+eliminate alcune errate chiamate a executeQuery, invece di executeUpdate, in ScheduleManager
+
+3.0.24
+porting della gestione regsitro a jquery
+miglioramento della funzione background_process per mostrare l'avanzamento
+code cleaning
+
 3.0.23
 jquery per l'area admin, escluso root e load_students.php in adm_students, dovuto alla difficolta' di prova
 bug fixes

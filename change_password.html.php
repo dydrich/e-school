@@ -4,14 +4,10 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
 	<link rel="stylesheet" href="css/site_themes/<?php echo getTheme() ?>/index.css" type="text/css" media="screen,projection" />
-	<link rel="stylesheet" href="css/themes/default.css" type="text/css"/>
-	<link rel="stylesheet" href="css/themes/alphacube.css" type="text/css"/>
-	<script type="text/javascript" src="js/prototype.js"></script>
-	<script type="text/javascript" src="js/scriptaculous.js"></script>
+	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="js/page.js"></script>
 	<script type="text/javascript" src="js/md5-min.js"></script>
-	<script type="text/javascript" src="js/window.js"></script>
-	<script type="text/javascript" src="js/window_effects.js"></script>
 	<script type="text/javascript">
 		function registra(){
 			var patt = /[^a-zA-Z0-9]/;
@@ -29,20 +25,40 @@
 			}
 			p = hex_md5(document.forms[0].pwd1.value);
 
-			var req = new Ajax.Request('password_manager.php',
-				{
-					method:'post',
-					parameters: {new_pwd: p, action: "change", area: <?php echo $area ?>, uid: <?php echo $uid ?>},
-					onSuccess: function(transport){
-						var response = transport.responseText || "no response text";
-						var json = response.evalJSON();
-						if (json.status == "ok"){
-							_alert("Password modificata correttamente");
-							setTimeout(function(){window.location = "index.php"}, 4000);
-						}
-					},
-					onFailure: function(){ alert("Si e' verificato un errore..."); }
-				});
+			$.ajax({
+				type: "POST",
+				url: 'password_manager.php',
+				data: {new_pwd: p, action: "change", area: <?php echo $area ?>, uid: <?php echo $uid ?>},
+				dataType: 'json',
+				error: function() {
+					console.log(json.dbg_message);
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						console.log(json.dbg_message);
+						console.log(json.query);
+						j_alert("error", json.message);
+					}
+					else {
+						j_alert("alert", json.message);
+						setTimeout(
+							function(){
+								window.location = "index.php";
+							},
+							4000
+						);
+					}
+				}
+			});
 		}
 	</script>
 </head>
@@ -84,7 +100,7 @@
 		else :
 		?>
 			<div id='t1' style='clear:left; width: 90%; margin: 40px auto 40px auto; height: 60px; color: #FFFFFF'>
-				<p style='padding: 10px; font-size: 1.5em; margin: auto; text-align: center'>L'indirizzo inserito non e` piu` valido. Devi effettuare una nuova richiesta. <br>
+				<p style='padding: 10px; font-size: 1.5em; margin: auto; text-align: center'>L'indirizzo inserito non &egrave; pi&ugrave; valido. Devi effettuare una nuova richiesta. <br>
 				Ti ricordiamo che la password va cambiata entro 24 ore dalla richiesta.</p>
 			</div>
 			<div id='r3' style='clear: left; height: 80px; text-align: center'>

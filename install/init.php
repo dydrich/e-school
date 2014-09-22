@@ -184,5 +184,3 @@ switch($_REQUEST['step']){
 		break;
 		
 }
-
-?>

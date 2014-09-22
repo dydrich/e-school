@@ -31,33 +31,46 @@ switch($_REQUEST['action']){
 		 */
 		$name = $db->real_escape_string($_POST['giudizio']);
 		$statement = "INSERT INTO rb_giudizi_parametri_pagella (id_parametro, giudizio) VALUES ({$_REQUEST['_i']}, '{$name}')";
+		$msg = "Valore inserito";
 		break;
 	case 5:
 		/*
 		 * cancellazione valore
 		 */
 		$statement = "DELETE FROM rb_giudizi_parametri_pagella WHERE id = {$_REQUEST['_i']}";
+		$msg = "Valore eliminato";
 		break;
 	case 6:
 		/*
 		 * modifica valore
 		 */
-		$name = $db->real_escape_string($_REQUEST['val']);
-		$statement = "UPDATE rb_giudizi_parametri_pagella SET giudizio = '{$name}' WHERE id = {$_REQUEST['_i']}";
+		list($n, $id) = explode("_", $_REQUEST['id']);
+		$name = $db->real_escape_string($_REQUEST['value']);
+		$statement = "UPDATE rb_giudizi_parametri_pagella SET giudizio = '{$name}' WHERE id = {$id}";
 		break;
 }
-header("Content-type: text/plain");
+$response = array("status" => "ok", "message" => "");
+header("Content-type: application/json");
 try{
 	$recordset = $db->executeUpdate($statement);
 } catch (MySQLException $ex){
-	print "ko|".$ex->getMessage()."|".$ex->getQuery();
+	$response['status'] = "kosql";
+	$response['query'] = $ex->getQuery();
+	$response['dbg_message'] = $ex->getMessage();
+	$response['message'] = "Errore nella registrazione dei dati";
+	$res = json_encode($response);
+	echo $res;
 	exit;
 }
 
 if ($_REQUEST['action'] != 6){
-	print "ok|".$msg."|".$recordset;
+	$response['message'] = $msg;
+	$response['param'] = $recordset;
 }
 else{
-	echo $name;
+	echo $response['name'] = $name;
+	exit;
 }
+$res = json_encode($response);
+echo $res;
 exit;

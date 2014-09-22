@@ -3,59 +3,63 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title>Elenco parametri pagella</title>
-<link href="../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../css/general.css" rel="stylesheet" />
-<link href="../css/themes/default.css" rel="stylesheet" type="text/css"/>
-<link href="../css/themes/alphacube.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../js/prototype.js"></script>
-<script type="text/javascript" src="../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../js/page.js"></script>
-<script type="text/javascript" src="../js/window.js"></script>
-<script type="text/javascript" src="../js/window_effects.js"></script>
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
+	<link rel="stylesheet" href="../css/general.css" type="text/css" />
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../js/page.js"></script>
 <script type="text/javascript">
-var index = 0;
-<?php 
-if(isset($_REQUEST['msg'])){
-?>
-index = <?php print $_REQUEST['msg'] ?>;
-<?php } ?>
 
-function del_sede(id){
+var del_sede = function(id){
 	if(!confirm("Sei sicuro di voler cancellare questo parametro?"))
         return false;
 	var url = "params_manager.php";
-	req = new Ajax.Request(url,
-			  {
-			    	method:'post',
-			    	parameters: {action: 2, _i: id},
-			    	onSuccess: function(transport){
-			      		var response = transport.responseText || "no response text";
-			      		//alert(response);
-			      		var dati = response.split("|");
-			      		if(dati[0] == "ko"){
-							alert("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-							return;
-			      		}
-			      		_alert("Parametro cancellato");
-			      		$("row_"+id).hide();
-			    	},
-			    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-			  });
-}
 
-document.observe("dom:loaded", function(){
-	$$('table tbody > tr').invoke("observe", "mouseover", function(event){
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {action: 2, _i: id},
+		dataType: 'json',
+		error: function() {
+			console.log(json.dbg_message);
+			j_alert("error", "Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				console.log(json.dbg_message);
+				console.log(json.query);
+				j_alert("error", json.message);
+			}
+			else {
+				j_alert("alert", "Parametro cancellato");
+				$("#row_"+id).hide();
+			}
+		}
+	});
+};
+
+$(function(){
+	$('table tbody > tr').mouseover(function(event){
 		//alert(this.id);
 		var strs = this.id.split("_");
-		$('link_'+strs[1]).setStyle({display: 'block'});
+		$('#link_'+strs[1]).show();
 	});
-	$$('table tbody > tr').invoke("observe", "mouseout", function(event){
+	$('table tbody > tr').mouseout(function(event){
 			//alert(this.id);
 			var strs = this.id.split("_");
-			$('link_'+strs[1]).setStyle({display: 'none'});
+			$('#link_'+strs[1]).hide();
 	});
 
-	$$('table tbody a.del_link').invoke("observe", "click", function(event){
+	$('table tbody a.del_link').click(function(event){
 			event.preventDefault();
 			var strs = this.parentNode.id.split("_");
 			del_sede(strs[1]);

@@ -1,5 +1,9 @@
 <?php
 
+/*
+tabella scrutini
+*/
+
 require_once "../lib/start.php";
 
 check_session();
@@ -57,7 +61,7 @@ $materie = array();
 $materie_no_scr = array();
 $materie_scr = array();
 try {
-	$res_cls = $db->executeQuery("SELECT id_classe, anno_corso, sezione, nome FROM {$classes_table}, rb_sedi WHERE sede = id_sede AND anno_scolastico = {$year} ORDER BY sezione, anno_corso");
+	$res_cls = $db->executeQuery("SELECT id_classe, anno_corso, sezione, nome FROM {$classes_table}, rb_sedi WHERE sede = id_sede AND anno_scolastico = {$year} ORDER BY rb_classi.ordine_di_scuola, sezione, anno_corso");
 	$res_scr = $db->executeQuery("SELECT classe, materia FROM rb_scrutini WHERE anno = {$year} AND quadrimestre = {$_REQUEST['quadrimestre']} {$scr_classes} GROUP BY classe, materia ORDER BY classe");
 	$res_mat = $db->executeQuery("SELECT id_materia, materia, pagella FROM rb_materie WHERE id_materia <> 1 {$subject_params}");
 } catch (MySQLException $ex) {

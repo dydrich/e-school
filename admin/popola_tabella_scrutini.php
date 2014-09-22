@@ -15,11 +15,11 @@ $quadrimestre = $_REQUEST['quadrimestre'];
 
 $classes_table = "rb_classi";
 $subject_params = "";
-if($_SESSION['__school_order__'] != 0){
+if(isset($_SESSION['__school_order__']) && $_SESSION['__school_order__'] != 0){
 	$classes_table = "rb_vclassi_s{$_SESSION['__school_order__']}";
 	$subject_params = " AND tipologia_scuola = ".$_SESSION['__school_order__'];
 }
-else if($_SESSION['school_order'] != 0){
+else if(isset($_SESSION['school_order']) && $_SESSION['school_order'] != 0){
 	$classes_table = "rb_vclassi_s{$_GET['school_order']}";
 	$subject_params = " AND tipologia_scuola = ".$_GET['school_order'];
 }
@@ -38,7 +38,6 @@ if ($action == "cl_reinsert" || $action == "cl_ins_subject" || $action == "cl_de
 }
 
 $sel_alunni = "SELECT id_alunno, rb_alunni.id_classe, musicale, CONCAT(anno_corso, sezione) AS desc_cls, ordine_di_scuola FROM rb_alunni, {$classes_table} WHERE attivo = '1' $selected_class AND rb_alunni.id_classe = {$classes_table}.id_classe";
-echo $sel_alunni;
 try{
 	$res_alunni = $db->executeQuery($sel_alunni);
 } catch (MySQLException $ex){
@@ -135,7 +134,7 @@ if ($action == "insert" || $action == "reinsert" || $action == "ins_subject" || 
 	while($alunno = $res_alunni->fetch_assoc()){
 		$id_alunno = $alunno['id_alunno'];
 		$classe = $alunno['id_classe'];
-		$desc_classe = $alunno['desc_classe'];
+		$desc_classe = $alunno['desc_cls'];
 		if ($action == "insert" || $action == "reinsert" || "cl_reinsert" == $action) {
 			try{
 				$db->executeUpdate("INSERT INTO rb_pagelle (id_pubblicazione, id_alunno, id_classe, desc_classe) VALUES ({$pub}, {$id_alunno}, {$classe}, '{$desc_classe}')");
@@ -157,7 +156,6 @@ if ($action == "insert" || $action == "reinsert" || $action == "ins_subject" || 
 				continue;
 			}
 			$ins = "INSERT INTO rb_scrutini (alunno, classe, anno, quadrimestre, materia) VALUES ($id_alunno, $classe, $anno, $quadrimestre, {$materia['id_materia']})";
-			echo $ins;
 			try{
 				$r_ins = $db->executeUpdate($ins);
 			} catch (MySQLException $ex){
@@ -173,7 +171,7 @@ if ($action == "insert" || $action == "reinsert" || $action == "ins_subject" || 
 }
 
 $response['status'] = "ok";
-$response['message'] = $msg;
+$response['message'] = "Operazione completata";
 $res = json_encode($response);
 echo $res;
 exit;
