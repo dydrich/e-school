@@ -52,6 +52,17 @@ function mod_ora(giorno, ora, classe, materia, descrizione){
 		return false;
 	}
 
+	if (giorno == day && ora == hour) {
+		$('#classe').text(classi[classe]);
+		$('#materia').text(materie[materia]);
+		$('#desc').val(desc);
+	}
+	else {
+		$('#classe').text("");
+		$('#materia').text("");
+		$('#desc').val("");
+	}
+
 	subject = materia;
 	clas = old_clas = classe;
 	hour = ora;
@@ -59,8 +70,6 @@ function mod_ora(giorno, ora, classe, materia, descrizione){
 	desc = descrizione;
 
 	$('#r1').text(giorni[giorno]+", "+ora+" ora");
-	$('#classe').text(classi[classe]);
-	$('#materia').text(materie[materia]);
 
 	$('#dialog').dialog({
 			autoOpen: true,
@@ -82,11 +91,9 @@ function mod_ora(giorno, ora, classe, materia, descrizione){
 			width: 450,
 			title: 'Modifica orario',
 			open: function(event, ui){
-				
+
 			}
 		});
-	
-	$('#desc').value = desc;	
 }
 
 function upd_ora(act){
@@ -134,7 +141,7 @@ function upd_ora(act){
 				else {
 					$('#'+parent_row).text(" -- ");
 				}
-				//win.hide();
+				$('#dialog').dialog("close");
 			}
 		}
     });
