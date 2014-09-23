@@ -1,7 +1,5 @@
 <?php
 
-ini_set("display_errors", DISPLAY_ERRORS);
-
 require_once "../../lib/start.php";
 require_once "../../lib/ArrayMultiSort.php";
 require_once "../../lib/TeacherRecordBookManager.php";

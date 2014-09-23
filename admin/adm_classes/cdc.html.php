@@ -108,7 +108,7 @@ var save_teacher = function(){
 	});
 };
 
-var del_teacher = function(uid, cls){
+var del_teacher = function(uid){
 	var mat = 27;
 	if (sc_order == 2){
 		mat = 41;
@@ -117,7 +117,7 @@ var del_teacher = function(uid, cls){
 	$.ajax({
 		type: "POST",
 		url: url,
-		data: {action: "add", cls: <?php echo $classID ?>, mat: mat, doc: $('#doc').val()},
+		data: {action: "del", cls: <?php echo $classID ?>, mat: mat, doc: uid},
 		dataType: 'json',
 		error: function() {
 			show_error("Errore di trasmissione dei dati");
@@ -279,10 +279,6 @@ else if ($res_sost->num_rows > 0){
 				<a href="#" onclick="save_teacher(<?php echo $cls ?>)" class="standard_link nav_link_last">Registra</a>
 				<input type="hidden" name="action" id="action" />
 				<input type="hidden" name="_i" id="_i" />
-				<input type="hidden" name="tipo" id="tipo" value="<?php print $_REQUEST['tipo'] ?>" />
-				<input type="hidden" name="server_file" value="" id="server_file" />
-				<input type="hidden" name="oldfile" value="<?php if(isset($doc)) print $doc['file'] ?>"/>
-				<input type="hidden" name="progressivo_atto" id="progressivo_atto" value="<?php if(isset($doc)) print $doc['progressivo_atto'] ?>"/>
 			</div>
 		</div>
 	</form>

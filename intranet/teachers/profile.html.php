@@ -18,7 +18,7 @@
 	<?php include "profile_menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div id="welcome">
+		<div class="welcome">
 			<p id="w_head">Gestisci il tuo profilo:</p>
 			<ul>
 				<li>modifica i tuoi dati personali e la password d'accesso;</li>

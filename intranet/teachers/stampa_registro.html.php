@@ -122,7 +122,7 @@ var loaded = false;
 			foreach ($classi as $k => $classe){
 				if (in_array($k, $ids)){
 	?>
-		<div id="welcome">
+		<div class="welcome">
 			<p id="w_head">CLASSE <?php echo $classe['name'] ?></p>
 			<table style="width: 100px">
 			<?php 

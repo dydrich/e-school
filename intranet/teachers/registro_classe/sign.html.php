@@ -572,7 +572,7 @@ foreach ($firme as $x => $ora){
 		$display_delete_link = "none";
 		$string = "Sostegno";
 		$c++;
-		if ($sostegno[$c] != ""){
+		if (isset($sostegno[$c]) && $sostegno[$c] != ""){
 			$string = "Sostegno: {$sostegno[$c]}";
 			if ($sos[$c] == $_SESSION['__user__']->getUid()){
 				$display_delete_link = "inline";

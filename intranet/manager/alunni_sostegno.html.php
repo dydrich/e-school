@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Alunni</title>
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Alunni</title>
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery.jeditable.mini.js"></script>
 <script>
+	$(function(){
+		load_jalert();
+		$(function(){
+			$('.edit').editable('ore_sostegno.php', {
+				indicator : 'Saving...',
+				tooltip   : 'Click to edit...',
+				cssclass: "no_border"
+			});
+		});
+	});
+
 var del = function(id){
 	var url = "elimina_segnalazione.php";
 	$.ajax({
@@ -90,12 +103,7 @@ var del = function(id){
  	    		<td style="width: 15%; text-align: center"><?php echo $alunno['classe'] ?></td>
  	    		<td style="width: 30%; text-align: center"><?php echo $teacher ?></td>
  	    		<td style="width: 10%; text-align: center">
- 	    		<p id="c<?php echo $alunno['alunno'] ?>" style="height: 14px; margin: 1px"><?php echo $alunno['ore'] ?></p>
- 	    		<script type="text/javascript"> 
-					new Ajax.InPlaceEditor('c<?php print $alunno['alunno'] ?>', 'ore_sostegno.php', { 
-						callback: function(form, value) { return 'f=<?php echo $alunno['alunno'] ?>&val='+encodeURIComponent(value); }
-					});
-				</script>
+ 	    		<p id="c<?php echo $alunno['alunno'] ?>" class="edit" style="height: 14px; margin: 1px"><?php echo $alunno['ore'] ?></p>
 				</td>
 				<td style="width: 5%; text-align: center" class="attention"><a href="#" onclick="del(<?php echo $alunno['alunno'] ?>)" style="font-weight: bold; font-size: 1.1em; text-decoration: none; color: red">x</a></td>
  	    	</tr>

@@ -1,3 +1,6 @@
+3.0.26
+migliorata gestione modifica orario docente
+
 3.0.25
 completato il passagio a jquery. Rimangono fuori: year_data.php in admin (a causa del widget data con la multiselezione) e l'installazione (che va comunque rifatta da capo)
 pulizia codice
