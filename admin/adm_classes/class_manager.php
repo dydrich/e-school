@@ -44,6 +44,9 @@ switch($_POST['action']){
 	case 'upgrade':
 		$field = $_POST['field'];
 		$value = $_POST['value'];
+		if ($value == 0) {
+			$value = "";
+		}
 		$is_char = $_POST['is_char'];
 		$query = "UPDATE rb_classi SET $field = ".field_null($value, $is_char)." WHERE id_classe = {$classe}";
 		break;

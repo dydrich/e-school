@@ -14,10 +14,6 @@ var sc_order = <?php echo $classe['ordine_di_scuola'] ?>;
 var upd_cdc = function(materia, sel){
     var doc = $('#'+sel).val();
     //var text = sel.options[sel.selectedIndex].text;
-    if(doc == 0){
-        alert("Docente non selezionato");
-        return;
-    }
     var url = "update_cdc.php";
 	$.ajax({
 		type: "POST",

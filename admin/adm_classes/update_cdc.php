@@ -31,6 +31,9 @@ switch ($action){
 		$upd = "INSERT INTO rb_assegnazione_sostegno (anno, classe, docente, ore) VALUES ({$anno}, {$classe}, {$docente}, {$ore})";
 		break;
 	default:
+		if ($docente == 0) {
+			$docente = "NULL";
+		}
 		$upd = "UPDATE rb_cdc SET id_docente = {$docente} WHERE id_materia = {$materia} AND id_anno = {$anno} AND id_classe = {$classe}";
 		break;
 }

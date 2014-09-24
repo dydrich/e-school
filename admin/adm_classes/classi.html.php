@@ -122,10 +122,6 @@ var del_class = function(class_id){
 
 var upd_cdc = function(sel){
 	var doc = $('#'+sel).val();
-	if(doc == 0){
-		alert("Docente non selezionato");
-		return;
-	}
 	var url = "class_manager.php";
 	$.ajax({
 		type: "POST",
@@ -149,7 +145,7 @@ var upd_cdc = function(sel){
 				console.log(json.dbg_message);
 			}
 			else {
-				$('#coord').hide();
+				//$('#coord').hide();
 			}
 		}
 	});
