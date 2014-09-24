@@ -162,8 +162,7 @@ class PlanningMeeting {
 	}
 
 	public function insert() {
-		$this->rid = $this->datasource->executeUpdate("
-		INSERT INTO rb_riunioni_programmazione (`id_modulo`, `data`, `ora_inizio`, `ora_termine`, `assenti`, `italiano`, `matematica`, `religione`, `immagine`, `inglese`, `storia`, `geografia`, `motoria`, `scienze`, `musica`, `tecnologia`, `altro`)
+		$this->rid = $this->datasource->executeUpdate("INSERT INTO rb_riunioni_programmazione (`id_modulo`, `data`, `ora_inizio`, `ora_termine`, `assenti`, `italiano`, `matematica`, `religione`, `immagine`, `inglese`, `storia`, `geografia`, `motoria`, `scienze`, `musica`, `tecnologia`, `altro`)
 		VALUES ({$this->module}, '{$this->meetingDate}', '{$this->startTime}', '{$this->endTime}', ".field_null($this->absents, true).", ".field_null($this->subjects['italiano'], true).", ".field_null($this->subjects['matematica'], true).", ".field_null($this->subjects['religione'], true).", ".field_null($this->subjects['immagine'], true).",".field_null($this->subjects['inglese'], true).",".field_null($this->subjects['storia'], true).",".field_null($this->subjects['geografia'], true).",".field_null($this->subjects['motoria'], true).",".field_null($this->subjects['scienze'], true).",".field_null($this->subjects['tecnologia'], true).",".field_null($this->subjects['musica'], true).",".field_null($this->other, true).")"
 		);
 		return $this->rid;

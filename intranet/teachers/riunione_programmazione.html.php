@@ -80,7 +80,7 @@
 						}
 						var json = $.parseJSON(r);
 						if (json.status == "kosql"){
-							alert(json.message);
+							j_alert("error", json.message);
 							console.log(json.dbg_message);
 						}
 						else if(json.status == "ko") {
@@ -89,6 +89,15 @@
 						}
 						else {
 							j_alert("alert", json.message)
+							if (action == "insert") {
+								//alert(json.rid);
+								setTimeout(
+									function() {
+										document.location.href = "riunione_programmazione.php?rid="+json.rid;
+									},
+									2000
+								);
+							}
 						}
 					}
 				});
