@@ -1,5 +1,6 @@
 3.0.27
 introdotta la possibilita` di mettere a null il docente nel cdc, anche come coordinatore e segretario
+bug fixes
 
 3.0.26
 migliorata gestione modifica orario docente

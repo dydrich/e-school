@@ -20,9 +20,9 @@ a.no_decoration {
     width: 95%;
     height: 40px;
     margin-left: 5%;
-    border: 1px solid #EF6C6C;
+    border: 1px solid #FB8C00;
     border-radius: 5px 0 0 0;
-    background-color: #EF6C6C;
+    background-color: #FB8C00;
 }
 
 #threads, #sel_thread {

@@ -24,6 +24,7 @@
 	<ul class="menublock" style="" dir="rtl">
 		<li><a href="grade_type.php" style="text-decoration: none">Tipologia di prove</a></li>
 		<li><a href="conf_recordbook.php" style="text-decoration: none">Configura registro personale</a></li>
+		<li><a href="themes.php" style="text-decoration: none">Tema</a></li>
 	</ul>
 	<?php endif; ?>
 </div> 

@@ -962,3 +962,12 @@ div.card_longcontent {
     #color: #555555;
     color: rgba(30, 67, 137, 1);
 }
+
+div.card_varcontent {
+    width: 100%;
+    font-size: 1em;
+    border-top: 1px solid rgba(215, 215, 215, 1);
+    padding-top: 5px;
+    #color: #555555;
+    color: rgba(30, 67, 137, 1);
+}
