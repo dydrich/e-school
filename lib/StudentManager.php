@@ -170,7 +170,7 @@ class StudentManager
 		
 		// assenze
 		$res_abs = $this->datasource->executeQuery("SELECT id_reg, data, giustificata FROM rb_reg_classi, rb_reg_alunni WHERE id_reg = id_registro AND rb_reg_classi.id_classe = {$old_class} AND id_anno = {$id_anno} AND id_alunno = {$alunno} AND rb_reg_alunni.ingresso IS NULL");
-		if(count($res_abs) > 0){
+		if($res_abs){
 			foreach($res_abs as $dt){
 				$this->datasource->executeUpdate("UPDATE rb_reg_alunni SET ingresso = NULL, uscita = NULL, giustificata = '{$dt['giustificata']}' WHERE id_registro = ".$orari[$dt['data']]['new_id_registro']." AND id_alunno = {$alunno}");
 			}
