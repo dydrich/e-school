@@ -150,7 +150,7 @@ $(function(){
 </style>
 </head>
 <body style="margin: 0; background-color: white">
-<div id="" style='width: 100%; margin: 0; text-align: center; height: 100%'>
+<div id="popup_main" style='width: 100%; margin: 0; text-align: center; height: 100%; background-color: white; padding-top: 10px'>
 	<p style='text-align: center; padding-top: 5px; font-weight: bold' id='titolo'><?php echo $label ?></p>
 	<form id='testform' action='' method='post'>
 		<table style='text-align: left; width: 95%; margin: auto' id='att'>

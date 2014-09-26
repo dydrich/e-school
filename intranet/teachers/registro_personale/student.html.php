@@ -711,7 +711,7 @@ codice per il popup nuovo voto
 				<td>
 					<textarea style='width: 100%; height: 40px; font-size: 11px' name='note' id="note"></textarea>
 					<input type='hidden' name='id_materia' value='<?php print $_SESSION['__materia__'] ?>' />
-					<input type='hidden' name='alunno' value='<?php print $_REQUEST['alunno'] ?>' />
+					<input type='hidden' name='alunno' value='<?php if (isset($_REQUEST['alunno'])) echo $_REQUEST['alunno'] ?>' />
 				</td>
 			</tr>
 		</table>

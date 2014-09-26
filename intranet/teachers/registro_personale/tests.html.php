@@ -26,7 +26,7 @@ var new_test = function(){
 		},
 		modal: true,
 		width: 550,
-		height: 350,
+		height: 420,
 		title: 'Nuova verifica',
 		open: function(event, ui){
 
@@ -145,7 +145,7 @@ table.registro td {
 </div>
 <?php include "../footer.php" ?>
 <div id="test" style="display: none">
-	<iframe src="new_test.php" style="width: 100%; margin: auto; border: 0; height: 290px"></iframe>
+	<iframe src="new_test.php" style="width: 100%; margin: auto; border: 0; height: 320px"></iframe>
 </div>
 </body>
 </html>
