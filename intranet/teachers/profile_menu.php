@@ -23,7 +23,8 @@
 	<ul class="menublock" style="" dir="rtl">
 		<?php if (27 != $_SESSION['__user__']->getSubject() && 41 != $_SESSION['__user__']->getSubject()): ?>
 		<li><a href="grade_type.php" style="text-decoration: none">Tipologia di prove</a></li>
-		<li><a href="conf_recordbook.php" style="text-decoration: none">Configura registro personale</a></li>
+		<li><a href="conf_recordbook.php" style="text-decoration: none">Registro personale</a></li>
+		<li><a href="conf_classbook.php" style="text-decoration: none">Registro di classe</a></li>
 		<?php endif; ?>
 		<li><a href="themes.php?area=teachers" style="text-decoration: none">Tema</a></li>
 	</ul>

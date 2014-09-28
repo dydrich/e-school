@@ -14,6 +14,13 @@ $msarray->setSortFields(array("classe"));
 $msarray->sort();
 $classi = $msarray->getData();
 
+if (isset($_SESSION['__user_config__']['riepilogo_registro']) && $_SESSION['__user_config__']['riepilogo_registro'][0] == 1) {
+	$reg_page = "riepilogo_registro_classe.php";
+}
+else {
+	$reg_page = "registro_classe.php";
+}
+
 ?>
 <div class="smallbox" id="working">
 <h2 class="menu_head">Working</h2>
@@ -56,7 +63,7 @@ $classi = $msarray->getData();
 	if(count($classi) < 4){
     	foreach ($classi as $_classe){
     ?>
-			<li><a href="<?php echo $_SESSION['__path_to_reg_home__'] ?>registro_classe/registro_classe.php?data=<?php echo date("Y-m-d") ?>&cls=<?php print $_classe['id_classe'] ?>">Classe <?php print $_classe['classe'] ?></a></li>
+			<li><a href="<?php echo $_SESSION['__path_to_reg_home__'] ?>registro_classe/<?php echo $reg_page ?>?data=<?php echo date("Y-m-d") ?>&cls=<?php print $_classe['id_classe'] ?>">Classe <?php print $_classe['classe'] ?></a></li>
 	<?php 
     	}
 	}
@@ -70,7 +77,7 @@ $classi = $msarray->getData();
 				print("</li>\n<li>");
 			}
 	?>
-		<a href="<?php echo $_SESSION['__path_to_reg_home__'] ?>registro_classe/registro_classe.php?data=<?php echo date("Y-m-d") ?>&cls=<?php print $_classe['id_classe'] ?>"><?php print $_classe['classe'] ?></a>&nbsp;&nbsp;&nbsp;
+		<a href="<?php echo $_SESSION['__path_to_reg_home__'] ?>registro_classe/<?php echo $reg_page ?>?data=<?php echo date("Y-m-d") ?>&cls=<?php print $_classe['id_classe'] ?>"><?php print $_classe['classe'] ?></a>&nbsp;&nbsp;&nbsp;
 	<?php 
 			$idx++;	
     	}

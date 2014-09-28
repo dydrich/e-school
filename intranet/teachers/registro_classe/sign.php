@@ -26,6 +26,8 @@ $sel_dati = "SELECT ingresso, uscita, data FROM rb_reg_classi WHERE id_reg = ".$
 $res_dati = $db->executeQuery($sel_dati);
 $dati = $res_dati->fetch_assoc();
 
+$_SESSION['registro']['data'] = $_REQUEST['data'];
+
 /*
  * docenti di sostegno
  */
