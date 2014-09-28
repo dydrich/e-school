@@ -60,11 +60,11 @@ $(function(){
 setlocale(LC_TIME, "it_IT.utf8");
 $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
+	<div class="group_head">
+		<?php print $_SESSION['__current_year__']->to_string() ?> - Assenze orarie per materia
+	</div>
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="8" style="text-align: center; font-weight: bold"><?php print $_SESSION['__current_year__']->to_string() ?> - Assenze orarie per materia</td>
-</tr>
 <tr class="head_tr_no_bg">
 	<td colspan="3" style="text-align: center; "><span id="ingresso" style="font-weight: bold; "><?php print $_SESSION['__classe__']->to_string() ?></span></td>
 	<td colspan="5" style="text-align: center; ">Materia: <span id="uscita" style="font-weight: bold; "><?php $change_subject->printLink() ?></span></td>

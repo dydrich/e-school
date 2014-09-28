@@ -55,7 +55,7 @@ var upd = function(elem){
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
-	<div class="page_title">Giudizi sul livelo globale di maturazione - <?php echo $_REQUEST['q'] ?> quadrimestre</div>
+	<div class="group_head">Giudizi sul livelo globale di maturazione - <?php echo $_REQUEST['q'] ?> quadrimestre</div>
 	<div id="accordion">
 <?php 
 while ($row = $res_alunni->fetch_assoc()){

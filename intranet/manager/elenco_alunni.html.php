@@ -22,11 +22,11 @@
 		Elenco alunni <?php print strtolower($_SESSION['__current_year__']->to_string()) ?> (<?php echo $l_ext ." - ".$r_ext ?> <span style="text-transform: lowercase">di</span> <?php echo $_SESSION['count_teac'] ?>)
 	</div>
 	<div class="outline_line_wrapper">
-		<div style="width: 55%; float: left; position: relative; top: 30%">Cognome e nome</div>
-		<div style="width: 30%; float: left; position: relative; top: 30%">Classe</div>
+		<div style="width: 55%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Cognome e nome</span></div>
+		<div style="width: 30%; float: left; position: relative; top: 30%; text-align: center">Classe</div>
 		<div style="width: 15%; float: left; position: relative; top: 30%">Ripetente</div>
 	</div>
-   	<table style="width: 95%; margin: 20px auto 0 auto">
+   	<table style="width: 95%; margin: 0 auto 0 auto">
 	 	    <?php 
 	 	    if($res_alunni->num_rows > $limit)
 	 	    	$max = $limit;
@@ -51,7 +51,7 @@
             <tr>
     	<td colspan="3" style="height: 25px"></td> 
     </tr>
-	<tr>
+	<tr class="">
 		<td style="text-align: right;"></td>
 		<td colspan="2" style="text-align: center">
 		<div style="margin-left: 30%; width: 70%; height: 20px; border: 1px solid rgba(30, 67, 137, .3); border-radius: 8px; background-color: rgba(30, 67, 137, .1)">

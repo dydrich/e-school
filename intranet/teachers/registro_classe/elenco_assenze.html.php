@@ -18,9 +18,9 @@ function show_div(div){
 </script>
 </head>
 <body class="popup_body">
-<div id="popup_main">
+	<div id="popup_main" style="min-height: 390px">
 	<p class="popup_header">Elenco assenze di <?php print $alunno['cognome']." ".$alunno['nome'] ?> [ <a href="pdf_absences.php?alunno=<?php print $id_alunno ?>">PDF</a> ] </p>
-<form class="popup_form">
+<form class="popup_form no_border">
 <div style="padding-left: 15px; font-size: 11px; text-align: left; font-weight: bold">
 	<a href="#" onclick="show_div('settembre')" style="text-decoration: none; font-weight: bold; ">Mese di settembre: <?php print count($assenze['09']) ?> assenze</a>
 </div>

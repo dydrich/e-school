@@ -79,7 +79,7 @@
 		<?php 
 		while($cls = $res_classi->fetch_assoc()){
 		?>
-			<tr style="height: 25px">
+			<tr style="height: 25px" class="bottom_decoration">
 				<td style="width: 50px"><?php echo $cls['anno_corso'].$cls['sezione'] ?></td>
 				<td style="width: 150px"><a href="../../shared/no_js.php" class="clog" id="createLog_<?php echo $cls['id_classe'] ?>_<?php echo $cls['anno_corso'].$cls['sezione'] ?>">Crea il registro</a></td>
 				<td style="width: 150px"><a href="../../shared/no_js.php" class="dlog" id="downloadLog_<?php echo $cls['id_classe'] ?>_<?php echo $cls['anno_corso'].$cls['sezione'] ?>">Scarica il registro</a></td>

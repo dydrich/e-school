@@ -65,8 +65,8 @@ if ($r_ext > $_SESSION['count_teac']) {
 $colspan = 3;
 $link = basename($_SERVER['PHP_SELF']);
 $count_name = "count_teac";
-$row_class = "docs_row";
-$row_class_menu = " docs_row_menu";
+$row_class = "list_row";
+$row_class_menu = " list_row_menu";
 $nav_params = "&order=$order";
 
 include "elenco_alunni.html.php";

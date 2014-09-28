@@ -96,13 +96,6 @@
 	padding-left: 5px
 }
 
-fieldset{
-	border: 1px solid rgba(30, 67, 137, .6);
-	border-radius: 5px;
-	padding: 5px;
-	margin-bottom: 15px;
-}
-
 legend{
 	padding: 5px;
 	font-weight: bold;
@@ -176,20 +169,6 @@ fieldset {
 
 .popup_row {
     height: 20px;
-}
-
-.popup_header {
-    font-size: 1em;
-    font-weight: bold;
-    margin: 10px auto 0 auto;
-    text-align: center;
-    vertical-align: middle;
-    width: 95%;
-    height: 20px;
-    background-color: #EF6C6C;
-    border: 1px solid rgba(30, 67, 137, 1);
-    border-radius: 8px;
-    padding-top: 10px
 }
 
 .popup_title {

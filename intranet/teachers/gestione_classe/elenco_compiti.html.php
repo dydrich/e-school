@@ -15,7 +15,7 @@
 </script>
 <style>
 tbody tr:hover {
-	background-color: rgba(211, 222, 199, 0.6);
+	background-color: #eceff1;
 }
 </style>
 </head>  
@@ -31,11 +31,11 @@ tbody tr:hover {
 	Compiti assegnati (<a href="<?php echo $link ?>" style="font-weight: normal"><?php echo $label ?></a>)
 </div>
 <div class="outline_line_wrapper">
-	<div style="width: 20%; float: left; position: relative; top: 25%">Per il...</div>
-	<div style="width: 50%; float: left; position: relative; top: 25%">Compito</div>
+	<div style="width: 22%; float: left; position: relative; top: 25%"><span style="padding-left: 15px">Per il...</span></div>
+	<div style="width: 48%; float: left; position: relative; top: 25%">Compito</div>
 	<div style="width: 10%; float: left; position: relative; top: 25%">Materia</div>
 	<div style="width: 10%; float: left; position: relative; top: 25%">Assegnato</div>
-	<div style="width: 10%; float: left; position: relative; top: 25%">Alunni</div>
+	<div style="width: 8%; float: left; position: relative; top: 25%">Alunni</div>
 </div>
 <table style="width: 95%; margin: 10px auto 0 auto">
 <?php 
@@ -55,7 +55,7 @@ else{
 	$data = "";
 	while($dt = $res_dates->fetch_assoc()){
 		if($idx > 1)
-			print('<tr><td colspan="5" style="text-align: center; border-width: 0px 1px 1px 1px; border-style: solid; font-weight: bold; font-size: 12px;height: 10px; border-color: #c0c0c0;"></td></tr>');
+			print('<tr><td colspan="5" style="text-align: center; border-width: 0px 1px 1px 1px; border-style: solid; font-weight: bold; font-size: 12px;height: 10px; border-color: #B0BEC5;"></td></tr>');
 		$sel_hw = "SELECT rb_impegni.*, rb_materie.materia AS mat FROM rb_impegni, rb_materie WHERE rb_materie.id_materia = rb_impegni.materia AND classe = ".$_SESSION['__classe__']->get_ID()." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND data_inizio = '".$dt['data_inizio']."' AND rb_impegni.tipo = 2 $teacher ORDER BY data_inizio DESC";
 		//print $sel_hw;
 		$res_hw = $db->execute($sel_hw);
@@ -66,7 +66,7 @@ else{
 		$giorno_str = strftime("%A", strtotime($di));
 ?>
 	<tr>
-		<td style="width: 20%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: rgba(30, 67, 137, .5)" rowspan="<?php echo $rows ?>"><?php print $giorno_str." ". format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/")?></td>
+		<td style="width: 20%; text-align: center; font-weight: normal; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #B0BEC5" rowspan="<?php echo $rows ?>"><?php print $giorno_str." ". format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/")?></td>
 <?php 
 		while($hw = $res_hw->fetch_assoc()){
 			$bc = "";

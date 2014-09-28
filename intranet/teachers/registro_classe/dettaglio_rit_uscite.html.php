@@ -18,9 +18,9 @@
 </script>
 </head>
 <body class="popup_body">
-<div id="popup_main">
+<div id="popup_main" style="min-height: 420px">
 	<p class="popup_header"><?php print $alunno['cognome']." ".$alunno['nome'] ?></p>
-<form class="popup_form">
+<form class="popup_form no_border">
 	<p style="text-align: left; padding-top: 0px; margin-left: 20px; font-weight: normal; font-size: 11; height: 15px; margin-bottom: 20px">
 		Ritardi: <?php print $somma_ritardi['giorni_ritardo']; if($somma_ritardi['giorni_ritardo'] > 0) {?> per un totale di <?php print substr($somma_ritardi['ore_ritardo'], 0, 5) ?> [ <a href="pdf_delay.php?alunno=<?php print $id_alunno ?>&q=0">PDF</a> ]<?php } ?><br />
 		Uscite anticipate: <?php print $somma_uscite['giorni_anticipo']; if($somma_uscite['giorni_anticipo']){ ?> per un totale di <?php print substr($somma_uscite['ore_perse'], 0, 5) ?> [ <a href="pdf_early_exit.php?alunno=<?php print $id_alunno ?>&q=0">PDF</a> ]<?php } ?>

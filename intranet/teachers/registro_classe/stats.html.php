@@ -80,20 +80,23 @@ $(function(){
 });
 
 </script>
+	<style>
+		.ui-dialog .ui-dialog-content {
+			padding: 0
+		}
+	</style>
 </head>
 <body>
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
+	<div class="group_head">
+		<?php print $_SESSION['__classe__']->to_string()." - Statistiche di presenza "; if($q == 1) print "primo quadrimestre"; else if($q == 2) print "secondo quadrimestre"; else print "totale anno scolastico" ?>
+		<span style="margin-left: 5px">[ </span><a href="pdf_stats.php?q=<?php echo $q ?>">PDF</a><span> ]</span>
+	</div>
 <form>
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="5" style="text-align: center; font-weight: bold">
-		<?php print $_SESSION['__classe__']->to_string()." - Statistiche di presenza "; if($q == 1) print "primo quadrimestre"; else if($q == 2) print "secondo quadrimestre"; else print "totale anno scolastico" ?>
-		<span style="margin-left: 5px">[ </span><a href="pdf_stats.php?q=<?php echo $q ?>">PDF</a><span> ]</span>
-	</td>
-</tr>
 <tr class="head_tr_no_bg">
 	<td style="text-align: left; font-weight: bold; padding-left: 8px">Dati complessivi</td>
 	<td colspan="2" style="text-align: center; font-weight: bold">Giorni di lezione: <?php print $totali['giorni'] ?> (<span class="attention"><?php print $totali['limite_giorni'] ?></span>)</td>
@@ -171,7 +174,7 @@ foreach ($presence as $k => $row){
 <!-- fine menu contestuale -->
 <?php include "../footer.php" ?>
 <div id="abs_pop" style="display: none">
-	<iframe id="iframe" src="new_note.php" style="width: 100%; height: 450px; margin: 0 auto; padding: 0"></iframe>
+	<iframe id="iframe" src="new_note.php" style="width: 100%; height: 450px; margin: 0 auto; padding: 0; border: 0"></iframe>
 </div>
 </body>
 </html>

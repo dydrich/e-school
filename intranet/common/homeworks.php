@@ -127,7 +127,7 @@ else{
 	}
 }
 ?>
-	<form>
+	<form class="no_border">
 	<input type="hidden" name="id_impegno" id="impegno" />
 	<input type="hidden" name="tipo" id="tipo" />
 	</form>

@@ -253,18 +253,16 @@ $(function(){
 <?php $change_subject->toHTML() ?>
 <form action="student.php" method="post">
 <?php
-setlocale(LC_TIME, "it_IT");
+setlocale(LC_TIME, "it_IT.utf8");
 $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
+<div class="group_head">
+	<?php print $_SESSION['__current_year__']->to_string() ?><?php print $label ?>
+	<?php if (!isset($_REQUEST['__goals__']) && (isset($_SESSION['__user_config__']['registro_obiettivi']) && (1 == $_SESSION['__user_config__']['registro_obiettivi'][0]))): ?><a href="index.php?q=<?php echo $q ?>&subject=<?php echo $_SESSION['__materia__'] ?>&__goals__=1" style="font-weight: normal; float: left; margin-left: 10px; ">Registro per obiettivi</a><?php endif; ?>
+	<?php if($change_subject->subjectNumber() > 1){ ?><a href="summary.php" style="font-weight: normal; float: right; margin-right: 10px; ">Riepilogo</a><?php } else if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) { ?><a href="dettaglio_medie.php" style="float: right; margin-right: 15px; font-weight: normal">Dettaglio classe</a><?php } ?>
+</div>
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="<?php echo $tot_col ?>">
-		<?php print $_SESSION['__current_year__']->to_string() ?><?php print $label ?>
-		<?php if (!isset($_REQUEST['__goals__']) && (isset($_SESSION['__user_config__']['registro_obiettivi']) && (1 == $_SESSION['__user_config__']['registro_obiettivi'][0]))): ?><a href="index.php?q=<?php echo $q ?>&subject=<?php echo $_SESSION['__materia__'] ?>&__goals__=1" style="font-weight: normal; float: left; margin-left: 10px; ">Registro per obiettivi</a><?php endif; ?>
-		<?php if($change_subject->subjectNumber() > 1){ ?><a href="summary.php" style="font-weight: normal; float: right; margin-right: 10px; ">Riepilogo</a><?php } else if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) { ?><a href="dettaglio_medie.php" style="float: right; margin-right: 15px; font-weight: normal">Dettaglio classe</a><?php } ?>
-	</td>
-</tr>
 <tr style="height: 25px">
 	<td colspan="3" style="text-align: center; "><span id="ingresso" style="font-weight: bold; "><?php print $_SESSION['__classe__']->to_string() ?></span></td>
 	<td colspan="<?php echo $right_cols ?>" style="text-align: center; ">Materia: <span id="uscita" style="font-weight: bold; text-transform: uppercase"><?php $change_subject->printLink(); ?></span></td>
@@ -458,7 +456,7 @@ if($numero_alunni > 0){
 ?>
 </tbody>
 <tfoot>
-<tr style="height: 30px; background-color: rgba(30, 67, 137, .3)">
+<tr class="riepilogo">
 	<td style="width: 40%; font-weight: bold; padding-left: 8px">
 		Totale classe
 	</td>

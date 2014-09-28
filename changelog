@@ -1,3 +1,12 @@
+3.0.30
+stile simile al "material design" nei temi
+
+3.0.29
+code cleaning in StudentManager
+
+3.0.28
+risolti alcuni difetti grafici in teacher
+
 3.0.27
 introdotta la possibilita` di mettere a null il docente nel cdc, anche come coordinatore e segretario
 bug fixes

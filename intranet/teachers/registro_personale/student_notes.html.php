@@ -15,7 +15,6 @@
 <script type="text/javascript">
 var win;
 var IE = document.all?true:false;
-if (!IE) document.captureEvents(Event.MOUSEMOVE);
 var tempX = 0;
 var tempY = 0;
 
@@ -277,14 +276,14 @@ $(function(){
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
 <?php 
-setlocale(LC_TIME, "it_IT");
+setlocale(LC_TIME, "it_IT.utf8");
 $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
+	<div class="group_head">
+		Elenco note didattiche <span style="float: right; padding-right: 10px" ><!-- <a href="pdf_media_materia.php?stid=<?php print $student_id ?>&q=<?php print $q ?>">[ PDF ]</a> --></span>
+	</div>
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="3" style="text-align: center; font-weight: bold; text-transform: uppercase">Elenco note didattiche <span style="float: right; padding-right: 10px" ><!-- <a href="pdf_media_materia.php?stid=<?php print $student_id ?>&q=<?php print $q ?>">[ PDF ]</a> --></span></td>
-</tr>
 <tr class="head_tr_no_bg">
 	<td colspan="2" style="text-align: center; "><span id="ingresso" style="font-weight: bold; "><?php print $alunno['cognome']." ".$alunno['nome'] ?>: <?php print $desc_materia ?></span></td> 
 	<td style="text-align: right; padding-right: 30px "><a href="student_notes.php?stid=<?php echo $student_id ?>&q=<?php echo $q ?>&order=<?php if($order == "data") print "tipo"; else print "data" ?>" style="font-weight: normal; text-decoration: none; text-transform: uppercase; margin-right: 10px">Ordina per <?php if($order == "data") print "tipo"; else print "data" ?></a> | <a href="#" onclick="_show(event)" style="margin-left: 10px; font-weight: normal; text-decoration: none; text-transform: uppercase">Filtra per tipo nota</a></td>

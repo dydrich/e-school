@@ -75,13 +75,14 @@ table.registro td {
 	<span style="float: right">Materia: <span id="uscita" style="font-weight: normal; margin-right: 10px; "><?php $change_subject->printLink() ?></span></span>
 </div>
 <div class="outline_line_wrapper">
-	<div style="width: 25%; float: left; position: relative"><img src="../../../images/70.png" /><br />Data</div>
-	<div style="width: 10%; float: left; position: relative"><img src="../../../images/54.png" /><br />Valutata</div>
-	<div style="width: 10%; float: left; position: relative"><img src="../../../images/14.png" /><br />Num. alunni</div>
-	<div style="width: 10%; float: left; position: relative"><img src="../../../images/35.png" /><br />Media</div>
-	<div style="width: 45%; float: left; position: relative"><img src="../../../images/10.png" /><br />Descrizione</div>
+	<div style="width: 5%; float: left; position: relative; top: 11%">&nbsp;</div>
+	<div style="width: 23%; float: left; position: relative; top: 11%"><img src="../../../images/70.png" /><br />Data</div>
+	<div style="width: 10%; float: left; position: relative; top: 11%"><img src="../../../images/54.png" /><br />Valutata</div>
+	<div style="width: 10%; float: left; position: relative; top: 11%"><img src="../../../images/14.png" /><br />Num. alunni</div>
+	<div style="width: 12%; float: left; position: relative; top: 11%"><img src="../../../images/35.png" /><br />Media</div>
+	<div style="width: 40%; float: left; position: relative; top: 11%"><img src="../../../images/10.png" /><br />Descrizione</div>
 </div>
-<table class="registro" style="width: 99%; margin: 20px auto 0 auto">
+<table class="registro" style="width: 99%; margin: 10px auto 0 auto">
 	<thead>
 	</thead>
 	<tbody id="tbody">
@@ -103,12 +104,12 @@ table.registro td {
 			}
 		}
 	?>
-	<tr style="border-width: 1px 0 1px 0; border-style: solid; border-color: #CCCCCC">
+	<tr style="border-width: 1px 0 1px 0; border-style: solid; border-color: #B0BEC5;">
 		<td style="width: 25%; text-align: left; padding-left: 20px; font-weight: normal; "><?php print $giorno_str ?></td>
 		<td style="width: 10%; text-align: center; font-weight: normal;"><?php print ($count_alunni > 0) ? "SI" : "NO" ?></td>
 		<td style="width: 10%; text-align: center; font-weight: normal;"><?php print $count_alunni ?></td>
-		<td style="width: 10%; text-align: center; font-weight: normal;"><?php print $avg ?></td>
-		<td style="width: 45%; text-align: center; font-weight: normal;">
+		<td style="width: 15%; text-align: center; font-weight: normal;"><?php print $avg ?></td>
+		<td style="width: 40%; text-align: left; font-weight: normal;">
 			<a id="test_<?php echo $test['id_verifica'] ?>_<?php echo $can_modify ?>" href="#" class="test_link" style="font-weight: normal; ">
 				<?php echo $test['prova']."::".$test['argomento'] ?>
 			</a>
@@ -122,7 +123,7 @@ table.registro td {
 	<tr>
 		<td colspan="5" style="height: 35px; "></td>
 	</tr>
-	<tr style="text-align: center; border-width: 1px 0 1px 0; border-style: solid; border-color: #CCCCCC; height: 40px">
+	<tr class="nav_tr">
 		<td colspan="5">
 			<a href="tests.php?q=1" style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
 				<img style="margin-right: 5px; position: relative; top: 5px" src="../../../images/quad.png" />1 Quadrimestre

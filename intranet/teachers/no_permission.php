@@ -30,7 +30,7 @@ $_SESSION['__path_to_reg_home__'] = "./";
 <?php include "working.php" ?>
 </div>
 <div id="left_col">
-	<div id="welcome">
+	<div class="welcome">
 		<p id="w_head" class="attention" style="font-weight: bold; font-size: 1.3em">Accesso negato</p>
 		<p class="w_text attention" style="font-weight: bold">Stai cercando di accedere ad una pagina per la quale non sei stato autorizzato.</p>
 		<p class="w_text attention">Se credi si tratti di un errore, <a href='mailto:<?php echo $_SESSION['__config__']['admin_email'] ?>?subject=Problema di accesso' style='text-decoration: underline'>contatta l'amministratore</a></p>

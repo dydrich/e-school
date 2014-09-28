@@ -5,7 +5,6 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
@@ -50,6 +49,9 @@ var dialogclose = function(){
 table.registro td {
 	border: 0px
 }
+.ui-dialog .ui-dialog-content {
+	padding: 0
+}
 </style>
 </head>
 <body>
@@ -63,11 +65,12 @@ table.registro td {
 			<span style="font-size: 1.1em">Elenco lezioni<?php print $label ?> (<?php echo $res_lessons->num_rows ?> ore)</span><a href="lessons.php?q=<?php echo $q ?>&order=<?php echo $order ?><?php echo $_group ?>" style="float: right; font-weight: normal; padding-right: 10px "><?php echo $link_label ?></a>
 </div>
 <div class="outline_line_wrapper">
-	<div style="width: 10%; float: left; position: relative"><img src="../../../images/70.png" /><br />Data</div>
-	<div style="width: 15%; float: left; position: relative; top: 30%"><img src="../../../images/<?php echo $image ?>" style="margin-left: 8px" onclick="document.location.href='lessons.php?group=<?php echo $group ? "1" : "0" ?>&q=<?php echo $q ?>&order=<?php echo $order_to ?>'" /></div>
-	<div style="width: 75%; float: left; position: relative"><img src="../../../images/35.png" /><br />Argomento</div>
+	<div style="width: 5%; float: left; position: relative; top: 11%">&nbsp;</div>
+	<div style="width: 10%; float: left; position: relative; top: 11%"><img src="../../../images/70.png" /><br />Data</div>
+	<div style="width: 12%; float: left; position: relative; top: 11%"><img src="../../../images/<?php echo $image ?>" style="margin-left: 8px" onclick="document.location.href='lessons.php?group=<?php echo $group ? "1" : "0" ?>&q=<?php echo $q ?>&order=<?php echo $order_to ?>'" /></div>
+	<div style="width: 70%; float: left; position: relative; top: 11%"><img src="../../../images/35.png" /><br />Argomento</div>
 </div>
-<table class="registro" style="width: 99%; margin: 20px auto 0 auto">
+<table class="registro" style="width: 99%; margin: 0 auto 0 auto">
 	<thead>
 	</thead>
 	<tbody>
@@ -86,9 +89,9 @@ table.registro td {
 		$giorno_str = $group ? ucfirst(strftime("%A %d", strtotime($les['data']))) : ucfirst(strftime("%A %d %B", strtotime($les['data'])));
 		$print_day = ($day != $les['data']) ? true : false;
 	?>
-	<tr style="border-bottom: 1px solid #cccccc">
+	<tr class="bottom_decoration">
 		<td colspan="2" style="width: 25%; text-align: left; padding-left: 20px; font-weight: normal; "><?php if($print_day) print $giorno_str ?></td>
-		<td style="width: 75%; text-align: center; font-weight: normal;">
+		<td style="width: 75%; text-align: left; font-weight: normal;">
 			<span id="lesson_<?php echo $les['id'] ?>" onclick="show_absences(<?php echo $les['id'] ?>)"><?php print utf8_decode(stripslashes($les['argomento'])) ?></span>
 		</td>
 	</tr>
@@ -102,7 +105,7 @@ table.registro td {
 	<tr>
 		<td colspan="5" style="height: 35px; "></td>
 	</tr>
-	<tr style="text-align: center; border-width: 1px 0 1px 0; border-style: solid; border-color: #CCCCCC; height: 40px">
+	<tr class="nav_tr">
 		<td colspan="5">
 			<a href="lessons.php?q=1" style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
 				<img style="margin-right: 5px; position: relative; top: 5px" src="../../../images/quad.png" />1 Quadrimestre
@@ -120,7 +123,7 @@ table.registro td {
 </div> 
 <?php include "../footer.php" ?>
 <div id="if_pop" style="display: none">
-	<iframe id="iframe" src="show_hour_absences.php" style="width: 100%; height: 380px; margin: 0 auto; padding: 0"></iframe>
+	<iframe id="iframe" src="show_hour_absences.php" style="width: 100%; height: 380px; margin: 0 auto; padding: 0; border: 0"></iframe>
 </div>
 </body> 
 </html>

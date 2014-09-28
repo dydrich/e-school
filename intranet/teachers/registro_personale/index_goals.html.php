@@ -252,6 +252,9 @@ $(function(){
 <div id="main" style="clear: both; ">
 <!-- div nascosto, per la scelta della materia -->
 <?php $change_subject->toHTML() ?>
+<div class="group_head">
+	<?php print $_SESSION['__current_year__']->to_string() ?><?php print $label ?>
+</div>
 <form action="student.php" method="post">
 <?php
 setlocale(LC_TIME, "it_IT.utf8");
@@ -259,9 +262,6 @@ $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="<?php echo $tot_col ?>"><?php print $_SESSION['__current_year__']->to_string() ?><?php print $label ?></td>
-</tr>
 <tr style="height: 25px">
 	<td colspan="2" style="text-align: center; "><span id="ingresso" style="font-weight: bold; "><?php print $_SESSION['__classe__']->to_string() ?></span></td>
 	<td colspan="<?php echo $right_cols ?>" style="text-align: center; ">Materia: <span id="uscita" style="font-weight: bold; text-transform: uppercase"><?php $change_subject->printLink(); ?></span></td>
@@ -269,7 +269,7 @@ $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 <tr class="title_tr">
 	<td rowspan="2" style="width: 30%; font-weight: bold; padding-left: 8px">Alunno</td>
 	<td rowspan="2" style="width: 10%; text-align: center; font-weight: bold">Media</td>
-	<td colspan="<?php echo $_goals ?>" style="width: 20%; text-align: center; font-weight: bold">Obiettivi</td>
+	<td colspan="<?php if(isset($_goals)) echo $_goals ?>" style="width: 20%; text-align: center; font-weight: bold">Obiettivi</td>
 </tr>
 <tr class="title_tr">
 	<?php
@@ -461,8 +461,8 @@ $_SESSION['students'] = $studenti;
 </tr>
 <tr class="nav_tr">
 	<td colspan="<?php echo $tot_col ?>" style="text-align: center; height: 40px">
-		<input type="hidden" name="id_materia" value="<?php print $idm ?>" />
-		<input type="hidden" name="materia" value="<?php print $_mat ?>" />
+		<input type="hidden" name="id_materia" value="<?php if (isset($idm)) echo $idm ?>" />
+		<input type="hidden" name="materia" value="<?php if (isset($_mat)) echo $_mat ?>" />
 			<a href="index.php?q=1&subject=<?php echo $_SESSION['__materia__'] ?>&__goals__=1" style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
 				<img style="margin-right: 5px; position: relative; top: 5px" src="../../../images/quad.png" />1 Quadrimestre
 			</a>

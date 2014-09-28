@@ -15,19 +15,18 @@
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
+	<div class="group_head">
+		Riepilogo personale scrutini - <?php print $label ?>
+		<?php
+		if(($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) || ($_SESSION['__user__']->isAdministrator()) || ($_SESSION['__user__']->getUsername() == "rbachis") || $_SESSION['__user__']->getSchoolOrder() == 2){
+			?>
+			<a href="scrutini_classe.php?q=<?php echo $q ?>" style="font-weight: normal; float: right; margin-right: 10px">Dettaglio classe</a>
+		<?php
+		}
+		?>
+	</div>
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="<?php print (($num_subject*2) + 1) ?>" style="text-align: center; font-weight: bold">Riepilogo personale scrutini - <?php print $label ?>
-	<?php 
-	if(($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) || ($_SESSION['__user__']->isAdministrator()) || ($_SESSION['__user__']->getUsername() == "rbachis")){
-	?>
-	<a href="scrutini_classe.php?q=<?php echo $q ?>" style="font-weight: normal; float: right; margin-right: 10px">Dettaglio classe</a>
-	<?php 
-	}
-	?>
-	</td>
-</tr>
 <tr class="head_tr_no_bg">
 	<td style="text-align: center"><span id="ingresso" style="font-weight: bold; "><?php print $_SESSION['__classe__']->to_string() ?></span></td>
 	<td colspan="<?php print ($num_subject * 2) ?>" style="font-weight: bold; text-align: center">Quadro riassuntivo</td>
@@ -98,7 +97,7 @@ while($al = $res_alunni->fetch_assoc()){
 ?>
 </tbody>
 <tfoot>
-<tr style="height: 30px; background-color: rgba(30, 67, 137, .4)">
+<tr class="riepilogo">
 <td style="width: <?php print $first_column ?>%; padding-left: 8px; font-weight: bold">Media classe</td>
 	<?php
 	

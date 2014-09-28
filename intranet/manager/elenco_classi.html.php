@@ -25,7 +25,7 @@ $(function(){
 </script>
 <style type="text/css">
 table tbody tr:hover {
-	background-color: rgba(30, 67, 137, .1);
+	background-color: #eceff1;
 }
 </style>
 </head>
@@ -41,12 +41,12 @@ table tbody tr:hover {
 		Elenco classi <?php echo $school ?> - <?php print strtolower($_SESSION['__current_year__']->to_string()) ?>
 	</div>
 	<div class="outline_line_wrapper">
-		<div style="width: 15%; float: left; position: relative; top: 30%">Classe</div>
+		<div style="width: 15%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Classe</span></div>
 		<div style="width: 45%; float: left; position: relative; top: 30%">&nbsp;</div>
 		<div style="width: 30%; float: left; position: relative; top: 30%">Sede</div>
 		<div style="width: 10%; float: left; position: relative; top: 30%">Alunni</div>
 	</div>
-   	<table style="width: 95%; margin: 20px auto 0 auto">
+   	<table style="width: 95%; margin: 0 auto 0 auto">
    			<tbody>
 	 	    <?php 
 	 	    if($res_cls->num_rows > $limit)
@@ -59,7 +59,7 @@ table tbody tr:hover {
 	 	    	if($x >= $limit) break;
 	 	    ?>
  	    	<tr class="<?php echo $row_class ?>" id="row_<?php echo $cls['id_classe'] ?>">
- 	    		<td style="width: 15%; text-align: center"><?php print $cls['anno_corso'].$cls['sezione'] ?><span style="margin-left: 8px"><?php if (!$_SESSION['__school_order__']) echo $cls['tipo'] ?></span></td>
+ 	    		<td style="width: 15%; text-align: left"><?php print $cls['anno_corso'].$cls['sezione'] ?><span style="margin-left: 8px"><?php if (!$_SESSION['__school_order__']) echo $cls['tipo'] ?></span></td>
  	    		<td style="width: 45%; text-align: left">
  	    		<div id="link_<?php echo $cls['id_classe'] ?>" style="display: none; vertical-align: bottom">
                 	<a href="classe.php?id=<?php echo $cls['id_classe'] ?>&show=cdc&desc=<?php print $cls['anno_corso']."".$cls['sezione'] ?>" class="cdc_link">Consiglio di classe</a>

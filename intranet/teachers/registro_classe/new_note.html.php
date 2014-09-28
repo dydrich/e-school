@@ -206,9 +206,9 @@ $(function(){
 </script>
 </head>
 <body class="popup_body">
-<div id="popup_main">
+<div id="popup_main" style="min-height: 250px">
 	<p class="popup_header" id='titolo'>Note disciplinari</p>
-	<form id='testform' action='manage_test.php' method='post' class="popup_form" onsubmit="_submit()">
+	<form id='testform' action='manage_test.php' method='post' class="popup_form no_border" onsubmit="_submit()">
 		<table style='text-align: left; width: 95%; margin: auto' id='att'>
 		<tr>
 			<td style="width: 25%; font-weight: bold">Tipo nota *</td>

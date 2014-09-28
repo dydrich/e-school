@@ -5,14 +5,14 @@
             $num_ar = $alunni_ar->length;
             //print $alunni_ar->length;
             ?>
-        <div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.2em; font-weight: bold">
+        <div style="width: 100%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.2em; font-weight: bold; background-color: #B0BEC5; position: relative; top: -15px">
 			Alunni <?php echo $school ?>
 		</div>
-        <div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.2em; color: #373946; font-weight: bold">
+        <div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.2em; color: #373946; font-weight: bold; position: relative; top: -15px">
 			Alunni non validati
 		</div>
         <div class="outline_line_wrapper">
-			<div style="width: 40%; float: left; position: relative; top: 30%">Alunno</div>
+	        <div style="width: 40%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Alunno</span></div>
 			<div style="width: 10%; float: left; position: relative; top: 30%">Classe</div>
 			<div style="width: 10%; float: left; position: relative; top: 30%">Assenze</div>
 			<div style="width: 20%; float: left; position: relative; top: 30%">Ore assenza</div>
@@ -58,11 +58,11 @@
 	 	    </tr>
 	 	    </tfoot>
 	 	</table>
-	 	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.2em; color: #373946; font-weight: bold">
+	 	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.2em; color: #373946; font-weight: bold; position: relative; top: -15px">
 			Alunni a rischio
 		</div>
         <div class="outline_line_wrapper">
-			<div style="width: 40%; float: left; position: relative; top: 30%">Alunno</div>
+			<div style="width: 40%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Alunno</span></div>
 			<div style="width: 10%; float: left; position: relative; top: 30%">Classe</div>
 			<div style="width: 10%; float: left; position: relative; top: 30%">Assenze</div>
 			<div style="width: 20%; float: left; position: relative; top: 30%">Ore assenza</div>

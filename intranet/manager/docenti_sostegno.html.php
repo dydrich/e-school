@@ -24,11 +24,11 @@
 		Elenco docenti di sostegno
 	</div>
 	<div class="outline_line_wrapper">
-		<div style="width: 30%; float: left; position: relative; top: 30%">Docente</div>
+		<div style="width: 30%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Docente</span></div>
 		<div style="width: 20%; float: left; position: relative; top: 30%; text-align: center">Classi</div>
 		<div style="width: 50%; float: left; position: relative; top: 30%; text-align: center">Alunni</div>
 	</div>
-   		<table style="width: 95%; margin: 20px auto 0 auto">
+   		<table style="width: 95%; margin: 0 auto 0 auto">
 	 	    <?php
 	 	    if ($res_sos->num_rows < 1){
 			?>
@@ -48,7 +48,7 @@
 					}
 					$stds = implode(", ", $studenti);
 	 	    ?>
- 	    	<tr id="row<?php echo $k ?>" class="docs_row">
+ 	    	<tr id="row<?php echo $k ?>" class="list_row">
  	    		<td style="width: 30%; text-align: left"><a href="docente_sostegno.php?did=<?php echo $k ?>" style="text-decoration: none"><?php echo $docente['nome'] ?></a></td>
  	    		<td style="width: 20%; text-align: center"><?php echo $classi ?></td>
  	    		<td style="width: 50%; text-align: center"><?php echo $stds ?></td>	

@@ -14,7 +14,7 @@
 </script>
 <style>
 tbody tr:hover {
-	background-color: rgba(30, 67, 137, .1);
+	background-color: #eceff1;
 }
 </style>
 </head> 
@@ -31,13 +31,13 @@ tbody tr:hover {
 	Attivit&agrave; programmate (<a href="<?php print $link ?>" style="font-weight: normal"><?php print $label ?></a>)
 </div>
 <div class="outline_line_wrapper">
-	<div style="width: 50%; float: left; position: relative; top: 30%">Attivit&agrave;</div>
+	<div style="width: 51%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Attivit&agrave;</span></div>
 	<div style="width: 10%; float: left; position: relative; top: 30%">Assegnata</div>
 	<div style="width: 10%; float: left; position: relative; top: 30%">Materia</div>
 	<div style="width: 15%; float: left; position: relative; top: 30%">Inizia</div>
-	<div style="width: 15%; float: left; position: relative; top: 30%">Termina</div>
+	<div style="width: 14%; float: left; position: relative; top: 30%">Termina</div>
 </div>
-<table style="width: 95%; margin: 20px auto 0 auto">
+<table style="width: 95%; margin: 0 auto 0 auto">
 <?php 
 if($res_act->num_rows < 1){
 ?>

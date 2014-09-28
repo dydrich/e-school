@@ -102,7 +102,7 @@ if($summer){
 	setlocale(LC_TIME, "it_IT.utf8");
 	$giorno_str = strftime("%A", strtotime($today)) ." ". format_date($fine_lezioni, SQL_DATE_STYLE, IT_DATE_STYLE, "-");
 ?>
-	<div id="welcome" style="margin-top: 30px">
+	<div class="welcome">
 		<p id="w_head">Classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?>: registro non disponibile</p>
 		<p class="w_text" style="">Le lezioni sono terminate <?php echo $giorno_str ?>. Puoi ancora accedere al registro di classe, utilizzando i link seguenti:</p>
 		<p class="w_text">
@@ -138,7 +138,7 @@ else if($today < format_date($inizio_lezioni, IT_DATE_STYLE, SQL_DATE_STYLE, "-"
 	setlocale(LC_TIME, "it_IT.utf8");
 	$giorno_str = strftime("%A", strtotime($inizio_lezioni)) ." ". format_date($inizio_lezioni, SQL_DATE_STYLE, IT_DATE_STYLE, "/");
 ?>
-	<div id="welcome" style="margin-top: 30px">
+	<div class="welcome">
 		<p id="w_head">Registro non disponibile</p>
 		<p class="w_text" style="">Le lezioni inizieranno <?php echo $giorno_str ?>. </p>		
 	</div>
@@ -146,7 +146,7 @@ else if($today < format_date($inizio_lezioni, IT_DATE_STYLE, SQL_DATE_STYLE, "-"
 }
 else{
 ?>
-	<div id="welcome" style="margin-top: 30px">
+	<div class="welcome">
 		<p id="w_head">Registro non disponibile</p>
 		<p class="w_text" style="">In questo giorno non sono previste lezioni. Puoi accedere al registro di classe dai seguenti link:</p>
 		<p class="w_text">

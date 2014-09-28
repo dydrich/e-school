@@ -462,12 +462,12 @@ $giorno_str = strftime("%A", strtotime($_SESSION['registro']['data']));
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
+	<div class="group_head">
+		<?php print $_SESSION['__classe__']->to_string()." - Registro del giorno $giorno_str ".format_date($_SESSION['registro']['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>
+	</div>
 <form>
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="4" style="text-align: center; font-weight: bold"><?php print $_SESSION['__classe__']->to_string()." - Registro del giorno $giorno_str ".format_date($_SESSION['registro']['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
-</tr>
 <tr class="title_tr">
 	<td colspan="4" style="text-align: center; font-weight: bold; height: 20px">Firme docente</td>
 </tr>
@@ -475,6 +475,7 @@ $giorno_str = strftime("%A", strtotime($_SESSION['registro']['data']));
 <tbody>
 <?php
 reset ($firme);
+$index = 0;
 foreach ($firme as $x => $ora){
 	/*
 	 * display delete sign link
@@ -607,6 +608,7 @@ foreach ($firme as $x => $ora){
 	<td style="height: 5px" colspan="4">&nbsp;</td>
 <tr>
 <?php
+	//$index++;
 }
 ?>
 </tbody>
@@ -618,6 +620,9 @@ foreach ($firme as $x => $ora){
 <input type="hidden" name="id_reg" id="id_reg" value="<?php print $_REQUEST['id_reg'] ?>" />
 </p>
 </form>
+	<div style="width: 95%; margin: auto; text-align: right">
+		<a href="registro_classe.php?data=<?php echo $_REQUEST['data'] ?>" class="standard_link">Torna al Registro</a>
+	</div>
 </div>
 <!--
 DIV nascosto che contiene le materie

@@ -480,20 +480,21 @@ $(function(){
 <div id="main" style="clear: both; ">
 <!-- div nascosto, per la scelta della materia -->
 <?php $change_subject->toHTML() ?>
+	<div class="group_head">
+		<?php print $_SESSION['__current_year__']->to_string() ?>::classe <?php print $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?>
+		<span style="float: right; padding-right: 10px" >
+			<a href="#" id="weighted_avg" style="margin-right: 10px;">Calcola media ponderale</a>|
+			<a href="#" onclick="nuovo_voto(<?php print $alunno['id_alunno'] ?>, <?php print $_SESSION['__materia__'] ?>)" style="margin-right: 10px; margin-left: 10px">Nuovo voto</a>|
+			<a href="pdf_media_materia.php?stid=<?php print $student_id ?>&q=<?php print $q ?>" style="margin-left: 10px">PDF</a>
+		</span>
+	</div>
 <form>
 <?php 
-setlocale(LC_TIME, "it_IT");
+setlocale(LC_TIME, "it_IT.utf8");
 $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="6" style="text-align: center; font-weight: bold"><?php print $_SESSION['__current_year__']->to_string() ?>::classe <?php print $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?> 
-		<span style="float: right; padding-right: 10px" >
-			<a href="#" id="weighted_avg" style="margin-right: 10px;">Calcola media ponderale</a>|
-			<a href="#" onclick="nuovo_voto(<?php print $alunno['id_alunno'] ?>, <?php print $_SESSION['__materia__'] ?>)" style="margin-right: 10px; margin-left: 10px">Nuovo voto</a>|
-			<a href="pdf_media_materia.php?stid=<?php print $student_id ?>&q=<?php print $q ?>" style="margin-left: 10px">PDF</a></span></td>
-</tr>
 <tr class="head_tr_no_bg">
 	<td colspan="4" style="width: 50%; text-align: center"><span id="ingresso" style="font-weight: bold; "><?php print $alunno['cognome']." ".$alunno['nome'] ?>: <?php $change_subject->printLink() ?></span></td> 
 	<td colspan="2" style="text-align: center"><span id="media" style="font-weight: bold; "></span>

@@ -86,9 +86,9 @@ tbody a {
 	Elenco alunni (<?php print $res_alunni->num_rows ?>)
 </div>
 <div class="outline_line_wrapper">
-	<div class="outline_cell wd_30">Nome e cognome</div>
+	<div class="outline_cell wd_30"><span style="padding-left: 15px">Nome e cognome</span></div>
 	<div class="outline_cell wd_15 _right">Data nascita</div>
-	<div class="outline_cell wd_30">Indirizzo</div>
+	<div class="outline_cell wd_30 _center">Indirizzo</div>
 	<div class="outline_cell wd_20">Telefono</div>
 	<div class="outline_cell wd_5">Rip.</div>
 </div>

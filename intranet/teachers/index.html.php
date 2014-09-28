@@ -23,7 +23,7 @@
 <?php include "working.php" ?>
 </div>
 <div id="left_col">
-	<div id="schedule">
+	<div class="welcome">
 		<p id="s_head"><?php echo $label ?></p>
 		<?php
 		if(!$free_day){

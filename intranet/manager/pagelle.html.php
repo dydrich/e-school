@@ -197,7 +197,7 @@
 						$d = $h = "";
 					}
 				?>
-				Online dal <?php echo $d ?> alle ore <?php echo $h ?> (<a href="pagelle.php?force_modification=3" id="mod">modifica</a>)
+				Online dal <?php echo $d ?> alle ore <?php echo $h ?> (<a href="pagelle.php?force_modification=2" id="mod">modifica</a>)
 				<?php } ?>
 				</td>
 			</tr>

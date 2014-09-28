@@ -167,10 +167,10 @@ table a {
 		Orario personale del docente  [ <a href="pdf_personal_schedule.php">PDF</a> ] 
 	</div>
 	<div class="outline_line_wrapper">
-		<div style="width: 7%; float: left; position: relative; top: 25%">Ora</div>
-		<div style="width: 31%; float: left; position: relative; top: 25%">Luned&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 25%">Marted&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 25%">Mercoled&igrave;</div>
+		<div style="width: 20%; float: left; position: relative; top: 25%"><span style="padding-left: 45px">Ora</span></div>
+		<div style="width: 30%; float: left; position: relative; top: 25%">Luned&igrave;</div>
+		<div style="width: 27%; float: left; position: relative; top: 25%">Marted&igrave;</div>
+		<div style="width: 20%; float: left; position: relative; top: 25%">Mercoled&igrave;</div>
 	</div>
 	<form method="post" class="no_border">
         <table style="margin: 10px auto 0 auto; text-align: center; font-size: 1em; width: 90%">
@@ -192,10 +192,10 @@ table a {
         </tr>
         </table>
 	<div class="outline_line_wrapper">
-		<div style="width: 7%; float: left; position: relative; top: 25%">Ora</div>
-		<div style="width: 31%; float: left; position: relative; top: 25%">Gioved&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 25%">Venerd&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 25%">Sabato</div>
+		<div style="width: 20%; float: left; position: relative; top: 25%"><span style="padding-left: 45px">Ora</span></div>
+		<div style="width: 30%; float: left; position: relative; top: 25%">Gioved&igrave;</div>
+		<div style="width: 27%; float: left; position: relative; top: 25%">Venerd&igrave;</div>
+		<div style="width: 20%; float: left; position: relative; top: 25%">Sabato</div>
 	</div>     
 		<table style="margin: 10px auto 0 auto; text-align: center; font-size: 1em; width: 90%">
 	        <?php 

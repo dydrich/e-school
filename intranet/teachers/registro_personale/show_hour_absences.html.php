@@ -18,9 +18,9 @@
 <body class="popup_body">
 <div id="popup_main">
 <p class="popup_header">Elenco assenze per ora</p>
-<form class="popup_form">
+<form class="popup_form no_border">
 <p style="margin: 10px 0; text-align: center; font-weight: bold; font-style: italic; text-decoration: underline"><?php echo $label ?>, <?php echo $hour['ora'] ?> ora</p>
-<div style="margin: 10px auto 0 auto; width: 90%">
+<div style="margin: 10px auto 0 auto; width: 90%; min-height: 290px">
 <?php 
 if (count($abs) == 0 && count($absh) == 0){
 ?>

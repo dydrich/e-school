@@ -106,7 +106,7 @@ a{
 #accordion {
     font-size: 1em;
     width: 90%;
-    margin: 30px auto 20px 5%
+    margin: 0 auto 20px 5%
 }
 
 p.doc {
@@ -117,17 +117,19 @@ p.doc {
 }
 
 p.doc:hover {
-    background-color: #FFF3E0;
+    background-color: #eceff1;
 }
 
 p.doc a {
     font-size: 0.9em;
     text-decoration: none;
+    color: #1E4389 !important;
 }
 
 #doc_form {
     width: 90%;
     margin: auto;
+    border: 1px solid #B0BEC5;
 }
 
 .doc_data{
@@ -137,7 +139,7 @@ p.doc a {
 
 .doc_fieldset{
     width: 90%;
-    border: 1px solid rgba(30, 67, 137, 1);
+    border: 1px solid #78909C;
     padding: 20px 0 20px 0;
     margin-left: auto;
     margin-right: auto;
@@ -147,7 +149,7 @@ p.doc a {
 
 .doc_fieldset_det{
     width: 75%;
-    border: 1px solid rgba(30, 67, 137, 1);
+    border: 1px solid #78909C;
     padding: 10px 0 10px 10px;
     margin-left: auto;
     margin-right: auto;
@@ -244,8 +246,8 @@ p.doc a {
     height: 30px;
     text-align: left;
     font-weight: bold;
-    background-color: #FF9800;
-    border-top: 1px solid #FF9800;
+    background-color: #CFD8DC;
+    border-top: 1px solid #CFD8DC;
     position: relative;
     top: -15px
 }
@@ -253,11 +255,11 @@ p.doc a {
 .list_title{
     float: left;
     position: relative;
-    top: 30%
+    top: 50%
 }
 
 #tit1, .list_f1{
-    width: 45%
+    width: 45%;
 }
 
 #tit2, .list_f2{
@@ -286,7 +288,7 @@ p.doc a {
 }
 
 table.list{
-    margin: 20px auto 0 auto;
+    margin: 0px auto 0 auto;
     width: 95%
 }
 
@@ -331,9 +333,9 @@ td.void{
 
 .docs_row {
     height: 18px;
-    border-bottom: 1px solid #FFE0B2;
+    border-bottom: 1px solid #CFD8DC;
 }
 
 .docs_row_menu {
-    background-color: #FFF3E0;
+    background-color: #eceff1;
 }

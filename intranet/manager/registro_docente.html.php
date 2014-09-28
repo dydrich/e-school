@@ -116,7 +116,7 @@ var load_lessons = function(doc){
 	<div class="group_head">
 		Registro personale del docente <?php echo $docente['nome']." ".$docente['cognome'] ?>
 	</div>
-	<div id="tabs" style="margin-top: 10px">
+	<div id="tabs" style="">
 <?php
 foreach ($classi as $k => $cl){
 ?>
@@ -151,7 +151,7 @@ foreach ($classi as $k => $classe){
 ?>
 	<table id="tab_<?php echo $k ?>" class="wd_95 _elem_center table_tab" style="<?php if ($k != $cls) echo "display: none" ?>">
 	<thead>
-		<tr style="border-bottom: 1px solid rgba(30, 67, 137, .2);">
+		<tr class="bottom_decoration">
 			<td class="_center _bold" colspan="<?php echo $num_subject + 2 ?>">Riepilogo classe <?php echo $classe['desc'].$label ?></td>
 		<tr>
 		<tr style="border-bottom: 2px solid rgba(30, 67, 137, .2)">
@@ -173,7 +173,7 @@ foreach ($classi as $k => $classe){
 	$sum = array();
 	foreach ($classe['alunni'] as $x => $alunno){		
 	?>
-		<tr style="border-bottom: 1px solid rgba(30, 67, 137, .2)">
+		<tr class="bottom_decoration">
 			<td style="width: <?php print $first_column ?>%; padding-left: 8px"><?php echo $alunno['cognome']." ".$alunno['nome'] ?></td>
 			<?php 
 			foreach ($mat as $m => $materia) {
@@ -193,7 +193,7 @@ foreach ($classi as $k => $classe){
 	<?php 
 	}
 	?>
-		<tr style="height: 30px; background-color: rgba(30, 67, 137, .1); border-bottom: 1px solid rgba(30, 67, 137, .2)">
+		<tr class="list_row_menu">
 			<td class="_bold" style="padding-left: 8px">Totale classe</td>
 			<?php 
 			$mat = array();

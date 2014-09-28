@@ -152,6 +152,11 @@ table {
     margin: 25px 10px 5px 50px;
 }
 
+div.welcome:first-of-type {
+    padding-top: 25px;
+    margin-top: 0;
+}
+
 #schedule {
     margin: 40px 10px 20px 50px;
 }
@@ -187,7 +192,7 @@ table {
 }
 
 #left_col {
-    padding-top: 20px;
+    #padding-top: 20px;
     margin-right: 270px;
     #background-color: #F3F3F6;
     background-color: #FAFAFA;
@@ -226,7 +231,7 @@ table {
     width: 1020px;
     margin: 10px auto 0 auto;
     text-align: right;
-    heigth: 15px;
+    height: 15px;
 
 }
 
@@ -241,7 +246,6 @@ table {
 
 #navigation {
     width: 1020px;
-    margin: auto;
     height: 30px;
     text-align: left;
     color: #DDDDDD;
@@ -712,16 +716,16 @@ div.row {
 
 /*noinspection ALL*/
 div.group_head{
-    padding-top: 5px;
+    padding-top: 15px;
     padding-bottom: 5px;
     text-align: center;
     font-weight: bold;
     font-size: 1.1em;
     background-color: #FB8C00;
     border: 1px solid #FB8C00;
-    border-radius: 5px 0 0 5px;
     width: 100%;
-    margin-left: 2%;
+    height: 35px;
+    #margin-left: 2%;
     margin-bottom: 15px;
     text-transform: uppercase;
 }
@@ -908,16 +912,15 @@ p.pop_title {
 }
 
 .outline_line_wrapper {
-    width: 95%;
-    margin: 15px auto 15px auto;
-    height: 25px;
-    text-align: center;
-    text-transform: uppercase;
+    width: 100%;
+    margin: 0 auto 0 auto;
+    height: 30px;
+    text-align: left;
     font-weight: bold;
-    border: 1px solid rgba(30, 67, 137, .1);
-    #outline-style: solid;
-    #outline-color: rgba(30, 67, 137, .1);
-    #background-color: rgba(30, 67, 137, .8);
+    background-color: #FF9800;
+    border-top: 1px solid #FF9800;
+    position: relative;
+    top: -15px
 }
 
 div.card {
@@ -970,4 +973,13 @@ div.card_varcontent {
     padding-top: 5px;
     #color: #555555;
     color: rgba(30, 67, 137, 1);
+}
+
+.list_row {
+    height: 18px;
+    border-bottom: 1px solid #FFE0B2;
+}
+
+.list_row_menu {
+    background-color: #FFF3E0;
 }

@@ -50,12 +50,12 @@ var upd_grade = function(sel, alunno, subj){
 
 function show_menu(el) {
 	if($('#menu_div').is(":hidden")) {
-		position = getElementPosition(el);
-		ftop = position['top'] + $('#'+el).height();
-		fleft = position['left'] - 140 + $('#'+el).width();
+		position = $('#ctx_img').offset();
+		ftop = position.top + $('#ctx_img').height();
+		fleft = position.left - ($('#menu_div').width() - $('#ctx_img').width());
 		console.log("top: "+ftop+"\nleft: "+fleft);
 		$('#menu_div').css({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
-		$('#menu_div').show(500);
+		$('#menu_div').slideDown(500);
 	}
 	else {
 		$('#menu_div').hide();
@@ -149,18 +149,16 @@ $(function(){
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
+<div class="group_head">
+	Scrutini - <?php echo $label ?>
+	<div style="float: right; margin-right:20px;">
+		<a href="../shared/no_js.php" id="imglink" style="">
+			<img src="../../../images/19.png" id="ctx_img" style="margin: 0 0 4px 0; opacity: 0.5; vertical-align: bottom" />
+		</a>
+	</div>
+</div>
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="<?php echo $num_colonne - 2 ?>" style="text-align: center; font-weight: bold; border-right: 0">
-		Scrutini - <?php echo $label ?>
-	</td>
-	<td colspan="2" style="border-left: 0">
-		<a href="../shared/no_js.php" id="imglink" style="">
-            <img src="../../../images/19.png" id="ctx_img" style="margin: 0 0 4px 0; opacity: 0.5; vertical-align: bottom" />
-       	</a>
-	</td>
-</tr>
 <tr class="head_tr_no_bg">
 	<td style="text-align: center"><span id="ingresso" style="font-weight: bold; "><?php echo $_SESSION['__classe__']->to_string() ?></span></td>
 	<td colspan="<?php echo ($num_colonne - 1) ?>" style="font-weight: bold; text-align: center">Quadro riassuntivo della classe</td>

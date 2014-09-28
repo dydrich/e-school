@@ -70,13 +70,13 @@ var del = function(id){
 		Elenco alunni con sostegno
 	</div>
 	<div class="outline_line_wrapper">
-		<div style="width: 40%; float: left; position: relative; top: 30%">Alunno</div>
+		<div style="width: 40%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Alunno</span></div>
 		<div style="width: 15%; float: left; position: relative; top: 30%; text-align: center">Classe</div>
 		<div style="width: 30%; float: left; position: relative; top: 30%; text-align: center">Docente</div>
 		<div style="width: 10%; float: left; position: relative; top: 30%; text-align: center">Ore</div>
 		<div style="width:  5%; float: left; position: relative; top: 30%; text-align: center"></div>
 	</div>
-   		<table style="width: 95%; margin: 20px auto 0 auto">
+   		<table style="width: 95%; margin: 0 auto 0 auto">
 	 	    <?php
 	 	    if ($res_sos->num_rows < 1){
 			?>
@@ -98,7 +98,7 @@ var del = function(id){
 						$teacher = implode(", ", $teachs);
 					}
 	 	    ?>
- 	    	<tr id="row<?php echo $alunno['alunno'] ?>" class="docs_row">
+ 	    	<tr id="row<?php echo $alunno['alunno'] ?>" class="list_row">
  	    		<td style="width: 40%; text-align: left"><?php echo $alunno['stud'] ?></td>
  	    		<td style="width: 15%; text-align: center"><?php echo $alunno['classe'] ?></td>
  	    		<td style="width: 30%; text-align: center"><?php echo $teacher ?></td>

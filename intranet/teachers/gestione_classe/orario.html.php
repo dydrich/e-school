@@ -121,17 +121,17 @@ tbody a {
 		Orario delle lezioni [ <a href="pdf_class_schedule.php">PDF</a> ] 
 	</div>
 	<div class="outline_line_wrapper">
-		<div style="width: 7%; float: left; position: relative; top: 25%">Ora</div>
-		<div style="width: 31%; float: left; position: relative; top: 25%">Luned&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 25%">Marted&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 25%">Mercoled&igrave;</div>
+		<div style="width: 9%; float: left; position: relative; top: 25%"><span style="padding-left: 45px">Ora</span></div>
+		<div style="width: 31%; float: left; position: relative; top: 25%" class="_center">Luned&igrave;</div>
+		<div style="width: 27%; float: left; position: relative; top: 25%" class="_center">Marted&igrave;</div>
+		<div style="width: 29%; float: left; position: relative; top: 25%" class="_center">Mercoled&igrave;</div>
 	</div>
-    <table style="margin: 10px auto 0 auto; text-align: center; font-size: 1em; width: 90%">
+    <table style="margin: 0 auto 0 auto; text-align: center; font-size: 1em; width: 90%">
         <?php 
         for($i = 0; $i < $ore; $i++){
         	reset($materie);
         ?>
-        <tr style="border-bottom: 1px solid rgba(30, 67, 137, .4)">
+        <tr class="bottom_decoration">
         	<td style="width: 7%; "><?php echo $i+1 ?></td>
         	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(1, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(1, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 1, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 1, $i+1)][0] ?></a></td>
         	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(2, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(2, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 2, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 2, $i+1)][0] ?></a></td>
@@ -145,17 +145,17 @@ tbody a {
         </tr>
     </table>
 	<div class="outline_line_wrapper">
-		<div style="width: 7%; float: left; position: relative; top: 25%">Ora</div>
-		<div style="width: 31%; float: left; position: relative; top: 25%">Gioved&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 25%">Venerd&igrave;</div>
-		<div style="width: 31%; float: left; position: relative; top: 25%">Sabato</div>
+		<div style="width: 9%; float: left; position: relative; top: 25%"><span style="padding-left: 45px">Ora</span></div>
+		<div style="width: 31%; float: left; position: relative; top: 25%" class="_center">Gioved&igrave;</div>
+		<div style="width: 27%; float: left; position: relative; top: 25%" class="_center">Venerd&igrave;</div>
+		<div style="width: 29%; float: left; position: relative; top: 25%" class="_center">Sabato</div>
 	</div>       
-    <table style="margin: 10px auto 0 auto; text-align: center; font-size: 1em; width: 90%">
+    <table style="margin: 0 auto 0 auto; text-align: center; font-size: 1em; width: 90%">
         <?php 
         for($i = 0; $i < $ore; $i++){
         	reset($materie);
         ?>
-        <tr style="border-bottom: 1px solid rgba(30, 67, 137, .4)">
+        <tr class="bottom_decoration">
         	<td style="width: 7%; "><?php echo $i+1 ?></td>
         	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(4, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(4, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 4, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 4, $i+1)][0] ?></a></td>
         	<td style="width: 31%; "><a style="font-weight: normal" href="#" onclick="document.forms[0].id_ora.value = <?php $d = $orario_classe->searchHour(5, $i+1, $classe); if($d != null) echo $d->getID() ?>; visualizza(event)" id="ora<?php $d = $orario_classe->searchHour(5, $i+1, $classe); if($d != null) echo $d->getID() ?>"><?php if (isset($materie[$orario_classe->getMateria($classe, 5, $i+1)])) echo $materie[$orario_classe->getMateria($classe, 5, $i+1)][0] ?></a></td>

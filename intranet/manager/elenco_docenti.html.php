@@ -20,12 +20,12 @@
 		Elenco docenti <?php print strtolower($_SESSION['__current_year__']->to_string()) ?> (<?php echo $l_ext ." - ".$r_ext ?> <span style="text-transform: lowercase">di</span> <?php echo $_SESSION['count_teac'] ?>)
 	</div>
 	<div class="outline_line_wrapper">
-		<div style="width: 40%; float: left; position: relative; top: 30%">Cognome e nome</div>
-		<div style="width: 20%; float: left; position: relative; top: 30%">Materia</div>
-		<div style="width: 30%; float: left; position: relative; top: 30%">Classi</div>
+		<div style="width: 40%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Cognome e nome</span></div>
+		<div style="width: 19%; float: left; position: relative; top: 30%">Materia</div>
+		<div style="width: 30%; float: left; position: relative; top: 30%; text-align: center">Classi</div>
 		<div style="width: 10%; float: left; position: relative; top: 30%">Titolare</div>
 	</div>
-   	<table style="width: 95%; margin: 20px auto 0 auto">
+   	<table style="width: 95%; margin: 0 auto 0 auto">
 	 	    <?php 
 	 	    if($res_docenti->num_rows > $limit)
 	 	    	$max = $limit;

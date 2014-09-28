@@ -60,7 +60,7 @@ if($pagine < 1)
 $colspan = 4;
 $link = basename($_SERVER['PHP_SELF']);
 $count_name = "count_cls";
-$row_class = "docs_row";
-$row_class_menu = " docs_row_menu";
+$row_class = "list_row";
+$row_class_menu = " list_row_menu";
 
 include "elenco_classi.html.php";

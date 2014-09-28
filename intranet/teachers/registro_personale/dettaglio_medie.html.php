@@ -18,11 +18,11 @@
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
+	<div class="group_head">
+		Riepilogo medie generali <?php print $label ?>
+	</div>
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="<?php echo $num_colonne ?>" style="text-align: center; font-weight: bold">Riepilogo medie generali <?php print $label ?></td>
-</tr>
 <tr class="head_tr_no_bg">
 	<td style="text-align: center; "><span id="ingresso" style="font-weight: bold; "><?php print $_SESSION['__classe__']->to_string() ?></span></td>
 	<td colspan="<?php echo ($num_colonne - 1) ?>" style="font-weight: bold; text-align: center">Quadro riassuntivo della classe</td>
@@ -74,7 +74,7 @@ foreach ($alunni as $al){
 	echo "</tr>";
 }
 ?>
-<tr style="background-color: #e8eaec; height: 30px">
+<tr class="riepilogo">
 	<td style="width: <?php print $first_column_width ?>%; padding-left: 8px; font-weight:bold;">Media classe</td>
 <?php 
 reset($materie);

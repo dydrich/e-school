@@ -13,7 +13,6 @@
 <script type="text/javascript" src="../../../js/page.js"></script>
 <script type="text/javascript">
 	var IE = document.all?true:false;
-	if (!IE) document.captureEvents(Event.MOUSEMOVE);
 	var tempX = 0;
 	var tempY = 0;
 
@@ -84,11 +83,19 @@
 	});
 
 </script>
+<style>
+	.ui-dialog .ui-dialog-content {
+		padding: 0
+	}
+</style>
 </head>
 <body <?php if(isset($msg) && $msg != "") print("onload='alert(\"$msg\")'") ?>>
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
+	<div class="group_head">
+		<?php echo $_SESSION['__classe__']->to_string() ?> - Annotazioni sul registro di classe
+	</div>
 <form>
 <?php 
 setlocale(LC_TIME, "it_IT.utf8");
@@ -96,9 +103,6 @@ $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="4" style="text-align: center; font-weight: bold"><?php echo $_SESSION['__classe__']->to_string() ?> - Annotazioni sul registro di classe </td>
-</tr>
 <tr class="head_tr_no_bg">
 	<td colspan="4" style="text-align: right; padding-right: 10px"><a href="notes.php?q=<?php echo $q ?>&order=<?php if($order == "data") print "tipo"; else print "data" ?>" style="font-weight: normal">Ordina per <?php if($order == "data") print "tipo"; else print "data" ?></a> | <a href="#" onclick="_show(event)" style="font-weight: normal">Filtra per tipo nota</a></td>
 </tr>
@@ -159,7 +163,7 @@ while($row = $res_note->fetch_assoc()){
     </div>
 <!-- tipi nota -->
 <div id="nota" style="display: none">
-	<iframe id="iframe" src="new_note.php" style="width: 400px; height: 250px"></iframe>
+	<iframe id="iframe" src="new_note.php" style="width: 450px; height: 250px; padding: 0; margin: 0"></iframe>
 </div>
 </body>
 </html>

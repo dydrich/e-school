@@ -21,7 +21,7 @@ a.no_decoration {
     height: 45px;
     margin-left: 0;
     border-radius: 0 0 0 0;
-    background-color: #FB8C00;
+    background-color: #B0BEC5;
     padding-left: 25px;
 }
 
@@ -115,7 +115,7 @@ a.no_decoration {
     width: 20%;
     height: 40px;
     margin: auto;
-    text-align: right
+    text-align: right;
 }
 
 #newmsg img {
@@ -156,7 +156,7 @@ a.no_decoration {
     display: none;
     color: #484848;
     float: right;
-    dispay: none;
+    display: none;
     padding: 10px 0 0 5px;
     font-weight: bold
 }
@@ -324,8 +324,9 @@ a.no_decoration {
     width: 100%;
     margin: auto;
     height: 30px;
-    background-color: #FF9800;
+    background-color: #B0BEC5;
     position: relative;
+    top: -15px;
     font-weight: normal;
 }
 
@@ -336,12 +337,12 @@ a.no_decoration {
 
 #groups table thead tr {
     height: 40px;
-    border-bottom: 1px solid rgba(30, 67, 137, .5);
+    border-bottom: 1px solid #CFD8DC;
 }
 
 #groups table tbody tr {
     height: 20px;
-    border-bottom: 1px solid rgba(30, 67, 137, .5);
+    border-bottom: 1px solid #CFD8DC;
 }
 
 .list_header{
@@ -350,8 +351,8 @@ a.no_decoration {
     height: 30px;
     text-align: left;
     font-weight: bold;
-    background-color: #FF9800;
-    border-top: 1px solid #FF9800;
+    background-color: #CFD8DC;
+    border-top: 1px solid #CFD8DC;
     position: relative;
     top: -15px
 }

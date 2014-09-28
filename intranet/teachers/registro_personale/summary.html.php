@@ -4,11 +4,11 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Registro di classe</title>
 <link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/general.css" type="text/css" />
-<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../js/page.js"></script>
+<link rel="stylesheet" href="../../../css/general.css" type="text/css" />
+<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../../../js/page.js"></script>
 <script type="text/javascript">
 
 <?php
@@ -55,16 +55,14 @@ function get_caption(x, y){
 setlocale(LC_TIME, "it_IT.utf8");
 $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
+<div class="group_head">
+	Riepilogo medie per materia<?php print $label ?>
+	<?php if(($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) || ($_SESSION['__user__']->isAdministrator()) || ($_SESSION['__user__']->getUsername() == "rbachis") ){ ?>
+		<a href="dettaglio_medie.php" style="float: right; margin-right: 15px; font-weight: normal">Dettaglio classe</a>
+	<?php } ?>
+</div>
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="<?php print ($num_subject + 1) ?>" style="text-align: center; font-weight: bold">
-		Riepilogo medie per materia<?php print $label ?>
-		<?php if(($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) || ($_SESSION['__user__']->isAdministrator()) || ($_SESSION['__user__']->getUsername() == "rbachis") ){ ?>
-		<a href="dettaglio_medie.php" style="float: right; margin-right: 15px; font-weight: normal">Dettaglio classe</a>
-		<?php } ?>
-	</td>
-</tr>
 <tr class="head_tr_no_bg">
 	<td style="text-align: center; "><span id="ingresso" style="font-weight: bold; "><?php print $_SESSION['__classe__']->to_string() ?></span></td>
 	<td colspan="<?php print ($num_subject + 1) ?>" style="font-weight: bold; text-align: center;">Quadro riassuntivo</td>
@@ -132,7 +130,7 @@ while($al = $res_alunni->fetch_assoc()){
 ?>
 </tbody>
 <tfoot>
-<tr style="height: 30px; background-color: #e8eaec">
+<tr class="riepilogo">
 	<td style="width: <?php print $first_column ?>%; padding-left: 8px; font-weight: bold">Media classe</td>
 <?php 
 reset($_SESSION['__subjects__']);

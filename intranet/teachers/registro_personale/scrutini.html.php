@@ -133,12 +133,12 @@
 
 	var show_menu = function(el) {
 		if($('#menu_div').is(":hidden")) {
-			position = getElementPosition(el);
-			ftop = position['top'] + $('#'+el).height();
-			fleft = position['left'] - 140 + $('#'+el).width();
+			position = $('#ctx_img').offset();
+			ftop = position.top + $('#ctx_img').height();
+			fleft = position.left - ($('#menu_div').width() - $('#ctx_img').width());
 			console.log("top: "+ftop+"\nleft: "+fleft);
 			$('#menu_div').css({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
-			$('#menu_div').show(500);
+			$('#menu_div').slideDown(500);
 		}
 		else {
 			$('#menu_div').hide();
@@ -152,17 +152,17 @@
 <div id="main" style="clear: both; ">
 <!-- div nascosto, per la scelta della materia -->
 <?php $change_subject->toHTML() ?>
+	<div class="group_head">
+		<?php print $_SESSION['__current_year__']->to_string() ?><?php print $label ?>
+		<div style="float: right; margin-right: 20px">
+			<a href="../shared/no_js.php" id="imglink" style="">
+				<img src="../../../images/19.png" id="ctx_img" style="margin: 0 10px 4px 0; opacity: 0.5; vertical-align: bottom" />
+			</a>
+		</div>
+	</div>
 <form action="student.php" method="post">
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="2" style="text-align: center; font-weight: bold"><?php print $_SESSION['__current_year__']->to_string() ?><?php print $label ?></td>
-	<td colspan="1" style="text-align: right; ">
-		<a href="../shared/no_js.php" id="imglink" style="">
-			<img src="../../../images/19.png" id="ctx_img" style="margin: 0 10px 4px 0; opacity: 0.5; vertical-align: bottom" />
-		</a>
-	</td>
-</tr>
 <tr class="head_tr_no_bg">
 	<td colspan="1" style="text-align: center; "><span id="ingresso" style="font-weight: bold; "><?php print $_SESSION['__classe__']->to_string() ?></span></td>
 	<td colspan="2" style="text-align: center; ">Materia: <span id="uscita" style="font-weight: bold; "><?php $change_subject->printLink() ?></span></td>
@@ -242,7 +242,7 @@ while($al = $res_dati->fetch_assoc()){
 <tr>
 	<td colspan="3" style="height: 15px"></td>
 </tr>
-<tr style="font-weight: bold; height: 30px; background-color: rgba(30, 67, 137, .3)">
+<tr class="riepilogo">
 	<td style="padding-left: 10px">Media classe</td>
 	<td style="text-align: center">
 		<span id="avg" style="padding-right: 10px"></span>

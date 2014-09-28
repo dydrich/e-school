@@ -75,14 +75,13 @@ $(function(){
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
+	<div class="group_head">
+		<?php print $_SESSION['__current_year__']->to_string() ?>::classe <?php print $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?>
+		<span style="float: right; padding-right: 10px" ></span>
+	</div>
 <form id="myform">
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="2" style="text-align: center; font-weight: bold"><?php print $_SESSION['__current_year__']->to_string() ?>::classe <?php print $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?> 
-		<span style="float: right; padding-right: 10px" ></span>
-	</td>
-</tr>
 <tr class="head_tr_no_bg">
 	<td style="width: 45%; text-align: center; border-right: 0"><span id="ingresso" style="font-weight: bold; ">Obiettivi verifica</span></td> 
 	<td style="width: 55%; text-align: center; border-left: 0"><span id="media" style="font-weight: bold; "><?php echo strtoupper($test->getSubject()->getDescription()) ?>, <?php echo $q ?> quadrimestre</span>

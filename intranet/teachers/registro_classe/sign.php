@@ -91,6 +91,11 @@ $argomenti = array();
 $ids = array();
 $docenti = array();
 $_materie = array();
+/*
+if ($day->hasCanteen()) {
+	$ultima_ora++;
+}
+*/
 for($x = $prima_ora; $x <= $ultima_ora; $x++){
 	$firme[$x] = array();
 	$argomenti[$x] = array();

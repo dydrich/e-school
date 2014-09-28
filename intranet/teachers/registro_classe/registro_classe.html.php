@@ -352,12 +352,12 @@ var giustifica_assenza = function(id_alunno, id_registro) {
 setlocale(LC_TIME, "it_IT.utf8");
 $giorno_str = strftime("%A", strtotime($_SESSION['registro']['data']));
 ?>
+	<div class="group_head">
+		<?php print $_SESSION['__classe__']->to_string()." - Registro del giorno $giorno_str ".format_date($_SESSION['registro']['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?><?php if ($ordine_scuola == 1 || $ordine_scuola == 2): ?><a href="#" onclick="firma('<?php print $_SESSION['registro']['id_reg'] ?>')" style="float: right; padding-right: 15px">Firma il registro</a><?php endif; ?>
+	</div>
 <div id="not1" class="notification"></div>
 <table class="registro">
 <thead>
-<tr class="head_tr">
-	<td colspan="4" style="text-align: center; font-weight: bold"><?php print $_SESSION['__classe__']->to_string()." - Registro del giorno $giorno_str ".format_date($_SESSION['registro']['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?><?php if ($ordine_scuola == 1 || $ordine_scuola == 2): ?><a href="#" onclick="firma('<?php print $_SESSION['registro']['id_reg'] ?>')" style="float: right; padding-right: 15px">Firma il registro</a><?php endif; ?></td>
-</tr>
 <tr class="head_tr_no_bg">
 	<td colspan="2" style="text-align: center; ">Orario d'ingresso: <span id="ingresso" style="font-weight: bold; background-color: #e8eaec"><input type="text" id="cls_enter" name="cls_enter" style="width: 50px; font-size: 10px; font-weight: bold; color: black; background-color: #f3f3f6; border: 0" value="<?php print substr($_SESSION['registro']['ingresso'], 0, 5) ?>" /></span></td>
 	<td colspan="2" style="text-align: center; ">Orario d'uscita: <span id="uscita" style="font-weight: bold; background-color: #e8eaec"><input type="text" id="cls_exit" name="cls_exit" style="width: 50px; font-size: 10px; font-weight: bold; color: black; background-color: #f3f3f6; border: 0" value="<?php print substr($_SESSION['registro']['uscita'], 0, 5) ?>" /></span></td>
