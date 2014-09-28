@@ -55,10 +55,10 @@
 </head>
 <body>
 <?php include "header.php" ?>
-<?php include "navigation.php" ?>
+<?php include $_SESSION['__administration_group__']."/navigation.php" ?>
 <div id="main">
 	<div id="right_col">
-		<?php include "profile_menu.php" ?>
+		<?php include $_SESSION['__administration_group__']."/profile_menu.php" ?>
 	</div>
 	<div id="left_col">
 		<div style="width: 90%; margin: auto; padding-top: 25px">

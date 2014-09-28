@@ -18,5 +18,3 @@ include "check_sons.php";
 $navigation_label = "Registro elettronico genitori: alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
 
 include "profile.html.php";
-
-?>

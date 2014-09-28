@@ -19,12 +19,12 @@
 		<li><a href="obiettivi.php" style="text-decoration: none">Obiettivi didattici</a></li>
 		<?php endif; ?>
 	</ul>
-	<?php if (27 != $_SESSION['__user__']->getSubject() && 41 != $_SESSION['__user__']->getSubject()): ?>
 	<p class="menu_label data_icon">Configurazioni</p>
 	<ul class="menublock" style="" dir="rtl">
+		<?php if (27 != $_SESSION['__user__']->getSubject() && 41 != $_SESSION['__user__']->getSubject()): ?>
 		<li><a href="grade_type.php" style="text-decoration: none">Tipologia di prove</a></li>
 		<li><a href="conf_recordbook.php" style="text-decoration: none">Configura registro personale</a></li>
-		<li><a href="themes.php" style="text-decoration: none">Tema</a></li>
+		<?php endif; ?>
+		<li><a href="themes.php?area=teachers" style="text-decoration: none">Tema</a></li>
 	</ul>
-	<?php endif; ?>
-</div> 
+</div>

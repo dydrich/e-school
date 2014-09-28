@@ -43,7 +43,7 @@
 						j_alert("alert", "Caricamento tema");
 						setTimeout(
 							function() {
-								document.location.href = "themes.php?area=<?php echo $_REQUEST['area'] ?>";
+								document.location.href = "themes.php";
 							},
 							2000
 						);
@@ -58,7 +58,7 @@
 <?php include "navigation.php" ?>
 <div id="main">
 	<div id="right_col">
-		<?php include "profile_menu.php" ?>
+		<?php include "profile_working.php" ?>
 	</div>
 	<div id="left_col">
 		<div style="width: 90%; margin: auto; padding-top: 25px">
