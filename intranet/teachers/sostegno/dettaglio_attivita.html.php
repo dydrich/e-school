@@ -67,7 +67,7 @@ function registra(){
 		<table style="width: 90%; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 20px">
 			<tr>
 				<td style="width: 40%">Data</td>
-				<td style="width: 60%"><input type="text" name="day" id="day" style="width: 95%; font-size: 11px; border: 1px solid #AAAAAA" value="<?php if ($att) echo $att['data']; else if ($_REQUEST['data']) echo format_date($_REQUEST['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>" /></td> 
+				<td style="width: 60%"><input type="text" name="day" id="day" style="width: 95%; font-size: 11px; border: 1px solid #AAAAAA" value="<?php if ($att) echo format_date($att['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/"); else if ($_REQUEST['data']) echo format_date($_REQUEST['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>" /></td>
 			</tr>
 			<tr>
 				<td style="width: 40%">Attivit&agrave; svolta</td>

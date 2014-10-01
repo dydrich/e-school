@@ -80,16 +80,16 @@ var student = function(sid, quad){
 };
 
 var show_menu = function(e, _stid){
-	if (IE) { 
+	if (IE) {
         tempX = event.clientX + document.body.scrollLeft;
         tempY = event.clientY + document.body.scrollTop;
-    } else {  
+    } else {
         tempX = e.pageX;
         tempY = e.pageY;
-    }  
+    }
     
     if (tempX < 0){tempX = 0;}
-    if (tempY < 0){tempY = 0;}  
+    if (tempY < 0){tempY = 0;}
     $('#context_menu').css({'top': parseInt(tempY)+"px"});
     $('#context_menu').css({'left': parseInt(tempX)+"px"});
     $('#context_menu').show();
@@ -259,7 +259,7 @@ $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 <div class="group_head">
 	<?php print $_SESSION['__current_year__']->to_string() ?><?php print $label ?>
 	<?php if (!isset($_REQUEST['__goals__']) && (isset($_SESSION['__user_config__']['registro_obiettivi']) && (1 == $_SESSION['__user_config__']['registro_obiettivi'][0]))): ?><a href="index.php?q=<?php echo $q ?>&subject=<?php echo $_SESSION['__materia__'] ?>&__goals__=1" style="font-weight: normal; float: left; margin-left: 10px; ">Registro per obiettivi</a><?php endif; ?>
-	<?php if($change_subject->subjectNumber() > 1){ ?><a href="summary.php" style="font-weight: normal; float: right; margin-right: 10px; ">Riepilogo</a><?php } else if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) { ?><a href="dettaglio_medie.php" style="float: right; margin-right: 15px; font-weight: normal">Dettaglio classe</a><?php } ?>
+	<?php if($change_subject->subjectNumber() > 1){ ?><a href="summary.php" style="float: right; margin-right: 10px; ">Riepilogo</a><?php } else if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) { ?><a href="dettaglio_medie.php" style="float: right; margin-right: 15px; font-weight: normal">Dettaglio classe</a><?php } ?>
 </div>
 <table class="registro">
 <thead>

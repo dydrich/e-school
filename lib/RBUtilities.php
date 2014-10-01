@@ -347,14 +347,14 @@ final class RBUtilities{
 			$student = $row;
 		}
 		$sel_indirizzo = "SELECT * FROM rb_indirizzi_alunni WHERE id_alunno = {$stid}";
-		$res_indirizzo = $$conn->execute($sel_indirizzo);
+		$res_indirizzo = $conn->execute($sel_indirizzo);
 		$student['indirizzo'] = array();
 		if (count($res_indirizzo) > 0){
 			$indirizzo = $res_indirizzo[0];
 			$student['indirizzo'] = $indirizzo;
 		}
 		$sel_dati = "SELECT * FROM rb_dati_sostegno WHERE alunno = {$stid}";
-		$res_dati = $$conn->execute($sel_dati);
+		$res_dati = $conn->execute($sel_dati);
 		$student['dati'] = array();
 		if (count($res_dati) > 0){
 			$dati = $res_dati[0];

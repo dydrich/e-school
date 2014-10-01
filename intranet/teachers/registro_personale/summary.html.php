@@ -58,7 +58,7 @@ $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 <div class="group_head">
 	Riepilogo medie per materia<?php print $label ?>
 	<?php if(($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) || ($_SESSION['__user__']->isAdministrator()) || ($_SESSION['__user__']->getUsername() == "rbachis") ){ ?>
-		<a href="dettaglio_medie.php" style="float: right; margin-right: 15px; font-weight: normal">Dettaglio classe</a>
+		<a href="dettaglio_medie.php" style="float: right; margin-right: 15px">Dettaglio classe</a>
 	<?php } ?>
 </div>
 <table class="registro">

@@ -11,7 +11,7 @@ check_permission(DOC_PERM);
 $_SESSION['__path_to_root__'] = "../../../";
 $_SESSION['__path_to_reg_home__'] = "../";
 
-$utils = SessionUtils::getInstance($db);
+$utils = SessionUtils::getInstance(new MySQLDataLoader($db));
 if(!isset($_REQUEST['cls'])){
 	$_REQUEST['cls'] = $_SESSION['__classe__']->get_ID();
 }
@@ -22,7 +22,7 @@ else{
 /*
  * provvisorio
  */
-if (!$_SESSION['__sp_student__']){
+if (isset($_REQUEST['st'])){
 	/*
 	$sel_st = "SELECT cognome, nome, data_nascita, luogo_nascita, alunno FROM rb_alunni, rb_assegnazione_sostegno WHERE docente = {$_SESSION['__user__']->getUid()} AND anno = {$_SESSION['__current_year__']->get_ID()} AND id_alunno = alunno AND alunno = {$_REQUEST['st']} AND classe = {$_SESSION['__classe__']->get_ID()} ";
 	$res_st = $db->execute($sel_st);

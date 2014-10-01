@@ -106,7 +106,7 @@ var load_signatures = function(){
 				$('#signatures').html("");
 				for(data in json.firme){
 					var t = json.firme[data];
-					alert(t.id_registro);
+					//alert(t.id_registro);
 					$('<p id="p_'+ t.ora+'" style="border-bottom: 1px solid #CCC; line-height: 10px"><span style="margin-right: 20px">'+ t.ora+' ora</span></p>').appendTo($('#signatures'));
 					if(t.dmat != 0){
 						$('<span>'+ t.dmat+'</span>')

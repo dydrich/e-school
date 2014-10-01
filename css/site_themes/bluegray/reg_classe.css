@@ -229,7 +229,7 @@ table.registro tr.head_tr {
 	text-align: center
 }
 
-table.registro tr.head_tr a, div.group_head a {
+table.registro tr.head_tr a {
 	text-decoration: none;
 	font-weight: normal !important;
 	color: rgb(13, 9, 171) !important
@@ -335,6 +335,11 @@ div.group_head{
     text-transform: uppercase;
     position: relative;
     top: -30px
+}
+
+.group_head a {
+    color: #263238 !important;
+    font-weight: 800;
 }
 
 .outline_line_wrapper {
