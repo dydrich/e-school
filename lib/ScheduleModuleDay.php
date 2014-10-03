@@ -10,8 +10,11 @@ class ScheduleModuleDay{
 	private $canteenStart = null;
 	private $canteenDuration = null;
 	private $hourDuration;
+	private $subtractCanteenTime;
+	private $canteenHour;
 	
-	public function __construct($record){
+	public function __construct($record, $scd = false){
+		$this->subtractCanteenTime = $scd;
 		$this->day = $record['giorno'];
 		list($h, $m, $s) = explode(":", $record['ingresso']);
 		$this->enterTime = new RBTime(intval($h), intval($m), intval($s));
@@ -70,7 +73,7 @@ class ScheduleModuleDay{
 	
 	public function getClassDuration(){
 		$ret = $this->exitTime->getTime() - $this->enterTime->getTime();
-		if($this->canteenDuration != null) $ret -= $this->getCanteenDuration()->getTime();
+		if(($this->canteenDuration != null) && $this->subtractCanteenTime) $ret -= $this->getCanteenDuration()->getTime();
 		$rb = new RBTime(0, 0, 0);
 		$rb->setTime($ret);
 		return $rb;
@@ -96,7 +99,7 @@ class ScheduleModuleDay{
 		}
 		$hour = $this->enterTime->getTime() + 3600;
 		$x = 2;
-		if($this->hasCanteen()){
+		if($this->hasCanteen() && $this->subtractCanteenTime){
 			while ($hour < $this->canteenStart->getTime()){
 				//echo "Ciclo $x<br />";
 				$starts[$x]->setTime($starts[$x - 1]->getTime());
@@ -123,6 +126,18 @@ class ScheduleModuleDay{
 		}
 		
 		return $starts;
+	}
+
+	public function getCanteenHour() {
+		$starts = $this->getLessonsStartTime();
+		$start = $this->canteenStart;
+		$x = 1;
+		foreach ($starts as $tm) {
+			if ($start->equal($tm)) {
+				return $x;
+			}
+			$x++;
+		}
 	}
 	
 }

@@ -11,8 +11,12 @@ class ScheduleModule{
 	private $hasCanteen = false;
 	private $duration;
 	private $noLessonDays = array();
+	/*
+	 * if true subtract canteen time from duration
+	 */
+	private $substractCanteenTime;
 	
-	public function __construct($ds, $id){
+	public function __construct($ds, $id, $scd = false){
 		$this->ID = $id;
 		if($ds instanceof MySQLDataLoader){
 			$this->datasource = $ds;
@@ -21,6 +25,7 @@ class ScheduleModule{
 			$this->datasource = new MySQLDataLoader($ds);
 		}
 		$this->duration = new RBTime(0, 0, 0);
+		$this->substractCanteenTime = $scd;
 		$this->loadDays();
 	}
 	
