@@ -12,7 +12,6 @@
 <script type="text/javascript" src="../../../js/page.js"></script>
 <script type="text/javascript">
 var IE = document.all?true:false;
-if (!IE) document.captureEvents(Event.MOUSEMOVE);
 
 var tempX = 0;
 var tempY = 0;
@@ -549,7 +548,7 @@ foreach ($firme as $x => $ora){
 ?>
 <tr>
 	<td style="width: 5%; text-align: center; font-weight: bold" rowspan="<?php echo $rowspan ?>"><?php echo $x ?> ora</td>
-	<td style="width: 35%; padding-left: 15px">		
+	<td style="width: 35%; padding-left: 15px">
 		<a id="ora_<?php echo $x ?>" class="sign" style="color: black; font-weight: bold" href="#"><?php echo $firma ?></a>
 		<a href="#" id="del_sign_<?php echo $x ?>" class="del_sign" style="display: <?php echo $display ?>; margin-left: 10px">(cancella)</a>
 	</td>
@@ -601,7 +600,7 @@ foreach ($firme as $x => $ora){
 		<span id="ct_<?php echo $x."_".$c ?>"><?php echo $act_link ?></span>
 	</td>
 <tr>
-<?php 
+<?php
 	}
 ?>
 <tr>
