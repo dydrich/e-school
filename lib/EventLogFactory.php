@@ -23,7 +23,7 @@ class EventLogFactory {
 		$this->datasource = $datasource;
 	}
 
-	public function getInstance($data, $ds)
+	public static function getInstance($data, $ds)
 	{
 		if(empty(self::$instance)){
 			self::$instance = new EventLogFactory($data, $ds);
