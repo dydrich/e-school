@@ -55,7 +55,9 @@ var do_login = function(type){
 			}
 			else if(json.status == "ko"){
 				j_alert("error", json.message);
-				document.location.href = "index.php";
+				setTimeout(function() {
+					document.location.href = "index.php";
+				}, 2000);
 			}
 			else {
 				if(type == 1 || type == 2){
