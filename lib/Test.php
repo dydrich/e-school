@@ -268,7 +268,7 @@ class Test {
 	 */
 	private function loadStudents() {
 		$students = array();
-		$res = $this->datasource->executeQuery("SELECT id_alunno, cognome, nome FROM rb_alunni WHERE id_classe = ".$this->class->get_ID());
+		$res = $this->datasource->executeQuery("SELECT id_alunno, cognome, nome FROM rb_alunni WHERE id_classe = ".$this->class->get_ID()." ORDER BY cognome, nome");
 		foreach ($res as $st) {
 			$students[$st['id_alunno']] = array ("stid" => $st['id_alunno'], "name" => $st['cognome']." ".$st['nome'], "grade" => array("gid" => 0, "grade" => 0));
 		}
