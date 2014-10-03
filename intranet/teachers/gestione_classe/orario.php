@@ -65,5 +65,3 @@ if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID()))
 $navigation_label = "Registro elettronico - ".$_SESSION['__classe__']->to_string();
 
 include "orario.html.php";
-
-?>
