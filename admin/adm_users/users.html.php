@@ -45,6 +45,36 @@
 			});
 		};
 
+		var filter = function(){
+			$('#listfilter').dialog({
+				autoOpen: true,
+				show: {
+					effect: "appear",
+					duration: 200
+				},
+				hide: {
+					effect: "slide",
+					duration: 200
+				},
+				modal: true,
+				width: 450,
+				height: 350,
+				title: 'Filtra elenco',
+				open: function(event, ui){
+
+				}
+			});
+		};
+
+		var go = function(){
+			var url = "users.php?filter=nome";
+			if(document.forms[0].nome.value != "")
+				url += "&nome="+document.forms[0].nome.value;
+			document.location.href = url;
+		};
+
+		<?php echo $page_menu->getJavascript() ?>
+
 		$(function(){
 			load_jalert();
 			$('table tbody > tr').mouseover(function(event){
@@ -62,6 +92,14 @@
 				var strs = this.parentNode.id.split("_");
 				del_user(strs[1]);
 			});
+			$('#filter_button').click(function(event){
+				event.preventDefault();
+				filter();
+			});
+			$('#go_link').click(function(event){
+				event.preventDefault();
+				go();
+			});
 		});
 
 	</script>
@@ -74,8 +112,9 @@
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Elenco Utenti: pagina <?php print $page ?> di <?php print $pagine ?></div>
-        <table class="admin_table">
+		<div class="group_head"><div style="float: left"><?php $page_menu->printLink() ?></div>Elenco Utenti: pagina <?php print $page ?> di <?php print $pagine ?></div>
+		<?php $page_menu->toHTML() ?>
+		<table class="admin_table">
         <thead>
             <tr>
                 <td style="width: 40%" class="adm_titolo_elenco_first">Nome e cognome</td>
@@ -137,5 +176,26 @@
         <p class="spacer"></p>
 	</div>
 <?php include "../footer.php" ?>
+<div id="listfilter" style="display: none; width: 450px">
+	<form action="#" method="post">
+		<fieldset style="width: 350px; border: 1px solid #BBB; margin-top: 15px; margin-left: auto; margin-right: auto">
+			<legend style="font-weight: bold;">Parametri di ricerca</legend>
+			<table style="width: 350px; margin-left: auto; margin-right: auto; margin-top: 10px">
+				<tr>
+					<td class="popup_title" align="left" style="width: 150px">Nome</td>
+					<td style="width: 200px">
+						<input type="text" name="nome" style="width: 199px; font-size: 11px" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">&nbsp;&nbsp;&nbsp;</td>
+				</tr>
+			</table>
+		</fieldset>
+		<div style="width: 350px; margin-left: 15px; margin-top: 20px; margin-bottom: 20px; text-align: right">
+			<a href="../../shared/no_js.php" id="go_link" class="standard_link nav_link_first" style="color: #003366">Estrai</a>
+		</div>
+	</form>
+</div>
 </body>
 </html>

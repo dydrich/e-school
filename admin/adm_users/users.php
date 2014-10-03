@@ -1,6 +1,7 @@
 <?php
 
 require_once "../../lib/start.php";
+require_once "../../lib/PageMenu.php";
 
 check_session();
 check_permission(ADM_PERM);
@@ -16,7 +17,16 @@ else
 
 $limit = 10;
 
-$sel_user = "SELECT uid, nome, cognome, username, password FROM rb_utenti WHERE attivo = 1 ORDER BY cognome, uid ";
+$filter = "";
+if (isset($_REQUEST['filter'])) {
+	switch ($_REQUEST['filter']) {
+		case "nome":
+			$filter = "AND cognome LIKE '".$_REQUEST['nome']."%' ";
+			break;
+	}
+}
+
+$sel_user = "SELECT uid, nome, cognome, username, password FROM rb_utenti WHERE attivo = 1 {$filter} ORDER BY cognome, uid ";
 
 if(!isset($_GET['second'])){
     $res_user = $db->execute($sel_user);
@@ -58,6 +68,14 @@ if(basename($_SERVER['HTTP_REFERER']) == "wiz_first_install.php?step=2"){
 	$goback = "Torna al wizard";
 	$goback_link = "../wiz_first_install.php?step=2";
 }
+
+$page_menu = new PageMenu("cmenu", "page_menu", "height: 80px; width: 150px; display: none", "div");
+$html = '<p><a href="../../shared/no_js.php" id="filter_button" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Filtra elenco</a></p>';
+
+$page_menu->setInnerHTML($html);
+$page_menu->setJavascript('', 'jquery');
+$page_menu->setPathToRoot($_SESSION['__path_to_root__']);
+$page_menu->createLink();
 
 $navigation_label = "Area amministrazione: gestione utenti";
 
