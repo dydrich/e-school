@@ -34,6 +34,7 @@ $_SESSION['__path_to_root__'] = "../";
 $_SESSION['__path_to_mod_home__'] = "./";
 $_SESSION['__area_label__'] = "Area amministrazione";
 
-$navigation_label = "Area amministrazione: gestione tabella CDC";
+$navigation_label = "statistiche registro";
+$drawer_label = "Statistiche registro elettronico ". $title_label;
 
 include_once "statistiche_registro.html.php";

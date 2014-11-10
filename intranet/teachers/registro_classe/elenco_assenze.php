@@ -32,6 +32,6 @@ while($as = $res_assenze->fetch_assoc()){
 $sel_alunno = "SELECT * FROM rb_alunni WHERE id_alunno = $id_alunno";
 $res_alunno = $db->executeQuery($sel_alunno);
 $alunno = $res_alunno->fetch_assoc();
-setlocale(LC_TIME, "it_IT");
+setlocale(LC_TIME, "it_IT.utf8");
 
 include "elenco_assenze.html.php";

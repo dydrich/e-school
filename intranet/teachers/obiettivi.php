@@ -8,7 +8,8 @@ check_permission(DOC_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_reg_home__'] = "./";
 
-$navigation_label = "Registro elettronico - Gestione obiettivi didattici";
+$navigation_label = "registro elettronico ";
+$drawer_label = "Gestione obiettivi didattici";
 
 $subject = $_SESSION['__user__']->getSubject();
 $uid = $_SESSION['__user__']->getUid();

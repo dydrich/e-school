@@ -19,7 +19,7 @@ $sel_docente = "SELECT rb_utenti.uid, rb_utenti.nome, rb_utenti.cognome, rb_doce
 $res_docente = $db->execute($sel_docente);
 $docente = $res_docente->fetch_assoc();
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 $std = null;
 if (isset($_REQUEST['std'])){
@@ -43,5 +43,7 @@ while ($row = $res_alunni->fetch_assoc()){
 		$alunni[$row['id_alunno']]['attivita'][$r['id']] = $r;
 	}
 }
+
+$drawer_label = "Registro personale del docente ". $docente['nome']." ".$docente['cognome'];
 
 include 'registro_sostegno.html.php';

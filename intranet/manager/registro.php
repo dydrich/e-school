@@ -9,7 +9,7 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 $classes_table = "rb_classi";
 if ($_SESSION['__school_order__']){
@@ -195,5 +195,7 @@ $ora_creazione = $creation_time->nodeValue;
 $non_validati = $xml->getElementsByTagName('non_validati')->item(0);
 $a_rischio = $xml->getElementsByTagName('a_rischio')->item(0);
 $classi = $xml->getElementsByTagName('classi')->item(0);
+
+$drawer_label = "Statistiche assenze aggiornate al ".$data_creazione.", ore ".$ora_creazione;
 
 include "registro.html.php";

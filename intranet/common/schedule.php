@@ -34,4 +34,6 @@ while($mat = $res_materie->fetch_assoc()){
 	$materie[$mat['id_materia']] = $mat['materia'];
 }
 
+$drawer_label = "Orario delle lezioni";
+
 include "../common/schedule.html.php";

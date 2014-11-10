@@ -23,7 +23,6 @@ else {
 
 ?>
 <div class="smallbox" id="working">
-<h2 class="menu_head">Working</h2>
 <?php if(is_installed("gest_cls")){ ?>
 	<p class="menu_label act_icon">Le tue classi</p>
 	<ul class="menublock" style="" dir="rtl">
@@ -55,7 +54,7 @@ else {
     ?>
 	</ul>
 <?php } ?>
-	<p class="menu_label class_icon">Registro di classe</p>
+	<p class="menu_label classbook_icon">Registro di classe</p>
 	<ul class="menublock" style="" dir="rtl">
 		<li><a href="<?php echo $_SESSION['__path_to_reg_home__'] ?>registro_classe/sostituzioni.php" style="text-transform: uppercase">Sostituzioni</a></li>
 <?php
@@ -87,7 +86,7 @@ else {
     ?>
 	</ul>
 <?php if(is_installed("reg_pers")){ ?>
-	<p class="menu_label pers_icon">Registro personale</p>
+	<p class="menu_label gradebook_icon">Registro personale</p>
 	<ul class="menublock" style="" dir="rtl">
 <?php
 	reset($classi);
@@ -167,10 +166,4 @@ if ($_SESSION['__user__']->getSchoolOrder() == 2) {
 <?php
 }
 ?>
-<?php if(is_installed("com")){ ?> 	
-	    <p class="menu_label com_icon">Comunicazioni</p>
-        <ul class="menublock" style="" dir="rtl">
-            <li><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=teachers">Home</a>&nbsp;&nbsp;&nbsp;</li>
-        </ul>
-<?php } ?>
 </div>

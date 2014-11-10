@@ -104,6 +104,7 @@ while($cls = $res_classi->fetch_assoc()){
 	$x++;
 }
 
-$navigation_label = "Registro elettronico - Gestione orario personale";
+$navigation_label = "registro elettronico ";
+$drawer_label = "Orario personale delle lezioni";
 
 include "schedule.html.php";

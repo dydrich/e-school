@@ -452,6 +452,9 @@ final class RBUtilities{
 	public function loadUserFromUniqID($uniqID) {
 		$data = $this->datasource->executeQuery("SELECT uid, type FROM rb_com_users WHERE id = ".$uniqID);
 		$udata = $data[0];
+		if ($udata['type'] == 'school') {
+			$udata['type'] = 'simple_school';
+		}
 		return $this->loadUserFromUid($udata['uid'], $udata['type']);
 	}
 	

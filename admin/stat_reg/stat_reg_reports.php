@@ -80,7 +80,7 @@ if ($pagelle[1]['data_pubblicazione'] == "" || ($pagelle[1]['data_pubblicazione'
 else {
 	$quadrimestre = 1;
 }
-$id = $pagelle[$quadrimestre - 1]['id'];
+$id = $pagelle[$quadrimestre]['id'];
 
 $sel_dw = "SELECT MAX(data_lettura) AS max, alunno, id_classe FROM rb_lettura_pagelle, rb_alunni WHERE alunno = id_alunno AND id_pubblicazione = {$id} GROUP BY alunno, id_classe";
 $res_dw = $db->execute($sel_dw);
@@ -91,6 +91,10 @@ while ($r = $res_dw->fetch_assoc()){
 	}
 }
 
-$navigation_label = "Area amministrazione: statistiche";
+$navigation_label = "statistiche registro";
+$drawer_label = "Pagelle scaricate";
+if ($school_order != 0) {
+	$drawer_label .= ": ".$school_orders[$school_order];
+}
 
 include "stat_reg_reports.html.php";

@@ -13,6 +13,7 @@ $_SESSION['__path_to_mod_home__'] = "./";
 
 include "check_sons.php";
 $page = "lezioni.php";
+$area = "genitori";
 
 if(isset($_REQUEST['son'])){
 	$utils = SessionUtils::getInstance($db);
@@ -20,6 +21,7 @@ if(isset($_REQUEST['son'])){
 }
 
 $alunno = $_SESSION['__current_son__'];
-$navigation_label = "Registro elettronico - Area genitori";
+$navigation_label = "alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
+$drawer_label = "Argomento delle lezioni";
 
 require '../common/lessons.php';

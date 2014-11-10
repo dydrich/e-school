@@ -47,6 +47,21 @@ switch($_REQUEST['action']){
 		else {
 			$response['class_note'] = 0;
 		}
+		/*
+		 * recupero posizione nota
+		 */
+		$sel_ids = "SELECT id_nota FROM rb_note_disciplinari WHERE anno = ".$data['anno']." AND docente = $teacher AND alunno ".field_null($stid, false, 'query');
+		$sel_ids .= "  ORDER BY data DESC";
+		//echo $sel_ids;
+		$res_ids = $db->executeQuery($sel_ids);
+		$previous = "";
+		while ($row = $res_ids->fetch_assoc()) {
+			if ($row['id_nota'] == $id) {
+				break;
+			}
+			$previous = $row['id_nota'];
+		}
+		$response['previous'] = $previous;
 		break;
 	case "update":
 		$id_nota = $_REQUEST['id_nota'];

@@ -23,6 +23,9 @@ $orario_classe = new Orario();
 $sel_orario = "SELECT * FROM rb_orario WHERE classe = {$classe} AND anno = $anno ORDER BY giorno, ora";
 $res_orario = $db->execute($sel_orario);
 while($ora = $res_orario->fetch_assoc()){
+	if ($ora['materia'] == "" || $ora['materia'] == 0) {
+		$ora['materia'] = 1;
+	}
 	$a = new OraDiLezione($ora);
 	$orario_classe->addHour($a);
 	//print $a->getClasse();
@@ -62,6 +65,7 @@ $coordinatore = false;
 if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID()))
 	$coordinatore = true;
 
-$navigation_label = "Registro elettronico - ".$_SESSION['__classe__']->to_string();
+$navigation_label = "gestione classe";
+$drawer_label = "Orario delle lezioni";
 
 include "orario.html.php";

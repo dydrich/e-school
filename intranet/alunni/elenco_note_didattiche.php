@@ -13,6 +13,6 @@ $area = "alunni";
 $student_id = $_SESSION['__user__']->getUid();
 $student = $_SESSION['__user__']->getFullName();
 
-$navigation_label = "Registro elettronico - Area studenti";
+$navigation_label = "scuola secondaria";
 
 include "../common/didactic_notes.php";

@@ -8,7 +8,7 @@ check_permission(DOC_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_reg_home__'] = "./";
 
-$navigation_label = "Registro elettronico - Gestione obiettivi didattici";
+$navigation_label = "registro elettronico ";
 
 $label = "Modifica obiettivo";
 $action = UPDATE_OBJECT;
@@ -53,5 +53,7 @@ $res_materie = $db->execute($query);
 
 $sel_obj = "SELECT * FROM rb_obiettivi WHERE id_padre IS NULL AND docente = {$uid} AND rb_obiettivi.anno = {$anno} ORDER BY id";
 $res_obj = $db->execute($sel_obj);
+
+$drawer_label = $label ." didattico";
 
 include "obiettivo.html.php";

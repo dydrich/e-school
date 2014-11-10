@@ -16,13 +16,6 @@ $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "../";
 
 $classes_table = "rb_classi";
-if(isset($_SESSION['__school_order__']) && $_SESSION['__school_order__'] != 0){
-	$classes_table = "rb_vclassi_s{$_SESSION['__school_order__']}";
-}
-else if(isset($_GET['school_order']) && $_GET['school_order'] != 0){
-	$classes_table = "rb_vclassi_s{$_GET['school_order']}";
-	$_SESSION['__school_order__'] = $_GET['school_order'];
-}
 
 $sel_params = "";
 if(isset($_REQUEST['lettera']))
@@ -36,6 +29,7 @@ $res_classi = $db->executeQuery($sel_classi);
 
 $alpha = array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
 
-$navigation_label = "Area amministrazione: gestione classi";
+$navigation_label = "gestione classi";
+$drawer_label = "Elenco alunni non assegnati alle classi (estratti <span id='st_count'>". $res_alunni->num_rows."</span> alunni)";
 
 include_once 'alunni_liberi.html.php';

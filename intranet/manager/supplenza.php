@@ -14,7 +14,7 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 $school = $_SESSION['__school_level__'][$_SESSION['__school_order__']];
 $year = $_SESSION['__current_year__']->get_ID();
@@ -27,6 +27,8 @@ if ($_REQUEST['id'] != 0) {
 	$label = "Modifica";
 	$action = "update";
 }
+
+$drawer_label = $label." supplenza";
 
 $sel_classi = "SELECT rb_classi.id_classe, anno_corso, sezione FROM rb_classi WHERE ordine_di_scuola =  {$_SESSION['__school_order__']} ORDER BY sezione, anno_corso";
 $res_classi = $db->execute($sel_classi);

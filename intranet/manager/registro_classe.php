@@ -9,10 +9,11 @@ check_permission(DIR_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 $limit = 6;
 $class = $_REQUEST['idc'];
+$cls = $db->executeCount("SELECT CONCAT(anno_corso, sezione) FROM rb_classi WHERE id_classe = ".$class);
 $anno = $_SESSION['__current_year__']->get_ID();
 
 $ordine_scuola = $_SESSION['__school_order__'];
@@ -46,8 +47,11 @@ if (isset($_GET['view']) && $_GET['view'] == "m"){
 			$month = $c;
 		}
 	}
-	if ($_GET['f'] == "sub"){
+	if (isset($_GET['f']) && $_GET['f'] == "sub"){
 		$qsubject = " AND materia = {$_GET['sub']} ";
+	}
+	else {
+		$qsubject = "";
 	}
 	$sel_lessons = "SELECT id_reg, data, ora, materia, argomento, CONCAT_WS(' ', cognome, nome) AS docente FROM rb_reg_firme, rb_reg_classi, rb_utenti WHERE rb_reg_classi.id_classe = {$class} AND uid = docente AND rb_reg_firme.id_registro = id_reg AND data <= '{$today}' AND DATE_FORMAT(data, '%c') = {$month} {$qsubject} AND anno = {$anno} ORDER BY data DESC, ora ASC";
 }
@@ -135,5 +139,7 @@ $res_materie = $db->execute($sel_materie);
 while($mat = $res_materie->fetch_assoc()){
 	$materie[$mat['id_materia']] = $mat['materia'];
 }
+
+$drawer_label = "Verifica registro di classe ".$cls;
 
 include "registro_classe.html.php";

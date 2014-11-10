@@ -18,6 +18,8 @@ var show_class = function(cls){
 };
 
 $(function(){
+	load_jalert();
+	setOverlayEvent();
 	$('input[type=checkbox]').change(function(event){
 		upd_student(this.value, this.checked);
 	});
@@ -97,8 +99,7 @@ var close_step = function(){
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Elenco alunni classi <?php echo $cl_label." ".$sc_label ?> (estratti <?php echo $res_alunni->num_rows ?> alunni)</div>
-        <form method="post" class="no_border">
+		<form method="post" class="no_border">
         <div style="width: 95%; margin: 10px auto 0 auto; text-align: center">[
         <?php 
         foreach($classi as $cls){
@@ -159,5 +160,13 @@ var close_step = function(){
 	<p class="spacer"></p>
 </div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 360px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Registro di classe</title>
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript">
-	var firma = function(){
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Registro di classe</title>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="../../../js/page.js"></script>
+	<script type="text/javascript">
+		var firma = function(){
 
-	};
+		};
 
-	$(function(){
-		$('.goto_reg').click(function(event){
-			event.stopPropagation();
-			var dt = $(this).attr("data-dt");
-			document.location.href = "registro_classe.php?data="+dt;
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('.goto_reg').click(function(event){
+				event.stopPropagation();
+				var dt = $(this).attr("data-dt");
+				document.location.href = "registro_classe.php?data="+dt;
+			});
+			$('.goto_sign').click(function(event){
+				var dt = $(this).attr("data-dt");
+				var idreg = $(this).attr("data-idreg");
+				document.location.href = "sign.php?id_reg="+idreg+"&data="+dt;
+			})
+			$('td[rowspan]').addClass('hasRowSpan');
 		});
-		$('.goto_sign').click(function(event){
-			var dt = $(this).attr("data-dt");
-			var idreg = $(this).attr("data-idreg");
-			document.location.href = "sign.php?id_reg="+idreg+"&data="+dt;
-		})
-	});
 
-</script>
+	</script>
+	<style>
+		.hasRowSpan {
+			background-color: white;
+		}
+	</style>
 </head>
 <body>
 <?php include "../header.php" ?>
@@ -38,9 +47,6 @@
 		<div id="not1" class="notification"></div>
 		<table class="registro">
 			<thead>
-				<tr class="head_tr">
-					<td colspan="6" style="text-align: center; font-weight: bold"><?php print $_SESSION['__classe__']->to_string() ?> - Registro di classe: settimana dal <?php echo format_date($days[1]['date'], SQL_DATE_STYLE, IT_DATE_STYLE, "/")." al ".format_date($days[$last_day]['date'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
-				</tr>
 				<tr class="title_tr">
 					<td style="width: 7%; font-weight: bold"></td>
 					<td style="width: 3%; font-weight: bold; text-align: center">Ora</td>
@@ -112,5 +118,31 @@
 </div>
 <!-- fine menu contestuale -->
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_label"><span>Classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?></span></div>
+		<div class="drawer_link submenu">
+			<a href="registro_classe.php?data=<?php echo date("Y-m-d") ?>"><img src="../../../images/28.png" style="margin-right: 10px; position: relative; top: 5%"/>Registro di classe</a>
+		</div>
+		<div class="drawer_link submenu">
+			<a href="stats.php"><img src="../../../images/18.png" style="margin-right: 10px; position: relative; top: 5%"/>Statistiche</a>
+		</div>
+		<div class="drawer_link submenu separator">
+			<a href="notes.php"><img src="../../../images/26.png" style="margin-right: 10px; position: relative; top: 5%"/>Note</a>
+		</div>
+		<div class="drawer_link submenu"><a href="../registro_personale/index.php"><img src="../../../images/4.png" style="margin-right: 10px; position: relative; top: 5%" />Registro personale</a></div>
+		<div class="drawer_link submenu separator"><a href="../gestione_classe/classe.php"><img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />Gestione classe</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../profile.php"><img src="../../../images/33.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
+		<div class="drawer_link"><a href="../../../modules/documents/load_module.php?module=docs&area=teachers"><img src="../../../images/11.png" style="margin-right: 10px; position: relative; top: 5%" />Documenti</a></div>
+		<?php if(is_installed("com")){ ?>
+		<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=teachers"><img src="<?php echo $_SESSION['__path_to_root__'] ?>images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
+		<?php } ?>
+	</div>
+	<?php if (isset($_SESSION['__sudoer__'])): ?>
+		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
+	<?php endif; ?>
+	<div class="drawer_lastlink"><a href="../../../shared/do_logout.php"><img src="../../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

@@ -6,6 +6,6 @@
 			<li><a href="elenco_supplenze.php?status=open">In corso</a></li>
 			<li><a href="elenco_supplenze.php?status=closed">Concluse</a></li>
 			<li><a href="supplenza.php?id=0">Nuova supplenza</a></li>
-			<li><a href="supplente.php">Nuovo supplente</a></li>
+			<li><a href="#" onclick="coming_soon()">Nuovo supplente</a></li>
 		</ul>
 </div>

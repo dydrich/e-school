@@ -158,32 +158,14 @@ EDT;
 			}
 			else {
 $this->javascript = <<<EDT
-var IE = document.all?true:false;
-var tempX = 0;
-var tempY = 0;
 
-function visualizza(e, position) {
-    var hid = document.getElementById("hid");
-    if (IE) {
-        tempX = event.clientX + document.body.scrollLeft;
-        tempY = event.clientY + document.body.scrollTop;
-    } else {
-        tempX = e.pageX;
-        tempY = e.pageY;
-    }
-    if (tempX < 0){tempX = 0;}
-    if (tempY < 0){tempY = 0;}
-    if(position == "center"){
-		tempX -= 90;
-    }
-    else if (position == "right"){
-    	tempX -= 180;
-    }
-    hid.style.top = parseInt(tempY)+"px";
-    hid.style.left = parseInt(tempX)+"px";
-    $('#hid').show();
-    return true;
-}
+var visualizza = function(e, position) {
+    var offset = $('#uscita').offset();
+    var _top = offset.top + $('#uscita').height();
+    var _left = offset.left;
+    $('#hid').css({top: _top+'px', left: _left+'px'});
+    $('#hid').slideDown(500);
+};
 
 $(function(){
 	$('#hid').mouseleave(function(event){

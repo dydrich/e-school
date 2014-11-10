@@ -9,7 +9,7 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 $classes_table = "rb_classi";
 if ($_SESSION['__school_order__']){
@@ -25,6 +25,6 @@ $res_classi = $db->execute($sel_classi);
 */
 $_SESSION['no_file'] = array("referer" => "intranet/manager/stampa_registri.php", "path" => "intranet/manager/", "relative" => "stampa_registri.php");
 
-include "stampa_registri.html.php";
+$drawer_label = "Registri di classe";
 
-?>
+include "stampa_registri.html.php";

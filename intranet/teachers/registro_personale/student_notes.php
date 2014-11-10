@@ -69,6 +69,7 @@ $alunno = $res_alunno->fetch_assoc();
 $mt = $res_materia->fetch_assoc();
 $desc_materia = $mt['materia'];
 
-$navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$navigation_label = "registro personale ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Elenco note didattiche";
 
 include "student_notes.html.php";

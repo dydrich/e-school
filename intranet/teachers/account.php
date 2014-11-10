@@ -17,6 +17,7 @@ if ($_SESSION['__user__']->getMessenger() != "") list($messenger, $messenger_per
 if ($_SESSION['__user__']->getWeb() != "") list($website, $website_perms) = explode("#", $_SESSION['__user__']->getWeb());
 if ($_SESSION['__user__']->getBlog() != "") list($blog, $blog_perms) = explode("#", $_SESSION['__user__']->getBlog());
 
-$navigation_label = "Registro elettronico - Gestione dati personali";
+$navigation_label = "registro elettronico ";
+$drawer_label = "Dati personali";
 
 include "account.html.php";

@@ -8,7 +8,7 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 if(!isset($_GET['offset']))
     $offset = 0;
@@ -68,5 +68,7 @@ $count_name = "count_teac";
 $row_class = "list_row";
 $row_class_menu = " list_row_menu";
 $nav_params = "&order=$order";
+
+$drawer_label = "Elenco alunni ". strtolower($_SESSION['__current_year__']->to_string())." (". $l_ext ." - ".$r_ext ." <span style='text-transform: lowercase'>di</span> ".$_SESSION['count_teac'].")";
 
 include "elenco_alunni.html.php";

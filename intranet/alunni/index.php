@@ -46,7 +46,7 @@ else{
 	/* costruzione del programma del giorno:
 	 * step #1: orario generale
 	*/
-	setlocale(LC_TIME, "it_IT");
+	setlocale(LC_TIME, "it_IT.utf8");
 	$str_date = strftime("%A", strtotime($today));
 	$day = date("N", strtotime($today));
 	$schedule = array();
@@ -54,6 +54,13 @@ else{
 	//	$schedule[$i] = array();
 	$sel_sched = "SELECT rb_orario.descrizione, rb_orario.ora, rb_classi.anno_corso AS cl, rb_classi.sezione AS sez, rb_materie.materia AS materia FROM rb_orario, rb_classi, rb_materie WHERE rb_classi.id_classe = ".$_SESSION['__classe__']->get_ID()." AND rb_orario.classe = rb_classi.id_classe AND rb_orario.materia = rb_materie.id_materia AND giorno = {$day} AND anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY ora ";
 	$res_sched = $db->execute($sel_sched);
+	for ($i = 0; $i < 8; $i++) {
+		if (!isset($schedule[$i])) {
+			$schedule[$i] = array();
+			$schedule[$i]['att'] = "";
+			$schedule[$i]['hw'] = "";
+		}
+	}
 	if($res_sched->num_rows == 0){
 		$free_day = true;
 		$label .= " non c'&egrave; lezione";
@@ -64,6 +71,7 @@ else{
 			$schedule[$sched['ora']]['att'] = "";
 			$schedule[$sched['ora']]['hw'] = "";
 		}
+
 		/* step #2: ricerca di attivita' e compiti */
 		$sel_act = "SELECT * FROM rb_impegni WHERE data_inizio LIKE '".$today."%' AND classe = ".$_SESSION['__classe__']->get_ID();
 		$res_act = $db->execute($sel_act);
@@ -95,8 +103,7 @@ else{
 	}
 }
 
-$navigation_label = "Registro elettronico - Area studenti";
+$navigation_label = "scuola secondaria";
+$drawer_label = "Home page";
 
 include "index.html.php";
-
-?>

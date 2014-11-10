@@ -5,20 +5,17 @@
             $num_ar = $alunni_ar->length;
             //print $alunni_ar->length;
             ?>
-        <div style="width: 100%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.2em; font-weight: bold; background-color: #B0BEC5; position: relative; top: -15px">
-			Alunni <?php echo $school ?>
-		</div>
-        <div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.2em; color: #373946; font-weight: bold; position: relative; top: -15px">
+        <div class="accent_color" style="width: 95%; margin: 10px auto 0 auto; text-align: left; font-size: 1.2em; font-weight: normal; position: relative; top: -5px">
 			Alunni non validati
 		</div>
-        <div class="outline_line_wrapper">
+        <div class="outline_line_wrapper" style="margin-top: 20px">
 	        <div style="width: 40%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Alunno</span></div>
-			<div style="width: 10%; float: left; position: relative; top: 30%">Classe</div>
-			<div style="width: 10%; float: left; position: relative; top: 30%">Assenze</div>
-			<div style="width: 20%; float: left; position: relative; top: 30%">Ore assenza</div>
-			<div style="width: 20%; float: left; position: relative; top: 30%">% assenze orarie</div>
+			<div style="width: 10%; float: left; position: relative; top: 30%; text-align: center">Classe</div>
+			<div style="width: 10%; float: left; position: relative; top: 30%; text-align: center">Assenze</div>
+			<div style="width: 20%; float: left; position: relative; top: 30%; text-align: center">Ore assenza</div>
+			<div style="width: 20%; float: left; position: relative; top: 30%; text-align: center">% assenze orarie</div>
 		</div>
-		<table style="width: 95%; margin: 20px auto 0 auto">
+		<table style="width: 95%; margin: 0 auto 0 auto">
 			<tbody>
 	 	    <?php 
 	 	    if($num_nv == 0){
@@ -39,7 +36,7 @@
 					$h_abs = $dompath->query("ore_assenza", $a);
 					$per = $dompath->query("perc_ore", $a);
 	 	    ?>
-	 	    <tr class="manager_row_small">
+	 	    <tr class="bottom_decoration">
 	 	    	<td style="width: 40%; "><a href="dettaglio_alunno.php?id=<?php print $att ?>" style="text-decoration: none"><?php print $nm->item(0)->nodeValue ?></a></td>
 	 	    	<td style="width: 10%; text-align: center"><?php print $cls->item(0)->nodeValue ?></td>
 	 	    	<td style="width: 10%; text-align: right; padding-right: 25px"><?php print $abs->item(0)->nodeValue ?></td>
@@ -58,17 +55,17 @@
 	 	    </tr>
 	 	    </tfoot>
 	 	</table>
-	 	<div style="width: 95%; height: 30px; margin: 10px auto 0 auto; text-align: center; font-size: 1.2em; color: #373946; font-weight: bold; position: relative; top: -15px">
+	 	<div class="accent_color" style="width: 95%; height: 30px; margin: 0 auto 0 auto; text-align: left; font-size: 1.2em; font-weight: normal; position: relative; top: -5px">
 			Alunni a rischio
 		</div>
-        <div class="outline_line_wrapper">
+        <div class="outline_line_wrapper" style="margin-top: 15px">
 			<div style="width: 40%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Alunno</span></div>
-			<div style="width: 10%; float: left; position: relative; top: 30%">Classe</div>
-			<div style="width: 10%; float: left; position: relative; top: 30%">Assenze</div>
-			<div style="width: 20%; float: left; position: relative; top: 30%">Ore assenza</div>
-			<div style="width: 20%; float: left; position: relative; top: 30%">% assenze orarie</div>
+			<div style="width: 10%; float: left; position: relative; top: 30%; text-align: center">Classe</div>
+			<div style="width: 10%; float: left; position: relative; top: 30%; text-align: center">Assenze</div>
+			<div style="width: 20%; float: left; position: relative; top: 30%; text-align: center">Ore assenza</div>
+			<div style="width: 20%; float: left; position: relative; top: 30%; text-align: center">% assenze orarie</div>
 		</div>
-		<table style="width: 95%; margin: 20px auto 0 auto">
+		<table style="width: 95%; margin: 0 auto 0 auto">
 			<tbody>
 	 	    <?php 
 	 	    if($num_ar == 0){
@@ -93,7 +90,7 @@
 					$h_abs = $dompath->query("ore_assenza", $a);
 					$per = $dompath->query("perc_ore", $a);
 	 	    ?>
-	 	    <tr class="manager_row_small">
+	 	    <tr class="bottom_decoration">
 	 	    	<td style="width: 40%"><a href="dettaglio_alunno.php?id=<?php print $att ?>" style="text-decoration: none"><?php print $nm->item(0)->nodeValue ?></a></td>
 	 	    	<td style="width: 10%; text-align: right; padding-right: 25px"><?php print $cls->item(0)->nodeValue ?></td>
 	 	    	<td style="width: 10%; text-align: right; padding-right: 25px"><?php print $abs->item(0)->nodeValue ?></td>

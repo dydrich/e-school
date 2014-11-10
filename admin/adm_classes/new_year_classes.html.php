@@ -1,120 +1,122 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<meta name="author" content="" />
-<link href="../../css/general.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript">
-var step = <?php echo $_SESSION['__new_classes_step__'] ?>;
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>Nuovo anno</title>
+	<link href="../../css/general.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		var step = <?php echo $_SESSION['__new_classes_step__'] ?>;
 
-var cancella_terze = function(){
-	if(step > 1){
-		alert("Funzione completata");
-		$('#step'+(step+1)).css({backgroundColor: '#FAF6B7'});
-		return false;
-	}
-	if(!confirm("Questa procedura eliminerà tutte le classi terminali, cancellando dall'archivio tutti gli alunni non segnalati come ripetenti. Vuoi continuare?")){
-		return false;
-	}
-	var url = "cancella_classi_terminali.php";
-	t_step = $('#lnk2').attr("step");
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {school_order: <?php echo $school_order ?>, t_step: t_step},
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
+		var cancella_terze = function(){
+			if(step > 1){
+				alert("Funzione completata");
+				$('#step'+(step+1)).css({backgroundColor: '#FAF6B7'});
 				return false;
 			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else if (json.status == "wrong_step"){
-				alert(json.message);
-				$('#step'+(step+1)).css({backgroundColor: '#FAF6B7'});
-			}
-			else {
-				step = 2;
-				alert("Cancellazione completata");
-				$('#step'+(step+1)).css({backgroundColor: '#FAF6B7'});
-			}
-		}
-	});
-};
-
-var avanza = function(){
-	t_step = $('#lnk3').attr("step");
-	var url = "avanza_classi.php";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {school_order: <?php echo $school_order ?>, t_step: t_step},
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
+			if(!confirm("Questa procedura eliminerà tutte le classi terminali, cancellando dall'archivio tutti gli alunni non segnalati come ripetenti. Vuoi continuare?")){
 				return false;
 			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else if (json.status == "wrong_step"){
-				alert(json.message);
-				$('#step3').css({backgroundColor: ''});
-				$('#step'+(step+1)).css({backgroundColor: '#FAF6B7'});
-			}
-			else {
-				step = 3;
-				alert("Attivazione completata");
-				$('#step3').css({backgroundColor: ''});
-				$('#step'+(step+1)).css({backgroundColor: '#FAF6B7'});
-			}
-		}
-	});
-};
+			var url = "cancella_classi_terminali.php";
+			t_step = $('#lnk2').attr("step");
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {school_order: <?php echo $school_order ?>, t_step: t_step},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-$(function(){
-	$('table tbody a').mouseover(function(event){
-		$('#'+this.id).css({color: '#8a1818', fontWeight: 'bold'});
-	});
-	$('table tbody a').mouseout(function(event){
-		//alert(this.id);
-		$('#'+this.id).css({color: '', fontWeight: 'normal'});
-	});
-	$('#lnk2').click(function(event){
-		event.preventDefault();
-		cancella_terze();
-	});
-	$('#lnk3').click(function(event){
-		event.preventDefault();
-		avanza();
-	});
-});
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else if (json.status == "wrong_step"){
+						alert(json.message);
+						$('#step'+(step+1)).css({backgroundColor: '#FAF6B7'});
+					}
+					else {
+						step = 2;
+						alert("Cancellazione completata");
+						$('#step'+(step+1)).css({backgroundColor: '#FAF6B7'});
+					}
+				}
+			});
+		};
 
-</script>
+		var avanza = function(){
+			t_step = $('#lnk3').attr("step");
+			var url = "avanza_classi.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {school_order: <?php echo $school_order ?>, t_step: t_step},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else if (json.status == "wrong_step"){
+						alert(json.message);
+						$('#step3').css({backgroundColor: ''});
+						$('#step'+(step+1)).css({backgroundColor: '#FAF6B7'});
+					}
+					else {
+						step = 3;
+						alert("Attivazione completata");
+						$('#step3').css({backgroundColor: ''});
+						$('#step'+(step+1)).css({backgroundColor: '#FAF6B7'});
+					}
+				}
+			});
+		};
+
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('table tbody a').mouseover(function(event){
+				$('#'+this.id).css({color: '#8a1818', fontWeight: 'bold'});
+			});
+			$('table tbody a').mouseout(function(event){
+				//alert(this.id);
+				$('#'+this.id).css({color: '', fontWeight: 'normal'});
+			});
+			$('#lnk2').click(function(event){
+				event.preventDefault();
+				cancella_terze();
+			});
+			$('#lnk3').click(function(event){
+				event.preventDefault();
+				avanza();
+			});
+		});
+
+	</script>
 </head>
 <body>
 <?php include "../header.php" ?>
@@ -124,13 +126,12 @@ $(function(){
 		<?php include "../new_year_menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Gestione classi per nuovo anno scolastico: <?php echo $cl_label ?></div>
 		<table class="admin_table">
         <thead>
         </thead>
         <tbody>
-        	<tr class="no_border">
-            	<td colspan="2" style="" class="title_row _center no_border">Classi <?php echo $term_cls ?> uscenti</td>
+        	<tr class="title_row _center accent_decoration">
+            	<td colspan="2">Classi <?php echo $term_cls ?> uscenti</td>
             </tr>
             <tr class="admin_row_before_text">
                 <td colspan="2"></td>
@@ -146,8 +147,8 @@ $(function(){
             <tr class="admin_void">
                 <td colspan="2"></td>
             </tr>
-            <tr>
-            	<td colspan="2" style="" class="title_row _center">Nuove classi</td>
+            <tr class="title_row _center accent_decoration">
+            	<td colspan="2">Nuove classi</td>
             </tr>
             <tr class="admin_row_before_text">
                 <td colspan="2"></td>
@@ -168,16 +169,19 @@ $(function(){
         	<tr class="admin_void">
                 <td colspan="2"></td>
             </tr>
-            <tr class="admin_menu">
-            	<td colspan="2">
-                    <a href="../index.php">Torna Menu</a>
-                </td>
-            </tr>
         </tfoot>
         </table>
     </div>
 	<p class="spacer"></p>
 </div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

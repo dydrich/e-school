@@ -12,7 +12,7 @@ check_session();
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_reg_home__'] = "./";
 
-$navigation_label = "Registro elettronico - Theme manager";
+$navigation_label = "profilo personale";
 
 $sel_themes = "SELECT * FROM rb_themes ORDER BY id_tema";
 $res_themes = $db->executeQuery($sel_themes);
@@ -27,5 +27,7 @@ while ($row = $res_themes->fetch_assoc()) {
 		$themes[$row['id_tema']] = array("id" => $row['id_tema'], "name" => $row['nome'], "dir" => $row['directory'], "img" => $row['image']);
 	}
 }
+
+$drawer_label = "Theme manager";
 
 include "themes.html.php";

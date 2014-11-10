@@ -3,7 +3,7 @@
 require_once '../start.php';
 
 header("Content-type: application/json");
-$response = array("status" => "ok", "message" => "", data => "");
+$response = array("status" => "ok", "message" => "", "data" => "");
 
 /*
  * return students that were absent in given day

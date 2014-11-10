@@ -1,138 +1,133 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
-<link rel="stylesheet" href="../css/general.css" type="text/css" />
-<link rel="stylesheet" href="../css/skins/aqua/theme.css" type="text/css" />
-<script type="text/javascript" src="../js/prototype.js"></script>
-<script type="text/javascript" src="../js/scriptaculous.js"></script>
-<script type="text/javascript" src="../js/controls.js"></script>
-<script type="text/javascript" src="../js/calendar.js"></script>
-<script type="text/javascript" src="../js/lang/calendar-it.js"></script>
-<script type="text/javascript" src="../js/calendar-setup.js"></script>
-<script type="text/javascript" src="../js/page.js"></script>
-<script type="text/javascript">
-var holidays = new Array();
-var vacanze = new Array();
-var hol = new Object();
-hol['09'] = [<?php if(isset($hol['09'])){$x = 0; foreach($hol['09'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['09']) - 1)) print(","); $x++; } }?>];
-hol['10'] = [<?php if(isset($hol['10'])){$x = 0; foreach($hol['10'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['10']) - 1)) print(","); $x++; } }?>];
-hol['11'] = [<?php if(isset($hol['11'])){$x = 0; foreach($hol['11'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['11']) - 1)) print(","); $x++; } }?>];
-hol['12'] = [<?php if(isset($hol['12'])){$x = 0; foreach($hol['12'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['12']) - 1)) print(","); $x++; } }?>];
-hol['01'] = [<?php if(isset($hol['01'])){$x = 0; foreach($hol['01'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['01']) - 1)) print(","); $x++; } }?>];
-hol['02'] = [<?php if(isset($hol['02'])){$x = 0; foreach($hol['02'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['02']) - 1)) print(","); $x++; } }?>];
-hol['03'] = [<?php if(isset($hol['03'])){$x = 0; foreach($hol['03'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['03']) - 1)) print(","); $x++; } }?>];
-hol['04'] = [<?php if(isset($hol['04'])){$x = 0; foreach($hol['04'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['04']) - 1)) print(","); $x++; } }?>];
-hol['05'] = [<?php if(isset($hol['05'])){$x = 0; foreach($hol['05'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['05']) - 1)) print(","); $x++; } }?>];
-hol['06'] = [<?php if(isset($hol['06'])){$x = 0; foreach($hol['06'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['06']) - 1)) print(","); $x++; } }?>];
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>Nuovo anno</title>
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
+	<link rel="stylesheet" href="../css/general.css" type="text/css" />
+	<link rel="stylesheet" href="../css/skins/aqua/theme.css" type="text/css" />
+	<script type="text/javascript" src="../js/prototype.js"></script>
+	<script type="text/javascript" src="../js/scriptaculous.js"></script>
+	<script type="text/javascript" src="../js/controls.js"></script>
+	<script type="text/javascript" src="../js/calendar.js"></script>
+	<script type="text/javascript" src="../js/lang/calendar-it.js"></script>
+	<script type="text/javascript" src="../js/calendar-setup.js"></script>
+	<script type="text/javascript" src="../js/page.js"></script>
+	<script type="text/javascript">
+		var holidays = new Array();
+		var vacanze = new Array();
+		var hol = new Object();
+		hol['09'] = [<?php if(isset($hol['09'])){$x = 0; foreach($hol['09'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['09']) - 1)) print(","); $x++; } }?>];
+		hol['10'] = [<?php if(isset($hol['10'])){$x = 0; foreach($hol['10'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['10']) - 1)) print(","); $x++; } }?>];
+		hol['11'] = [<?php if(isset($hol['11'])){$x = 0; foreach($hol['11'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['11']) - 1)) print(","); $x++; } }?>];
+		hol['12'] = [<?php if(isset($hol['12'])){$x = 0; foreach($hol['12'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['12']) - 1)) print(","); $x++; } }?>];
+		hol['01'] = [<?php if(isset($hol['01'])){$x = 0; foreach($hol['01'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['01']) - 1)) print(","); $x++; } }?>];
+		hol['02'] = [<?php if(isset($hol['02'])){$x = 0; foreach($hol['02'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['02']) - 1)) print(","); $x++; } }?>];
+		hol['03'] = [<?php if(isset($hol['03'])){$x = 0; foreach($hol['03'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['03']) - 1)) print(","); $x++; } }?>];
+		hol['04'] = [<?php if(isset($hol['04'])){$x = 0; foreach($hol['04'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['04']) - 1)) print(","); $x++; } }?>];
+		hol['05'] = [<?php if(isset($hol['05'])){$x = 0; foreach($hol['05'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['05']) - 1)) print(","); $x++; } }?>];
+		hol['06'] = [<?php if(isset($hol['06'])){$x = 0; foreach($hol['06'] as $a){ list($y, $m, $d) = explode("-", $a); print("new Date($y, ".(intval($m) - 1).", ".intval($d).")"); if($x < (count($hol['06']) - 1)) print(","); $x++; } }?>];
 
-var y = new Date();
-var year = y.getFullYear();
-var write_date = function(cal){
-	mt = cal.date.print("%m");
-	month_array = hol[mt];
-	hol[mt].length = 0;
-	for (var i in cal.multiple) {
-        var d = cal.multiple[i];
-        if (d) {
-           	month_array[month_array.length] = d;
-        }
-    }
-    holidays.length = 0;
-    vacanze.length = 0;
-    for(a in hol){
-        //alert(a);
-		a1 = hol[a];
-		for(var z = 0; z < a1.length; z++){
-			//alert(a1[z]);
-			if(!in_array(holidays, a1[z].print("%A %d %B"))){
-				holidays.push(a1[z].print("%A %d %B"));
-			}
-			if(!in_array(vacanze, a1[z].print("%Y-%m-%d"))){
-				vacanze.push(a1[z].print("%Y-%m-%d"));
-			}
-		}
-    }
-    $('holydays').innerHTML = holidays.join(", ");
-    $('vacanze').value = vacanze.join(",");
-	cal.hide();
-	return true;	
-};
-
-var go = function(){
-	//alert($('vacanze').value);
-	var url = "school_year_manager.php?action=save_data";
-	
-    req = new Ajax.Request(url,
-	  {
-	    	method:'post',
-	    	parameters: $('myform').serialize(true),
-	    	onSuccess: function(transport){
-	    		var response = transport.responseText || "no response text";
-	    		dati = response.split("#");
-	    		if(dati[0] == "kosql"){
-		    		sqlalert();
-	    			console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
-	    			return;
-	    		}
-	    		else{
-					alert("Anno scolastico modificato con successo");
-					document.location.href = "index.php";
-	    		}
-	    	},
-	    	onFailure: function(){ alert("Si e' verificato un errore..."); }
-	  });
-};
-
-var load_default = function(load_on_update){
-	<?php if($year): ?>
-	if(load_on_update){
-		$('data_inizio').update('<?php echo format_date($year->getYear()->get_data_apertura(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>');
-		$('data_fine').update('<?php echo format_date($year->getYear()->get_data_chiusura(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>');
-		$('data_inizio_lezioni').value = '<?php echo format_date($year->getClassesStartDate(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>';
-		$('data_fine_lezioni').value = '<?php echo format_date($year->getClassesEndDate(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>';
-		$('session1').value = '<?php echo format_date($year->getFirstSessionEndDate(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>';
-		$('session2').value = '<?php echo format_date($year->getSecondSessionEndDate(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>';
-		for(a in hol){
-			//alert(a);
-			a1 = hol[a];
-			for(var z = 0; z < a1.length; z++){
-				//alert(a1[z]);
-				if(!in_array(holidays, a1[z].print("%A %d %B"))){
-					holidays.push(a1[z].print("%A %d %B"));
+		var y = new Date();
+		var year = y.getFullYear();
+		var write_date = function(cal){
+			mt = cal.date.print("%m");
+			month_array = hol[mt];
+			hol[mt].length = 0;
+			for (var i in cal.multiple) {
+		        var d = cal.multiple[i];
+		        if (d) {
+		            month_array[month_array.length] = d;
+		        }
+		    }
+		    holidays.length = 0;
+		    vacanze.length = 0;
+		    for(a in hol){
+		        //alert(a);
+				a1 = hol[a];
+				for(var z = 0; z < a1.length; z++){
+					//alert(a1[z]);
+					if(!in_array(holidays, a1[z].print("%A %d %B"))){
+						holidays.push(a1[z].print("%A %d %B"));
+					}
+					if(!in_array(vacanze, a1[z].print("%Y-%m-%d"))){
+						vacanze.push(a1[z].print("%Y-%m-%d"));
+					}
 				}
-				if(!in_array(vacanze, a1[z].print("%Y-%m-%d"))){
-					vacanze.push(a1[z].print("%Y-%m-%d"));
-				}
+		    }
+		    $('holydays').innerHTML = holidays.join(", ");
+		    $('vacanze').value = vacanze.join(",");
+			cal.hide();
+			return true;
+		};
+
+		var go = function(){
+			//alert($('vacanze').value);
+			var url = "school_year_manager.php?action=save_data";
+
+		    req = new Ajax.Request(url,
+			  {
+			        method:'post',
+			        parameters: $('myform').serialize(true),
+			        onSuccess: function(transport){
+			            var response = transport.responseText || "no response text";
+			            dati = response.split("#");
+			            if(dati[0] == "kosql"){
+				            sqlalert();
+			                console.log("Errore SQL. \nQuery: "+dati[1]+"\nErrore: "+dati[2]);
+			                return;
+			            }
+			            else{
+							alert("Anno scolastico modificato con successo");
+							document.location.href = "index.php";
+			            }
+			        },
+			        onFailure: function(){ alert("Si e' verificato un errore..."); }
+			  });
+		};
+
+		var load_default = function(load_on_update){
+			<?php if($year): ?>
+			if(load_on_update){
+				$('data_inizio').update('<?php echo format_date($year->getYear()->get_data_apertura(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>');
+				$('data_fine').update('<?php echo format_date($year->getYear()->get_data_chiusura(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>');
+				$('data_inizio_lezioni').value = '<?php echo format_date($year->getClassesStartDate(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>';
+				$('data_fine_lezioni').value = '<?php echo format_date($year->getClassesEndDate(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>';
+				$('session1').value = '<?php echo format_date($year->getFirstSessionEndDate(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>';
+				$('session2').value = '<?php echo format_date($year->getSecondSessionEndDate(), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>';
+				for(a in hol){
+					//alert(a);
+					a1 = hol[a];
+					for(var z = 0; z < a1.length; z++){
+						//alert(a1[z]);
+						if(!in_array(holidays, a1[z].print("%A %d %B"))){
+							holidays.push(a1[z].print("%A %d %B"));
+						}
+						if(!in_array(vacanze, a1[z].print("%Y-%m-%d"))){
+							vacanze.push(a1[z].print("%Y-%m-%d"));
+						}
+					}
+			    }
+			    $('holydays').innerHTML = holidays.join(", ");
+			    $('vacanze').value = vacanze.join(",");
 			}
-	    }
-	    $('holydays').innerHTML = holidays.join(", ");
-	    $('vacanze').value = vacanze.join(",");
-	}
-	<?php endif; ?>
-};
+			<?php endif; ?>
+		};
 
-document.observe("dom:loaded", function(){
-	$('sessions').observe("change", function(event){
-		if($F('sessions') == 2){
-			$('s2_td1').hide();
-			$('s2_td2').hide();
-		}
-		else{
-			$('s2_td1').show();
-			$('s2_td2').show();
-		}
-	});
-});
+		document.observe("dom:loaded", function(){
+			$('sessions').observe("change", function(event){
+				if($F('sessions') == 2){
+					$('s2_td1').hide();
+					$('s2_td2').hide();
+				}
+				else{
+					$('s2_td1').show();
+					$('s2_td2').show();
+				}
+			});
+		});
 
-</script>
-<title>Nuovo anno</title>
-<style>
-input {
-	font-size: 11px
-}
-</style>
+	</script>
 </head>
 <body onload="load_default(<?php if($_SESSION['__school_year__']) echo "true"; else echo "false" ?>); ">
 <?php include "header.php" ?>
@@ -142,7 +137,6 @@ input {
 	<?php include "adm_school/menu.php" ?>
 </div>
 <div id="left_col">
-<div class="group_head">Anno scolastico <?php if($year) echo $year->getYear()->get_descrizione(); else echo $_SESSION['__current_year__']->get_descrizione(); echo " ".$label ?></div>
 <form method="post" id="myform" class="popup_form" style="width: 90%">
 		<table style="width: 90%; margin-right: auto; margin-left: auto; margin-bottom: 20px;">
             <tr>

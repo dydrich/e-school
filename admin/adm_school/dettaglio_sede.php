@@ -26,6 +26,7 @@ else{
 	$_i = 0;
 }
 
-$navigation_label = "Area amministrazione: gestione sedi";
+$navigation_label = "gestione scuola";
+$drawer_label = "Dettaglio sede";
 
 include "dettaglio_sede.html.php";

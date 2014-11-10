@@ -26,6 +26,7 @@ if (isset($alunno['telefono']) && strlen($alunno['telefono']) > 0){
 }
 
 
-$navigation_label = "Registro elettronico - ".$_SESSION['__classe__']->to_string();
+$navigation_label = "gestione classe";
+$drawer_label = "Dettaglio alunno ".$alunno['cognome']." ".$alunno['nome'];
 
 include "dettaglio_alunno.html.php";

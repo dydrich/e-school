@@ -151,14 +151,6 @@ form.no_border {
     margin-right: auto
 }
 
-.popup_form fieldset {
-    border: 1px solid rgba(30, 67, 137, .6);
-}
-
-fieldset {
-    border: 1px solid rgba(30, 67, 137, .6);
-}
-
 .popup_table {
     width: 90%;
     margin-left: auto;
@@ -173,13 +165,12 @@ fieldset {
 
 .popup_title {
     padding-left: 10px;
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .popup_body {
     background-color: #FFFFFF;
-    font-size: 12px;
-    font-family: 'Helvetica', sans-serif;
+    font-size: 0.9em;
     padding: 0;
     margin: 0
 }
@@ -194,5 +185,9 @@ fieldset {
 #popup_main a {
     color: #1E4389;
     text-decoration: none;
+}
+
+.cardbody {
+    background-color: #F6F6F6 !important;
 }
 

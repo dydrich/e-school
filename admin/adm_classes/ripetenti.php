@@ -16,7 +16,6 @@ $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "../";
 
 $admin_level = getAdminLevel($_SESSION['__user__']);
-$navigation_label = "Area amministrazione";
 
 $school_order = $_REQUEST['school_order'];
 if ($school_order == 1){
@@ -48,5 +47,8 @@ while($alunno = $res_alunni->fetch_assoc()){
 		$alunni[$alunno['classe']] = array();
 	$alunni[$alunno['classe']][$alunno['id_alunno']] = $alunno;
 }
+
+$navigation_label = "gestione classi";
+$drawer_label = "Elenco alunni";
 
 include "ripetenti.html.php";

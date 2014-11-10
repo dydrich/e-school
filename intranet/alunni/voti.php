@@ -15,9 +15,11 @@ if(isset($_REQUEST['q'])){
 else{
 	$q = 0;
 }
-	
-$navigation_label = "Registro elettronico - Area studenti";
-$area = "studenti";
+
+$navigation_label = "scuola secondaria";
+$area = "alunni";
 $alunno = $_SESSION['__user__']->getUid();
+
+$drawer_label = "Medie voto totali";
 
 include "../common/grades.php";

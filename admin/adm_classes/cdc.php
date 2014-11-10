@@ -59,6 +59,7 @@ if ($_SESSION['school_order'] == 2) {
 $sel_teac = "SELECT uid, nome, cognome FROM rb_utenti, rb_docenti WHERE id_docente = uid AND materia = ".$sostegno."  ORDER BY cognome, nome";
 $res_teac = $db->execute($sel_teac);
 
-$navigation_label = "Area amministrazione: gestione classi";
+$navigation_label = "gestione classi";
+$drawer_label = "Consiglio di classe: ".$classe['anno_corso'].$classe['sezione']." - ". $classe['nome'];
 
 include "cdc.html.php";

@@ -15,6 +15,8 @@ $_SESSION['__path_to_mod_home__'] = "./";
 include "check_sons.php";
 $page = "pagella.php";
 
+$area = "genitori";
+
 $son = $_SESSION['__sons__'][$_SESSION['__current_son__']];
 
 if(isset($_REQUEST['son'])){
@@ -59,7 +61,8 @@ while($p = $res_old_pagelle->fetch_assoc()){
 	$pagelle_old[] = $p;
 }
 
-$navigation_label = "Registro elettronico genitori: alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
+$navigation_label = "alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
 $_SESSION['no_file'] = array("referer" => "intranet/genitori/pagella.php", "path" => "intranet/genitori/", "relative" => "pagella.php");
+$drawer_label = "Schede di valutazione";
 
 include "pagella.html.php";

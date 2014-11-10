@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 <link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
@@ -10,13 +11,12 @@
 <script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript">
-</script>
-<style>
-tbody tr:hover {
-	background-color: #eceff1;
-}
-</style>
+	<script type="text/javascript">
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+		});
+	</script>
 </head> 
 </head> 
 <body>
@@ -27,23 +27,24 @@ tbody tr:hover {
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-<div class="group_head">
-	Attivit&agrave; programmate (<a href="<?php print $link ?>" style="font-weight: normal"><?php print $label ?></a>)
-</div>
-<div class="outline_line_wrapper">
-	<div style="width: 51%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Attivit&agrave;</span></div>
-	<div style="width: 10%; float: left; position: relative; top: 30%">Assegnata</div>
-	<div style="width: 10%; float: left; position: relative; top: 30%">Materia</div>
-	<div style="width: 15%; float: left; position: relative; top: 30%">Inizia</div>
-	<div style="width: 14%; float: left; position: relative; top: 30%">Termina</div>
-</div>
-<table style="width: 95%; margin: 0 auto 0 auto">
+	<div class="mdtabs">
+		<div class="mdtab<?php if (!isset($_REQUEST['all'])) echo " mdselected_tab" ?>">
+			<a href="elenco_attivita.php"><span>Personali</span></a>
+		</div>
+		<div class="mdtab<?php if (isset($_REQUEST['all'])) echo " mdselected_tab" ?>">
+			<a href="elenco_attivita.php?all=1"><span>Tutte</span></a>
+		</div>
+	</div>
+	<div style="position: absolute; top: 92px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
+		<a href="dettaglio_attivita.php?t=0">
+			<img src="../../../images/39.png" style="padding: 12px 0 0 12px" />
+		</a>
+	</div>
+	<div class="card_container">
 <?php 
 if($res_act->num_rows < 1){
 ?>
-	<tr>
-    	<td colspan="5" style="height: 150px; font-weight: bold; text-transform: uppercase; text-align: center">Nessuna attivit&agrave; presente</td> 
-    </tr>
+	<div id="nodata" style="width: 90%; margin: 25px auto 0 auto; font-size: 1.1em; font-weight: bold; text-align: center">Nessuna attivit&agrave; presente</div>
 <?php 
 }
 else{
@@ -66,15 +67,23 @@ else{
 		if($_SESSION['__user__']->getUid() != $act['docente']) {
 			$mod = false;
 		}
-			
+		$giorno_str = strftime("%A %d %B %Y", strtotime($di));
+		$giorno_ass	= strftime("%A %d %B %Y", strtotime($da));
 ?>
-	<tr class="bottom_decoration">
-		<td style="width: 50%; text-align: left; font-weight: normal; padding-left: 5px;"><?php if ($mod): ?><a style="font-weight: normal" href="dettaglio_attivita.php?t=<?php print $act['id_impegno'] ?>"><?php endif; ?><?php print $desc ?><?php if ($mod): ?></a><?php endif; ?></td>
-		<td style="width: 10%; text-align: left; font-weight: normal; padding-left: 5px"><?php print format_date($da, SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
-		<td style="width: 10%; text-align: center; font-weight: normal"><?php print $act['mat'] ?></td>
-		<td style="width: 15%; text-align: center; font-weight: normal; "><?php print format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/")." ".substr($oi, 0, 5) ?></td>
-		<td style="width: 15%; text-align: center; font-weight: normal; "><?php print format_date($df, SQL_DATE_STYLE, IT_DATE_STYLE, "/")." ".substr($of, 0, 5) ?></td>
-	</tr>
+		<?php if ($mod): ?><a style="font-weight: normal" href="dettaglio_attivita.php?t=<?php print $act['id_impegno'] ?>"><?php endif; ?>
+		<div class="card<?php if (!$mod) echo " no_permission" ?>">
+			<div class="card_title">
+				<?php print $desc ?>
+				<div style="float: right; margin-right: 20px">
+					<?php echo $giorno_str.", ore ".substr($oi, 0, 5) ?>
+				</div>
+			</div>
+			<div class="card_content">
+				<p class="card_row">Materia: <span class="_bold"><?php print $act['mat'] ?></span></p>
+				<p class="card_row">Assegnata <?php echo $giorno_ass ?></p>
+			</div>
+		</div>
+		<?php if ($mod): ?></a><?php endif; ?>
 <?php 
 		$idx++;
 	}
@@ -82,15 +91,27 @@ else{
 <?php 
 }
 ?>
-</table>
-<div style="width: 100%; margin-left: auto; margin-right: auto; margin-top: 40px; text-align: right">
-<a href="dettaglio_attivita.php?t=0" style="text-transform: uppercase; margin-right: 20px; text-decoration: none">
-	<img src="../../../images/39.png" />
-	Nuova attivit&agrave;</a>
-</div> 
+</div>
 </div> 
 <p class="spacer"></p>
 </div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_label"><span>Classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?></span></div>
+		<div class="drawer_link submenu"><a href="../registro_classe/registro_classe.php?data=<?php echo date("Y-m-d") ?>"><img src="../../../images/28.png" style="margin-right: 10px; position: relative; top: 5%" />Registro di classe</a></div>
+		<div class="drawer_link submenu separator"><a href="../registro_personale/index.php"><img src="../../../images/4.png" style="margin-right: 10px; position: relative; top: 5%" />Registro personale</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../profile.php"><img src="../../../images/33.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
+		<div class="drawer_link"><a href="../../../modules/documents/load_module.php?module=docs&area=teachers"><img src="../../../images/11.png" style="margin-right: 10px; position: relative; top: 5%" />Documenti</a></div>
+		<?php if(is_installed("com")){ ?>
+		<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=teachers"><img src="<?php echo $_SESSION['__path_to_root__'] ?>images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
+		<?php } ?>
+	</div>
+	<?php if (isset($_SESSION['__sudoer__'])): ?>
+		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
+	<?php endif; ?>
+	<div class="drawer_lastlink"><a href="../../../shared/do_logout.php"><img src="../../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

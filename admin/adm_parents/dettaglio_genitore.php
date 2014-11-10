@@ -20,11 +20,11 @@ if (isset($_GET['school_order'])){
 	$classes_table = "rb_vclassi_s{$_GET['school_order']}";
 	$school_order = $_GET['school_order'];
 }
-else if($_SESSION['__school_order__'] != 0){
+else if(isset($_SESSION['__school_order__']) && $_SESSION['__school_order__'] != 0){
 	$classes_table = "rb_vclassi_s{$_SESSION['__school_order__']}";
 	$school_order = $_SESSION['__school_order__'];
 }
-else if($_SESSION['school_order'] != 0){
+else if(isset($_SESSION['school_order']) && $_SESSION['school_order'] != 0){
 	$classes_table = "rb_vclassi_s{$_SESSION['school_order']}";
 	$school_order = $_SESSION['school_order'];
 }
@@ -58,13 +58,15 @@ if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0){
     	$figli = "";
     }
     $_i = $_REQUEST['id'];
+	$drawer_label = "Dettaglio genitore";
 }
 else{
     // nuovo utente
+	$drawer_label = "Nuovo genitore";
     $_i = 0;
     $show_account = true;
 }
 
-$navigation_label = "Area amministrazione: gestione genitore";
+$navigation_label = "gestione utenti";
 
 include "dettaglio_genitore.html.php";

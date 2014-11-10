@@ -74,11 +74,11 @@ while($row = $res_marks->fetch_assoc()){
 	if ($_REQUEST['subjectID'] == $id_religione){
 		$row['voto'] = $voti_religione[RBUtilities::convertReligionGrade($row['voto'])];
 	}
-	$ar = array("data" => format_date($row['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/"), "voto" => $row['voto'], "mod" => $row['modificatori'], "tipologia" => $row['tipologia'], "desc" => $row['descrizione']);
+	$ar = array("date" => $row['data'], "data" => format_date($row['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/"), "voto" => $row['voto'], "mod" => $row['modificatori'], "tipologia" => $row['tipologia'], "desc" => $row['descrizione']);
 	array_push($rows, $ar);
 }
 $msarray = new ArrayMultiSort($rows);
-$msarray->setSortFields(array("data"));
+$msarray->setSortFields(array("date"));
 $msarray->sort();
 $ordered_grades = $msarray->getData();
 

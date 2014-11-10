@@ -98,6 +98,7 @@ if(isset($_REQUEST['sc']) && is_numeric($_REQUEST['sc'])){
 	$nav_params = "&sc=".$_REQUEST['sc'];
 }
 
-$navigation_label = "Area amministrazione: gestione materie";
+$navigation_label = "gestione scuola";
+$drawer_label = "Elenco materie";
 
 include "materie.html.php";

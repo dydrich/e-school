@@ -121,9 +121,12 @@ class MYPDF extends SchoolPDF {
 		
 		$months = array_slice($this->mesi, $start, $end);
 		$voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
-		$media_voto = round(($tot_voti / $num_voti), 2);
-		if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30){
-			$media_voto = $voti_religione[$media_voto];
+		$media_voto = "";
+		if ($num_voti > 0) {
+			$media_voto = round(($tot_voti / $num_voti), 2);
+			if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30) {
+				$media_voto = $voti_religione[$media_voto];
+			}
 		}
 		    	
     	$this->y_position = 40.0;

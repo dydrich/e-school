@@ -5,130 +5,85 @@ html {
 }
 
 body {
-    #background-color: #1E4389;
-    font-size: 12px;
-    font-family: 'Helvetica', sans-serif;
-    height: 100%;
-    margin: 0;
-
-    background: rgb(84, 110, 122);
-    background: -moz-linear-gradient(90deg, rgb(84, 110, 122) 30%, rgb(144, 164, 174) 100%);
-    background: -webkit-linear-gradient(90deg, rgb(84, 110, 122) 30%, rgb(144, 164, 174) 100%);
-    background: -o-linear-gradient(90deg, rgb(84, 110, 122) 30%, rgb(144, 164, 174) 100%);
-    background: -ms-linear-gradient(90deg, rgb(84, 110, 122) 30%, rgb(144, 164, 174) 100%);
-    background: linear-gradient(180deg, rgb(84, 110, 122) 30%, rgb(144, 164, 174) 100%);
-
+    font-size: 13px;
+    font-family: 'Source Sans Pro', Raleway, Ubuntu, sans-serif;
+    color: #263238;
+    background: rgb(255, 224, 178);
+    background: rgb(176, 190, 197);
+    background: -moz-linear-gradient(90deg, rgb(176, 190, 197) 30%, rgb(236, 239, 241) 90%);
+    background: -webkit-linear-gradient(90deg, rgb(176, 190, 197) 30%, rgb(236, 239, 241) 90%);
+    background: -o-linear-gradient(90deg, rgb(176, 190, 197) 30%, rgb(236, 239, 241) 90%);
+    background: -ms-linear-gradient(90deg, rgb(176, 190, 197) 30%, rgb(236, 239, 241) 90%);
+    background: linear-gradient(180deg, rgb(176, 190, 197) 30%, rgb(236, 239, 241) 90%);
     background-attachment: fixed;
     background-repeat: no-repeat;
 }
 
 input, select, textarea {
-    background-color: rgba(30, 67, 137, .1);
+    background-color: #eceff1;
     border-radius: 2px;
     border: 1px solid rgba(30, 67, 137, .6);
-    font-size: 1em
+    font-size: 0.9em
 }
 
-#box1{
-	height: 50px;
-	width: 400px;
-	float: left;
-	border-bottom: 3px solid #FFFFFF; 
-	padding-bottom: 5px
+input.student_enter, input.student_exit {
+    background-color: white;
 }
 
-#mid{
-	height: 50px;
-	width: 160px;
-	float: left;
-	 
-	padding-bottom: 5px
-}
-
-#box2 {
-	height: 50px;
-	width: 400px;
-	float: left;
-	border-bottom: 3px solid #FFFFFF;
-	padding-bottom: 5px
-}
-#box3 {
-	height: 50px;
-	width: 60px;
-	float: left ;
-	border-bottom: 3px solid #FFFFFF;
-	background: url(../../../images/esci.png) no-repeat;
-	background-position:right bottom;
-	padding-bottom: 5px
+#cls_enter, #cls_exit {
+    font-size: 1em;
+    font-weight: 500;
+    color: black;
+    background-color: #FFFFFF;
+    border: 0
 }
 
 #header {
-	height: 120px; 
-	width: 1020px; 
-	margin: 0 auto 0 auto	
+    width:  1020px;
+    margin: 10px auto 0 auto;
+    background-color: #455A64;
+    background-image: none;
+    height: 40px;
+    -webkit-box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.38);
+    -moz-box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.38);
+    box-shadow:  0px 2px 2px 0px rgba(50, 50, 50, 0.38);
 }
 #header a {
-	color: #FFFFFF;
-	text-decoration: none;
-	font-size: 1.1em;
-	text-transform: uppercase
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 1.1em;
+    text-transform: uppercase
 }
 
 #sc_firstrow {
-	font-weight: bold; 
-	font-size: 1.8em; 
-	color: #FFFFFF; 
-	height: 20px;
-	margin: 10px 0 0 0; 
-	line-height: 25px
+    width: 50%;
+    float: left;
+    font-size: 1.2em;
+    font-family: Georgia;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    margin-top: 15px;
+    margin-left: 15px
 }
 
 #sc_secondrow {
-	font-weight: bold; 
-	font-size: 1.1em; 
-	color: #FFFFFF; 
-	text-align: right; 
-	height: 30px; 
-	line-height: 28px; 
-	text-transform: uppercase
-}
-
-#user_firstrow {
-	font-weight: bold; 
-	font-size: 1.1em; 
-	color: #FFFFFF; 
-	text-align: right; 
-	padding-right: 10px; 
-	height: 20px; 
-	margin: 10px 0 0 0; 
-	line-height: 25px
-}
-
-#user_secondrow {
-	font-weight: bold; 
-	font-size: 1.1em; 
-	color: #FFFFFF; 
-	text-align: right; 
-	height: 30px; 
-	line-height: 28px; 
-}
-
-#esc {
-	clear: both; 
-	width: 70px; 
-	color: #FFFFFF; 
-	text-align: right; 
-	padding-right: 10px; 
-	font-size: 1em; 
-	margin: 0 0 10px auto; 
-	padding-top: 2px
+    width: 40%;
+    float: left;
+    font-size: 1.2em;
+    font-family: Georgia;
+    font-weight: bold;
+    text-align: right;
+    color: rgb(255, 255, 255);
+    margin-top: 15px;
+    margin-left: 35px
 }
 
 #main {
-	width: 1020px; 
-	background-color: #F3F3F6;
-	margin: 0 auto 0 auto;
-	padding: 30px 0 30px 0;
+    width: 1020px;
+    background-color: #FFFFFF;
+    margin: 0 auto 0 auto;
+    padding: 30px 0 30px 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 #main a {
@@ -137,58 +92,323 @@ input, select, textarea {
 }
 
 #navigation {
-	width: 1020px;
-	height: 30px;
-	text-align: left;
-	color: #DDDDDD; 
-	font-size: 1.2em; 
-	font-weight: normal; 
-	margin: 0 auto 0 auto;
-    background-color: #263238;
-    border-radius: 10px 10px 0 0;
-    padding-top: 6px
+    width: 1020px;
+    text-align: left;
+    color: #DDDDDD;
+    font-size: 1.2em;
+    font-weight: normal;
+    margin: 0 auto 0 auto;
+    padding-top: 6px;
+    background-color: #607D8B;
+    height: 40px;
+    border-radius: 0;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 #navigation a {
-	color: #DDDDDD;
-	text-decoration: none;
-	font-size: 1em;
-	text-transform: uppercase;
+    color: #DDDDDD;
+    text-decoration: none;
+    font-size: 1em;
+    text-transform: uppercase;
+    text-decoration: none
 }
 
 #head_label {
-	float: left; 
-	width: 500px; 
-	margin-left: 20px;
-	height: 25px; 
-	top: 20%;
+    float: left;
+    width: 500px;
+    margin-left: 20px;
     color: #FFFFFF;
+    height: 30px;
+}
+
+img#open_drawer {
+    cursor: pointer;
+}
+
+div.drawer {
+    width: 300px;
+    height: 470px;
+    background-color: #FAFAFA;
+    position: absolute;
+    box-shadow: 0 19px 10px rgba(0, 0, 0, 0.2);
+    z-index: 300;
+}
+div.drawer_link {
+    width: 100%;
+    height: 35px;
+    border-bottom: 1px solid rgba(30, 67, 137, .1);
+    position: relative
+}
+
+.separator {
+    border-bottom: 1px solid rgba(30, 67, 137, .7) !important;
+}
+
+.submenu {
+    padding-left: 30px;
+}
+
+div.drawer_label {
+    width: 100%;
+    height: 35px;
+    border-bottom: 1px solid rgba(30, 67, 137, .7) !important;
+    position: relative;
+    font-family: Georgia;
+    font-size: 1.1em;
+    color: rgba(30, 67, 137, 1);
+    text-align: left;
+    font-weight: bold;
+}
+
+.drawer_label span {
+    position: relative;
+    top: 10px;
+    left: 10px;
+}
+
+p#drawer_label {
+    font-weight: 600;
+}
+
+div.drawer_link a, div.drawer_lastlink a {
+    font-family: Georgia;
+    font-size: 1.1em;
+    text-decoration: none;
+    color: rgba(30, 67, 137, 1);
+    position: relative;
+    padding-left: 10px;
+    top: 25%
+}
+
+div.drawer_lastlink {
+    width: 100%;
+    height: 35px;
+    border-top: 1px solid rgba(30, 67, 137, .1);
+    background-color: #F1F1F1;
+    position: relative;
+    bottom: 0
+}
+
+.overlay{
+    background:#000;
+    position:fixed;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    z-index:100;
+    cursor:pointer;
+    /*Trasperenza cross browser*/
+    opacity: .7; filter: alpha(opacity=70);
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+
 }
 
 #footer {
-	font-size: 1em; 
-	color: #FFFFFF;
-	width: 1020px;
+    clear: both;
+    font-size: 1em;
+    color: #263238;
+    width: 1020px;
     margin: 10px auto 0 auto;
     text-align: right;
-    heigth: 15px;
+    height: 15px;
 
 }
 
 #footer span {
-    border-top: 1px solid white;
+    border-top: 1px solid #263238;
 }
 
 #footer a {
     text-decoration: none;
-    color: #FFFFFF
+    color: #263238
 }
 
-.tooltip { 
+div.mdtabs {
+    width: 100%;
+    height: 18px;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    background-color: #607D8B;
+    position: relative;
+    top: -30px;
+    text-align: center;
+}
+
+div.mdtab {
+    width: 100px;
+    float: left;
+    text-align: center;
+}
+
+div.mdtab a > span {
+    color: #DDDDDD;
+}
+
+div.mdselected_tab {
+    color: #000000;
+    border-bottom: 2px solid #FF9100;
+}
+
+div.mdselected_tab a > span {
+    color: #ffffff !important;
+}
+
+div.navigate {
+    width: 90%;
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgba(215, 215, 215, 1);
+    background-color: #eceff1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 5px;
+    height: 30px;
+    text-align: center;
+}
+
+div.navigate span {
+    position: relative;
+    top: 3px
+}
+
+div.navigate a {
+    position: relative;
+    top: 0px;
+    color: #000000 !important;
+}
+
+div.card_container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+div.card {
+    width: 98%;
+    border: 1px solid rgba(215, 215, 215, 1);
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 5px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card .normal {
+    color: #1E4389 !important;
+}
+
+.card a.normal {
+    color: #1E4389 !important;
+}
+
+div.card_title {
+    width: 100%;
+    height: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(215, 215, 215, 1);
+    #color: #777777;
+    color: #FB8C00;
+    padding-top: 5px;
+}
+
+div.card_content {
+    width: 100%;
+    height: 35px;
+    font-size: 1em;
+    border-top: 1px solid rgba(215, 215, 215, 1);
+    padding-top: 5px;
+    color: #212121;
+    #color: rgba(30, 67, 137, 1);
+}
+
+div.card_minicontent {
+    width: 100%;
+    min-height: 25px;
+    font-size: 1em;
+    border-top: 1px solid rgba(215, 215, 215, 1);
+    padding-top: 5px;
+    color: #1E4389;
+    #color: rgba(30, 67, 137, 1);
+}
+
+div.card_longcontent {
+    width: 100%;
+    height: 55px;
+    font-size: 1em;
+    border-top: 1px solid rgba(215, 215, 215, 1);
+    padding-top: 5px;
+    #color: #212121;
+    #color: rgba(30, 67, 137, 1);
+}
+
+div.card_varcontent {
+    width: 100%;
+    font-size: 1em;
+    border-top: 1px solid rgba(215, 215, 215, 1);
+    padding-top: 5px;
+    #color: #212121;
+    #color: rgba(30, 67, 137, 1);
+}
+
+div.card_row {
+    width: 90%;
+    border: 1px solid rgba(215, 215, 215, 1);
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    padding-left: 10px;
+    padding-right: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.no_permission {
+    background-color: #F4F4F4 !important;
+}
+
+p.card_row {
+    margin: 0;
+    padding: 0
+}
+
+#tipinota {
     position: absolute;
-    top: 1em; 
-    left: 1em; 
+    width: 300px;
+    height: 160px;
+    border: 1px solid rgba(30, 67, 137, .6);
+    background-color: #FFFFFF;
+    padding: 10px 0 0 10px;
+    border-radius: 0;
+}
+
+#tipinota a {
+    color: #1E4389;
+    text-decoration: none
+}
+
+.rb_button {
+    width: 40px;
+    height: 40px;
+    position:relative;
+    background-color: #FF9100;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.tooltip {
+    position: absolute;
+    top: 1em;
+    left: 1em;
     width: 15em;
-    border: 1px solid #AAAAAA; 
+    border: 1px solid #AAAAAA;
     background-color: rgb(211, 222, 199);
     border-radius: 8px 8px 8px 8px;
     padding: 10px;
@@ -199,67 +419,87 @@ input, select, textarea {
 }
 
 table.registro {
-	width: 95%; 
-	border-collapse: collapse;
-	margin: 0 auto 0 auto;
+    width: 95%;
+    border-collapse: collapse;
+    margin: 0 auto 0 auto;
 }
 
 table.registro tbody a {
-	text-decoration: none;
+    text-decoration: none;
 }
 
-tr.nav_tr {
-	background-color: #eceff1;
-	height: 2.5em;
+table.registro tr.nav_tr {
+    /*background-color: #90A4AE;*/
+    height: 2.5em;
     text-align: center;
 }
 
-table.registro tr.head_tr_no_bg {
-	height: 2.1em;
+table.registro tr.nav_tr a {
+    color: #000000 !important;
 }
 
+table.registro tr.head_tr_no_bg {
+    height: 2.1em;
+    color: #000000;
+    text-transform: uppercase;
+}
+
+table.registro tr.head_tr_no_bg td:not(:first-of-type):not(:last-of-type) {
+    border-right: 0;
+    border-left: 0;
+}
+table.registro tr.head_tr_no_bg td:first-of-type {
+    border-right: 0;
+}
+table.registro tr.head_tr_no_bg td:last-of-type {
+    border-left: 0;
+}
+
+
 table.registro tr.title_tr {
-	background-color: #eceff1;
+    color: #030303;
 }
 
 table.registro tr.head_tr {
-	background-color: rgba(176, 190, 197, 1);
-	height: 2.5em;
-	font-weight: bold;
-	text-align: center
+    background-color: rgba(251, 140, 0, 1);
+    height: 2.5em;
+    font-weight: bold;
+    text-align: center
 }
 
-table.registro tr.head_tr a {
-	text-decoration: none;
-	font-weight: normal !important;
-	color: rgb(13, 9, 171) !important
+table.registro tr.head_tr a, div.group_head a {
+    text-decoration: none;
+    font-weight: normal !important;
+    color: rgb(13, 9, 171) !important
 }
 
 table.registro td {
-	border: 1px solid #90A4AE;
+    border: 1px solid rgba(30, 67, 137, .3);
 }
 
 table.registro tbody tr:hover {
-	background-color: #eceff1;
+    background-color: #eceff1;
 }
 
 .riepilogo {
-    background-color: #CFD8DC;
+    /*background-color: #CFD8DC;*/
     height: 30px;
+    color: #111111;
 }
 
 .attention {
-	color: rgb(200, 6, 6);
+    color: rgb(200, 6, 6);
 }
 
 ._bold{
-	font-weight: bold
+    font-weight: bold
 }
 
 .nav_div {
-	float: left; 
-	text-transform: uppercase; 
-	width: 120px	
+    float: left;
+    text-transform: uppercase;
+    width: 350px;
+    font-size: 0.9em;
 }
 
 .nav_div a {
@@ -269,43 +509,53 @@ table.registro tbody tr:hover {
 }
 
 .page_menu{
-	background-color: #CFD8DC;
-	padding: 10px; 
-	border: 1px solid #90A4AE;
-	border-radius: 5px 0 5px 5px;
-	color: #222222;
-	box-shadow:  0 2px 4px rgba(0, 0, 0, 0.2);
-	z-index: 100
+    background-color: #E4E7EF;
+    padding: 10px;
+    border: 1px solid rgba(30, 67, 137, .6);
+    border-radius: 10px 10px 10px 10px;
+    color: #222222;
+    box-shadow:  0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 100
 }
 
 #context_menu, #pop, #hid {
-	background-color: #CFD8DC;
-	padding: 10px; 
-	border: 1px solid #90A4AE;
-	border-radius: 0px 0px 0px 0px;
+    background-color: #eceff1;
+    padding: 10px;
+    border: 1px solid rgba(30, 67, 137, .6);
+    border-radius: 0px 0px 0px 0px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-	color: #222222;
-	z-index: 100
+    color: #222222;
+    z-index: 100
 }
 #context_menu a, #pop a, #hid a, .page_menu a {
-	text-decoration: none;
+    text-decoration: none;
     color: rgba(30, 67, 137, 1);
 }
 
-#tipinota {
-	position: absolute; 
-	width: 300px;
-	height: 130px;
-	border: 1px solid #90A4AE;
-	background-color: #CFD8DC;
-	padding: 10px 0 0 10px; 
-	border-radius: 8px; 
+.high_contrast_row td {
+    border: 0 !important
 }
 
-#tipinota a {
-	color: #222222;
-	text-decoration: none
+.high_contrast_row {
+    height: 25px;
+    border-bottom: 1px solid #FF9100!important;
+    vertical-align: bottom;
+    font-weight: 600;
 }
+
+.high_contrast_row a {
+    color: white;
+}
+
+.rb_bg {
+    background-color: #eceff1;
+}
+
+.popup_body {
+    background-color: #ffffff;
+    background-image: none;
+}
+
 
 /* css for timepicker */
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
@@ -326,20 +576,14 @@ div.group_head{
     text-align: center;
     font-weight: bold;
     font-size: 1.1em;
-    background-color: #B0BEC5;
-    #border-radius: 5px 0 0 5px;
     width: 100%;
     height: 35px;
-    #margin-left: 2%;
     margin-bottom: 0;
     text-transform: uppercase;
     position: relative;
-    top: -30px
-}
+    top: -30px;
+    background-color: #FB8C00;
 
-.group_head a {
-    color: #263238 !important;
-    font-weight: 800;
 }
 
 .outline_line_wrapper {
@@ -348,18 +592,17 @@ div.group_head{
     height: 40px;
     text-align: left;
     font-weight: bold;
-    background-color: #CFD8DC;
-    border-top: 1px solid #CFD8DC;
+    background-color: #F57C00;
     position: relative;
     top: -30px
 }
 
 .avg_row {
-    background-color: #CFD8DC;
+    background-color: #FFCC80;
 }
 
 tr.bottom_decoration {
-    border-bottom: 1px solid #B0BEC5;
+    border-bottom: 1px solid rgba(30, 67, 137, .4);;
 }
 
 p.popup_header {
@@ -370,7 +613,13 @@ p.popup_header {
     vertical-align: middle;
     width: 100%;
     height: 30px;
-    background-color: #B0BEC5;
+    background-color: #FFCC80;
     padding-top: 10px;
     border: 0
+}
+
+#gotoday {
+    border-color: #FF9100;
+    background-color: #455A64;
+    color: white;
 }

@@ -42,6 +42,11 @@ var upd_cls = function(sel, student){
 		}
 	});
 };
+
+	$(function(){
+		load_jalert();
+		setOverlayEvent();
+	});
 </script>
 </head>
 <body>
@@ -52,15 +57,9 @@ var upd_cls = function(sel, student){
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Elenco alunni classe <?php echo $myclass['anno_corso'].$myclass['sezione'] ?> - <?php echo $myclass['nome'] ?> (<span id="st_count"><?php print $res_alunni->num_rows ?></span>)</div>
 		<form method="post" class="no_border">
         <table class="admin_table">
         <thead>
-            <tr>
-            	<td style="padding-left: 2px; width: 5%" class="adm_titolo_elenco_first"></td>
-                <td style="padding-left: 2px; width: 75%" class="adm_titolo_elenco">Alunno</td>
-                <td style="padding-left: 10px; width: 20%" class="adm_titolo_elenco_last">Classe</td>
-            </tr>
             <tr class="admin_void">
                 <td colspan="2"></td>
             </tr>
@@ -95,11 +94,6 @@ var upd_cls = function(sel, student){
             <tr class="admin_void">
                 <td colspan="3">&nbsp;</td>
             </tr>
-            <tr class="admin_menu">
-                <td colspan="3">
-                    <a href="classi.php?school_order=<?php echo $myclass['ordine_di_scuola'] ?><?php if($offset != 0) echo "&second=1&offset={$offset}" ?>" class="standard_link">Torna all'elenco classi</a>
-                </td>
-            </tr>
             <tr class="admin_void">
                 <td colspan="3"></td>
             </tr>
@@ -110,5 +104,13 @@ var upd_cls = function(sel, student){
 		<p class="spacer"></p>
 	</div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 360px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

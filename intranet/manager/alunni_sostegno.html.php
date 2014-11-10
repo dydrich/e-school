@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Alunni</title>
+	<link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
@@ -11,52 +12,53 @@
 	<script type="text/javascript" src="../../js/page.js"></script>
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/jquery.jeditable.mini.js"></script>
-<script>
-	$(function(){
-		load_jalert();
+	<script>
 		$(function(){
-			$('.edit').editable('ore_sostegno.php', {
-				indicator : 'Saving...',
-				tooltip   : 'Click to edit...',
-				cssclass: "no_border"
+			load_jalert();
+			setOverlayEvent();
+			$(function(){
+				$('.edit').editable('ore_sostegno.php', {
+					indicator : 'Saving...',
+					tooltip   : 'Click to edit...',
+					cssclass: "no_border"
+				});
 			});
 		});
-	});
 
-var del = function(id){
-	var url = "elimina_segnalazione.php";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {id: id},
-		error: function() {
-			j_alert("error", "Errore di trasmissione dei dati");
-		},
-		succes: function() {
+	var del = function(id){
+		var url = "elimina_segnalazione.php";
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: {id: id},
+			error: function() {
+				j_alert("error", "Errore di trasmissione dei dati");
+			},
+			succes: function() {
 
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					sqlalert();
+					console.log(json.dbg_message);
+					return;
+				}
+				else if(json.status == "ko") {
+					j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+					return;
+				}
+				else {
+					$('#row'+id).hide();
+				}
 			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				sqlalert();
-				console.log(json.dbg_message);
-				return;
-			}
-			else if(json.status == "ko") {
-				j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
-				return;
-			}
-			else {
-				$('#row'+id).hide();
-			}
-		}
-	});
-};
-</script>
+		});
+	};
+	</script>
 </head>
 <body>
 <?php include "header.php" ?>
@@ -66,17 +68,12 @@ var del = function(id){
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<div class="group_head">
-		Elenco alunni con sostegno
+	<div style="position: absolute; top: 75px; margin-left: 645px; margin-bottom: 0; z-index: 100" class="rb_button">
+		<a href="segnala_alunno.php">
+			<img src="../../images/39.png" style="padding: 12px 0 0 12px" />
+		</a>
 	</div>
-	<div class="outline_line_wrapper">
-		<div style="width: 40%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Alunno</span></div>
-		<div style="width: 15%; float: left; position: relative; top: 30%; text-align: center">Classe</div>
-		<div style="width: 30%; float: left; position: relative; top: 30%; text-align: center">Docente</div>
-		<div style="width: 10%; float: left; position: relative; top: 30%; text-align: center">Ore</div>
-		<div style="width:  5%; float: left; position: relative; top: 30%; text-align: center"></div>
-	</div>
-   		<table style="width: 95%; margin: 0 auto 0 auto">
+   		<table style="width: 95%; margin: 10px auto 0 auto">
 	 	    <?php
 	 	    if ($res_sos->num_rows < 1){
 			?>
@@ -105,25 +102,36 @@ var del = function(id){
  	    		<td style="width: 10%; text-align: center">
  	    		<p id="c<?php echo $alunno['alunno'] ?>" class="edit" style="height: 14px; margin: 1px"><?php echo $alunno['ore'] ?></p>
 				</td>
-				<td style="width: 5%; text-align: center" class="attention"><a href="#" onclick="del(<?php echo $alunno['alunno'] ?>)" style="font-weight: bold; font-size: 1.1em; text-decoration: none; color: red">x</a></td>
+				<td style="width: 5%; text-align: center" class="attention">
+					<a href="#" onclick="del(<?php echo $alunno['alunno'] ?>)" class="fa fa-close" style="font-weight: normal; text-decoration: none; color: red"></a>
+				</td>
  	    	</tr>
 	 	    
 	 	    <?php
 	 	    	}
 	 	    }
             ?>
-            <tr>
-	    		<td colspan="5" style="height: 25px"></td> 
-		    </tr>
-		    <tr>
-	    		<td colspan="5" style="height: 25px; text-align: right">
-	    			<a href="segnala_alunno.php" class="standard_link">Nuova segnalazione</a>
-	    		</td> 
-		    </tr>
 		</table>		
 	</div>
 <p class="spacer"></p>		
 </div>
-<?php include "footer.php" ?>	
+<?php include "footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="profile.php"><img src="../../images/33.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
+		<div class="drawer_link"><a href="../../modules/documents/load_module.php?module=docs&area=<?php echo $_SESSION['__area__'] ?>"><img src="../../images/11.png" style="margin-right: 10px; position: relative; top: 5%" />Documenti</a></div>
+		<?php if(is_installed("com")){ ?>
+			<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=<?php echo $_SESSION['__area__'] ?>"><img src="../../images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
+		<?php } ?>
+		<?php if ($_SESSION['__role__'] == "Dirigente scolastico"): ?>
+		<div class="drawer_link"><a href="utility.php"><img src="../../images/59.png" style="margin-right: 10px; position: relative; top: 5%" />Utility</a></div>
+		<?php endif; ?>
+	</div>
+	<?php if (isset($_SESSION['__sudoer__'])): ?>
+		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
+	<?php endif; ?>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

@@ -19,7 +19,7 @@ $_SESSION['__path_to_mod_home__'] = "../";
 $_SESSION['__area_label__'] = "Area amministrazione";
 
 $classes_table = "rb_classi";
-$ordine_scuola = $_GET['school_order'];
+$ordine_scuola = "";
 if (isset($_GET['school_order']) && $_GET['school_order'] != 0){
 	$classes_table = "rb_vclassi_s{$_GET['school_order']}";
 	$ordine_scuola = $_GET['school_order'];

@@ -70,8 +70,7 @@
 </script>
 </head>
 <body class="popup_body">
-	<p class="popup_header">Seleziona i tuoi figli</p>
-    <form class="popup_form" style="width: 95%">
+	<form class="popup_form" style="width: 95%">
     <div style="margin-right: auto; margin-left: auto; margin-top: 20px; width: 95%">
     	<table style="margin-right: auto; margin-left: auto; width: 95%">
     	<tr>

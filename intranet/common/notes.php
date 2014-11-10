@@ -32,11 +32,11 @@ switch($q){
 		break;
 	case 1:
 		$int_time = "AND data <= '$fine_q'";
-		$label = ", primo quadrimestre";
+		$label = " primo quadrimestre";
 		break;
 	case 2:
 		$int_time = "AND (data > '$fine_q' AND data <= NOW()) ";
-		$label = ", secondo quadrimestre";
+		$label = " secondo quadrimestre";
 }
 
 $sel_alunno = "SELECT * FROM rb_alunni WHERE id_alunno = $student_id";
@@ -51,6 +51,8 @@ try{
 	$ex->redirect();
 }
 $alunno = $res_alunno->fetch_assoc();
+
+$drawer_label .= $label;
 
 $link = "riepilogo_note.php?n=1";
 include "../common/notes.html.php";

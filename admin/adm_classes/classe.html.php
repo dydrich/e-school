@@ -109,8 +109,7 @@ $(function(){
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head"><?php echo $label ?></div>
-	    <form action="class_manager.php" method="post" class="popup_form" id="myform">
+		<form action="class_manager.php" method="post" class="popup_form" id="myform">
 	    <div style="text-align: left">
 	    <table style="width: 95%; margin: auto">
 	    	<tr>
@@ -221,8 +220,7 @@ $(function(){
 	    </div>
 		</form>
 		<div style="margin: 10px 10px 0 0; width: 88%; text-align: right">
-			<?php if($_REQUEST['id'] == 0){ ?><a href="../../shared/no_js.php" id="go_link" class="standard_link nav_link_first">Salva le modifiche</a>|<?php } ?>
-			<a href="classi.php?school_order=<?php echo $_GET['school_order'] ?><?php if($offset != 0) echo "&second=1&offset={$offset}" ?>" id="close_btn" class="nav_link_last standard_link">Torna all'elenco classi</a>
+			<a href="../../shared/no_js.php" id="go_link" class="standard_link nav_link_first">Salva le modifiche</a>
 		</div>
 	</div>
 	<p class="spacer"></p>

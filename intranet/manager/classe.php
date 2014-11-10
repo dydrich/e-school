@@ -8,8 +8,8 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
-$label = "Classe ".$_REQUEST['desc'];
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
+$label = " classe ".$_REQUEST['desc'];
 
 $cls = $_REQUEST['id'];
 if ($_REQUEST['show'] == "cdc") {
@@ -17,7 +17,7 @@ if ($_REQUEST['show'] == "cdc") {
 	$result = $db->execute($query);
 	$fields = array("Docente", "Materia");
 	$widths = array(45, 50);
-	$label .= ": elenco docenti";
+	$drawer_label = "Elenco docenti".$label;
 	$data = array();
 	while ($row = $result->fetch_assoc()) {
 		if (!isset($data[$row['uid']])) {
@@ -40,7 +40,7 @@ else if ($_REQUEST['show'] == "alunni") {
 	$result = $db->execute($query);
 	$fields = array("Alunno", "Data di nascita");
 	$widths = array(55, 40);
-	$label .= ": elenco alunni";
+	$drawer_label = "Elenco alunni".$label;
 	$data = array();
 	while ($row = $result->fetch_assoc()) {
 		$data[] = array("nome" => $row['cognome']." ".$row['nome'], "sec_f" => array($row['sec_f']));
@@ -75,7 +75,7 @@ else if ($_REQUEST['show'] == "orario") {
 		$materie[$mat['id_materia']] = $mat['materia'];
 	}
 	
-	$label .= ": orario delle lezioni";
+	$drawer_label = "Orario delle lezioni".$label;
 	include "orario_classe.html.php";
 	exit;
 }

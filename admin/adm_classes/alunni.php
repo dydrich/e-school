@@ -35,6 +35,7 @@ $classes_table = "rb_vclassi_s{$myclass['ordine_di_scuola']}";
 $sel_classi = "SELECT CONCAT_WS(' ', anno_corso, sezione) AS classe, id_classe, {$classes_table}.ordine_di_scuola, nome FROM {$classes_table}, rb_sedi WHERE sede = id_sede ORDER BY sezione, classe";
 $res_classi = $db->executeQuery($sel_classi);
 
-$navigation_label = "Area amministrazione: gestione classi";
+$navigation_label = "gestione classi";
+$drawer_label = "Elenco alunni classe ". $myclass['anno_corso'].$myclass['sezione']." - ". $myclass['nome']." (<span id='st_count'>". $res_alunni->num_rows ."</span>)";
 
 include "alunni.html.php";

@@ -1,31 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript">
-$(function(){
-	$('table tbody > tr').mouseover(function(event){
-		//alert(this.id);
-		var strs = this.id.split("_");
-		$('#link_'+strs[1]).show();
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		load_jalert();
+		setOverlayEvent();
+		$('table tbody > tr').mouseover(function(event){
+			//alert(this.id);
+			var strs = this.id.split("_");
+			$('#link_'+strs[1]).show();
+		});
+		$('table tbody > tr').mouseout(function(event){
+			//alert(this.id);
+			var strs = this.id.split("_");
+			$('#link_'+strs[1]).hide();
+		});
 	});
-	$('table tbody > tr').mouseout(function(event){
-		//alert(this.id);
-		var strs = this.id.split("_");
-		$('#link_'+strs[1]).hide();
-	});
-});
-</script>
+	</script>
 <style type="text/css">
 table tbody tr:hover {
-	background-color: rgba(30, 67, 137, .1);
+	/*background-color: rgba(30, 67, 137, .1);*/
 }
 </style>
 </head>
@@ -37,20 +40,6 @@ table tbody tr:hover {
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<div class="group_head">
-		<?php echo $label ?>
-	</div>
-	<div class="outline_line_wrapper">
-		<div style="width: 5%; float: left; position: relative; top: 25%"></div>
-	<?php 
-	$max = count($widths);
-	for($i = 0; $i < $max; $i++){
-	?>
-		<div style="width: <?php echo $widths[$i] ?>%; float: left; position: relative; top: 25%"><?php echo $fields[$i] ?></div>
-	<?php 
-	}
-	?>
-	</div>
    	<table style="width: 95%; margin: 20px auto 0 auto">
    		<tbody>
    		<?php 
@@ -61,7 +50,7 @@ table tbody tr:hover {
    		foreach ($data as $row) {
    			reset($widths);
    		?>
-	 	<tr class="docs_row">
+	 	<tr class="bottom_decoration">
 	 		<td style="width: 5%; text-align: right; font-weight: bold"><?php if ($_REQUEST['show'] == "alunni") echo $x ?></td>
 	 		<td style="width: <?php echo $widths[0] - 5 ?>%; text-align: left; padding-left: 20px"><?php echo $row['nome'] ?></td>
 	 		<td style="width: <?php echo $widths[1] ?>%; text-align: center; padding-left: 20px"><?php echo implode(', ', $row['sec_f']) ?></td>
@@ -75,14 +64,32 @@ table tbody tr:hover {
 	 	<tr>
     		<td colspan="3" style="height: 25px"></td> 
     	</tr>
-		<tr>
-			<td colspan="3" style="height: 40px; text-align: right"><a href="elenco_classi.php" style="text-transform: uppercase"><img src="../../images/back.png" style="margin-right: 8px; position: relative; top: 5px" />Torna all'elenco classi</a></td>
-		</tr>
 		</tfoot>
 	</table>		
 	</div>
 <p class="spacer"></p>		
 </div>
-<?php include "footer.php" ?>	
+<?php include "footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 360px">
+		<div class="drawer_label"><span>Classe <?php echo $_REQUEST['desc'] ?></span></div>
+		<div class="drawer_link submenu"><a href="classe.php?id=<?php echo $_REQUEST['id'] ?>&show=cdc&desc=<?php echo $_REQUEST['desc'] ?>&tp=<?php echo $_REQUEST['tp'] ?>"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />Elenco docenti</a></div>
+		<div class="drawer_link submenu"><a href="classe.php?id=<?php echo $_REQUEST['id'] ?>&show=alunni&desc=<?php echo $_REQUEST['desc'] ?>&tp=<?php echo $_REQUEST['tp'] ?>"><img src="../../images/35.png" style="margin-right: 10px; position: relative; top: 5%" />Elenco alunni</a></div>
+		<div class="drawer_link submenu separator"><a href="classe.php?id=<?php echo $_REQUEST['id'] ?>&show=orario&desc=<?php echo $_REQUEST['desc'] ?>&tp=<?php echo $_REQUEST['tp'] ?>"><img src="../../images/70.png" style="margin-right: 10px; position: relative; top: 5%" />Orario delle lezioni</a></div>
+		<div class="drawer_link"><a href="index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="profile.php"><img src="../../images/33.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
+		<div class="drawer_link"><a href="../../modules/documents/load_module.php?module=docs&area=<?php echo $_SESSION['__area__'] ?>"><img src="../../images/11.png" style="margin-right: 10px; position: relative; top: 5%" />Documenti</a></div>
+		<?php if(is_installed("com")){ ?>
+			<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=<?php echo $_SESSION['__area__'] ?>"><img src="../../images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
+		<?php } ?>
+		<?php if ($_SESSION['__role__'] == "Dirigente scolastico"): ?>
+			<div class="drawer_link"><a href="utility.php"><img src="../../images/59.png" style="margin-right: 10px; position: relative; top: 5%" />Utility</a></div>
+		<?php endif; ?>
+	</div>
+	<?php if (isset($_SESSION['__sudoer__'])): ?>
+		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
+	<?php endif; ?>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

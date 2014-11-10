@@ -1,85 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Verifica registro di classe</title>
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script>
-$(function(){
-	$('#imglink').click(function(event){
-		event.preventDefault();
-		show_menu('imglink');
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Verifica registro di classe</title>
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script>
+	$(function(){
+		load_jalert();
+		setOverlayEvent();
+		$('#menu_div').mouseleave(function(event){
+			event.preventDefault();
+	        $('#menu_div').slideToggle();
+	    });
+		$('.show_abs').click(function(event){
+			data = $(this).attr("data-id");
+			show_absents(data);
+			//$('#abs_'+data[1]).slideToggle(600);
+		});
 	});
-	$('#menu_div').mouseleave(function(event){
-		event.preventDefault();
-        $('#menu_div').slideToggle();
-    });
-	$('.show_abs').click(function(event){
-		data = this.id.split("_");
-		show_absents(data[1]);
-		//$('#abs_'+data[1]).slideToggle(600);
-	});
-});
 
-var show_menu = function(el) {
-	if($('#menu_div').css("display") == "none") {
-	    position = $("#"+el).position();
-	    //dimensions = $('#'+el).getDimensions();
-	    ftop = position['top'] + $('#'+el).height();
-	    fleft = position['left'] - 180 + $('#'+el).width();
-	    console.log("top: "+ftop+"\nleft: "+fleft);
-	    $('#menu_div').css({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
-	    $('#menu_div').slideToggle(600);
+	var show_absents = function(id_reg){
+		$.ajax({
+			type: "POST",
+			url: "../../lib/ws/get_absents.php",
+			data: {id_reg: id_reg},
+			dataType: 'json',
+			error: function() {
+				alert("Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					alert(json.message);
+					console.log(json.dbg_message);
+				}
+				else {
+					data = json.data.split(";");
+					string = data.join(", ");
+					$('#abs_'+id_reg).html("Assenti: "+string);
+					$('#abs_'+id_reg).slideToggle(600);
+				}
+			}
+		});
+	};
+
+	</script>
+	<style type="text/css">
+	<!--
+	td a {
+		text-decoration: none;
 	}
-	else {
-		$('#menu_div').slideUp();
-	}
-};
-
-var show_absents = function(id_reg){
-	$.ajax({
-		type: "POST",
-		url: "../../lib/ws/get_absents.php",
-		data: {id_reg: id_reg},
-		dataType: 'json',
-		error: function() {
-			alert("Errore di trasmissione dei dati");
-		},
-		succes: function() {
-			
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else {
-				data = json.data.split(";");
-				string = data.join(", ");
-				$('#abs_'+id_reg).html("Assenti: "+string);
-				$('#abs_'+id_reg).slideToggle(600);
-			}
-		}
-	});
-};
-
-</script>
-<style type="text/css">
-<!--
-td a {
-	text-decoration: none;
-}
--->
-</style>
+	-->
+	</style>
 </head>
 <body>
 <?php include "header.php" ?>
@@ -89,12 +73,6 @@ td a {
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<div class="group_head">
-		Verifica registro di classe
-		<a href="../../shared/no_js.php" id="imglink" style="float: right">
-            <img src="../../images/19.png" id="ctx_img" style="margin: 0 0 4px 0; opacity: 0.5; vertical-align: bottom" />
-       	</a>
-	</div>
 <?php
 $current = $start;
 while($current < $max){
@@ -104,7 +82,7 @@ while($current < $max){
 	$giorno = ucfirst(substr($giorno_str, 0, 3))." ". format_date($lday['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
 ?>
 <div style="text-align: left; width: 95%; margin-left: auto; margin-right: auto; margin-bottom: 15px; ">
-<p id="lnk_<?php echo $lday['id_reg'] ?>" class="show_abs" style="text-align: center; font-weight: bold; border: 1px solid rgba(30, 67, 137, .5);; outline-style: double; outline-color: rgba(30, 67, 137, .5);; background-color: rgba(30, 67, 137, .2);; height: 15px"><?php print $giorno ?></p>
+<p id="lnk_<?php echo $lday['id_reg'] ?>" data-id="<?php echo $lday['id_reg'] ?>" class="show_abs" style="text-align: center; font-weight: bold; height: 15px"><?php print $giorno ?></p>
 <div id="abs_<?php echo $lday['id_reg'] ?>" style="text-align: left; width: 100%; margin-left: auto; margin-right: auto; display: none "></div>
 <?php
 	if ($lday){
@@ -126,7 +104,7 @@ while($current < $max){
 if (isset($_GET['view']) && $_GET['view'] == "m"){ 
 	for ($z = 0; $z <= $max_m; $z++){		
 ?>
-	<a href="lezioni.php?view=m&m=<?php echo $num_mesi_scuola[$z]; if ($_GET['sub']) echo "&f=sub&sub=".$_GET['sub'] ?>" style="margin: 0 5px 0 5px; text-decoration: none"><?php echo $mesi_scuola[$z] ?></a>
+	<a href="registro_classe.php?idc=<?php echo $class ?>&view=m&m=<?php echo $num_mesi_scuola[$z]; if (isset($_GET['sub']) && $_GET['sub']) echo "&f=sub&sub=".$_GET['sub'] ?>" style="margin: 0 5px 0 5px; text-decoration: none"><?php echo $mesi_scuola[$z] ?></a>
 	<?php if ($z < $max_m){ ?>|<?php } ?>
 <?php 
 	}
@@ -146,5 +124,24 @@ else{ ?>
 	<a href="registro_classe.php&idc=<?php echo $class ?>" style="padding-left: 10px; line-height: 16px">Vista normale</a><br /><br />
 </div>
 <?php include "footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="registro_classe.php?view=m&m=current&idc=<?php echo $class ?>"><img src="../../images/70.png" style="margin-right: 10px; position: relative; top: 5%" />Vista mensile</a></div>
+		<div class="drawer_link separator"><a href="registro_classe.php?idc=<?php echo $class ?>"><img src="../../images/47.png" style="margin-right: 10px; position: relative; top: 5%" />Vista normale</a></div>
+		<div class="drawer_link"><a href="index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="profile.php"><img src="../../images/33.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
+		<div class="drawer_link"><a href="../../modules/documents/load_module.php?module=docs&area=<?php echo $_SESSION['__area__'] ?>"><img src="../../images/11.png" style="margin-right: 10px; position: relative; top: 5%" />Documenti</a></div>
+		<?php if(is_installed("com")){ ?>
+			<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=<?php echo $_SESSION['__area__'] ?>"><img src="../../images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
+		<?php } ?>
+		<?php if ($_SESSION['__role__'] == "Dirigente scolastico"): ?>
+			<div class="drawer_link"><a href="utility.php"><img src="../../images/59.png" style="margin-right: 10px; position: relative; top: 5%" />Utility</a></div>
+		<?php endif; ?>
+	</div>
+	<?php if (isset($_SESSION['__sudoer__'])): ?>
+		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
+	<?php endif; ?>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

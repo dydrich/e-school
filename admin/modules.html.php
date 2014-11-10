@@ -45,6 +45,7 @@
 
 	$(function(){
 		load_jalert();
+		setOverlayEvent();
 	});
 	</script>
 <title>Modifica moduli installati</title>
@@ -57,16 +58,15 @@
 		<?php include "dev_menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Modifica moduli installati</div>
     <form class="no_border">
         <table class="admin_table">
         	<thead>
             </thead>
             <tbody>
-            <tr>
-            	<td style="width: 50%" class="adm_titolo_elenco_first">Modulo</td>
-            	<td style="width: 30%" class="adm_titolo_elenco">Tipo</td>
-            	<td style="width: 20%; text-align: center" class="adm_titolo_elenco_last">Installato</td>
+            <tr class="accent_decoration _bold">
+            	<td style="width: 50%">Modulo</td>
+            	<td style="width: 30%">Tipo</td>
+            	<td style="width: 20%; text-align: center">Installato</td>
             </tr>
             <tr class="admin_void">
                 <td colspan="3"></td>
@@ -76,9 +76,9 @@
             while($mod = $res_modules->fetch_assoc()){
             ?>
             <tr class="admin_row" style="height: 20px; vertical-align: middle">
-            	<td style="width: 50%"><?= $mod['name'] ?></td>
-            	<td style="width: 30%"><?= $mod['tipo'] ?></td>
-            	<td style="width: 20%; text-align: center"><input type="checkbox" id="<?= $mod['code_name'] ?>" name="<?= $mod['code_name'] ?>" <?php if($mod['active'] == 1) print "checked" ?> onclick="upd_modulo(this)" /></td>
+            	<td style="width: 50%"><?php echo $mod['name'] ?></td>
+            	<td style="width: 30%"><?php echo $mod['tipo'] ?></td>
+            	<td style="width: 20%; text-align: center"><input type="checkbox" id="<?php echo $mod['code_name'] ?>" name="<?php echo $mod['code_name'] ?>" <?php if($mod['active'] == 1) print "checked" ?> onclick="upd_modulo(this)" /></td>
             </tr>
             <?php 
             	$x++;
@@ -99,5 +99,13 @@
 	<p class="spacer"></p>
 	</div>
 <?php include "footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../index.php"><img src="../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="index.php"><img src="../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../shared/do_logout.php"><img src="../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

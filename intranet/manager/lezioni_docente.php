@@ -15,11 +15,8 @@ check_permission(DIR_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
-
 $ordine_scuola = $_SESSION['__school_order__'];
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
-$navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level__'][$ordine_scuola]);
 $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
@@ -96,6 +93,15 @@ if ($start_subj == null && isset($_REQUEST['mat'])) {
 	$start_subj = $_REQUEST['mat'];
 }
 
-$page_label = "Elenco lezioni del docente {$teacher_name}, classe {$class_name} ";
+$navigation_label = "";
+switch($_SESSION['__school_order__']) {
+	case 1:
+		$navigation_label .= "scuola secondaria";
+		break;
+	case 2:
+		$navigation_label .= "scuola primaria";
+		break;
+}
+$drawer_label = "Elenco lezioni del docente {$teacher_name}, classe {$class_name} ";
 
 include "lezioni_docente.html.php";

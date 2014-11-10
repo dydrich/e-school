@@ -2,8 +2,6 @@
 
 require_once "../../lib/start.php";
 require_once "../../lib/ArrayMultiSort.php";
-require_once "../../lib/Widget.php";
-require_once "../../lib/PageMenu.php";
 
 check_session();
 check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
@@ -45,7 +43,7 @@ $query = "";
 $parents = array();
 $uids = array();
 //if(!isset($_REQUEST['sel'])) {
-	$sel_user = "SELECT rb_utenti.uid, CONCAT_WS(' ', rb_utenti.cognome, rb_utenti.nome) AS nome, CONCAT_WS(' ', rb_alunni.cognome, rb_alunni.nome) AS al_name, CONCAT({$classes_table}.anno_corso, {$classes_table}.sezione) AS desc_classe, codice, rb_sedi.nome AS sede FROM rb_utenti, rb_alunni, rb_genitori_figli, {$classes_table}, rb_gruppi_utente, rb_sedi, rb_tipologia_scuola WHERE {$classes_table}.id_classe = rb_alunni.id_classe AND sede = id_sede AND {$classes_table}.ordine_di_scuola = id_tipo AND rb_utenti.uid = rb_gruppi_utente.uid AND gid = 4 ".$params." AND rb_alunni.id_alunno = rb_genitori_figli.id_alunno AND rb_genitori_figli.id_genitore = rb_utenti.uid AND rb_alunni.attivo = 1 ";
+	$sel_user = "SELECT rb_utenti.uid, rb_utenti.username, CONCAT_WS(' ', rb_utenti.cognome, rb_utenti.nome) AS nome, CONCAT_WS(' ', rb_alunni.cognome, rb_alunni.nome) AS al_name, CONCAT({$classes_table}.anno_corso, {$classes_table}.sezione) AS desc_classe, codice, rb_sedi.nome AS sede FROM rb_utenti, rb_alunni, rb_genitori_figli, {$classes_table}, rb_gruppi_utente, rb_sedi, rb_tipologia_scuola WHERE {$classes_table}.id_classe = rb_alunni.id_classe AND sede = id_sede AND {$classes_table}.ordine_di_scuola = id_tipo AND rb_utenti.uid = rb_gruppi_utente.uid AND gid = 4 ".$params." AND rb_alunni.id_alunno = rb_genitori_figli.id_alunno AND rb_genitori_figli.id_genitore = rb_utenti.uid AND rb_alunni.attivo = 1 ";
 	try{
 		$res_user = $db->executeQuery($sel_user);
 	} catch (MySQLException $ex){
@@ -70,22 +68,6 @@ $msarray = new ArrayMultiSort($parents);
 $msarray->setSortFields($order);
 $msarray->sort();
 $ordered_parents = $msarray->getData();
-
-/*
- * PageMenu widget
- */
-$page_menu = new PageMenu("cmenu", "page_menu", "height: 150px; width: 180px; display: none", "div");
-$html =  <<<EOT
-<br /><p style="line-height: 5px"><a href="genitori.php?order=desc_classe&school_order={$_GET['school_order']}" style="padding: 0px 0 0 5px; margin: 5px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per classe</a></p>
-<p style="line-height: 5px"><a href="genitori.php?school_order={$_GET['school_order']}" style="padding: 0px 0 0 5px; margin: 5px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per nome</a></p>
-<p style="line-height: 5px"><a href="genitori.php?order=al_name&school_order={$_GET['school_order']}" style="padding: 0px 0 0 5px; margin: 5px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per nome alunno</a></p>
-<p style="line-height: 5px"><a href="genitori.php?sel=no_st&school_order={$_GET['school_order']}" style="padding: 0px 0 0 5px; margin: 5px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Genitori senza alunni</a></p>
-<p style="line-height: 15px"><a href="dettaglio_genitore.php?id=0&school_order={$_GET['school_order']}" style="padding: 0px 0 0 5px; margin: 5px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Nuovo genitore</a></p>
-EOT;
-$page_menu->setInnerHTML($html);
-$page_menu->setPathToRoot($_SESSION['__path_to_root__']);
-$page_menu->createLink();
-$page_menu->setJavascript('', 'jquery');
 
 /*
 if(isset($_REQUEST['classe'])){
@@ -163,6 +145,7 @@ if(isset($_GET['school_order'])){
 $first = $offset + 1;
 $last = (($offset + ($limit)) > $_SESSION['count_parents']) ? $_SESSION['count_parents'] : $offset + ($limit);
 
-$navigation_label = "Area amministrazione: gestione genitori";
+$navigation_label = "gestione utenti";
+$drawer_label = "Elenco genitori: estratti ".$_SESSION['count_parents']." (".$first." - ".$last.")";
 
 include "genitori.html.php";

@@ -8,12 +8,12 @@ ini_set("display_errors", DISPLAY_ERRORS);
 check_session();
 check_permission(DIR_PERM);
 
-$_SESSION['__path_to_root__'] = "../../../";
-$_SESSION['__path_to_reg_home__'] = "../";
+$_SESSION['__path_to_root__'] = "../../";
+$_SESSION['__path_to_reg_home__'] = "./";
 
 $ordine_scuola = $_SESSION['__school_order__'];
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
-$navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level__'][$ordine_scuola]);
+$navigation_label = setNavigationLabel($ordine_scuola);
 $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
@@ -49,12 +49,12 @@ switch($q){
 	case 1:
 		$int_time = "AND data_voto <= '".$fine_q."'";
 		$scr_par = "AND quadrimestre = {$q}";
-		$label .= "- primo quadrimestre";
+		$label .= " primo quadrimestre";
 		break;
 	case 2:
 		$int_time = "AND (data_voto > '".$fine_q."' AND data_voto <= NOW()) ";
 		$scr_par = "AND quadrimestre = {$q}";
-		$label .= "- secondo quadrimestre";
+		$label .= " secondo quadrimestre";
 }
 
 $alunni = array();
@@ -78,24 +78,33 @@ try{
 $idalunno = 0;
 $sum = 0;
 $materie = 0;
-while ($r = $res_voti->fetch_assoc()){
-	if ($idalunno != $r['alunno']){
-		if ($idalunno != 0){
-			// copia dati alunno precedente
-			$val = $sum / $materie;
-			$alunni[$idalunno]['media'] = round($val, 2);
+if ($res_voti->num_rows > 0) {
+	while ($r = $res_voti->fetch_assoc()) {
+		if ($idalunno != $r['alunno']) {
+			if ($idalunno != 0) {
+				// copia dati alunno precedente
+				$val = $sum / $materie;
+				$alunni[$idalunno]['media'] = round($val, 2);
+			}
+			$idalunno = 0;
+			$sum = 0;
+			$materie = 0;
 		}
-		$idalunno = 0;
-		$sum = 0;
-		$materie = 0;
+		if (isset($alunni[$r['alunno']])) {
+			$alunni[$r['alunno']]['voti'][$r['materia']] = $r['voto'];
+		}
+		$idalunno = $r['alunno'];
+		$materie++;
+		$sum += $r['voto'];
 	}
-	$alunni[$r['alunno']]['voti'][$r['materia']] = $r['voto'];
-	$idalunno = $r['alunno'];
-	$materie++;
-	$sum += $r['voto'];
+
+	$val = 0;
+	if ($materie > 0) {
+		$val = $sum / $materie;
+	}
+	$alunni[$idalunno]['media'] = round($val, 2);
 }
-$val = $sum / $materie;
-$alunni[$idalunno]['media'] = round($val, 2);
+//print_r($alunni);
 
 $sel_cls = "SELECT musicale FROM rb_classi WHERE id_classe = ".$_SESSION['__classe__']->get_ID();
 $musicale = $db->executeCount($sel_cls);
@@ -142,6 +151,6 @@ $num_materie = $res_materie->num_rows;
 $num_colonne += $num_materie;
 $column_width = intval($available_space / ($num_colonne - 1));
 
-$navigation_label = "Registro elettronico - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Riepilogo medie generali ". $label ." classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 
 include "medie_classe.html.php";

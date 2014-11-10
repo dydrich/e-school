@@ -28,8 +28,8 @@ $data = null;
 if($_REQUEST['do'] == "insert" || $_REQUEST['do'] == "update" ){
 	$data = array();
 
-	list($date_from, $time_from) = explode(" ", $_REQUEST['date_time']);
-	$date_from = format_date($date_from, IT_DATE_STYLE, SQL_DATE_STYLE, "-")." ".$time_from;
+	$date_from = $_REQUEST['date_time'];
+	$date_from = format_date($date_from, IT_DATE_STYLE, SQL_DATE_STYLE, "-")." 00:00:00";
 	$teacher = $_SESSION['__user__']->getUid();
 	$year = $_SESSION['__current_year__']->get_ID();
 	$subj = $_SESSION['__materia__'];
@@ -60,6 +60,8 @@ switch($_REQUEST['do']){
 			$test = new \eschool\Test(0, new MySQLDataLoader($db), $data, false);
 			$response['id'] = $test->save();
 			$response['date'] = $test->testDateToString();
+			setlocale(LC_TIME, "it_IT.utf8");
+			$response['date_string'] = $giorno_str = strftime("%A %d %B", strtotime($date_from));
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
 			$response['status'] = "kosql";

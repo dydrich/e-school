@@ -192,5 +192,3 @@ $pdf->pageBody($presence, $totali, $label);
 
 //Close and output PDF document
 $pdf->Output('stats.pdf', 'D');
-
-?>

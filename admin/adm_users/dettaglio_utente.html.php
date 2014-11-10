@@ -55,6 +55,7 @@
 
 	$(function(){
 		load_jalert();
+		setOverlayEvent();
 		$('.form_input').focus(function(event){
 			$(this).css({outline: '1px solid blue'});
 		});
@@ -86,10 +87,9 @@
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Dettaglio utente</div>
-	    <form action="users_manager.php" method="post" id="user_form" class="popup_form" style="width: 90%">
+		<form action="users_manager.php" method="post" id="user_form" class="popup_form no_border" style="width: 90%">
 	    <div style="text-align: left; width: 100%; margin: auto; ">
-	    <fieldset style="background: #f4f4f4; margin-right: auto; margin-left: auto; margin-bottom: 20px; padding-bottom: 20px; width: 95%; border: 1px solid #BBB; padding-top: 10px; <?php if(isset($_GET['id']) && $_GET['id'] != 0) print('display: none') ?>">
+	    <fieldset style="margin-right: auto; margin-left: auto; margin-bottom: 20px; padding-bottom: 20px; width: 95%; padding-top: 10px; <?php if(isset($_GET['id']) && $_GET['id'] != 0) print('display: none') ?>">
 	    <legend>Account</legend>
 	    <table style="margin: auto; width: 95%">
 	        <tr class="popup_row header_row">
@@ -112,8 +112,8 @@
 	        </tr>
 	    </table>
 	    </fieldset>
-	    <fieldset style="background: #f4f4f4; width: 95%; border: 1px solid #BBB; padding-top: 10px; margin: auto; padding-bottom: 20px; ">
-	    <legend>Dati personali</legend>
+	    <fieldset style="width: 95%; padding-top: 10px; margin: auto; padding-bottom: 20px; ">
+	    <legend>Dati anagrafici</legend>
 	    <table style="width: 95%; margin: auto">
 	        <tr class="popup_row header_row">
 	            <td style="width: 30%"><label for="nome" class="popup_title">Nome</label></td>
@@ -129,7 +129,7 @@
 	        </tr>
 	    </table>
 	    </fieldset>
-	    <fieldset style="background: #f4f4f4; margin-right: auto; margin-left: auto; width: 95%; border: 1px solid #BBB; padding-top: 20px; padding-bottom: 20px; margin-bottom: 30px; margin-top: 20px">
+	    <fieldset style="margin-right: auto; margin-left: auto; width: 95%; padding-top: 20px; padding-bottom: 20px; margin-bottom: 30px; margin-top: 20px">
 	    <legend style="">Gruppi</legend>
 	    <table style="width: 95%">
 	        <tr class="popup_row header_row _center">
@@ -167,5 +167,13 @@
 	<p class="spacer"></p>
 </div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

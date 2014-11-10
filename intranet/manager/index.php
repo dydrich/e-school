@@ -27,6 +27,7 @@ if (isset($_GET['role'])){
 	
 }
 
-$navigation_label = "Registro elettronico: area ".$_SESSION['__role__'];
+$navigation_label = "";
+$drawer_label = "Home page";
 
 include "index.html.php";

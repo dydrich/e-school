@@ -13,8 +13,7 @@ $_SESSION['__path_to_mod_home__'] = "./";
 if(!isset($_REQUEST['from']))
 	$from = "";
 
-$navigation_label = "Registro elettronico genitori: alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
+$navigation_label = "area privata";
+$drawer_label = "Modifica password";
 
 include "change_password.html.php";
-
-?>

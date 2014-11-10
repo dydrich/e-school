@@ -1,109 +1,112 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script>
-var _class = <?php echo $start_cls ?>;
-var mat = <?php if (count($id_materie) == 1) echo $id_materie[0]; else echo 0; ?>;
-$(function() {
-    $(".tab").click(function(){
-		data = this.id.split("_");
-		$(".table_tab").hide();
-		$(".tab").removeClass("selected");
-		$("#tab_"+data[1]).show(400);
-		$(this).addClass("selected");
-		_class = data[1];
-    });
-    $(".snotes").click(function(event){
-		event.preventDefault();
-		std = this.dataset.std;
-		doc = this.dataset.doc;
-		show_notes(std, doc, <?php echo $q ?>);
-    });
-    $(".sgrade").click(function(event){
-		event.preventDefault();
-		std = this.dataset.std;
-		doc = this.dataset.doc;
-		subj = this.dataset.subject;
-		show_grades(std, doc, <?php echo $q ?>, subj);
-    });
-    $("#load_lss").click(function(event){
-		event.preventDefault();
-		load_lessons(<?php echo $doc ?>);
-    });
-});
-
-var show_notes = function(std, doc, q){
-	$('#dialog').load("show_didactic_notes.php?std="+std+"&doc="+doc+"&q="+q, function(){
-		$(this).dialog({
-			autoOpen: true,
-			show: {
-				effect: "appear",
-				duration: 500
-			},
-			hide: {
-				effect: "slide",
-				duration: 300
-			},
-			buttons: [{
-				text: "Chiudi",
-				click: function() { 
-					$( this ).dialog( "close" ); 
-				}
-			}],
-			modal: true,
-			width: 550,
-			title: 'Elenco note didattiche',
-			open: function(event, ui){
-				
-			}
-		});
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script>
+	var _class = <?php echo $start_cls ?>;
+	var mat = <?php if (count($id_materie) == 1) echo $id_materie[0]; else echo 0; ?>;
+	$(function() {
+		load_jalert();
+		setOverlayEvent();
+	    $(".mdtab").click(function(){
+			data = $(this).attr("data-id");
+			$(".table_tab").hide();
+			$(".mdtab").removeClass("mdselected_tab");
+			$("#tab_"+data).show(400);
+			$(this).addClass("mdselected_tab");
+			_class = data;
+	    });
+	    $(".snotes").click(function(event){
+			event.preventDefault();
+			std = this.dataset.std;
+			doc = this.dataset.doc;
+			show_notes(std, doc, <?php echo $q ?>);
+	    });
+	    $(".sgrade").click(function(event){
+			event.preventDefault();
+			std = this.dataset.std;
+			doc = this.dataset.doc;
+			subj = this.dataset.subject;
+			show_grades(std, doc, <?php echo $q ?>, subj);
+	    });
+	    $("#load_lss").click(function(event){
+			event.preventDefault();
+			load_lessons(<?php echo $doc ?>);
+	    });
 	});
-};
 
-var show_grades = function(std, doc, q, subj){
-	$('#grades').load("show_grades.php?std="+std+"&doc="+doc+"&q="+q+"&subj="+subj, function(){
-		$(this).dialog({
-			autoOpen: true,
-			show: {
-				effect: "appear",
-				duration: 500
-			},
-			hide: {
-				effect: "slide",
-				duration: 300
-			},
-			buttons: [{
-				text: "Chiudi",
-				click: function() { 
-					$( this ).dialog( "close" ); 
+	var show_notes = function(std, doc, q){
+		$('#dialog').load("show_didactic_notes.php?std="+std+"&doc="+doc+"&q="+q, function(){
+			$(this).dialog({
+				autoOpen: true,
+				show: {
+					effect: "fade",
+					duration: 500
+				},
+				hide: {
+					effect: "fade",
+					duration: 300
+				},
+				buttons: [{
+					text: "Chiudi",
+					click: function() {
+						$( this ).dialog( "close" );
+					}
+				}],
+				modal: true,
+				width: 550,
+				title: 'Elenco note didattiche',
+				open: function(event, ui){
+
 				}
-			}],
-			modal: true,
-			width: 550,
-			title: 'Elenco voti',
-			open: function(event, ui){
-				
-			}
+			});
 		});
-	});
-};
+	};
 
-var load_lessons = function(doc){
-	url = "lezioni_docente.php?doc="+doc+"&cls="+_class;
-	if (mat != 0) {
-		url += "&mat="+mat;
-	}
-	document.location.href = url;
-};
+	var show_grades = function(std, doc, q, subj){
+		$('#grades').load("show_grades.php?std="+std+"&doc="+doc+"&q="+q+"&subj="+subj, function(){
+			$(this).dialog({
+				autoOpen: true,
+				show: {
+					effect: "fade",
+					duration: 500
+				},
+				hide: {
+					effect: "fade",
+					duration: 300
+				},
+				buttons: [{
+					text: "Chiudi",
+					click: function() {
+						$( this ).dialog( "close" );
+					}
+				}],
+				modal: true,
+				width: 550,
+				title: 'Elenco voti',
+				open: function(event, ui){
 
-</script>
+				}
+			});
+		});
+	};
+
+	var load_lessons = function(doc){
+		url = "lezioni_docente.php?doc="+doc+"&cls="+_class;
+		if (mat != 0) {
+			url += "&mat="+mat;
+		}
+		document.location.href = url;
+	};
+
+	</script>
 </head>
 <body>
 <?php include "header.php" ?>
@@ -113,18 +116,16 @@ var load_lessons = function(doc){
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<div class="group_head">
-		Registro personale del docente <?php echo $docente['nome']." ".$docente['cognome'] ?>
-	</div>
-	<div id="tabs" style="">
+	<div class="mdtabs">
 <?php
 foreach ($classi as $k => $cl){
 ?>
-		<div id="stab_<?php echo $k ?>" class="tab <?php if ($cls == $k) echo "selected" ?>"><?php echo $cl['desc'] ?></div>
+		<div class="mdtab<?php if ($cls == $k) echo " mdselected_tab" ?>" data-id="<?php echo $k ?>">
+			<a href="#"><span><?php echo $cl['desc'] ?></span></a>
+		</div>
 <?php 
 }
 ?>
-        <div id="lessons" class="fright" style="margin-top: 5px"><a href="#" id="load_lss" class="standard_link" style="margin-right: 10px">Lezioni docente</a></div>
 	</div>
 <?php
 reset($classi);
@@ -193,8 +194,8 @@ foreach ($classi as $k => $classe){
 	<?php 
 	}
 	?>
-		<tr class="list_row_menu">
-			<td class="_bold" style="padding-left: 8px">Totale classe</td>
+		<tr class="bottom_decoration">
+			<td class="_bold" style="padding-left: 8px; height: 30px; vertical-align: middle">Totale classe</td>
 			<?php 
 			$mat = array();
 			foreach ($classe['materie'] as $j => $materia) {
@@ -216,6 +217,24 @@ foreach ($classi as $k => $classe){
 </div>
 <p class="spacer"></p>		
 </div>
-<?php include "footer.php" ?>	
+<?php include "footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link separator"><a href="#" id="load_lss"><img src="../../images/62.png" style="margin-right: 10px; position: relative; top: 5%" />Lezioni docente</a></div>
+		<div class="drawer_link"><a href="index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="profile.php"><img src="../../images/33.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
+		<div class="drawer_link"><a href="../../modules/documents/load_module.php?module=docs&area=<?php echo $_SESSION['__area__'] ?>"><img src="../../images/11.png" style="margin-right: 10px; position: relative; top: 5%" />Documenti</a></div>
+		<?php if(is_installed("com")){ ?>
+			<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=<?php echo $_SESSION['__area__'] ?>"><img src="../../images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
+		<?php } ?>
+		<?php if ($_SESSION['__role__'] == "Dirigente scolastico"): ?>
+			<div class="drawer_link"><a href="utility.php"><img src="../../images/59.png" style="margin-right: 10px; position: relative; top: 5%" />Utility</a></div>
+		<?php endif; ?>
+	</div>
+	<?php if (isset($_SESSION['__sudoer__'])): ?>
+		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
+	<?php endif; ?>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

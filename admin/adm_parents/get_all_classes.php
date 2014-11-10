@@ -8,9 +8,6 @@
  */
 
 require_once "../../lib/start.php";
-require_once "../../lib/ArrayMultiSort.php";
-require_once "../../lib/Widget.php";
-require_once "../../lib/PageMenu.php";
 
 check_session();
 check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);

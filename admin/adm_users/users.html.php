@@ -46,6 +46,7 @@
 		};
 
 		var filter = function(){
+			$('#drawer').hide();
 			$('#listfilter').dialog({
 				autoOpen: true,
 				show: {
@@ -62,6 +63,9 @@
 				title: 'Filtra elenco',
 				open: function(event, ui){
 
+				},
+				close: function(event) {
+					$('#overlay').hide();
 				}
 			});
 		};
@@ -73,21 +77,10 @@
 			document.location.href = url;
 		};
 
-		<?php echo $page_menu->getJavascript() ?>
-
 		$(function(){
 			load_jalert();
-			$('table tbody > tr').mouseover(function(event){
-					//alert(this.id);
-					var strs = this.id.split("_");
-					$('#link_'+strs[1]).show();
-			});
-			$('table tbody > tr').mouseout(function(event){
-					//alert(this.id);
-					var strs = this.id.split("_");
-					$('#link_'+strs[1]).hide();
-			});
-			$('table tbody a.del_link').click(function(event){
+			setOverlayEvent();
+			$('a.del_link').click(function(event){
 				event.preventDefault();
 				var strs = this.parentNode.id.split("_");
 				del_user(strs[1]);
@@ -112,70 +105,65 @@
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head"><div style="float: left"><?php $page_menu->printLink() ?></div>Elenco Utenti: pagina <?php print $page ?> di <?php print $pagine ?></div>
-		<?php $page_menu->toHTML() ?>
-		<table class="admin_table">
-        <thead>
-            <tr>
-                <td style="width: 40%" class="adm_titolo_elenco_first">Nome e cognome</td>
-                <td style="width: 20%" class="adm_titolo_elenco">Username</td>
-                <td style="width: 40%" class="adm_titolo_elenco_last _center">Gruppi</td>
-            </tr>
-            <tr class="admin_row_before_text">
-                <td colspan="3"></td>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $x = 1;
-            if($res_user->num_rows > $limit)
-                $max = $limit;
-            else
-                $max = $res_user->num_rows;
+		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
+			<a href="dettaglio_utente.php?id=0">
+				<img src="../../images/39.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
+		<div class="card_container" style="margin-top: 20px">
+        <?php
+        $x = 1;
+        if($res_user->num_rows > $limit)
+            $max = $limit;
+        else
+            $max = $res_user->num_rows;
 
-            while($user = $res_user->fetch_assoc()){
-                if($x > $limit) break;
-                // estraggo i gruppi di appartenenza
-                $sel_gruppi = "SELECT rb_gruppi.gid, nome, codice FROM rb_gruppi, rb_gruppi_utente WHERE rb_gruppi.gid = rb_gruppi_utente.gid AND rb_gruppi_utente.uid = {$user['uid']}";
-                $res_gruppi = $db->execute($sel_gruppi);
-                $gruppi = "";
-                while($g = $res_gruppi->fetch_assoc()){
-                    $gruppi .= $g['nome'].", ";
-                }
-                $gruppi = substr($gruppi, 0, ($gruppi - 2));
-            ?>
-            <tr class="admin_row" id="row_<?php echo $user['uid'] ?>">
-                <td style="padding-left: 10px; ">
-                	<span class="ov_red" style="font-weight: bold"><?php echo $user['cognome']." ".$user['nome'] ?></span>
-                	<div id="link_<?php echo $user['uid'] ?>" style="display: none">
-                	<a href="dettaglio_utente.php?id=<?php echo $user['uid'] ?>&offset=<?php echo $offset ?>" class="mod_link">Modifica</a>
-                	<span style="margin-left: 5px; margin-right: 5px">|</span>
-                	<a href="users_manager.php?action=2&id=<?php echo $user['uid'] ?>" class="del_link">Cancella</a>
-                	</div>
-                </td>
-                <td><?php echo $user['username'] ?></td>
-                <td class="_center"><?php echo $gruppi ?></td>
-            </tr>
-            <?php
-                $x++;
+        while($user = $res_user->fetch_assoc()){
+            if($x > $limit) break;
+            // estraggo i gruppi di appartenenza
+            $sel_gruppi = "SELECT rb_gruppi.gid, nome, codice FROM rb_gruppi, rb_gruppi_utente WHERE rb_gruppi.gid = rb_gruppi_utente.gid AND rb_gruppi_utente.uid = {$user['uid']}";
+            $res_gruppi = $db->execute($sel_gruppi);
+            $gruppi = "";
+            while($g = $res_gruppi->fetch_assoc()){
+                $gruppi .= $g['nome'].", ";
             }
-            ?>
-            </tbody>
-            <tfoot>
-            <?php 
-            include "../../shared/navigate.php";
-            ?>
-            <tr class="admin_menu">
-                <td colspan="3">
-                	<a href="dettaglio_utente.php?id=0" id="add" class="standard_link nav_link">Nuovo utente</a>
-                </td>
-            </tr>
-        </tfoot>
-        </table>
-        </div>
-        <p class="spacer"></p>
-	</div>
+            $gruppi = substr($gruppi, 0, ($gruppi - 2));
+        ?>
+	        <div class="card" id="row_<?php echo $user['uid'] ?>">
+		        <div class="card_title">
+			        <a href="dettaglio_utente.php?id=<?php echo $user['uid'] ?>&offset=<?php echo $offset ?>" class="mod_link"><?php echo $user['cognome']." ".$user['nome'] ?></a>
+			        <div style="float: right; margin-right: 20px" id="del_<?php echo $user['uid'] ?>">
+				        <a href="users_manager.php?action=2&id=<?php echo $user['uid'] ?>" class="del_link">
+					        <img src="../../images/51.png" style="position: relative; bottom: 2px" />
+				        </a>
+			        </div>
+			        <div style="float: right; margin-right: 220px; text-align: left; width: 100px; text-transform: none" class="normal"><?php echo $user['username'] ?></div>
+		        </div>
+		        <div class="card_minicontent">
+			        Gruppi: <?php echo $gruppi ?>
+		        </div>
+	        </div>
+        <?php
+            $x++;
+        }
+        ?>
+        <?php
+        include "../../shared/navigate.php";
+        ?>
+		</div>
+    </div>
+    <p class="spacer"></p>
+</div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link separator"><a href="#" id="filter_button"><img src="../../images/69.png" style="margin-right: 10px; position: relative; top: 5%" />Filtra elenco</a></div>
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 <div id="listfilter" style="display: none; width: 450px">
 	<form action="#" method="post">
 		<fieldset style="width: 350px; border: 1px solid #BBB; margin-top: 15px; margin-left: auto; margin-right: auto">

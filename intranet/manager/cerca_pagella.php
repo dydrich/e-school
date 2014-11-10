@@ -8,7 +8,7 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 $school = $_SESSION['__school_level__'][$_SESSION['__school_order__']];
 
@@ -38,5 +38,7 @@ try{
 } catch(MySQLException $ex){
 	$ex->redirect();
 }
+
+$drawer_label = "Ricerca pagella";
 
 include "cerca_pagella.html.php";

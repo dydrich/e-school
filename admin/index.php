@@ -91,11 +91,13 @@ $step = isset($_SESSION['wiz_step']) ? $_SESSION['wiz_step'] : 1;
 * first install wizard
 */
 $wizard = 0;
-if(basename($_SERVER['HTTP_REFERER']) == "wiz_first_install.php?step=3"){
+if(isset($_SERVER['HTTP_REFERER']) && basename($_SERVER['HTTP_REFERER']) == "wiz_first_install.php?step=3"){
 	$wizard = 3;
 }
 
-$navigation_label = "Area amministrazione";
+$navigation_label = "gestione scuola";
+$drawer_label = "Amministrazione software";
+
 $_SESSION['__path_to_root__'] = "../";
 $_SESSION['__path_to_reg_home__'] = "./";
 $_SESSION['__area__'] = "admin";

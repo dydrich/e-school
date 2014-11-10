@@ -27,12 +27,27 @@ $response = array("status" => "ok", "message" => "Operazione completata");
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
+$fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 
 $docente = $_SESSION['__user__']->getUid();
 $anno = $_SESSION['__current_year__']->get_ID();
 $materia = $_SESSION['__materia__'];
-if (isset($_REQUEST['q'])) {
+if(isset($_REQUEST['q'])) {
 	$q = $_REQUEST['q'];
+}
+else {
+	$q = 0;
+}
+switch($q){
+	case 0:
+		$int_time = "AND data_voto <= NOW()";
+		break;
+	case 1:
+		$int_time = "AND data_voto <= '".$fine_q."'";
+		break;
+	case 2:
+		$int_time = "AND (data_voto > '".$fine_q."' AND data_voto <= NOW()) ";
+		break;
 }
 
 $action = $_REQUEST['action'];
@@ -80,6 +95,23 @@ switch($action){
 		$response['voto'] = $grade->getGrade(true);
 		$response['data'] = $stats->getGradesAvg($materia, $_REQUEST['tipologia'], $q);
 		$response['all'] = $stats->getGradesAvg($materia, null, $q);
+		/*
+		 * recupero posizione voto
+		 */
+		$sel_ids = "SELECT id_voto FROM rb_voti WHERE anno = $anno AND docente = $docente AND materia = $materia AND alunno = ".$_REQUEST['id_alunno'];
+		if (isset($_REQUEST['q'])) {
+			$sel_ids .= " ".$int_time;
+		}
+		$sel_ids .= "  ORDER BY data_voto DESC";
+		$res_ids = $db->executeQuery($sel_ids);
+		$previous = "";
+		while ($row = $res_ids->fetch_assoc()) {
+			if ($row['id_voto'] == $id) {
+				break;
+			}
+			$previous = $row['id_voto'];
+		}
+		$response['previous'] = $previous;
 		echo json_encode($response);
 		exit;
 		break;
@@ -96,8 +128,11 @@ switch($action){
 			echo json_encode($response);
 			exit;
 		}
+		$stats = new \eschool\StudentStats(new MySQLDataLoader($db),$_REQUEST['id_alunno'], $school_year);
 		$response['id'] = $id;
 		$response['voto'] = $grade->getGrade(true);
+		$response['data'] = $stats->getGradesAvg($materia, $_REQUEST['tipologia'], $q);
+		$response['all'] = $stats->getGradesAvg($materia, null, $q);
 		echo json_encode($response);
 		exit;
 		break;
@@ -113,6 +148,11 @@ switch($action){
 			echo json_encode($response);
 			exit;
 		}
+		$stats = new \eschool\StudentStats(new MySQLDataLoader($db),$_REQUEST['id_alunno'], $school_year);
+		$response['id'] = $id;
+		$response['voto'] = $grade->getGrade(true);
+		$response['data'] = $stats->getGradesAvg($materia, $_REQUEST['tipologia'], $q);
+		$response['all'] = $stats->getGradesAvg($materia, null, $q);
 		echo json_encode($response);
 		exit;
 		break;

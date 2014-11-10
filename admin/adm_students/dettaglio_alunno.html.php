@@ -1,233 +1,234 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Dettaglio alunno</title>
-<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../../css/general.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript" src="../../js/md5-min.js"></script>
-<script type="text/javascript">
-var messages = new Array('', 'Alunno inserito con successo', 'Alunno cancellato con successo', 'Alunno modificato con successo', 'Account modificato con successo');
-<?php
-if($_i != 0){
-	echo "var old_login = '{$alunno['username']}';\n";	
-}
-?>
-var go = function(par, student){
-    $('#_i').val(student);
-    $('#action').val(par);
-    var nick = $('#uname').val();
-	var pwd =  $('#pwd').val();
-	<?php if($type != 1){ ?>
-	if(nick == "" || pwd == ""){
-		alert("Username o password non presente");
-		return false;
-	}
-	<?php } ?>
-    var url = "student_manager.php";
-    //alert(url);
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: $('#st_form').serialize(true),
-		dataType: 'json',
-		error: function() {
-			j_alert("error", "Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				j_alert("error", json.message);
-				console.log(json.dbg_message);
-			}
-			else {
-				j_alert("alert", json.message);
-			}
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Dettaglio alunno</title>
+	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
+	<link href="../../css/general.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript" src="../../js/md5-min.js"></script>
+	<script type="text/javascript">
+		var messages = new Array('', 'Alunno inserito con successo', 'Alunno cancellato con successo', 'Alunno modificato con successo', 'Account modificato con successo');
+		<?php
+		if($_i != 0){
+			echo "var old_login = '{$alunno['username']}';\n";
 		}
-	});
-};
-
-var clean_form = function(){
-	//alert("clean");
-	$('#uname').val("");
-	$('#pwd').val("");
-	$('#nome').val("");
-	$('#cognome').val("");
-	$('#cf').val("");
-	$('#sel3').val("");
-	$('#classe').options.selectedIndex = 0;
-};
-
-var reg = function(par){
-    var id = <?php print $_REQUEST['id'] ?>;
-    if(par == 1){
-		var nick = $('#uname').val();
-		var pwd =  $('#pwd').val();
-		<?php if($type == 1){ ?>
-		if(nick == "" || pwd == ""){
-			alert("Username o password non presente");
-			return false;
-		}
-		<?php } ?>
-		var url = "student_manager.php";
-	    $.ajax({
-		    type: "POST",
-		    url: url,
-		    data: {uname: nick, pwd: pwd, _i: id, action: 4},
-		    dataType: 'json',
-		    error: function() {
-			    j_alert("error", "Errore di trasmissione dei dati");
-		    },
-		    succes: function() {
-
-		    },
-		    complete: function(data){
-			    $('#check').text("");
-			    r = data.responseText;
-			    if(r == "null"){
-				    return false;
-			    }
-			    var json = $.parseJSON(r);
-			    if (json.status == "kosql"){
-				    j_alert("error", json.message);
-				    console.log(json.dbg_message);
-			    }
-			    else {
-				    j_alert("alert", json.message);
-				    new_account = false;
-				    $('#account_field').css({border: '1px solid ', color: '#000000'});
-			    }
-		    }
-	    });
-	}
-};
-
-var gen_pwd = function(){
-	pass = genera_password('<?php echo $_SESSION['__path_to_root__'] ?>', false, true);
-	passws = pass.split(";");
-	$('#pwd').val(passws[0]);
-	//$('#pclear').val(passws[1]);
-	new_account = true;
-	$('#account_field').css({border: "1px solid #ff0000", color: "#ff0000"});
-};
-
-var gen_login = function(){
-	if(($('#nome').val() == "") || ($('#cognome').val() == "")){
-		alert("Inserisci nome e cognome per generare la username");
-		return;
-	}
-	var nome = $('#nome').val();
-	var cognome = $('#cognome').val();
-	var url = "../../shared/account_manager.php";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {nome: nome, cognome: cognome, action: "get_student_login"},
-		dataType: 'json',
-		error: function() {
-			j_alert("error", "Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			$('#check').text("");
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				j_alert("error", json.message);
-				console.log(json.dbg_message);
-				return;
-			}
-			else if (json.status == "ko"){
-				j_alert("error", json.message);
-				return;
-			}
-			else {
-				$('#uname').val(json.login);
-			}
-		}
-	});
-};
-
-var no_change = function(){
-	alert("Nessun dato modificato");
-};
-
-var account_wrapper = function(){
-	reg(1);
-};
-
-$(function(){
-	load_jalert();
-	$('#sel3').datepicker({
-		dateFormat: "dd/mm/yy",
-		changeYear: true,
-		changeMonth: true,
-		yearRange: "1990:<?php echo date("Y") ?>"
-	})
-	<?php if($_REQUEST['id'] == 0){ ?>
-	$('#gen_uname').click(function(event){
-		event.preventDefault();
-		gen_login();
-	});
-	<?php } ?>
-	<?php if($_REQUEST['id'] != 0 && $type != 1){ ?>
-	
-	$('#verify').click(function(event){
-		event.preventDefault();
-		verifica();
-	});	
-	<?php } ?>
-	$('#gen_pass').click(function(event){
-		event.preventDefault();
-		gen_pwd();
-	});
-	$('#uname').blur(function(event){
-		if(old_login != $('#uname').val){
-			new_account = true;
-			
-			$('#account_field').css({border: '1px solid #ff0000', color: '#ff0000'});
-		}
-	});
-	$('#save_button').click(function(event){
-		event.preventDefault();
-		<?php 
-		if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0){
-			if($type == 1){
-				print("go(3, ".$_REQUEST['id'].")");
-			}
-			else{
-				print("reg(1)");
-			}
-		} 
-		else{
-			print("go(1, 0)");
-		} 
 		?>
+		var go = function(par, student){
+		    $('#_i').val(student);
+		    $('#action').val(par);
+		    var nick = $('#uname').val();
+			var pwd =  $('#pwd').val();
+			<?php if($type != 1){ ?>
+			if(nick == "" || pwd == ""){
+				alert("Username o password non presente");
+				return false;
+			}
+			<?php } ?>
+		    var url = "student_manager.php";
+		    //alert(url);
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: $('#st_form').serialize(true),
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-	});
-});
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						j_alert("error", json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						j_alert("alert", json.message);
+					}
+				}
+			});
+		};
 
-</script>
-<style>
-	.ui-datepicker-month {color: white}
-	.ui-datepicker-year {color: white}
-</style>
+		var clean_form = function(){
+			//alert("clean");
+			$('#uname').val("");
+			$('#pwd').val("");
+			$('#nome').val("");
+			$('#cognome').val("");
+			$('#cf').val("");
+			$('#sel3').val("");
+			$('#classe').options.selectedIndex = 0;
+		};
+
+		var reg = function(par){
+		    var id = <?php print $_REQUEST['id'] ?>;
+		    if(par == 1){
+				var nick = $('#uname').val();
+				var pwd =  $('#pwd').val();
+				<?php if($type == 1){ ?>
+				if(nick == "" || pwd == ""){
+					alert("Username o password non presente");
+					return false;
+				}
+				<?php } ?>
+				var url = "student_manager.php";
+			    $.ajax({
+				    type: "POST",
+				    url: url,
+				    data: {uname: nick, pwd: pwd, _i: id, action: 4},
+				    dataType: 'json',
+				    error: function() {
+					    j_alert("error", "Errore di trasmissione dei dati");
+				    },
+				    succes: function() {
+
+				    },
+				    complete: function(data){
+					    $('#check').text("");
+					    r = data.responseText;
+					    if(r == "null"){
+						    return false;
+					    }
+					    var json = $.parseJSON(r);
+					    if (json.status == "kosql"){
+						    j_alert("error", json.message);
+						    console.log(json.dbg_message);
+					    }
+					    else {
+						    j_alert("alert", json.message);
+						    new_account = false;
+						    $('#account_field').css({border: '1px solid ', color: '#000000'});
+					    }
+				    }
+			    });
+			}
+		};
+
+		var gen_pwd = function(){
+			pass = genera_password('<?php echo $_SESSION['__path_to_root__'] ?>', false, true);
+			passws = pass.split(";");
+			$('#pwd').val(passws[0]);
+			//$('#pclear').val(passws[1]);
+			new_account = true;
+			$('#account_field').css({border: "1px solid #ff0000", color: "#ff0000"});
+		};
+
+		var gen_login = function(){
+			if(($('#nome').val() == "") || ($('#cognome').val() == "")){
+				alert("Inserisci nome e cognome per generare la username");
+				return;
+			}
+			var nome = $('#nome').val();
+			var cognome = $('#cognome').val();
+			var url = "../../shared/account_manager.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {nome: nome, cognome: cognome, action: "get_student_login"},
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					$('#check').text("");
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						j_alert("error", json.message);
+						console.log(json.dbg_message);
+						return;
+					}
+					else if (json.status == "ko"){
+						j_alert("error", json.message);
+						return;
+					}
+					else {
+						$('#uname').val(json.login);
+					}
+				}
+			});
+		};
+
+		var no_change = function(){
+			alert("Nessun dato modificato");
+		};
+
+		var account_wrapper = function(){
+			reg(1);
+		};
+
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('#sel3').datepicker({
+				dateFormat: "dd/mm/yy",
+				changeYear: true,
+				changeMonth: true,
+				yearRange: "1990:<?php echo date("Y") ?>"
+			})
+			<?php if($_REQUEST['id'] == 0){ ?>
+			$('#gen_uname').click(function(event){
+				event.preventDefault();
+				gen_login();
+			});
+			<?php } ?>
+			<?php if($_REQUEST['id'] != 0 && $type != 1){ ?>
+
+			$('#verify').click(function(event){
+				event.preventDefault();
+				verifica();
+			});
+			<?php } ?>
+			$('#gen_pass').click(function(event){
+				event.preventDefault();
+				gen_pwd();
+			});
+			$('#uname').blur(function(event){
+				if(old_login != $('#uname').val){
+					new_account = true;
+
+					$('#account_field').css({border: '1px solid #ff0000', color: '#ff0000'});
+				}
+			});
+			$('#save_button').click(function(event){
+				event.preventDefault();
+				<?php
+				if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0){
+					if($type == 1){
+						print("go(3, ".$_REQUEST['id'].")");
+					}
+					else{
+						print("reg(1)");
+					}
+				}
+				else{
+					print("go(1, 0)");
+				}
+				?>
+
+			});
+		});
+
+	</script>
+	<style>
+		.ui-datepicker-month {color: white}
+		.ui-datepicker-year {color: white}
+	</style>
 </head>
 <body>
 <?php include "../header.php" ?>
@@ -237,8 +238,7 @@ $(function(){
 		<?php include "../adm_users/menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Dettaglio alunno</div>
-    <form action="dettaglio_alunno.php?upd=1&offset=<?php print $offset ?>&order=<?php if(isset($_REQUEST['order'])) echo $_REQUEST['order'] ?>" method="post" id="st_form" style="width: 75%">
+    <form action="dettaglio_alunno.php?upd=1&offset=<?php print $offset ?>&order=<?php if(isset($_REQUEST['order'])) echo $_REQUEST['order'] ?>" method="post" id="st_form" style="width: 75%" class="no_border">
     <fieldset id="account_field" style="width: 95%; padding-top: 10px; margin-left: auto; margin-right: auto; <?php if($type == 1) echo "display: none" ?>">
     <legend id="account_legend" style="font-weight: bold;">Account</legend>
     <table style="width: 95%">
@@ -353,5 +353,13 @@ $(function(){
 	<p class="spacer"></p>
 </div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

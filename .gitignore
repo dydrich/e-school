@@ -1,0 +1,22 @@
+# Created by .gitignore support plugin (hsz.mobi)
+
+.buildpath
+.project
+css/calendar_img
+css/skins
+css/themes
+
+css/site_themes/blue_orange/images
+
+css/site_themes/bluegray/images
+
+css/site_themes/indigo/images
+
+css/site_themes/cyan/images
+
+.settings
+css/site_themes/blue_red/images
+css/site_themes/light_blue/images
+css/site_themes/pink/images
+css/site_themes/purple/images
+css/site_themes/teal/images

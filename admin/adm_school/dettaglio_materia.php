@@ -30,6 +30,7 @@ while($m = $res_sub->fetch_assoc()) {
 $sel_tipologie = "SELECT * FROM rb_tipologia_scuola WHERE has_admin = 1 AND attivo = 1";
 $res_tipologie = $db->executeQuery($sel_tipologie);
 
-$navigation_label = "Area amministrazione: gestione materie";
+$navigation_label = "gestione scuola";
+$drawer_label = "Dettaglio materia";
 
 include "dettaglio_materia.html.php";

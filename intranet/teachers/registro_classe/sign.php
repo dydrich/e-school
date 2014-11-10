@@ -18,7 +18,6 @@ ini_set("display_errors", DISPLAY_ERRORS);
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
-$navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level__'][$ordine_scuola]);
 $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 
@@ -129,7 +128,7 @@ if($res_firme->num_rows > 0){
 }
 //print_r($firme);
 
-setlocale(LC_TIME, "it_IT");
+setlocale(LC_TIME, "it_IT.utf8");
 $giorno_str = utf8_encode(strftime("%A", strtotime($dati['data'])));
 
 /*
@@ -206,7 +205,11 @@ else {
 		}
 	}
 }
-	
-//print($sel_materie);
+
+setlocale(LC_TIME, "it_IT.utf8");
+$giorno_str = strftime("%A %d %B %Y", strtotime($_SESSION['registro']['data']));
+
+$navigation_label = "Registro della classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Registro di ". $giorno_str;
 
 include "sign.html.php";

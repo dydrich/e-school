@@ -1,91 +1,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Registro di classe</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript">
-var go_to = function() {
-	var dt = $('#date_to').val();
-	ar = dt.split("/");
-	nw_dt = ar[2]+"-"+ar[1]+"-"+ar[0];
-	document.location.href = "registro_classe.php?data="+nw_dt;
-};
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Registro di classe</title>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="../../../js/page.js"></script>
+	<script type="text/javascript">
+	var go_to = function() {
+		var dt = $('#date_to').val();
+		ar = dt.split("/");
+		nw_dt = ar[2]+"-"+ar[1]+"-"+ar[0];
+		document.location.href = "registro_classe.php?data="+nw_dt;
+	};
 
-var nbutton = function() {
-	$('#delete').show();
-};
+	var nbutton = function() {
+		$('#delete').show();
+	};
 
-var reset = function() {
-	$('#dt').text("Giorno...");
-	$('#delete').hide();
-};
+	var reset = function() {
+		$('#dt').text("Giorno...");
+		$('#delete').hide();
+	};
 
-var show_note = function(element){
-	element.getElementsByTagName("span")[0].style.display = "block";
-};
+	var show_note = function(element){
+		element.getElementsByTagName("span")[0].style.display = "block";
+	};
 
-var hide_note = function(element){
-	element.getElementsByTagName("span")[0].style.display = "none";
-};
+	var hide_note = function(element){
+		element.getElementsByTagName("span")[0].style.display = "none";
+	};
 
-var downloadCB = function(){
-	dis = $("#dlog").attr("data_disabled");
-	dis = 0;
-	if (dis == 1){
-		j_alert("error", "Registro non disponibile: crealo prima di scaricarlo");
-		return false; 
-	}
-	else {
-		file = "registro_<?php echo $_SESSION['__current_year__']->get_ID() ?>_<?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?>";
-		document.location.href = "../../../modules/documents/download_manager.php?doc=classbook&f="+file;
-	}
-};
-
-var createCB = function(){
-	background_process("Attendere la creazione del registro...", 20);
-	$.ajax({
-		type: "POST",
-		url: 'print_classbook.php',
-		data: {cls: <?php echo $_SESSION['__classe__']->get_ID() ?>},
-		dataType: 'json',
-		error: function() {
-			timeout = 0;
-			j_alert("error", "Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			timeout = 0;
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else if(json.status == "no_permission") {
-				document.location.href = "../no_permission.php";
-			}
-			else {
-				$("#dlog").attr("data_disabled", 0);
-			}
+	var downloadCB = function(){
+		dis = $("#dlog").attr("data_disabled");
+		dis = 0;
+		if (dis == 1){
+			j_alert("error", "Registro non disponibile: crealo prima di scaricarlo");
+			return false;
 		}
+		else {
+			file = "registro_<?php echo $_SESSION['__current_year__']->get_ID() ?>_<?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?>";
+			document.location.href = "../../../modules/documents/download_manager.php?doc=classbook&f="+file;
+		}
+	};
+
+	var createCB = function(){
+		background_process("Attendere la creazione del registro...", 20);
+		$.ajax({
+			type: "POST",
+			url: 'print_classbook.php',
+			data: {cls: <?php echo $_SESSION['__classe__']->get_ID() ?>},
+			dataType: 'json',
+			error: function() {
+				timeout = 0;
+				j_alert("error", "Errore di trasmissione dei dati");
+			},
+			succes: function() {
+
+			},
+			complete: function(data){
+				r = data.responseText;
+				if(r == "null"){
+					return false;
+				}
+				timeout = 0;
+				var json = $.parseJSON(r);
+				if (json.status == "kosql"){
+					alert(json.message);
+					console.log(json.dbg_message);
+				}
+				else if(json.status == "no_permission") {
+					document.location.href = "../no_permission.php";
+				}
+				else {
+					$("#dlog").attr("data_disabled", 0);
+				}
+			}
+		});
+	};
+
+	$(function () {
+		load_jalert();
+		setOverlayEvent();
 	});
-};
 
-var loaded = false;
+	var loaded = false;
 
-</script>
+	</script>
 </head>
 <body>
 <?php include "../header.php" ?>
@@ -152,6 +158,8 @@ else{
 		<p class="w_text">
 			<span style="padding-left: 5px; ">&middot;</span>
 			<a href="registro_classe.php?data=<?php echo $check_day ?>">Vai al registro dell'ultimo giorno di scuola</a><br /><br />
+			<span style="padding-left: 5px; ">&middot;</span>
+			<a href="riepilogo_registro_classe.php?data=<?php echo $check_day ?>">Vai al riepilogo della settimana</a><br /><br />
 			<span style="padding-left: 5px">&middot;</span>
 			<a href="stats.php">Visualizza le statistiche</a>
 		</p>		
@@ -163,5 +171,16 @@ else{
 <p class="spacer"></p>
 </div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../index.php"><img src="../../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../profile.php"><img src="../../../images/35.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
+		<div class="drawer_link"><a href="../../../modules/documents/load_module.php?module=docs&area=teachers"><img src="../../../images/11.png" style="margin-right: 10px; position: relative; top: 5%" />Documenti</a></div>
+	</div>
+	<?php if (isset($_SESSION['__sudoer__'])): ?>
+		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
+	<?php endif; ?>
+	<div class="drawer_lastlink"><a href="../../../shared/do_logout.php"><img src="../../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

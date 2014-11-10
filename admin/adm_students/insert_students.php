@@ -25,6 +25,7 @@ $log_file = "{$school_order}account_studenti".date("Ymd").".txt";
 $sel_classes = "SELECT id_classe, anno_corso, sezione, nome FROM rb_classi, rb_sedi WHERE sede = id_sede AND rb_classi.ordine_di_scuola = {$school_order} ORDER BY sezione, anno_corso ";
 $res_classes = $db->executeQuery($sel_classes);
 
-$navigation_label = "Area amministrazione: gestione nuovo anno";
+$navigation_label = "nuovo anno";
+$drawer_label = "Inserimento alunni";
 
 include "insert_students.html.php";

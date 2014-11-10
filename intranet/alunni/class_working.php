@@ -7,7 +7,6 @@ else{
 }
 ?>
 <div class="smallbox" id="working">
-<h2 class="menu_head">Menu</h2>
 	<p class="menu_label class_icon">Registro</p>
 	<ul class="menublock" style="" dir="rtl">
 		<li><a href="registro.php">Registro di classe</a></li>
@@ -19,12 +18,5 @@ else{
 		<li><a href="compiti.php">Compiti</a></li>
 		<li><a href="attivita.php">Attivit&agrave;</a></li>
 		<li><a href="lezioni.php">Lezioni</a></li>
-		<?php if (is_installed("docs")): ?><li><a href="../../modules/documents/load_module.php?module=docs&area=alunni">Documenti</a></li><?php endif; ?>
 	</ul>
-	<?php if(is_installed("com")){ ?>
-    <p class="menu_label com_icon">Comunicazioni</p>
-    	<ul class="menublock" style="" dir="rtl">
-    		<li><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=alunni">Home</a>&nbsp;&nbsp;&nbsp;</li>
-    	</ul>
-<?php } ?>
 </div>

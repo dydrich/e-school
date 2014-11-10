@@ -8,7 +8,15 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
+$navigation_label = "";
+switch($_SESSION['__school_order__']) {
+	case 1:
+		$navigation_label .= "scuola secondaria";
+		break;
+	case 2:
+		$navigation_label .= "scuola primaria";
+		break;
+}
 
 $cls = null;
 if (isset($_REQUEST['cls'])){
@@ -17,9 +25,6 @@ if (isset($_REQUEST['cls'])){
 
 $ordine_scuola = $_SESSION['__school_order__'];
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
-$navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level__'][$ordine_scuola]);
-$inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
-$fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 
 if(isset($_REQUEST['q'])){
@@ -51,6 +56,7 @@ $doc = $_REQUEST['doc'];
 $sel_docente = "SELECT rb_utenti.uid, rb_utenti.nome, rb_utenti.cognome, rb_docenti.*, rb_materie.materia, rb_materie.id_materia FROM rb_docenti, rb_utenti, rb_materie WHERE rb_utenti.uid = rb_docenti.id_docente AND rb_docenti.materia = rb_materie.id_materia AND uid = {$_REQUEST['doc']}";
 $res_docente = $db->execute($sel_docente);
 $docente = $res_docente->fetch_assoc();
+$drawer_label = "Registro personale del docente ". $docente['nome']." ".$docente['cognome'];
 //echo $docente['id_materia'];exit;
 $_cl = 0;
 if ($docente['id_materia'] != 27 && $docente['id_materia'] != 41){

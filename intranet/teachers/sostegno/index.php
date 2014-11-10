@@ -46,6 +46,7 @@ if ($res_dati->num_rows > 0){
 	$_SESSION['__sp_student__']['dati'] = $dati;
 }
 
-$navigation_label = "Registro del docente di sostegno ";
+$navigation_label = "registro del sostegno ";
+$drawer_label = "Scheda personale di ". $_SESSION['__sp_student__']['cognome']." ".$_SESSION['__sp_student__']['nome'];
 
 include "index.html.php";

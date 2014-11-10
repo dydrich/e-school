@@ -80,9 +80,41 @@ while($row = $res_voti->fetch_assoc()){
 $mat = $_SESSION['__user__']->getSubject();
 $class = $_SESSION['__classe__']->get_ID();
 
-$change_subject = new ChangeSubject("hid", "", "position: absolute; width: 180px; height: 55px; display: none", "div", $_SESSION['__subjects__']);
-$change_subject->createLink("text-decoration: none; text-transform: uppercase; font-weight: bold");
-$change_subject->setJavascript("", "jquery");
+if(count($_SESSION['__subjects__']) > 0) {
+	$k = 0;
+	foreach ($_SESSION['__subjects__'] as $mt) {
+		//print "while";
+		if (isset($_REQUEST['subject'])) {
+			if ($_REQUEST['subject'] == $mt['id']) {
+				$idm = $mt['id'];
+				$_mat = $mt['mat'];
+			}
+		}
+		else {
+			if (isset($_SESSION['__materia__'])) {
+				if ($_SESSION['__materia__'] == $mt['id']) {
+					$idm = $mt['id'];
+					$_mat = $mt['mat'];
+				}
+				else {
+					if ($k == 0) {
+						$idm = $mt['id'];
+						$_mat = $mt['mat'];
+					}
+				}
+			}
+			else {
+				if ($k == 0) {
+					//print "k==0";
+					$idm = $mt['id'];
+					$_mat = $mt['mat'];
+				}
+			}
+		}
+		$k++;
+	}
+	$_SESSION['__materia__'] = $idm;
+}
 
 $messages = array("Voto inserito correttamente", "Voto non inserito", "Voto modificato correttamente", "Voto non modificato", "Voto eliminato correttamente", "Voto non eliminato");
 $msg = "";
@@ -107,6 +139,7 @@ try {
 	exit;
 }
 
-$navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$navigation_label = "registro personale ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Elenco voti";
 
 include "student.html.php";

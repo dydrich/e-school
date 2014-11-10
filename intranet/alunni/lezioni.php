@@ -12,6 +12,8 @@ $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
 $alunno = $_SESSION['__user__']->getUid();
-$navigation_label = "Registro elettronico - Area studenti";
+$navigation_label = "scuola secondaria";
+$drawer_label = "Argomento delle lezioni";
+$area = "alunni";
 
 require '../common/lessons.php';

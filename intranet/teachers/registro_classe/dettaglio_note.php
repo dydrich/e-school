@@ -10,11 +10,16 @@ if(isset($_REQUEST['msg'])) {
 	$msg = str_replace("_", " ", $_REQUEST['msg']);
 }
 
-if(isset($_REQUEST['order'])) {
-	$order = $_REQUEST['order'];
+$order = "DESC";
+if(isset($_REQUEST['orderby'])) {
+	$orderby = $_REQUEST['orderby'];
+	if ($_REQUEST['orderby'] == "docente") {
+		$orderby = "cognome, nome";
+		$order = "ASC";
+	}
 }
 else {
-	$order = "data";
+	$orderby = "data";
 }
 
 if(isset($_REQUEST['q'])) {
@@ -33,7 +38,6 @@ else{
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
-$navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level__'][$ordine_scuola]);
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 
@@ -53,7 +57,7 @@ switch($q){
 
 $sel_alunno = "SELECT * FROM rb_alunni WHERE id_alunno = $student_id";
 $sel_tipi = "SELECT * FROM rb_tipi_note_disciplinari ORDER BY id_tiponota";
-$sel_note = "SELECT rb_note_disciplinari.*, rb_utenti.cognome, rb_utenti.nome, rb_tipi_note_disciplinari.descrizione AS tipo_nota, rb_tipi_note_disciplinari.id_tiponota FROM rb_note_disciplinari, rb_tipi_note_disciplinari, rb_utenti WHERE id_tiponota = tipo AND alunno = {$student_id} AND docente = uid ".$int_time." ".$q_type." AND anno = {$_SESSION['__current_year__']->get_ID()} ORDER BY $order DESC";
+$sel_note = "SELECT rb_note_disciplinari.*, rb_utenti.cognome, rb_utenti.nome, rb_tipi_note_disciplinari.descrizione AS tipo_nota, rb_tipi_note_disciplinari.id_tiponota FROM rb_note_disciplinari, rb_tipi_note_disciplinari, rb_utenti WHERE id_tiponota = tipo AND alunno = {$student_id} AND docente = uid ".$int_time." ".$q_type." AND anno = {$_SESSION['__current_year__']->get_ID()} ORDER BY $orderby $order";
 //print $sel_note;
 try{
 	$res_alunno = $db->executeQuery($sel_alunno);
@@ -64,6 +68,7 @@ try{
 }
 $alunno = $res_alunno->fetch_assoc();
 
-$navigation_label = "Registro elettronico ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione()." - Note disciplinari";
+$navigation_label = "Registro della classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Note disciplinari di ". $alunno['cognome']." ".$alunno['nome'];
 
 include "dettaglio_note.html.php";

@@ -150,18 +150,36 @@ function check_mail($mail){
             non presenti o aggiungendoci gli apici singoli se necessario
 @param:     $var - il parametro da controllare
 @param		$is_char - indica se il parametro e' di tipo stringa: nel caso, servono gli apici singoli
+@param      $cmd_type - tipo di istruzione (update o query)
 @return:    $res - la stringa convertita
 
 *****************************************************************************************/
 
-function field_null($var, $is_char){
-    if($var == "")
-        $res = "NULL";
-    else{
-        $res = $var;
-        if($is_char)
-        	$res = "'$res'";
-    }
+function field_null($var, $is_char, $cmd_type = 'update'){
+	if ($cmd_type == 'update') {
+		if ($var == "" || $var == null) {
+			$res = "NULL";
+		}
+		else {
+			$res = $var;
+			if ($is_char) {
+				$res = "'$res'";
+			}
+		}
+	}
+	else {
+		if($var == "" || $var == null) {
+			$res = "IS NULL";
+		}
+		else{
+			if($is_char) {
+				$res = " = '$var'";
+			}
+			else {
+				$res = " = $var";
+			}
+		}
+	}
     return $res;
 }
 
@@ -640,4 +658,19 @@ function getTheme() {
 	else {
 		return $_SESSION['default_theme'];
 	}
+}
+
+/*
+ * set $navigation_label for manager area
+ */
+function setNavigationLabel($school_order) {
+	switch($school_order) {
+		case 1:
+			return "scuola secondaria";
+			break;
+		case 2:
+			return "scuola primaria";
+			break;
+	}
+	return "";
 }

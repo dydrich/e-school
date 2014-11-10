@@ -5,7 +5,7 @@ require_once "../../../lib/start.php";
 check_session();
 check_permission(DOC_PERM);
 
-$stid = isset($_REQUEST['stid']) ? $_REQUEST['stid'] : "NULL";
+$stid = isset($_REQUEST['stid']) ? $_REQUEST['stid'] : null;
 $nt = "";
 if((!$_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) && (!$_SESSION['__user__']->isAdministrator()) ){
 	$nt = "WHERE id_tiponota < 10 ";

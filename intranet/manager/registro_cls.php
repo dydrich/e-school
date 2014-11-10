@@ -2,19 +2,16 @@
             $_classi = $dompath->query("classe", $classi);
             $num_cl = $_classi->length;
             ?>
-    <div style="width: 100%; height: 30px; margin: 0 auto 0 auto; text-align: center; font-size: 1.1em; font-weight: bold; text-transform: uppercase; color: #263238; background-color: #B0BEC5; position: relative; top: -15px">
-		Riepilogo classi <?php echo $school ?>
-	</div>
-        <div class="outline_line_wrapper">
+        <div class="outline_line_wrapper" style="margin-top: 30px">
 			<div style="width: 10%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Classe</span></div>
-			<div style="width: 15%; float: left; position: relative; top: 30%">Non validati</div>
-			<div style="width: 15%; float: left; position: relative; top: 30%">A rischio</div>
-			<div style="width: 15%; float: left; position: relative; top: 30%">Giorni</div>
-			<div style="width: 15%; float: left; position: relative; top: 30%">Ore</div>
-			<div style="width: 15%; float: left; position: relative; top: 30%">Limite giorni</div>
-			<div style="width: 15%; float: left; position: relative; top: 30%">Limite ore</div>
+			<div style="width: 15%; float: left; position: relative; top: 30%; text-align: center">Non validati</div>
+			<div style="width: 15%; float: left; position: relative; top: 30%; text-align: center">A rischio</div>
+			<div style="width: 15%; float: left; position: relative; top: 30%; text-align: center">Giorni</div>
+			<div style="width: 15%; float: left; position: relative; top: 30%; text-align: center">Ore</div>
+			<div style="width: 15%; float: left; position: relative; top: 30%; text-align: center">Limite giorni</div>
+			<div style="width: 15%; float: left; position: relative; top: 30%; text-align: center">Limite ore</div>
 		</div>
-		<table style="width: 95%; margin: 20px auto 0 auto">
+		<table style="width: 95%; margin: 5px auto 0 auto">
 			<tbody>
 	 	    <?php 
 	 	    
@@ -47,12 +44,12 @@
  	    			$css = "";
  	    		}
 	 	    ?>
-	 	    <tr class="manager_row_small">
-	 	    	<td class="<?php echo $css ?>" style="width: 10%; text-align: left; <?php print $style ?>"><a href="dettaglio_classe.php?id=<?php print $att ?>" class="<?php echo $css ?>" style="text-decoration: none; <?php print $style ?>"><?php print $nm->item(0)->nodeValue ?></a></td>
-	 	    	<td class="<?php echo $css ?>" style="width: 15%; text-align: left; <?php print $style ?>"><?php print $nv->item(0)->nodeValue ?></td>
-	 	    	<td class="<?php echo $css ?>" style="width: 15%; text-align: left; <?php print $style ?>"><?php print $ar->item(0)->nodeValue ?></td>
-	 	    	<td class="<?php echo $css ?>" style="width: 15%; text-align: left; <?php print $style ?>"><?php print $lesson_days->item(0)->nodeValue ?></td>
-	 	    	<td class="<?php echo $css ?>" style="width: 15%; text-align: left; <?php print $style ?>"><?php echo $rb->toString(RBTime::$RBTIME_SHORT) ?></td>
+	 	    <tr class="bottom_decoration">
+	 	    	<td class="<?php echo $css ?>" style="width: 10%; text-align: center; <?php print $style ?>"><a href="dettaglio_classe.php?id=<?php print $att ?>" class="<?php echo $css ?>" style="text-decoration: none; <?php print $style ?>"><?php print $nm->item(0)->nodeValue ?></a></td>
+	 	    	<td class="<?php echo $css ?>" style="width: 15%; text-align: center; <?php print $style ?>"><?php print $nv->item(0)->nodeValue ?></td>
+	 	    	<td class="<?php echo $css ?>" style="width: 15%; text-align: center; <?php print $style ?>"><?php print $ar->item(0)->nodeValue ?></td>
+	 	    	<td class="<?php echo $css ?>" style="width: 15%; text-align: center; <?php print $style ?>"><?php print $lesson_days->item(0)->nodeValue ?></td>
+	 	    	<td class="<?php echo $css ?>" style="width: 15%; text-align: center; <?php print $style ?>"><?php echo $rb->toString(RBTime::$RBTIME_SHORT) ?></td>
 	 	    	<td class="<?php echo $css ?>" style="width: 15%; text-align: center; <?php print $style ?>"><?php print $max_days->item(0)->nodeValue ?></td>
 	 	    	<td class="<?php echo $css ?>" style="width: 15%; text-align: center; <?php print $style ?>"><?php print substr($max_hours->item(0)->nodeValue, 0, -3) ?></td>
 	 	    </tr>

@@ -7,6 +7,8 @@ check_permission(ADM_PERM);
 
 ini_set("display_errors", DISPLAY_ERRORS);
 
+$admin_level = 0;
+
 $_SESSION['__path_to_root__'] = "../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
@@ -41,6 +43,7 @@ try{
 	$ex->redirect();
 }
 
-$navigation_label = "Area amministrazione: suDo";
+$navigation_label = "sviluppo";
+$drawer_label = "Cambia utente";
 
 include "scegli_utente.html.php";

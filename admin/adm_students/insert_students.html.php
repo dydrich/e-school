@@ -50,6 +50,7 @@
 
 		$(function(){
 			load_jalert();
+			setOverlayEvent();
 			$('#data_nascita').datepicker({
 				dateFormat: "dd/mm/yy",
 				changeYear: true,
@@ -75,10 +76,9 @@
 		<?php include "../new_year_menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Inserimento nuovi alunni</div>
-	<form method="post" id="_form" action="update_student.php" class="popup_form" style="width: 90%">
-	<fieldset style="width: 95%; border: 1px solid #BBBBBB; padding-top: 10px; margin: 20px auto 20px auto;">
-	<legend style="border: 1px solid #CCCCCC; border-radius: 5px; padding: 0 10px 0 10px">Dati alunno</legend>
+	<form method="post" id="_form" action="update_student.php" class="no_border" style="width: 90%">
+	<fieldset style="width: 95%; padding-top: 10px; margin: 20px auto 20px auto;">
+	<legend>Dati alunno</legend>
 	<table style="width: 80%; margin: auto">
         <thead>
             
@@ -146,5 +146,13 @@
     <p class="spacer"></p>
 	</div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

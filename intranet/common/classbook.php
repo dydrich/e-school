@@ -39,86 +39,84 @@ $mesi = array("Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Lug
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript">
-window.onload = init_tooltips;
-
-function init_tooltips(){
-	var links = document.getElementsByTagName("a");
-	for(var i = 0; i < links.length; i++){
-		tt = links[i].getAttribute("title");
-		if(tt && tt != ""){
-			//alert(tt);
-			links[i].removeAttribute("title");
-			dati = tt.split("|");
-			links[i].style.position = "relative";
-			tip = document.createElement("span");
-			tip.className = "tooltip";
-			tip.style.display = "none";
-			for (var x = 0; x < dati.length; x++){		
-				tip.appendChild(document.createTextNode((x+1)+". "+dati[x]));
-				tip.appendChild(document.createElement("br"));
-			}
-			links[i].appendChild(tip);
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			load_jalert();
+			setOverlayEvent();
+			$('#overlay').click(function(event) {
+				if ($('#overlay').is(':visible')) {
+					show_drawer(event);
+				}
+				$('#other_drawer').hide();
+			});
+			$('#showsub').click(function(event){
+				var off = $(this).parent().offset();
+				_show(event, off);
+			});
+		});
+		function show_note(element){
+			element.getElementsByTagName("span")[0].style.display = "block";
 		}
+
+		function hide_note(element){
+			element.getElementsByTagName("span")[0].style.display = "none";
+		}
+
+		var _show = function(e, off) {
+			if ($('#other_drawer').is(":visible")) {
+				$('#other_drawer').hide('slide', 300);
+				return;
+			}
+			var offset = $('#drawer').offset();
+			var top = off.top;
+
+			var left = offset.left + $('#drawer').width() + 1;
+			$('#other_drawer').css({top: top+"px", left: left+"px", zIndex: 1000});
+			$('#other_drawer').show('slide', 300);
+			return true;
+		};
+	</script>
+	<style type="text/css">
+	TD{height: 20px}
+	.tooltip{
+	    position: absolute;
+	    top: 1em;
+	    left: 1em;
+	    width: 15em;
+	    padding: 10px;
+	    font-size: 1em;
+	    text-align: center;
+	    text-decoration: none
 	}
-}
-
-function show_note(element){ 
-	element.getElementsByTagName("span")[0].style.display = "block";
-}
-
-function hide_note(element){
-	element.getElementsByTagName("span")[0].style.display = "none";
-}
-</script>
-<style type="text/css">
-TD{height: 20px}
-.tooltip{ 
-    position: absolute;
-    top: 1em; 
-    left: 1em; 
-    width: 15em;
-    padding: 10px;
-    font-size: 1em;
-    text-align: center;
-    text-decoration: none
-}
-</style>
+	</style>
 </head>
 <body>
 <?php include "header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main">
 <div id="right_col">
-<?php if($area == "genitori") include "sons_menu.php" ?>
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-	<div class="group_head">
-		Registro di classe, <?php echo $_SESSION['__classe__']->get_anno(),$_SESSION['__classe__']->get_sezione() ?>
-	</div>
-	<div class="outline_line_wrapper">
-		<div style="width: 30%; float: left; position: relative; top: 30%">Data</div>
-		<div style="width: 15%; float: left; position: relative; top: 30%">Entrata</div>
-		<div style="width: 15%; float: left; position: relative; top: 30%">Uscita</div>
-		<div style="width: 40%; float: left; position: relative; top: 30%">Note</div>
-	</div>
 	<table style="width: 95%; margin: auto; border-collapse: collapse">
 		<tr>
-			<td colspan="4" style="font-weight: bold; text-align: center">Mese di <?php echo $mesi[$month - 1] ?></td>
+			<td colspan="4" style="font-weight: bold; text-align: center">
+				<div class="card_row">Mese di <?php echo $mesi[$month - 1] ?></div>
+			</td>
 		</tr>
 <?php 
 while($orario_alunno = $res_orario_alunno->fetch_assoc()){
 	$assente = false;
-	$giorno_str = strftime("%A", strtotime($orario_alunno['data']));
+	$giorno_str = strftime("%a", strtotime($orario_alunno['data']));
 	if($orario_alunno['ingresso'] == ""){
 		$entrata = "A";
 		$assente = true;
@@ -155,9 +153,9 @@ while($orario_alunno = $res_orario_alunno->fetch_assoc()){
 		$tooltip = substr($tooltip, 0, -1);
 	}
 ?>
-	<tr style="border-bottom: 1px solid rgba(211, 222, 199, 0.6)">
-		<td style="width: 30%; padding-left: 8px; font-weight: normal; "><?php print ucfirst($giorno_str)." ". format_date($orario_alunno['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
-		<td style="width: 15%; text-align: center; font-weight: normal; " <?php if($assente) print("colspan='2'") ?>><?php if($assente) print "Assente"; else print $entrata ?></td>
+	<tr class="bottom_decoration <?php if($assente) echo " attention _bold" ?>">
+		<td style="width: 30%; padding-left: 8px" class="normal"><?php print ucfirst($giorno_str)." ". format_date($orario_alunno['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
+		<td style="width: 15%; text-align: center" <?php if($assente) print("colspan='2'") ?>><?php if($assente) print "Assente"; else print $entrata ?></td>
 <?php 
 	if(!$assente){	
 ?>
@@ -166,7 +164,7 @@ while($orario_alunno = $res_orario_alunno->fetch_assoc()){
 	}
 ?>
 		<td style="width: 40%; text-align: center;  font-weight: normal;">
-			<span id="disc<?= $orario_alunno['id_alunno'] ?>"><?php if($entrata == "A" && ($orario_alunno['giustificata'] == 0 || $orario_alunno['giustificata'] == "")) print ("Assenza da giustificare"); ?><?php if($num_note > 0){ if($add_spaces) print ("&nbsp;&nbsp;|&nbsp;&nbsp;"); ?><a style='text-decoration: underline; color: #161414; font-weight: normal' href="#" title="<?= $tooltip ?>" onmouseover="show_note(this, <?= $num_note ?>)" onmouseout="hide_note(this, <?= $num_note ?>)"><?= $num_note ?> note disciplinari</a><?php } ?></span>
+			<span id="disc<?= $orario_alunno['id_alunno'] ?>"><?php if($entrata == "A" && ($orario_alunno['giustificata'] == 0 || $orario_alunno['giustificata'] == "")) print ("Assenza da giustificare"); ?><?php if($num_note > 0){ if($add_spaces) print ("&nbsp;&nbsp;|&nbsp;&nbsp;"); ?><a style='text-decoration: underline; color: #161414; font-weight: normal' href="#" title="<?php echo $tooltip ?>" onmouseover="show_note(this, <?php echo $num_note ?>)" onmouseout="hide_note(this, <?php echo $num_note ?>)"><?php echo $num_note ?> note disciplinari</a><?php } ?></span>
 		</td>
 	</tr>
 <?php
@@ -175,35 +173,71 @@ while($orario_alunno = $res_orario_alunno->fetch_assoc()){
 		<tr>
 			<td colspan="4" style="height: 30px;"></td>
 		</tr>
-		<tr>
-			<td colspan="4" style="margin: 30px auto 0 auto; text-align: center; padding-right: 10px; height: 35px; border-width: 1px 0 1px 0; border-style: solid; border-color: rgba(211, 222, 199, 0.6)">
-				<?php if ($previous): ?>
-				<a href="registro.php?month=<?php echo $previous ?>" style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 28px;">
-					<?php echo $mesi[$previous - 1] ?>
-				</a>
-				<?php else: ?>
-				<span style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 28px">&lt; &lt;</span>
-				<?php endif; ?>
-				<span style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 28px; margin-left: 28px"><?php echo $mesi[$month - 1] ?></span>
-				<?php if ($next): ?>
-				<a href="registro.php?month=<?php echo $next ?>" style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-left: 28px;">
-					<?php echo $mesi[$next - 1] ?>
-				</a>
-				<?php else: ?>
-				<span style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-left: 28px;">&gt; &gt;</span>
-				<?php endif; ?>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="4" style="text-align: right; height: 40px; padding-top: 30px">
-				<a href="riepilogo_registro.php?q=0" style="padding-right: 8px; text-decoration: none; text-transform: uppercase">Riepilogo assenze e ritardi</a>|
-				<a href="riepilogo_note.php?q=0" style="padding-left: 8px; text-decoration: none; text-transform: uppercase">Riepilogo note disciplinari</a>
-			</td>
-		</tr>
 	</table>
+	<div class="navigate">
+		<?php if ($previous): ?>
+		<a href="registro.php?month=<?php echo $previous ?>" style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 28px;">
+			<?php echo $mesi[$previous - 1] ?>
+		</a>
+		<?php else: ?>
+		<span style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 28px">&lt; &lt;</span>
+		<?php endif; ?>
+		<span style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 28px; margin-left: 28px"><?php echo $mesi[$month - 1] ?></span>
+		<?php if ($next): ?>
+		<a href="registro.php?month=<?php echo $next ?>" style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-left: 28px;">
+			<?php echo $mesi[$next - 1] ?>
+		</a>
+		<?php else: ?>
+		<span style="vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-left: 28px;">&gt; &gt;</span>
+		<?php endif; ?>
+	</div>
 </div>
 <p class="spacer"></p>
 </div>
 <?php include "footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<?php if ($area == "genitori" && count($_SESSION['__sons__']) > 1): ?>
+		<div class="drawer_link separator">
+			<a href="#" id="showsub"><img src="../../images/69.png" style="margin-right: 10px; position: relative; top: 5%"/>Seleziona alunno</a>
+		</div>
+	<?php endif; ?>
+		<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>riepilogo_registro.php?q=0"><img src="../../images/10.png" style="margin-right: 10px; position: relative; top: 5%" />Riepilogo assenze</a></div>
+		<div class="drawer_link separator"><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>riepilogo_note.php?q=0"><img src="../../images/12.png" style="margin-right: 10px; position: relative; top: 5%" />Riepilogo note</a></div>
+		<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>profile.php"><img src="../../images/33.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
+		<?php if ($area == "alunni"): ?>
+		<div class="drawer_link"><a href="../../modules/documents/load_module.php?module=docs&area=alunni"><img src="../../images/11.png" style="margin-right: 10px; position: relative; top: 5%" />Documenti</a></div>
+		<?php endif; ?>
+		<?php if(is_installed("com")){ ?>
+			<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=<?php echo $area ?>"><img src="<?php echo $_SESSION['__path_to_root__'] ?>images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
+		<?php } ?>
+	</div>
+	<?php if (isset($_SESSION['__sudoer__'])): ?>
+		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
+	<?php endif; ?>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
+<?php if ($area == "genitori" && count($_SESSION['__sons__']) > 1){ ?>
+	<div id="other_drawer" class="drawer" style="height: 72px; display: none; position: absolute">
+		<?php
+		$indice = 1;
+		reset($_SESSION['__sons__']);
+		while(list($key, $val) = each($_SESSION['__sons__'])){
+			$cl = "";
+			if ($key == $_SESSION['__current_son__']) {
+				$cl = " _bold";
+			}
+			?>
+			<div class="drawer_link">
+				<a href="<?php print $page ?>?son=<?php print $key ?>" clas="<?php echo $cl ?>"><?php print $val[0] ?></a>
+			</div>
+		<?php
+		}
+		?>
+	</div>
+<?php
+}
+?>
 </body>
 </html>

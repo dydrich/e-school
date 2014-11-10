@@ -6,10 +6,10 @@ check_session(AJAX_CALL);
 check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
 
 if($_REQUEST['action'] != 2){
-	$uname = utf8_encode($db->real_escape_string(trim($_POST['uname'])));
-	$pwd = utf8_encode($db->real_escape_string(trim($_POST['pwd'])));
-	$nome = utf8_encode($db->real_escape_string(trim($_POST['nome'])));
-	$cognome = utf8_encode($db->real_escape_string(trim($_POST['cognome'])));
+	$uname = $db->real_escape_string(trim($_POST['uname']));
+	$pwd = $db->real_escape_string(trim($_POST['pwd']));
+	$nome = $db->real_escape_string(trim($_POST['nome']));
+	$cognome = $db->real_escape_string(trim($_POST['cognome']));
 	$gruppi = implode(",", $_POST['gruppi']);
 	/*
 	 * rb_com_users

@@ -10,7 +10,10 @@
 	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../../js/page.js"></script>
 	<script type="text/javascript">
-
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+		});
 	</script>
 </head>
 <body>
@@ -21,7 +24,6 @@
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Elenco gruppi: pagina <?php echo $page ?> di <?php echo $pagine ?></div>
 		<table class="admin_table">
 			<thead>
 			<tr>
@@ -42,37 +44,38 @@
 			else {
 				$max = count($threads);
 			}
+			if (count($array) > 0) {
+				foreach ($array[$page - 1] as $th) {
+					$th->restoreThread(new MySQLDataLoader($db));
+					$owner = $th->getOwner();
+					if ($owner != null) {
+						$owner_name = $owner->getFullName();
+					}
+					else {
+						$owner_name = "Admin";
+					}
+					$us_array = array();
+					foreach ($th->getUsers() as $user) {
+						$ud = $rb->loadUserFromUniqID($user);
+						$us_array[$user] = $ud->getFullName();
+					}
+					sort($us_array);
 
-			foreach ($array[$page - 1] as $th) {
-				$th->restoreThread(new MySQLDataLoader($db));
-				$owner = $th->getOwner();
-				if ($owner != null) {
-					$owner_name = $owner->getFullName();
+					?>
+					<tr class="admin_row" id="row_<?php echo $th->getTid() ?>">
+						<td style="padding-left: 10px; ">
+							<span class="ov_red" style="font-weight: bold"><?php echo $th->getName() ?></span>
+							<div id="link_<?php echo $th->getTid() ?>" style="display: none">
+								<a href="../../adm_users/dettaglio_utente.php?id=<?php echo $th->getTid() ?>&page=<?php echo $page ?>" class="mod_link">Modifica</a>
+								<span style="margin-left: 5px; margin-right: 5px">|</span>
+								<a href="../../adm_users/users_manager.php?action=2&id=<?php echo $th->getTid() ?>" class="del_link">Cancella</a>
+							</div>
+						</td>
+						<td><?php echo $owner_name ?></td>
+						<td class="_center"><?php echo implode(", ", $us_array); ?></td>
+					</tr>
+				<?php
 				}
-				else {
-					$owner_name = "Admin";
-				}
-				$us_array = array();
-				foreach ($th->getUsers() as $user) {
-					$ud = $rb->loadUserFromUniqID($user);
-					$us_array[$user] = $ud->getFullName();
-				}
-				sort($us_array);
-
-			?>
-			<tr class="admin_row" id="row_<?php echo $th->getTid() ?>">
-				<td style="padding-left: 10px; ">
-					<span class="ov_red" style="font-weight: bold"><?php echo $th->getName() ?></span>
-					<div id="link_<?php echo $th->getTid() ?>" style="display: none">
-						<a href="../../adm_users/dettaglio_utente.php?id=<?php echo $th->getTid() ?>&page=<?php echo $page ?>" class="mod_link">Modifica</a>
-						<span style="margin-left: 5px; margin-right: 5px">|</span>
-						<a href="../../adm_users/users_manager.php?action=2&id=<?php echo $th->getTid() ?>" class="del_link">Cancella</a>
-					</div>
-				</td>
-				<td><?php echo $owner_name ?></td>
-				<td class="_center"><?php echo implode(", ", $us_array); ?></td>
-			</tr>
-			<?php
 			}
 			?>
 			</tbody>
@@ -91,5 +94,13 @@
 	<p class="spacer"></p>
 </div>
 <?php include "../../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../../../index.php"><img src="../../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../../index.php"><img src="../../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../../shared/do_logout.php"><img src="../../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

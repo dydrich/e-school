@@ -2,7 +2,8 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>Registro di classe</title>
+	<title>Scrutini</title>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
@@ -17,8 +18,33 @@
 			document.location.href="confronta_scrutini.php?subject="+id;
 		}
 
+		var _show = function(e, off) {
+			if ($('#other_drawer').is(":visible")) {
+				$('#other_drawer').hide('slide', 300);
+				return;
+			}
+			var offset = $('#drawer').offset();
+			var top = off.top;
+
+			var left = offset.left + $('#drawer').width() + 1;
+			$('#other_drawer').css({top: top+"px", left: left+"px", zIndex: 1000});
+			$('#other_drawer').show('slide', 300);
+			return true;
+		};
+
 		$(function(){
 			load_jalert();
+			setOverlayEvent();
+			$('#overlay').click(function(event) {
+				if ($('#overlay').is(':visible')) {
+					show_drawer(event);
+				}
+				$('#other_drawer').hide();
+			});
+			$('#showsub').click(function(event){
+				var off = $(this).parent().offset();
+				_show(event, off);
+			});
 		});
 	</script>
 </head>

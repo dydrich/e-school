@@ -1,193 +1,217 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<title>Classi</title>
-<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../../css/general.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript">
-var cls = 0;
-var coord = function(classe){
-	cls = classe;
-	var url = "get_cdc.php";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {cls: classe},
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>Classi</title>
+	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
+	<link href="../../css/general.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		var cls = 0;
+		var coord = function(){
+			//cls = classe;
+			$('#hid').hide();
+			var url = "get_cdc.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {cls: cls},
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else {
-				$('#cls_desc').text(json.cls.classe);
-				$('#coordinatore').empty();
-				$('#coordinatore').append("<option value='0'>.</option>");
-				for (var i = 0; i < json.data.coordinatore.length; i++){
-					var t = json.data.coordinatore[i];
-					var selected = '';
-					if (t.uid == json.cls.coordinatore){
-						selected = "selected";
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
 					}
-					$('#coordinatore').append("<option value='"+ t.uid+"'  "+selected+">"+ t.cognome+" "+ t.nome+"</option>");
-				}
-				$('#segretario').empty();
-				$('#segretario').append("<option value='0'>.</option>");
-				for (var i = 0; i < json.data.segretario.length; i++){
-					var t = json.data.segretario[i];
-					var selected = '';
-					if (t.uid == json.cls.segretario){
-						selected = "selected";
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
 					}
-					$('#segretario').append("<option value='"+ t.uid+"' "+selected+">"+ t.cognome+" "+ t.nome+"</option>");
-				}
-				$('#coord').dialog({
-					autoOpen: true,
-					show: {
-						effect: "appear",
-						duration: 500
-					},
-					hide: {
-						effect: "slide",
-						duration: 300
-					},
-					buttons: [{
-						text: "Chiudi",
-						click: function() {
-							$( this ).dialog( "close" );
+					else {
+						$('#cls_desc').text(json.cls.classe);
+						$('#coordinatore').empty();
+						$('#coordinatore').append("<option value='0'>.</option>");
+						for (var i = 0; i < json.data.coordinatore.length; i++){
+							var t = json.data.coordinatore[i];
+							var selected = '';
+							if (t.uid == json.cls.coordinatore){
+								selected = "selected";
+							}
+							$('#coordinatore').append("<option value='"+ t.uid+"'  "+selected+">"+ t.cognome+" "+ t.nome+"</option>");
 						}
-					}],
-					modal: true,
-					width: 450,
-					title: 'Coordinatore e segretario',
-					open: function(event, ui){
+						$('#segretario').empty();
+						$('#segretario').append("<option value='0'>.</option>");
+						for (var i = 0; i < json.data.segretario.length; i++){
+							var t = json.data.segretario[i];
+							var selected = '';
+							if (t.uid == json.cls.segretario){
+								selected = "selected";
+							}
+							$('#segretario').append("<option value='"+ t.uid+"' "+selected+">"+ t.cognome+" "+ t.nome+"</option>");
+						}
+						$('#coord').dialog({
+							autoOpen: true,
+							show: {
+								effect: "appear",
+								duration: 500
+							},
+							hide: {
+								effect: "slide",
+								duration: 300
+							},
+							buttons: [{
+								text: "Chiudi",
+								click: function() {
+									$( this ).dialog( "close" );
+								}
+							}],
+							modal: true,
+							width: 450,
+							title: 'Coordinatore e segretario',
+							open: function(event, ui){
 
+							}
+						});
 					}
-				});
-			}
-		}
-	});
-};
+				}
+			});
+		};
 
-var del_class = function(class_id){
-	var url = "class_manager.php";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {cls: class_id, action: "delete"},
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
+		var del_class = function(class_id){
+			var url = "class_manager.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {cls: class_id, action: "delete"},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else if (json.status == "no_del"){
+						alert(json.message);
+						return false;
+					}
+					else {
+						alert("Classe cancellata correttamente");
+						$('#row_'+class_id).hide();
+					}
+				}
+			});
+		};
+
+		var upd_cdc = function(sel){
+			var doc = $('#'+sel).val();
+			var url = "class_manager.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {action: 'upgrade', cls: cls, field: sel, value: doc, is_char: 0},
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						//$('#coord').hide();
+					}
+				}
+			});
+		};
+
+		var show_menu = function(id) {
+			if ($('#hid').is(":visible")) {
+				$('#hid').slideUp(400);
 				return false;
 			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else if (json.status == "no_del"){
-				alert(json.message);
-				return false;
-			}
-			else {
-				alert("Classe cancellata correttamente");
-				$('#row_'+class_id).hide();
-			}
-		}
-	});
-};
+			cls = id;
+			var offset = $('#menu_'+id).offset();
+			var top = offset.top + 18;
+			var left = offset.left - $('#hid').width() + ($('#menu_'+id).width() / 2);
+			$('#hid').css({top: top+"px", left: left+"px"});
+			$('#classname').text($('#ren_'+id).text());
+			$('#hid').slideDown();
+		};
 
-var upd_cdc = function(sel){
-	var doc = $('#'+sel).val();
-	var url = "class_manager.php";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {action: 'upgrade', cls: cls, field: sel, value: doc, is_char: 0},
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('a.coord_link').click(function(event){
+				event.preventDefault();
+				coord();
+			});
+			$('a.sched_link').click(function(event){
+				event.preventDefault();
+				var _offset = $(this).attr("data_offset");
+				document.location.href="orario.php?cls="+cls+"&offset="+_offset;
+			});
+			$('a.stud_link').click(function(event){
+				event.preventDefault();
+				var _offset = $(this).attr("data_offset");
+				document.location.href="alunni.php?id_classe="+cls+"&offset="+_offset;
+			});
+			$('a.cdc_link').click(function(event){
+				event.preventDefault();
+				var _offset = $(this).attr("data_offset");
+				document.location.href="cdc.php?id="+cls+"&offset="+_offset;
+			});
+			$('a.del_link').click(function(event){
+				event.preventDefault();
+				var strs = this.parentNode.id.split("_");
+				del_class(strs[1]);
+			});
+			$('#close_btn').click(function(event){
+				event.preventDefault();
+				$('#coord').hide();
 
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else {
-				//$('#coord').hide();
-			}
-		}
-	});
-};
+			});
+			$('a.showmenu').click(function(event){
+				event.preventDefault();
+				var strs = this.parentNode.id.split("_");
+				show_menu(strs[1]);
+			});
+			$('#coordinatore').change(function(event){
+				upd_cdc('coordinatore');
+			});
+			$('#segretario').change(function(event){
+				upd_cdc('segretario');
+			});
+		});
 
-<?php echo $page_menu->getJavascript() ?>
-
-$(function(){
-	$('table tbody > tr').mouseover(function(event){
-		//alert(this.id);
-		var strs = this.id.split("_");
-		$('#link_'+strs[1]).show();
-	});
-	$('table tbody > tr').mouseout(function(event){
-		//alert(this.id);
-		var strs = this.id.split("_");
-		$('#link_'+strs[1]).hide();
-	});
-	$('table tbody a.coord_link').click(function(event){
-		event.preventDefault();
-		var strs = this.parentNode.id.split("_");
-		coord(strs[1], 0);
-	});
-	$('table tbody a.del_link').click(function(event){
-		event.preventDefault();
-		var strs = this.parentNode.id.split("_");
-		del_class(strs[1]);
-	});
-	$('#close_btn').click(function(event){
-		event.preventDefault();
-		$('#coord').hide();
-
-	});
-	$('#coordinatore').change(function(event){
-		upd_cdc('coordinatore');
-	});
-	$('#segretario').change(function(event){
-		upd_cdc('segretario');
-	});
-});
-
-</script>
+	</script>
 </head>
 <body>
 <?php include "../header.php" ?>
@@ -197,20 +221,7 @@ $(function(){
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head"><div style="float: left"><?php $page_menu->printLink() ?></div> Elenco classi <?php echo truncateString($ordini[$school_order]['tipo'], 57) ?> <?php if(isset($sede)) echo " [{$sede}]" ?>: pagina <?php print $page ?> di <?php print $pagine ?></div>
-        <form method="post" class="no_border">
-        <table class="admin_table">
-        <thead>
-            <tr>
-            	<td style="padding-left: 10px; width: 23%" class="adm_titolo_elenco_first"></td>
-                <td style="width: 70%; padding-left: 15px" class="adm_titolo_elenco">Consiglio di classe</td>
-                <td style="padding-right: 5px; width: 7%" class="adm_titolo_elenco_last _center">Alunni</td>
-            </tr>
-            <tr class="admin_row_before_text">
-                <td colspan="3"></td>
-            </tr>
-        </thead>
-        <tbody>
+		<div class="card_container">
             <?php
             $res_cls->data_seek(0);
             $x = 1;
@@ -254,50 +265,34 @@ $(function(){
                 $sel_students_count = "SELECT COUNT(*) FROM rb_alunni WHERE id_classe = ".$class['id_classe'];
                 $stud_count = $db->executeCount($sel_students_count);
             ?>
-            <tr class="admin_row" id="row_<?php echo $class['id_classe'] ?>">
-            	
-            	<td><span style="font-weight: bold"><?php print $class['anno_corso']." ".$class['sezione'] ?></span><br /><span id="" style="margin-left: 0px; margin-right: 30px"><?php echo $class['nome'] ?></span></td>
-            	<td style="padding-left: 10px; ">
-                	<span id="span_<?php echo $class['id_classe'] ?>" class="ov_red" <?php if($cdc != "") print("style='font-weight: normal'") ?>><?php if($cdc != "") print("$cdc"); else print "Non presente" ?></span>
-                	<div id="link_<?php echo $class['id_classe'] ?>" style="display: none; vertical-align: bottom">
-                	<a href="classe.php?id=<?php echo $class['id_classe'] ?>&offset=<?php echo $offset ?>&school_order=<?php echo $school_order ?>" class="ren_link">Modifica</a>
-                	<span style="margin-left: 5px; margin-right: 5px">|</span>
-                	<a href="../../shared/no_js.php" class="del_link" st="<?php echo $stud_count ?>">Cancella</a>
-                	<span style="margin-left: 5px; margin-right: 5px">|</span>
-                	<a href="cdc.php?id=<?php echo $class['id_classe'] ?>&offset=<?php echo $offset ?>" class="cdc_link">Consiglio di classe</a>
-                	<span style="margin-left: 5px; margin-right: 5px">|</span>
-                	<a href="cdc.php?id=<?php echo $class['id_classe'] ?>&coord=1" class="coord_link">Coordinatore</a>
-                	<span style="margin-left: 5px; margin-right: 5px">|</span>
-                	<a href="orario.php?cls=<?php print $class['id_classe'] ?>&tp=<?php print $class['tempo_prolungato'] ?>&desc=<?php print $class['anno_corso']."".$class['sezione'] ?>&offset=<?php echo $offset ?>">Orario</a>
-                	<span style="margin-left: 5px; margin-right: 5px">|</span>
-                	<a href="alunni.php?id_classe=<?php print $class['id_classe'] ?>&offset=<?php echo $offset ?>">Alunni</a>
-                	</div>
-                </td>
-                <td style="color: #003366; text-align: center"><span><?php print $stud_count ?></span></td>
-                
-            </tr>
+            <div class="card" id="row_<?php echo $class['id_classe'] ?>">
+	            <div class="card_title">
+		            <a href="classe.php?id=<?php echo $class['id_classe'] ?>&offset=<?php echo $offset ?>&school_order=<?php echo $school_order ?>" class="ren_link">
+			            <span id="ren_<?php echo $class['id_classe'] ?>"><?php print $class['anno_corso']." ".$class['sezione'] ?></span> - <span id="" style="margin-left: 0px; margin-right: 30px"><?php echo $class['nome'] ?></span>
+		            </a>
+		            <div style="float: right; margin-right: 20px" id="del_<?php echo $class['id_classe'] ?>">
+			            <a href="../../shared/no_js.php" class="del_link">
+				            <img src="../../images/51.png" style="position: relative; bottom: 2px" />
+			            </a>
+		            </div>
+		            <div style="float: right; margin-right: 220px; text-align: center; width: 100px" class="normal">Alunni: <?php print $stud_count ?></div>
+	            </div>
+	            <div class="card_content">
+		            <div style="width: 90%; float: left"><?php if($cdc != "") print("$cdc"); else print "Non presente" ?></div>
+		            <div id="menu_<?php echo $class['id_classe'] ?>" style="width: 7.5%; float: left; text-align: right">
+			            <a href="../../shared/no_js.php" class="showmenu"><img src="../../images/menu.png" /></a>
+		            </div>
+	            </div>
+            </div>
             <?php
                 $x++;
             }
-            ?>
-            </tbody>
-            <tfoot>
-            <?php
             include "../../shared/navigate.php";
             ?>
-            <tr class="admin_menu">
-                <td colspan="4">
-                	<a href="classe.php?id=0&offset=<?php echo $offset ?>&school_order=<?php echo $_GET['school_order'] ?>" id="nc_link" class="nav_link standard_link">Nuova classe</a>
-                </td>
-            </tr>
-            <tr class="admin_void">
-                <td colspan="4">&nbsp;&nbsp;&nbsp;</td>
-            </tr>
-        </tfoot>
-        </table>
-        </form>
-        </div>
-	</div>
+		</div>
+    </div>
+	<p class="spacer"></p>
+</div>
 <div id="coord" style="display: none">
 	<p style="text-align: center; font-size: 1.1em; font-weight: bold; margin-top: 10px">Coordinatore di classe: <span id="cls_desc"></span></p>
 	<form action="cdc.php?upd=1" method="post">
@@ -326,7 +321,22 @@ $(function(){
 		</div>
 	</form>
 </div>
-<?php $page_menu->toHTML() ?>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link separator"><a href="classe.php?id=0&offset=<?php echo $offset ?>&school_order=<?php echo $_GET['school_order'] ?>"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />Nuova classe</a></div>
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
+<div id="hid" style="position: absolute; width: 200px; height: 130px; display: none; ">
+	<p id="classname" style="width: 100%; margin: auto; text-align: center" class="pop_label"></p>
+	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="cdc_link" data-offset="<?php echo $offset ?>">Consiglio di classe</a></p>
+	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="coord_link">Coordinatore</a></p>
+	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="sched_link" data-offset="<?php echo $offset ?>">Orario</a></p>
+	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="stud_link" data-offset="<?php echo $offset ?>">Alunni</a></p>
+</div>
 </body>
 </html>

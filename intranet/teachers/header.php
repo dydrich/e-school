@@ -1,20 +1,9 @@
 <header id="header">
-	<div id="box1">
-		<div id="sc_firstrow"><?php echo $_SESSION['__config__']['intestazione_scuola'] ?></div>
-		<div id="sc_secondrow"><?php echo $_SESSION['__current_year__']->to_string() ?></div>
+	<div id="sc_firstrow">
+		<img src="<?php echo $_SESSION['__path_to_root__'] ?>css/site_themes/<?php echo getTheme() ?>/images/icona_scuola.gif" style="width: 20px"/>
+		<span style="position: relative; bottom: 5px"><?php echo $_SESSION['__config__']['software_name']." ".$_SESSION['__config__']['software_version'] ?> - <?php echo $_SESSION['__current_year__']->to_string() ?></span>
 	</div>
-	<div id="mid"></div>
-	<div id="box2">
-		<div id="user_firstrow"><?php echo $_SESSION['__user__']->getFullName() ?></div>
-		<div id="user_secondrow">Area riservata ai docenti</div>		
-	</div>
-	<div id="box3"></div>
-	<div id="esc">
-		<ul style="list-style-type: disc">
-		<li><a href="<?php echo $_SESSION['__path_to_root__'] ?>shared/do_logout.php">Esci</a></li>
-			<?php if (isset($_SESSION['__sudoer__'])): ?>
-		<li><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back">DeSuDo</a></li>
-			<?php endif; ?>
-		</ul>
+	<div id="sc_secondrow">
+		<img src="<?php echo $_SESSION['__path_to_root__'] ?>images/13.png" style="position: relative; top: 1px" /><span style="margin-left: 5px"><?php echo $_SESSION['__user__']->getFullName() ?></span>
 	</div>
 </header>

@@ -45,6 +45,7 @@ if($res_cls->num_rows > 0) {
 	}
 }
 
-$navigation_label = "Area amministrazione: gestione tabella registro";
+$navigation_label = "tabella registro";
+$drawer_label = "Gestione tabella registro di classe ". $school_orders[$school_order];
 
 include "classbook_state.html.php";

@@ -18,8 +18,7 @@
 		<?php include "dev_menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Test unit: managers</div>
-        <table style="width: 90%; margin: 20px auto 0 auto; border-collapse: collapse" class="admin_table">
+        <table style="width: 90%; margin: 0 auto 0 auto; border-collapse: collapse" class="admin_table">
             <tr class="index_link">
                 <td style=" width: 30%"><a href="../lib/tests/classbook_manager_test.php">ClassbookManager</a></td>
                 <td style="color: #003366">

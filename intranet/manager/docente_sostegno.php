@@ -8,7 +8,7 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 $anno = $_SESSION['__current_year__']->get_ID();
 $school = $_SESSION['__school_order__'];
@@ -49,5 +49,7 @@ foreach ($classi as $k => $c) {
 		$classi[$k]['alunni'][$r['id_alunno']] = $r['cognome']." ".$r['nome'];
 	}
 }
+
+$drawer_label = "Assegnazione sostegno";
 
 include 'docente_sostegno.html.php';

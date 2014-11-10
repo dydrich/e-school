@@ -11,7 +11,9 @@ $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
 $area = "alunni";
-$navigation_label = "Registro elettronico - Area alunni";
 $student_id = $_SESSION['__user__']->getUid();
+
+$navigation_label = "scuola secondaria";
+$drawer_label = "Note disciplinari";
 
 include "../common/notes.php";

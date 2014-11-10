@@ -12,7 +12,8 @@ $_SESSION['__path_to_reg_home__'] = "./";
 
 ini_set("display_errors", "1");
 
-$navigation_label = "Registro elettronico - allegati registro personale";
+$navigation_label = "registro elettronico ";
+$drawer_label = "Registro personale: documenti allegati";
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
@@ -87,7 +88,7 @@ else if (isset($_REQUEST['std'])){
 $registro['allegati'] = $allegati;
 $_SESSION['registro'] = $registro;
 
-$dir_path = $_SESSION['__config__']['document_root']."rclasse/download/registri/".$_SESSION['__current_year__']->get_descrizione()."/{$school_order_directory}/docenti/{$user_directory}";
+$dir_path = $_SESSION['__config__']['document_root']."/rclasse/download/registri/".$_SESSION['__current_year__']->get_descrizione()."/{$school_order_directory}/docenti/{$user_directory}";
 if (!file_exists($dir_path)){
 	mkdir($dir_path, 0755, true);
 }

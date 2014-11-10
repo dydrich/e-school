@@ -44,6 +44,7 @@ try {
 	$ex->redirect();
 }
 
-$navigation_label = "Area amministrazione: gestione classi";
+$navigation_label = "gestione classi";
+$drawer_label = "Gestione moduli scuola primaria";
 
 include "moduli_primaria.html.php";

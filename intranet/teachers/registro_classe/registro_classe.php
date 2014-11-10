@@ -19,7 +19,6 @@ else{
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
-$navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level__'][$ordine_scuola]);
 $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 
@@ -69,7 +68,7 @@ while($l_day = $res_lesson_days->fetch_assoc()){
  * else controllo con l'ultimo giorno di lezione fatto
  */
 $check_day = $current_day;
-if ($res_registro->num_rows < 1){
+if ($res_registro->num_rows < 1 && count($lesson_days) > 0){
 	$check_day = $lesson_days[count($lesson_days) - 1];
 }
 // contatore giorni di lezione, per l'indice odierno
@@ -126,7 +125,14 @@ if ($is_today){
  */
 $_SESSION['no_file'] = array("referer" => "intranet/teachers/registro_classe/registro_classe.php", "path" => "intranet/teachers/", "relative" => "registro_classe/registro_classe.php");
 
+setlocale(LC_TIME, "it_IT.utf8");
+$giorno_str = strftime("%A %d %B %Y", strtotime($_SESSION['registro']['data']));
+
+$navigation_label = "Registro della classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Registro di ". $giorno_str;
+
 if($res_registro->num_rows < 1){
+	$drawer_label = "Registro di classe";
 	include "no_lessons.php";
 }
 else{

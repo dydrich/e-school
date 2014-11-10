@@ -48,6 +48,14 @@ if($_SESSION['__school_year__']){
 	}
 }
 
-$navigation_label = "Area amministrazione: gestione anno scolastico";
+$navigation_label = "gestione scuola";
+$drawer_label = "Anno scolastico ";
+if($year) {
+	$drawer_label .= $year->getYear()->get_descrizione();
+}
+else {
+	$drawer_label .= $_SESSION['__current_year__']->get_descrizione();
+}
+$drawer_label .= " ".$label;
 
 include "year_data.html.php";

@@ -72,8 +72,7 @@ else if($num_subject == 4){
 	$other_column = 15;
 }
 
-$navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$navigation_label = "Registro personale ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Riepilogo medie per materia". $label;
 
 include "summary.html.php";
-
-?>

@@ -8,7 +8,7 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area ".$_SESSION['__role__'];
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 $school = $_SESSION['__school_level__'][$_SESSION['__school_order__']];
 
@@ -41,6 +41,6 @@ if (date("Y-m-d") > $scrutini[2][$data]){
 	$st_2q = "closed";
 }
 
-include "gestione_scrutini.html.php";
+$drawer_label = "Gestione scrutini";
 
-?>
+include "gestione_scrutini.html.php";

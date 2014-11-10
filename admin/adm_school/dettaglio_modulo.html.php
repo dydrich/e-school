@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Dettaglio modulo</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Dettaglio modulo</title>
 	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
 	<link href="../../css/general.css" rel="stylesheet" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
@@ -157,6 +157,7 @@
 
 		$(function(){
 			load_jalert();
+			setOverlayEvent();
 			$('#start').timepicker();
 			$('#end').timepicker();
 			if($('#mensa').prop("checked")) {
@@ -200,7 +201,6 @@
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Gestione modulo orario</div>
     <form action="venues_manager.php" method="post" id="site_form" class="popup_form" style="width: 90%">
     <div style="width: 20%; margin: 10px auto; border: 1px solid gray; border-radius: 8px; padding: 10px 30px 10px 10px; float: left; margin-left: 5%">
     	<p style="margin: 0; height: 15px"><span style="font-weight: bold">Modulo n. </span><span style="float: right"><?php echo $_GET['idm'] ?></span></p>
@@ -273,5 +273,13 @@
 	<p class="spacer"></p>
 </div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

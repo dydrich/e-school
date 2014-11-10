@@ -16,7 +16,15 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
+$navigation_label = "";
+switch($_SESSION['__school_order__']) {
+	case 1:
+		$navigation_label .= "scuola secondaria";
+		break;
+	case 2:
+		$navigation_label .= "scuola primaria";
+		break;
+}
 
 $school = $_SESSION['__school_level__'][$_SESSION['__school_order__']];
 
@@ -57,5 +65,7 @@ while ($row = $res_supplenze->fetch_assoc()) {
 
 $row_class = "docs_row";
 $row_class_menu = " docs_row_menu";
+
+$drawer_label = "Elenco supplenze ".$label;
 
 include "elenco_supplenze.html.php";

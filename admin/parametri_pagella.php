@@ -17,9 +17,10 @@ $year = $_SESSION['__current_year__']->get_ID();
 
 $school_order = $_REQUEST['school_order'];
 
-$sel_params = "SELECT * FROM rb_parametri_pagella WHERE ordine_scuola = {$school_order}";
+$sel_params = "SELECT rb_parametri_pagella.*, COUNT(id_parametro) as count FROM rb_parametri_pagella, rb_giudizi_parametri_pagella WHERE rb_parametri_pagella.id = id_parametro AND ordine_scuola = {$school_order} GROUP BY rb_parametri_pagella.id, nome";
 $res_params = $db->execute($sel_params);
 
-$navigation_label = "Area amministrazione: gestione tabella scrutini";
+$navigation_label = "gestione scrutini";
+$drawer_label = "Elenco parametri pagella";
 
 include "parametri_pagella.html.php";

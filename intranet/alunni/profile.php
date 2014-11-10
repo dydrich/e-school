@@ -9,8 +9,7 @@ check_session();
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico - Area studenti";
+$navigation_label = "scuola secondaria";
+$drawer_label = "Profilo personale";
 
 include "profile.html.php";
-
-?>

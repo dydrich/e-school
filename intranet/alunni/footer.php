@@ -14,3 +14,4 @@
 	</p>
 </div>
 <div id='background_msg' style='width: 200px; text-align: center; font-size: 12px; font-weight: bold; padding-top: 30px; margin: auto'></div>
+<div class="overlay" id="overlay" style="display:none;"></div>

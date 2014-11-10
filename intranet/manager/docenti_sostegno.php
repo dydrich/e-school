@@ -8,7 +8,7 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 $anno = $_SESSION['__current_year__']->get_ID();
 $school = $_SESSION['__school_order__'];
@@ -30,6 +30,8 @@ while ($row = $res_sos->fetch_assoc()){
 		$sos[$row['uid']]['classi'] = array();
 	}
 	$sos[$row['uid']]['classi'][$row['classe']] = $row['d_classe'];
-}	
+}
+
+$drawer_label = "Elenco docenti di sostegno";
 
 include "docenti_sostegno.html.php";

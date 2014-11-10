@@ -25,34 +25,6 @@ a{
     text-align: right
 }
 
-.page_title {
-    width: 95%;
-    height: 25px;
-    margin: 10px auto 10px auto;
-    text-align: center;
-    font-size: 1.1em;
-    text-transform: uppercase
-}
-
-.page_title_left {
-    width: 95%;
-    height: 25px;
-    margin: 10px auto 10px auto;
-    text-align: left;
-    font-size: 1.1em;
-    text-transform: uppercase;
-    padding-left: 10%
-}
-
-#navbar {
-    width: 95%;
-    height: 40px;
-    margin-left: 5%;
-    border: 1px solid rgba(211, 222, 199, 1);
-    border-radius: 0;
-    background-color: rgba(207, 218, 195, 0.6);
-}
-
 .notification {
     border: 1px solid rgba(30, 67, 137, .7);
     background-color: rgba(30, 67, 137, .2);
@@ -100,9 +72,6 @@ a{
     text-decoration: underline
 }
 
-#not1 {
-
-}
 #accordion {
     font-size: 1em;
     width: 90%;
@@ -113,7 +82,6 @@ p.doc {
     margin:0  0 0 5px;
     min-height: 20px;
     padding-left: 5px;
-//overflow:
 }
 
 p.doc:hover {
@@ -139,16 +107,6 @@ p.doc a {
     width: 90%;
     border: 1px solid rgba(30, 67, 137, 1);
     padding: 20px 0 20px 0;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
-    border-radius: 10px
-}
-
-.doc_fieldset_det{
-    width: 75%;
-    border: 1px solid rgba(30, 67, 137, 1);
-    padding: 10px 0 10px 10px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
@@ -210,14 +168,6 @@ p.doc a {
     height: 50px
 }
 
-#dwl_button {
-    text-align: right;
-    margin-right: 0;
-    width: 30%;
-    margin-left: 58%;
-    margin-top: 20px
-}
-
 #button {
     font-size: 1em
 }
@@ -238,67 +188,11 @@ p.doc a {
     content: " * ";
 }
 
-.list_header{
-    width: 95%;
-    margin: 15px auto 0 auto;
-    height: 30px;
-    text-align: left;
-    font-weight: bold;
-    border: 1px solid rgba(30, 67, 137, .5);
-    outline-style: double;
-    outline-color: rgba(30, 67, 137, .5);
-    background-color: rgba(30, 67, 137, .3)
-}
-
-.list_title{
-    float: left;
-    position: relative;
-    top: 30%
-}
-
-#tit1, .list_f1{
-    width: 45%
-}
-
-#tit2, .list_f2{
-    width: 25%
-}
-
-#tit, .list_f{
-    width: 10%;
-    text-align: center
-}
-
-.ctit1{
-    width: 10%
-}
-
-.ctit2{
-    width: 30%
-}
-
-.ctit3{
-    width: 55%;
-}
-
-.ctit4{
-    width: 5%;
-}
-
-table.list{
-    margin: 20px auto 0 auto;
-    width: 95%
-}
-
 .nodocs{
     height: 150px;
     font-weight: bold;
     text-transform: uppercase;
     text-align: center
-}
-
-td.void{
-    height: 30px
 }
 
 #_form{
@@ -315,14 +209,6 @@ td.void{
     margin-right: auto;
     margin-top: 10px;
     margin-bottom: 20px
-}
-
-#ctable tr {
-    border-bottom: 1px solid #cccccc
-}
-
-#ctable .del_x {
-    color: red
 }
 
 .didascalia{

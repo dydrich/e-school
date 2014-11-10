@@ -1,33 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript">
-$(function(){
-	$('table tbody > tr').mouseover(function(event){
-		//alert(this.id);
-		var strs = this.id.split("_");
-		$('#link_'+strs[1]).show();
-	});
-	$('table tbody > tr').mouseout(function(event){
-		//alert(this.id);
-		var strs = this.id.split("_");
-		$('#link_'+strs[1]).hide();
-	});
-});
-</script>
-<style type="text/css">
-table tbody tr:hover {
-	background-color: #eceff1;
-}
-</style>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		var cls = 0;
+		var desc = "";
+		var tp = 0;
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('.showmenu').click(function(event){
+				event.preventDefault();
+				cls = $(this).attr("data-idclass");
+				desc = $(this).attr("data-descclass");
+				tp = $(this).attr("data-tp");
+				_offset = $(this).parent().offset();
+				show_menu(event, _offset);
+			});
+			$('#context_menu').mouseleave(function(){
+				$('#context_menu').hide();
+			})
+			$('.cdc_link').click(function(event){
+				event.preventDefault();
+				document.location.href = "classe.php?id="+cls+"&show=cdc&tp="+tp+"&desc="+desc;
+			})
+			$('.schedule_link').click(function(event){
+				event.preventDefault();
+				document.location.href = "classe.php?id="+cls+"&show=orario&tp="+tp+"&desc="+desc;
+			})
+			$('.students_link').click(function(event){
+				event.preventDefault();
+				document.location.href = "classe.php?id="+cls+"&show=alunni&tp="+tp+"&desc="+desc;
+			})
+			$('.grades_link').click(function(event){
+				event.preventDefault();
+				document.location.href = "medie_classe.php?cls="+cls;
+			})
+		});
+
+		var show_menu = function(e, _offset) {
+			if ($('#context_menu').is(":visible")) {
+				$('#context_menu').slideUp(500);
+				return;
+			}
+			var _top = _offset.top + $('#cm_container').height();
+			var _left = _offset.left - $('#context_menu').width();
+			$('#context_menu').css({top: _top+'px', left: _left+'px'});
+			$('#context_menu').slideDown(500);
+		};
+	</script>
 </head>
 <body>
 <?php include "header.php" ?>
@@ -37,70 +66,69 @@ table tbody tr:hover {
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<div class="group_head">
-		Elenco classi <?php echo $school ?> - <?php print strtolower($_SESSION['__current_year__']->to_string()) ?>
-	</div>
-	<div class="outline_line_wrapper">
-		<div style="width: 15%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Classe</span></div>
-		<div style="width: 45%; float: left; position: relative; top: 30%">&nbsp;</div>
-		<div style="width: 30%; float: left; position: relative; top: 30%">Sede</div>
-		<div style="width: 10%; float: left; position: relative; top: 30%">Alunni</div>
-	</div>
-   	<table style="width: 95%; margin: 0 auto 0 auto">
-   			<tbody>
-	 	    <?php 
-	 	    if($res_cls->num_rows > $limit)
-	 	    	$max = $limit;
-	 	    else
-	 	    	$max = $res_cls->num_rows;
-	 	    $x = 0;
-	 	    $bgcolor = "";
-	 	    while($cls = $res_cls->fetch_assoc()){
-	 	    	if($x >= $limit) break;
-	 	    ?>
- 	    	<tr class="<?php echo $row_class ?>" id="row_<?php echo $cls['id_classe'] ?>">
- 	    		<td style="width: 15%; text-align: left"><?php print $cls['anno_corso'].$cls['sezione'] ?><span style="margin-left: 8px"><?php if (!$_SESSION['__school_order__']) echo $cls['tipo'] ?></span></td>
- 	    		<td style="width: 45%; text-align: left">
- 	    		<div id="link_<?php echo $cls['id_classe'] ?>" style="display: none; vertical-align: bottom">
-                	<a href="classe.php?id=<?php echo $cls['id_classe'] ?>&show=cdc&desc=<?php print $cls['anno_corso']."".$cls['sezione'] ?>" class="cdc_link">Consiglio di classe</a>
-                	<span style="margin-left: 5px; margin-right: 5px">|</span>
-                	<a href="classe.php?id=<?php echo $cls['id_classe'] ?>&tp=<?php print $cls['tempo_prolungato'] ?>&desc=<?php print $cls['anno_corso']."".$cls['sezione'] ?>&show=orario">Orario</a>
-                	<span style="margin-left: 5px; margin-right: 5px">|</span>
-                	<a href="classe.php?id=<?php echo $cls['id_classe'] ?>&show=alunni&desc=<?php print $cls['anno_corso']."".$cls['sezione'] ?>">Alunni</a>
-                	<span style="margin-left: 5px; margin-right: 5px">|</span>
-                	<a href="medie_classe.php?cls=<?php echo $cls['id_classe'] ?>">Voti</a>
-                	</div>
- 	    		</td>
- 	    		<td style="width: 30%; text-align: center"><?php print $cls['nome'] ?></td>
- 	    		<td style="width: 10%; text-align: center"><?php print $cls['num_alunni'] ?></td>
- 	    	</tr>
-	 	    
-	 	    <?php 
-	 	    	$x++;
-	 	    }
-	 	    ?>
-	 	    </tbody>
-	 	    <tfoot>
-	 	    <?php 
-	 	    include "../../shared/navigate.php";
-            ?>
-            <tr>
-    	<td colspan="4" style="height: 25px"></td> 
-    </tr>
-	<tr>
-		<td colspan="2" style="text-align: right;"></td>
-		<td colspan="2" style="text-align: center">
-		<div style="margin-left: 30%; width: 70%; height: 20px; border: 1px solid rgb(211, 222, 199); border-radius: 8px; background-color: rgba(211, 222, 199, 0.4)">
-			<span id="ingresso" style="font-weight: bold; "></span>
-			<a href="elenco_classi.php?order=<?php if($order == "sez") print "year"; else print "sez" ?>" style="font-weight: normal; text-decoration: none; text-transform: uppercase; position: relative; top: 15%">Ordina per <?php if($order == "sez") print "anno corso"; else print "sezione" ?></a> 
+   	<div class="card_container">
+        <?php
+        if($res_cls->num_rows > $limit)
+            $max = $limit;
+        else
+            $max = $res_cls->num_rows;
+        $x = 0;
+        $bgcolor = "";
+        while($cls = $res_cls->fetch_assoc()){
+            if($x >= $limit) break;
+        ?>
+	        <div class="card">
+		        <div class="card_title">
+			        <?php echo $cls['anno_corso'].$cls['sezione'] ?><span style="margin-left: 8px"><?php if (!$_SESSION['__school_order__']) echo $cls['tipo'] ?></span>
+			        <div id="cm_container" style="float: right; width: 20px; margin-right: 10px">
+				        <a href="#" class="showmenu" data-idclass="<?php echo $cls['id_classe'] ?>" data-descclass="<?php print $cls['anno_corso'].$cls['sezione'] ?>" data-tp="<?php echo $cls['tempo_prolungato'] ?>">
+					        <img src="../../images/19.png" />
+				        </a>
+			        </div>
+		        </div>
+		        <div class="card_minicontent">
+			<?php if (!$_SESSION['__school_order__']) : ?>
+			        <div class="minicard">
+				        <?php echo $cls['nome'] ?>
+			        </div>
+		    <?php endif; ?>
+			        <div class="minicard">
+				        <?php echo $cls['num_alunni'] ?> alunni
+			        </div>
+		        </div>
+	        </div>
+        <?php
+            $x++;
+        }
+        include "../../shared/navigate.php";
+        ?>
 		</div>
-		</td>
-	</tr>
-	</tfoot>
-	</table>		
 	</div>
 <p class="spacer"></p>		
 </div>
-<?php include "footer.php" ?>	
+<?php include "footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="profile.php"><img src="../../images/33.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
+		<div class="drawer_link"><a href="../../modules/documents/load_module.php?module=docs&area=<?php echo $_SESSION['__area__'] ?>"><img src="../../images/11.png" style="margin-right: 10px; position: relative; top: 5%" />Documenti</a></div>
+		<?php if(is_installed("com")){ ?>
+			<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=<?php echo $_SESSION['__area__'] ?>"><img src="../../images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
+		<?php } ?>
+		<?php if ($_SESSION['__role__'] == "Dirigente scolastico"): ?>
+			<div class="drawer_link"><a href="utility.php"><img src="../../images/59.png" style="margin-right: 10px; position: relative; top: 5%" />Utility</a></div>
+		<?php endif; ?>
+	</div>
+	<?php if (isset($_SESSION['__sudoer__'])): ?>
+		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
+	<?php endif; ?>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
+<div id="context_menu" class="context_menu" style="display: none; width: 155px; height: 100px;">
+	<a href="#" class="cdc_link">Consiglio di classe</a><br />
+	<a href="#" class="schedule_link">Orario</a><br />
+	<a href="#" class="students_link">Alunni</a><br />
+	<a href="#" class="grades_link">Voti</a>
+</div>
 </body>
 </html>

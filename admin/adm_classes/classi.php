@@ -111,20 +111,11 @@ if(basename($_SERVER['HTTP_REFERER']) == "wiz_first_install.php?step=3"){
 	$goback_link = "../wiz_first_install.php?step=3";
 }
 
-/*
- * PageMenu widget
-*/
-$page_menu = new PageMenu("cmenu", "page_menu", "height: 150px; width: 180px; display: none", "div");
-$page_menu->setDatasource($venues);
-$html = "<a href='classi.php' style='display: block; padding: 0px 0 0 5px; margin: 10px 0 0 0; line-height: 18px'>&middot;&nbsp;&nbsp;&nbsp;Tutte le sedi</a>";
-foreach($venues as $k => $venue){
-	$html .= "<a href='classi.php?venue={$venue['id']}' style='display: block; padding: 0px 0 0 5px; margin: 5px 0 0 0; line-height: 18px'>&middot;&nbsp;&nbsp;&nbsp;{$venue['desc']}</a>";
+$navigation_label = "gestione classi";
+$drawer_label = "Elenco classi ".truncateString($ordini[$school_order]['tipo'], 57)." ";
+if(isset($sede)) {
+	$drawer_label .= " [".$sede."]";
 }
-$page_menu->setInnerHTML($html);
-$page_menu->setPathToRoot($_SESSION['__path_to_root__']);
-$page_menu->createLink();
-$page_menu->setJavascript('', 'jquery');
-
-$navigation_label = "Area amministrazione: gestione classi";
+$drawer_label .= ": pagina $page di $pagine ";
 
 include "classi.html.php";

@@ -17,6 +17,7 @@ else {
 	$active = 0;
 }
 
-$navigation_label = "Registro elettronico - Configurazioni utente";
+$navigation_label = "registro elettronico ";
+$drawer_label = "Configurazione registro di classe";
 
 include "conf_classbook.html.php";

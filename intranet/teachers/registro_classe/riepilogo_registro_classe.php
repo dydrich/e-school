@@ -25,7 +25,6 @@ else{
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
-$navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level__'][$ordine_scuola]);
 $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $schedule_module = $_SESSION['__classe__']->get_modulo_orario();
@@ -118,5 +117,8 @@ for ($x = 1; $x <= $last_day; $x++) {
 
 	);
 }
+
+$navigation_label = "Registro della classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Registro di classe: settimana dal ".format_date($days[1]['date'], SQL_DATE_STYLE, IT_DATE_STYLE, "/")." al ".format_date($days[$last_day]['date'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
 
 include "riepilogo_registro_classe.html.php";

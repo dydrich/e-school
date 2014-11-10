@@ -1,264 +1,257 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<title>Elenco docenti</title>
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
-<link rel="stylesheet" href="../../css/general.css" type="text/css" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript">
-var IE = document.all?true:false;
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>Elenco docenti</title>
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		var doc = mat = type = 0;
+		var materia = function(event){
+		    $('#hid').hide();
+		    var url = "materia.php";
 
-var tempX = 0;
-var tempY = 0;
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {uid: doc, mat: mat},
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-var materia = function(event){
-    //alert("ok");
-    $('#hid').hide();
-    var uid = $('#uid').val();
-    var mat = $('#mat').val();
-    var url = "materia.php";
-
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {uid: uid, mat: mat},
-		dataType: 'json',
-		error: function() {
-			j_alert("error", "Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				j_alert("error", json.message);
-				console.log(json.dbg_message);
-			}
-			else {
-				$('#doc_'+uid).text(json.subject);
-			}
-		}
-	});
-};
-
-var ruolo = function(_uid){
-    var uid = _uid;
-    var url = "ruolo.php";
-
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {uid: uid},
-		dataType: 'json',
-		error: function() {
-			j_alert("error", "Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				j_alert("error", json.message);
-				console.log(json.dbg_message);
-			}
-			else {
-				$('#rl_'+uid).text(json.value);
-			}
-		}
-	});
-};
-
-var set_type = function(event){
-    //alert("ok");
-    $('#d_tp').hide();
-    var uid = $('#uid').val();
-    var type = $('#type').val();
-    var url = "set_school_type.php";
-
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {uid: uid, type: type},
-		dataType: 'json',
-		error: function() {
-			j_alert("error", "Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				j_alert("error", json.message);
-				console.log(json.dbg_message);
-			}
-			else if (json.status == "ko") {
-				j_alert("error", json.message);
-			}
-			else {
-				$('#tipo_'+uid).text(json.tipo);
-			}
-		}
-	});
-};
-
-var load_subjects = function(user){
-	var url = "load_subjects.php";
-
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {uid: user},
-		dataType: 'json',
-		error: function() {
-			j_alert("error", "Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				j_alert("error", json.message);
-				console.log(json.dbg_message);
-			}
-			else if (json.status == "ko") {
-				j_alert("error", json.message);
-			}
-			else {
-				$('#hid').html("");
-				var subjs = json.materie;
-				var print_string = "";
-				for(data in subjs){
-					var t = subjs[data];
-					print_string += "<a href='../../shared/no_js.php' class='sub_link' id='mat_"+t.id+"'>"+t.materia+"</a><br />";
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						j_alert("error", json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						$('#doc_'+doc).hide("fade", "400");
+						setTimeout(function(){
+							$('#doc_'+doc).text(json.subject);
+							$('#doc_'+doc).show("fade", "400");
+						}, 400);
+					}
 				}
-				$('#hid').html(print_string);
-				$('#hid').css({height: json.height+"px"});
-				$('a.sub_link').click(function(event){
-					event.preventDefault();
-					var strs = this.id.split("_");
-					$('#mat').val(strs[1]);
-					materia(event);
-				});
+			});
+		};
+
+		var ruolo = function(){
+		    var url = "ruolo.php";
+
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {uid: doc},
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						j_alert("error", json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						$('#rl_'+doc).hide("fade", "400");
+						setTimeout(function(){
+							$('#rl_'+doc).text(json.value);
+							$('#rl_'+doc).show("fade", "400");
+						}, 400);
+					}
+				}
+			});
+		};
+
+		var set_type = function(event){
+		    $('#d_tp').hide();
+		    var url = "set_school_type.php";
+
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {uid: doc, type: type},
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						j_alert("error", json.message);
+						console.log(json.dbg_message);
+					}
+					else if (json.status == "ko") {
+						j_alert("error", json.message);
+					}
+					else {
+						$('#tipo_'+doc).hide("fade", "400");
+						setTimeout(function(){
+							$('#tipo_'+doc).text(json.tipo);
+							$('#tipo_'+doc).show("fade", "400");
+						}, 400);
+					}
+				}
+			});
+		};
+
+		var load_subjects = function(user){
+			var url = "load_subjects.php";
+
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {uid: user},
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						j_alert("error", json.message);
+						console.log(json.dbg_message);
+					}
+					else if (json.status == "ko") {
+						j_alert("error", json.message);
+					}
+					else {
+						$('#hid').html("");
+						var subjs = json.materie;
+						var print_string = "";
+						for(data in subjs){
+							var t = subjs[data];
+							print_string += "<a href='../../shared/no_js.php' class='sub_link' data-id='"+t.id+"' id='mat_"+t.id+"'>"+t.materia+"</a><br />";
+						}
+						$('#hid').html(print_string);
+						$('#hid').css({height: json.height+"px"});
+						$('a.sub_link').click(function(event){
+							event.preventDefault();
+							var strs = $(this).attr("data-id");
+							mat = strs;
+							materia(event);
+						});
+					}
+				}
+			});
+		};
+
+		var visualizza = function(e, off) {
+			if ($('#hid').is(":visible")) {
+				$('#hid').slideUp(500);
+				return;
 			}
-		}
-	});
-};
+		    $('#hid').css({top: off.top+"px"});
+		    $('#hid').css({left: off.left+"px"});
+		    $('#hid').slideDown(500);
+		    return true;
+		};
 
-function visualizza(e) {
-    if (IE) { 
-        tempX = event.clientX + document.body.scrollLeft;
-        tempY = event.clientY + document.body.scrollTop;
-    } else {  
-        tempX = e.pageX;
-        tempY = e.pageY;
-    }  
+		var show_types = function(e, off){
+			if ($('#d_tp').is(":visible")) {
+				$('#d_tp').slideUp(500);
+				return;
+			}
+			$('#d_tp').css({top: off.top+"px"});
+		    $('#d_tp').css({left: off.left+"px"});
+		    $('#d_tp').slideDown(500);
+		    return true;
+		};
 
-    if (tempX < 0){tempX = 0;}
-    if (tempY < 0){tempY = 0;}  
-    $('#hid').css({top: parseInt(tempY)+"px"});
-    $('#hid').css({left: parseInt(tempX)+"px"});
-    $('#hid').show();
-    return true;
-}
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('a.sub_link').click(function(event){
+				event.preventDefault();
+				var strs = $(this).attr("data-id");
+				alert(strs);
+				mat = strs;
+				materia(event);
+			});
+			$('a.ch_link').click(function(event){
+				event.preventDefault();
+				var id = $(this).attr("data-id");
+				doc = id;
+				load_subjects(id);
+				var off = $(this).offset();
+				off.top += $(this).height();
+				visualizza(event, off);
+			});
+			$('a.ruolo').click(function(event){
+				event.preventDefault();
+				doc = $(this).attr("data-id");
+				ruolo();
+			});
+			$('a.tipo').click(function(event){
+				event.preventDefault();
+				<?php if($_SESSION['__user__']->isAdministrator()){ ?>
+				doc = $(this).attr("data-id");
+				var off = $(this).offset();
+				off.top += $(this).height();
+				show_types(event, off);
+				<?php } ?>
+			});
+			$('a.sc_link').click(function(event){
+				event.preventDefault();
+				var strs = $(this).attr("data-id");
+				type = strs;
+				set_type(event);
+			});
+			$('#d_tp').mouseleave(function(event){
+				event.preventDefault();
+				$('#d_tp').hide();
+			});
+			$('#hid').mouseleave(function(event){
+				event.preventDefault();
+				$('#hid').hide();
+			});
+		});
 
-var show_types = function(e){
-	if (IE) { 
-        tempX = event.clientX + document.body.scrollLeft;
-        tempY = event.clientY + document.body.scrollTop;
-    } else {  
-        tempX = e.pageX;
-        tempY = e.pageY;
-    }  
-    
-    if (tempX < 0){tempX = 0;}
-    if (tempY < 0){tempY = 0;}
-    tempX -= 100;
-    $('#d_tp').css({top: parseInt(tempY)+"px"});
-    $('#d_tp').css({left: parseInt(tempX)+"px"});
-    $('#d_tp').show();
-    return true;
-};
-
-$(function(){
-	load_jalert();
-	$('a.sub_link').click(function(event){
-		event.preventDefault();
-		var strs = this.id.split("_");
-		$('#mat').val(strs[1]);
-		materia(event);
-	});
-	$('a.ch_link').click(function(event){
-		event.preventDefault();
-		var strs = this.id.split("_");
-		$('#uid').val(strs[1]);
-		load_subjects(strs[1]);
-		visualizza(event);
-	});
-	$('a.ruolo').click(function(event){
-		event.preventDefault();
-		var strs = this.id.split("_");
-		ruolo(strs[1]);
-	});
-	$('a.tipo').click(function(event){
-		event.preventDefault();
-		<?php if($_SESSION['__user__']->isAdministrator()){ ?>
-		var strs = this.id.split("_");
-		$('#uid').val(strs[1]);
-		show_types(event);
-		<?php } ?>
-	});
-	$('a.sc_link').click(function(event){
-		event.preventDefault();
-		var strs = this.id.split("_");
-		$('#type').val(strs[1]);
-		set_type(event);
-	});
-	$('#d_tp').mouseleave(function(event){
-		event.preventDefault();
-		$('#d_tp').hide();
-	});
-	$('#hid').mouseleave(function(event){
-		event.preventDefault();
-		$('#hid').hide();
-	});
-});
-
-</script>
+	</script>
 </head>
 <body>
     <!--
     DIV nascosto che contiene le materie: ogni riga e' un link che carica materie.php
     -->
-    <div id="hid" style="position: absolute; width: 200px; height: <?php echo (20 * $res_m->num_rows) ?>px; display: none; ">
+    <div id="hid" style="position: absolute; width: 200px; display: none; ">
     <?php
     $k = 0;
     while($mt = $res_m->fetch_assoc()){
     ?>
-        <a href="../../shared/no_js.php" class="sub_link" id="mat_<?php echo $mt['id_materia'] ?>"><?php print $mt['materia'] ?></a><br />
+        <a href="../../shared/no_js.php" class="sub_link" id="mat_<?php echo $mt['id_materia'] ?>" data-id="<?php echo $mt['id_materia'] ?>"><?php print $mt['materia'] ?></a><br />
     <?php
         $k++;
     }
@@ -271,7 +264,7 @@ $(function(){
     <?php
     while($t = $res_tipologie->fetch_assoc()){
     ?>
-        <a href="../../shared/no_js.php" class="sc_link" id="tp_<?php echo $t['id_tipo'] ?>"><?php print $t['tipo'] ?></a><br />
+        <a href="../../shared/no_js.php" class="sc_link" id="tp_<?php echo $t['id_tipo'] ?>" data-id="<?php echo $t['id_tipo'] ?>"><?php print $t['tipo'] ?></a><br />
     <?php
     }
     ?>
@@ -283,18 +276,8 @@ $(function(){
 		    <?php include "menu.php" ?>
 	    </div>
 	    <div id="left_col">
-		   <div class="group_head">Elenco Docenti: pagina <?php print $page ?> di <?php print $pagine ?></div>
-		<form method="post" style="width: 100%" class="no_border">
-        <table class="admin_table">
-            <tr>
-                <td style="width: 30%" class="adm_titolo_elenco_first">Nome e cognome</td>
-                <td style="width: 20%" class="adm_titolo_elenco">Materia</td>
-                <td style="width: 10%" class="adm_titolo_elenco _center">Ruolo</td>
-                <td style="width: 40%" class="adm_titolo_elenco_last _center">Tipologia scuola</td>
-            </tr>
-            <tr class="admin_row_before_text">
-                <td colspan="4"></td>
-            </tr>
+		   <div class="card_container">
+			<form method="post" style="width: 100%" class="no_border">
             <?php
             $x = 1;
             if($res_user->num_rows > $limit)
@@ -308,30 +291,40 @@ $(function(){
                     $ruolo = "NO";
                 if($x > $limit) break;
             ?>
-            <tr class="admin_row" style="height: 20px">
-                <td><?php print $user['cognome']." ".$user['nome'] ?></td>
-                <td><a href="../../shared/no_js.php" class="ch_link" id="doc_<?php print $user['id_docente'] ?>"><?php print $user['materia'] ?></a></td>
-                <td class="_center"><a href="../../shared/no_js.php" id="rl_<?php print $user['id_docente'] ?>" class="ruolo"><?php print $ruolo ?></a></td>
-                <td class="_center"><a href="../../shared/no_js.php" id="tipo_<?php print $user['id_docente'] ?>" class="tipo"><?php echo $user['tipologia'] ?></a>
-            </tr>
+	            <div class="card" id="row_<?php print $user['id_docente'] ?>">
+		            <div class="card_title">
+			            <?php print $user['cognome']." ".$user['nome'] ?>
+			            <div style="float: right; margin-right: 20px; color: #1E4389" id="<?php print $user['id_docente'] ?>">Titolare:
+				            <a href="../../shared/no_js.php" id="rl_<?php print $user['id_docente'] ?>" data-id="<?php print $user['id_docente'] ?>" class="ruolo">
+					            <?php print $ruolo ?>
+				            </a>
+			            </div>
+		            </div>
+		            <div class="card_content">
+			            <div style="float: left; text-align: left; width: 400px">
+				            <a href="../../shared/no_js.php" id="tipo_<?php print $user['id_docente'] ?>" data-id="<?php print $user['id_docente'] ?>" style="text-transform: capitalize" class="tipo normal"><?php echo $user['tipologia'] ?></a>
+			            </div>
+			            <a href="../../shared/no_js.php" class="ch_link normal" id="doc_<?php print $user['id_docente'] ?>" data-id="<?php print $user['id_docente'] ?>"><?php print $user['materia'] ?></a>
+		            </div>
+	            </div>
             <?php
                 $x++;
             }
             include "../../shared/navigate.php";
             ?>
-
-            <tr class="admin_void">
-                <td colspan="4">&nbsp;&nbsp;&nbsp;
-                	<input type="hidden" name="mat" id="mat" />
-        			<input type="hidden" name="uid" id="uid" />
-        			<input type="hidden" name="type" id="type" />
-                </td>
-            </tr>
-        </table>
         </form>
-	    </div>
-	    <p class="spacer"></p>
     </div>
-    <?php include "../footer.php" ?>
+	    </div>
+    <p class="spacer"></p>
+</div>
+<?php include "../footer.php" ?>
+    <div id="drawer" class="drawer" style="display: none; position: absolute">
+	    <div style="width: 100%; height: 430px">
+		    <div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		    <div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		    <div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	    </div>
+	    <div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+    </div>
 </body>
 </html>

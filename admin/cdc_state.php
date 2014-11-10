@@ -52,8 +52,8 @@ $materie = array();
 $materie_no_cdc = array();
 try {
 	$res_cls = $db->executeQuery("SELECT id_classe, anno_corso, sezione FROM {$classes_table} WHERE anno_scolastico = {$year} ORDER BY sezione, anno_corso");
-	$res_cdc = $db->executeQuery("SELECT rb_cdc.id_classe, rb_cdc.id_materia FROM rb_cdc, rb_classi WHERE rb_cdc.id_classe = rb_classi.id_classe {$scr_classes} AND id_anno = {$year} ORDER BY id_classe");
-	$res_mat = $db->executeQuery("SELECT id_materia, materia FROM rb_materie WHERE has_sons = 0 AND id_materia > 2 {$subject_params}");
+	$res_cdc = $db->executeQuery("SELECT rb_cdc.id_classe, rb_cdc.id_materia FROM rb_cdc, rb_classi WHERE rb_cdc.id_classe = rb_classi.id_classe {$scr_classes} AND id_anno = {$year} ORDER BY id_classe, id_materia");
+	$res_mat = $db->executeQuery("SELECT id_materia, materia FROM rb_materie WHERE has_sons = 0 AND id_materia > 2 {$subject_params} ");
 } catch (MySQLException $ex) {
 	$ex->redirect();
 }
@@ -75,6 +75,7 @@ while ($_cdc = $res_cdc->fetch_assoc()) {
 	} 
 }
 
-$navigation_label = "Area amministrazione: gestione tabella CDC";
+$navigation_label = "gestione tabella CDC";
+$drawer_label = "Record CDC";
 
 include "cdc_state.html.php";

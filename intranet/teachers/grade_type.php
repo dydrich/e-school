@@ -20,6 +20,7 @@ try {
 	exit;
 }
 
-$navigation_label = "Registro elettronico - Configurazioni utente";
+$navigation_label = "registro elettronico ";
+$drawer_label = "Configurazione registro personale: tipologie di prova";
 
 include "grade_type.html.php";

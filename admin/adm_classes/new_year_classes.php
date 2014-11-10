@@ -42,6 +42,7 @@ try{
 $sel_step = "SELECT valore FROM rb_config WHERE variabile = 'stato_avanzamento_nuove_classi_{$school_order}'";
 $_SESSION['__new_classes_step__'] = $db->executeCount($sel_step);
 
-$navigation_label = "Area amministrazione";
+$navigation_label = "nuovo anno";
+$drawer_label = "Gestione classi per nuovo anno scolastico: $cl_label ";
 
 include "new_year_classes.html.php";

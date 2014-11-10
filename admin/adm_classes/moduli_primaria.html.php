@@ -116,6 +116,7 @@
 
 		$(function(){
 			load_jalert();
+			setOverlayEvent();
 			$('#button').button();
 			$('#button').click(function(){
 				add_module();
@@ -150,20 +151,21 @@
 		.draggable_class {
 			width: 50px;
 			height: 18px;
-			background-color:#F69988;
-			border: 1px solid #DB5355;
+			background-color:#999999;
+			border: 1px solid #666666;
 			border-radius: 10%;
 			float: left;
 			margin-right: 10px;
 			margin-bottom: 10px;
 			text-align: center;
 			font-weight: bold;
+			color: white
 		}
 
 		.droppable_module {
 			width: 70px;
 			height: 100px;
-			background-color: rgba(30, 67, 137, .1);
+			background-color: #F1F1F1;
 			border: 1px solid rgba(30, 67, 137, .8);
 			border-radius: 10%;
 			float: left;
@@ -182,7 +184,6 @@
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Gestione moduli scuola primaria</div>
 		<div id="start_container" style="width: 95%; margin: auto; ">
 			<?php
 			reset ($classi);
@@ -229,5 +230,13 @@
 	</div>
 </div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 360px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

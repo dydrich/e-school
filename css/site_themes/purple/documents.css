@@ -1,0 +1,216 @@
+@CHARSET "UTF-8";
+
+a{
+    text-decoration: none;
+    font-weight: normal
+}
+
+.bold_ {
+    font-weight: bold
+}
+
+.fleft {
+    float: left;
+}
+
+.fright {
+    float: right
+}
+
+._center{
+    text-align: center
+}
+
+._right{
+    text-align: right
+}
+
+.notification {
+    border: 1px solid rgba(30, 67, 137, .7);
+    background-color: rgba(30, 67, 137, .2);
+    font-weight: bold;
+    font-size: 1.1em;
+    text-align: left;
+    padding-left: 5px;
+    padding-top: 5px;
+    display: none;
+    width: 90%;
+    height: 30px;
+    margin-left: 8%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #484848
+}
+
+.error {
+    background-color: rgba(131, 2, 29, 0.3);
+}
+
+#iframe {
+    clear: both;
+    width: 95%;
+    border: 0;
+    height: 80px;
+    padding-top: 5px;
+    text-align: left;
+    display: inline-block
+}
+
+#aframe {
+    border: none;
+    width: 80%;
+    margin: 0px;
+    height: 80px
+}
+
+#del_upl {
+    position: relative;
+    float: right;
+    top: -25px;
+    padding-right: 20px;
+    display: none;
+    text-decoration: underline
+}
+
+#accordion {
+    font-size: 1em;
+    width: 90%;
+    margin: 30px auto 20px 5%
+}
+
+p.doc {
+    margin:0  0 0 5px;
+    min-height: 20px;
+    padding-left: 5px;
+}
+
+p.doc:hover {
+    background-color: rgba(243, 229, 245, .5);
+}
+
+p.doc a {
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+#doc_form {
+    width: 90%;
+    margin: auto;
+}
+
+.doc_data{
+    height: 15px;
+    margin: 0px
+}
+
+.doc_fieldset{
+    width: 90%;
+    border: 1px solid rgba(30, 67, 137, 1);
+    padding: 20px 0 20px 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    border-radius: 10px
+}
+
+.doc_fieldset  legend {
+    font-weight: bold;
+    margin-left: 10px;
+    padding: 0 5px 0 5px
+}
+
+.doc_fieldset  table {
+    width: 95%
+}
+
+.doc_title {
+    width: 30%;
+    padding-left: 10px;
+    font-weight: 900;
+}
+
+.doc_det_title {
+    width: 90%;
+    padding-left: 10px;
+    font-weight: bold
+}
+
+.doc_field {
+    width: 70%
+}
+
+.full_field{
+    width: 95%;
+    font-size: 11px;
+}
+
+.half_field {
+    width: 37%;
+    font-size: 11px
+}
+
+.almostfull_field {
+    width: 75%;
+    font-size: 11px
+}
+
+.half_title{
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: bold
+}
+
+#cls_span {
+    padding-left: 27px
+}
+
+#abstract{
+    height: 50px
+}
+
+#button {
+    font-size: 1em
+}
+
+.button_group{
+    margin-right: 10px;
+    margin-top: 20px;
+    width: 95%;
+    text-align: right;
+    padding-bottom: 25px
+}
+
+.has_error {
+    border: 1px solid red
+}
+
+.mandatory:after {
+    content: " * ";
+}
+
+.nodocs{
+    height: 150px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center
+}
+
+#_form{
+    margin-top: 10px;
+    text-align: left;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto
+}
+
+#cat_table{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 20px
+}
+
+.didascalia{
+    font-size: 0.9em
+}

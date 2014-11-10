@@ -1,5 +1,4 @@
 <div class="smallbox" id="working">
-<h2 class="menu_head">Menu</h2>
 	<p class="menu_label class_icon">La tua scuola</p>
 	<?php
 	if (isset($_SESSION['__school_order__'])){
@@ -35,9 +34,5 @@
 	<?php
 	}
 	?>
-	<p class="menu_label com_icon">Comunicazioni</p>
-	<ul class="menublock" style="" dir="rtl">
-		<li><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=manager">Home</a></li>
-	</ul>
 	
 </div>

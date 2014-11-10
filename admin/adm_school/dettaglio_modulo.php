@@ -8,6 +8,10 @@ check_permission(ADM_PERM);
 
 ini_set("display_errors", "0");
 
+$admin_level = 0;
+$navigation_label = "gestione scuola";
+$drawer_label = "Dettaglio modulo orario";
+
 if($_GET['idm'] != 0){
 	$_SESSION['module'] = new ScheduleModule($db, $_GET['idm']);
 	$module = $_SESSION['module'];
@@ -19,6 +23,3 @@ else {
 	$idm = 0;
 	include "nuovo_modulo.html.php";
 }
-
-$admin_level = 0;
-$navigation_label = "Area amministrazione: gestione moduli orario";

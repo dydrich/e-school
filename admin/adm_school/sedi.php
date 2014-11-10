@@ -62,6 +62,7 @@ if(isset($_SERVER['HTTP_REFERER']) && basename($_SERVER['HTTP_REFERER']) == "wiz
 	$goback_link = "../wiz_first_install.php";
 }
 
-$navigation_label = "Area amministrazione: gestione sedi";
+$navigation_label = "gestione scuola";
+$drawer_label = "Elenco sedi: pagina $page di $pagine";
 
 include "sedi.html.php";

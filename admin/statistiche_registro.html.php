@@ -9,6 +9,12 @@
 	<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../js/page.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+		});
+	</script>
 </head>
 <body>
 <?php include "header.php" ?>
@@ -18,12 +24,9 @@
 		<?php include "stat_menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">
-			Statistiche registro elettronico <?php echo $title_label ?>
-		</div>
-        <table style="margin: 20px auto 0 auto;" class="admin_table">
+		<table style="margin: 0 auto 0 auto;" class="admin_table">
             <tr>
-                <td colspan="2" class="_bold _center title_row">Genitori</td>
+                <td colspan="2" class="_bold _center accent_decoration">Genitori</td>
             </tr>
             <?php 
             if((count($_SESSION['__school_level__']) > 1)){ 
@@ -61,7 +64,7 @@
             	<td colspan="2">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="2"  class="_bold _center title_row">Pagelle</td>
+                <td colspan="2"  class="_bold _center accent_decoration">Pagelle</td>
             </tr>
             <?php 
             if((count($_SESSION['__school_level__']) > 1)){ 
@@ -98,22 +101,21 @@
             <tr>
             	<td colspan="2">&nbsp;</td>
             </tr>
-            <tr class="admin_menu">
-                <td style="width: 50%"></td>
-                <td style="text-align: right">
-	                <a href="<?php print $_SESSION['__config__']['root_site'] ?>" class="standard_link">Torna all'Home Page</a>
-                </td>
-            </tr>
             <tr class="admin_void">
                 <td colspan="2">&nbsp;&nbsp;&nbsp;</td>
             </tr>
         </table>
     </div>
-    <div class="overlay" id="over1" style="display: none">
-        <div id="wait_label" style="position: absolute; display: none; padding-top: 25px">Caricamento dati in corso</div>
-    </div>
 	<p class="spacer"></p>
 	</div>
 <?php include "footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../index.php"><img src="../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="index.php"><img src="../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../shared/do_logout.php"><img src="../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

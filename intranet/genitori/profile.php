@@ -15,6 +15,7 @@ $page = "index.php";
 
 include "check_sons.php";
 
-$navigation_label = "Registro elettronico genitori: alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
+$navigation_label = "area privata";
+$drawer_label = "Profilo personale";
 
 include "profile.html.php";

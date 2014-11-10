@@ -8,7 +8,7 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area ".$_SESSION['__role__'];
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 if(isset($_REQUEST['q']))
 	$q = $_REQUEST['q'];
@@ -56,5 +56,7 @@ list($ore2, $minuti2, $secondi2) = explode(":", $totali['limite_ore']);
 $sel_assenze_alunni = "SELECT rb_alunni.id_alunno, cognome, nome, SUM(TIME_TO_SEC((TIMEDIFF((CASE WHEN (rb_reg_alunni.uscita > '14:31:00') THEN SEC_TO_TIME(TIME_TO_SEC(rb_reg_alunni.uscita) -3600) WHEN rb_reg_alunni.uscita < '13:30:00' THEN rb_reg_alunni.uscita ELSE '13:30:00' END), rb_reg_alunni.ingresso)))) AS ore, (".$totali['ore']." - SUM(TIME_TO_SEC((TIMEDIFF((CASE WHEN (rb_reg_alunni.uscita > '14:31:00') THEN SEC_TO_TIME(TIME_TO_SEC(rb_reg_alunni.uscita) -3600) WHEN rb_reg_alunni.uscita < '13:30:00' THEN rb_reg_alunni.uscita ELSE '13:30:00' END), rb_reg_alunni.ingresso))))) AS ore_assenza, COUNT(rb_reg_alunni.ingresso) AS giorni FROM rb_reg_classi, rb_reg_alunni, rb_alunni WHERE attivo = '1' AND rb_reg_classi.id_classe = ".$_REQUEST['id']." AND rb_reg_classi.id_classe = rb_alunni.id_classe AND id_anno = ".$_SESSION['__current_year__']->get_ID()." $par_tot AND id_reg = id_registro AND rb_reg_alunni.ingresso IS NOT NULL AND rb_alunni.id_alunno = rb_reg_alunni.id_alunno GROUP BY rb_alunni.id_alunno, cognome, nome ORDER BY cognome, nome";
 //print $sel_assenze_alunni;
 $res_assenze_alunni = $db->execute($sel_assenze_alunni);
+
+$drawer_label = "Statistiche di presenza ". lcfirst($current_class->to_string());
 
 include "dettaglio_classe.html.php";

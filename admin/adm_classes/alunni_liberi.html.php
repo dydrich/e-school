@@ -44,6 +44,8 @@ function upd_cls(sel, student){
 }
 
 $(function(){
+	load_jalert();
+	setOverlayEvent();
 	$('.alpha_lnk').mouseover(function(event){
 		$('#'+this.id).css({cursor: 'pointer'});
 	});
@@ -76,31 +78,15 @@ table tbody tr:hover {
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Elenco alunni non assegnati alle classi (estratti <span id="st_count"><?php echo $res_alunni->num_rows ?></span> alunni)</div>
 		<form method="post" class="no_border">
         <table class="admin_table">
         <thead>
             <tr class="admin_void">
                 <td colspan="3"></td>
             </tr>
-            <tr class="admin_void">
-                <td colspan="3" id="alpha_row">
-                <?php 
-		        foreach($alpha as $a){
-		        ?>
-		        <span class="alpha_lnk"><?php echo $a ?></span>
-		        <?php 
-		        }
-		        ?>
-                </td>
-            </tr>
+
             <tr class="admin_void">
                 <td colspan="3"></td>
-            </tr>
-            <tr>
-            	<td style="padding-left: 2px; width: 5%" class="adm_titolo_elenco_first"></td>
-                <td style="padding-left: 2px; width: 75%" class="adm_titolo_elenco">Alunno</td>
-                <td style="padding-left: 10px; width: 20%" class="adm_titolo_elenco_last">Classe</td>
             </tr>
             <tr class="admin_void">
                 <td colspan="3"></td>
@@ -148,5 +134,13 @@ table tbody tr:hover {
         <p class="spacer"></p>
 	</div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 360px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

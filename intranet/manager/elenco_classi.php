@@ -8,7 +8,7 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 if(!isset($_GET['offset']))
 	$offset = 0;
@@ -62,5 +62,7 @@ $link = basename($_SERVER['PHP_SELF']);
 $count_name = "count_cls";
 $row_class = "list_row";
 $row_class_menu = " list_row_menu";
+
+$drawer_label = "Elenco classi ".$school;
 
 include "elenco_classi.html.php";

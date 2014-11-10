@@ -27,6 +27,7 @@ if($school_order != 0){
 $sel_tipologie = "SELECT * FROM rb_tipologia_scuola WHERE id_tipo != 999 $params";
 $res_tipologie = $db->execute($sel_tipologie);
 
-$navigation_label = "Area amministrazione: gestione alunni";
+$navigation_label = "nuovo anno";
+$drawer_label = "Importazione alunni";
 
 include "load_students.html.php";

@@ -14,7 +14,8 @@ check_permission(DOC_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_reg_home__'] = "./";
 
-$navigation_label = "Registro elettronico - Programmazione";
+$navigation_label = "registro elettronico";
+$drawer_label = "Registro della programmazione";
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];

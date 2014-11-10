@@ -1,156 +1,181 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Registro di classe</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/documents.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript">
-var upd_grade = function(sel, al, idv){
-	$.ajax({
-		type: "POST",
-		url: 'test_manager.php',
-		data:  {voto: $('#'+sel.id).val(), alunno: al, verifica: <?php print $_REQUEST['idt'] ?>, id_voto: idv, do: "update_grade"},
-		dataType: 'json',
-		error: function(data, status, errore) {
-			alert("Si e' verificato un errore");
-			return false;
-		},
-		succes: function(result) {
-			alert("ok");
-		},
-		complete: function(data, status){
-			r = data.responseText;
-			var json = $.parseJSON(r);
-			if(json.status == "kosql"){
-				alert("Errore SQL. \nQuery: "+json.query+"\nErrore: "+json.message);
-				return;
-			}
-			else {
-				$('#num_st').text(json.count);
-				$('#avg').text(json.media);
-				//alert($('voto'+al).readAttribute('onchange'));
-				if(sel.value == 0){
-					$('#voto'+al).change(function(){
-						upd_grade(this, al, 0);
-					});
-				}
-				else{
-					if(idv == 0){
-						$('#voto'+al).change(function(){
-							upd_grade(this, al, json.idv)
-						});
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Registro personale: verifica</title>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/documents.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="../../../js/page.js"></script>
+	<script type="text/javascript">
+		var upd_grade = function(sel, al, idv){
+			$.ajax({
+				type: "POST",
+				url: 'test_manager.php',
+				data:  {voto: $('#'+sel.id).val(), alunno: al, verifica: <?php print $_REQUEST['idt'] ?>, id_voto: idv, do: "update_grade"},
+				dataType: 'json',
+				error: function(data, status, errore) {
+					alert("Si e' verificato un errore");
+					return false;
+				},
+				succes: function(result) {
+					alert("ok");
+				},
+				complete: function(data, status){
+					r = data.responseText;
+					var json = $.parseJSON(r);
+					if(json.status == "kosql"){
+						alert("Errore SQL. \nQuery: "+json.query+"\nErrore: "+json.message);
+						return;
+					}
+					else {
+						$('#num_st').text(json.count);
+						$('#avg').text(json.media);
+						//alert($('voto'+al).readAttribute('onchange'));
+						if(sel.value == 0){
+							$('#voto'+al).change(function(){
+								upd_grade(this, al, 0);
+							});
+						}
+						else{
+							if(idv == 0){
+								$('#voto'+al).change(function(){
+									upd_grade(this, al, json.idv)
+								});
+							}
+						}
 					}
 				}
-			}
-		}
-	});
-};
+			});
+		};
 
-var delete_test = function(delete_grades){
-	if (delete_grades) {
-		delt = "delete_all";
-	}
-	else {
-		delt = "delete_test";
-	}
-
-	$.ajax({
-		type: "POST",
-		url: 'test_manager.php',
-		data:  {id_verifica: <?php print $_REQUEST['idt'] ?>, do: delt},
-		dataType: 'json',
-		error: function(data, status, errore) {
-			alert("Si e' verificato un errore");
-			return false;
-		},
-		succes: function(result) {
-			alert("ok");
-		},
-		complete: function(data, status){
-			r = data.responseText;
-			var json = $.parseJSON(r);
-			if(json.status == "kosql"){
-				alert("Errore SQL. \nQuery: "+json.query+"\nErrore: "+json.message);
-				return;
+		var delete_test = function(delete_grades){
+			if (delete_grades) {
+				delt = "delete_all";
 			}
 			else {
-				alert(json.message);
-				document.location.href = "tests.php";
+				delt = "delete_test";
 			}
+
+			$.ajax({
+				type: "POST",
+				url: 'test_manager.php',
+				data:  {id_verifica: <?php print $_REQUEST['idt'] ?>, do: delt},
+				dataType: 'json',
+				error: function(data, status, errore) {
+					alert("Si e' verificato un errore");
+					return false;
+				},
+				succes: function(result) {
+					alert("ok");
+				},
+				complete: function(data, status){
+					r = data.responseText;
+					var json = $.parseJSON(r);
+					if(json.status == "kosql"){
+						alert("Errore SQL. \nQuery: "+json.query+"\nErrore: "+json.message);
+						return;
+					}
+					else {
+						alert(json.message);
+						document.location.href = "tests.php";
+					}
+				}
+			});
+		};
+
+		var dialogclose = function(){
+			$('#test').dialog("close");
+		};
+
+		var update_test = function(){
+			$('#test').dialog({
+				autoOpen: true,
+				show: {
+					effect: "appear",
+					duration: 500
+				},
+				hide: {
+					effect: "slide",
+					duration: 300
+				},
+				modal: true,
+				width: 550,
+				height: 350,
+				title: 'Modifica verifica',
+				open: function(event, ui){
+
+				}
+			});
 		}
-	});
-};
 
-var dialogclose = function(){
-	$('#test').dialog("close");
-};
+		var choose_del = function(){
+			$('#confirm_del').dialog({
+				autoOpen: true,
+				show: {
+					effect: "appear",
+					duration: 500
+				},
+				hide: {
+					effect: "slide",
+					duration: 300
+				},
+				modal: true,
+				width: 350,
+				height: 150,
+				title: 'Modifica verifica',
+				open: function(event, ui){
 
-var update_test = function(){
-	//win = new Window({className: "mac_os_x", url: "new_test.php?test=<?php print $_REQUEST['idt'] ?>&referer=test",  width:400, height:240, zIndex: 100, resizable: true, title: "Gestione verifica", showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});
-	//win.showCenter(true);
-	$('#test').dialog({
-		autoOpen: true,
-		show: {
-			effect: "appear",
-			duration: 500
-		},
-		hide: {
-			effect: "slide",
-			duration: 300
-		},
-		modal: true,
-		width: 550,
-		height: 350,
-		title: 'Modifica verifica',
-		open: function(event, ui){
+				}
+			});
+		};
 
-		}
-	});
-}
+		var _show = function(e, off) {
+			if ($('#other_drawer').is(":visible")) {
+				$('#other_drawer').hide('slide', 300);
+				return;
+			}
+			var offset = $('#drawer').offset();
+			var top = off.top;
 
-function choose_del(){
-	//win = new Window({className: "mac_os_x", url: "new_test.php?test=<?php print $_REQUEST['idt'] ?>&referer=test",  width:400, height:240, zIndex: 100, resizable: true, title: "Gestione verifica", showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});
-	//win.showCenter(true);
-	$('#confirm_del').dialog({
-		autoOpen: true,
-		show: {
-			effect: "appear",
-			duration: 500
-		},
-		hide: {
-			effect: "slide",
-			duration: 300
-		},
-		modal: true,
-		width: 350,
-		height: 150,
-		title: 'Modifica verifica',
-		open: function(event, ui){
+			var left = offset.left + $('#drawer').width() + 1;
+			$('#other_drawer').css({top: top+"px", left: left+"px", zIndex: 1000});
+			$('#other_drawer').show('slide', 300);
+			return true;
+		};
 
-		}
-	});
-}
+		$(function () {
+			load_jalert();
+			setOverlayEvent();
+			$('#overlay').click(function(event) {
+				if ($('#overlay').is(':visible')) {
+					show_drawer(event);
+				}
+				$('#other_drawer').hide();
+			});
+			$('#showsub').click(function(event){
+				var off = $(this).parent().offset();
+				_show(event, off);
+			});
+		});
 
-</script>
-<style>
-td { border: inherit; }
-table.registro td {
-	border: 0
-}
-</style>
+	</script>
+	<style>
+	td { border: inherit; }
+	table.registro td {
+		border: 0
+	}
+	</style>
 </head> 
 <body>
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
-<div class="group_head">Dettaglio verifica di <?php echo $test->getSubject()->getDescription() ?> del <span id="date_label"><?php echo format_date(substr($test->getTestDate(), 0, 10), SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></span></div>
 <fieldset style="width: 95%; margin: auto; border-radius: 10px; background-color: rgba(222, 222, 222, 0.1)">
 <legend style="margin-left: 15px; font-weight: bold">Dati verifica</legend>
 <table style="border-collapse: collapse; width: 90%; margin-left: auto; margin-right: auto; margin-top: 10px; margin-bottom: 10px">
@@ -253,6 +278,69 @@ table.registro td {
 </table>
 </div> 
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_label"><span>Classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?></span></div>
+		<div class="drawer_link submenu"><a href="index.php"><img src="../../../images/4.png" style="margin-right: 10px; position: relative; top: 5%" />Registro personale</a></div>
+		<?php if(count($_SESSION['__subjects__']) > 1){ ?>
+			<div class="drawer_link submenu">
+				<a href="summary.php"><img src="../../../images/10.png" style="margin-right: 10px; position: relative; top: 5%"/>Riepilogo</a>
+			</div>
+		<?php
+		}
+		if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID()) || $_SESSION['__user__']->getUsername() == 'rbachis') { ?>
+			<div class="drawer_link submenu">
+				<a href="dettaglio_medie.php"><img src="../../../images/9.png" style="margin-right: 10px; position: relative; top: 5%"/>Dettaglio classe</a>
+			</div>
+		<?php
+		}
+		?>
+		<?php if($is_teacher_in_this_class && $_SESSION['__user__']->getSubject() != 27 && $_SESSION['__user__']->getSubject() != 44) { ?>
+		<div class="drawer_link submenu separator">
+			<a href="#" id="showsub"><img src="../../../images/68.png" style="margin-right: 10px; position: relative; top: 5%"/>Altro</a>
+		</div>
+		<div class="drawer_link submenu"><a href="../registro_classe/registro_classe.php?data=<?php echo date("Y-m-d") ?>"><img src="../../../images/28.png" style="margin-right: 10px; position: relative; top: 5%" />Registro di classe</a></div>
+		<div class="drawer_link submenu separator"><a href="../gestione_classe/classe.php"><img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />Gestione classe</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../profile.php"><img src="../../../images/33.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
+		<div class="drawer_link"><a href="../../../modules/documents/load_module.php?module=docs&area=teachers"><img src="../../../images/11.png" style="margin-right: 10px; position: relative; top: 5%" />Documenti</a></div>
+		<?php if(is_installed("com")){ ?>
+			<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=teachers"><img src="<?php echo $_SESSION['__path_to_root__'] ?>images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
+		<?php } ?>
+	</div>
+	<?php if (isset($_SESSION['__sudoer__'])): ?>
+		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
+	<?php endif; ?>
+	<div class="drawer_lastlink"><a href="../../../shared/do_logout.php"><img src="../../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
+<div id="other_drawer" class="drawer" style="height: 180px; display: none; position: absolute">
+	<?php if (!isset($_REQUEST['__goals__']) && (isset($_SESSION['__user_config__']['registro_obiettivi']) && (1 == $_SESSION['__user_config__']['registro_obiettivi'][0]))): ?>
+		<div class="drawer_link ">
+			<a href="index.php?subject=<?php echo $_SESSION['__materia__'] ?>&__goals__=1"><img src="../../../images/31.png" style="margin-right: 10px; position: relative; top: 5%"/>Registro per obiettivi</a>
+		</div>
+	<?php endif; ?>
+	<?php if ($ordine_scuola == 1): ?>
+		<div class="drawer_link">
+			<a href="absences.php"><img src="../../../images/52.png" style="margin-right: 10px; position: relative; top: 5%"/>Assenze</a>
+		</div>
+	<?php endif; ?>
+	<div class="drawer_link">
+		<a href="tests.php"><img src="../../../images/79.png" style="margin-right: 10px; position: relative; top: 5%"/>Verifiche</a>
+	</div>
+	<div class="drawer_link">
+		<a href="lessons.php"><img src="../../../images/62.png" style="margin-right: 10px; position: relative; top: 5%"/>Lezioni</a>
+	</div>
+	<div class="drawer_link separator">
+		<a href="scrutini.php?q=<?php echo $_q ?>"><img src="../../../images/34.png" style="margin-right: 10px; position: relative; top: 5%"/>Scrutini</a>
+	</div>
+	<?php
+	}
+	else { ?>
+		<div class="drawer_link separator">
+			<a href="scrutini_classe.php?q=<?php echo $_q ?>"><img src="../../../images/34.png" style="margin-right: 10px; position: relative; top: 5%"/>Scrutini</a>
+		</div>
+	<?php } ?>
+</div>
 <div id="test" style="display: none">
 	<iframe src="new_test.php?test=<?php echo $_REQUEST['idt'] ?>" style="width: 100%; margin: auto; border: 0; height: 290px"></iframe>
 </div>

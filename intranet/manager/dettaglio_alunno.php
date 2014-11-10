@@ -8,7 +8,7 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area ".$_SESSION['__role__'];
+$navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 $id_alunno = $_REQUEST['id'];
 
@@ -38,7 +38,7 @@ $res_alunno = $db->execute($sel_alunno);
 $alunno = $res_alunno->fetch_assoc();
 $sel_ritardi = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC((TIMEDIFF(rb_reg_alunni.ingresso, rb_reg_classi.ingresso))))) AS ore_ritardo, COUNT(rb_reg_alunni.ingresso) AS giorni_ritardo FROM rb_reg_classi, rb_reg_alunni WHERE id_anno = ".$_SESSION['__current_year__']->get_ID()." AND data <= NOW() AND id_reg = id_registro AND rb_reg_alunni.ingresso IS NOT NULL AND id_alunno = $id_alunno AND rb_reg_alunni.ingresso > rb_reg_classi.ingresso ";
 //print $sel_ritardi;
-setlocale(LC_ALL, "it_IT");
+setlocale(LC_ALL, "it_IT.utf8");
 
 $ritardi = array();
 $uscite = array();
@@ -71,6 +71,6 @@ $sel_somma_uscite  = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC((TIMEDIFF(rb_reg_classi
 $res_somma_uscite = $db->execute($sel_somma_uscite);
 $somma_uscite = $res_somma_uscite->fetch_assoc();
 
-include "dettaglio_alunno.html.php";
+$drawer_label = "Dettaglio assenze ". $alunno['cognome']." ".$alunno['nome'];
 
-?>
+include "dettaglio_alunno.html.php";

@@ -32,7 +32,7 @@ try{
 }
 
 header("Content-type: application/json");
-$response = array("status" => "ok", "message" => "Operazione completata");
+$response = array("status" => "ok", "message" => "Operazione completata: $sel_ruolo");
 $response['value'] = $updated_role;
 echo json_encode($response);
 exit;

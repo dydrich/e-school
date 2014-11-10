@@ -63,6 +63,7 @@
 
 		$(function(){
 			load_jalert();
+			setOverlayEvent();
 			$('#import_button').click(function(event){
 				event.preventDefault();
 				import_data();
@@ -79,8 +80,7 @@
 		<?php include "../new_year_menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Importazione alunni</div>
-    <form>
+    <form class="no_border">
     	<div style="width: 90%; margin: 0px auto 0 auto;">
     		<em>Questa funzione ti permette di importare tutti gli alunni con un solo comando, usando un file che contenga i dati nel formato richiesto.<br />
     		Tale formato DEVE essere preciso ed &egrave; facilmente ottenibile, se si hanno i dati in un file excel: basta esportare il file in formato
@@ -105,7 +105,7 @@
     			La prima riga, quella corretta, contiene 8 campi, mentre la seconda solamente 5: in questo modo i campi compaiono in ordine errato.</li>
     		</ul>
     	</div>
-	    <div class="group_head">Carica il file per l'importazione</div>
+	    <div class="pop_label">Carica il file per l'importazione</div>
         <table class="admin_table">
             <tr class="admin_void" style="height: 60px">
 	            <td class="popup_title" style="width: 150px; padding-left: 10px">File</td>
@@ -162,9 +162,14 @@
         </div>
         <p class="spacer"></p>
 	</div>
-	<div class="overlay" id="over1" style="display: none">
-        <div id="wait_label" style="position: absolute; display: none; padding-top: 25px">Caricamento dati in corso</div>
-    </div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

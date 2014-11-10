@@ -140,6 +140,11 @@ var del_teacher = function(uid){
 	$('#row_'+uid).attr("id", "");
 };
 
+	$(function(){
+		load_jalert();
+		setOverlayEvent();
+	});
+
 </script>
 </head>
 <body>
@@ -150,8 +155,7 @@ var del_teacher = function(uid){
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Consiglio di classe: <?php print $classe['anno_corso'].$classe['sezione'] ?> - <?php echo $classe['nome'] ?></div>
-	    <form action="cdc.php?upd=1" method="post" class="popup_form" style="width: 90%">
+		<form action="cdc.php?upd=1" method="post" class="popup_form" style="width: 90%">
 	    <div style="text-align: left">
 	    <table style="width: 95%; margin: auto; border-spacing: 0" >
 	    <?php
@@ -232,9 +236,6 @@ else if ($res_sost->num_rows > 0){
 
 	    </div>
 		</form>
-		<div style="margin: 10px 10px 0 0 ; width: 95%; text-align: right">
-			<a href="classi.php?school_order=<?php echo $classe['ordine_di_scuola'] ?>" id="close_btn" class="standard_link">Torna all'elenco classi</a>
-		</div>
 	</div>
 	<p class="spacer"></p>
 </div>
@@ -272,7 +273,7 @@ else if ($res_sost->num_rows > 0){
 				</table>
 			</fieldset>
 			<div style="width: 100%; text-align: right; margin-top: 30px">
-				<a href="#" onclick="save_teacher(<?php echo $cls ?>)" class="standard_link nav_link_last">Registra</a>
+				<a href="#" onclick="save_teacher(<?php echo $classID ?>)" class="standard_link nav_link_last">Registra</a>
 				<input type="hidden" name="action" id="action" />
 				<input type="hidden" name="_i" id="_i" />
 			</div>
@@ -280,5 +281,13 @@ else if ($res_sost->num_rows > 0){
 	</form>
 </div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 360px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

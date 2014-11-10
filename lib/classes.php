@@ -100,6 +100,9 @@ class OraDiLezione{
 		$this->ID = $record['id'];
 		$this->ora = $record['ora'];
 		$this->materia = $record['materia'];
+		if ($this->materia == 0 || $this->materia == null) {
+			$this->materia = 1;
+		}
 		$this->compresenza = $record['materia2'];
 		$this->sostegno = $record['sostegno'];
 		$this->giorno = $record['giorno'];
@@ -161,7 +164,7 @@ class Orario{
 				return $a;
 			}
 		}
-		return 0;
+		return null;
 	}
 	
 	public function searchMateria($id){

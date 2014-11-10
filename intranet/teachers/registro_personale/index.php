@@ -28,7 +28,22 @@ $labels = array();
 $vars = array();
 $totali_classe = array();
 if (isset($_REQUEST['__goals__']) && $_REQUEST['__goals__'] == 1) {
-	
+	$selected = array();
+	if (isset($_SESSION['__user_config__']['tipologia_prove'])){
+		$selected = $_SESSION['__user_config__']['tipologia_prove'];
+	}
+	if (count($selected) > 0){
+		$sel_prove = "SELECT * FROM rb_tipologia_prove WHERE id IN (".join(",", $selected).")";
+	}
+	else{
+		$sel_prove = "SELECT * FROM rb_tipologia_prove WHERE `default` = 1";
+	}
+	try {
+		$res_prove = $db->executeQuery($sel_prove);
+	} catch (MySQLException $ex){
+		$ex->redirect();
+		exit;
+	}
 }
 else {
 	$selected = array();
@@ -58,7 +73,7 @@ else {
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
-$navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level__'][$ordine_scuola]);
+$navigation_label = "registro personale";
 $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
@@ -77,19 +92,19 @@ else{
 	
 switch($q){
 	case 0:
-		$int_time = "AND data_voto < NOW()";
-		$note_time = "AND data < NOW()";
+		$int_time = "AND data_voto <= NOW()";
+		$note_time = "AND data <= NOW()";
 		$label = "";
 		break;
 	case 1:
 		$int_time = "AND data_voto <= '".$fine_q."'";
 		$note_time = "AND data <= '".$fine_q."'";
-		$label = ", primo quadrimestre";
+		$label = " primo quadrimestre";
 		break;
 	case 2:
 		$int_time = "AND (data_voto  > '".$fine_q."' AND data_voto <= NOW()) ";
 		$note_time = "AND (data > '".$fine_q."' AND data <= NOW()) ";
-		$label = ", secondo quadrimestre";
+		$label = " secondo quadrimestre";
 }
 
 $sel_alunni = "SELECT rb_alunni.* FROM rb_alunni WHERE rb_alunni.id_classe = ".$_REQUEST['cls']." AND attivo = '1' ORDER BY cognome, nome";
@@ -183,9 +198,43 @@ else {
 	}
 }
 
-$change_subject = new ChangeSubject("hid", "", "position: absolute; width: 180px; height: 155px; display: none", "div", $materie);
-$change_subject->createLink("text-decoration: none; text-transform: uppercase; font-weight: bold", "left");
-$change_subject->setJavascript("", "jquery");
+if(count($materie) > 0) {
+	$k = 0;
+	foreach ($materie as $mt) {
+		//print "while";
+		if (isset($_REQUEST['subject'])) {
+			if ($_REQUEST['subject'] == $mt['id']) {
+				$idm = $mt['id'];
+				$_mat = $mt['mat'];
+			}
+		}
+		else {
+			if (isset($_SESSION['__materia__'])) {
+				if ($_SESSION['__materia__'] == $mt['id']) {
+					$idm = $mt['id'];
+					$_mat = $mt['mat'];
+				}
+				else {
+					if ($k == 0) {
+						$idm = $mt['id'];
+						$_mat = $mt['mat'];
+					}
+				}
+			}
+			else {
+				if ($k == 0) {
+					//print "k==0";
+					$idm = $mt['id'];
+					$_mat = $mt['mat'];
+				}
+			}
+		}
+		$k++;
+	}
+	$_SESSION['__materia__'] = $idm;
+}
+
+$drawer_label = "Medie voto".$label;
 
 if (isset($_REQUEST['__goals__']) && $_REQUEST['__goals__'] == 1) {
 	include "index_goals.html.php";

@@ -12,7 +12,8 @@ check_session();
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_reg_home__'] = "./";
 
-$navigation_label = "Registro elettronico - Theme manager";
+$navigation_label = "registro elettronico ";
+$drawer_label = "Configurazione tema";
 
 $sel_themes = "SELECT * FROM rb_themes ORDER BY id_tema";
 $res_themes = $db->executeQuery($sel_themes);

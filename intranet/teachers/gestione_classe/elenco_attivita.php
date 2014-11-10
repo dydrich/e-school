@@ -20,11 +20,18 @@ if(!isset($_REQUEST['all'])){
 	$link = "elenco_attivita.php?all=1";
 }
 
-$sel_act = "SELECT rb_impegni.*, rb_materie.materia AS mat FROM rb_impegni LEFT JOIN rb_materie ON rb_materie.id_materia = rb_impegni.materia WHERE classe = ".$_SESSION['__classe__']->get_ID()." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND data_fine > NOW() AND rb_impegni.tipo = 1 $teacher ORDER BY data_inizio DESC";
+$sel_act = "SELECT rb_impegni.*, rb_materie.materia AS mat FROM rb_impegni LEFT JOIN rb_materie ON rb_materie.id_materia = rb_impegni.materia WHERE classe = ".$_SESSION['__classe__']->get_ID()." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND data_fine > NOW() AND rb_impegni.tipo = 1 $teacher ORDER BY data_inizio ASC";
 $res_act = $db->execute($sel_act);
 
-$navigation_label = "Registro elettronico - ".$_SESSION['__classe__']->to_string();
+$navigation_label = "gestione classe";
+$drawer_label = "Attivit&agrave; programmate";
+if(!isset($_REQUEST['all'])){
+	$drawer_label .= " (personali)";
+}
+else {
+	$drawer_label .= " (tutte)";
+}
+
+setlocale(LC_ALL, "it_IT.utf8");
 
 include "elenco_attivita.html.php";
-
-?>

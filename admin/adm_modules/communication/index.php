@@ -16,6 +16,7 @@ check_permission(ADM_PERM);
 $_SESSION['__path_to_root__'] = "../../../";
 $_SESSION['__path_to_mod_home__'] = "../../";
 
-$navigation_label = "Area amministrazione: gestione moduli";
+$navigation_label = "gestione moduli";
+$drawer_label = "Modulo: comunicazioni";
 
 include "index.html.php";

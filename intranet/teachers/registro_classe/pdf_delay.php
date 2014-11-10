@@ -1,7 +1,5 @@
 <?php
 
-ini_set("display_errors", DISPLAY_ERRORS);
-
 require_once "../../../lib/start.php";
 require_once "../../../lib/SchoolPDF.php";
 
@@ -68,7 +66,7 @@ class MYPDF extends SchoolPDF {
         $this->SetTextColor(0);
         $this->Cell(180, 4, $_SESSION['__current_year__']->to_string()."  - Dettaglio dei ritardi di  ".$alunno['cognome']." ".$alunno['nome'], 0, 1, "C", 0);
         $this->setCellPaddings(0, 0, 0, 3);
-        $this->SetLineStyle(array('width' => $line_width, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(128, 128, 128)));
+        $this->SetLineStyle(array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(128, 128, 128)));
         $this->Cell(90, 4, "Numero ritardi: ".$num_ritardi, "B", 0, "R", 0);
         $this->Cell(90, 4, "     Totale ore: ".substr($tot_ritardi['ore_ritardo'], 0, 5), "B", 1, "L", 0);
         $this->SetTextColor(0);
@@ -171,5 +169,3 @@ $pdf->pageBody($ritardi, $author, $alunno, $mesi, $num_ritardi, $somma_ritardi);
 
 //Close and output PDF document
 $pdf->Output('ritardi.pdf', 'D');
-
-?>

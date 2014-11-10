@@ -1,154 +1,159 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript">
-classi = {};
-materie = {};
-<?php 
-while(list($k, $v) = each($classi)){
-?>
-classi[<?php print $v[0] ?>] = '<?php print $v[1] ?>';
-<?php 
-}
-while(list($k, $v) = each($materie)){
-?>
-materie[<?php print $v[0] ?>] = '<?php print $v[1] ?>';
-<?php 
-}
-?>
-subject = "";
-clas = old_clas = "";
-hour = "";
-day = "";
-desc = "";
-var giorni = ['', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
-// readonly
-var readonly = <?php if ($readonly) echo "true"; else echo "false" ?>;
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		classi = {};
+		materie = {};
+		<?php
+		while(list($k, $v) = each($classi)){
+		?>
+		classi[<?php print $v[0] ?>] = '<?php print $v[1] ?>';
+		<?php
+		}
+		while(list($k, $v) = each($materie)){
+		?>
+		materie[<?php print $v[0] ?>] = '<?php print $v[1] ?>';
+		<?php
+		}
+		?>
+		subject = "";
+		clas = old_clas = "";
+		hour = "";
+		day = "";
+		desc = "";
+		var giorni = ['', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
+		// readonly
+		var readonly = <?php if ($readonly) echo "true"; else echo "false" ?>;
 
-function upd_class(classe, id_classe){
-	$('#classe').text(classe);
-	clas = id_classe;
-	//alert(clas);
-}
+		var upd_class = function(classe, id_classe){
+			$('#classe').text(classe);
+			clas = id_classe;
+			//alert(clas);
+		};
 
-function upd_subject(sub, id_sub){
-	$('#materia').text(sub);
-	subject = id_sub;
-}
+		var upd_subject = function(sub, id_sub){
+			$('#materia').text(sub);
+			subject = id_sub;
+		};
 
-function mod_ora(giorno, ora, classe, materia, descrizione){
-	if (readonly) {
-		alert("Non hai i permessi per modificare l'orario");
-		return false;
-	}
-
-	if (giorno == day && ora == hour) {
-		$('#classe').text(classi[classe]);
-		$('#materia').text(materie[materia]);
-		$('#desc').val(desc);
-	}
-	else {
-		$('#classe').text("");
-		$('#materia').text("");
-		$('#desc').val("");
-	}
-
-	subject = materia;
-	clas = old_clas = classe;
-	hour = ora;
-	day = giorno;
-	desc = descrizione;
-
-	$('#r1').text(giorni[giorno]+", "+ora+" ora");
-
-	$('#dialog').dialog({
-			autoOpen: true,
-			show: {
-				effect: "appear",
-				duration: 500
-			},
-			hide: {
-				effect: "slide",
-				duration: 300
-			},
-			buttons: [{
-				text: "Chiudi",
-				click: function() { 
-					$( this ).dialog( "close" ); 
-				}
-			}],
-			modal: true,
-			width: 450,
-			title: 'Modifica orario',
-			open: function(event, ui){
-
-			}
-		});
-}
-
-function upd_ora(act){
-	// act == 1 => delete
-	del = 0;
-	if(act == 1){
-		del = 1;
-	}
-	if(old_clas != clas && old_clas != 0){
-		act = 1;
-	}
-	desc = $('#desc').val();
-
-	$.ajax({
-		type: "POST",
-		url: '../../shared/upd_ora.php',
-		data: {act: act, getID: '1', del: del, giorno: day, ora: hour, materia: subject, classe: clas, old_class: old_clas, desc: desc, teacher: <?php echo $_SESSION['__user__']->getUid() ?>},
-		dataType: 'json',
-		error: function() {
-			alert("Errore di trasmissione dei dati");
-		},
-		succes: function() {
-			
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
+		var mod_ora = function(giorno, ora, classe, materia, descrizione){
+			if (readonly) {
+				j_alert("error", "Non hai i permessi per modificare l'orario");
 				return false;
 			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
+
+			if (giorno == day && ora == hour) {
+				$('#classe').text(classi[classe]);
+				$('#materia').text(materie[materia]);
+				$('#desc').val(desc);
 			}
 			else {
-				old_clas = 0;
-				var parent_row = "ora_"+day+"_"+hour;
-				if(del == 0){
-				  	$('#'+parent_row).html($('#classe').html()+" -- "+$('#materia').html().substring(0, 19));
-				  	if(desc != ""){
-					  	$html = $('#'+parent_row).html();
-				  		$('#'+parent_row).html($html + " ("+desc+")");
-				  	}
-				}
-				else {
-					$('#'+parent_row).text(" -- ");
-				}
-				$('#dialog').dialog("close");
+				$('#classe').text("");
+				$('#materia').text("");
+				$('#desc').val("");
 			}
-		}
-    });
-	  
-}
 
-</script>
+			subject = materia;
+			clas = old_clas = classe;
+			hour = ora;
+			day = giorno;
+			desc = descrizione;
+
+			$('#r1').text(giorni[giorno]+", "+ora+" ora");
+
+			$('#dialog').dialog({
+					autoOpen: true,
+					show: {
+						effect: "appear",
+						duration: 500
+					},
+					hide: {
+						effect: "slide",
+						duration: 300
+					},
+					buttons: [{
+						text: "Chiudi",
+						click: function() {
+							$( this ).dialog( "close" );
+						}
+					}],
+					modal: true,
+					width: 450,
+					title: 'Modifica orario',
+					open: function(event, ui){
+
+					}
+				});
+		};
+
+		var upd_ora = function(act){
+			// act == 1 => delete
+			del = 0;
+			if(act == 1){
+				del = 1;
+			}
+			if(old_clas != clas && old_clas != 0){
+				act = 1;
+			}
+			desc = $('#desc').val();
+
+			$.ajax({
+				type: "POST",
+				url: '../../shared/upd_ora.php',
+				data: {act: act, getID: '1', del: del, giorno: day, ora: hour, materia: subject, classe: clas, old_class: old_clas, desc: desc, teacher: <?php echo $_SESSION['__user__']->getUid() ?>},
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						j_alert("error", json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						old_clas = 0;
+						var parent_row = "ora_"+day+"_"+hour;
+						if(del == 0){
+						    $('#'+parent_row).html($('#classe').html()+" -- "+$('#materia').html().substring(0, 19));
+						    if(desc != ""){
+							    $html = $('#'+parent_row).html();
+						        $('#'+parent_row).html($html + " ("+desc+")");
+						    }
+						}
+						else {
+							$('#'+parent_row).text(" -- ");
+						}
+						$('#dialog').dialog("close");
+					}
+				}
+		    });
+
+		};
+
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+		});
+	</script>
 <style>
 table a {
 	text-decoration: none
@@ -163,17 +168,19 @@ table a {
 <?php include "profile_menu.php" ?>
 </div>
 <div id="left_col">
-	<div class="group_head">
-		Orario personale del docente  [ <a href="pdf_personal_schedule.php">PDF</a> ] 
+	<div style="position: absolute; top: 75px; margin-left: 675px; margin-bottom: 10px" class="rb_button">
+		<a href="pdf_personal_schedule.php">
+			<img src="../../images/pdf-32.png" style="padding: 4px 0 0 7px" />
+		</a>
 	</div>
-	<div class="outline_line_wrapper">
-		<div style="width: 20%; float: left; position: relative; top: 25%"><span style="padding-left: 45px">Ora</span></div>
+	<div class="outline_line_wrapper" style="margin-top: 35px">
+		<div style="width: 20%; float: left; position: relative; top: 25%"><span style="padding-left: 25px">Ora</span></div>
 		<div style="width: 30%; float: left; position: relative; top: 25%">Luned&igrave;</div>
 		<div style="width: 27%; float: left; position: relative; top: 25%">Marted&igrave;</div>
 		<div style="width: 20%; float: left; position: relative; top: 25%">Mercoled&igrave;</div>
 	</div>
 	<form method="post" class="no_border">
-        <table style="margin: 10px auto 0 auto; text-align: center; font-size: 1em; width: 90%">
+        <table style="margin: 0 auto 0 auto; text-align: center; font-size: 1em; width: 90%">
         <?php 
         for($i = 0; $i < $ore; $i++){
         	reset($orario_doc);
@@ -192,12 +199,12 @@ table a {
         </tr>
         </table>
 	<div class="outline_line_wrapper">
-		<div style="width: 20%; float: left; position: relative; top: 25%"><span style="padding-left: 45px">Ora</span></div>
+		<div style="width: 20%; float: left; position: relative; top: 25%"><span style="padding-left: 25px">Ora</span></div>
 		<div style="width: 30%; float: left; position: relative; top: 25%">Gioved&igrave;</div>
 		<div style="width: 27%; float: left; position: relative; top: 25%">Venerd&igrave;</div>
 		<div style="width: 20%; float: left; position: relative; top: 25%">Sabato</div>
 	</div>     
-		<table style="margin: 10px auto 0 auto; text-align: center; font-size: 1em; width: 90%">
+		<table style="margin: 0 auto 0 auto; text-align: center; font-size: 1em; width: 90%">
 	        <?php 
 	        for($i = 0; $i < $ore; $i++){
 	        	reset($orario_doc);
@@ -269,5 +276,19 @@ table a {
 </div>
 </div>
 <?php include "footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="profile.php"><img src="../../images/33.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
+		<div class="drawer_link"><a href="../../modules/documents/load_module.php?module=docs&area=teachers"><img src="../../images/11.png" style="margin-right: 10px; position: relative; top: 5%" />Documenti</a></div>
+		<?php if(is_installed("com")){ ?>
+		<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=teachers"><img src="../../images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
+		<?php } ?>
+	</div>
+	<?php if (isset($_SESSION['__sudoer__'])): ?>
+		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
+	<?php endif; ?>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

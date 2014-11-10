@@ -41,6 +41,7 @@ try{
 	$ex->redirect();
 }
 
-$navigation_label = "Area amministrazione: modifica password";
+$navigation_label = "gestione utenti";
+$drawer_label = "Modifica password utente";
 
 include "new_pwd.html.php";

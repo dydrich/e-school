@@ -67,6 +67,7 @@ if(basename($_SERVER['HTTP_REFERER']) == "wiz_first_install.php?step=2"){
 	$goback_link = "../wiz_first_install.php?step=2";
 }
 
-$navigation_label = "Area amministrazione: gestione docenti";
+$navigation_label = "gestione utenti";
+$drawer_label = "Elenco docenti: pagina $page di $pagine ";
 
 include "teachers.html.php";

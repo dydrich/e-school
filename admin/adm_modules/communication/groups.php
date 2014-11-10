@@ -83,6 +83,7 @@ $count_name = "count_groups";
 $row_class = "admin_void";
 $row_class_menu = " admin_row_menu";
 
-$navigation_label = "Area amministrazione: gestione gruppi";
+$navigation_label = "gestione moduli";
+$drawer_label = "Modulo communication: elenco gruppi, pagina $page di $pagine";
 
 include "groups.html.php";

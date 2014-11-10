@@ -22,6 +22,7 @@ while($c = $res_classi->fetch_assoc()){
 	$cls[$c['id_classe']] = new Classe($c, $db);
 }
 
-$navigation_label = "Area amministrazione: gestione nuovo anno";
+$navigation_label = "nuovo anno";
+$drawer_label = "Gestione tabella orario";
 
 include "schedule_table.html.php";

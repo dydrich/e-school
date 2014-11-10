@@ -24,6 +24,7 @@ $param = $res_params->fetch_assoc();
 $sel_g = "SELECT * FROM rb_giudizi_parametri_pagella WHERE id_parametro = {$_REQUEST['id']}";
 $res_g = $db->execute($sel_g);
 
-$navigation_label = "Area amministrazione: parametri pagella";
+$navigation_label = "gestione scrutini";
+$drawer_label = "Parametro: ". $param['nome'];
 
 include "valori_parametro.html.php";

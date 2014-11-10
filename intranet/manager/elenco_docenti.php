@@ -8,7 +8,16 @@ check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
-$navigation_label = "Registro elettronico: area amministrazione e segreteria";
+$drawer_label = "Elenco docenti ";
+$navigation_label = "";
+switch($_SESSION['__school_order__']) {
+	case 1:
+		$navigation_label .= "scuola secondaria";
+		break;
+	case 2:
+		$navigation_label .= "scuola primaria";
+		break;
+}
 
 if(!isset($_GET['offset']))
     $offset = 0;

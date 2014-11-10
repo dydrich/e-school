@@ -19,6 +19,7 @@ while($module = $res_modules->fetch_assoc()){
 	$data[$module['id_modulo']] = $module;
 }
 
-$navigation_label = "Area amministrazione: gestione moduli orario";
+$navigation_label = "gestione scuola";
+$drawer_label = "Elenco moduli orario";
 
 include "moduli_orario.html.php";

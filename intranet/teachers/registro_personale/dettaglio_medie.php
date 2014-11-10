@@ -148,6 +148,7 @@ $num_materie = $res_materie->num_rows;
 $num_colonne += $num_materie;
 $column_width = intval($available_space / ($num_colonne - 1));
 
-$navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$navigation_label = "Registro personale ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Riepilogo medie generali ".$label;
 
 include "dettaglio_medie.html.php";

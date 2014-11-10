@@ -20,14 +20,15 @@ else{
 }
 
 $idd = 0;
-if ($_SESSION['__sp_student__']['dati']['id']){
+if (isset($_SESSION['__sp_student__']['dati']['id'])){
 	$idd = $_SESSION['__sp_student__']['dati']['id'];
 }
 
-if ($_SESSION['__sp_student__']['dati']['tipo_terapia']){
+if (isset($_SESSION['__sp_student__']['dati']['tipo_terapia'])){
 	$terapy = explode("#", $_SESSION['__sp_student__']['dati']['tipo_terapia']);
 }
 
-$navigation_label = "Registro del docente di sostegno: alunno {$_SESSION['__sp_student__']['cognome']} {$_SESSION['__sp_student__']['nome']}";
+$navigation_label = "registro del sostegno ";
+$drawer_label = "Dati clinici di ". $_SESSION['__sp_student__']['cognome']." ".$_SESSION['__sp_student__']['nome'];
 
 include "diagnosi.html.php";

@@ -12,6 +12,7 @@ $_SESSION['__path_to_mod_home__'] = "./";
 $area = "alunni";
 $student_id = $_SESSION['__user__']->getUid();
 
-$navigation_label = "Registro elettronico - Area studenti";
+$navigation_label = "scuola secondaria";
+$drawer_label = "Registro di classe, ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 
 include "../common/classbook.php";

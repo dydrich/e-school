@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Elenco ritardi</title>
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript">
-	function show_div(div){
-		$('#'+div).toggle(500);
-	}
-</script>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Elenco ritardi</title>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="../../../js/page.js"></script>
+	<script type="text/javascript">
+		function show_div(div){
+			$('#'+div).toggle(500);
+		}
+	</script>
 </head>
 <body class="popup_body">
 <div id="popup_main" style="min-height: 420px">
-	<p class="popup_header"><?php print $alunno['cognome']." ".$alunno['nome'] ?></p>
+	<p class="pop_label"><?php print $alunno['cognome']." ".$alunno['nome'] ?></p>
 <form class="popup_form no_border">
 	<p style="text-align: left; padding-top: 0px; margin-left: 20px; font-weight: normal; font-size: 11; height: 15px; margin-bottom: 20px">
 		Ritardi: <?php print $somma_ritardi['giorni_ritardo']; if($somma_ritardi['giorni_ritardo'] > 0) {?> per un totale di <?php print substr($somma_ritardi['ore_ritardo'], 0, 5) ?> [ <a href="pdf_delay.php?alunno=<?php print $id_alunno ?>&q=0">PDF</a> ]<?php } ?><br />

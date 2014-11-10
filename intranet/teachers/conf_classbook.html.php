@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
@@ -47,6 +48,7 @@
 
 		$(function(){
 			load_jalert();
+			setOverlayEvent();
 			$('#save_btn').click(function(event){
 				event.preventDefault();
 				save_data();
@@ -62,11 +64,8 @@
 		<?php include "profile_menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">
-			Configurazione registro di classe
-		</div>
 		<form method="post" name="st_form" id="st_form" class="no_border">
-			<div style="width: 45%; margin: 15px auto; border: 1px solid rgba(30, 67, 137, .5); padding: 20px">
+			<div style="width: 45%; margin: 15px auto; padding: 20px" class="conf_frame">
 				<span>Vuoi attivare il riepilogo settimanale del Registro di classe come pagina di default?</span>
 				<ul>
 					<?php
@@ -79,7 +78,9 @@
 						<input type="radio" name="active" id="active" value="0" <?php if (0 == $active) echo "checked" ?> />
 					</li>
 				</ul>
-				<div style="text-align: right; width: 100%; height: 20px; margin-right: 30px; margin-top: 20px"><a href="../../shared/no_js.php" id="save_btn" style="text-transform: uppercase; text-decoration: none">Salva</a></div>
+				<div style="height: 20px; margin-right: 30px; margin-top: 20px" class="accent_button">
+					<a href="../../shared/no_js.php" id="save_btn" style="text-transform: uppercase; text-decoration: none">Registra</a>
+				</div>
 			</div>
 			<input type="hidden" name="field" id="field" value="" />
 			<input type="hidden" name="id_param" id="id_param" value="2" />
@@ -88,5 +89,19 @@
 	<p class="spacer"></p>
 </div>
 <?php include "footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="profile.php"><img src="../../images/33.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
+		<div class="drawer_link"><a href="../../modules/documents/load_module.php?module=docs&area=teachers"><img src="../../images/11.png" style="margin-right: 10px; position: relative; top: 5%" />Documenti</a></div>
+		<?php if(is_installed("com")){ ?>
+		<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=teachers"><img src="../../images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
+		<?php } ?>
+	</div>
+	<?php if (isset($_SESSION['__sudoer__'])): ?>
+		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
+	<?php endif; ?>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

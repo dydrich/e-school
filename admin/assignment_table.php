@@ -63,7 +63,7 @@ $materie_scr = array();
 try {
 	$res_cls = $db->executeQuery("SELECT id_classe, anno_corso, sezione, nome FROM {$classes_table}, rb_sedi WHERE sede = id_sede AND anno_scolastico = {$year} ORDER BY rb_classi.ordine_di_scuola, sezione, anno_corso");
 	$res_scr = $db->executeQuery("SELECT classe, materia FROM rb_scrutini WHERE anno = {$year} AND quadrimestre = {$_REQUEST['quadrimestre']} {$scr_classes} GROUP BY classe, materia ORDER BY classe");
-	$res_mat = $db->executeQuery("SELECT id_materia, materia, pagella FROM rb_materie WHERE id_materia <> 1 {$subject_params}");
+	$res_mat = $db->executeQuery("SELECT id_materia, materia, pagella, tipologia_scuola FROM rb_materie WHERE id_materia <> 1 {$subject_params}");
 } catch (MySQLException $ex) {
 	$ex->redirect();
 }
@@ -87,6 +87,7 @@ while ($_scr = $res_scr->fetch_assoc()) {
 	}
 }
 
-$navigation_label = "Area amministrazione: gestione tabella scrutini";
+$navigation_label = "gestione scrutini";
+$drawer_label = "Gestione tabella scrutini - ".$_REQUEST['quadrimestre']." quadrimestre";
 
 include "assignment_table.html.php";

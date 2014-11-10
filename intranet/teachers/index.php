@@ -17,7 +17,8 @@ $ses_ut->registerUserConfig($_SESSION['__user__']->getUID(), "__user_config__");
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
-$navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level__'][$ordine_scuola]);
+$navigation_label = "registro elettronico ";
+$drawer_label = "Home page";
 
 $free_day = false;
 $label = "Oggi";

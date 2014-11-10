@@ -1,153 +1,144 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Registro di classe</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/documents.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript" src="../../../js/page.js"></script>
-<script type="text/javascript">
-var manage_test = function(){
-	// check mandatory fields
-	msg = "Ci sono degli errori nel modulo.";
-	index = 1;
-	_submit = true;
-	if($('#date_time').val() == ""){
-		msg += "\n"+index+". Data e ora della verifica non presenti.";
-		_submit = false;
-		$('#td_data').css({color: "rgba(200, 6, 6, 1)"});
-		index++;
-	}
-	else{
-		$('#td_data').css({color: ""});
-	}
-	if($('#test').val() == ""){
-		msg += "\n"+index+". Inserire una descrizione della prova (ad. es. Verifica di italiano).";
-		_submit = false;
-		$('#td_test').css({color: "rgba(200, 6, 6, 1)"});
-		index++;
-	}
-	else{
-		$('#td_test').css({color: ""});
-	}
-	if($('#subject').val() == ""){
-		msg += "\n"+index+". Argomento della prova non presente.";
-		_submit = false;
-		$('#td_argomento').css({color: "rgba(200, 6, 6, 1)"});
-		index++;
-	}
-	else{
-		$('#td_argomento').css({color: ""});
-	}
-	if($('#tipo').val() == "0"){
-		msg += "\n"+index+". Tipologia della prova non presente.";
-		_submit = false;
-		$('#td_tipo').css({color: "rgba(200, 6, 6, 1)"});
-		index++;
-	}
-	else{
-		$('#td_tipo').css({color: ""});
-	}
-	if(!_submit){
-		alert(msg);
-		return false;
-	}
-
-	$.ajax({
-		type: "POST",
-		url: 'test_manager.php',
-		data:  $('#testform').serialize(true),
-		dataType: 'json',
-		error: function(data, status, errore) {
-			alert("Si e' verificato un errore");
-			return false;
-		},
-		succes: function(result) {
-			alert("ok");
-		},
-		complete: function(data, status){
-			r = data.responseText;
-			var json = $.parseJSON(r);
-			if(json.status == "kosql"){
-				alert("Errore: riprova tra qualche minuto");
-				console("Errore SQL. \nQuery: "+json.query+"\nErrore: "+json.message);
-				return;
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Registro di classe</title>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/documents.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="../../../js/page.js"></script>
+	<script type="text/javascript">
+		var manage_test = function(){
+			// check mandatory fields
+			msg = "Ci sono degli errori nel modulo.";
+			index = 1;
+			_submit = true;
+			if($('#date_time').val() == ""){
+				msg += "\n"+index+". Data e ora della verifica non presenti.";
+				_submit = false;
+				$('#td_data').css({color: "rgba(200, 6, 6, 1)"});
+				index++;
 			}
-			else {
-				alert(json.message);
-				if ($('#do').val() == "update") {
-					parent.$('#desc').text($('#test').val());
-					parent.$('#datetm').text(json.date);
-					parent.$('#ann').text($('#notes').val());
-					parent.$('#top').text($('#subject').val());
-					parent.$('#tp').text(json.tp);
-				}
-				else {
-					var tr = document.createElement("tr");
-					tr.setAttribute("style", "border-width: 1px 0 1px 0; border-style: solid; border-color: #CCCCCC");
-					var td = document.createElement("td");
-					td.setAttribute("style", "width: 25%; text-align: left; padding-left: 20px; font-weight: normal; ");
-					td.appendChild(document.createTextNode(json.date.substr(0, json.date.length - 5)));
-					tr.appendChild(td);
-
-					td = document.createElement("td");
-					td.setAttribute("style", "width: 10%; text-align: center; font-weight: normal ");
-					td.appendChild(document.createTextNode("NO"));
-					tr.appendChild(td);
-
-					td = document.createElement("td");
-					td.setAttribute("style", "width: 10%; text-align: center; font-weight: normal ");
-					td.appendChild(document.createTextNode("0"));
-					tr.appendChild(td);
-
-					td = document.createElement("td");
-					td.setAttribute("style", "width: 10%; text-align: center; font-weight: normal ");
-					td.appendChild(document.createTextNode("--"));
-					tr.appendChild(td);
-
-					td = document.createElement("td");
-					td.setAttribute("style", "width: 45%; text-align: center; font-weight: normal ");
-					_a = document.createElement("a");
-					_a.setAttribute("id", "test_"+json.id+"_1");
-					_a.setAttribute("href", "test.php?idt="+json.id);
-					_a.setAttribute("class", "test_link");
-					_a.setAttribute("style", "font-weight: normal");
-					_a.appendChild(document.createTextNode($('#test').val()+"::"+$('#subject').val()));
-					td.appendChild(_a);
-					tr.appendChild(td);
-
-					parent.$('#tbody').prepend(tr);
-
-				}
-				parent.dialogclose();
+			else{
+				$('#td_data').css({color: ""});
 			}
+			if($('#test').val() == ""){
+				msg += "\n"+index+". Inserire una descrizione della prova (ad. es. Verifica di italiano).";
+				_submit = false;
+				$('#td_test').css({color: "rgba(200, 6, 6, 1)"});
+				index++;
+			}
+			else{
+				$('#td_test').css({color: ""});
+			}
+			if($('#subject').val() == ""){
+				msg += "\n"+index+". Argomento della prova non presente.";
+				_submit = false;
+				$('#td_argomento').css({color: "rgba(200, 6, 6, 1)"});
+				index++;
+			}
+			else{
+				$('#td_argomento').css({color: ""});
+			}
+			if($('#tipo').val() == "0"){
+				msg += "\n"+index+". Tipologia della prova non presente.";
+				_submit = false;
+				$('#td_tipo').css({color: "rgba(200, 6, 6, 1)"});
+				index++;
+			}
+			else{
+				$('#td_tipo').css({color: ""});
+			}
+			if(!_submit){
+				j_alert("error", msg);
+				return false;
+			}
+
+			$.ajax({
+				type: "POST",
+				url: 'test_manager.php',
+				data:  $('#testform').serialize(true),
+				dataType: 'json',
+				error: function(data, status, errore) {
+					j_alert("error", "Si e' verificato un errore");
+					return false;
+				},
+				succes: function(result) {
+					j_alert("alert", "ok");
+				},
+				complete: function(data, status){
+					r = data.responseText;
+					var json = $.parseJSON(r);
+					if(json.status == "kosql"){
+						j_alert("error", "Errore: riprova tra qualche minuto");
+						console("Errore SQL. \nQuery: "+json.query+"\nErrore: "+json.message);
+						return;
+					}
+					else {
+						j_alert("alert", json.message);
+						if ($('#do').val() == "update") {
+							parent.$('#desc').text($('#test').val());
+							parent.$('#datetm').text(json.date_string);
+							parent.$('#ann').text($('#notes').val());
+							parent.$('#top').text($('#subject').val());
+							parent.$('#tp').text(json.tp);
+						}
+						else {
+							alert("else");
+							_a = document.createElement("a");
+							_a.setAttribute("id", "test_"+json.id+"_1");
+							_a.setAttribute("href", "test.php?idt="+json.id);
+							_a.setAttribute("class", "test_link");
+							_a.setAttribute("style", "font-weight: normal");
+
+							var card = document.createElement("div");
+							card.setAttribute("class", "card");
+
+							var card_title = document.createElement("div");
+							card_title.setAttribute("class", "card_title");
+							card_title.appendChild(document.createTextNode(json.date_string+" - "+$('#test').val()+"::"+$('#subject').val()));
+
+							var right_div = document.createElement("div");
+							right_div.setAttribute("style", "float: right; margin-right: 20px; color: #1E4389");
+							right_div.appendChild(document.createTextNode("Media voto: -- "));
+							var sp = document.createElement("span");
+							sp.setAttribute("style", "font-weight: normal; text-transform: none");
+							sp.appendChild(document.createTextNode("(valutati 0 alunni)"));
+							right_div.appendChild(sp);
+
+							card_title.appendChild(right_div);
+							card.appendChild(card_title);
+
+							_a.appendChild(card);
+
+							parent.$('#card_container').prepend(_a);
+						}
+						parent.dialogclose();
+					}
+				}
+			});
 		}
-	});
-}
 
-$(function(){
-	$('#manage_link').button();
-	$('#manage_link').click(function(event){
-		event.preventDefault();
-		manage_test();
-	});
-	$('#date_time').datetimepicker({
-		dateFormat: "dd/mm/yy"
-	});
-	<?php if(isset($_REQUEST['test']) && $_REQUEST['test'] != 0){ ?>
-	$('#do').val('update');
-	<?php } ?>
-});
+		$(function(){
+			$('#manage_link').button();
+			$('#manage_link').click(function(event){
+				event.preventDefault();
+				manage_test();
+			});
+			$('#date_time').datepicker({
+				dateFormat: "dd/mm/yy"
+			});
+			<?php if(isset($_REQUEST['test']) && $_REQUEST['test'] != 0){ ?>
+			$('#do').val('update');
+			<?php } ?>
+		});
 
-</script>
-<style>
-* {font-size: 12px}
-</style>
+	</script>
 </head>
 <body style="margin: 0; background-color: white">
 <div id="popup_main" style='width: 100%; margin: 0; text-align: center; height: 100%; background-color: white; padding-top: 10px'>

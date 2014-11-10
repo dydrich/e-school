@@ -11,8 +11,10 @@ check_permission(DOC_PERM);
 $_SESSION['__path_to_root__'] = "../../../";
 $_SESSION['__path_to_reg_home__'] = "../";
 
-$utils = SessionUtils::getInstance($db);
-$utils->registerCurrentClassFromClassID($_REQUEST['cls'], "__classe__");
+if (!isset($_SESSION['__classe__'])) {
+	$utils = SessionUtils::getInstance($db);
+	$utils->registerCurrentClassFromClassID($_REQUEST['cls'], "__classe__");
+}
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
@@ -65,6 +67,7 @@ if(!$vacance){
 	$post_tm = ucfirst(strftime("%A %d %B", strtotime($day3)));
 }
 
-$navigation_label = "Registro elettronico - Gestione classe";
+$navigation_label = "gestione classe";
+$drawer_label = "Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione()." - ".$_SESSION['__current_year__']->to_string();
 
 include "classe.html.php";

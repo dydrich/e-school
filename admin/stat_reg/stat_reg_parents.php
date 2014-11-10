@@ -45,6 +45,22 @@ while($alunno = $res_alunni->fetch_assoc()){
 }
 $num_righe = intval(($num_alunni + 1) / 2);
 
-$navigation_label = "Area amministrazione: statistiche genitori";
+$lb = "";
+if (isset($_GET['school_order'])) {
+	switch ($_GET['school_order']) {
+		case 1:
+			$lb = "scuola secondaria";
+			break;
+		case 2:
+			$lb = "scuola primaria";
+			break;
+		case 3:
+			$lb = "scuola dell'infanzia";
+			break;
+	}
+}
+
+$navigation_label = "statistiche registro";
+$drawer_label = "Genitori $lb non registrati (". $num_alunni." totali)";
 
 include "stat_reg_parents.html.php";

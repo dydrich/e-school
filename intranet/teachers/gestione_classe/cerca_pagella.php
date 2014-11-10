@@ -10,7 +10,7 @@ ini_set("display_errors", "1");
 $_SESSION['__path_to_root__'] = "../../../";
 $_SESSION['__path_to_reg_home__'] = "../";
 
-$navigation_label = "Registro elettronico: area docenti";
+$navigation_label = "gestione classe";
 
 $school = $_SESSION['__user__']->getSchoolOrder();
 $_SESSION['__school_order__'] = $school;
@@ -43,5 +43,7 @@ try{
 }
 
 $_SESSION['no_file'] = array("referer" => "intranet/teachers/gestione_classe/cerca_pagella.php", "path" => "intranet/teachers/", "relative" => "gestione_classe/cerca_pagella.php");
+
+$drawer_label = "Ricerca pagella online";
 
 include "cerca_pagella.html.php";

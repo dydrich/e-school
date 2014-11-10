@@ -20,6 +20,6 @@ if(isset($_REQUEST['son'])){
 	$utils->registerCurrentClassFromUser($_REQUEST['son'], "__classe__");
 }
 
-$navigation_label = "Registro elettronico genitori: alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
+$navigation_label = "alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
 
 include "../common/activities.php";

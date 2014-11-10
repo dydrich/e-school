@@ -18,19 +18,19 @@ if(isset($_REQUEST['offset'])){
 	$offset = $_REQUEST['offset'];
 }
 
-$admin_level = 0;
+$level = 0;
 if(isset($_SESSION['__school_order__']) && $_SESSION['__school_order__'] != 0){
-	$admin_level = $_SESSION['__school_order__'];
+	$level = $_SESSION['__school_order__'];
 }
 else if(isset($_SESSION['school_order']) && $_SESSION['school_order'] != 0){
-	$admin_level = $_GET['__school_order__'];
+	$level = $_GET['__school_order__'];
 }
 else if (isset($_GET['__school_order__']) && $_GET['__school_order__'] != 0){
-	$admin_level = $_GET['__school_order__'];
+	$level = $_GET['__school_order__'];
 }
 $param_school = '';
-if ($admin_level != 0){
-	$param_school = "AND id_tipo = {$admin_level}";
+if ($level != 0){
+	$param_school = "AND id_tipo = {$level}";
 }
 
 $sel_ordini = "SELECT * FROM rb_tipologia_scuola WHERE has_admin = 1 AND attivo = 1 {$param_school} ORDER BY id_tipo DESC";
@@ -58,13 +58,13 @@ $sezioni = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'
 $action = "";
 if ($_REQUEST['id'] == 0) {
 	$action = "insert";
-	$label = "Nuova classe";
+	$drawer_label = "Nuova classe";
 }
 else {
 	$action = "update";
-	$label = "Gestione classe: ".$cls->get_anno().$cls->get_sezione()." - ".$_cls['nome'];
+	$drawer_label = "Gestione classe: ".$cls->get_anno().$cls->get_sezione()." - ".$_cls['nome'];
 }
 
-$navigation_label = "Area amministrazione: gestione classi";
+$navigation_label = "gestione classi";
 
 include "classe.html.php";

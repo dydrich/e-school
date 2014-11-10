@@ -28,8 +28,13 @@ if($res_act->num_rows > 0){
 	$sel_dates = "SELECT DISTINCT(data_inizio) FROM rb_impegni WHERE classe = ".$_SESSION['__classe__']->get_ID()." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND data_inizio >= NOW() AND rb_impegni.tipo = 2 $teacher ORDER BY data_inizio DESC";
 	$res_dates = $db->execute($sel_dates);
 }
-$navigation_label = "Registro elettronico - ".$_SESSION['__classe__']->to_string();
+$navigation_label = "gestione classe";
+$drawer_label = "Compiti assegnati";
+if(!isset($_REQUEST['all'])){
+	$drawer_label .= " (personali)";
+}
+else {
+	$drawer_label .= " (tutti)";
+}
 
 include "elenco_compiti.html.php";
-
-?>

@@ -44,9 +44,14 @@ if(isset($_REQUEST['modification']) && $_REQUEST['modification'] == 1){
 	$modification = true;
 	$modification_label = "Termina modifica";
 	$modification_params = "";
+	$link = "scrutini_classe.php?q=". $q . $modification_params;
 }
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "grade_only"){
 	$grades_only = true;
+	$link = "scrutini_classe.php?q=". $q;
+}
+else {
+	$link = "scrutini_classe.php?q=". $q;
 }
 
 $sel_alunni = "SELECT cognome, nome, id_alunno FROM rb_alunni WHERE id_classe = ". $_SESSION['__classe__']->get_ID() ." AND attivo = '1' ORDER BY cognome, nome";
@@ -136,6 +141,7 @@ $voti_comportamento_primaria = array("4" => array("nome" => "non adeguato", "cod
 			   "6" => array("nome" => "adeguato", "codice" => "AD")
 );
 
-$navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$navigation_label = "Registro personale ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Scrutini ".$label;
 
 include "scrutini_classe.html.php";

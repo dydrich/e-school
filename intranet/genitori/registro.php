@@ -21,6 +21,7 @@ if(isset($_REQUEST['son'])){
 $area = "genitori";
 $page = "registro.php";
 $student_id = $_SESSION['__current_son__'];
-$navigation_label = "Registro elettronico genitori: alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
+$navigation_label = "alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
+$drawer_label = "Registro di classe";
 
 include "../common/classbook.php";

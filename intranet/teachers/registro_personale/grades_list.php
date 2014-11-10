@@ -12,7 +12,6 @@ $_SESSION['__path_to_reg_home__'] = "../";
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
-$navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level__'][$ordine_scuola]);
 $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
@@ -63,6 +62,7 @@ $sel_voti = "SELECT rb_voti.materia, voto, modificatori, descrizione, tipologia,
 $sel_voti .= "WHERE rb_voti.materia = id_materia AND anno = $year AND alunno = $student AND docente = $teacher $int_time ORDER BY $field_order $order";
 $res_voti = $db->executeQuery($sel_voti);
 
-$navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$navigation_label = "registro personale - ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Elenco voti di ". $fn;
 
 include "grades_list.html.php";

@@ -46,9 +46,9 @@ else{
 	}
 }
 if($q == 1)
-	$label = ", scrutini primo quadrimestre";
+	$label = " primo quadrimestre";
 else
-	$label = ", scrutini finali";
+	$label = " finali";
 
 /*
  * verifica se scrutini ancora aperti, per modifica
@@ -74,9 +74,41 @@ $mat = $_SESSION['__user__']->getSubject();
 
 $voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
 
-$change_subject = new ChangeSubject("hid", "", "position: absolute; width: 180px; height: 105px; display: none", "div", $_SESSION['__subjects__']);
-$change_subject->createLink("text-decoration: none; text-transform: uppercase; font-weight: bold", "left");
-$change_subject->setJavascript('', 'jquery');
+if(count($_SESSION['__subjects__']) > 0) {
+	$k = 0;
+	foreach ($_SESSION['__subjects__'] as $mt) {
+		//print "while";
+		if (isset($_REQUEST['subject'])) {
+			if ($_REQUEST['subject'] == $mt['id']) {
+				$idm = $mt['id'];
+				$_mat = $mt['mat'];
+			}
+		}
+		else {
+			if (isset($_SESSION['__materia__'])) {
+				if ($_SESSION['__materia__'] == $mt['id']) {
+					$idm = $mt['id'];
+					$_mat = $mt['mat'];
+				}
+				else {
+					if ($k == 0) {
+						$idm = $mt['id'];
+						$_mat = $mt['mat'];
+					}
+				}
+			}
+			else {
+				if ($k == 0) {
+					//print "k==0";
+					$idm = $mt['id'];
+					$_mat = $mt['mat'];
+				}
+			}
+		}
+		$k++;
+	}
+	$_SESSION['__materia__'] = $idm;
+}
 
 if(isset($_REQUEST['subject']))
 	$_SESSION['__materia__'] = $_REQUEST['subject']; 
@@ -84,6 +116,7 @@ if(isset($_REQUEST['subject']))
 $sel_dati = "SELECT rb_alunni.cognome, rb_alunni.nome, alunno, voto, assenze FROM rb_alunni LEFT JOIN rb_scrutini ON id_alunno = alunno WHERE anno = ".$_SESSION['__current_year__']->get_ID()." AND id_classe = ". $_SESSION['__classe__']->get_ID() ." AND classe = id_classe AND quadrimestre = $q AND materia = ".$_SESSION['__materia__']." ORDER BY cognome, nome";
 $res_dati = $db->execute($sel_dati);
 
-$navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$navigation_label = "Registro personale ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Scrutini".$label;
 
 include "scrutini.html.php";

@@ -17,12 +17,12 @@ a.no_decoration {
 }
 
 #navbar {
-    width: 100%;
+    width: 90%;
     height: 45px;
-    margin-left: 0;
+    margin: auto;
     border-radius: 0 0 0 0;
-    background-color: #B0BEC5;
     padding-left: 25px;
+    border-bottom: 1px solid #FF9100;
 }
 
 #threads, #sel_thread {
@@ -31,7 +31,7 @@ a.no_decoration {
 }
 
 #sel_thread {
-    border: 1px solid #EF6C6C;
+    /*border: 1px solid #FF9100;*/
     background-color: white;
 }
 
@@ -60,7 +60,6 @@ a.no_decoration {
     height: 20px;
     border-bottom: 1px solid #EF6C6C;
     font-size: 1em;
-    font-family: Helvetica;
     color: #111;
 }
 
@@ -110,7 +109,6 @@ a.no_decoration {
 
 #newmsg {
     float: left;
-    #background: url(new_mail.png) no-repeat;
     background-position: right top;
     width: 20%;
     height: 40px;
@@ -125,7 +123,6 @@ a.no_decoration {
 
 #viewlist {
     float: left;
-    #background: url(mail_send_icon.png) no-repeat;
     background-position: right top;
     width: 20%;
     height: 40px;
@@ -156,7 +153,6 @@ a.no_decoration {
     display: none;
     color: #484848;
     float: right;
-    display: none;
     padding: 10px 0 0 5px;
     font-weight: bold
 }
@@ -229,7 +225,6 @@ a.no_decoration {
     margin: auto;
     height: 20px;
     font-size: 0.9em;
-    font-family: Helvetica;
     color: #111;
 }
 
@@ -237,7 +232,8 @@ a.no_decoration {
     width: 50%;
     float: left;
     height: 20px;
-    color: #484848;
+    color: rgba(0,0,0,.54);
+    font-size: 0.8em;
     padding-left: 10px
 }
 
@@ -247,7 +243,8 @@ a.no_decoration {
     height: 20px;
     text-align: right;
     padding-right: 10px;
-    color: #484848
+    color: rgba(0,0,0,.54);
+    font-size: 0.8em;
 }
 
 .msg_text {
@@ -259,16 +256,15 @@ a.no_decoration {
 }
 
 .my_msg {
-    margin-right: 18%;
     border-radius: 8px;
-    margin-left: 2%
+    margin-left: 18%
 }
 
 .target_msg {
-    margin-left: 18%;
+    margin-left: 2%;
     border-radius: 8px;
-    background-color: rgba(131, 2, 29, 0.3);
-    border: 1px solid rgba(131, 2, 29, 1);
+    background-color: white;
+    border: 1px solid #FF9100;
 }
 
 .notification {
@@ -305,14 +301,6 @@ a.no_decoration {
     display: inline-block
 }
 
-#aframe {
-
-}
-
-#not1 {
-
-}
-
 .evento {
     width: 90%;
     margin-top: 0;
@@ -343,21 +331,4 @@ a.no_decoration {
 #groups table tbody tr {
     height: 20px;
     border-bottom: 1px solid #CFD8DC;
-}
-
-.list_header{
-    width: 100%;
-    margin: 0 auto 0 auto;
-    height: 30px;
-    text-align: left;
-    font-weight: bold;
-    background-color: #CFD8DC;
-    border-top: 1px solid #CFD8DC;
-    position: relative;
-    top: -15px
-}
-
-div.outline_line_wrapper {
-    border: none;
-    font-weight: normal;
 }

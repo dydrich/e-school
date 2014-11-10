@@ -79,6 +79,8 @@ var save = function(){
 };
 
 $(function(){
+	load_jalert();
+	setOverlayEvent();
 	$('div#sezioni a').mouseover(function(event){
 		//alert(this.id);
 		$('#'+this.id).css({color: '#8a1818', fontWeight: 'bold'});
@@ -99,8 +101,7 @@ $(function(){
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Attivazione classi prime</div>
-        <div style="width: 80%; margin: 10px auto 20px auto">Saranno attivate le classi seguenti.
+		<div style="width: 80%; margin: 10px auto 20px auto">Saranno attivate le classi seguenti.
         Puoi aggiungerne altre, cliccando sulla sezione, o eliminarne alcune, cliccando sul nome della classe: quando hai terminato le modifiche, clicca sul link "Registra" in fondo alla pagina.</div>
         <div id="sezioni" style="width: 90%; margin: auto; text-align: center; border-width: 1px 0 1px 0; border-style: solid; border-color: #CCCCCC">
         <?php 
@@ -131,5 +132,13 @@ $(function(){
 	<p class="spacer"></p>
 </div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 360px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

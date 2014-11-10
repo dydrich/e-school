@@ -14,8 +14,7 @@ $_SESSION['__path_to_reg_home__'] = "../";
 $sel_alunni = "SELECT rb_alunni.* FROM rb_alunni WHERE id_classe = ".$_SESSION['__classe__']->get_ID()." AND attivo = '1' ORDER BY cognome, nome";
 $res_alunni = $db->execute($sel_alunni);
 
-$navigation_label = "Registro elettronico - ".$_SESSION['__classe__']->to_string();
+$navigation_label = "gestione classe";
+$drawer_label = "Elenco alunni (".$res_alunni->num_rows.")";
 
 include "elenco_alunni.html.php";
-
-?>

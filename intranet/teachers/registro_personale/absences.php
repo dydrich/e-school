@@ -204,11 +204,48 @@ while($row = $res_hours->fetch_assoc()){
 	}
 }
 
+if(count($_SESSION['__subjects__']) > 0) {
+	$k = 0;
+	foreach ($_SESSION['__subjects__'] as $mt) {
+		//print "while";
+		if (isset($_REQUEST['subject'])) {
+			if ($_REQUEST['subject'] == $mt['id']) {
+				$idm = $mt['id'];
+				$_mat = $mt['mat'];
+			}
+		}
+		else {
+			if (isset($_SESSION['__materia__'])) {
+				if ($_SESSION['__materia__'] == $mt['id']) {
+					$idm = $mt['id'];
+					$_mat = $mt['mat'];
+				}
+				else {
+					if ($k == 0) {
+						$idm = $mt['id'];
+						$_mat = $mt['mat'];
+					}
+				}
+			}
+			else {
+				if ($k == 0) {
+					//print "k==0";
+					$idm = $mt['id'];
+					$_mat = $mt['mat'];
+				}
+			}
+		}
+		$k++;
+	}
+	$_SESSION['__materia__'] = $idm;
+}
+
 $mat = $_SESSION['__user__']->getSubject();
 $change_subject = new ChangeSubject("hid", "", "position: absolute; width: 180px; height: 55px; display: none", "div", $_SESSION['__subjects__']);
 $change_subject->createLink("text-decoration: none; text-transform: uppercase; font-weight: bold");
 $change_subject->setJavascript('', 'jquery');
 
-$navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$navigation_label = "registro personale - ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Assenze orarie per materia";
 
 include "absences.html.php";

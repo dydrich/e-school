@@ -11,7 +11,8 @@ $_SESSION['__path_to_mod_home__'] = "./";
 $sel_env = "SELECT * FROM rb_config";
 $res_env = $db->executeQuery($sel_env);
 
-$navigation_label = "Area amministrazione: sviluppo";
+$navigation_label = "sviluppo";
+$drawer_label = "Variabili d'ambiente";
 $admin_level = 0;
 
 include_once "env.html.php";

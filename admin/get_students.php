@@ -20,7 +20,7 @@ if($_POST['action'] == "student_insert"){
 	$sel_sts = "SELECT id_alunno, CONCAT_WS(' ', cognome, nome) AS name FROM rb_alunni WHERE id_classe = {$cls} AND attivo = '1' AND id_alunno NOT IN (SELECT DISTINCT id_alunno FROM rb_reg_alunni, rb_reg_classi WHERE id_reg = id_registro AND id_anno = {$_SESSION['__current_year__']->get_ID()} AND rb_reg_alunni.id_classe = {$cls}) ORDER BY cognome, nome";
 }
 else {
-	$sel_sts = "SELECT id_alunno, CONCAT_WS(' ', cognome, nome) AS name FROM rb_alunni WHERE id_classe = {$cls} AND attivo = '1'";
+	$sel_sts = "SELECT id_alunno, CONCAT_WS(' ', cognome, nome) AS name FROM rb_alunni WHERE id_classe = {$cls} AND attivo = '1' ORDER BY cognome, nome";
 }
 try{
 	$res_sts = $db->executeQuery($sel_sts);

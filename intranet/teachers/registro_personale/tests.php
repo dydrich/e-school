@@ -14,7 +14,6 @@ $_SESSION['__path_to_reg_home__'] = "../";
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
-$navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level__'][$ordine_scuola]);
 $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
@@ -64,7 +63,8 @@ $change_subject = new ChangeSubject("hid", "", "position: absolute; width: 180px
 $change_subject->createLink("text-decoration: none; text-transform: uppercase; font-weight: bold", "right");
 $change_subject->setJavascript("", "jquery");
 
-$navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$navigation_label = "registro personale ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Elenco verifiche ".$label;
 
 setlocale(LC_TIME, "it_IT.utf8");
 

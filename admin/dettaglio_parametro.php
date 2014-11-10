@@ -19,6 +19,7 @@ $sel_params = "SELECT * FROM rb_parametri_pagella WHERE id = {$_REQUEST['id']}";
 $res_params = $db->execute($sel_params);
 $param = $res_params->fetch_assoc();
 
-$navigation_label = "Area amministrazione: gestione pagelle";
+$navigation_label = "gestione scrutini";
+$drawer_label = "Dettaglio parametro di valutazione";
 
 include "dettaglio_parametro.html.php";

@@ -23,7 +23,6 @@ else{
 
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
-$navigation_label = "Registro elettronico ".strtolower($_SESSION['__school_level__'][$ordine_scuola]);
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 
@@ -45,8 +44,16 @@ $module = $_SESSION['__classe__']->get_modulo_orario();
 $classbook_data = new ClassbookData($_SESSION['__classe__'], $school_year, $par_tot, $db);
 $totali = $classbook_data->getClassSummary();
 $presence = $classbook_data->getStudentsSummary();
-$navigation_label = "Registro elettronico ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione()." - Statistiche di presenza";
+$navigation_label = "Registro della classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = $_SESSION['__classe__']->to_string()." - Statistiche di presenza ";
+if($q == 1) {
+	$drawer_label .= "primo quadrimestre";
+}
+else if($q == 2) {
+	$drawer_label .= "secondo quadrimestre";
+}
+else {
+	$drawer_label .= "totale anno scolastico";
+}
 
 include "stats.html.php";
-
-?>

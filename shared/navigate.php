@@ -1,22 +1,4 @@
-			<?php
-			if(!isset($expand)){
-				$expand = true;
-			}
-			if($max < $limit && $expand){
-                for($c = $max; $c < $limit; $c++){
-            ?>
-            <tr class="<?php echo $row_class ?>">
-                <td colspan="<?php print $colspan ?>">&nbsp;</td>
-            </tr>
-            <?php
-                    }
-                }
-            ?>
-            <tr class="<?php echo $row_class ?>" style="height: 35px">
-                <td colspan="<?php print $colspan ?>"></td>
-            </tr>
-            <tr>
-                <td colspan="<?php print $colspan ?>" class="<?php echo $row_class." "; if(isset($row_class_menu)) echo $row_class_menu ?>" style="text-align: center;">
+			<div class="navigate">
             <?php
             if (!isset($nav_params)){
 	            $nav_params = "";
@@ -51,7 +33,7 @@
                     else
                         print("</span>");
                     if($c < $limiti[1])
-                        print("|");
+                        print("<span>|</span>");
                 }
             }
             print("&nbsp;&nbsp;");
@@ -68,8 +50,4 @@
             	print ("<a href='".$link."?offset=".$offset_last."&second=1".$nav_params."' style='margin-left: 15px; text-decoration: none; font-weight: bold'>&gt;&gt;</a>");
             }
             ?>
-                </td>
-            </tr>
-            <tr class="<?= $row_class ?>" style="border: 0">
-                <td colspan="<?php print $colspan ?>"></td>
-            </tr>
+			</div>

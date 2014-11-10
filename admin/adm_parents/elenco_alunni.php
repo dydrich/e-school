@@ -9,10 +9,10 @@ $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "../";
 
 $classes_table = "rb_classi";
-if($_SESSION['__school_order__'] != 0){
+if(isset($_SESSION['__school_order__']) && $_SESSION['__school_order__'] != 0){
 	$classes_table = "rb_vclassi_s{$_SESSION['__school_order__']}";
 }
-else if($_SESSION['school_order'] != 0){
+else if(isset($_SESSION['school_order']) && $_SESSION['school_order'] != 0){
 	$classes_table = "rb_vclassi_s{$_SESSION['school_order']}";
 }
 

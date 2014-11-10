@@ -62,6 +62,8 @@
 	};
 
 	$(function(){
+		load_jalert();
+		setOverlayEvent();
 		$('#save_button').click(function(event){
 			event.preventDefault();
 			go();
@@ -78,8 +80,7 @@
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-	<div class="group_head">Nuovo modulo</div>
-    <form action="module_manager.php" method="post" id="site_form" class="popup_form">
+	<form action="module_manager.php" method="post" id="site_form" class="popup_form">
     <table style="width: 90%; margin: auto">
         <tr class="popup_row header_row">
             <td style="width: 30%"><label for="giorni" class="popup_title">Giorni</label></td>
@@ -100,8 +101,7 @@
         </tr>
         <tr>
             <td colspan="2" style="margin-right: 30px; text-align: right">
-                <a href="../../shared/no_js.php" id="save_button" class="standard_link nav_link_first">Registra</a>|
-                <a  href="moduli_orario.php" id="close_button" class="standard_link nav_link_last">Torna all'elenco</a>
+                <a href="../../shared/no_js.php" id="save_button" class="standard_link nav_link_first">Registra</a>
             </td>
         </tr>
     </table>
@@ -110,5 +110,13 @@
 	<p class="spacer"></p>
 </div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 360px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

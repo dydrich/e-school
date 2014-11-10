@@ -41,12 +41,14 @@ if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0){
     $alunno = $res_usr->fetch_assoc();
     $_i = $_REQUEST['id'];
     $old_class= $alunno['id_classe'];
+	$drawer_label = "Dettaglio alunno";
 }
 else{
     // nuovo utente
+	$drawer_label = "Nuovo alunno";
     $_i = $old_class = 0;
 }
 
-$navigation_label = "Area amministrazione: gestione alunni";
+$navigation_label = "gestione utenti";
 
 include "dettaglio_alunno.html.php";

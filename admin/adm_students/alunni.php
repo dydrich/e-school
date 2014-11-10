@@ -127,18 +127,21 @@ if(isset($_REQUEST['order']) && ($_REQUEST['order'] == "desc_classe")){
 	$new_order = "nome";
 	$current_order = "class";
 	$button_label = "Ordina per nome";
+	$icon = "fa-sort-alpha-asc";
 }
 else if(isset($_REQUEST['order']) && ($_REQUEST['order'] == "tipologia")){
 	$sel_user .= "ORDER BY id_tipo, sezione, anno_corso, cognome, rb_alunni.nome";
 	$new_order = "nome";
 	$current_order = "tipologia";
 	$button_label = "Ordina per nome";
+	$icon = "fa-sort-alpha-asc";
 }
 else{
 	$sel_user .= "ORDER BY cognome, rb_alunni.nome, sezione, anno_corso";
-	$new_order = "class";
+	$new_order = "desc_classe";
 	$current_order = "nome";
 	$button_label = "Ordina per classe";
+	$icon = "fa-sort-numeric-asc";
 }
 
 if(!isset($_GET['second'])){
@@ -160,22 +163,6 @@ if($offset == 0)
 else
     $page = ($offset / $limit) + 1;
 
-$page_menu = new PageMenu("cmenu", "page_menu", "height: 180px; width: 180px; display: none", "div");
-$html =  <<<EOT
-<br />
-<p><a href="alunni.php?order=desc_classe" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per classe</a></p>
-<p><a href="alunni.php" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per nome</a></></p>
-EOT;
-if($school_order == 0){
-	$html .= '<a href="alunni.php?order=tipologia" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Ordina per scuola</a><br />';
-}
-$html .= '<p><a href="../../shared/no_js.php" id="filter_button" style="padding: 10px 0 0 5px; margin: 10px 0 0 0">&middot;&nbsp;&nbsp;&nbsp;Filtra elenco</a></p>';
-
-$page_menu->setInnerHTML($html);
-$page_menu->setJavascript('', 'jquery');
-$page_menu->setPathToRoot($_SESSION['__path_to_root__']);
-$page_menu->createLink();
-
 $pagine = ceil($_SESSION['count_alunni'] / $limit);
 if($pagine < 1)
     $pagine = 1;
@@ -186,6 +173,7 @@ $link = basename($_SERVER['PHP_SELF']);
 $count_name = "count_alunni";
 $row_class = "admin_void";
 
-$navigation_label = "Area amministrazione: gestione alunni";
+$navigation_label = "gestione utenti";
+$drawer_label = "Elenco alunni: pagina $page di $pagine (estratti ".$_SESSION['count_alunni']." alunni) <span style='text-decoration: underline'>$query_label</span>";
 
 include "alunni.html.php";

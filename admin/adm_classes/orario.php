@@ -73,6 +73,7 @@ while($mat = $res_materie->fetch_assoc()){
 	$materie[$mat['id_materia']] = array($mat['materia'], $mat['idpadre'], $id_doc);
 }
 
-$navigation_label = "Area amministrazione: gestione classi";
+$navigation_label = "gestione classi";
+$drawer_label = "Orario delle lezioni della classe ".$myclass['anno_corso'].$myclass['sezione']." - ".$myclass['nome'];
 
 include "orario.html.php";

@@ -19,6 +19,7 @@ include "check_sons.php";
 $utils = SessionUtils::getInstance($db);
 $utils->registerCurrentClassFromUser($_SESSION['__current_son__'], "__classe__");
 
-$navigation_label = "Registro elettronico genitori: alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
+$navigation_label = "alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
+$drawer_label = "Home page";
 
 include "index.html.php";

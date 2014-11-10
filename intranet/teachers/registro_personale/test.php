@@ -58,6 +58,7 @@ while ($row = $res_obj->fetch_assoc()){
 $string_obj = "";
 $string_obj = implode(" || ", $obj);
 
-$navigation_label = "Registro personale del docente - Classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$navigation_label = "registro personale ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$drawer_label = "Dettaglio verifica di ". $test->getSubject()->getDescription()." del <span id='date_label'>".format_date(substr($test->getTestDate(), 0, 10), SQL_DATE_STYLE, IT_DATE_STYLE, "/")."</span>";
 
 include "test.html.php";

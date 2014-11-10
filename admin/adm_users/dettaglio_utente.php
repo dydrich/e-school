@@ -42,12 +42,14 @@ if(isset($_GET['id']) && $_GET['id'] != 0){
 	while($group = $groups->fetch_assoc()) {
 		$gid[] = $group['gid'];
 	}
+	$drawer_label = "Dettaglio utente";
 }
 else{
     // nuovo utente
+	$drawer_label = "Nuovo utente";
     $_i = 0;
 }
 
-$navigation_label = "Area amministrazione: gestione utente";
+$navigation_label = "gestione utenti";
 
 include "dettaglio_utente.html.php";

@@ -57,6 +57,7 @@
 
 	$(function(){
 		load_jalert();
+		setOverlayEvent();
 		load_default(true);
 		$('#data_inizio').datepicker({
 			dateFormat: "dd/mm/yy"
@@ -83,7 +84,6 @@ input {
 		<?php include "adm_school/menu.php" ?>
 	</div>
 	<div id="left_col">
-	<div class="group_head">Gestione anni scolastici</div>
 	<form method="post" id="myform" class="popup_form">
 		<table style="width: 90%; margin-right: auto; margin-left: auto; margin-bottom: 20px;">
             <tr>
@@ -112,5 +112,13 @@ input {
 	</div>
 </div>
 <?php include "footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../index.php"><img src="../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="index.php"><img src="../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../shared/do_logout.php"><img src="../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

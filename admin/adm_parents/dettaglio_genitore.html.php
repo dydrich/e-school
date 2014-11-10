@@ -11,7 +11,6 @@
 <script type="text/javascript" src="../../js/page.js"></script>
 <script type="text/javascript" src="../../js/md5-min.js"></script>
 <script type="text/javascript">
-var messages = new Array('', 'Genitore inserito con successo', 'Genitore cancellato con successo', 'Genitore modificato con successo');
 var new_account = false;
 var new_data = false;
 var oldLink = null;
@@ -298,6 +297,7 @@ var resend_email = function(genit){
 
 $(function(){
 	load_jalert();
+	setOverlayEvent();
 });
 </script>
 </head>
@@ -309,8 +309,7 @@ $(function(){
 		<?php include "../adm_users/menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">Dettaglio genitore</div>
-    <form action="dettaglio_genitore.php?upd=1" method="post" id="parent_form" class="popup_form">
+	<form action="dettaglio_genitore.php?upd=1" method="post" id="parent_form" class="popup_form">
     <fieldset id="account_field" style="width: 95%; padding-top: 10px; margin-left: auto; margin-right: auto; display: <?php if(!$show_account) echo "none" ?>">
     <legend id="account_legend" style="font-weight: bold;">Account</legend>
     <table style="width: 95%">
@@ -388,7 +387,7 @@ $(function(){
     			<input type="hidden" name="gruppi" id="gruppi" value="4" />
     			<input type="hidden" name="alunni" id="alunni" value="" />
     			<input type="hidden" name="pclear" id="pclear" />
-	            <input type="hidden" name="school_order" id="school_order" value="<?php echo $_GET['school_order'] ?>" />
+	            <input type="hidden" name="school_order" id="school_order" value="<?php if (isset($_GET['school_order'])) echo $_GET['school_order'] ?>" />
             </td>
             <td style="text-align: right; width: 25%"><a href="#" onclick="add_student()" class="standard_link">Aggiungi</a></td>
         </tr>
@@ -410,8 +409,16 @@ $(function(){
 	<p class="spacer"></p>
 </div>
 <div id="list" style="display: none">
-	<iframe id="iframe" src="elenco_alunni.php?school_order=<?php echo $_GET['school_order'] ?>" style="width: 450px; height: 500px; border: 0; margin: auto"></iframe>
+	<iframe id="iframe" src="elenco_alunni.php?school_order=<?php if (isset($_GET['school_order'])) echo $_GET['school_order'] ?>" style="width: 450px; height: 500px; border: 0; margin: auto"></iframe>
 </div>
 <?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 360px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

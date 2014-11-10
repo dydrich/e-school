@@ -32,6 +32,7 @@ while($alunno = $res_alunni->fetch_assoc()){
 $num_righe = intval((count($alunni) + 1) / 2);
 //print $num_righe;
 
-$navigation_label = "Registro elettronico genitori: alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
+$navigation_label = "alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
+$drawer_label = "Elenco alunni classe ". $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 
 include "classe.html.php";

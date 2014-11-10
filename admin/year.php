@@ -29,6 +29,7 @@ if ($action == "new"){
 	$y++;
 }
 
-$navigation_label = "Area amministrazione: gestione anno scolastico";
+$navigation_label = "gestione scuola";
+$drawer_label = "Gestione anno scolastico";
 
 include "year.html.php";

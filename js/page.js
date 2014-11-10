@@ -388,3 +388,29 @@ var loading = function(string, time){
 };
 var tm = 0;
 
+var show_drawer = function(e) {
+    if ($('#drawer').is(':visible')) {
+        $('#drawer').hide('slide', 500);
+        $('#overlay').hide();
+        return false;
+    }
+    var offset = $('#main').offset();
+    tempY = offset.top;
+    tempX = offset.left;
+    $('#drawer').css({top: parseInt(tempY)+"px"});
+    $('#drawer').css({left: parseInt(tempX)+"px"});
+    $('#overlay').show();
+    $('#drawer').show('slide', 500);
+    return false;
+};
+
+var setOverlayEvent = function() {
+    $('#overlay').click(function(event) {
+        if ($('#overlay').is(':visible')) {
+            show_drawer(event);
+        }
+    });
+    $('#open_drawer').click(function(event){
+        show_drawer(event);
+    });
+};

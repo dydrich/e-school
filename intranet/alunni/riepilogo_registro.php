@@ -11,8 +11,10 @@ $_SESSION['__path_to_mod_home__'] = "./";
 
 $student = $_SESSION['__user__']->getUid();
 
-$navigation_label = "Registro elettronico - Area studenti";
+$navigation_label = "scuola secondaria";
 
 include "../common/classbook_summary.php";
+
+$drawer_label = $label;
 
 include "riepilogo_registro.html.php";

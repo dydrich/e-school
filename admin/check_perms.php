@@ -17,7 +17,8 @@ $res_utenti = $db->execute($sel_utenti);
 $sel_gr = "SELECT gid, nome FROM rb_gruppi ";
 $groups = $db->executeQuery($sel_gr);
 
-$navigation_label = "Area amministrazione: sviluppo";
+$navigation_label = "sviluppo";
+$drawer_label = "Verifica permessi utente";
 $admin_level = 0;
 
 include "check_perms.html.php";

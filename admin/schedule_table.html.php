@@ -10,133 +10,124 @@
 	<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../js/page.js"></script>
 	<script type="text/javascript">
-	var IE = document.all?true:false;
-	var tempX = 0;
-	var tempY = 0;
+		var selected_class = {};
+		selected_class.id = 0;
+		selected_class.desc = "";
+		var need_class = false;
 
-	var selected_class = {};
-	selected_class.id = 0;
-	selected_class.desc = "";
-	var need_class = false;
+		var show_div = function(e, off){
+			if ($('#menu_cls').is(":visible")) {
+				$('#menu_cls').slideUp(500);
+				$('#tr'+selected_class.id).removeClass("accent_decoration");
+				return;
+			}
+			off.left -= $('#menu_cls').width() - 30;
+			$('#menu_cls').css({top: off.top+"px"});
+		    $('#menu_cls').css({left: off.left+"px"});
+		    $('#menu_cls').slideDown(500);
+			$('#tr'+selected_class.id).addClass("accent_decoration");
+		};
 
-	var show_div = function(e, div){
-		if (IE) {
-	        tempX = e.clientX + document.body.scrollLeft;
-	        tempY = e.clientY + document.body.scrollTop;
-	    } else {
-	        tempX = e.pageX;
-	        tempY = e.pageY;
-	    }
-	    if (div != "menu_div") {
-	        tempY -= 10;
-	    }
-	    tempX -= 100;
-	    if (tempX < 0){tempX = 0;}
-	    if (tempY < 0){tempY = 0;}
-	    $('#'+div).css({top: parseInt(tempY)+"px"});
-	    $('#'+div).css({left: parseInt(tempX)+"px"});
-	    $('#'+div).show();
-	};
-
-	function show_menu(el) {
-		if($('#menu_div').is(":hidden")) {
-		    position = getElementPosition(el);
-		    ftop = position['top'] + $('#'+el).height();
-		    fleft = position['left'] - 25 + $('#'+el).width();
-		    console.log("top: "+ftop+"\nleft: "+fleft);
-		    $('#menu_div').css({top: ftop+"px", left: fleft+"px", position: "absolute", zIndex: 100});
-		    $('#menu_div').show();
-		}
-		else {
-			$('#menu_div').hide();
-		}
-	}
-
-	var do_action = function(action){
-		var url = "schedule_manager.php";
-		background_process("Operazione in corso", 20, true);
-
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: {action: action, cls: selected_class.id},
-			dataType: 'json',
-			error: function() {
-				clearTimeout(bckg_timer);
-				$('#background_msg').text("Errore di trasmissione dei dati");
-				setTimeout(function() {
-					$('#background_msg').dialog("close");
-				}, 2000);
-				console.log(json.dbg_message);
-				//j_alert("error", "Errore di trasmissione dei dati");
-			},
-			succes: function() {
-
-			},
-			complete: function(data){
-				clearTimeout(bckg_timer);
-				r = data.responseText;
-				if(r == "null"){
+		var do_action = function(action){
+			$('#drawer').hide();
+			var url = "schedule_manager.php";
+			if (action == "delete") {
+				if (!confirm("Questa operazione cancella tutti i dati, relativi all'orario, in archivio: sei sicuro di voler continuare?")) {
+					$('#overlay').hide();
 					return false;
 				}
-				var json = $.parseJSON(r);
-				if (json.status == "kosql"){
-					$('#background_msg').text(json.message);
+			}
+			else if (action == "reinsert") {
+				if (!confirm("Questa operazione azzera tutti i dati, relativi all'orario, in archivio: sei sicuro di voler continuare?")) {
+					$('#overlay').hide();
+					return false;
+				}
+			}
+			background_process("Operazione in corso", 20, true);
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {action: action, cls: selected_class.id},
+				dataType: 'json',
+				error: function() {
+					clearTimeout(bckg_timer);
+					$('#background_msg').text("Errore di trasmissione dei dati");
 					setTimeout(function() {
 						$('#background_msg').dialog("close");
 					}, 2000);
 					console.log(json.dbg_message);
+					//j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					clearTimeout(bckg_timer);
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						$('#background_msg').text(json.message);
+						setTimeout(function() {
+							$('#background_msg').dialog("close");
+						}, 2000);
+						console.log(json.dbg_message);
+					}
+					else {
+						$('#background_msg').text("Operazione conclusa");
+						setTimeout(function() {
+							document.location.href = document.location.href;
+						}, 1500);
+					}
 				}
-				else {
-					$('#background_msg').text("Operazione conclusa");
-					setTimeout(function() {
-						document.location.href = document.location.href;
-					}, 1500);
-				}
-			}
-		});
-	};
+			});
+		};
 
-	$(function(){
-		load_jalert();
-		$('#imglink').click(function(event){
-			event.preventDefault();
-			show_menu('imglink');
-		});
-		$('#menu_div').mouseleave(function(event){
-			event.preventDefault();
-	        $('#menu_div').hide();
-	    });
-		$('.img_click').mouseover(function(event){
-			event.preventDefault();
-			p = this.parentNode.parentNode;
-			$(p).css({backgroundColor: "rgba(231, 231, 231, 0.8)", border: "1px solid #AAAAAA", borderRadius: "5px"});
-		});
-		$('.img_click').mouseout(function(event){
-			event.preventDefault();
-			p = this.parentNode.parentNode;
-			$(p).css({backgroundColor: "", border: "0", borderRadius: "5px"});
-		});
-		$('.img_link').click(function(event){
-			event.preventDefault();
-			var strs = this.id.split("_");
-			selected_class.id = strs[1];
-			selected_class.desc = strs[2];
-			selected_class.order = strs[3];
-			$('#menu_label').text("Classe "+selected_class.desc+" "+selected_class.order);
-			show_div(event, 'menu_cls');
-		});
-		$('#menu_cls').mouseleave(function(event){
-			event.preventDefault();
-	        $('#menu_cls').hide();
-	    });
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('#imglink').click(function(event){
+				event.preventDefault();
+				show_menu('imglink');
+			});
+			$('#menu_div').mouseleave(function(event){
+				event.preventDefault();
+		        $('#menu_div').hide();
+		    });
+			$('.img_click').mouseover(function(event){
+				event.preventDefault();
+				p = this.parentNode.parentNode;
+				$(p).css({backgroundColor: "rgba(231, 231, 231, 0.8)", border: "1px solid #AAAAAA", borderRadius: "5px"});
+			});
+			$('.img_click').mouseout(function(event){
+				event.preventDefault();
+				p = this.parentNode.parentNode;
+				$(p).css({backgroundColor: "", border: "0", borderRadius: "5px"});
+			});
+			$('.img_link').click(function(event){
+				event.preventDefault();
+				selected_class.id = $(this).attr("data-id");
+				selected_class.desc = $(this).attr("data-cls");
+				selected_class.order = $(this).attr("data-order");
+				$('#menu_label').text("Classe "+selected_class.desc+" "+selected_class.order);
+				var off = $(this).parent().parent().offset();
+				off.top += $(this).parent().parent().height();
+				show_div(event, off);
+			});
+			$('#menu_cls').mouseleave(function(event){
+				event.preventDefault();
+		        $('#menu_cls').hide();
+				$('#tr'+selected_class.id).removeClass("accent_decoration");
+		    });
 
-		$('.do_link').click(function(event){
-			event.preventDefault();
-			do_action(this.id);
-	    });
+			$('.do_link').click(function(event){
+				event.preventDefault();
+				do_action(this.id);
+		    });
 
-	});
+		});
 	</script>
 </head>
 <body>
@@ -147,15 +138,17 @@
 		<?php include "new_year_menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="group_head">
-			<div style="float: left; padding-left: 15px">
-			<a href="../shared/no_js.php" id="imglink" style="">
-				<img src="../images/19.png" id="ctx_img" style="margin: 0 0 4px 0; opacity: 0.5; vertical-align: bottom" />
+		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
+			<a href="../shared/no_js.php" id="reinsert" class="do_link">
+				<img src="../images/45.png" style="padding: 12px 0 0 12px" />
 			</a>
-			</div>
-			Gestione tabella orario
 		</div>
-        <table style="width: 90%; margin: 20px auto 0 auto; border-collapse: collapse">
+		<div style="position: absolute; top: 75px; margin-left: 555px; margin-bottom: -5px" class="rb_button">
+			<a href="../shared/no_js.php" id="delete" class="do_link">
+				<img src="../images/52.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
+		<table style="width: 90%; margin: 0 auto 0 auto; border-collapse: collapse">
             <tr>
                 <td colspan="5">&nbsp;</td>
             </tr>
@@ -172,14 +165,14 @@
 		            $sc_order = "SI";
 	            }
             ?>
-            <tr class="admin_row_small">
+            <tr class="admin_row_small" id="tr<?php echo $k ?>">
 	            <td style="width:  10%; font-weight: bold"><?php echo $cl->get_anno(),$cl->get_sezione(),' ',$sc_order ?></td>
 	            <td style="width: 30%; padding-left: 15px">Numero di giorni settimanali: <span style="font-weight: bold"><?php echo $module->getNumberOfDays() ?></span></td>
 	            <td style="width: 30%; padding-left: 15px">Numero di ore settimanali: <span style='font-weight: bold'><?php echo $module->getClassDuration()->toString(RBTime::$RBTIME_SHORT) ?></span></td>
 	            <td style="width: 25%; padding-left: 15px">In archivio: <span style='font-weight: bold'><?php echo $h ?> ore</span></td>
 	            <td style="width:  5%">
 	            	<p style="width: 15px; height: 15px; text-align: center; margin: 1px 0 0 0">
-	            		<a href="../shared/no_js.php" class="img_link" id="imglink_<?php echo $k ?>_<?php echo $cl->get_anno(),$cl->get_sezione() ?>_<?php echo $sc_order ?>">
+	            		<a href="../shared/no_js.php" class="img_link" id="imglink_<?php echo $k ?>" data-id="<?php echo $k ?>" data-cls="<?php echo $cl->get_anno(),$cl->get_sezione() ?>" data-order="<?php echo $sc_order ?>">
 	            			<img src="../images/click.png" style="margin: 0; opacity: 0.5" class="img_click" />
 	            		</a>
 	            	</p>
@@ -191,23 +184,13 @@
 	        <tr class="admin_void">
                 <td colspan="4"></td>
             </tr>
-            <tr class="admin_menu">
-                <td colspan="4">
-                	<a href="index.php" class="standard_link nav_link_last">Torna menu</a>
-                </td>
-            </tr>
             <tr class="admin_void">
                 <td colspan="4"></td>
             </tr>
         </table>
     </div>
-    <div id="list_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 8px 8px 8px 8px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888"></div>
-    <div id="menu_div" style="width: 200px; position: absolute; padding: 10px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 8px 8px 8px 8px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888">
-    	<a href="../shared/no_js.php" id="reinsert" class="do_link" style="padding-left: 10px;">Reinserisci tutto</a><br />
-    	<a href="../shared/no_js.php" id="delete" class="do_link" style="padding-left: 10px;">Cancella tutto</a><br />
-    	<hr style="width: 95%; margin: auto; padding: 0 10px 0 10px; color: rgba(250, 250, 250, 0.2)" />
-    </div>
-    <div id="menu_cls" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 8px 8px 8px 8px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888">
+    <div id="list_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 4px 4px 4px 4px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888"></div>
+    <div id="menu_cls" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 4px 4px 4px 4px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888">
     	<p id="menu_label" style=""></p>
     	<a href="../shared/no_js.php" id="class_reinsert" class="do_link" style="padding-left: 10px;">Reinserisci la classe</a><br />
     	<a href="../shared/no_js.php" id="class_delete" class="do_link" style="padding-left: 10px;">Cancella la classe</a><br />
@@ -220,5 +203,13 @@
 	<p class="spacer"></p>
 	</div>
 <?php include "footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../index.php"><img src="../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="index.php"><img src="../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../shared/do_logout.php"><img src="../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
 </body>
 </html>

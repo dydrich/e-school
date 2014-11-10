@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<title>Admin home page</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>Admin home page</title>
 	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
 	<link href="../../css/general.css" rel="stylesheet" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript">
-</script>
+	<script type="text/javascript">
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+		});
+	</script>
 </head>
 <body>
 <?php include "../header.php" ?>
@@ -19,62 +23,57 @@
 	<div id="right_col">
 		<?php include "menu.php" ?>
 	</div>
-	<div id="left_col">
-		<div class="group_head">Gestione moduli orario</div>
-		<table class="admin_table">
-            <tr>
-                <td style="width: 20%" class="adm_titolo_elenco_first">Modulo</td>
-                <td style="width: 40%" class="adm_titolo_elenco">Giorni</td>
-                <td style="width: 20%" class="adm_titolo_elenco">Ore</td>
-                <td style="width: 20%" class="adm_titolo_elenco_last _center">Mensa</td>
-            </tr>
-            <tr class="admin_row_before_text">
-                <td colspan="4"></td>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $giorni = array(1 => "LUN", 2 => "MAR", 3 => "MER", 4 => "GIO", 5 => "VEN", 6 => "SAB");
-            $use_module = true;
-            foreach ($modules as $k => $module){
-				$no_less_days = $module->getNoLessonDays();
-				$dd = array();
-				foreach ($giorni as $t => $g){
-					if (!in_array($t, $no_less_days)){
-						$dd[] = $g;
-					}
+	<div id="left_col" class="cardbody">
+		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
+			<a href="dettaglio_modulo.php?id=0">
+				<img src="../../images/39.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
+		<div class="card_container" style="margin-top: 20px">
+        <?php
+        $giorni = array(1 => "LUN", 2 => "MAR", 3 => "MER", 4 => "GIO", 5 => "VEN", 6 => "SAB");
+        $use_module = true;
+        foreach ($modules as $k => $module){
+			$no_less_days = $module->getNoLessonDays();
+			$dd = array();
+			foreach ($giorni as $t => $g){
+				if (!in_array($t, $no_less_days)){
+					$dd[] = $g;
 				}
-				if ($module->getNumberOfDays() < 1){
-					$use_module = false;
-				}
-				$string_days = join(", ", $dd);
-            ?>
-            <tr style="border-bottom: 1px solid #CCCCCC">
-                <td style="width: 20%"><a href="dettaglio_modulo.php?idm=<?php echo $k ?>">Modulo #<?php echo $k ?></a></td>
-                <td style="width: 40%"><?php if ($use_module) echo $module->getNumberOfDays(),": ".$string_days; else echo $data[$k]['giorni'] ?></td>
-                <td style="width: 20%"><?php if ($use_module) echo $module->getClassDuration()->toString(RBTime::$RBTIME_SHORT)." (".$module->getNumberOfHours()." di lezione)"; else echo $data[$k]['ore_settimanali'].":00" ?></td>
-                <td style="width: 20%; text-align: center"><?php echo ($module->hasCanteen()) ?  "SI" : "NO" ?></td>
-            </tr>
+			}
+			if ($module->getNumberOfDays() < 1){
+				$use_module = false;
+			}
+			$string_days = join(", ", $dd);
+        ?>
+			<a href="dettaglio_modulo.php?idm=<?php echo $k ?>" class="mod_link">
+	        <div class="card" id="row_<?php echo $k ?>">
+		        <div class="card_title">Modulo #<?php echo $k ?>
+			        <div class="normal" style="float: right; margin-right: 20px" id="">
+				        Mensa: <?php echo ($module->hasCanteen()) ?  "SI" : "NO" ?>
+			        </div>
+		        </div>
+		        <div class="card_content">
+			        <div style="width: 60%; float: left">Giorni: <?php if ($use_module) echo $module->getNumberOfDays()," (".$string_days.")"; else echo $data[$k]['giorni'] ?></div>
+			        <div style="width: 30%; float: left">Ore: <?php if ($use_module) echo $module->getClassDuration()->toString(RBTime::$RBTIME_SHORT)." (".$module->getNumberOfHours()." di lezione)"; else echo $data[$k]['ore_settimanali'].":00" ?></div>
+		        </div>
+	        </div>
+			</a>
            	<?php 
            	}
            	?>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="4">&nbsp;&nbsp;&nbsp;</td>
-            </tr>
-            <tr class="admin_menu">
-                <td colspan="4">
-                	<a href="dettaglio_modulo.php?id=0" id="add" class="nav_link_first">Nuovo modulo</a>|
-                    <a href="../index.php" class="nav_link_last">Torna al menu</a>
-                </td>
-            </tr>
-        </tfoot>
-        </table>
         </div>
 	<p class="spacer"></p>
 	</div>
-	<?php include "../footer.php" ?>
+</div>
+<?php include "../footer.php" ?>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
 </div>
 </body>
 </html>
