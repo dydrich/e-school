@@ -84,8 +84,8 @@ else{
 		// alunno assente: do_nothing()
 	}
 	else{
-		// update
-		$query = "INSERT INTO rb_voti (alunno, docente, materia, anno, voto, descrizione, tipologia, data_voto, argomento, id_verifica) VALUES ($alunno, $docente, $materia, $anno, $voto, '$descrizione', {$tipo}, '$data_voto', '$argomento', $id_verifica)";
+		// insert
+		$query = "INSERT INTO rb_voti (alunno, docente, materia, anno, voto, descrizione, tipologia, data_voto, argomento, id_verifica, from_file, inserimento) VALUES ($alunno, $docente, $materia, $anno, $voto, '$descrizione', {$tipo}, '$data_voto', '$argomento', $id_verifica, 'test_grades_manager', NOW())";
 	}
 	try{
 		$idv = $db->executeUpdate($query);

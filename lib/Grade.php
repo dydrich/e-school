@@ -322,8 +322,8 @@ class Grade {
 		}
 		if ($this->id == 0) {
 			// insert
-			$stm = "INSERT INTO rb_voti (alunno, docente, materia, anno, voto, privato, descrizione, tipologia, note, data_voto, argomento, id_verifica) ";
-			$stm .= "VALUES ({$this->getStudent()}, {$this->getTeacher()}, {$this->getSubject()}, {$this->getYear()}, {$this->getGrade()}, {$privato}, '{$this->getDescription()}', {$this->getType()}, ".field_null($this->getNote(), true).", '{$this->getGradeDate()}', '{$this->getTopic()}', ".field_null($this->getClasswork(), false).")";
+			$stm = "INSERT INTO rb_voti (alunno, docente, materia, anno, voto, privato, descrizione, tipologia, note, data_voto, argomento, id_verifica, from_file, inserimento) ";
+			$stm .= "VALUES ({$this->getStudent()}, {$this->getTeacher()}, {$this->getSubject()}, {$this->getYear()}, {$this->getGrade()}, {$privato}, '{$this->getDescription()}', {$this->getType()}, ".field_null($this->getNote(), true).", '{$this->getGradeDate()}', '{$this->getTopic()}', ".field_null($this->getClasswork(), false).", 'Grade', NOW())";
 			return $this->datasource->executeUpdate($stm);
 		}
 		else {
