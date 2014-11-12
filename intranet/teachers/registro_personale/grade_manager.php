@@ -74,6 +74,7 @@ if ($action == 'new' || $action == "update") {
 	else {
 		$data['privato'] = 0;
 	}
+
 	$data['id_verifica'] = $_REQUEST['verifica'];
 }
 

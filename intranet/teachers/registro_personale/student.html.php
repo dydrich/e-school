@@ -192,6 +192,7 @@
 						$('#descrizione').val(json.grade.descrizione);
 						$('#argomento').val(json.grade.argomento);
 						$('#note').val(json.grade.note);
+						$('#id_verifica').val(json.grade.id_verifica);
 					}
 				}
 			});
@@ -240,7 +241,7 @@
 					argomento: $('#argomento').val(),
 					$note: $('#note').val(),
 					privato: $('#privato').val(),
-					verifica: 0,
+					verifica: $('#id_verifica').val(),
 					q: <?php echo $q ?>
 				},
 				dataType: 'json',
@@ -773,6 +774,7 @@ codice per il popup nuovo voto
 				<td>
 					<textarea style='width: 100%; height: 40px; font-size: 11px' name='note' id="note"></textarea>
 					<input type='hidden' name='id_materia' value='<?php print $_SESSION['__materia__'] ?>' />
+					<input type='hidden' name='id_verifica' id="id_verifica" value='' />
 					<input type='hidden' name='alunno' value='<?php if (isset($_REQUEST['alunno'])) echo $_REQUEST['alunno'] ?>' />
 				</td>
 			</tr>

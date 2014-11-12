@@ -70,7 +70,7 @@ class Grade {
 		$this->id = $id;
 		$this->classwork = null;
 		$this->religionGrades = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
-
+		$this->classwork = null;
 		if ($data != null) {
 			$this->id = $data['id_voto'];
 			$this->grade = $data['voto'];
@@ -320,6 +320,8 @@ class Grade {
 		if ($this->isPrivateGrade()) {
 			$privato = 1;
 		}
+		$this->verifyClassworkGrade();
+
 		if ($this->id == 0) {
 			// insert
 			$stm = "INSERT INTO rb_voti (alunno, docente, materia, anno, voto, privato, descrizione, tipologia, note, data_voto, argomento, id_verifica, from_file, inserimento) ";
@@ -383,6 +385,17 @@ class Grade {
 		$upd = substr($upd, 0, strlen($upd) -1);
 		$upd .= " WHERE id_voto = ".$this->id;
 		$this->datasource->executeUpdate($upd);
+	}
+
+	protected function verifyClassworkGrade() {
+		if ($this->classwork == null || $this->classwork == "") {
+			return true;
+		}
+		$existsGrade = $this->datasource->executeCount("SELECT id_voto FROM rb_voti WHERE id_verifica = ".$this->classwork." AND alunno = ".$this->student);
+		if ($existsGrade) {
+			$this->id = $existsGrade;
+			return false;
+		}
 	}
 
 } 
