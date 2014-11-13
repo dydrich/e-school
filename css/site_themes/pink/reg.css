@@ -545,7 +545,7 @@ div.accordion {
     width: 40px;
     height: 40px;
     position:relative;
-    background-color: #8C9EFF;
+    background-color: #64ffda;
     border-radius: 50%;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     z-index: 100;
@@ -556,7 +556,7 @@ div.accordion {
 }
 
 .conf_frame {
-    border: 1px solid #536dfe;
+    border: 1px solid #64ffda;
     border-radius: 3px;
 }
 

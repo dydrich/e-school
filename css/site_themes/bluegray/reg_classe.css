@@ -500,6 +500,7 @@ table.registro tbody tr:hover {
     text-transform: uppercase;
     width: 350px;
     font-size: 0.9em;
+    color: #000000;
 }
 
 .nav_div a {

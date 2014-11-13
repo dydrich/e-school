@@ -389,7 +389,7 @@ p.card_row {
     width: 40px;
     height: 40px;
     position:relative;
-    background-color: #ff5252;
+    background-color: #ffd740;
     border-radius: 50%;
     z-index: 100;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
@@ -540,7 +540,7 @@ table.registro tr.riepilogo {
 
 .high_contrast_row {
     height: 25px;
-    border-bottom: 1px solid #ff5252!important;
+    border-bottom: 1px solid #ffd740!important;
     vertical-align: bottom;
     font-weight: 600;
 }
@@ -585,7 +585,7 @@ div.group_head{
     height: 40px;
     text-align: left;
     font-weight: bold;
-    background-color: #ff5252;
+    background-color: #ffd740;
     position: relative;
     top: -30px
 }

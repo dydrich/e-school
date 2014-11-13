@@ -545,7 +545,7 @@ div.accordion {
     width: 40px;
     height: 40px;
     position:relative;
-    background-color: #ff5252;
+    background-color: #ffd740;
     border-radius: 50%;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     z-index: 100;
@@ -561,7 +561,7 @@ div.accordion {
 }
 
 .accent_button {
-    border-bottom: 1px solid #ff5252;
+    border-bottom: 1px solid #ffd740;
     padding: 0;
     line-height: 25px;
     text-align: right;
@@ -571,21 +571,21 @@ div.accordion {
 }
 
 .accent_decoration {
-    border-bottom: 1px solid #ff5252 !important;
+    border-bottom: 1px solid #ffd740 !important;
 }
 
 .hover_row:hover {
-    background-color: #ff5252;
+    background-color: #ffd740;
     color: white;
     border-radius: 4px;
 }
 
 .accent_color {
-    color: #ff5252;
+    color: #ffd740;
 }
 
 .accent_color a {
-    color: #ff5252 !important;
+    color: #ffd740 !important;
 }
 
 .list_row {

@@ -11,12 +11,14 @@ body {
     height: 100%;
     margin: 0;
 
-    background: rgb(96, 125, 139);
-    background: -moz-linear-gradient(90deg, rgb(96, 125, 139) 30%, rgb(144, 164, 174) 100%);
-    background: -webkit-linear-gradient(90deg, rgb(96, 125, 139) 30%, rgb(144, 164, 174) 100%);
-    background: -o-linear-gradient(90deg, rgb(96, 125, 139) 30%, rgb(144, 164, 174) 100%);
-    background: -ms-linear-gradient(90deg, rgb(96, 125, 139) 30%, rgb(144, 164, 174) 100%);
-    background: linear-gradient(180deg, rgb(96, 125, 139) 30%, rgb(144, 164, 174) 100%);
+    background: rgb(30, 67, 137);
+    background: -moz-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: -webkit-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: -o-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: -ms-linear-gradient(90deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background: linear-gradient(180deg, rgb(30, 67, 137) 30%, rgb(90, 140, 250) 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
 
 }
 
