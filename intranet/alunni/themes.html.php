@@ -65,20 +65,21 @@
 		<div style="width: 90%; margin: auto; padding-top: 25px">
 			<div class="card">
 				<div class="card_title">Tema attuale: <?php echo $default_theme['name'] ?></div>
-				<div class="card_varcontent"><img src="../../images/themes_thumbnails/<?php echo $default_theme['img'] ?>" /></div>
+				<!--<div class="card_varcontent"><img src="../../images/themes_thumbnails/<?php echo $default_theme['img'] ?>" /></div>-->
 			</div>
 			<?php
 			foreach ($themes as $k => $theme) {
 			?>
 			<div class="card">
-				<div class="card_title"><?php echo $theme['name'] ?> (<a href="#" onclick="select_theme(<?php echo $k ?>)">seleziona tema</a>)</div>
-				<div class="card_varcontent"><img src="../../images/themes_thumbnails/<?php echo $theme['img'] ?>" /></div>
+				<div class="card_title"><?php echo $theme['name'] ?> (<a href="#" class="normal" onclick="select_theme(<?php echo $k ?>)">seleziona tema</a>)</div>
+				<!--<div class="card_varcontent"><img src="../../images/themes_thumbnails/<?php echo $theme['img'] ?>" /></div>-->
 			</div>
 			<?php
 			}
 			?>
 		</div>
 	</div>
+	<p class="spacer"></p>
 </div>
 <?php include "footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">
