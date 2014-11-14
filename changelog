@@ -1,3 +1,27 @@
+4.0.8
+modificata pagina dei temi eliminando l'immagine
+
+4.0.7
+corretto un errore nella assegnazione dell'uniqID in com_users (riportava erroneamente la variabile $uid, non inizializzata, e registrava probabilmente 1)
+
+4.0.6
+modifiche link normal in card per la pagina dei temi
+
+4.0.5
+modifiche ai temi per background e accento
+
+4.0.4
+codice per la prevenzione del presunto bug della duplicazione dei voti: controlla preventivamente se, a prescindere dall'id voto, esiste un voto per quell'alunno con quell'id_verifica, e impedisce l'inserimento, risettando l'id_voto
+
+4.0.3
+modifica background per aumentare il rilievo del main in light_blue
+
+4.0.2
+inserimento codice di debug per provare a tracciare la ripetizione dei voti
+
+4.0.1
+correzione colore nav_div in light_blue
+
 4.0
 nuova grafica material design
 supporto ai temi
