@@ -302,7 +302,7 @@ div.card {
     color: #1E4389 !important;
 }
 
-.card a.normal {
+.card a.normal, .card_title a.normal {
     color: #1E4389 !important;
 }
 

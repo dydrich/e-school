@@ -207,6 +207,10 @@ div.card {
     color: #0097A7 !important;
 }
 
+.card_title a.normal {
+    color: #1E4389 !important;
+}
+
 div.minicard {
     width: 40%;
     float: left;
