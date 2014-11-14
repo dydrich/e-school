@@ -9,6 +9,14 @@ check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
 header("Content-type: application/json");
 $response = array("status" => "ok", "message" => "");
 
+/*
+ * 1: insert
+ * 2: delete
+ * 3: update
+ * 5: bulk delete
+ * 6: resend email
+ */
+
 if ($_REQUEST['action'] != 2 && $_REQUEST['action'] != 5){
 	$nome = $db->real_escape_string($_POST['nome']);
 	$cognome = $db->real_escape_string($_POST['cognome']);
@@ -36,7 +44,8 @@ switch($_REQUEST['action']){
 	case 1:     // inserimento
 		$statement = "INSERT INTO rb_utenti (username, password, nome, cognome, accessi, permessi) VALUES ('$uname', '$pwd', '$nome', '$cognome', 0, 8)";
 		try{
-			$recordset = $db->executeUpdate($statement);
+			$uid = $db->executeUpdate($statement);
+			$recordset = $uid;
 			$db->executeUpdate("INSERT INTO rb_gruppi_utente (gid, uid) VALUES (4, {$recordset})");
 			/* insert profile for email */
 			$db->executeUpdate("INSERT INTO rb_profili (id, email) VALUES ({$recordset}, '{$to}')");
@@ -143,7 +152,7 @@ if($_REQUEST['action'] == 1) {
 	// send confirmation email to user
 	$message = "Gentile genitore,\ncome da lei richiesto, il suo account per l'utilizzo del Registro Elettronico è stato attivato.\n ";
 	$message .= "Di seguito troverà i dati e le istruzioni per accedere:\n\n";
-	$message .= "username: {$uname}\npassword: ".$new_clear_password['c']."\n";
+	$message .= "username: {$uname}\npassword: ".$pclear."\n";
 	$message .= "Procedura di accesso:\nvada su http://www.istitutoiglesiasserraperdosa.it e clicchi sul link 'Registro elettronico'. \nNella finestra seguente selezioni 'Area genitori', inserisca i dati di accesso e clicchi sul pulsante Login. \nInfine clicchi sul link che comparirà, per entrare nell'area riservata.\n\n";
 	$message .= "Per un corretto funzionamento del software, si raccomanda di NON utilizzare il browser Internet Explorer, ma una versione aggiornata di Firefox, Google Chrome, Opera o Safari.\n";
 	$message .= "Le ricordiamo che, in caso di smarrimento della password, pu&ograve; richiederne una nuova usando il link 'Password dimenticata?' presente nella pagine iniziale del Registro.\n";
@@ -152,13 +161,13 @@ if($_REQUEST['action'] == 1) {
 	$msg = date("d/m/Y H:i:s\n");
 	$msg .= "Account genitore creato da ".$_SESSION['__user__']->getUsername()."\n";
 	$msg .= "username: {$uname}\npassword: {$pclear}\nID: {$max}\n\n";
-	mail("admin@istitutoiglesiasserraperdosa.it", "e-School+ log", $msg, $header);
+	mail("admin@istitutoiglesiasserraperdosa.it", "e-School+ log", $msg, $headers);
 }
 else if ($_REQUEST['action'] == 6){
 	$max = $_POST['_i'];
 	$message = "Gentile genitore,\ncome da lei richiesto, il suo account per l'utilizzo del Registro Elettronico è stato attivato.\n ";
 	$message .= "Di seguito troverà i dati e le istruzioni per accedere:\n\n";
-	$message .= "username: {$uname}\npassword: {$new_clear_passwd}\n";
+	$message .= "username: {$uname}\npassword: {$new_clear_passwd['c']}\n";
 	$message .= "Procedura di accesso:\nvada su http://www.istitutoiglesiasserraperdosa.it e clicchi sul link 'Registro elettronico'. \nNella finestra seguente selezioni 'Area genitori', inserisca i dati di accesso e clicchi sul pulsante Login. \nInfine clicchi sul link che comparirà, per entrare nell'area riservata.\n\n";
 	$message .= "Per un corretto funzionamento del software, si raccomanda di NON utilizzare il browser Internet Explorer, ma una versione aggiornata di Firefox, Google Chrome, Opera o Safari.\n";
 	$message .= "Le ricordiamo che, in caso di smarrimento della password, pu&ograve; richiederne una nuova usando il link 'Password dimenticata?' presente nella pagine iniziale del Registro.\n";
