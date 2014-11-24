@@ -358,8 +358,8 @@
 	<table class="registro" style="position: relative; top: -30px">
 	<thead>
 	<tr class="head_tr_no_bg">
-		<td colspan="2" style="text-align: center; ">Orario d'ingresso: <span id="ingresso" style="font-weight: bold"><input type="text" id="cls_enter" name="cls_enter" style="width: 50px; " value="<?php print substr($_SESSION['registro']['ingresso'], 0, 5) ?>" /></span></td>
-		<td colspan="2" style="text-align: center; ">Orario d'uscita: <span id="uscita" style="font-weight: bold"><input type="text" id="cls_exit" name="cls_exit" style="width: 50px" value="<?php print substr($_SESSION['registro']['uscita'], 0, 5) ?>" /></span></td>
+		<td colspan="2" style="text-align: center; ">Orario d'ingresso: <span id="ingresso" style="font-weight: bold"><input type="text" id="cls_enter" name="cls_enter" style="width: 70px; " value="<?php print substr($_SESSION['registro']['ingresso'], 0, 5) ?>" /></span></td>
+		<td colspan="2" style="text-align: center; ">Orario d'uscita: <span id="uscita" style="font-weight: bold"><input type="text" id="cls_exit" name="cls_exit" style="width: 70px" value="<?php print substr($_SESSION['registro']['uscita'], 0, 5) ?>" /></span></td>
 	</tr>
 	<tr class="title_tr">
 		<td style="width: 35%; padding-left: 8px">Alunno</td>
