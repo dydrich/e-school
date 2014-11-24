@@ -55,7 +55,7 @@
 <div id="left_col">
 <?php if ($is_active){ ?>
 	<div class="welcome">
-		<p id="w_head"><?php echo $_SESSION['__current_year__']->to_string() ?> - <?php if ($is_active) echo $_SESSION['__classe__']->to_string() ?></p>
+		<p id="w_head"><?php echo $_SESSION['__current_year__']->to_string() ?> - classe <?php if ($is_active) echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?></p>
 <?php 
 if (count($pagelle) > 0) {
 	$pagella1q = $pagelle[0];
