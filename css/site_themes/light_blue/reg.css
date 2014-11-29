@@ -434,7 +434,7 @@ fieldset {
 }
 
 .context_menu, #hid, #tipinota, .tooltip, #d_tp {
-    background-color: #e1f5fe;
+    background-color: #F2FCFD;
     padding: 10px;
     border: 1px solid rgba(30, 67, 137, .2);
     border-radius: 2px;
@@ -614,7 +614,7 @@ div.accordion {
 }
 
 .page_menu{
-    background-color: #E8EBF3;
+    background-color: #F2FCFD;
     padding: 10px;
     border: 1px solid rgba(30, 67, 137, .4);
     border-radius: 4px ;
