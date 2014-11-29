@@ -82,8 +82,8 @@
 			<a href="dettaglio_compito.php?t=<?php echo $hw['id_impegno'] ?>">
 			<?php endif; ?>
 				<div class="card_row<?php if (!$mod) echo " no_permission" ?>">
-					<p style="font-weight: bold; text-transform: none; padding-bottom: 0; margin-bottom: 0; line-height: 12px"><?php echo $hw['mat'] ?></p>
-					<p><?php print $hw['descrizione'] ?></p>
+					<p class="<?php if ($mod) echo " normal" ?>" style="font-weight: bold; text-transform: none; padding-bottom: 0; margin-bottom: 0; line-height: 12px"><?php echo $hw['mat'] ?></p>
+					<p class="<?php if ($mod) echo " normal" ?>"><?php print $hw['descrizione'] ?></p>
 				</div>
 			<?php if ($mod): ?>
 			</a>
