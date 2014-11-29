@@ -12,5 +12,3 @@ else {
 }
 header("Location: ".$location);
 exit;
-
-?>
