@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>Registro personale: riepilogo classe</title>
+	<title>Registro personale: scheda alunno</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
@@ -29,6 +29,20 @@
 		$(function(){
 			load_jalert();
 			setOverlayEvent();
+			$('#dis_notes').css({
+				cursor: "pointer"
+			});
+			$('#dis_notes').click(function(event) {
+				count = $(this).attr("data-notes-count");
+				if (count > 0) {
+					if ($('#dis_notes_body').is(":visible")) {
+						$('#dis_notes_body').slideUp(400);
+					}
+					else {
+						$('#dis_notes_body').slideDown(400);
+					}
+				}
+			});
 			$('#overlay').click(function(event) {
 				if ($('#overlay').is(':visible')) {
 					show_drawer(event);
@@ -46,101 +60,39 @@
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
-<table class="registro">
-<thead>
-<tr class="head_tr_no_bg">
-	<td style="text-align: center; "><span id="ingresso" style=""><?php print $_SESSION['__classe__']->to_string() ?></span></td>
-	<td colspan="<?php echo ($num_colonne - 1) ?>" style="text-align: center">Quadro riassuntivo della classe</td>
-</tr>
-<tr class="title_tr">
-	<td style="width: <?php echo $first_column_width ?>%; font-weight: bold; padding-left: 12px">Alunno</td>
-	<?php 
-	foreach ($materie as $materia){
-	?>
-	<td <?php if($materia['id_materia'] == 1111) print ("rowspan='2'") ?> style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold"><?php echo strtoupper(substr($materia['materia'], 0, 3)) ?></td>
-	<?php 
-	}
-	?>
-</tr>
-</thead>
-<tbody>
-<?php 
-$idx = 1;
-foreach ($alunni as $al){
-	$student_sum = 0;
-	$num_materie = $res_materie->num_rows;
-	if(!isset($al['media'])){
-		$al['media'] = 0;
-	}
-?>
-<tr style="border-bottom: 1px solid #CCC">
-	<td style="width: <?php print $first_column_width ?>%; padding-left: 8px; font-weight:normal;">
-		<?php if($idx < 10) print "&nbsp;&nbsp;"; ?><?php echo $idx.". " ?>
-		<a href="scheda_alunno.php?stid=<?php echo $al['id_alunno'] ?>" style="font-weight: normal"><?php print $al['cognome']." ".substr($al['nome'], 0, 1) ?> (</a><span class="<?php if(isset($al['media']) && ($al['media'] < 6 && $al['media'] > 0)) print("attention _bold") ?>"><?php echo $al['media'] ?></span>)
-	</td>
-	<?php 
-	reset($materie);
-	foreach ($materie as $materia){
-		if (isset($al['voti'][$materia['id_materia']])){
-			$avg = $al['voti'][$materia['id_materia']];
-			if ($materia['id_materia'] == 26 || $materia['id_materia'] == 30) {
-				$voti_rel = RBUtilities::getReligionGrades();
-				$avg = $voti_rel[RBUtilities::convertReligionGrade($avg)];
-			}
-		}
-		else {
-			$avg = 0;
-		}
-	?>
-	<td style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold;"><span class="<?php if($avg < 6 && $avg > 0) print("attention") ?>"><?php echo $avg ?></span></td>
-<?php
-	}
-	$idx++;
-	echo "</tr>";
-}
-?>
-<tr class="riepilogo">
-	<td style="width: <?php print $first_column_width ?>%; padding-left: 8px; font-weight:bold;">Media classe</td>
-<?php 
-reset($materie);
-foreach ($materie as $materia){
-	$sel_voti = "SELECT ROUND(AVG(voto), 2) FROM rb_voti, rb_alunni WHERE alunno = id_alunno AND id_classe = ".$_SESSION['__classe__']->get_ID()." AND materia = ".$materia['id_materia']." AND anno = ".$_SESSION['__current_year__']->get_ID()." $int_time ";
-	try{
-		$class_avg = $db->executeCount($sel_voti);
-		if ($materia['id_materia'] == 26 || $materia['id_materia'] == 30) {
-			$voti_rel = RBUtilities::getReligionGrades();
-			$class_avg = $voti_rel[RBUtilities::convertReligionGrade($class_avg)];
-		}
-	} catch (MySQLException $ex){
-		$ex->redirect();
-	}
-?>
-	<td style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold"><span class="<?php if($class_avg < 6 && $class_avg > 0) print("attention") ?>"><?php echo $class_avg ?></span></td>
-<?php 
-}
-?>
-</tr>
-</tbody>
-<tfoot>
-<tr>
-	<td colspan="<?php echo $num_colonne ?>" style="height: 15px"></td>
-</tr>
-<tr class="nav_tr">
-	<td colspan="<?php echo $num_colonne ?>" style="text-align: center; height: 40px">
-		<a href="dettaglio_medie.php?q=1" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
-			<img style="margin-right: 5px; position: relative; top: 2px" src="../../../images/24.png" />1 Quadrimestre
-		</a>
-		<a href="dettaglio_medie.php?q=2" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px; margin-left: 8px">
-			<img style="margin-right: 5px; position: relative; top: 2px" src="../../../images/24.png" />2 Quadrimestre
-		</a>
-		<a href="dettaglio_medie.php?q=0" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
-			<img style="margin-right: 5px; position: relative; top: 2px" src="../../../images/24.png" />Totale
-		</a>
-		<!-- <a href="dettaglio_medie.php?q=1">1 Quadrimestre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="dettaglio_medie.php?q=2">2 Quadrimestre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="dettaglio_medie.php?q=0">Totale</a> -->
-	</td>
-</tr>
-</tfoot>
-</table>
+	<div class="card_container">
+		<div class="card">
+			<div id="dis_notes" class="card_title" data-notes-count="<?php echo $res_note->num_rows ?>">Note disciplinari
+				<div class="normal" style="float: right; width: 200px; margin-right: 30px">
+					<?php echo $label_notes_dis ?>
+				</div>
+			</div>
+			<div id="dis_notes_body" class="card_varcontent" style="display: none">
+				<?php
+				if ($res_note->num_rows > 0) {
+					while ($row = $res_note->fetch_assoc()) {
+						$data_nota = strftime("%A %d %B %Y", strtotime($row['data']));
+						$teacher = "";
+						if ($row['tipo'] == 1) {
+							$teacher = " ".$row['cognome']." ".$row['nome'];
+						}
+				?>
+				<div class="card_row">
+					<strong><?php echo $data_nota ?></strong>
+					<div style="float: right; width: 300px; margin-left: 250px">
+						<?php echo $row['tipo_nota'].$teacher ?>
+					</div>
+					<div class="normal" style="width: 700px; border-top: 1px solid rgba(30, 67, 137, .1)">
+						<?php echo $row['descrizione'] ?>
+					</div>
+				</div>
+				<?php
+					}
+				}
+				?>
+			</div>
+		</div>
+	</div>
 </div>
 <?php include "../footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">
@@ -202,3 +154,4 @@ foreach ($materie as $materia){
 </div>
 </body>
 </html>
+
