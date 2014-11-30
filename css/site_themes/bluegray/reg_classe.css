@@ -109,7 +109,6 @@ input.student_enter, input.student_exit {
     text-decoration: none;
     font-size: 1em;
     text-transform: uppercase;
-    text-decoration: none
 }
 
 #head_label {
@@ -500,7 +499,7 @@ table.registro tbody tr:hover {
     text-transform: uppercase;
     width: 350px;
     font-size: 0.9em;
-    color: #000000;
+    color: #FFFFFF;
 }
 
 .nav_div a {
