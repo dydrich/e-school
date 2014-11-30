@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Gestione classe</title>
+	<link rel="stylesheet" href="../../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
@@ -35,8 +36,8 @@
 	}
 	else {
 	?>
-	<div id="welcome" style="">
-		<p id="w_head" style="background: url(../../../images/70.png) no-repeat;"><?php echo $tod ?></p>
+	<div id="welcome" style="margin-bottom: 40px">
+		<p id="w_head" class="accent_decoration" style="background-image: none; padding-bottom: 2px"><i class="fa fa-calendar normal" style="position: relative; left: -30px; font-size: 1.2em"></i><?php echo $tod ?></p>
 		<p class="w_text" style="text-transform: uppercase; margin-bottom: 0">Compiti</p>
 		<ul style="margin: 2px 0 2px 0">
 		<?php 
@@ -72,8 +73,8 @@
 		?>
 		</ul>
 	</div>
-	<div id="welcome" style="border-top: 1px solid rgba(211, 222, 199, 0.6)">
-		<p id="w_head" style="background: url(../../../images/70.png) no-repeat;"><?php echo $tom ?></p>
+	<div id="welcome" style="margin-bottom: 40px">
+		<p id="w_head" class="accent_decoration" style="background-image: none; padding-bottom: 2px"><i class="fa fa-calendar normal" style="position: relative; left: -30px; font-size: 1.2em"></i><?php echo $tom ?></p>
 		<p class="w_text" style="text-transform: uppercase; margin-bottom: 0">Compiti</p>
 		<ul style="margin: 2px 0 2px 0">
 		<?php 
@@ -109,8 +110,8 @@
 		?>
 		</ul>
 	</div>
-	<div id="welcome" style="border-top: 1px solid rgba(211, 222, 199, 0.6)">
-		<p id="w_head" style="background: url(../../../images/70.png) no-repeat;"><?php echo $post_tm ?></p>
+	<div id="welcome" style="">
+		<p id="w_head" class="accent_decoration" style="background-image: none; padding-bottom: 2px"><i class="fa fa-calendar normal" style="position: relative; left: -30px; font-size: 1.2em"></i><?php echo $post_tm ?></p>
 		<p class="w_text" style="text-transform: uppercase; margin-bottom: 0">Compiti</p>
 		<ul style="margin: 2px 0 2px 0">
 		<?php 
