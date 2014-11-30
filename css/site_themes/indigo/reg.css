@@ -673,7 +673,7 @@ div.welcome:first-of-type {
 
 #w_head {
     width: 280px;
-    padding: 0 0 10px 30px;
+    padding: 0 0 5px 30px;
     border-bottom: 1px solid #1E4389;
     background: url(../../../images/26.png) no-repeat;
     font-weight: bold;
