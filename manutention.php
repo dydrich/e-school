@@ -1,17 +1,25 @@
+<?php
+
+include "lib/start.php";
+session_destroy();
+unset($_SESSION);
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>Registro elettronico::login</title>
-<link href="css/site_themes/<?php echo getTheme() ?>/index.css" rel="stylesheet" type="text/css"/>
+<link href="css/index.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <header id="header">
     <div class="wrap">
         <div style="" id="_header">
-            <?php echo stripslashes($_SESSION['__config__']['intestazione_scuola']) ?><br />
+            Istituto comprensivo Nivola<br />
             <p style="font-size: 0.7em; font-weight: normal; line-height: 20px; margin: 0; padding-top: 10px; text-transform: none">
-                <?php echo $_SESSION['__config__']['software_name']." ".$_SESSION['__config__']['software_version'] ?> - Registro elettronico<span id="area"></span>
+                Registro elettronico<span id="area"></span>
             </p>
         </div>
     </div>

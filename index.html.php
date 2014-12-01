@@ -59,6 +59,10 @@ var do_login = function(type){
 					document.location.href = "index.php";
 				}, 2000);
 			}
+			else if (json.status == "manutention") {
+				document.location = "manutention.php";
+				return false;
+			}
 			else {
 				if(type == 1 || type == 2){
 					if(json.group == "G"){

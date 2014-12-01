@@ -76,6 +76,17 @@ if ($id_theme != "" && $id_theme != null) {
 	$_SESSION['__user_theme__'] = $db->executeCount("SELECT directory FROM rb_themes WHERE id_tema = {$id_theme}");
 }
 
+/*
+ * manutention mode
+
+$uid = $user->getUid();
+if ($uid != 1 && $uid != 2 && $uid != 18 && !isset($_SESSION['__sudoer__'])) {
+	$response['status'] = 'manutention';
+	echo json_encode($response);
+	exit;
+}
+*/
+
 //echo $authenticator->getStringAjax();
 $response = $authenticator->getResponse();
 echo json_encode($response);
