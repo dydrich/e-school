@@ -8,13 +8,21 @@ body {
     font-size: 13px;
     font-family: 'Source Sans Pro', sans-serif;
     color: rgba(0,0,0,.84);
+    /*
     background: rgb(255, 243, 224);
     background: -moz-linear-gradient(90deg, rgb(255, 243, 224) 30%, rgb(255, 224, 178) 60%);
     background: -webkit-linear-gradient(90deg, rgb(255, 243, 224) 30%, rgb(255, 224, 178) 60%);
     background: -o-linear-gradient(90deg, rgb(255, 243, 224) 30%, rgb(255, 224, 178) 60%);
     background: -ms-linear-gradient(90deg, rgb(255, 243, 224) 30%, rgb(255, 224, 178) 60%);
     background: linear-gradient(180deg, rgb(255, 243, 224) 30%, rgb(255, 224, 178) 60%);
+    */
+    background: rgb(224, 247, 250);
 
+    background: -moz-linear-gradient(90deg, rgb(224, 247, 250) 30%, rgb(178, 235, 242) 90%);
+    background: -webkit-linear-gradient(90deg, rgb(224, 247, 250) 30%, rgb(178, 235, 242) 90%);
+    background: -o-linear-gradient(90deg, rgb(224, 247, 250) 30%, rgb(178, 235, 242) 90%);
+    background: -ms-linear-gradient(90deg, rgb(224, 247, 250) 30%, rgb(178, 235, 242) 90%);
+    background: linear-gradient(180deg, rgb(224, 247, 250) 30%, rgb(178, 235, 242) 90%);
     background-attachment: fixed;
     background-repeat: no-repeat;
 }
