@@ -241,16 +241,17 @@ div.mdtab {
 }
 
 div.mdtab a > span {
-    color: #DDDDDD;
+    color: #CCCCCC;
 }
 
 div.mdselected_tab {
     color: #FFFFFF;
-    border-bottom: 2px solid #000000;
+    border-bottom: 2px solid #ffd740;
 }
 
 div.mdselected_tab a > span {
-    color: #000000 !important;
+    color: #FFFFFF !important;
+    font-weight: 600;
 }
 
 div.navigate {
