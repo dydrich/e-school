@@ -7,7 +7,7 @@ body {
     font-family: 'Source Sans Pro', sans-serif;
     color: rgba(0, 0, 0, .84);
     background: rgb(224, 247, 250);
-    /*
+
     background: -moz-linear-gradient(90deg, rgb(224, 247, 250) 30%, rgb(178, 235, 242) 90%);
     background: -webkit-linear-gradient(90deg, rgb(224, 247, 250) 30%, rgb(178, 235, 242) 90%);
     background: -o-linear-gradient(90deg, rgb(224, 247, 250) 30%, rgb(178, 235, 242) 90%);
@@ -16,7 +16,7 @@ body {
 
     background-attachment: fixed;
     background-repeat: no-repeat;
-    */
+
 }
 
 h2 {
@@ -61,6 +61,14 @@ table {
     text-decoration: none;
     font-size: 1.1em;
     text-transform: uppercase
+}
+
+.main500 {
+    color: #03A9F4
+}
+
+.main700 {
+    color: #0288D1
 }
 
 #sc_firstrow {

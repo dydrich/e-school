@@ -8,12 +8,13 @@ body {
     font-size: 13px;
     font-family: 'Source Sans Pro', sans-serif;
     color: rgba(0,0,0,.84);
-    background: rgb(255, 224, 178);
-    background: -moz-linear-gradient(90deg, rgb(255, 224, 178) 40%, rgb(255, 243, 224) 99%);
-    background: -webkit-linear-gradient(90deg, rgb(255, 224, 178) 40%, rgb(255, 243, 224) 99%);
-    background: -o-linear-gradient(90deg, rgb(255, 224, 178) 40%, rgb(255, 243, 224) 99%);
-    background: -ms-linear-gradient(90deg, rgb(255, 224, 178) 40%, rgb(255, 243, 224) 99%);
-    background: linear-gradient(180deg, rgb(255, 224, 178) 40%, rgb(255, 243, 224) 99%);
+    background: rgb(255, 243, 224);
+    background: -moz-linear-gradient(90deg, rgb(255, 243, 224) 30%, rgb(255, 224, 178) 60%);
+    background: -webkit-linear-gradient(90deg, rgb(255, 243, 224) 30%, rgb(255, 224, 178) 60%);
+    background: -o-linear-gradient(90deg, rgb(255, 243, 224) 30%, rgb(255, 224, 178) 60%);
+    background: -ms-linear-gradient(90deg, rgb(255, 243, 224) 30%, rgb(255, 224, 178) 60%);
+    background: linear-gradient(180deg, rgb(255, 243, 224) 30%, rgb(255, 224, 178) 60%);
+
     background-attachment: fixed;
     background-repeat: no-repeat;
 }
@@ -52,6 +53,14 @@ input.student_enter, input.student_exit {
 	text-decoration: none;
 	font-size: 1.1em;
 	text-transform: uppercase
+}
+
+.main500 {
+    color: #3F51B5;
+}
+
+.main700 {
+    color: #303F9F;
 }
 
 #sc_firstrow {
