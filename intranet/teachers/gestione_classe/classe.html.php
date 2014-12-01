@@ -37,7 +37,10 @@
 	else {
 	?>
 	<div id="welcome" style="margin-bottom: 40px">
-		<p id="w_head" class="accent_decoration" style="background-image: none; padding-bottom: 2px"><i class="fa fa-calendar normal" style="position: relative; left: -30px; font-size: 1.2em"></i><?php echo $tod ?></p>
+		<p id="w_head" class="accent_decoration" style="background-image: none; padding-bottom: 2px">
+			<i class="fa fa-calendar normal" style="position: relative; left: -30px; font-size: 1.2em"></i>
+			<span style="margin-left: -15px"><?php echo $tod ?></span>
+		</p>
 		<p class="w_text" style="text-transform: uppercase; margin-bottom: 0">Compiti</p>
 		<ul style="margin: 2px 0 2px 0">
 		<?php 
@@ -74,7 +77,10 @@
 		</ul>
 	</div>
 	<div id="welcome" style="margin-bottom: 40px">
-		<p id="w_head" class="accent_decoration" style="background-image: none; padding-bottom: 2px"><i class="fa fa-calendar normal" style="position: relative; left: -30px; font-size: 1.2em"></i><?php echo $tom ?></p>
+		<p id="w_head" class="accent_decoration" style="background-image: none; padding-bottom: 2px">
+			<i class="fa fa-calendar normal" style="position: relative; left: -30px; font-size: 1.2em"></i>
+			<span style="margin-left: -15px"><?php echo $tom ?></span>
+		</p>
 		<p class="w_text" style="text-transform: uppercase; margin-bottom: 0">Compiti</p>
 		<ul style="margin: 2px 0 2px 0">
 		<?php 
@@ -111,7 +117,10 @@
 		</ul>
 	</div>
 	<div id="welcome" style="">
-		<p id="w_head" class="accent_decoration" style="background-image: none; padding-bottom: 2px"><i class="fa fa-calendar normal" style="position: relative; left: -30px; font-size: 1.2em"></i><?php echo $post_tm ?></p>
+		<p id="w_head" class="accent_decoration" style="background-image: none; padding-bottom: 2px">
+			<i class="fa fa-calendar normal" style="position: relative; left: -30px; font-size: 1.2em"></i>
+			<span style="margin-left: -15px"><?php echo $post_tm ?></span>
+		</p>
 		<p class="w_text" style="text-transform: uppercase; margin-bottom: 0">Compiti</p>
 		<ul style="margin: 2px 0 2px 0">
 		<?php 
