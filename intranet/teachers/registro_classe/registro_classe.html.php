@@ -408,11 +408,11 @@
 				}
 	?>
 	<tr>
-		<td style="width: 35%; padding-left: 8px; font-weight: bold; "><?php if($idx < 9) print "&nbsp;&nbsp;"; ?><?php echo ($idx+1).". " ?>
+		<td class="<?php if($idx == 0) echo("reg_firstrow"); else echo("reg_row"); ?>" style="width: 35%; padding-left: 8px"><?php if($idx < 9) print "&nbsp;&nbsp;"; ?><?php echo ($idx+1).". " ?>
 			<a href="#" data-id="<?php echo $k ?>" class="st_link" style="font-weight: normal; color: inherit"><?php print stripslashes($al) ?></a>
 		</td>
-		<td style="width: 15%; text-align: center;"><input type="text" id="ingresso_<?php print $k ?>" name="ingresso_<?php print $k ?>" class="student_enter" style="width: 30px; text-align: center; color: black; border: 0; margin: auto" value="<?php print $entrata ?>" /></td>
-		<td style="width: 15%; text-align: center;"><input type="text" id="uscita_<?php print $k ?>" name="uscita_<?php print $k ?>" class="student_exit" style="width: 30px; text-align: center; color: black; border: 0; margin: auto" value="<?php print $uscita ?>" /></td>
+		<td style="width: 15%; text-align: center;"><input type="text" id="ingresso_<?php print $k ?>" name="ingresso_<?php print $k ?>" class="student_enter" style="width: 30px; text-align: center; color: black; border: 0; margin: auto; font-size: 11px" value="<?php print $entrata ?>" /></td>
+		<td style="width: 15%; text-align: center;"><input type="text" id="uscita_<?php print $k ?>" name="uscita_<?php print $k ?>" class="student_exit" style="width: 30px; text-align: center; color: black; border: 0; margin: auto; font-size: 11px" value="<?php print $uscita ?>" /></td>
 		<td style="width: 35%; text-align: center; ">
 			<?php if ($ordine_scuola == 1): ?>
 				<span id="abs_<?php echo $k ?>"><?php if($add_spaces) echo "Assenza da giustificare"; ?></span>
