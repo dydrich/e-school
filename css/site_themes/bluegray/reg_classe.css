@@ -7,14 +7,13 @@ html {
 body {
     font-size: 13px;
     font-family: 'Source Sans Pro', Raleway, Ubuntu, sans-serif;
-    color: #263238;
-    background: rgb(255, 224, 178);
-    background: rgb(176, 190, 197);
-    background: -moz-linear-gradient(90deg, rgb(176, 190, 197) 30%, rgb(236, 239, 241) 90%);
-    background: -webkit-linear-gradient(90deg, rgb(176, 190, 197) 30%, rgb(236, 239, 241) 90%);
-    background: -o-linear-gradient(90deg, rgb(176, 190, 197) 30%, rgb(236, 239, 241) 90%);
-    background: -ms-linear-gradient(90deg, rgb(176, 190, 197) 30%, rgb(236, 239, 241) 90%);
-    background: linear-gradient(180deg, rgb(176, 190, 197) 30%, rgb(236, 239, 241) 90%);
+    color: rgba(0, 0, 0, .84);
+    background: rgb(236, 239, 241);
+    background: -moz-linear-gradient(90deg, rgb(236, 239, 241) 30%, rgb(176, 190, 197) 60%);
+    background: -webkit-linear-gradient(90deg, rgb(236, 239, 241) 30%, rgb(176, 190, 197) 60%);
+    background: -o-linear-gradient(90deg, rgb(236, 239, 241) 30%, rgb(176, 190, 197) 60%);
+    background: -ms-linear-gradient(90deg, rgb(236, 239, 241) 30%, rgb(176, 190, 197) 60%);
+    background: linear-gradient(180deg, rgb(236, 239, 241) 30%, rgb(176, 190, 197) 60%);
     background-attachment: fixed;
     background-repeat: no-repeat;
 }
@@ -241,7 +240,7 @@ div.mdtab {
 }
 
 div.mdtab a > span {
-    color: #DDDDDD;
+    color: #CCCCCC;
 }
 
 div.mdselected_tab {
@@ -251,6 +250,7 @@ div.mdselected_tab {
 
 div.mdselected_tab a > span {
     color: #ffffff !important;
+    font-weight: 600;
 }
 
 div.navigate {
@@ -519,7 +519,7 @@ table.registro tbody tr:hover {
 }
 
 #context_menu, #pop, #hid {
-    background-color: #eceff1;
+    background-color: #F5F5F5;
     padding: 10px;
     border: 1px solid rgba(30, 67, 137, .6);
     border-radius: 0px 0px 0px 0px;
