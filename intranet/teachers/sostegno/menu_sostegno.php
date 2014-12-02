@@ -1,5 +1,4 @@
 <div class="smallbox" id="working">
-<h2 class="menu_head">Menu</h2>
 	<p class="menu_label class_icon">Dati personali</p>
 	<ul class="menublock" style="" dir="rtl">
 		<li><a href="nucleo.php" >Nucleo familiare</a></li>

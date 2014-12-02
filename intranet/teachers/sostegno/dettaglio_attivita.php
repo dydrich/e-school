@@ -62,6 +62,7 @@ if ($_GET['id'] != 0){
 	$label = "Nuova attivit&agrave;";
 }
 
-$navigation_label = "Registro del docente di sostegno: alunno {$_SESSION['__sp_student__']['cognome']} {$_SESSION['__sp_student__']['nome']}";
+$navigation_label = "registro del sostegno ";
+$drawer_label = "Modifica attivit&agrave; di ". $_SESSION['__sp_student__']['cognome']." ".$_SESSION['__sp_student__']['nome'];
 
 include "dettaglio_attivita.html.php";
