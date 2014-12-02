@@ -149,7 +149,7 @@ table.registro td {
 	<tr class="bottom_decoration">
 		<td colspan="2" style="width: 25%; text-align: left; padding-left: 20px; font-weight: normal; "><?php if($print_day) print $giorno_str ?></td>
 		<td style="width: 75%; text-align: left; font-weight: normal;">
-			<span id="lesson_<?php echo $les['id'] ?>" onclick="show_absences(<?php echo $les['id'] ?>)"><?php print utf8_decode(stripslashes($les['argomento'])) ?></span>
+			<span id="lesson_<?php echo $les['id'] ?>" onclick="show_absences(<?php echo $les['id'] ?>)"><?php print stripslashes($les['argomento']) ?></span>
 		</td>
 	</tr>
 	<?php
