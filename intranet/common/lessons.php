@@ -9,6 +9,8 @@ $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 
+$pagina = $page;
+
 /*
  * mostra gli argomenti delle lezioni svolte negli ultimi $limit giorni
 * ricavandoli dalla tabella reg_firme, contenente le firme dei docenti

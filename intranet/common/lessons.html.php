@@ -154,8 +154,10 @@ foreach ($materie as $k => $materia){
 	<?php endif; ?>
 	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
 </div>
-<?php if ($area == "genitori" && count($_SESSION['__sons__']) > 1){ ?>
-	<div id="other_drawer" class="drawer" style="height: 72px; display: none; position: absolute">
+<?php if ($area == "genitori" && count($_SESSION['__sons__']) > 1){
+	$height = 36 * (count($_SESSION['__sons__']));
+?>
+	<div id="other_drawer" class="drawer" style="height: <?php echo $height ?>px; display: none; position: absolute">
 		<?php
 		$indice = 1;
 		reset($_SESSION['__sons__']);
@@ -166,7 +168,7 @@ foreach ($materie as $k => $materia){
 			}
 			?>
 			<div class="drawer_link">
-				<a href="<?php print $page ?>?son=<?php print $key ?>" clas="<?php echo $cl ?>"><?php print $val[0] ?></a>
+				<a href="<?php print $pagina ?>?son=<?php print $key ?>" clas="<?php echo $cl ?>"><?php print $val[0] ?></a>
 			</div>
 		<?php
 		}

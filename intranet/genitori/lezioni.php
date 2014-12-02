@@ -3,6 +3,7 @@
 require_once "../../lib/start.php";
 require_once "../../lib/Widget.php";
 require_once "../../lib/PageMenu.php";
+require_once "../../lib/SessionUtils.php";
 
 ini_set("display_errors", "1");
 
