@@ -21,6 +21,10 @@ else{
 	$utils->registerCurrentClassFromClassID($_REQUEST['cls'], "__classe__");
 }
 
+if ($_SESSION['__user__']->getSubject() == 27 || $_SESSION['__user__']->getSubject() == 41) {
+	header("Location: ../sostegno/index.php?cls=".$_SESSION['__classe__']->get_ID());
+}
+
 $voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
 
 $prove = array();
