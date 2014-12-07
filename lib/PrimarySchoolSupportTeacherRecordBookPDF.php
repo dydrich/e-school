@@ -61,7 +61,7 @@ class PrimarySchoolSupportTeacherRecordBookPDF extends PrimarySchoolTeacherRecor
 		$this->_page = 1;
 	}
 
-	public function createRecordBook(){
+	public function createRecordBook($teacher = null, $_cls = null, $sub = null, $students = null, $lessons = null, $substitutions = null){
 		$cls = $this->cls['id_classe'];
 		$this->createCover();
 		$this->classData();
@@ -77,7 +77,7 @@ class PrimarySchoolSupportTeacherRecordBookPDF extends PrimarySchoolTeacherRecor
 
 	}
 
-	protected function createCover(){
+	protected function createCover($teacher = null, $mat = null, $cls = null, $subs = null){
 		$this->setPage(1, true);
 		$this->Image($_SESSION['__path_to_root__'].'images/ministero.jpg', 95, 28, 20, 20, 'JPG', '', '', false, '');
 		$this->SetFont('times', 'B', '14');
