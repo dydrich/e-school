@@ -74,12 +74,33 @@
 					show_drawer(event);
 				}
 				$('#other_drawer').hide();
+				$('#classeslist_drawer').hide();
+			});
+			$('.drawer_label span').click(function(event){
+				var off = $(this).parent().offset();
+				show_classlist(event, off);
+			}).css({
+				cursor: "pointer"
 			});
 			$('#showsub').click(function(event){
 				var off = $(this).parent().offset();
 				_show(event, off);
 			});
 		});
+
+		var show_classlist = function(e, off) {
+			if ($('#classeslist_drawer').is(":visible")) {
+				$('#classeslist_drawer').hide('slide', 300);
+				return;
+			}
+			var offset = $('#drawer').offset();
+			var top = off.top;
+
+			var left = offset.left + $('#drawer').width() + 1;
+			$('#classeslist_drawer').css({top: top+"px", left: left+"px", zIndex: 1000});
+			$('#classeslist_drawer').show('slide', 300);
+			return true;
+		};
 	</script>
 </head>
 <body>
@@ -238,6 +259,22 @@
 			<a href="scrutini_classe.php?q=<?php echo $_q ?>"><img src="../../../images/34.png" style="margin-right: 10px; position: relative; top: 5%"/>Scrutini</a>
 		</div>
 	<?php } ?>
+</div>
+<div id="classeslist_drawer" class="drawer" style="height: <?php echo (36 * (count($_SESSION['__user__']->getClasses()) - 1)) ?>px; display: none; position: absolute">
+	<?php
+	foreach ($_SESSION['__user__']->getClasses() as $cl) {
+		if ($cl['id_classe'] != $_SESSION['__classe__']->get_ID()) {
+			?>
+			<div class="drawer_link ">
+				<a href="<?php echo getFileName() ?>?reload=1&cls=<?php echo $cl['id_classe'] ?>">
+					<img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%"/>
+					Classe <?php echo $cl['classe'] ?>
+				</a>
+			</div>
+		<?php
+		}
+	}
+	?>
 </div>
 <div id="test" style="display: none">
 	<iframe src="new_test.php" style="width: 100%; margin: auto; border: 0; height: 320px"></iframe>

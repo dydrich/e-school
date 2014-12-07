@@ -43,6 +43,8 @@ function calcola_minuti_assenza($ingresso, $uscita, $inizio, $fine){
 	return 60 - (($to - $from) / 60);
 }
 
+require_once "../reload_class_in_session.php";
+
 $teacher = $_SESSION['__user__']->getUid();
 if ($_SESSION['__user__']->isSupplyTeacher()) {
 	$teacher .= ",".$_SESSION['__user__']->getUid(true);

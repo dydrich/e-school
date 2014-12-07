@@ -14,6 +14,8 @@ check_permission(DOC_PERM);
 $_SESSION['__path_to_root__'] = "../../../";
 $_SESSION['__path_to_reg_home__'] = "../";
 
+require_once "../reload_class_in_session.php";
+
 if(($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) && ($_SESSION['__user__']->getSubject() == 27)){
 	header("Location: scrutini_classe.php");
 }

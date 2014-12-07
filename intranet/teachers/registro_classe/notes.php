@@ -5,6 +5,8 @@ require_once "../../../lib/start.php";
 check_session();
 check_permission(DOC_PERM);
 
+require_once "../reload_class_in_session.php";
+
 if (isset($_REQUEST['al'])) {
 	$student_id = $_REQUEST['al'];
 }

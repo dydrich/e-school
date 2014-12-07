@@ -5,12 +5,15 @@ require_once "../../../lib/start.php";
 check_session();
 check_permission(DOC_PERM);
 
-ini_set("display_errors", "1");
+ini_set("display_errors", DISPLAY_ERRORS);
 
 $_SESSION['__path_to_root__'] = "../../../";
 $_SESSION['__path_to_reg_home__'] = "../";
 
 $navigation_label = "gestione classe";
+$page = getFileName();
+
+require_once "../reload_class_in_session.php";
 
 $school = $_SESSION['__user__']->getSchoolOrder();
 $_SESSION['__school_order__'] = $school;

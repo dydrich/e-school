@@ -69,6 +69,18 @@
 				var stid = $(this).attr("data-id");
 				show_menu(event, stid, offset);
 			});
+			$('#overlay').click(function(event) {
+				if ($('#overlay').is(':visible')) {
+					show_drawer(event);
+				}
+				$('#classeslist_drawer').hide();
+			});
+			$('.drawer_label span').click(function(event){
+				var off = $(this).parent().offset();
+				_show(event, off);
+			}).css({
+				cursor: "pointer"
+			});
 		});
 
 		var updateClassTime = function(field) {
@@ -343,6 +355,20 @@
 			data_giustificata = id_registro;
 		};
 
+		var _show = function(e, off) {
+			if ($('#classeslist_drawer').is(":visible")) {
+				$('#classeslist_drawer').hide('slide', 300);
+				return;
+			}
+			var offset = $('#drawer').offset();
+			var top = off.top;
+
+			var left = offset.left + $('#drawer').width() + 1;
+			$('#classeslist_drawer').css({top: top+"px", left: left+"px", zIndex: 1000});
+			$('#classeslist_drawer').show('slide', 300);
+			return true;
+		};
+
 	</script>
 </head>
 <body>
@@ -540,6 +566,7 @@
 		<div class="drawer_link submenu separator">
 			<a href="notes.php"><img src="../../../images/26.png" style="margin-right: 10px; position: relative; top: 5%"/>Note</a>
 		</div>
+		<div class="drawer_link submenu"><a href="registro_classe.php?data=<?php echo date("Y-m-d") ?>"><img src="../../../images/28.png" style="margin-right: 10px; position: relative; top: 5%" />Registro di classe</a></div>
 		<div class="drawer_link submenu"><a href="../registro_personale/index.php"><img src="../../../images/4.png" style="margin-right: 10px; position: relative; top: 5%" />Registro personale</a></div>
 		<div class="drawer_link submenu separator"><a href="../gestione_classe/classe.php"><img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />Gestione classe</a></div>
 		<div class="drawer_link"><a href="../index.php"><img src="../../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
@@ -553,6 +580,22 @@
 		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
 	<?php endif; ?>
 	<div class="drawer_lastlink"><a href="../../../shared/do_logout.php"><img src="../../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
+<div id="classeslist_drawer" class="drawer" style="height: <?php echo (36 * (count($_SESSION['__user__']->getClasses()) - 1)) ?>px; display: none; position: absolute">
+	<?php
+	foreach ($_SESSION['__user__']->getClasses() as $cl) {
+		if ($cl['id_classe'] != $_SESSION['__classe__']->get_ID()) {
+			?>
+			<div class="drawer_link ">
+				<a href="<?php echo getFileName() ?>?reload=1&cls=<?php echo $cl['id_classe'] ?>&data=<?php echo $_REQUEST['data'] ?>">
+					<img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%"/>
+					Classe <?php echo $cl['classe'] ?>
+				</a>
+			</div>
+		<?php
+		}
+	}
+	?>
 </div>
 <!-- menu contestuale -->
 <div id="context_menu" style="position: absolute; width: 160px; height: 60px; display: none; ">

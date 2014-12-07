@@ -10,6 +10,8 @@ check_permission(DOC_PERM);
 $_SESSION['__path_to_root__'] = "../../../";
 $_SESSION['__path_to_reg_home__'] = "../";
 
+require_once "../reload_class_in_session.php";
+
 $teacher = "";
 $label = "personali";
 $link = "elenco_attivita.php";

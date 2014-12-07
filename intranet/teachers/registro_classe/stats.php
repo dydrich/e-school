@@ -13,6 +13,8 @@ if((($_SESSION['__user__']->getSchoolOrder() == 1 && !$_SESSION['__user__']->isC
 	header("Location: ../no_permission.php");
 }
 
+require_once "../reload_class_in_session.php";
+
 $q = null;
 if(isset($_REQUEST['q'])){
 	$q = $_REQUEST['q'];

@@ -74,12 +74,38 @@
 			$('#container').text('');
 		};
 
+		var _show = function(e, off) {
+			if ($('#classeslist_drawer').is(":visible")) {
+				$('#classeslist_drawer').hide('slide', 300);
+				return;
+			}
+			var offset = $('#drawer').offset();
+			var top = off.top;
+
+			var left = offset.left + $('#drawer').width() + 1;
+			$('#classeslist_drawer').css({top: top+"px", left: left+"px", zIndex: 1000});
+			$('#classeslist_drawer').show('slide', 300);
+			return true;
+		};
+
 		$(function(){
 			load_jalert();
 			setOverlayEvent();
+			$('#overlay').click(function(event) {
+				if ($('#overlay').is(':visible')) {
+					show_drawer(event);
+				}
+				$('#classeslist_drawer').hide();
+			});
 			$('#search_lnk').click(function(event){
 				event.preventDefault();
 				search();
+			});
+			$('.drawer_label span').click(function(event){
+				var off = $(this).parent().offset();
+				_show(event, off);
+			}).css({
+				cursor: "pointer"
 			});
 		});
 
@@ -129,6 +155,22 @@
 		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
 	<?php endif; ?>
 	<div class="drawer_lastlink"><a href="../../../shared/do_logout.php"><img src="../../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
+<div id="classeslist_drawer" class="drawer" style="height: <?php echo (36 * (count($_SESSION['__user__']->getClasses()) - 1)) ?>px; display: none; position: absolute">
+	<?php
+	foreach ($_SESSION['__user__']->getClasses() as $cl) {
+		if ($cl['id_classe'] != $_SESSION['__classe__']->get_ID()) {
+	?>
+	<div class="drawer_link ">
+		<a href="<?php echo $page ?>?reload=1&cls=<?php echo $cl['id_classe'] ?>">
+			<img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%"/>
+			Classe <?php echo $cl['classe'] ?>
+		</a>
+	</div>
+	<?php
+		}
+	}
+	?>
 </div>
 </body>
 </html>
