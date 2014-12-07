@@ -674,3 +674,15 @@ function setNavigationLabel($school_order) {
 	}
 	return "";
 }
+
+/**
+ * getFileName
+ *
+ * @desc restituisce il nome del file senza il path
+ * @return string (nome del file)
+ *
+ */
+function getFileName() {
+	$last_pos = strrpos($_SERVER['PHP_SELF'], "/");
+	return substr($_SERVER['PHP_SELF'], $last_pos+1);
+}
