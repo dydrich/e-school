@@ -57,65 +57,79 @@ for ($x = 1; $x <= $last_day; $x++) {
 	}
 	$id_reg = $db->executeCount("SELECT id_reg FROM rb_reg_classi WHERE id_classe = ".$_SESSION['__classe__']->get_ID()." AND data = '".$x_date->format("Y-m-d")."'");
 	//echo $id_reg." =>"."SELECT id_reg FROM rb_reg_classi WHERE id_classe = ".$_SESSION['__classe__']->get_ID()." AND data = '".$x_date->format("Y-m-d")."'<br />";
-	$sel_assenze = "SELECT cognome, nome FROM rb_reg_classi, rb_reg_alunni, rb_alunni WHERE id_reg = id_registro AND rb_reg_alunni.ingresso IS NULL AND id_reg = {$id_reg} AND rb_reg_classi.id_classe = ".$_SESSION['__classe__']->get_ID()." AND rb_reg_classi.id_anno = ".$_SESSION['__current_year__']->get_ID()." AND rb_reg_alunni.id_alunno = rb_alunni.id_alunno ORDER BY cognome, nome ";
-	$res_assenze = $db->execute($sel_assenze);
-	$assenti = "";
-	$_assenti = array();
-	if ($res_assenze->num_rows > 0) {
-		while ($row = $res_assenze->fetch_assoc()) {
-			$_assenti[] = $row['cognome']." ".substr($row['nome'], 0, 1).".";
+	if ($id_reg != "") {
+		$sel_assenze = "SELECT cognome, nome FROM rb_reg_classi, rb_reg_alunni, rb_alunni WHERE id_reg = id_registro AND rb_reg_alunni.ingresso IS NULL AND id_reg = {$id_reg} AND rb_reg_classi.id_classe = " . $_SESSION['__classe__']->get_ID() . " AND rb_reg_classi.id_anno = " . $_SESSION['__current_year__']->get_ID() . " AND rb_reg_alunni.id_alunno = rb_alunni.id_alunno ORDER BY cognome, nome ";
+		$res_assenze = $db->execute($sel_assenze);
+		$assenti = "";
+		$_assenti = array();
+		if ($res_assenze->num_rows > 0) {
+			while ($row = $res_assenze->fetch_assoc()) {
+				$_assenti[] = $row['cognome'] . " " . substr($row['nome'], 0, 1) . ".";
+			}
+			$assenti = implode(", ", $_assenti);
 		}
-		$assenti = implode(", ", $_assenti);
-	}
-	/*
-	 * firme
-	 */
-	$day = $schedule_module->getDay($x);
-	$starts = $day->getLessonsStartTime();
-	$mensa = $day->hasCanteen();
+		/*
+		 * firme
+		 */
+		$day = $schedule_module->getDay($x);
+		$starts = $day->getLessonsStartTime();
+		$mensa = $day->hasCanteen();
 
-	$hours = count($starts);
-	$prima_ora = 1;
-	$ultima_ora = $hours;
+		$hours = count($starts);
+		$prima_ora = 1;
+		$ultima_ora = $hours;
 
-	$sel_firme = "SELECT rb_reg_firme.*, cognome, nome, rb_materie.materia as desc_mat FROM rb_reg_firme, rb_materie, rb_utenti WHERE id_registro = ".$id_reg." AND docente = uid AND rb_reg_firme.materia = rb_materie.id_materia ORDER BY ora";
-//print $sel_firme;
-	$res_firme = $db->executeQuery($sel_firme);
-	$firme = array();
-	$argomenti = array();
-	$ids = array();
-	$docenti = array();
-	$_materie = array();
-	for($k = $prima_ora; $k <= $ultima_ora; $k++){
-		$firme[$k] = array();
-	}
-	if($res_firme->num_rows > 0){
-		while($sig = $res_firme->fetch_assoc()){
-			$firme[$sig['ora']] = array("docente" => $sig['cognome']." ".substr($sig['nome'], 0, 1).".", "argomento" => $sig['argomento'], "materia" => $sig['desc_mat'], "doc_compresenza" => $sig['docente_compresenza'], "mat_compresenza" => $sig['materia_compresenza']);
-			$firme[$sig['ora']]['sostegno'] = array();
-			$sel_support = "SELECT cognome, nome FROM rb_reg_firme_sostegno, rb_utenti WHERE docente IS NOT NULL AND docente = uid AND classe = {$_SESSION['__classe__']->get_ID()} AND id_registro = {$id_reg} AND ora = {$sig['ora']}";
-			$res_support = $db->executeQuery($sel_support);
-			if ($res_support->num_rows > 0){
-				$index = 1;
-				while ($row = $res_support->fetch_assoc()){
-					$firme[$sig['ora']]['sostegno'][$index] = $row['cognome']." ".substr($row['nome'], 0, 1).".";
-					$firme[$sig['ora']]['docente'] .= ", ".$row['cognome']." ".substr($row['nome'], 0, 1).".";
-					$index++;
+		$sel_firme = "SELECT rb_reg_firme.*, cognome, nome, rb_materie.materia AS desc_mat FROM rb_reg_firme, rb_materie, rb_utenti WHERE id_registro = " . $id_reg . " AND docente = uid AND rb_reg_firme.materia = rb_materie.id_materia ORDER BY ora";
+		//print $sel_firme;
+		$res_firme = $db->executeQuery($sel_firme);
+		$firme = array();
+		$argomenti = array();
+		$ids = array();
+		$docenti = array();
+		$_materie = array();
+		for ($k = $prima_ora; $k <= $ultima_ora; $k++) {
+			$firme[$k] = array();
+		}
+		if ($res_firme->num_rows > 0) {
+			while ($sig = $res_firme->fetch_assoc()) {
+				$firme[$sig['ora']] = array("docente" => $sig['cognome'] . " " . substr($sig['nome'], 0, 1) . ".", "argomento" => $sig['argomento'], "materia" => $sig['desc_mat'], "doc_compresenza" => $sig['docente_compresenza'], "mat_compresenza" => $sig['materia_compresenza']);
+				$firme[$sig['ora']]['sostegno'] = array();
+				$sel_support = "SELECT cognome, nome FROM rb_reg_firme_sostegno, rb_utenti WHERE docente IS NOT NULL AND docente = uid AND classe = {$_SESSION['__classe__']->get_ID()} AND id_registro = {$id_reg} AND ora = {$sig['ora']}";
+				$res_support = $db->executeQuery($sel_support);
+				if ($res_support->num_rows > 0) {
+					$index = 1;
+					while ($row = $res_support->fetch_assoc()) {
+						$firme[$sig['ora']]['sostegno'][$index] = $row['cognome'] . " " . substr($row['nome'], 0, 1) . ".";
+						$firme[$sig['ora']]['docente'] .= ", " . $row['cognome'] . " " . substr($row['nome'], 0, 1) . ".";
+						$index++;
+					}
 				}
 			}
 		}
+
+		$days[$x] = array("date_print"       => strftime("%a %d %B", strtotime($x_date->format("Y-m-d"))),
+		                  "date_short_print" => strftime("%a %d", strtotime($x_date->format("Y-m-d"))),
+		                  "date"             => $x_date->format("Y-m-d"),
+		                  "id_reg"           => $id_reg,
+		                  "assenti"          => $assenti,
+		                  "firme"            => $firme,
+		                  "hours"            => $hours,
+		                  "mensa"            => $mensa
+
+		);
 	}
+	else {
+		$days[$x] = array("date_print"       => strftime("%a %d %B", strtotime($x_date->format("Y-m-d"))),
+		                  "date_short_print" => strftime("%a %d", strtotime($x_date->format("Y-m-d"))),
+		                  "date"             => $x_date->format("Y-m-d"),
+		                  "id_reg"           => null,
+		                  "assenti"          => null,
+		                  "firme"            => null,
+		                  "hours"            => null,
+		                  "mensa"            => null
 
-	$days[$x] = array("date_print" => strftime("%a %d %B", strtotime($x_date->format("Y-m-d"))),
-	                  "date_short_print" => strftime("%a %d", strtotime($x_date->format("Y-m-d"))),
-	                  "date" => $x_date->format("Y-m-d"),
-	                  "id_reg" => $id_reg,
-	                  "assenti" => $assenti,
-	                  "firme" => $firme,
-	                  "hours" => $hours,
-	                  "mensa" => $mensa
-
-	);
+		);
+	}
 }
 
 $navigation_label = "Registro della classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
