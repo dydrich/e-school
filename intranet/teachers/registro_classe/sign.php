@@ -16,6 +16,14 @@ check_permission(DOC_PERM);
 
 ini_set("display_errors", DISPLAY_ERRORS);
 
+if (isset($_REQUEST['cls']) && ((isset($_REQUEST['reload']) && $_REQUEST['reload'] == 1))) {
+	require_once $_SESSION['__path_to_root__']."lib/SessionUtils.php";
+	$utils = SessionUtils::getInstance($db);
+	$utils->registerCurrentClassFromClassID($_REQUEST['cls'], "__classe__");
+	$id_reg = $db->executeCount("SELECT id_reg FROM rb_reg_classi WHERE data = '".$_REQUEST['data']."' AND id_classe = ".$_REQUEST['cls']);
+	$_REQUEST['id_reg'] = $id_reg;
+}
+
 $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $school_year = $_SESSION['__school_year__'][$ordine_scuola];
 $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
