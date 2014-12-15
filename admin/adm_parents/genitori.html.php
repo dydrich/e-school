@@ -13,6 +13,80 @@
 	<script type="text/javascript">
 		var id_alunni = new Array;
 
+		var get_pop_search = function(){
+			$('#pop_search').dialog({
+				autoOpen: true,
+				show: {
+					effect: "fade",
+					duration: 500
+				},
+				hide: {
+					effect: "fade",
+					duration: 300
+				},
+				modal: true,
+				width: 350,
+				height: 450,
+				title: 'Filtra elenco',
+				buttons: {
+					Ok: function() {
+						//$( this ).dialog( "close" );
+						name = $('#search').val();
+						search_name(name);
+					}
+				},
+				open: function(event, ui){
+
+				},
+				close: function(event) {
+					$('#overlay').hide();
+				}
+			});
+		};
+
+		var search_name = function (nm) {
+			var url = "parent_manager.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {action: 7, cognome: nm},
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						j_alert("error", json.message);
+						console.log(json.dbg_message);
+						return;
+					}
+					else if (json.status == "ok"){
+						$('#list_names').text(json.message);
+						return;
+					}
+					else {
+						var txt = "";
+						for (i in json.data) {
+							t = json.data[i];
+							if (t.uid) {
+								txt += "<p><a href='dettaglio_genitore.php?id=" + t.uid + "&search=1&school_order=<?php echo $_GET['school_order'] ?>'>" + t.user + "</a></p>"
+							}
+						}
+						$('#list_names').html(txt);
+						return;
+					}
+				}
+			});
+		};
+
 		var filtro = function(){
 			cls = $('#mysel').val();
 			if(cls == 0)
@@ -116,6 +190,10 @@
 				off.top += $('#cmenu').height();
 				show(event, off);
 			});
+			$('#open_search').click(function(event){
+				event.preventDefault();
+				get_pop_search();
+			});
 		});
 
 	</script>
@@ -128,7 +206,12 @@
 		<?php include "../adm_users/menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
+		<div style="position: absolute; top: 75px; left: 775px; margin-bottom: -5px" class="rb_button">
+			<a href="#" id="open_search">
+				<img src="../../images/7.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
+		<div style="position: absolute; top: 75px; left: 855px; margin-bottom: -5px" class="rb_button">
 			<a href="dettaglio_genitore.php?id=0&school_order=<?php echo $_GET['school_order'] ?>">
 				<img src="../../images/39.png" style="padding: 12px 0 0 12px" />
 			</a>
@@ -225,9 +308,9 @@
 	            </div>
 	            <div style="float: right; margin-right: 120px; text-align: left; width: 200px; text-transform: none" class="normal"><?php echo $final_uname ?></div>
             </div>
-            <div class="card_content" style="font-size: 0.85em">
+            <div class="card_content" style="">
 	            Alunni: <?php print join(", ", $figli); ?>
-	            <div style="float: right; margin-right: 10px; text-align: left; width: 400px"><?php print join(", ", $classi); ?></div>
+	            <div style="float: right; margin-right: 10px; text-align: left; width: 400px; font-size: 0.95em"><?php print join(", ", $classi); ?></div>
             </div>
         </div>
         <?php
@@ -251,6 +334,13 @@
 	<a href="genitori.php?order=desc_classe&school_order=<?php echo $_GET['school_order'] ?>">Ordina per classe</a><br />
 	<a href="genitori.php?school_order=<?php echo $_GET['school_order'] ?>">Ordina per nome</a><br />
 	<a href="genitori.php?order=al_name&school_order=<?php echo $_GET['school_order'] ?>">Ordina per nome alunno</a><br />
+</div>
+<div id="pop_search" style="width: 350px; display: none">
+	<div>
+		<span>Cerca per cognome</span><br />
+		<input type="text" name="search" id="search" style="width: 290px" />
+	</div>
+	<div id="list_names" style="width: 90%; margin: auto"></div>
 </div>
 </body>
 </html>

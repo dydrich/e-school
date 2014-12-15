@@ -15,9 +15,10 @@ $response = array("status" => "ok", "message" => "");
  * 3: update
  * 5: bulk delete
  * 6: resend email
+ * 7: get parents names
  */
 
-if ($_REQUEST['action'] != 2 && $_REQUEST['action'] != 5){
+if ($_REQUEST['action'] != 2 && $_REQUEST['action'] != 5 && $_REQUEST['action'] != 7){
 	$nome = $db->real_escape_string($_POST['nome']);
 	$cognome = $db->real_escape_string($_POST['cognome']);
 	$id_figli = $_POST['id_figli'];
@@ -40,10 +41,10 @@ if ($_REQUEST['action'] != 2 && $_REQUEST['action'] != 5){
 }
 
 $db->executeUpdate("BEGIN");
-switch($_REQUEST['action']){
+switch($_REQUEST['action']) {
 	case 1:     // inserimento
 		$statement = "INSERT INTO rb_utenti (username, password, nome, cognome, accessi, permessi) VALUES ('$uname', '$pwd', '$nome', '$cognome', 0, 8)";
-		try{
+		try {
 			$uid = $db->executeUpdate($statement);
 			$recordset = $uid;
 			$db->executeUpdate("INSERT INTO rb_gruppi_utente (gid, uid) VALUES (4, {$recordset})");
@@ -56,45 +57,48 @@ switch($_REQUEST['action']){
 				$db->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_utenti', 'parent')");
 			}
 			$db->executeUpdate("COMMIT");
-		} catch (MySQLException $ex){
+		} catch (MySQLException $ex) {
 			$db->executeUpdate("ROLLBACK");
 			$response['status'] = "kosql";
 			$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
-			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			if (strncasecmp($ex->getMessage(), "Duplicate", 9) == 0) {
+				$response['status'] = "duplicate";
+			}
+			$response['dbg_message'] = $ex->getQuery() . "----" . $ex->getMessage();
 			$res = json_encode($response);
 			echo $res;
 			exit;
 		}
 		break;
 	case 2:     // cancellazione
-		$statement = "DELETE FROM rb_utenti WHERE uid = ".$_REQUEST['_i'];
-		try{
+		$statement = "DELETE FROM rb_utenti WHERE uid = " . $_REQUEST['_i'];
+		try {
 			$db->executeUpdate($statement);
 			$db->executeUpdate("DELETE FROM rb_gruppi_utente WHERE uid = {$_REQUEST['_i']}");
 			$db->executeUpdate("DELETE FROM rb_genitori_figli WHERE id_genitore = {$_REQUEST['_i']}");
 			$db->executeUpdate("DELETE FROM rb_profili WHERE id = {$_REQUEST['_i']}");
 			$db->executeUpdate("COMMIT");
-		} catch (MySQLException $ex){
+		} catch (MySQLException $ex) {
 			$db->executeUpdate("ROLLBACK");
 			$response['status'] = "kosql";
 			$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
-			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$response['dbg_message'] = $ex->getQuery() . "----" . $ex->getMessage();
 			$res = json_encode($response);
 			echo $res;
 			exit;
 		}
 		break;
 	case 3:     // modifica
-		$statement = "UPDATE rb_utenti SET nome = '$nome', cognome = '$cognome' WHERE uid = ".$_POST['_i'];
-		try{
+		$statement = "UPDATE rb_utenti SET nome = '$nome', cognome = '$cognome' WHERE uid = " . $_POST['_i'];
+		try {
 			$db->executeUpdate($statement);
-			$db->executeUpdate("UPDATE rb_profili SET email = '{$to}' WHERE id = ".$_POST['_i']);
+			$db->executeUpdate("UPDATE rb_profili SET email = '{$to}' WHERE id = " . $_POST['_i']);
 			$db->executeUpdate("COMMIT");
-		} catch (MySQLException $ex){
+		} catch (MySQLException $ex) {
 			$db->executeUpdate("ROLLBACK");
 			$response['status'] = "kosql";
 			$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
-			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$response['dbg_message'] = $ex->getQuery() . "----" . $ex->getMessage();
 			$res = json_encode($response);
 			echo $res;
 			exit;
@@ -105,17 +109,17 @@ switch($_REQUEST['action']){
 		$ids = $_POST['ids'];
 		$str_ids = implode(",", $ids);
 		$statement = "DELETE FROM rb_utenti WHERE uid IN ({$str_ids})";
-		try{
+		try {
 			$db->executeUpdate($statement);
 			$db->executeUpdate("DELETE FROM rb_gruppi_utente WHERE uid IN ({$str_ids})");
 			$db->executeUpdate("DELETE FROM rb_genitori_figli WHERE id_genitore IN ({$str_ids})");
 			$db->executeUpdate("DELETE FROM rb_profili WHERE id IN ({$str_ids})");
 			$db->executeUpdate("COMMIT");
-		} catch (MySQLException $ex){
+		} catch (MySQLException $ex) {
 			$db->executeUpdate("ROLLBACK");
 			$response['status'] = "kosql";
 			$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
-			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$response['dbg_message'] = $ex->getQuery() . "----" . $ex->getMessage();
 			$res = json_encode($response);
 			echo $res;
 			exit;
@@ -127,22 +131,41 @@ switch($_REQUEST['action']){
 		$to = $_REQUEST['email'];
 		$from = "registro@istitutoiglesiasserraperdosa.it";
 		$subject = "Registro elettronico {$_SESSION['__config__']['intestazione_scuola']}";
-		$headers = "From: {$from}\r\n"."Reply-To: {$from}\r\n" .'X-Mailer: PHP/' . phpversion();
+		$headers = "From: {$from}\r\n" . "Reply-To: {$from}\r\n" . 'X-Mailer: PHP/' . phpversion();
 		$new_clear_passwd = AccountManager::generatePassword(8, 4);
 		$new_cript_passwd = $new_clear_passwd['e'];
 		$statement = "UPDATE rb_utenti SET password = '{$new_cript_passwd}' WHERE uid = {$uid}";
-		try{
+		try {
 			$db->executeUpdate($statement);
 			$db->executeUpdate("COMMIT");
-		} catch (MySQLException $ex){
+		} catch (MySQLException $ex) {
 			$db->executeUpdate("ROLLBACK");
 			$response['status'] = "kosql";
 			$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
-			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$response['dbg_message'] = $ex->getQuery() . "----" . $ex->getMessage();
 			$res = json_encode($response);
 			echo $res;
 			exit;
 		}
+		break;
+	case 7:
+		$cognome = $db->real_escape_string($_POST['cognome']);
+		$sel_user = "SELECT DISTINCT(rb_utenti.uid) AS uid, rb_utenti.username, CONCAT_WS(' ', rb_utenti.cognome, rb_utenti.nome) AS nome FROM rb_utenti, rb_genitori_figli, rb_gruppi_utente WHERE rb_utenti.cognome = '".$cognome."' AND rb_utenti.uid = rb_gruppi_utente.uid AND gid = 4 AND rb_genitori_figli.id_genitore = rb_utenti.uid ORDER BY cognome, nome";
+		$res_user = $db->executeQuery($sel_user);
+		if ($res_user->num_rows < 1) {
+			$response['status'] = "ok";
+			$response['message'] = "Nessun utente presente";
+		}
+		else {
+			$response['status'] = "ko";
+			$response['data'] = array();
+			while ($row = $res_user->fetch_assoc()) {
+				$response['data'][] = array("uid" => $row['uid'], "user" => $row['nome']);
+			}
+		}
+		$res = json_encode($response);
+		echo $res;
+		exit;
 		break;
 }
 

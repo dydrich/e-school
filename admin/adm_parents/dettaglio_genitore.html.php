@@ -54,6 +54,13 @@ var go = function(par, genit){
 				console.log(json.dbg_message);
 				return;
 			}
+			else if (json.status == "duplicate") {
+				j_alert("alert", "username presente in archivio: usa la funzione Ricerca per verificare la presenza dell'utente ");
+				setTimeout(function(){
+					document.location.href = "genitori.php?school_order=<?php echo $_GET['school_order'] ?>";
+				}, 2500);
+				return;
+			}
 			else if (json.status == "ko"){
 				j_alert("error", json.message);
 				return;
@@ -97,6 +104,7 @@ var reg = function(par){
 				    return false;
 			    }
 			    var json = $.parseJSON(r);
+			    alert(json.status);
 			    if (json.status == "kosql"){
 				    j_alert("error", json.message);
 				    console.log(json.dbg_message);
@@ -413,7 +421,7 @@ $(function(){
 </div>
 <?php include "../footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">
-	<div style="width: 100%; height: 360px">
+	<div style="width: 100%; height: 430px">
 		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
 		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
 		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>

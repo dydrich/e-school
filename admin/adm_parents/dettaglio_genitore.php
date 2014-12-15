@@ -28,6 +28,9 @@ else if(isset($_SESSION['school_order']) && $_SESSION['school_order'] != 0){
 	$classes_table = "rb_vclassi_s{$_SESSION['school_order']}";
 	$school_order = $_SESSION['school_order'];
 }
+if (isset($_REQUEST['search'])) {
+	$classes_table = "rb_classi";
+}
 
 $back_link = "genitori.php?school_order={$school_order}";
 if($offset != 0){
