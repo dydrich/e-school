@@ -89,7 +89,7 @@
 							parent.$('#tp').text(json.tp);
 						}
 						else {
-							alert("else");
+							//alert("else");
 							_a = document.createElement("a");
 							_a.setAttribute("id", "test_"+json.id+"_1");
 							_a.setAttribute("href", "test.php?idt="+json.id);
