@@ -176,6 +176,11 @@
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
+	<div style="top: -20px; margin-left: 35px; margin-bottom: -10px" class="rb_button">
+		<a href="tests.php">
+			<img src="../../../images/47bis.png" style="padding: 12px 0 0 12px" />
+		</a>
+	</div>
 <fieldset style="width: 95%; margin: auto; border-radius: 10px; background-color: rgba(222, 222, 222, 0.1)">
 <legend style="margin-left: 15px; font-weight: bold">Dati verifica</legend>
 <table style="border-collapse: collapse; width: 90%; margin-left: auto; margin-right: auto; margin-top: 10px; margin-bottom: 10px">
@@ -270,11 +275,6 @@
 	?>
 	</tr>
 	</tbody>
-	<tfoot>
-	<tr>
-		<td colspan="6" style="height: 40px; text-align: right"><a href="tests.php" style="text-transform: uppercase; text-decoration: none"><img src="../../../images/back.png" style="margin-right: 8px; position: relative; top: 5px" />Torna alle verifiche</a></td>
-	</tr>
-	</tfoot>
 </table>
 </div> 
 <?php include "../footer.php" ?>
