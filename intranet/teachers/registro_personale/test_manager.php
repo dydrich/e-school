@@ -29,6 +29,9 @@ if($_REQUEST['do'] == "insert" || $_REQUEST['do'] == "update" ){
 	$data = array();
 
 	$date_from = $_REQUEST['date_time'];
+	if (strlen($date_from) > 10) {
+		$date_from = substr($date_from, 0, 10);
+	}
 	$date_from = format_date($date_from, IT_DATE_STYLE, SQL_DATE_STYLE, "-")." 00:00:00";
 	$teacher = $_SESSION['__user__']->getUid();
 	$year = $_SESSION['__current_year__']->get_ID();
