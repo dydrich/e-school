@@ -83,7 +83,7 @@
 						j_alert("alert", json.message);
 						if ($('#do').val() == "update") {
 							parent.$('#desc').text($('#test').val());
-							parent.$('#datetm').text(json.date_string);
+							parent.$('#datetm').text(json.date);
 							parent.$('#ann').text($('#notes').val());
 							parent.$('#top').text($('#subject').val());
 							parent.$('#tp').text(json.tp);
