@@ -345,7 +345,7 @@ $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 <tr class="title_tr">
 	<td rowspan="2" style="width: 40%; font-weight: bold; padding-left: 8px">Alunno</td>
 	<td colspan="2" style="width: 20%; text-align: center; font-weight: bold">Totale</td>
-	<?php 
+	<?php
 	foreach ($labels as $k => $lab){
 	?>
 	<td colspan="<?php echo $col_colsp ?>" style="width: <?php echo $double_len ?>%; text-align: center; font-weight: bold"><?php echo $lab ?></td>
@@ -354,7 +354,7 @@ $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 <tr class="title_tr">
 	<td style="width: 10%; text-align: center; font-weight: bold">Media</td>
 	<td style="width: 10%; text-align: center; font-weight: bold">N. voti</td>
-	<?php 
+	<?php
 	foreach ($prove as $k => $p){
 	?>
 	<td style="width: <?php echo $len ?>%; text-align: center; font-weight: bold">Media</td>
@@ -376,26 +376,26 @@ while($al = $res_alunni->fetch_assoc()){
 	$st['id'] = $al['id_alunno'];
 	$st['value'] = $al['cognome']." ".$al['nome'];
 	array_push($studenti, $st);
-	
+
 	foreach ($vars as $k => $vv){
 		$vars[$k]["num_prove"] = 0;
 		$vars[$k]["media"] = 0;
 		$vars[$k]["somma"] = 0;
 	}
-	
+
 	if (count($selected) > 0){
 		$sel_voti = "SELECT rb_voti.* FROM rb_voti WHERE tipologia IN (".join(",", $selected).") AND rb_voti.alunno = ".$al['id_alunno']." AND materia = ".$_SESSION['__materia__']." AND anno = ".$_SESSION['__current_year__']->get_ID()." $int_time ORDER BY data_voto DESC";
 	}
 	else{
 		$sel_voti = "SELECT rb_voti.* FROM rb_voti, rb_tipologia_prove WHERE rb_voti.tipologia = rb_tipologia_prove.id AND rb_tipologia_prove.default = 1 AND rb_voti.alunno = ".$al['id_alunno']." AND materia = ".$_SESSION['__materia__']." AND anno = ".$_SESSION['__current_year__']->get_ID()." $int_time ORDER BY data_voto DESC";
 	}
-	
+
 	try{
 		$res_voti = $db->executeQuery($sel_voti);
 	} catch (MySQLException $ex){
 		$ex->redirect();
 	}
-	
+
 	$totale = 0;
 	if($res_voti->num_rows < 1){
 		$media = "--";
@@ -476,7 +476,7 @@ while($al = $res_alunni->fetch_assoc()){
 	</td>
 	<td style="width: 10%; text-align: center; font-weight: bold;"><span id="avg_<?php echo $al['id_alunno']; ?>" class="<?php if($media < $_SESSION['__config__']['limite_sufficienza'] && $media > 0) print("attention") ?>"><?php print $_voto ?></span></td>
 	<td id="numvoti_<?php echo $al['id_alunno']; ?>" style="width: 10%; text-align: center; font-weight: bold;"><?php print $num_voti ?></td>
-	<?php 
+	<?php
 	foreach ($vars as $k => $vs){
 		if ($vs['num_prove'] > 0){
 			$sp_media = round(($vs['somma'] / $vs['num_prove']), 2);
@@ -500,10 +500,10 @@ while($al = $res_alunni->fetch_assoc()){
 	?>
 	<td id="avgtipo<?php echo $k ?>_<?php echo $al['id_alunno']; ?>" style="width: <?php echo $len ?>%; text-align: center; font-weight: bold;"><?php if($vs['num_prove'] < 1) echo "--"; else echo $_voto ?></td>
 	<td id="numtipo<?php echo $k ?>_<?php echo $al['id_alunno']; ?>" style="width: <?php echo $len ?>%; text-align: center; font-weight: bold;"><?php echo $vs['num_prove'] ?></td>
-	<?php } ?>	
+	<?php } ?>
 </tr>
 <?php
-	$idx++; 
+	$idx++;
 }
 $_SESSION['students'] = $studenti;
 ?>
@@ -513,7 +513,7 @@ if($numero_alunni > 0){
 	$m_tot = round(($medie_classe['tot'] / $numero_alunni), 2);
 	$m_scr = round(($medie_classe['scr'] / $numero_alunni), 2);
 	$m_ora = round(($medie_classe['ora'] / $numero_alunni), 2);
-	
+
 	$_media = round($m_tot);
 	if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30){
 		if($_media < 5.5){
@@ -537,7 +537,7 @@ if($numero_alunni > 0){
 	</td>
 	<td style="width: 10%; text-align: center; font-weight: bold"><span class="<?php if($medie_classe['tot'] < $_SESSION['__config__']['limite_sufficienza']) print("attention") ?>"><?php echo $_voto ?></span></td>
 	<td style="width: 10%; text-align: center; font-weight: bold"></td>
-	<?php 
+	<?php
 	foreach ($totali_classe as $tc){
 		if ($tc['num_alunni'] > 0){
 			$sp_media = round(($tc['somma'] / $tc['num_alunni']), 2);
@@ -545,7 +545,7 @@ if($numero_alunni > 0){
 		else {
 			$sp_media = 0;
 		}
-		
+
 		$_media = round($sp_media);
 		if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30){
 			if($_media < 5.5){
@@ -597,7 +597,7 @@ if($numero_alunni > 0){
     	<a style="font-weight: normal; margin-bottom: 10px; display: block" href="#" onclick="add_note(<?php echo $q ?>)">Nuova nota</a>
     </div>
 <!-- fine menu contestuale -->
-<!-- 
+<!--
 codice per il popup nuovo voto
 -->
 <div id="mark" style="display: none">
@@ -638,7 +638,7 @@ codice per il popup nuovo voto
 			<tr>
 				<td style='width: 25%' id='lab3'>Data *</td>
 				<td>
-					<input id='data_voto' type='date' style='text-align: right; width: 33%; padding-top: 3px' name='data_voto' />
+					<input id='data_voto' type='text' style='text-align: right; width: 33%; padding-top: 3px' name='data_voto' />
 
 					<span style='margin-right: 42px; margin-left: 10px' id='lab4'>Tipo *</span>
 					<select id='tipo' name='tipo' style='font-size: 11px; width: 30%'>
