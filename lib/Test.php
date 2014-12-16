@@ -356,6 +356,7 @@ class Test {
 	public function save() {
 		if ($this->id == 0) {
 			// insert
+			/*
 			$query_activity = "INSERT INTO rb_impegni (data_assegnazione, data_inizio, data_fine, docente, classe, anno, materia, descrizione, note, tipo) VALUES (NOW(), '{$this->testDate}', '{{$this->testDate}}' + INTERVAL 1 HOUR, {$this->teacher->getUid()}, {$this->class->get_ID()}, {$this->year->get_ID()}, {$this->subject->GetId()}, '{$this->description}', '{$this->annotation}', '{$this->type}')";
 			if($this->testDate > date("Y-m-d")) {
 				$act_id = $this->datasource->executeUpdate($query_activity);
@@ -363,6 +364,7 @@ class Test {
 			else {
 				$act_id = "NULL";
 			}
+			*/
 			$query_test = "INSERT INTO rb_verifiche (id_docente, id_classe, id_anno, data_verifica, data_assegnazione, id_materia, id_attivita, prova, argomento, note, tipologia) ";
 			$query_test .= "VALUES ({$this->teacher->getUid()}, {$this->class->get_ID()}, {$this->year->get_ID()}, '{$this->testDate}', NOW(), {$this->subject->getId()}, {$act_id}, '{$this->description}', '{$this->topic}', '{$this->annotation}', {$this->type})";
 			$test_id = $this->datasource->executeUpdate($query_test);
