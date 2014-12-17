@@ -366,7 +366,7 @@ class Test {
 			}
 			*/
 			$query_test = "INSERT INTO rb_verifiche (id_docente, id_classe, id_anno, data_verifica, data_assegnazione, id_materia, id_attivita, prova, argomento, note, tipologia) ";
-			$query_test .= "VALUES ({$this->teacher->getUid()}, {$this->class->get_ID()}, {$this->year->get_ID()}, '{$this->testDate}', NOW(), {$this->subject->getId()}, {$act_id}, '{$this->description}', '{$this->topic}', '{$this->annotation}', {$this->type})";
+			$query_test .= "VALUES ({$this->teacher->getUid()}, {$this->class->get_ID()}, {$this->year->get_ID()}, '{$this->testDate}', NOW(), {$this->subject->getId()}, NULL, '{$this->description}', '{$this->topic}', '{$this->annotation}', {$this->type})";
 			$test_id = $this->datasource->executeUpdate($query_test);
 		}
 		else {
