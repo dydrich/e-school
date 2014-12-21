@@ -58,11 +58,8 @@ class ClassbookData{
 	}
 	
 	public function getStudentSummary($student){
-		$class_total = $this->getClassSummary();
-		$mod = $this->cbClass->get_modulo_orario();
-		$sel_alunno = "SELECT id_alunno, cognome, nome FROM rb_alunni WHERE id_alunno = {$student} ";
-		$alunno = $this->datasource->executeQuery($sel_alunno);
-		$sel_assenze_alunni = "SELECT rb_alunni.ingresso, rb_alunni.uscita, data FROM rb_reg_classi, rb_reg_alunni WHERE attivo = '1' AND rb_reg_classi.id_classe = ".$_SESSION['__classe__']->get_ID()." AND rb_reg_classi.id_classe = rb_alunni.id_classe AND id_anno = ".$_SESSION['__current_year__']->get_ID()." $par_tot AND id_reg = id_registro AND rb_alunni.id_alunno = rb_reg_alunni.id_alunno GROUP BY rb_alunni.id_alunno, cognome, nome ORDER BY cognome, nome";
+		$sums = $this->getStudentsSummary();
+		return $sums[$student];
 	}
 	
 	public function getStudentsSummary(){
@@ -77,6 +74,7 @@ class ClassbookData{
 		$students_data = array();
 		$current_student = 0;
 		$presence = new RBTime(0, 0, 0);
+		$previous = "";
 		foreach ($res_assenze_alunni as $abs){
 			if($current_student != $abs['id_alunno'] && $current_student != 0){
 				$presence->setTime($time);
