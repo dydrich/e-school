@@ -29,6 +29,20 @@
 		$(function(){
 			load_jalert();
 			setOverlayEvent();
+			$('#dis_grades').css({
+				cursor: "pointer"
+			});
+			$('#dis_grades').click(function(event) {
+				if ($('#dis_grades_body').is(":visible")) {
+					$('#dis_grades_body').slideUp(400);
+				}
+				else {
+					$('#dis_grades_body').slideDown(400);
+				}
+			});
+			$('#dis_notes_did').css({
+				cursor: "pointer"
+			});
 			$('#dis_notes').css({
 				cursor: "pointer"
 			});
@@ -40,6 +54,34 @@
 					}
 					else {
 						$('#dis_notes_body').slideDown(400);
+					}
+				}
+			});
+			$('#dis_notes_did').css({
+				cursor: "pointer"
+			});
+			$('#dis_notes_did').click(function(event) {
+				count = $(this).attr("data-notesdid-count");
+				if (count > 0) {
+					if ($('#dis_notesdid_body').is(":visible")) {
+						$('#dis_notesdid_body').slideUp(400);
+					}
+					else {
+						$('#dis_notesdid_body').slideDown(400);
+					}
+				}
+			});
+			$('#dis_absences').css({
+				cursor: "pointer"
+			});
+			$('#dis_absences').click(function(event) {
+				count = $(this).attr("data-abs-count");
+				if (count > 0) {
+					if ($('#dis_absences_body').is(":visible")) {
+						$('#dis_absences_body').slideUp(400);
+					}
+					else {
+						$('#dis_absences_body').slideDown(400);
 					}
 				}
 			});
@@ -88,6 +130,96 @@
 				</div>
 				<?php
 					}
+				}
+				?>
+			</div>
+		</div>
+		<div class="card">
+			<div id="dis_notes_did" class="card_title" data-notesdid-count="<?php echo $note_didattiche['count'] ?>">Note didattiche
+				<div class="normal" style="float: right; width: 200px; margin-right: 30px">
+					<?php echo $label_notes_did ?>
+				</div>
+			</div>
+			<div id="dis_notesdid_body" class="card_varcontent" style="display: none">
+				<?php
+				if ($note_didattiche['count'] > 0) {
+					foreach ($note_didattiche['data'] as $k => $tipo_nota) {
+				?>
+				<div class="card_row">
+					<?php echo $tipo_nota['tipo_nota'] ?>: <?php echo $tipo_nota['count'] ?> volte
+				</div>
+				<?php
+					}
+				}
+				?>
+			</div>
+		</div>
+		<div class="card" style="margin-top: 10px" >
+			<div id="dis_absences" class="card_title" data-abs-count="<?php echo $res_note->num_rows ?>">Assenze
+				<div class="normal" style="float: right; width: 200px; margin-right: 30px">
+					<?php echo $perc_hour ?>% del monte ore totale
+				</div>
+			</div>
+			<div id="dis_absences_body" class="card_longcontent" style="display: none">
+				<div class="minicard">
+					Giorni di assenza: <?php echo $studentData['absences']?> su <?php echo $totali['giorni'] ?>
+				</div>
+				<div class="minicard" style="margin-left: 50px">
+					Ore di assenza: <?php echo $absences->toString(RBTime::$RBTIME_SHORT) ?> su <?php echo $totali['ore']->toString(RBTime::$RBTIME_SHORT) ?>
+				</div>
+				<div class="minicard">
+				<?php
+				if ($somma_ritardi['giorni_ritardo'] > 0) {
+					?>
+					Ritardi: <?php echo $somma_ritardi['giorni_ritardo'] ?> per un totale di <?php echo substr($somma_ritardi['ore_ritardo'], 0, 5) ?> ore
+				<?php
+				}
+				else {
+					?>
+					Nessun ritardo
+				<?php
+				}
+				?>
+				</div>
+				<div class="minicard" style="margin-left: 50px">
+				<?php
+				if ($somma_uscite['giorni_anticipo'] > 0) {
+					?>
+					Ritardi: <?php echo $somma_uscite['giorni_anticipo'] ?> per un totale di <?php echo substr($somma_uscite['ore_perse'], 0, 5) ?> ore
+				<?php
+				}
+				else {
+					?>
+					Nessuna uscita anticipata
+				<?php
+				}
+				?>
+				</div>
+			</div>
+		</div>
+		<div class="card">
+			<div id="dis_grades" class="card_title" data-grades-count="">Media voto
+				<div class="normal" style="float: right; width: 200px; margin-right: 30px">
+					<?php echo $media ?>
+				</div>
+			</div>
+			<div id="dis_grades_body" class="card_varcontent" style="display: none; height: 200px">
+				<?php
+				$idx = 1;
+				foreach ($materie as $s_id => $subject) {
+					$span_class = "";
+					if ($subject['media'] == 0) {
+						$subject['media'] = "--";
+					}
+					else if ($subject['media'] < 6) {
+						$span_class = "attention _bold";
+					}
+				?>
+				<div class="minicard" style="<?php if(($idx%2) == 0) echo "margin-left: 50px" ?>">
+					<?php echo $subject['materia'] ?>: <span class="<?php echo $span_class ?>"><?php echo $subject['media'] ?></span>
+				</div>
+				<?php
+					$idx++;
 				}
 				?>
 			</div>
