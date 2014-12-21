@@ -1,3 +1,130 @@
+4.0.50
+scheda riepilogo alunno
+
+4.0.49
+nuova implementazione metodo getStudentSummary in ClassbookData.php
+
+4.0.48
+aggiunta classi per card in reg_classe.css
+correzione colore nav_div in blue_red/reg_classe.css
+
+4.0.47
+bug fixes in Test.php
+
+4.0.46
+risolto bug dell'aggiornamento data (dovuto alla presenza del campo time) in test_manager.php
+
+4.0.45
+risolto problema campo input tipo date in chrome in registro_personale/index.php
+
+4.0.44
+commentato l'inserimento dell'attivita` in Test.php
+
+4.0.43
+correzione mancato aggiornamento campo data in new_test.php
+
+4.0.42
+correzione errore di segnalazione della duplicazione genitore (utente presente) e funzione di ricerca genitore per cognome, con caricamento della pagina di dettaglio
+
+4.0.41
+corretto il pulsante di back in test.php per renderlo coerente col tema
+
+4.0.40
+correzioni stilistiche in teachers
+
+4.0.39
+eliminati messaggi di debug in new_test.php
+
+4.0.38
+funzione di modifica classe aggiunta alla pagine di firma registro (sign.php)
+
+4.0.37
+corretto un bug in riepilogo_registro.php che mandava in errore la pagina se il giorno corrente non era prevista lezione
+
+4.0.36
+nuova funzione di modifica classe all'interno del registro docente (#60)
+
+4.0.35
+menu drawer completo in no_lessons.php
+
+4.0.34
+nuova funzione getFileName, che restituisce il nome dello script senza path
+
+4.0.33
+eliminata la visualizzazione delle note per evitare stringhe di lunghezza eccessiva in tests.php
+
+4.0.32
+correzione delle firme di alcuni metodi in PrimarySchoolSupportTeacherRecordBookPDF e FirstGradeSupportTeacherRecordBookPDF
+
+4.0.31
+aggiunto in sign.php il link a communication
+
+4.0.30
+correzione bug relativo all'utilizzo dei dati in sessione in gestione_classe/classe.php: ora la classe viene sempre ricalcolata
+
+4.0.29
+redirect per il registro personale degli insegnanti di sostegno
+
+4.0.28
+correzione bug relativi al menu dei docenti di sostegno
+
+4.0.27
+correzione utf8 in teachers lessons.php
+
+4.0.26
+aggiunta label classe al menu in sign.php
+
+4.0.25
+correzione di alcuni bug relativi al menu genitori di selezione del figlio
+
+4.0.24
+correzioni grafiche varie al tema purple
+
+4.0.23
+correzione gradiente di sfondo troppo chiaro in footer in indigo, blue_gray, teal
+
+4.0.22
+uniformato stile sul giorno corrente in teachers/registro_classe/registro_classe.html.php
+
+4.0.21
+correzioni grafiche in teachers/gestione_classe/classe.php
+
+4.0.20
+correzione gradiente di sfondo troppo chiaro in footer in alcuni temi
+
+4.0.19
+aggiunta link font in intranet/alunni-genitori-manager
+
+4.0.18
+correzione colore notification in light_blue
+
+4.0.17
+tema indigo: modifica sperimentale padding-bottom in w_head
+
+4.0.16
+correzioni grafiche in teachers/gestione_classe/classe.php
+
+4.0.15
+correzione colore nav_div in bluegray, purple
+
+4.0.14
+pulizia codice
+
+4.0.13
+correzioni grafiche in teachers/gestione_classe/elenco_compiti
+
+4.0.12
+modifica colore menu in light blue
+
+4.0.11
+pulizia codice
+
+4.0.10
+aumentata la larghezza dei campi testo per orario di ingresso e uscita in registro_classe.html.php
+
+4.0.9
+correzione grafica in genitori/pagelle.html.php
+
 4.0.8
 modificata pagina dei temi eliminando l'immagine
 
