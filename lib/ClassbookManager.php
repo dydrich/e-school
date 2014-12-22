@@ -191,9 +191,11 @@ class ClassbookManager
 	}
 	
 	public function insertDay($d){
+		/*
 		if(in_array($d, $this->days)){
 			return false;
 		}
+		*/
 		$day_number = date("w", strtotime($d));
 		$this->datasource->executeUpdate("BEGIN");
 		/* step #1: classes */
@@ -214,7 +216,7 @@ class ClassbookManager
 				$sel_registro = "SELECT id_reg, ingresso, uscita FROM rb_reg_classi WHERE id_classe = $id_classe AND data = '{$d}' ";
 				$res_registro = $this->datasource->executeQuery($sel_registro);
 				foreach($res_registro as $day){
-					$insert_al = "INSERT INTO rb_reg_alunni VALUES (".$day['id_reg'].", $id_alunno, '".$day['ingresso']."', '".$day['uscita']."', NULL, NULL, $id_c)";
+					$insert_al = "INSERT INTO rb_reg_alunni VALUES (".$day['id_reg'].", $id_alunno, '".$day['ingresso']."', '".$day['uscita']."', NULL, NULL, $id_classe)";
 					$this->datasource->executeUpdate($insert_al);
 				}
 			}
