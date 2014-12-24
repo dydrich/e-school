@@ -206,7 +206,7 @@ if ($_REQUEST['action']) {
 			}
 			if (!$x){
 				$response['status'] = "ko";
-				$response['message'] = "Il giorno richiesto non è presente in archivio";
+				$response['message'] = "Il giorno richiesto è presente in archivio";
 				$res = json_encode($response);
 				echo $res;
 				exit;
@@ -227,7 +227,7 @@ if ($_REQUEST['action']) {
 				}
 				if (!$x){
 					$response['status'] = "ko";
-					$response['message'] = "Il giorno richiesto non è presente in archivio";
+					$response['message'] = "Il giorno richiesto è presente in archivio";
 					$res = json_encode($response);
 					echo $res;
 					exit;

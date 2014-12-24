@@ -191,11 +191,9 @@ class ClassbookManager
 	}
 	
 	public function insertDay($d){
-		/*
 		if(in_array($d, $this->days)){
 			return false;
 		}
-		*/
 		$day_number = date("w", strtotime($d));
 		$this->datasource->executeUpdate("BEGIN");
 		/* step #1: classes */
@@ -204,20 +202,23 @@ class ClassbookManager
 			$mod = $cls->get_modulo_orario();
 			$enter = $mod->getDay($day_number)->getEnterTime()->toString(RBTime::$RBTIME_LONG);
 			$exit = $mod->getDay($day_number)->getExitTime()->toString(RBTime::$RBTIME_LONG);
-			$insert = "INSERT INTO rb_reg_classi (id_classe, id_anno, data, ingresso, uscita) VALUES ($id_classe, ".$this->year->getYear()->get_ID().",'{$d}', '{$enter}', '{$exit}')";
-			$this->datasource->executeUpdate($insert);
-			
-			/*step #2: students */
-			$sel_alunni = "SELECT id_alunno, id_classe FROM rb_alunni WHERE attivo = '1' AND id_classe = $id_classe";
-			$res_alunni = $this->datasource->executeQuery($sel_alunni);
-				
-			foreach ($res_alunni as $alunno){
-				$id_alunno = $alunno['id_alunno'];
-				$sel_registro = "SELECT id_reg, ingresso, uscita FROM rb_reg_classi WHERE id_classe = $id_classe AND data = '{$d}' ";
-				$res_registro = $this->datasource->executeQuery($sel_registro);
-				foreach($res_registro as $day){
-					$insert_al = "INSERT INTO rb_reg_alunni VALUES (".$day['id_reg'].", $id_alunno, '".$day['ingresso']."', '".$day['uscita']."', NULL, NULL, $id_classe)";
-					$this->datasource->executeUpdate($insert_al);
+			$has_record = $this->datasource->executeCount("SELECT COUNT(*) FROM rb_reg_classi WHERE id_classe = {$id_classe} AND id_anno = ".$this->year->getYear()->get_ID()." AND data = '{$d}'");
+			if ($has_record < 1) {
+				$insert = "INSERT INTO rb_reg_classi (id_classe, id_anno, data, ingresso, uscita) VALUES ($id_classe, " . $this->year->getYear()->get_ID() . ",'{$d}', '{$enter}', '{$exit}')";
+				$this->datasource->executeUpdate($insert);
+
+				/*step #2: students */
+				$sel_alunni = "SELECT id_alunno, id_classe FROM rb_alunni WHERE attivo = '1' AND id_classe = $id_classe";
+				$res_alunni = $this->datasource->executeQuery($sel_alunni);
+
+				foreach ($res_alunni as $alunno) {
+					$id_alunno = $alunno['id_alunno'];
+					$sel_registro = "SELECT id_reg, ingresso, uscita FROM rb_reg_classi WHERE id_classe = $id_classe AND data = '{$d}' ";
+					$res_registro = $this->datasource->executeQuery($sel_registro);
+					foreach ($res_registro as $day) {
+						$insert_al = "INSERT INTO rb_reg_alunni VALUES (" . $day['id_reg'] . ", $id_alunno, '" . $day['ingresso'] . "', '" . $day['uscita'] . "', NULL, NULL, $id_classe)";
+						$this->datasource->executeUpdate($insert_al);
+					}
 				}
 			}
 		}
