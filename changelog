@@ -1,3 +1,13 @@
+4.0.53
+migliorata la coerenza del tema in admin
+bug fixes
+
+4.0.52
+ancora interventi per migliorare il metodo insertDay di ClassbookManager
+
+4.0.51
+corretto bug nel metodo insertDay di ClassbookManager
+
 4.0.50
 scheda riepilogo alunno
 
