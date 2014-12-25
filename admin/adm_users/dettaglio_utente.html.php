@@ -62,6 +62,7 @@
 		$('.form_input').blur(function(event){
 			$(this).css({outline: ''});
 		});
+		$('#save_button').button();
 		$('#save_button').click(function(event){
 			event.preventDefault();
 			go(<?php if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0) print("3, ".$_REQUEST['id']); else print("1, 0"); ?>);
@@ -87,6 +88,11 @@
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
+		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
+			<a href="<?php echo $back_link ?>">
+				<img src="../../images/47bis.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
 		<form action="users_manager.php" method="post" id="user_form" class="popup_form no_border" style="width: 90%">
 	    <div style="text-align: left; width: 100%; margin: auto; ">
 	    <fieldset style="margin-right: auto; margin-left: auto; margin-bottom: 20px; padding-bottom: 20px; width: 95%; padding-top: 10px; <?php if(isset($_GET['id']) && $_GET['id'] != 0) print('display: none') ?>">
@@ -159,8 +165,8 @@
 	    </table>
 	    </fieldset>
 	    </div>
-	    <div style="width: 95%; margin-right: 0px; text-align: right">
-	        <a href="../../shared/no_js.php" id="save_button" class="standard_link nav_link">Registra</a>
+	    <div style="width: 99%; margin-right: 0px; text-align: right">
+		    <button id="save_button">Registra</button>
 	    </div>
 		</form>
 	</div>

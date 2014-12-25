@@ -317,6 +317,11 @@ $(function(){
 		<?php include "../adm_users/menu.php" ?>
 	</div>
 	<div id="left_col">
+		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
+			<a href="<?php echo $back_link ?>">
+				<img src="../../images/47bis.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
 	<form action="dettaglio_genitore.php?upd=1" method="post" id="parent_form" class="popup_form">
     <fieldset id="account_field" style="width: 95%; padding-top: 10px; margin-left: auto; margin-right: auto; display: <?php if(!$show_account) echo "none" ?>">
     <legend id="account_legend" style="font-weight: bold;">Account</legend>

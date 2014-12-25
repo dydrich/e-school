@@ -96,6 +96,7 @@
 				event.preventDefault();
 				filter('<?php print $current_order ?>');
 			});
+			$('#go_link').button();
 			$('#go_link').click(function(event){
 				event.preventDefault();
 				go();
@@ -112,8 +113,13 @@
 		<?php include "../adm_users/menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
-			<a href="dettaglio_alunno.php?id=0">
+		<div style="position: absolute; top: 75px; left: 775px; margin-bottom: -5px" class="rb_button">
+			<a href="#" id="filter_button">
+				<img src="../../images/7.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
+		<div style="position: absolute; top: 75px; left: 855px; margin-bottom: -5px" class="rb_button">
+			<a href="dettaglio_alunno.php?id=0&type=0">
 				<img src="../../images/39.png" style="padding: 12px 0 0 12px" />
 			</a>
 		</div>
@@ -142,7 +148,7 @@
     ?>
 	    <div class="card" id="row_<?php echo $user['id_alunno'] ?>">
 		    <div class="card_title">
-			    <a href="dettaglio_alunno.php?id=<?php print $user['id_alunno'] ?>&type=1?order=" class="mod_link"><?php echo stripslashes($user['cognome']." ".$user['nome']) ?></a>
+			    <a href="dettaglio_alunno.php?id=<?php print $user['id_alunno'] ?>&type=1&order=" class="mod_link"><?php echo stripslashes($user['cognome']." ".$user['nome']) ?></a>
 			    <div style="float: right; margin-right: 20px" id="del_<?php echo $user['id_alunno'] ?>">
 				    <a href="student_manager.php?action=2&_id=<?php echo $user['id_alunno'] ?>" class="del_link">
 					    <img src="../../images/51.png" style="position: relative; bottom: 2px" />
@@ -171,7 +177,6 @@
 <?php include "../footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">
 	<div style="width: 100%; height: 430px">
-		<div class="drawer_link separator"><a href="#" id="filter_button"><img src="../../images/69.png" style="margin-right: 10px; position: relative; top: 5%" />Filtra elenco</a></div>
 		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
 		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
 		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
@@ -226,8 +231,8 @@
 				</tr>
 			</table>
 		</fieldset>
-		<div style="width: 350px; margin-left: 15px; margin-top: 20px; margin-bottom: 20px; text-align: right">
-			<a href="../../shared/no_js.php" id="go_link" class="standard_link nav_link_first" style="color: #003366">Estrai</a>
+		<div style="width: 380px; margin-left: 15px; margin-top: 20px; margin-bottom: 20px; text-align: right">
+			<button id="go_link">Estrai</button>
 		</div>
 	</form>
 </div>

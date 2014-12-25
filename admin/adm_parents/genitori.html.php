@@ -260,7 +260,7 @@
     ?>
         <div class="card" id="row_<?php echo $final_uid ?>">
             <div class="card_title">
-                <a href="dettaglio_genitore.php?id=<?php print $final_uid ?>&school_order=<?php echo $_GET['school_order'] ?>" class="mod_link"><?php print $final_user ?></a>
+                <a href="dettaglio_genitore.php?id=<?php print $final_uid ?>&school_order=<?php echo $_GET['school_order'] ?><?php echo $offlink ?>" class="mod_link"><?php print $final_user ?></a>
                 <div style="float: right; margin-right: 20px" id="del_<?php echo $final_uid ?>">
 	                <a href="parents_manager.php?action=2&id=<?php print $final_uid ?>&school_order=<?php echo $_GET['school_order'] ?>" class="del_link">
 		                <img src="../../images/51.png" style="position: relative; bottom: 2px" />

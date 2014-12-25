@@ -205,6 +205,7 @@
 					$('#account_field').css({border: '1px solid #ff0000', color: '#ff0000'});
 				}
 			});
+			$('#save_button').button();
 			$('#save_button').click(function(event){
 				event.preventDefault();
 				<?php
@@ -238,6 +239,11 @@
 		<?php include "../adm_users/menu.php" ?>
 	</div>
 	<div id="left_col">
+		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
+			<a href="<?php echo $back_link ?>">
+				<img src="../../images/47bis.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
     <form action="dettaglio_alunno.php?upd=1&offset=<?php print $offset ?>&order=<?php if(isset($_REQUEST['order'])) echo $_REQUEST['order'] ?>" method="post" id="st_form" style="width: 75%" class="no_border">
     <fieldset id="account_field" style="width: 95%; padding-top: 10px; margin-left: auto; margin-right: auto; <?php if($type == 1) echo "display: none" ?>">
     <legend id="account_legend" style="font-weight: bold;">Account</legend>
@@ -345,8 +351,8 @@
         </tr>       
     </table>
     </fieldset> 
-    <div style="width: 95%;  margin: 30px auto 0 auto; padding-bottom: 20px; text-align: right">
-        <a href="../../shared/no_js.php" id="save_button" class="standard_link nav_link">Registra</a>
+    <div style="width: 98%;  margin: 30px auto 0 auto; padding-bottom: 20px; text-align: right">
+	    <button id="save_button">Registra</button>
     </div>
    	</form>
    	</div>

@@ -93,6 +93,9 @@ var upd_field = function(field){
 };
 
 $(function(){
+	load_jalert();
+	setOverlayEvent();
+	$('#go_link').button();
 	$('#go_link').click(function(event){
 		event.preventDefault();
 		upd_cls();
@@ -109,6 +112,11 @@ $(function(){
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
+		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
+			<a href="classi.php?offset=<?php echo $offset ?>&school_order=<?php echo $_GET['school_order'] ?>">
+				<img src="../../images/47bis.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
 		<form action="class_manager.php" method="post" class="popup_form" id="myform">
 	    <div style="text-align: left">
 	    <table style="width: 95%; margin: auto">
@@ -220,10 +228,18 @@ $(function(){
 	    </div>
 		</form>
 		<div style="margin: 10px 10px 0 0; width: 88%; text-align: right">
-			<a href="../../shared/no_js.php" id="go_link" class="standard_link nav_link_first">Salva le modifiche</a>
+			<button id="go_link">Registra</button>
 		</div>
 	</div>
 	<p class="spacer"></p>
+</div>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+	<div style="width: 100%; height: 430px">
+		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+	</div>
+	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
 </div>
 <?php include "../footer.php" ?>
 </body>

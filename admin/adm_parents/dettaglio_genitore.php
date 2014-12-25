@@ -34,7 +34,7 @@ if (isset($_REQUEST['search'])) {
 
 $back_link = "genitori.php?school_order={$school_order}";
 if($offset != 0){
-	$back_link .= "?second=1&offset={$offset}&school_order={$school_order}";
+	$back_link .= "&second=1&offset={$offset}";
 }
 
 $sel_classi = "SELECT * FROM {$classes_table} ORDER BY sezione, anno_corso";

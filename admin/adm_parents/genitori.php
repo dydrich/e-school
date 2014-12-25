@@ -9,11 +9,13 @@ check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "../";
 
+$offlink = "";
 if(!isset($_REQUEST['offset'])){
     $offset = 0;
 }
 else{
     $offset = $_REQUEST['offset'];
+	$offlink = "&second=1&offset=".$_REQUEST['offset'];
 }
 
 $limit = 10;

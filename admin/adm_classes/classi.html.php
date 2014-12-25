@@ -221,7 +221,12 @@
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="card_container">
+		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
+			<a href="classe.php?id=0&offset=<?php echo $offset ?>&school_order=<?php echo $_GET['school_order'] ?>">
+				<img src="../../images/39.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
+		<div class="card_container" style="margin-top: 20px">
             <?php
             $res_cls->data_seek(0);
             $x = 1;
@@ -324,7 +329,6 @@
 <?php include "../footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">
 	<div style="width: 100%; height: 430px">
-		<div class="drawer_link separator"><a href="classe.php?id=0&offset=<?php echo $offset ?>&school_order=<?php echo $_GET['school_order'] ?>"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />Nuova classe</a></div>
 		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
 		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
 		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
