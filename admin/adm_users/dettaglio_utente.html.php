@@ -88,7 +88,7 @@
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
+		<div style="position: absolute; top: 75px; margin-left: 225px; margin-bottom: -5px" class="rb_button">
 			<a href="<?php echo $back_link ?>">
 				<img src="../../images/47bis.png" style="padding: 12px 0 0 12px" />
 			</a>

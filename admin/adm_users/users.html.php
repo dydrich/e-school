@@ -105,7 +105,7 @@
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
+		<div style="position: absolute; top: 75px; margin-left: 575px; margin-bottom: -5px" class="rb_button">
 			<a href="dettaglio_utente.php?id=0">
 				<img src="../../images/39.png" style="padding: 12px 0 0 12px" />
 			</a>

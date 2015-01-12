@@ -772,6 +772,9 @@ codice per il popup nuovo voto
 		<a href="tests.php"><img src="../../../images/79.png" style="margin-right: 10px; position: relative; top: 5%"/>Verifiche</a>
 	</div>
 	<div class="drawer_link">
+		<a href="riepilogo_verifiche.php"><img src="../../../images/69.png" style="margin-right: 10px; position: relative; top: 5%"/>Riepilogo verifiche</a>
+	</div>
+	<div class="drawer_link">
 		<a href="lessons.php"><img src="../../../images/62.png" style="margin-right: 10px; position: relative; top: 5%"/>Lezioni</a>
 	</div>
 	<div class="drawer_link separator">

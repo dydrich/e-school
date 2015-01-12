@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
 	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
 	<link href="../../css/general.css" rel="stylesheet" />
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
@@ -206,12 +207,12 @@
 		<?php include "../adm_users/menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div style="position: absolute; top: 75px; left: 775px; margin-bottom: -5px" class="rb_button">
+		<div style="position: absolute; top: 75px; left: 52%; margin-bottom: -5px" class="rb_button">
 			<a href="#" id="open_search">
 				<img src="../../images/7.png" style="padding: 12px 0 0 12px" />
 			</a>
 		</div>
-		<div style="position: absolute; top: 75px; left: 855px; margin-bottom: -5px" class="rb_button">
+		<div style="position: absolute; top: 75px; left: 57%; margin-bottom: -5px" class="rb_button">
 			<a href="dettaglio_genitore.php?id=0&school_order=<?php echo $_GET['school_order'] ?>">
 				<img src="../../images/39.png" style="padding: 12px 0 0 12px" />
 			</a>
