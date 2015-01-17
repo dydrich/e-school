@@ -37,7 +37,7 @@ if($_REQUEST['do'] == "insert" || $_REQUEST['do'] == "update" ){
 	$year = $_SESSION['__current_year__']->get_ID();
 	$subj = $_SESSION['__materia__'];
 	$class = $_SESSION['__classe__']->get_ID();
-	$prova = $_REQUEST['test'];
+	$prova = $db->real_escape_string($_REQUEST['test']);
 	$subject = $db->real_escape_string($_REQUEST['subject']);
 	$notes = $db->real_escape_string($_REQUEST['notes']);
 	$tipo = $_REQUEST['tipo'];
