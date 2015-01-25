@@ -32,7 +32,8 @@ if($_REQUEST['do'] == "insert" || $_REQUEST['do'] == "update" ){
 	if (strlen($date_from) > 10) {
 		$date_from = substr($date_from, 0, 10);
 	}
-	$date_from = format_date($date_from, IT_DATE_STYLE, SQL_DATE_STYLE, "-")." 00:00:00";
+	//$date_from = format_date($date_from, IT_DATE_STYLE, SQL_DATE_STYLE, "-")." 00:00:00";
+	$date_from = format_date($date_from, IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 	$teacher = $_SESSION['__user__']->getUid();
 	$year = $_SESSION['__current_year__']->get_ID();
 	$subj = $_SESSION['__materia__'];
