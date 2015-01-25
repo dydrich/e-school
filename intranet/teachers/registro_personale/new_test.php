@@ -18,9 +18,9 @@ if(isset($_REQUEST['test'])){
 	$label = "Modifica verifica";
 	$sel_test = "SELECT * FROM rb_verifiche WHERE id_verifica = ".$_REQUEST['test'];
 	$test = new \eschool\Test($_REQUEST['test'], new MySQLDataLoader($db), null, true);
-	list($date, $time) = explode(" ", $test->getTestDate());
-	list($y, $m, $d) = explode("-", $date);
-	list($h, $mi) = explode(":", $time);
+	//list($date, $time) = explode(" ", $test->getTestDate());
+	list($y, $m, $d) = explode("-", $test->getTestDate());
+	//list($h, $mi) = explode(":", $time);
 	$m--;
 }
 else {

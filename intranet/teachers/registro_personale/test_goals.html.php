@@ -104,7 +104,7 @@
 <div id="main" style="clear: both; ">
 	<div style="top: -20px; margin-left: 35px; margin-bottom: -10px" class="rb_button">
 		<a href="test.php?idt=<?php echo $_REQUEST['idv'] ?>">
-			<img src="../../../images/45.png" style="padding: 12px 0 0 12px" />
+			<img src="../../../images/47bis.png" style="padding: 12px 0 0 12px" />
 		</a>
 	</div>
 <form id="myform">

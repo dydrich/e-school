@@ -298,7 +298,8 @@ class Test {
 
 	public function testDateToString() {
 		setlocale(LC_TIME, "it_IT.utf8");
-		return strftime("%A %d %B %H:%M", strtotime($this->testDate));
+		//return strftime("%A %d %B %H:%M", strtotime($this->testDate));
+		return strftime("%A %d %B", strtotime($this->testDate));
 	}
 
 	public function getAverage() {

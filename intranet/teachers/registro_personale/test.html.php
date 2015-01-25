@@ -185,7 +185,7 @@
 <legend style="margin-left: 15px; font-weight: bold">Dati verifica</legend>
 <table style="border-collapse: collapse; width: 90%; margin-left: auto; margin-right: auto; margin-top: 10px; margin-bottom: 10px">
 	<tr style="height: 25px; border-bottom: 1px solid rgba(30, 67, 137, .8)">
-		<td style="width: 10%; font-weight: bold">Data e ora</td>
+		<td style="width: 10%; font-weight: bold">Data</td>
 		<td style="width: 20%; text-align: right;" id="datetm"><?php echo $test->testDateToString() ?></td>
 		<td style="width: 2%"></td>
 		<td style="width: 10%; font-weight: bold">Alunni</td>
