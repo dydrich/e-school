@@ -18,7 +18,7 @@
 
 		var load_meeting = function(rid, closed) {
 			if (closed) {
-				return false;
+				//return false;
 			}
 			document.location.href = "riunione_programmazione.php?rid="+rid;
 		};
