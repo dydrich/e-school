@@ -109,7 +109,6 @@ input.student_enter, input.student_exit {
 	text-decoration: none;
 	font-size: 1em;
 	text-transform: uppercase;
-	text-decoration: none
 }
 
 #head_label {
@@ -534,12 +533,14 @@ table.registro tr.riepilogo {
     text-transform: uppercase;
     width: 350px;
     font-size: 0.9em;
+    color: white
 }
 
 .nav_div a {
     font-weight: normal;
     position: relative;
     top: 5px;
+    color: white
 }
 
 .page_menu{

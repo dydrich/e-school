@@ -1246,3 +1246,24 @@ div.admin_link_wrapper {
 .list_row_menu {
     background-color: #FFF3E0;
 }
+
+#ticker {
+    overflow: hidden;
+    font-size: .9em;
+    margin:0;
+    padding:0;
+    height:108px;
+    width: 450px;
+}
+#ticker li {
+    list-style:none;
+    margin:0;
+    height: 15px;
+    color:#fff;
+    padding:5px 10px;
+    border-bottom:1px solid #E51C23;;
+    background-color: white;
+}
+#ticker li a {
+    color: #1E4389 !important;
+}
