@@ -239,6 +239,10 @@ if(count($materie) > 0) {
 }
 
 $drawer_label = "Medie voto".$label;
+$other_drawer_height = 180;
+if (!isset($_REQUEST['__goals__']) && (isset($_SESSION['__user_config__']['registro_obiettivi']) && (1 == $_SESSION['__user_config__']['registro_obiettivi'][0]))){
+	$other_drawer_height = 216;
+}
 
 if (isset($_REQUEST['__goals__']) && $_REQUEST['__goals__'] == 1) {
 	include "index_goals.html.php";

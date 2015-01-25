@@ -757,7 +757,7 @@ codice per il popup nuovo voto
 	<?php endif; ?>
 	<div class="drawer_lastlink"><a href="../../../shared/do_logout.php"><img src="../../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
 </div>
-<div id="other_drawer" class="drawer" style="height: 180px; display: none; position: absolute">
+<div id="other_drawer" class="drawer" style="height: <?php echo $other_drawer_height ?>px; display: none; position: absolute">
 	<?php if (!isset($_REQUEST['__goals__']) && (isset($_SESSION['__user_config__']['registro_obiettivi']) && (1 == $_SESSION['__user_config__']['registro_obiettivi'][0]))): ?>
 	<div class="drawer_link">
 		<a href="index.php?q=<?php echo $q ?>&subject=<?php echo $_SESSION['__materia__'] ?>&__goals__=1"><img src="../../../images/31.png" style="margin-right: 10px; position: relative; top: 5%"/>Registro per obiettivi</a>
