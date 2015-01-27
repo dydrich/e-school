@@ -207,7 +207,7 @@
 	</tr>
 	<tr style="height: 25px; border-bottom: 1px solid rgba(30, 67, 137, .8)">
 		<td style="width: 10%; font-weight: bold">Argomento</td>
-		<td colspan="7" id="top"><?php print $test->getTopic() ?></td>
+		<td colspan="7" id="top"><?php echo utf8_decode($test->getTopic()) ?></td>
 	</tr>
 	<tr style="height: 25px; border-bottom: 1px solid rgba(30, 67, 137, .8)">
 		<td style="width: 10%; font-weight: bold">Obiettivi</td>
