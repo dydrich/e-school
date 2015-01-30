@@ -40,7 +40,7 @@ if(isset($_REQUEST['q'])){
 	$q = $_REQUEST['q'];
 }
 else{
-	if(date("Ymd") > $fine_q){
+	if(date("Y-m-d") > $fine_q){
 		$q = 2;
 	}
 	else{
