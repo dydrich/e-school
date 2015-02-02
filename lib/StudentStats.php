@@ -46,11 +46,20 @@ class StudentStats {
 		}
 		if ($session != 0) {
 			$session_end = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+			/*
+
 			if(date("Y-m-d") > $session_end){
 				$session_param = "AND (data_voto  > '{$session_end}' AND data_voto <= NOW()) ";
 			}
 			else{
 				$session_param = "AND data_voto <= '{$session_end}'";
+			}
+			*/
+			if ($session == 1) {
+				$session_param = "AND data_voto <= '{$session_end}'";
+			}
+			else {
+				$session_param = "AND (data_voto  > '{$session_end}' AND data_voto <= NOW()) ";
 			}
 		}
 		else {
@@ -58,6 +67,7 @@ class StudentStats {
 		}
 		$sel = "SELECT COUNT(*) as count, ROUND(AVG(voto), 2) as avg FROM rb_voti WHERE alunno = {$this->student} AND anno = {$y} AND materia = {$subject} {$type_param} {$session_param} ";
 		$res = $this->datasource->executeQuery($sel);
+		//print_r($res);
 		/*
 		 * religion grades
 		 */
