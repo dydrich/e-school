@@ -48,10 +48,10 @@ if(isset($_REQUEST['modification']) && $_REQUEST['modification'] == 1){
 }
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "grade_only"){
 	$grades_only = true;
-	$link = "scrutini_classe.php?q=". $q;
+	$link = "scrutini_classe.php?q=". $q . $modification_params;
 }
 else {
-	$link = "scrutini_classe.php?q=". $q;
+	$link = "scrutini_classe.php?q=". $q . $modification_params;
 }
 
 $sel_alunni = "SELECT cognome, nome, id_alunno FROM rb_alunni WHERE id_classe = ". $_SESSION['__classe__']->get_ID() ." AND attivo = '1' ORDER BY cognome, nome";
