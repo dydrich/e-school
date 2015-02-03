@@ -142,7 +142,7 @@
 				modal: true,
 				width: 350,
 				height: 150,
-				title: 'Stampa',
+				title: 'Scarica riepiloghi',
 				open: function(event, ui){
 
 				}
@@ -507,8 +507,8 @@ while ($row = $res_out->fetch_assoc()){
 <!-- fine menu contestuale -->
 <?php endif; ?>
 <div id="confirm_print" style="display: none">
-	<p><a href="stampa_scrutini_classe.php?q=<?php echo $q ?>&abs=1"">Stampa riepilogo completo</a></p>
-	<p><a href="stampa_scrutini_classe.php?q=<?php echo $q ?>&abs=0">Stampa riepilogo voti</a></p>
+	<p><a href="stampa_scrutini_classe.php?q=<?php echo $q ?>&abs=1"">Scarica riepilogo completo</a></p>
+	<p><a href="stampa_scrutini_classe.php?q=<?php echo $q ?>&abs=0">Scarica riepilogo voti</a></p>
 	<?php if ($q == 2 && ($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID()) || $_SESSION['__user__']->getUsername() == "rbachis")): ?>
 	<a href="crea_tabellone.php">Crea il tabellone esiti</a>
 	<?php endif; ?>
