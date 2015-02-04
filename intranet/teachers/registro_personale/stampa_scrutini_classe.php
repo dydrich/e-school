@@ -91,10 +91,13 @@ while($al = $res_alunni->fetch_assoc()){
 	}
 	$sum = 0;
 	$num_mat = $num_materie - 1;
+	$num_mat = 0;
+
 	while ($voto = $res_voti->fetch_assoc()){
 		$alunni[$al['id_alunno']]['voti'][$voto['materia']] = $voto;
-		if($voto['materia'] != 26 && $voto['materia'] != 30){
+		if($voto['materia'] != 26 && $voto['materia'] != 30 && $voto['materia'] != 40){
 			$sum += $voto['voto'];
+			$num_mat++;
 		}
 	}
 	$avg = $sum / $num_mat;
