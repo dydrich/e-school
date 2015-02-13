@@ -114,7 +114,7 @@ class ReportManager {
 		$sel_religione = "SELECT voto FROM rb_scrutini, rb_materie WHERE alunno = {$student['alunno']} AND anno = {$this->year} AND quadrimestre = 1 AND rb_scrutini.materia = {$id_religione} ";
 		$voto_religione = $this->datasource->executeCount($sel_religione);
 
-		$sel_cdc = "SELECT uid, nome, cognome, materia FROM rb_utenti, rb_docenti, rb_cdc WHERE uid = rb_docenti.id_docente AND rb_docenti.id_docente = rb_cdc.id_docente AND rb_cdc.id_anno = {$this->year} AND rb_cdc.id_classe = ".$student['id_classe']." ORDER BY cognome, nome";
+		$sel_cdc = "SELECT uid, nome, cognome, id_materia as materia FROM rb_utenti, rb_docenti, rb_cdc WHERE uid = rb_docenti.id_docente AND rb_docenti.id_docente = rb_cdc.id_docente AND rb_cdc.id_anno = {$this->year} AND rb_cdc.id_classe = ".$student['id_classe']." ORDER BY cognome, nome";
 		$res_cdc = $this->datasource->executeQuery($sel_cdc);
 		$num_docenti = count($res_cdc);
 		$ids = array();
@@ -243,7 +243,7 @@ class ReportManager {
 			$student_name = preg_replace("/ /", "", $student_name);
 			$student_name = preg_replace("/\'/", "", $student_name);
 
-			$sel_cdc = "SELECT uid, nome, cognome, materia FROM rb_utenti, rb_docenti, rb_cdc WHERE uid = rb_docenti.id_docente AND rb_docenti.id_docente = rb_cdc.id_docente AND rb_cdc.id_anno = {$this->year} AND rb_cdc.id_classe = ".$student['id_classe']." ORDER BY cognome, nome";
+			$sel_cdc = "SELECT uid, nome, cognome, id_materia as materia FROM rb_utenti, rb_docenti, rb_cdc WHERE uid = rb_docenti.id_docente AND rb_docenti.id_docente = rb_cdc.id_docente AND rb_cdc.id_anno = {$this->year} AND rb_cdc.id_classe = ".$student['id_classe']." ORDER BY cognome, nome";
 			$res_cdc = $this->datasource->executeQuery($sel_cdc);
 			$num_docenti = count($res_cdc);
 			$ids = array();
