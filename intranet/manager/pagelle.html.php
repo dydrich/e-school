@@ -112,8 +112,8 @@
 					console.log(json.dbg_message);
 				}
 				else {
-					$('#tdbck_'+session).text("<a href='../../modules/documents/download_manager.php?doc=report_backup&area=manager&f="+json.zip+"&sess="+session+"&y="+year+"&area="+area+"' style=''>Scarica il backup</a>");
-					console.log(json.zip);
+					$('#tdbck_'+session).html("<a href='../../modules/documents/download_manager.php?doc=report_backup&area=manager&f="+json.zip+"&sess="+session+"&y="+year+"&area="+area+"' style=''>Scarica il backup</a>");
+					//console.log(json.zip);
 					$('#background_msg').text("Operazione conclusa");
 				}
 			}
