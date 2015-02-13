@@ -74,7 +74,7 @@ while($pag = $res_pagelle->fetch_assoc()){
 
 $quadrimestre = null;
 $id = null;
-if ($pagelle[1]['data_pubblicazione'] == "" || ($pagelle[1]['data_pubblicazione'] <= date("Y-m-d"))){
+if ($pagelle[2]['data_pubblicazione'] == "" || ($pagelle[2]['data_pubblicazione'] <= date("Y-m-d"))){
 	$quadrimestre = 2;
 }
 else {
