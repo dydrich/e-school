@@ -75,7 +75,8 @@ if ($_SESSION['__sp_student__']){
 	<div style="width: 100%; height: 430px">
 		<div class="drawer_label"><span>Classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?></span></div>
 		<div class="drawer_link submenu"><a href="../registro_classe/registro_classe.php?data=<?php echo date("Y-m-d") ?>"><img src="../../../images/28.png" style="margin-right: 10px; position: relative; top: 5%" />Registro di classe</a></div>
-        <div class="drawer_link submenu"><a href="scrutini.php?q=1"><img src="../../../images/74.png" style="margin-right: 10px; position: relative; top: 5%" />Scrutini</a></div>
+		<div class="drawer_link submenu"><a href="medie_voto.php"><img src="../../../images/4.png" style="margin-right: 10px; position: relative; top: 5%" />Medie voto</a></div>
+		<div class="drawer_link submenu"><a href="scrutini.php?q=1"><img src="../../../images/74.png" style="margin-right: 10px; position: relative; top: 5%" />Scrutini</a></div>
 		<div class="drawer_link submenu separator"><a href="../gestione_classe/classe.php"><img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />Gestione classe</a></div>
 		<div class="drawer_link"><a href="../index.php"><img src="../../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
 		<div class="drawer_link"><a href="../profile.php"><img src="../../../images/33.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
