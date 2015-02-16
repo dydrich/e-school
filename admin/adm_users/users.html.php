@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<title>Elenco utenti</title>
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
@@ -128,6 +129,10 @@
                 $gruppi .= $g['nome'].", ";
             }
             $gruppi = substr($gruppi, 0, ($gruppi - 2));
+	        $area = 'school';
+	        if ($gruppi == "genitori") {
+		        $area = "parents";
+	        }
         ?>
 	        <div class="card" id="row_<?php echo $user['uid'] ?>">
 		        <div class="card_title">
@@ -137,7 +142,9 @@
 					        <img src="../../images/51.png" style="position: relative; bottom: 2px" />
 				        </a>
 			        </div>
-			        <div style="float: right; margin-right: 220px; text-align: left; width: 100px; text-transform: none" class="normal"><?php echo $user['username'] ?></div>
+			        <div style="float: right; margin-right: 220px; text-align: left; width: 100px; text-transform: none" class="normal">
+				        <a href="modifica_account.php?uid=<?php echo $user['uid'] ?>&area=<?php echo $area ?>&offset=<?php echo $offset ?>" class="normal"><?php echo $user['username'] ?></a>
+			        </div>
 		        </div>
 		        <div class="card_minicontent">
 			        Gruppi: <?php echo $gruppi ?>
