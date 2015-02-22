@@ -72,6 +72,20 @@ class AccountManager{
 		$smt->execute();
 	}
 
+	public function changeUsername($newUsername) {
+		if ($this->user_ instanceof StudentBean){
+			$table = 'rb_alunni';
+			$field = 'id_alunno';
+		}
+		else {
+			$table = 'rb_utenti';
+			$field = 'uid';
+		}
+		$smt = $this->datasource_->prepare("UPDATE {$table} SET username = ? WHERE $field = ?");
+		$smt->bind_param("si", $newUsername, $this->user_->getUid());
+		$smt->execute();
+	}
+
 	public function updateAccount($uname, $pwd) {
 		$smt = $this->datasource_->prepare("UPDATE {$this->table_} SET username = ?, password = ? WHERE uid = ?");
 		$smt->bind_param("ssi", $uname, $pwd, $this->user_->getUid());
@@ -140,5 +154,13 @@ class AccountManager{
 				$index++;
 			}
 		}
+	}
+
+	public function checkUsername($uname) {
+		$names = $this->datasource_->executeQuery("SELECT username FROM ".$this->table_);
+		if (in_array($uname, $names)) {
+			return false;
+		}
+		return true;
 	}
 }
