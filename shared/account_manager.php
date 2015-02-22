@@ -121,4 +121,35 @@ switch ($_REQUEST['action']) {
 		echo $res;
 		exit;
 		break;
+	case "change_username":
+		$username = $db->real_escape_string($_POST['new_username']);
+
+		$rb = RBUtilities::getInstance($db);
+
+		try{
+			$user = $rb->loadUserFromUid($_REQUEST['uid'], $_REQUEST['area']);
+			$account_manager = new AccountManager($user, new MySQLDataLoader($db));
+			if ($account_manager->checkUsername($username)) {
+				$account_manager->changeUsername($username);
+			}
+			else {
+				$response['status'] = "ko";
+				$response['message'] = "Username presente in archivio";
+				$res = json_encode($response);
+				echo $res;
+				exit;
+			}
+		} catch (MySQLException $ex){
+			$response['status'] = "kosql";
+			$response['message'] = "Si è verificato un errore. Riprova tra qualche minuto";
+			$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+			$res = json_encode($response);
+			echo $res;
+			exit;
+		}
+		$response['message'] = "Username modificata";
+		$res = json_encode($response);
+		echo $res;
+		exit;
+		break;
 }
