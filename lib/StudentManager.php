@@ -152,7 +152,7 @@ class StudentManager
 			$pub = $this->datasource->executeQuery("SELECT id_pagella FROM rb_pubblicazione_pagelle WHERE anno = {$id_anno} AND quadrimestre = 2");
 		}
 		foreach ($pub as $d){
-			$this->datasource->executeUpdate("INSERT INTO rb_pagelle (id_pubblicazione, id_alunno, id_classe, desc_classe) VALUES ({$d}, {$alunno}, {$id_classe}, '{$desc_classe}')");
+			$this->datasource->executeUpdate("INSERT INTO rb_pagelle (id_pubblicazione, id_alunno, id_classe, desc_classe) VALUES ({$d}, {$alunno}, {$id_classe}, '{$desc_class}')");
 		}
 	}
 	
