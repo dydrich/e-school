@@ -335,7 +335,7 @@ while($al = $res_dati->fetch_assoc()){
 		}
 		?>
 		<?php if ($q == 2): ?>
-			<div class="drawer_link separator">
+			<div class="drawer_link submenu separator">
 				<a href="confronta_scrutini.php"><img src="../../../images/46.png" style="margin-right: 10px; position: relative; top: 5%"/>Confronta scrutini</a>
 			</div>
 		<?php endif; ?>
