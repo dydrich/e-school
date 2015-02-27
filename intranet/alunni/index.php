@@ -23,7 +23,7 @@ $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 
-$sel_voti = "SELECT voto, descrizione, data_voto, argomento, rb_materie.materia, rb_utenti.nome, rb_utenti.cognome FROM rb_voti, rb_materie, rb_utenti WHERE alunno = ".$_SESSION['__user__']->getUid()." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND rb_materie.id_materia = rb_voti.materia AND docente = rb_utenti.uid ORDER BY data_voto DESC LIMIT 3";
+$sel_voti = "SELECT voto, descrizione, data_voto, argomento, rb_materie.materia, rb_utenti.nome, rb_utenti.cognome FROM rb_voti, rb_materie, rb_utenti WHERE alunno = ".$_SESSION['__user__']->getUid()." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND rb_materie.id_materia = rb_voti.materia AND docente = rb_utenti.uid AND privato = 0 ORDER BY data_voto DESC LIMIT 3";
 $res_voti = $db->execute($sel_voti);
 
 $free_day = false;

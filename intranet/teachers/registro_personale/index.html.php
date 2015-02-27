@@ -629,7 +629,7 @@ codice per il popup nuovo voto
 						?>
 					</select>&nbsp;&nbsp;&nbsp;
 					<span style='width: 30%; margin-right: 5px' id='lab2'>Privato</span>
-					<select id="private" style='width: 30%; font-size: 11px; padding-top: 3px; margin-left: 30px' name='private'>
+					<select id="privato" style='width: 30%; font-size: 11px; padding-top: 3px; margin-left: 30px' name='privato'>
 						<option value="0">No</option>
 						<option value="1">Si</option>
 					</select>
