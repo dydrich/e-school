@@ -734,7 +734,7 @@
 		            <div class="card_minicontent">Carica i dati per gli scrutini del I quadrimestre...</div>
 	            </div>
             </a>
-            <a href="../shared/no_js.php" id="sc21_lnk">
+            <a href="../shared/no_js.php" id="sc2_lnk">
 	            <div class="card">
 		            <div class="card_title">Scrutini II quadrimestre</div>
 		            <div class="card_minicontent">Carica i dati per gli scrutini del II quadrimestre...</div>
