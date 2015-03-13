@@ -14,7 +14,7 @@ $class = $_SESSION['__classe__']->get_ID();
 $stid = isset($_REQUEST['stid']) ? $_REQUEST['stid'] : null;
 if ($_REQUEST['action'] != "delete") {
 	$type = $_REQUEST['type'];
-	$desc = utf8_encode($db->real_escape_string($_REQUEST['desc']));
+	$desc = $db->real_escape_string($_REQUEST['desc']);
 	$date = format_date($_REQUEST['_date'], IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 }
 
