@@ -261,7 +261,7 @@ if ($_SESSION['__user__']->getSubject() == 26 || $_SESSION['__materia__'] == 30 
 	/*
 	 * esoneri religione
 	 */
-	$sel_esonerati = "SELECT alunno FROM rb_esoneri_religione WHERE classe = ".$_SESSION['__classe__']->get_ID();
+	$sel_esonerati = "SELECT alunno FROM rb_esoneri_religione WHERE classe = ".$_SESSION['__classe__']->get_ID()." AND anno = ".$anno;
 	$res_esonerati = $db->executeQuery($sel_esonerati);
 	if ($res_esonerati->num_rows > 0) {
 		while ($row = $res_esonerati->fetch_assoc()) {
