@@ -26,9 +26,15 @@ switch ($action){
 	case "del":
 		$upd = "DELETE FROM rb_assegnazione_sostegno WHERE anno = {$anno} AND classe = {$classe} AND docente = {$docente}";
 		break;
+	case "del_alt":
+		$upd = "DELETE FROM rb_materia_alternativa WHERE anno = {$anno} AND classe = {$classe} AND docente = {$docente}";
+		break;
 	case "add":
 		$ore = $_POST['ore'];
 		$upd = "INSERT INTO rb_assegnazione_sostegno (anno, classe, docente, ore) VALUES ({$anno}, {$classe}, {$docente}, {$ore})";
+		break;
+	case "add_alt":
+		$upd = "INSERT INTO rb_materia_alternativa (anno, classe, docente) VALUES ({$anno}, {$classe}, {$docente})";
 		break;
 	default:
 		if ($docente == 0) {

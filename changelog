@@ -1,3 +1,74 @@
+4.0.76
+bug fix per utf8
+
+4.0.75
+bug fix
+
+4.0.74
+bug fixes per gestione voti privati
+
+4.0.73
+bug fix in StudentManager
+
+4.0.72
+dettaglio medie voto alunno H per docente di sostegno
+
+4.0.71
+modifica username utente in admin
+
+4.0.70
+in admin_adm_users aggiunto il css per i font
+
+4.0.69
+fissata un errore che impediva la visualizzazione dei download pagella nel primo quadrimestre
+
+4.0.68
+corretta la mancata visualizzazione del nome del docente di religione nelle pagelle della primaria
+
+4.0.67
+bug fixes
+
+4.0.66
+rinominate in Scarica le voci Stampa negli scrutini di classe
+
+4.0.65
+bug fixes
+
+4.0.64
+visione riepilogo scrutinio per alunno H aperta al docente di sostegno
+
+4.0.63
+bug fixes
+
+4.0.62
+bug fixes
+
+4.0.61
+documents: nuovo widget scorrevole per documenti in evidenza
+aggiunto in index il widget per i documenti in evidenza
+
+4.0.60
+communication: aggiunta la possibilita` per load_module di caricare una pagina passata come parametro
+communication: eliminato da w_notices.php il riferimento ai documenti in evidenza
+
+4.0.59
+bug fixes
+
+4.0.58
+eliminazione ora in verifica: il campo passa da timestamp a date
+
+4.0.57
+aperti alla modifica i verbali di programmazione scaduti
+
+4.0.56
+funzione di riepilogo verifiche in registro_personale
+
+4.0.55
+controllo caratteri speciali in campo prova
+
+4.0.54
+minor bug fixes
+
 4.0.53
 migliorata la coerenza del tema in admin
 bug fixes
@@ -103,7 +174,7 @@ correzioni grafiche in teachers/gestione_classe/classe.php
 correzione gradiente di sfondo troppo chiaro in footer in alcuni temi
 
 4.0.19
-aggiunta link font in intranet/alunni-genitori-manager
+aggiunto link font in intranet/alunni-genitori-manager
 
 4.0.18
 correzione colore notification in light_blue

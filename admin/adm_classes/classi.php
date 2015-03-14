@@ -112,7 +112,7 @@ if(basename($_SERVER['HTTP_REFERER']) == "wiz_first_install.php?step=3"){
 }
 
 $navigation_label = "gestione classi";
-$drawer_label = "Elenco classi ".truncateString($ordini[$school_order]['tipo'], 57)." ";
+$drawer_label = "Elenco classi ".truncateString($ordini[$school_order]['tipo'], 57);
 if(isset($sede)) {
 	$drawer_label .= " [".$sede."]";
 }

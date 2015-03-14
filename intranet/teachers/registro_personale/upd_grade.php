@@ -14,10 +14,21 @@ header("Content-type: application/json");
 $response = array("status" => "ok", "message" => "Operazione completata");
 
 $id_alunno = $_REQUEST['alunno'];
-if(isset($_REQUEST['subj']))
+if(isset($_REQUEST['subj'])) {
 	$materia = $_REQUEST['subj'];
-else
+}
+else {
 	$materia = $_SESSION['__materia__'];
+}
+/*
+ * materia alternativa
+ */
+if ($materia == 46) {
+	$materia = 26;
+}
+else if ($materia == 47) {
+	$materia = 30;
+}
 
 $q = $_REQUEST['q'];
 $anno = $_SESSION['__current_year__']->get_ID();

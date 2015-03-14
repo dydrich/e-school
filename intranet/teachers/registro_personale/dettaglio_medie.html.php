@@ -67,6 +67,10 @@
 <?php 
 $idx = 1;
 foreach ($alunni as $al){
+	$esonerato = 0;
+	if (in_array($al['id_alunno'], $esonerati)) {
+		$esonerato = 1;
+	}
 	$student_sum = 0;
 	$num_materie = $res_materie->num_rows;
 	if(!isset($al['media'])){
@@ -88,11 +92,19 @@ foreach ($alunni as $al){
 				$avg = $voti_rel[RBUtilities::convertReligionGrade($avg)];
 			}
 		}
+		else if (($materia['id_materia'] == 26 || $materia['id_materia'] == 30) && $esonerato == 1) {
+			if (isset($al['voti'][$alt_subject])) {
+				$avg = $al['voti'][$alt_subject];
+			}
+			else {
+				$avg = 0;
+			}
+		}
 		else {
 			$avg = 0;
 		}
 	?>
-	<td style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold;"><span class="<?php if($avg < 6 && $avg > 0) print("attention") ?>"><?php echo $avg ?></span></td>
+	<td style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold;<?php if (($materia['id_materia'] == 26 || $materia['id_materia'] == 30) && $esonerato == 1) echo "background-color: #DDDDDD" ?>"><span class="<?php if($avg < 6 && $avg > 0) print("attention") ?>"><?php echo $avg ?></span></td>
 <?php
 	}
 	$idx++;
@@ -108,8 +120,9 @@ foreach ($materie as $materia){
 	try{
 		$class_avg = $db->executeCount($sel_voti);
 		if ($materia['id_materia'] == 26 || $materia['id_materia'] == 30) {
-			$voti_rel = RBUtilities::getReligionGrades();
-			$class_avg = $voti_rel[RBUtilities::convertReligionGrade($class_avg)];
+			//$voti_rel = RBUtilities::getReligionGrades();
+			//$class_avg = $voti_rel[RBUtilities::convertReligionGrade($class_avg)];
+			$class_avg = "--";
 		}
 	} catch (MySQLException $ex){
 		$ex->redirect();

@@ -69,6 +69,32 @@ var add_teacher = function(){
 	});
 };
 
+var add_alt = function(){
+	$('#altdialog').dialog({
+		autoOpen: true,
+		show: {
+			effect: "appear",
+			duration: 500
+		},
+		hide: {
+			effect: "slide",
+			duration: 300
+		},
+		buttons: [{
+			text: "Chiudi",
+			click: function() {
+				$( this ).dialog( "close" );
+			}
+		}],
+		modal: true,
+		width: 450,
+		title: 'Elenco docenti',
+		open: function(event, ui){
+
+		}
+	});
+};
+
 var save_teacher = function(){
 	var url = "update_cdc.php";
 
@@ -80,6 +106,41 @@ var save_teacher = function(){
 		type: "POST",
 		url: url,
 		data: {action: "add", cls: <?php echo $classID ?>, mat: mat, doc: $('#doc').val(), ore: $('#ore').val()},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				document.location.href = "cdc.php?id=<?php echo $classID ?>";
+			}
+		}
+	});
+};
+
+var save_alt = function(){
+	var url = "update_cdc.php";
+
+	var mat = 46;
+	if (sc_order == 2){
+		mat = 47;
+	}
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {action: "add_alt", cls: <?php echo $classID ?>, mat: mat, doc: $('#doc_alt').val()},
 		dataType: 'json',
 		error: function() {
 			show_error("Errore di trasmissione dei dati");
@@ -138,6 +199,42 @@ var del_teacher = function(uid){
 	});
 	$('#row_'+uid).hide()
 	$('#row_'+uid).attr("id", "");
+};
+
+var del_alt = function(uid){
+	var mat = 46;
+	if (sc_order == 2){
+		mat = 47;
+	}
+	var url = "update_cdc.php";
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: {action: "del_alt", cls: <?php echo $classID ?>, mat: mat, doc: uid},
+		dataType: 'json',
+		error: function() {
+			show_error("Errore di trasmissione dei dati");
+		},
+		succes: function() {
+
+		},
+		complete: function(data){
+			r = data.responseText;
+			if(r == "null"){
+				return false;
+			}
+			var json = $.parseJSON(r);
+			if (json.status == "kosql"){
+				alert(json.message);
+				console.log(json.dbg_message);
+			}
+			else {
+				document.location.href = "cdc.php?id=<?php echo $classID ?>";
+			}
+		}
+	});
+	$('#rowalt_'+uid).hide()
+	$('#rowalt_'+uid).attr("id", "");
 };
 
 	$(function(){
@@ -229,6 +326,32 @@ else if ($res_sost->num_rows > 0){
 					<span style="float: right; margin-right: 30px"><a href="#" onclick="add_teacher()">Aggiungi</a></span><br />
 	        	</td>
 	        </tr>
+		    <tr>
+			    <td colspan="2" style="height: 15px">&nbsp;&nbsp;&nbsp;</td>
+		    </tr>
+		    <tr>
+			    <td class="popup_title" style="width: 50%; padding-top: 1px; padding-bottom: 1px; font-weight: bold; border-left: 1px solid #BBB; border-top: 1px solid #BBB; border-bottom: 1px solid #BBB; border-top-left-radius: 10px; border-bottom-left-radius: 10px; ">Materia alternativa</td>
+			    <td style="width: 50%; padding-top: 3px; padding-bottom: 3px; border-right: 1px solid #BBBBBB; border-top: 1px solid #BBBBBB; border-bottom: 1px solid #BBBBBB; border-bottom-right-radius: 10px; border-top-right-radius: 10px;">
+				    <?php
+				    if ($res_alt->num_rows < 1){
+					    ?>
+					    <span>Nessuno</span>
+				    <?php
+				    }
+				    else if ($res_alt->num_rows > 0){
+					    while ($row = $res_alt->fetch_assoc()){
+						    ?>
+						    <div id="rowalt_<?php echo $row['uid'] ?>">
+							    <span><?php echo $row['cognome']." ".$row['nome'] ?></span>
+							    <span style="float: right; margin-right: 40px"><a href="#" onclick="del_alt(<?php echo $row['uid'] ?>)" style="color: red; font-weight: bold">x</a></span>
+						    </div>
+					    <?php
+					    }
+				    }
+				    ?>
+				    <span style="float: right; margin-right: 30px"><a href="#" onclick="add_alt()">Aggiungi</a></span><br />
+			    </td>
+		    </tr>
 	        <tr>
 	            <td colspan="2" style="height: 15px">&nbsp;&nbsp;&nbsp;</td>
 	        </tr>
@@ -274,6 +397,35 @@ else if ($res_sost->num_rows > 0){
 			</fieldset>
 			<div style="width: 100%; text-align: right; margin-top: 30px">
 				<a href="#" onclick="save_teacher(<?php echo $classID ?>)" class="standard_link nav_link_last">Registra</a>
+				<input type="hidden" name="action" id="action" />
+				<input type="hidden" name="_i" id="_i" />
+			</div>
+		</div>
+	</form>
+</div>
+<div id="altdialog" style="display: none; width: 400px">
+	<form action="update_cdc.php" method="post" id="doc_form">
+		<div style="margin: 10px auto 0 auto; width: 95%">
+			<fieldset style="width: 100%; border: 1px solid #BBBBBB; padding: 10px 0 ; margin: 0 auto 0 auto; position: relative">
+				<legend style="font-weight: bold; margin-left: 10px">Docenti per materia alternativa</legend>
+				<table style="margin: 0 auto 0 auto; width: 90%">
+					<tr class="popup_row header_row">
+						<td class="popup_title" style="width: 30%;padding-left: 10px">Docente *</td>
+						<td style="width: 70%; " colspan="3">
+							<select class="form_input" name="doc_alt" id="doc_alt" autofocus style="width: 200px">
+								<option value="0">.</option>
+								<?php
+								while ($r = $res_doc_alt->fetch_assoc()){
+								?>
+								<option value="<?php echo $r['uid'] ?>"><?php echo $r['cognome']." ".$r['nome'] ?>
+									<?php } ?>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+			<div style="width: 100%; text-align: right; margin-top: 30px">
+				<a href="#" onclick="save_alt(<?php echo $classID ?>)" class="standard_link nav_link_last">Registra</a>
 				<input type="hidden" name="action" id="action" />
 				<input type="hidden" name="_i" id="_i" />
 			</div>

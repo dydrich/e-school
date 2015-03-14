@@ -131,10 +131,28 @@ try{
 	$ex->redirect();
 }
 $materie = array();
+$materie_senza_alternativa = array();
 while($mt = $res_materie->fetch_assoc()){
 	$materie[] = array("id" => $mt['id_materia'], "mat" => $mt['materia']);
+	$materie_senza_alternativa[] = array("id" => $mt['id_materia'], "mat" => $mt['materia']);
 }
-$_SESSION['__subjects__'] = $materie;
+$orig_materie = array();
+/*
+ * controllo materia alternativa
+ */
+if ($ordine_scuola == 1) {
+	$alt_subject = 46;
+}
+else {
+	$alt_subject = 47;
+}
+$sel_alt_sub = "SELECT COUNT(*) FROM rb_materia_alternativa WHERE anno = ".$_SESSION['__current_year__']->get_ID()." AND classe = ".$_SESSION['__classe__']->get_ID()." AND docente = ".$_SESSION['__user__']->getUid();
+$res_alt_sub = $db->executeCount($sel_alt_sub);
+if ($res_alt_sub > 0) {
+	$materie[] = array("id" => $alt_subject, "mat" => "Materia alternativa");
+}
+
+$_SESSION['__subjects__'] = $materie_senza_alternativa;
 $_SESSION['__materia__'] = $materie[0]['id'];
 
 $uid = $_SESSION['__user__']->getUid();
@@ -236,6 +254,20 @@ if(count($materie) > 0) {
 		$k++;
 	}
 	$_SESSION['__materia__'] = $idm;
+}
+
+$esonerati = array();
+if ($_SESSION['__user__']->getSubject() == 26 || $_SESSION['__materia__'] == 30 || $_SESSION['__materia__'] == 46 || $_SESSION['__materia__'] == 47) {
+	/*
+	 * esoneri religione
+	 */
+	$sel_esonerati = "SELECT alunno FROM rb_esoneri_religione WHERE classe = ".$_SESSION['__classe__']->get_ID();
+	$res_esonerati = $db->executeQuery($sel_esonerati);
+	if ($res_esonerati->num_rows > 0) {
+		while ($row = $res_esonerati->fetch_assoc()) {
+			$esonerati[] = $row['alunno'];
+		}
+	}
 }
 
 $drawer_label = "Medie voto".$label;

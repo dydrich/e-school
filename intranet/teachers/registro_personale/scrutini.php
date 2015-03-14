@@ -76,47 +76,95 @@ $mat = $_SESSION['__user__']->getSubject();
 
 $voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
 
-if(count($_SESSION['__subjects__']) > 0) {
+/*
+ * controllo materia alternativa
+ */
+if ($ordine_scuola == 1) {
+	$alt_subject = 46;
+	$id_religione = 26;
+}
+else {
+	$alt_subject = 47;
+	$id_religione = 30;
+}
+$sel_alt_sub = "SELECT COUNT(*) FROM rb_materia_alternativa WHERE anno = ".$_SESSION['__current_year__']->get_ID()." AND classe = ".$_SESSION['__classe__']->get_ID()." AND docente = ".$_SESSION['__user__']->getUid();
+$res_alt_sub = $db->executeCount($sel_alt_sub);
+$subject_number = count($_SESSION['__subjects__']);
+if ($res_alt_sub > 0) {
+	$subject_number++;
+}
+
+if($subject_number > 0) {
 	$k = 0;
-	foreach ($_SESSION['__subjects__'] as $mt) {
-		//print "while";
-		if (isset($_REQUEST['subject'])) {
-			if ($_REQUEST['subject'] == $mt['id']) {
-				$idm = $mt['id'];
-				$_mat = $mt['mat'];
-			}
-		}
-		else {
-			if (isset($_SESSION['__materia__'])) {
-				if ($_SESSION['__materia__'] == $mt['id']) {
+	if (isset($_REQUEST['subject']) && $_REQUEST['subject'] == $alt_subject) {
+		$idm = $alt_subject;
+		$_mat = "Mat. alt.";
+	}
+	else {
+		foreach ($_SESSION['__subjects__'] as $mt) {
+			//print "while";
+			if (isset($_REQUEST['subject'])) {
+				if ($_REQUEST['subject'] == $mt['id']) {
 					$idm = $mt['id'];
 					$_mat = $mt['mat'];
 				}
+			}
+			else {
+				if (isset($_SESSION['__materia__'])) {
+					if ($_SESSION['__materia__'] == $mt['id']) {
+						$idm = $mt['id'];
+						$_mat = $mt['mat'];
+					}
+					else {
+						if ($k == 0) {
+							$idm = $mt['id'];
+							$_mat = $mt['mat'];
+						}
+					}
+				}
 				else {
 					if ($k == 0) {
+						//print "k==0";
 						$idm = $mt['id'];
 						$_mat = $mt['mat'];
 					}
 				}
 			}
-			else {
-				if ($k == 0) {
-					//print "k==0";
-					$idm = $mt['id'];
-					$_mat = $mt['mat'];
-				}
-			}
+			$k++;
 		}
-		$k++;
 	}
 	$_SESSION['__materia__'] = $idm;
 }
 
-if(isset($_REQUEST['subject']))
-	$_SESSION['__materia__'] = $_REQUEST['subject']; 
+if(isset($_REQUEST['subject'])) {
+	$_SESSION['__materia__'] = $_REQUEST['subject'];
+}
 
-$sel_dati = "SELECT rb_alunni.cognome, rb_alunni.nome, alunno, voto, assenze FROM rb_alunni LEFT JOIN rb_scrutini ON id_alunno = alunno WHERE anno = ".$_SESSION['__current_year__']->get_ID()." AND id_classe = ". $_SESSION['__classe__']->get_ID() ." AND classe = id_classe AND quadrimestre = $q AND materia = ".$_SESSION['__materia__']." ORDER BY cognome, nome";
+/*
+ * controllo per la materia alternativa:
+ * se richiesta va caricato il dato di religione
+ */
+$load_mat = $_SESSION['__materia__'];
+if ($load_mat == $alt_subject) {
+	$load_mat = $id_religione;
+}
+
+$sel_dati = "SELECT rb_alunni.cognome, rb_alunni.nome, alunno, voto, assenze FROM rb_alunni LEFT JOIN rb_scrutini ON id_alunno = alunno WHERE anno = ".$_SESSION['__current_year__']->get_ID()." AND id_classe = ". $_SESSION['__classe__']->get_ID() ." AND classe = id_classe AND quadrimestre = $q AND materia = {$load_mat} ORDER BY cognome, nome";
 $res_dati = $db->execute($sel_dati);
+
+$esonerati = array();
+if ($_SESSION['__user__']->getSubject() == 26 || $_SESSION['__materia__'] == 30 || $_SESSION['__materia__'] == 46 || $_SESSION['__materia__'] == 47) {
+	/*
+	 * esoneri religione
+	 */
+	$sel_esonerati = "SELECT alunno FROM rb_esoneri_religione WHERE classe = ".$_SESSION['__classe__']->get_ID();
+	$res_esonerati = $db->executeQuery($sel_esonerati);
+	if ($res_esonerati->num_rows > 0) {
+		while ($row = $res_esonerati->fetch_assoc()) {
+			$esonerati[] = $row['alunno'];
+		}
+	}
+}
 
 $navigation_label = "Registro personale ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 $drawer_label = "Scrutini".$label;

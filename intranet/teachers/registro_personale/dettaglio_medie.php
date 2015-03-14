@@ -86,7 +86,12 @@ while ($r = $res_voti->fetch_assoc()){
 	if ($idalunno != $r['alunno']){
 		if ($idalunno != 0){
 			// copia dati alunno precedente
-			$val = $sum / $materie;
+			if ($materie > 0) {
+				$val = $sum / $materie;
+			}
+			else {
+				$val = 0;
+			}
 			$alunni[$idalunno]['media'] = round($val, 2);
 		}
 		$idalunno = 0;
@@ -95,8 +100,10 @@ while ($r = $res_voti->fetch_assoc()){
 	}
 	$alunni[$r['alunno']]['voti'][$r['materia']] = $r['voto'];
 	$idalunno = $r['alunno'];
-	$materie++;
-	$sum += $r['voto'];
+	if ($r['materia'] != 26 && $r['materia'] != 30 && $r['materia'] != 46 && $r['materia'] != 47) {
+		$materie++;
+		$sum += $r['voto'];
+	}
 }
 if ($materie > 0){
 	$val = $sum / $materie;
@@ -142,6 +149,21 @@ while($materia = $res_materie->fetch_assoc()){
 	if($materia['materia'] == "Scienze motorie")
 		$materia['materia'] = "Smotorie";
 	$materie[$materia['id_materia']] = $materia;
+}
+
+if ($ordine_scuola == 1) {
+	$alt_subject = 46;
+}
+else {
+	$alt_subject = 47;
+}
+$esonerati = array();
+$sel_esonerati = "SELECT alunno FROM rb_esoneri_religione WHERE classe = ".$_SESSION['__classe__']->get_ID();
+$res_esonerati = $db->executeQuery($sel_esonerati);
+if ($res_esonerati->num_rows > 0) {
+	while ($row = $res_esonerati->fetch_assoc()) {
+		$esonerati[] = $row['alunno'];
+	}
 }
 
 $num_materie = $res_materie->num_rows;

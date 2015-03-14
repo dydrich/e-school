@@ -14,7 +14,8 @@
 	<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="../../../js/page.js"></script>
 	<script type="text/javascript">
-		var stid = 0;
+		var stid = 0
+		var subject = <?php echo $_SESSION['__materia__'] ?>;
 
 		var _show = function(e, off) {
 			if ($('#other_drawer').is(":visible")) {
@@ -93,7 +94,10 @@
 			document.forms[0].submit();
 		};
 
-		var show_menu = function(e, _stid, offset){
+		var show_menu = function(e, _stid, offset, show_context_menu){
+			if (show_context_menu == 0) {
+				return false;
+			}
 			if ($('#context_menu').is(":visible")) {
 				$('#context_menu').slideUp(300);
 				return;
@@ -270,7 +274,12 @@
 				var offset = $(this).offset();
 				offset.top = offset.top + $(this).height();
 				var stid = $(this).attr("data-id");
-				show_menu(event, stid, offset);
+				var esonerato = $(this).attr("data-esonerato");
+				var show_context_menu = 1;
+				if (esonerato == 1 && (subject == 26 || subject == 30)) {
+					show_context_menu = 0;
+				}
+				show_menu(event, stid, offset, show_context_menu);
 			});
 			$('#overlay').click(function(event) {
 				if ($('#overlay').is(':visible')) {
@@ -319,6 +328,9 @@ if (count($materie) > 1) {
 	foreach ($materie as $mat) {
 		if (isset($_SESSION['__materia__']) && $_SESSION['__materia__'] == $mat['id']) {
 			$label_subject = "::".$mat['mat'];
+		}
+		if ($mat['mat'] == "Materia alternativa") {
+			$mat['mat'] = "Mat. alt.";
 		}
 	?>
 		<div class="mdtab<?php if (isset($_SESSION['__materia__']) && $_SESSION['__materia__'] == $mat['id']) echo " mdselected_tab" ?>">
@@ -372,10 +384,22 @@ $t_voti = 0;
 $studenti = array();
 $medie_classe = array("scr" => 0, "ora" => 0, "tot" => 0);
 while($al = $res_alunni->fetch_assoc()){
+	$esonerato = 0;
+	if (in_array($al['id_alunno'], $esonerati)) {
+		$esonerato = 1;
+	}
 	$st = array();
 	$st['id'] = $al['id_alunno'];
 	$st['value'] = $al['cognome']." ".$al['nome'];
-	array_push($studenti, $st);
+
+	if ($_SESSION['__materia__'] == 46 || $_SESSION['__materia__'] == 47) {
+		if ($esonerato == 1) {
+			array_push($studenti, $st);
+		}
+	}
+	else if ($esonerato == 0) {
+		array_push($studenti, $st);
+	}
 
 	foreach ($vars as $k => $vv){
 		$vars[$k]["num_prove"] = 0;
@@ -457,50 +481,82 @@ while($al = $res_alunni->fetch_assoc()){
 	$num_note = $db->executeCount($sel_note);
 	$_media = round($media);
 	if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30){
-		if($_media < 5.5){
+		if ($_media == 0) {
+			$_media = "--";
+		}
+		else if($_media < 5.5){
 			$_media = 4;
 		}
 		else if ($_media > 6.49 && $_media < 8){
 			$_media = 8;
 		}
-		$_voto = $voti_religione[$_media];
+
+		if ($_media != "--") {
+			$_voto = $voti_religione[$_media];
+		}
+		else {
+			$_voto = $_media;
+		}
 	}
 	else{
 		$_voto = $media;
 	}
+	if (($_SESSION['__materia__'] == 46 || $_SESSION['__materia__'] == 47) && $esonerato == 0) {
+		continue;
+	}
 ?>
 <tr id="tr<?php echo $al['id_alunno'] ?>">
-	<td style="width: 40%; padding-left: 8px; font-weight:bold; "><?php if($idx < 9) print "&nbsp;&nbsp;"; ?><?php echo ($idx+1).". " ?>
-		<a href="#" data-id="<?php echo $al['id_alunno'] ?>" class="st_link" style="font-weight: normal; color: inherit; padding-left: 8px"><?php print $al['cognome']." ".$al['nome']?></a>
+	<td style="width: 40%; padding-left: 8px; font-weight:bold; <?php if($esonerato == 1 && ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30)) echo "background-color: #DDDDDD" ?>"><?php if($idx < 9) print "&nbsp;&nbsp;"; ?><?php echo ($idx+1).". " ?>
+		<a href="#" data-id="<?php echo $al['id_alunno'] ?>" data-esonerato="<?php echo $esonerato ?>" class="st_link" style="font-weight: normal; color: inherit; padding-left: 8px"><?php print $al['cognome']." ".$al['nome']?></a>
 		<?php if($num_note > 0){?><!-- &nbsp;(<?php echo $num_note ?> note didattiche) --><?php } ?>
 	</td>
-	<td style="width: 10%; text-align: center; font-weight: bold;"><span id="avg_<?php echo $al['id_alunno']; ?>" class="<?php if($media < $_SESSION['__config__']['limite_sufficienza'] && $media > 0) print("attention") ?>"><?php print $_voto ?></span></td>
-	<td id="numvoti_<?php echo $al['id_alunno']; ?>" style="width: 10%; text-align: center; font-weight: bold;"><?php print $num_voti ?></td>
 	<?php
-	foreach ($vars as $k => $vs){
-		if ($vs['num_prove'] > 0){
-			$sp_media = round(($vs['somma'] / $vs['num_prove']), 2);
-		}
-		else {
-			$sp_media = 0;
-		}
-		$_media = round($sp_media);
-		if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30){
-			if($_media < 5.5){
-				$_media = 4;
-			}
-			else if ($_media > 6.49 && $_media < 8){
-				$_media = 8;
-			}
-			$_voto = $voti_religione[$_media];
-		}
-		else{
-			$_voto = $sp_media;
-		}
+	if (in_array($al['id_alunno'], $esonerati) && ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30)) {
 	?>
-	<td id="avgtipo<?php echo $k ?>_<?php echo $al['id_alunno']; ?>" style="width: <?php echo $len ?>%; text-align: center; font-weight: bold;"><?php if($vs['num_prove'] < 1) echo "--"; else echo $_voto ?></td>
-	<td id="numtipo<?php echo $k ?>_<?php echo $al['id_alunno']; ?>" style="width: <?php echo $len ?>%; text-align: center; font-weight: bold;"><?php echo $vs['num_prove'] ?></td>
-	<?php } ?>
+	<td colspan="<?php echo ($tot_col - 1) ?>" class="_bold _center" style="background-color: #DDDDDD">Esonerato</td>
+	<?php
+	}
+	else {
+	?>
+		<td style="width: 10%; text-align: center; font-weight: bold;">
+			<span id="avg_<?php echo $al['id_alunno']; ?>" class="<?php if ($media < $_SESSION['__config__']['limite_sufficienza'] && $media > 0) print("attention") ?>"><?php print $_voto ?></span>
+		</td>
+		<td id="numvoti_<?php echo $al['id_alunno']; ?>"
+		    style="width: 10%; text-align: center; font-weight: bold;"><?php print $num_voti ?>
+		</td>
+		<?php
+		foreach ($vars as $k => $vs) {
+			if ($vs['num_prove'] > 0) {
+				$sp_media = round(($vs['somma'] / $vs['num_prove']), 2);
+			}
+			else {
+				$sp_media = 0;
+			}
+			$_media = round($sp_media);
+			if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30) {
+				if ($_media < 5.5) {
+					$_media = 4;
+				}
+				else {
+					if ($_media > 6.49 && $_media < 8) {
+						$_media = 8;
+					}
+				}
+				$_voto = $voti_religione[$_media];
+			}
+			else {
+				$_voto = $sp_media;
+			}
+			?>
+			<td id="avgtipo<?php echo $k ?>_<?php echo $al['id_alunno']; ?>" style="width: <?php echo $len ?>%; text-align: center; font-weight: bold;"><?php if ($vs['num_prove'] < 1) { echo "--"; } else { echo $_voto; } ?>
+			</td>
+			<td id="numtipo<?php echo $k ?>_<?php echo $al['id_alunno']; ?>" style="width: <?php echo $len ?>%; text-align: center; font-weight: bold;"><?php echo $vs['num_prove'] ?></td>
+		<?php
+		}
+		?>
+	<?php
+	}
+	?>
 </tr>
 <?php
 	$idx++;
@@ -516,17 +572,28 @@ if($numero_alunni > 0){
 
 	$_media = round($m_tot);
 	if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30){
-		if($_media < 5.5){
+		if ($_media == 0) {
+			$_media = "--";
+		}
+		else if($_media < 5.5){
 			$_media = 4;
 		}
 		else if ($_media > 6.49 && $_media < 8){
 			$_media = 8;
 		}
-		$_voto = $voti_religione[$_media];
+		if ($_media != "--") {
+			$_voto = $voti_religione[$_media];
+		}
+		else {
+			$_voto = $_media;
+		}
 	}
 	else{
 		$_voto = $m_tot;
 	}
+}
+else {
+	$_voto = "--";
 }
 ?>
 </tbody>
@@ -535,7 +602,7 @@ if($numero_alunni > 0){
 	<td style="width: 40%; font-weight: bold; padding-left: 8px">
 		Totale classe
 	</td>
-	<td style="width: 10%; text-align: center; font-weight: bold"><span class="<?php if($medie_classe['tot'] < $_SESSION['__config__']['limite_sufficienza']) print("attention") ?>"><?php echo $_voto ?></span></td>
+	<td style="width: 10%; text-align: center; font-weight: bold"><span class="<?php if($medie_classe['tot'] > 0 && $medie_classe['tot'] < $_SESSION['__config__']['limite_sufficienza']) print("attention") ?>"><?php echo $_voto ?></span></td>
 	<td style="width: 10%; text-align: center; font-weight: bold"></td>
 	<?php
 	foreach ($totali_classe as $tc){

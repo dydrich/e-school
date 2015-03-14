@@ -59,6 +59,20 @@ if ($_SESSION['school_order'] == 2) {
 $sel_teac = "SELECT uid, nome, cognome FROM rb_utenti, rb_docenti WHERE id_docente = uid AND materia = ".$sostegno."  ORDER BY cognome, nome";
 $res_teac = $db->execute($sel_teac);
 
+/*
+ materia alternativa
+*/
+$sel_alt = "SELECT uid, nome, cognome FROM rb_utenti, rb_materia_alternativa WHERE anno = {$anno} AND classe = {$classID} AND docente = uid";
+try{
+	$res_alt = $db->execute($sel_alt);
+} catch (MySQLException $ex){
+	$ex->redirect();
+}
+
+// elenco docenti per materia alternativa
+$sel_doc = "SELECT uid, nome, cognome FROM rb_utenti, rb_docenti WHERE id_docente = uid AND tipologia_scuola = {$_SESSION['school_order']}  ORDER BY cognome, nome";
+$res_doc_alt = $db->executeQuery($sel_doc);
+
 $navigation_label = "gestione classi";
 $drawer_label = "Consiglio di classe: ".$classe['anno_corso'].$classe['sezione']." - ". $classe['nome'];
 

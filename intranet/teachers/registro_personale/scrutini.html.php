@@ -5,6 +5,7 @@
 	<title>Registro personale: scrutini</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/general.css" />
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
@@ -190,7 +191,7 @@
 <div id="main" style="clear: both; ">
 <?php
 $label_subject = "";
-if (count($_SESSION['__subjects__']) > 1) {
+if ($subject_number > 1) {
 	?>
 	<div class="mdtabs">
 		<?php
@@ -201,6 +202,16 @@ if (count($_SESSION['__subjects__']) > 1) {
 			?>
 		<div class="mdtab<?php if (isset($_SESSION['__materia__']) && $_SESSION['__materia__'] == $mat['id']) echo " mdselected_tab" ?>">
 			<a href="#" onclick="change_subject(<?php echo $mat['id'] ?>)"><span><?php echo $mat['mat'] ?></span></a>
+		</div>
+		<?php
+		}
+		/*
+		 * materia alternativa
+		 */
+		if ($res_alt_sub > 0) {
+		?>
+		<div class="mdtab<?php if (isset($_SESSION['__materia__']) && $_SESSION['__materia__'] == $alt_subject) echo " mdselected_tab" ?>">
+			<a href="#" onclick="change_subject(<?php echo $alt_subject ?>)"><span>Mat. alt.</span></a>
 		</div>
 		<?php
 		}
@@ -227,62 +238,85 @@ if (count($_SESSION['__subjects__']) > 1) {
 $idx = 0;
 $res_dati->data_seek(0);
 while($al = $res_dati->fetch_assoc()){
+	$esonerato = 0;
+	if (in_array($al['alunno'], $esonerati)) {
+		$esonerato = 1;
+	}
+	if (($_SESSION['__materia__'] == 46 || $_SESSION['__materia__'] == 47) && $esonerato == 0) {
+		continue;
+	}
 	$background = "";
 	if($idx%2)
 		$background = "background-color: #e8eaec";
 ?>
 <tr>
-	<td style="width: 40%; padding-left: 8px; font-weight: bold;"><?php if($idx < 9) print "&nbsp;&nbsp;"; ?><?php echo ($idx+1).". " ?>
+	<td style="width: 40%; padding-left: 8px; font-weight: bold;<?php if($esonerato == 1 && ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30)) echo "background-color: #DDDDDD" ?>"><?php if($idx < 9) print "&nbsp;&nbsp;"; ?><?php echo ($idx+1).". " ?>
 		<span style="font-weight: normal"><?php print $al['cognome']." ".$al['nome']?></span>
 	</td>
-	<td style="width: 10%; text-align: center; font-weight: normal;">
-	<?php 
-	if (!$readonly){
+	<?php
+	if ($esonerato == 1 && ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30)) {
 	?>
-		<select name="sel_<?php echo $al['alunno'] ?>" style="width: 75px; height: 15px; font-size: 11px" onchange="upd_grade(this, <?php echo $al['alunno'] ?>)">
-			<option value="0">NC</option>
-			<?php 
-			if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30){
-			?>
-			<option value='10' <?php if($al['voto'] == 10) print "selected" ?>>Ottimo</option>
-			<option value='9' <?php if($al['voto'] == 9) print "selected" ?>>Distinto</option>
-			<option value='8' <?php if($al['voto'] == 8) print "selected" ?>>Buono</option>
-			<option value='6' <?php if($al['voto'] == 6) print "selected" ?>>Sufficiente</option>
-			<option value='4' <?php if($al['voto'] == 4) print "selected" ?>>Insufficiente</option>
-			<?php 
-			}
-			else{
-				for($i = 10; $i > 0; $i--){ 
-			?>
-			<option value="<?php echo $i ?>" <?php if($al['voto'] == $i) print "selected" ?>><?php echo $i ?></option>
-			<?php 
-				} 
-			}
-			?>
-		</select>
-	<?php 
+	<td colspan="2" class="_bold _center" style="background-color: #DDDDDD">Esonerato</td>
+	<?php
 	}
 	else {
-		if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30){
 	?>
-		<span><?php echo $voti_religione[RBUtilities::convertReligionGrade($al['voto'])] ?></span>
-	<?php
+	<td style="width: 10%; text-align: center; font-weight: normal;">
+		<?php
+		if (!$readonly) {
+			?>
+			<select name="sel_<?php echo $al['alunno'] ?>" style="width: 75px; height: 15px; font-size: 11px" onchange="upd_grade(this, <?php echo $al['alunno'] ?>)">
+				<option value="0">NC</option>
+				<?php
+				if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30) {
+				?>
+				<option value='10' <?php if ($al['voto'] == 10) print "selected" ?>>Ottimo</option>
+				<option value='9' <?php if ($al['voto'] == 9) print "selected" ?>>Distinto</option>
+				<option value='8' <?php if ($al['voto'] == 8) print "selected" ?>>Buono</option>
+				<option value='6' <?php if ($al['voto'] == 6) print "selected" ?>>Sufficiente</option>
+				<option value='4' <?php if ($al['voto'] == 4) print "selected" ?>>Insufficiente</option>
+				<?php
+				}
+				else {
+					for ($i = 10; $i > 0; $i--) {
+					?>
+					<option value="<?php echo $i ?>" <?php if ($al['voto'] == $i) print "selected" ?>><?php echo $i ?></option>
+				<?php
+					}
+				}
+				?>
+			</select>
+		<?php
 		}
 		else {
-	?>
-		<span><?php echo $al['voto'] ?></span>
-	<?php
+			if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30) {
+				?>
+				<span><?php echo $voti_religione[RBUtilities::convertReligionGrade($al['voto'])] ?></span>
+			<?php
+			}
+			else {
+				?>
+				<span><?php echo $al['voto'] ?></span>
+			<?php
+			}
 		}
-	}
-	?>
+		?>
 		<span id="grade_<?php echo $al['alunno'] ?>" style="margin-left: 15px; display: none"></span>
 	</td>
 	<td style="width: 10%; text-align: center; font-weight: normal">
-		<span id="abstd_<?php echo $al['alunno'] ?>" style="<?php if ($ordine_scuola == 1) : ?>font-weight: bold;<?php endif; ?> font-size: 1.1em"><?php if ($ordine_scuola == 1) echo $al['assenze']; else echo "ND" ?></span>
+		<span id="abstd_<?php echo $al['alunno'] ?>" style="<?php if ($ordine_scuola == 1) : ?>font-weight: bold;<?php endif; ?> font-size: 1.1em">
+			<?php if ($ordine_scuola == 1) {
+				echo $al['assenze'];
+			}
+			else {
+				echo "ND";
+			} ?>
+		</span>
 		<span id="abs_<?php echo $al['alunno'] ?>" style="margin-left: 15px; display: none"></span>
 	</td>
-</tr>
-<?php
+	</tr>
+	<?php
+	}
 	$idx++; 
 }
 ?>
