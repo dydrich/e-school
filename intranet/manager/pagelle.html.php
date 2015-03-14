@@ -140,7 +140,7 @@
 			do_backup(y, q, <?php echo $_SESSION['__school_order__'] ?>);
 		});
 		<?php endif; ?>
-		<?php if((isset($pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti']) && $pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti'] == "") || (isset($_REQUEST['force_modification']) && $_REQUEST['force_modification'] == 3)){ ?>
+		<?php if((isset($pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti']) && $pagelle[$_SESSION['__current_year__']->get_ID()][2]['disponibili_docenti'] == "") || (isset($_REQUEST['force_modification']) && $_REQUEST['force_modification'] == 2)){ ?>
 		$('#publisher').click(function(event){
 			event.preventDefault();
 			//alert(3);
