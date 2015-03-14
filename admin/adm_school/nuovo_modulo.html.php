@@ -3,6 +3,7 @@
 <head>
 	<title>Nuovo modulo</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
 	<link href="../../css/general.css" rel="stylesheet" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />

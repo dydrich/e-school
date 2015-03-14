@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<meta name="author" content="" />
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" />
@@ -113,12 +114,12 @@
 		<?php include "../adm_users/menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div style="position: absolute; top: 75px; left: 775px; margin-bottom: -5px" class="rb_button">
+		<div style="position: absolute; top: 75px; left: 53%; margin-bottom: -5px" class="rb_button">
 			<a href="#" id="filter_button">
 				<img src="../../images/7.png" style="padding: 12px 0 0 12px" />
 			</a>
 		</div>
-		<div style="position: absolute; top: 75px; left: 855px; margin-bottom: -5px" class="rb_button">
+		<div style="position: absolute; top: 75px; left: 57%; margin-bottom: -5px" class="rb_button">
 			<a href="dettaglio_alunno.php?id=0&type=0">
 				<img src="../../images/39.png" style="padding: 12px 0 0 12px" />
 			</a>

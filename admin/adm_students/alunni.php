@@ -174,6 +174,6 @@ $count_name = "count_alunni";
 $row_class = "admin_void";
 
 $navigation_label = "gestione utenti";
-$drawer_label = "Elenco alunni: pagina $page di $pagine (estratti ".$_SESSION['count_alunni']." alunni) <span style='text-decoration: underline'>$query_label</span>";
+$drawer_label = "Elenco alunni: pagina $page di $pagine (estratti ".$_SESSION['count_alunni']." alunni) "; //<span style='text-decoration: underline'>$query_label</span>";
 
 include "alunni.html.php";
