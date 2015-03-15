@@ -4,7 +4,7 @@ require_once "SchoolPDF.php";
 
 class ReportPDF extends SchoolPDF {
 
-	public function createFirstPage($st, $esito, $vt1, $vt2, $vr, $cdc, $doc_rel){
+	public function createFirstPage($st, $esito, $vt1, $vt2, $vr, $cdc, $doc_rel, $esonerato){
 		$final_letter = "o";
 		$suffix = "gli";
 		if($st['sesso'] == "F"){
@@ -90,6 +90,15 @@ class ReportPDF extends SchoolPDF {
 		$grades_4 = array();
 		for ($i = 0; $i < $max; $i++){
 			//$this->SetX(40);
+			if ($esonerato == 2 && $vt1[$i]['desc_mat'] == "Comportamento") {
+				$this->setCellPaddings(10, 0, 0, 0);
+				$this->Cell(120, 6, "Materia alternativa", 'LR', 0, 'L', $fill);
+				$this->SetCellPadding(0);
+				$this->Cell(30, 6, $vr[1], 'LR', 0, 'C', $fill);
+				$this->Cell(30, 6, $vr[2], 'LR', 0, 'C', $fill);
+				$this->Ln();
+				$fill=!$fill;
+			}
 			$this->setCellPaddings(10, 0, 0, 0);
 			$this->Cell(120, 6, $vt1[$i]['desc_mat'], 'LR', 0, 'L', $fill);
 			$this->SetCellPadding(0);
@@ -114,7 +123,9 @@ class ReportPDF extends SchoolPDF {
 			$this->Ln();
 			$fill=!$fill;
 		}
+
 		$this->Cell(180, 0, '', 'T');
+		$this->Ln();
 		$this->Ln();
 		$this->SetFont('helvetica', '', '10');
 		$this->MultiCell(100, 10, "Il consiglio di classe: {$cdc}", 0, 'L', false, 0, 15);
@@ -125,9 +136,15 @@ class ReportPDF extends SchoolPDF {
 
 		$voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
 		$rel = true;
+		/*
 		if ($vr[2] == 0 || $vr[2] == ''){
 			$rel = false;
 		}
+		*/
+		if ($esonerato > 0) {
+			$rel = false;
+		}
+
 		// religione
 		if ($rel){
 			$this->setPage(2, true);

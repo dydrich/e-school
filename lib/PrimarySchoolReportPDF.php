@@ -4,7 +4,7 @@ require_once "SchoolPDF.php";
 
 class PrimarySchoolReportPDF extends SchoolPDF {
 
-	public function createFirstPage($st, $esito, $vt1, $vt2, $vr, $param, $vals1q, $vals2q, $cdc) {
+	public function createFirstPage($st, $esito, $vt1, $vt2, $vr, $param, $vals1q, $vals2q, $cdc, $esonerato) {
 		$final_letter = "o";
 		if($st['sesso'] == "F"){
 			$final_letter = "a";
@@ -98,7 +98,15 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 		$max = count($vt1);
 		for ($i = 0; $i < $max; $i++){
 			//$this->SetX(40);
-
+			if ($esonerato == 2 && $vt1[$i]['desc_mat'] == "Comportamento") {
+				$this->setCellPaddings(10, 0, 0, 0);
+				$this->Cell(120, 6, "Materia alternativa", 'LR', 0, 'L', $fill);
+				$this->SetCellPadding(0);
+				$this->Cell(30, 6, $vr[1], 'LR', 0, 'C', $fill);
+				$this->Cell(30, 6, $vr[2], 'LR', 0, 'C', $fill);
+				$this->Ln();
+				$fill=!$fill;
+			}
 			$this->setCellPaddings(10, 0, 0, 0);
 			$this->Cell(100, 6, $vt1[$i]['desc_mat'], 'LR', 0, 'L', $fill);
 			$this->SetCellPadding(0);
@@ -205,7 +213,7 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 
 		$voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
 		$rel = true;
-		if ($vr[2] == 0 || $vr[2] == ''){
+		if ($esonerato > 0) {
 			$rel = false;
 		}
 		// religione

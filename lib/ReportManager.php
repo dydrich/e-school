@@ -231,6 +231,20 @@ class ReportManager {
 		$students = "SELECT id_alunno, nome, cognome, data_nascita, luogo_nascita, sesso, rb_alunni.id_classe, anno_corso, sezione FROM rb_alunni, rb_classi WHERE rb_alunni.id_classe = rb_classi.id_classe AND attivo = '1' AND ordine_di_scuola = ".$this->schoolOrder;
 		$res_students = $this->datasource->executeQuery($students);
 		$stn = count($res_students);
+
+		$esonerati = array();
+		$sel_esonerati = "SELECT alunno FROM rb_esoneri_religione WHERE anno = {$this->year}";
+		$res_esonerati = $this->datasource->executeQuery($sel_esonerati);
+		if (count($res_esonerati) > 0) {
+			$esonerati = $res_esonerati;
+		}
+
+		$materia_alternativa = array();
+		$sel_mat_alt = "SELECT classe FROM rb_materia_alternativa WHERE anno = {$this->year}";
+		$res_mat_alt = $this->datasource->executeQuery($sel_mat_alt);
+		if (count($res_mat_alt) > 0) {
+			$materia_alternativa = $res_mat_alt;
+		}
 		
 		// parametri
 		if ($this->schoolOrder == 2){
@@ -242,6 +256,14 @@ class ReportManager {
 			$student_name = $student['cognome']."-".$student['nome'];
 			$student_name = preg_replace("/ /", "", $student_name);
 			$student_name = preg_replace("/\'/", "", $student_name);
+
+			$esonerato = 0;
+			if (in_array($student['id_alunno'], $esonerati)) {
+				$esonerato = 1;
+				if (in_array($student['id_classe'], $materia_alternativa)) {
+					$esonerato = 2;
+				}
+			}
 
 			$sel_cdc = "SELECT uid, nome, cognome, id_materia as materia FROM rb_utenti, rb_docenti, rb_cdc WHERE uid = rb_docenti.id_docente AND rb_docenti.id_docente = rb_cdc.id_docente AND rb_cdc.id_anno = {$this->year} AND rb_cdc.id_classe = ".$student['id_classe']." ORDER BY cognome, nome";
 			$res_cdc = $this->datasource->executeQuery($sel_cdc);
@@ -262,6 +284,22 @@ class ReportManager {
 					$ids[] = $doc['uid'];
 				}
 			}
+			/*
+			 * materia alternativa
+			 */
+			if (in_array($student['id_classe'], $materia_alternativa)) {
+				$sel_doc_mat_alt = "SELECT uid, nome, cognome FROM rb_utenti, rb_materia_alternativa WHERE uid = docente AND anno = {$this->year} AND classe = ".$student['id_classe']." ORDER BY cognome, nome";
+				echo $sel_doc_mat_alt;
+				$res_doc_mat_alt = $this->datasource->executeQuery($sel_doc_mat_alt);
+				$alt_doc = $res_doc_mat_alt[0];
+				if(!in_array($alt_doc['uid'], $ids)){
+					$cdc .= $alt_doc['cognome']." ".substr($alt_doc['nome'], 0, 1)."., ";
+				}
+				$ids[] = $alt_doc['uid'];
+			}
+			/*
+			 * sostegno
+			 */
 			$sel_sos = "SELECT uid, nome, cognome FROM rb_utenti, rb_assegnazione_sostegno WHERE uid = rb_assegnazione_sostegno.docente AND rb_assegnazione_sostegno.anno = {$this->year} AND rb_assegnazione_sostegno.classe = ".$student['id_classe'];
 			$res_sos = $this->datasource->executeQuery($sel_sos);
 			if($res_sos && count($res_sos) > 0){
@@ -280,7 +318,7 @@ class ReportManager {
 			$sel_voti_q2 = "SELECT rb_scrutini.*, rb_materie.materia AS desc_mat, rb_materie.id_materia FROM rb_scrutini, rb_materie WHERE alunno = {$student['id_alunno']} AND anno = {$this->year} AND rb_scrutini.materia = id_materia AND id_materia != {$id_religione} AND quadrimestre = 2 ORDER BY posizione_pagella ";
 			$voti_q2 = $this->datasource->executeQuery($sel_voti_q2);
 			/*
-			 * religione
+			 * religione o materia alternativa
 			 */
 			$sel_religione = "SELECT voto, quadrimestre FROM rb_scrutini, rb_materie WHERE alunno = {$student['id_alunno']} AND anno = {$this->year} AND rb_scrutini.materia = {$id_religione} ORDER BY quadrimestre ASC";
 			$vreligione = $this->datasource->executeQuery($sel_religione);
@@ -351,10 +389,10 @@ class ReportManager {
 			
 			if ($this->schoolOrder == 2){
 				$pdf->AddPage("P", "A4");
-				$pdf->createFirstPage($student, $esito[0], $voti_q1, $voti_q2, $voto_rel, $res_param, $vals1q, $vals2q, $cdc);
+				$pdf->createFirstPage($student, $esito[0], $voti_q1, $voti_q2, $voto_rel, $res_param, $vals1q, $vals2q, $cdc, $esonerato);
 			}
 			else {
-				$pdf->createFirstPage($student, $esito[0], $voti_q1, $voti_q2, $voto_rel, $cdc, $doc_religione);
+				$pdf->createFirstPage($student, $esito[0], $voti_q1, $voti_q2, $voto_rel, $cdc, $doc_religione, $esonerato);
 			}
 			//$pdf->report($student, $voti_q1, $voti_q2, $esito);
 			$pdf->Output($file, 'F');
