@@ -109,12 +109,11 @@ input.student_enter, input.student_exit {
 	text-decoration: none;
 	font-size: 1em;
 	text-transform: uppercase;
-	text-decoration: none
 }
 
 #head_label {
     float: left;
-    width: 500px;
+    width: 550px;
     margin-left: 20px;
     color: #FFFFFF;
     height: 30px;
