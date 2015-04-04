@@ -221,7 +221,7 @@
 			$.ajax({
 				type: "POST",
 				url: url,
-				data: {cls: selected_class.id, source: "cdc", school_order: <?php echo $_GET['school_order'] ?>},
+				data: {cls: selected_class.id, source: "cdc", school_order: <?php echo $_GET['school_order'] ?>, act: param},
 				dataType: 'json',
 				error: function() {
 					console.log(json.dbg_message);
@@ -254,7 +254,7 @@
 
 							for (i in links) {
 								dt = links[i];
-								$("<a href='../shared/no_js.php' style='padding-left: 8px' id='add_" + dt.id_materia + " class='add_link''>" + dt.materia + "</a><br />").appendTo($('#cl_add_div'));
+								$("<a href='../shared/no_js.php' style='padding-left: 8px' id='add_" + dt.id_materia + "' class='add_link'>" + dt.materia + "</a><br />").appendTo($('#cl_add_div'));
 							}
 							$('#cl_add_div').mouseleave(function (event) {
 								event.preventDefault();

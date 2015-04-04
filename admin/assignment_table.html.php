@@ -192,7 +192,7 @@
 			$.ajax({
 				type: "POST",
 				url: url,
-				data:  {cls: selected_class.id, source: "scr", quadrimestre: <?php echo $_REQUEST['quadrimestre'] ?> },
+				data:  {cls: selected_class.id, source: "scr", quadrimestre: <?php echo $_REQUEST['quadrimestre'] ?>, act: param },
 				dataType: 'json',
 				error: function() {
 					console.log(json.dbg_message);

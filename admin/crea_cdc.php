@@ -7,6 +7,7 @@ check_permission(ADM_PERM);
 
 header("Content-type: application/json");
 $response = array("status" => "ok");
+$msg = "ok";
 
 $action = "insert";
 if (isset($_REQUEST['action']) && $_REQUEST['action']) {
@@ -32,7 +33,7 @@ if ($action == "cl_delete" || $action == "cl_reinsert" || $action == "cl_ins_sub
 		exit;
 	}
 	$selected_class = "WHERE id_classe = ".$_REQUEST['cls'];
-	$class_to_update = "AND id_classe = ".$_REQUEST['cls'];
+	$class_to_update = "AND rb_classi.id_classe = ".$_REQUEST['cls'];
 }
 else if ($_REQUEST['school_order']){
 	$selected_class = "WHERE ordine_di_scuola = {$_REQUEST['school_order']}";
