@@ -60,13 +60,15 @@ switch($q){
 		$label .= ", primo quadrimestre";
 		$fq = $fine_q;
 		$min = $_tday < $fq ? $_tday : $fq;
-		$par_tot = "AND data <= '{$min}'";
+		//$par_tot = "AND data <= '{$min}'";
+		$par_tot = "AND data <= NOW()";
 		break;
 	case 2:
 		$int_time = "AND (data_voto > '".$fine_q."' AND data_voto <= NOW()) ";
 		$scr_par = "AND quadrimestre = {$q}";
 		$label .= ", secondo quadrimestre";
-		$par_tot = "AND (data > '".$fine_q."' AND data <= NOW()) ";
+		//$par_tot = "AND (data > '".$fine_q."' AND data <= NOW()) ";
+		$par_tot = "AND data <= NOW()";
 }
 
 /*

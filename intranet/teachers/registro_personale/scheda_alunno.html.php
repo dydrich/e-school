@@ -185,7 +185,7 @@
 				<?php
 				if ($somma_uscite['giorni_anticipo'] > 0) {
 					?>
-					Ritardi: <?php echo $somma_uscite['giorni_anticipo'] ?> per un totale di <?php echo substr($somma_uscite['ore_perse'], 0, 5) ?> ore
+					Uscite anticipate: <?php echo $somma_uscite['giorni_anticipo'] ?> per un totale di <?php echo substr($somma_uscite['ore_perse'], 0, 5) ?> ore
 				<?php
 				}
 				else {

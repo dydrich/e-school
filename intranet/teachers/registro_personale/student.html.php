@@ -239,7 +239,7 @@
 					descrizione: $('#descrizione').val(),
 					tipologia: $('#tipo').val(),
 					argomento: $('#argomento').val(),
-					$note: $('#note').val(),
+					note: $('#note').val(),
 					privato: $('#privato').val(),
 					verifica: $('#id_verifica').val(),
 					q: <?php echo $q ?>
@@ -686,8 +686,8 @@ else{
 }
 ?>
 <tr style="height: 30px"> 
-	<td colspan="4" style="text-align: left"><a href="<?php echo $link_p ?>" style="margin-left: 30px; font-weight: normal; text-decoration: none">&lt;&lt; <?php echo $text_p ?></a></td> 
-	<td colspan="2" style="text-align: right"><a href="<?php echo $link_n  ?>" style="margin-right: 30px; font-weight: normal; text-decoration: none"><?php echo $text_n ?> &gt;&gt;</a></td> 
+	<td colspan="4" style="text-align: left"><a href="<?php echo $link_p ?>" style="margin-left: 30px; font-weight: normal; text-decoration: none">&lt;&lt; <?php echo $text_p ?></a></td>
+	<td colspan="2" style="text-align: right"><a href="<?php echo $link_n ?>" style="margin-right: 30px; font-weight: normal; text-decoration: none"><?php echo $text_n ?> &gt;&gt;</a></td>
 </tr>
 </tfoot>
 </table>
