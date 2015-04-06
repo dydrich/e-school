@@ -13,6 +13,7 @@
 		var tempX = 0;
 		var tempY = 0;
 
+		var school_order = <?php echo $school_order ?>;
 		var scr_records = [];
 		<?php
 		$res_scr->data_seek(0);
@@ -47,15 +48,16 @@
 				cls = selected_class.id;
 			}
 
-			if (!confirm("Sei sicuro di voler reinserire i record nella tabella? Questa operazione cancellera` tutti i dati inseriti "+and_class+".")) {
+			if (!confirm("Sei sicuro di voler reinserire i record nella tabella? Questa operazione cancellerà tutti i dati inseriti "+and_class+".")) {
 				return false;
 			}
-			var url = "popola_tabella_scrutini.php";
+
+			var url = "eoyevaluation_manager.php";
 
 			$.ajax({
 				type: "POST",
 				url: url,
-				data: {quadrimestre: <?php echo $_REQUEST['quadrimestre'] ?>, action: action, cls: cls},
+				data: {quadrimestre: <?php echo $_REQUEST['quadrimestre'] ?>, action: action, cls: cls, school_order: school_order},
 				dataType: 'json',
 				error: function() {
 					console.log(json.dbg_message);
@@ -87,17 +89,18 @@
 
 		var del_subject = function(subject){
 			action = "del_subject";
-			cls = null;
+			cls = 0;
 			if (need_class) {
 				action = "cl_del_subject";
 				cls = selected_class.id;
 			}
-			var url = "popola_tabella_scrutini.php";
+
+			var url = "eoyevaluation_manager.php";
 
 			$.ajax({
 				type: "POST",
 				url: url,
-				data: {quadrimestre: <?php echo $_REQUEST['quadrimestre'] ?>, action: action, subject: subject, cls: cls},
+				data: {quadrimestre: <?php echo $_REQUEST['quadrimestre'] ?>, action: action, subject: subject, cls: cls, school_order: school_order},
 				dataType: 'json',
 				error: function() {
 					console.log(json.dbg_message);
@@ -129,17 +132,18 @@
 
 		var add_subject = function(subject){
 			action = "ins_subject";
-			cls = null;
+			cls = 0;
 			if (need_class) {
 				action = "cl_ins_subject";
 				cls = selected_class.id;
 			}
-			var url = "popola_tabella_scrutini.php";
+
+			var url = "eoyevaluation_manager.php";
 
 			$.ajax({
 				type: "POST",
 				url: url,
-				data: {quadrimestre: <?php echo $_REQUEST['quadrimestre'] ?>, action: action, subject: subject, cls: cls},
+				data: {quadrimestre: <?php echo $_REQUEST['quadrimestre'] ?>, action: action, subject: subject, cls: cls, school_order: school_order},
 				dataType: 'json',
 				error: function() {
 					console.log(json.dbg_message);
@@ -269,6 +273,168 @@
 			});
 		};
 
+		var load_students = function(event, param){
+			var url = "get_students.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data:  {cls: selected_class.id, source: "scr", quadrimestre: <?php echo $_REQUEST['quadrimestre'] ?>, action: param },
+				dataType: 'json',
+				error: function() {
+					console.log(json.dbg_message);
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						console.log(json.dbg_message);
+						console.log(json.query);
+						j_alert("error", json.message);
+					}
+					else if (json.status == "ko") {
+						j_alert("error", json.message);
+						return;
+					}
+					else{
+						links = json.data;
+						if (param == 'add') {
+							$('#st_add_div').html("");
+							_p = document.createElement("p");
+							_p.appendChild(document.createTextNode("Aggiungi uno studente"));
+							$(_p).addClass("pop_label");
+
+							$(_p).appendTo($('#st_add_div'));
+							for (i in links) {
+								dt = links[i];
+								$("<a href='../shared/no_js.php' style='padding-left: 5px' id='stadd_" + dt.id + "' data-id='" + dt.id + "' class='stadd_link'>" + dt.name + "</a><br />").appendTo($('#st_add_div'));
+							}
+							$('.stadd_link').mouseover(function(event) {
+								$(this).css({fontSize: '16px', fontWeight: 'bold'});
+							});
+							$('.stadd_link').mouseleave(function(event) {
+								$(this).css({fontSize: '13px', fontWeight: 'normal'});
+							});
+							$('#st_add_div').mouseleave(function (event) {
+								event.preventDefault();
+								$('#st_add_div').hide();
+							});
+							$('.stadd_link').click(function (event) {
+								event.preventDefault();
+								var _id = $(this).attr("data-id");
+								change_student('add', _id);
+							});
+						}
+						else if (param == 'sub') {
+							/*
+							 st_del_div
+							 */
+							$('#st_del_div').html("");
+							_p = document.createElement("p");
+							_p.appendChild(document.createTextNode("Elimina uno studente"));
+							$(_p).addClass("pop_label");
+							$(_p).appendTo($('#st_del_div'));
+
+							for (i in links) {
+								ar = links[i];
+								$("<a href='../shared/no_js.php' style='padding-left: 5px' id='stdel_" + ar.id + "' data-id='" + ar.id + "' class='stdel_link'>"+ar.name+"</a><br />").appendTo($('#st_del_div'));
+							}
+							$('.stdel_link').mouseover(function(event) {
+								$(this).css({fontSize: '16px', fontWeight: 'bold'});
+							});
+							$('.stdel_link').mouseleave(function(event) {
+								$(this).css({fontSize: '13px', fontWeight: 'normal'});
+							});
+							$('#st_del_div').mouseleave(function(event){
+								event.preventDefault();
+								$('#st_del_div').hide();
+							});
+							$('.stdel_link').click(function(event){
+								event.preventDefault();
+								var _id = $(this).attr("data-id");
+								change_student('del', _id);
+							});
+						}
+						else if (param == 'reinsert') {
+							/*
+							 st_del_div
+							 */
+							$('#st_rei_div').html("");
+							_p = document.createElement("p");
+							_p.appendChild(document.createTextNode("Reinserisci uno studente"));
+							$(_p).addClass("pop_label");
+							$(_p).appendTo($('#st_rei_div'));
+
+							for (i in links) {
+								sar = links[i];
+								$("<a href='../shared/no_js.php' style='padding-left: 5px' id='strei_" + sar.id + "' data-id='" + sar.id + "' class='strei_link'>"+sar.name+"</a><br />").appendTo($('#st_rei_div'));
+							}
+							$('.strei_link').mouseover(function(event) {
+								$(this).css({fontSize: '16px', fontWeight: 'bold'});
+							});
+							$('.strei_link').mouseleave(function(event) {
+								$(this).css({fontSize: '13px', fontWeight: 'normal'});
+							});
+							$('#st_rei_div').mouseleave(function(event){
+								event.preventDefault();
+								$('#st_rei_div').hide();
+							});
+							$('.strei_link').click(function(event){
+								event.preventDefault();
+								var _id = $(this).attr("data-id");
+								change_student('reinsert', _id);
+							});
+						}
+					}
+				}
+			});
+		};
+
+		var change_student = function (act, student) {
+			cls = selected_class.id;
+
+			action = act + "_student";
+			var url = "eoyevaluation_manager.php";
+
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {quadrimestre: <?php echo $_REQUEST['quadrimestre'] ?>, action: action, cls: cls, student: student, school_order: school_order},
+				dataType: 'json',
+				error: function() {
+					console.log(json.dbg_message);
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						console.log(json.dbg_message);
+						console.log(json.query);
+						j_alert("error", json.message);
+					}
+					else {
+						j_alert("alert", "Operazione conclusa");
+						setTimeout(function() {
+							document.location.href = document.location.href;
+						}, 1500);
+					}
+				}
+			});
+		};
+
 		var show_menu = function(e, div) {
 			if (div == "add_div") {
 				$('#del_div').hide();
@@ -356,8 +522,8 @@
 			$('#menu_div').mouseleave(function(event){
 				event.preventDefault();
 		        $('#menu_div').hide();
-				$('#cl_add_div').hide();
-				$('#cl_del_div').hide();
+				//$('#cl_add_div').hide();
+				//$('#cl_del_div').hide();
 				$('#tr'+selected_class.id).removeClass("accent_decoration");
 		    });
 			$('.del_link').click(function(event){
@@ -410,6 +576,30 @@
 				off.left -= 30;
 				show_list(event, off, '#cl_del_div');
 		    });
+			$('#st_add').click(function(event){
+				event.preventDefault();
+				need_class = true;
+				load_students(event, 'add');
+				var off = $(this).parent().offset();
+				off.left -= 30;
+				show_list(event, off, '#st_add_div');
+			});
+			$('#st_sub').click(function(event){
+				event.preventDefault();
+				need_class = true;
+				load_students(event, 'sub');
+				var off = $(this).parent().offset();
+				off.left -= 30;
+				show_list(event, off, '#st_del_div');
+			});
+			$('#st_rei').click(function(event){
+				event.preventDefault();
+				need_class = true;
+				load_students(event, 'reinsert');
+				var off = $(this).parent().offset();
+				off.left -= 30;
+				show_list(event, off, '#st_rei_div');
+			});
 			$('#overlay').on("click", function(event){
 				if ($('#overlay').is(':visible')) {
 					show_drawer(event);
@@ -472,14 +662,6 @@
 	        <tr class="admin_void">
                 <td colspan="3"></td>
             </tr>
-            <tr class="admin_menu">
-                <td colspan="3">
-                	<a href="index.php" class="standard_link nav_link_last">Torna menu</a>
-                </td>
-            </tr>
-            <tr class="admin_void">
-                <td colspan="3"></td>
-            </tr>
         </table>
     </div>
     <div id="del_div" style="width: 240px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; display: none; background-color: #FFFFFF">
@@ -505,11 +687,17 @@
     </div>
     <div id="cl_add_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 2px 2px 2px 2px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888"></div>
     <div id="cl_del_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 2px 2px 2px 2px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888"></div>
+	<div id="st_add_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 2px 2px 2px 2px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888"></div>
+	<div id="st_del_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 2px 2px 2px 2px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888"></div>
+	<div id="st_rei_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 2px 2px 2px 2px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888"></div>
     <div id="menu_div" style="width: 200px; position: absolute; padding: 0px 0 10px 0px; border: 1px solid #AAAAAA; border-radius: 2px 2px 2px 2px; display: none; background-color: #FFFFFF; box-shadow: 0 0 8px  #888">
     	<p id="menu_label" style="text-align: center; padding: 2px 0 2px 0; width: 100%; font-weight: bold; margin-bottom: 8px; "></p>
     	<a href="../shared/no_js.php" id="cl_rei" style="padding-left: 10px;">Reinserisci tutto</a><br />
     	<a href="../shared/no_js.php" id="cl_add" style="padding-left: 10px;">Aggiungi una materia</a><br />
     	<a href="../shared/no_js.php" id="cl_sub" style="padding-left: 10px;">Elimina una materia</a><br />
+	    <a href="../shared/no_js.php" id="st_rei" style="padding-left: 10px;">Reinserisci un alunno</a><br />
+	    <a href="../shared/no_js.php" id="st_add" style="padding-left: 10px;">Aggiungi un alunno</a><br />
+	    <a href="../shared/no_js.php" id="st_sub" style="padding-left: 10px;">Elimina un alunno</a><br />
     	<!-- 
     	<a href="../shared/no_js.php" id="cl_inv" style="padding-left: 10px;">Alunni non validati</a><br />
     	<a href="../shared/no_js.php" id="cl_ver" style="padding-left: 10px;">Verifica i dati</a>

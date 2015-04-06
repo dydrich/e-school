@@ -18,8 +18,18 @@
 		var cdc_created = <?php print $exist_cdc ?>;
 		var reg_created = <?php print $exist_reg ?>;
 		var schedule_created = <?php print $exist_sch ?>;
-		var scr_created1 = <?echo $count_data1 ?>;
-		var scr_created2 = <?echo $count_data2 ?>;
+		var scr_sl1_created1 = <?echo $count_sl1_data1 ?>;
+		var scr_sl1_created2 = <?echo $count_sl1_data2 ?>;
+		var scr_sl2_created1 = <?echo $count_sl2_data1 ?>;
+		var scr_sl2_created2 = <?echo $count_sl2_data2 ?>;
+
+		var scrutini = [];
+		scrutini[1] = [];
+		scrutini[2] = [];
+		scrutini[1][1] = <?echo $count_sl1_data1 ?>;
+		scrutini[2][1] = <?echo $count_sl1_data2 ?>;
+		scrutini[1][2] = <?echo $count_sl2_data1 ?>;
+		scrutini[2][2] = <?echo $count_sl2_data2 ?>;
 
 		var tm = 0;
 		var complete = false;
@@ -31,7 +41,7 @@
 
 		function crea_cdc(){
 			if(cdc_created){
-				if(!confirm("I dati relativi ai consigli di classe sono gia' presenti in archivio. Vuoi modificarli?")) {
+				if(!confirm("I dati relativi ai consigli di classe sono già presenti in archivio. Vuoi modificarli?")) {
 					return false;
 				}
 				else {
@@ -72,7 +82,7 @@
 		function crea_orario(){
 			action = "insert";
 			if(schedule_created){
-				if(!confirm("I dati relativi all'orario sono gia' presenti in archivio. Vuoi cancellarli e ricrearli? ATTENZIONE: cliccando su OK tutte le modifiche apportate all'orario verranno perse.")) {
+				if(!confirm("I dati relativi all'orario sono già presenti in archivio. Vuoi cancellarli e ricrearli? ATTENZIONE: cliccando su OK tutte le modifiche apportate all'orario verranno perse.")) {
 					return false;
 				}
 				else {
@@ -116,7 +126,7 @@
 			today = new Date();
 			y = today.getFullYear();
 			if(count_year > 0){
-				alert("L'anno e' gia' presente in archivio");
+				alert("L'anno è già presente in archivio");
 				return false;
 			}
 			document.location.href = "year.php?do=new";
@@ -124,7 +134,7 @@
 
 		var crea_registro = function(){
 			if(reg_created){
-				if(!confirm("I dati relativi al registro di classe sono gia' presenti in archivio. Vuoi modificarli?")) {
+				if(!confirm("I dati relativi al registro di classe sono già presenti in archivio. Vuoi modificarli?")) {
 					return false;
 				}
 				else {
@@ -133,18 +143,18 @@
 				}
 			}
 			var url = "classbook_manager.php";
-			leftS = (screen.width - 200) / 2;
-			$('#wait_label').css("left", leftS+"px");
-			$('#wait_label').css("top", "300px");
-			$('#over1').show();
-			$('#wait_label').show(800);
+			background_process("Operazione in corso", 20, true);
 			$.ajax({
 				type: "POST",
 				url: url,
 				data: {action: "insert"},
 				dataType: 'json',
 				error: function() {
-					show_error("Errore di trasmissione dei dati");
+					clearTimeout(bckg_timer);
+					$('#background_msg').text("Errore di trasmissione dei dati");
+					setTimeout(function() {
+						$('#background_msg').dialog("close");
+					}, 2000);
 				},
 				succes: function() {
 
@@ -157,56 +167,65 @@
 					var json = $.parseJSON(r);
 					if (json.status == "kosql"){
 						console.log(json.dbg_message);
-						$('#wait_label').text(json.message);
-						setTimeout("$('#wait_label').hide(2000)", 2000);
-						setTimeout("$('#overlay').hide()", 3800);
+						console.log(json.dbg_message);
+						clearTimeout(bckg_timer);
+						$('#background_msg').text(json.message);
+						setTimeout(function() {
+							$('#background_msg').dialog("close");
+						}, 2000);
 
 					}
 					else if(json.status == "ko"){
-						$('#wait_label').text(json.message);
-						setTimeout("$('#wait_label').hide(2000)", 2000);
-						setTimeout("$('#overlay').hide()", 3800);
+						console.log(json.dbg_message);
+						clearTimeout(bckg_timer);
+						$('#background_msg').text(json.message);
+						setTimeout(function() {
+							$('#background_msg').dialog("close");
+						}, 2000);
 		                return;
 					}
 					else {
-						$('#wait_label').text("Operazione conclusa");
-						setTimeout("$('#wait_label').hide(2000)", 2000);
-						setTimeout("$('#over1').hide()", 3800);
+						clearTimeout(bckg_timer);
+						$('#background_msg').text("Operazione conclusa");
+						setTimeout(function() {
+							$('#background_msg').dialog("close");
+						}, 2000);
 						reg_created = 999;
 					}
 				}
 		    });
-
-			upd_str();
 		};
 
 
-		var pop_scrutini = function(q){
+		var pop_scrutini = function(q, school_level){
 			leftS = (screen.width - 200) / 2;
-			$('#wait_label').css("left", leftS+"px");
-			$('#wait_label').css("top", "300px");
-			$('#over1').show();
-			var myvar = "scr_created"+q;
-			if(eval(myvar) > 0){
-				if(!confirm("I dati relativi agli scrutino per il "+q+" quadrimestre sono gia' presenti in archivio. Vuoi modificarli?")) {
+
+			var myvar = scrutini[q][school_level];
+			if(myvar > 0){
+				if(!confirm("I dati relativi agli scrutini per il "+q+" quadrimestre sono già presenti in archivio. Vuoi modificarli?")) {
+					$('#over1').hide();
 					return false;
 				}
 				else {
-					document.location.href = "assignment_table.php?quadrimestre="+q;
+					document.location.href = "assignment_table.php?quadrimestre="+q+"&school_order="+school_level;
 					return false;
 				}
 			}
 			else{
-				var url = "popola_tabella_scrutini.php";
-				$('#wait_label').show(800);
+				var url = "eoyevaluation_manager.php";
+				background_process("Operazione in corso", 20, true);
 
 				$.ajax({
 					type: "POST",
 					url: url,
-					data: {quadrimestre: q, action: "insert"},
+					data: {quadrimestre: q, action: "insert", school_order: school_level},
 					dataType: 'json',
 					error: function() {
-						show_error("Errore di trasmissione dei dati");
+						clearTimeout(bckg_timer);
+						$('#background_msg').text("Errore di trasmissione dei dati");
+						setTimeout(function() {
+							$('#background_msg').dialog("close");
+						}, 2000);
 					},
 					succes: function() {
 
@@ -221,26 +240,32 @@
 						var json = $.parseJSON(r);
 						if (json.status == "kosql"){
 							console.log(json.dbg_message);
-							$('#wait_label').text(json.message);
-							setTimeout("$('#wait_label').hide(2000)", 2000);
-							setTimeout("$('#overlay').hide()", 3800);
+							clearTimeout(bckg_timer);
+							$('#background_msg').text(json.message);
+							setTimeout(function() {
+								$('#background_msg').dialog("close");
+							}, 2000);
 
 						}
 						else if(json.status == "ko"){
-							$('#wait_label').text(json.message);
-							setTimeout("$('#wait_label').hide(2000)", 2000);
-							setTimeout("$('#overlay').hide()", 3800);
+							clearTimeout(bckg_timer);
+							$('#background_msg').text(json.message);
+							setTimeout(function() {
+								$('#background_msg').dialog("close");
+							}, 2000);
 			                return;
 						}
 						else {
-							$('#wait_label').text("Operazione conclusa");
-							setTimeout("$('#wait_label').hide(2000)", 2000);
-							setTimeout("$('#over1').hide()", 3800);
-							reg_created = 999;
+							clearTimeout(bckg_timer);
+							$('#background_msg').text("Operazione conclusa");
+							setTimeout(function() {
+								$('#background_msg').dialog("close");
+							}, 2000);
+							scrutini[q][school_level] = 999;
 						}
 					}
 			    });
-				upd_str();
+				//upd_str();
 			}
 		};
 
@@ -378,21 +403,17 @@
 			});
 
 
-			$('#sc1_lnk').click(function(event){
+			$('.sc1_lnk').click(function(event){
 				event.preventDefault();
-				pop_scrutini(1);
+				var quad = $(this).attr("data-q");
+				var level = $(this).attr("data-sl");
+				pop_scrutini(1, level);
 			});
-			$('#sc1_lnk_1').click(function(event){
+			$('.sc2_lnk').click(function(event){
 				event.preventDefault();
-				pop_scrutini(1);
-			});
-			$('#sc2_lnk').click(function(event){
-				event.preventDefault();
-				pop_scrutini(2);
-			});
-			$('#sc2_lnk_1').click(function(event){
-				event.preventDefault();
-				pop_scrutini(2);
+				var quad = $(this).attr("data-q");
+				var level = $(this).attr("data-sl");
+				pop_scrutini(2, level);
 			});
 
 			$('._tab').click(function(event){
@@ -728,20 +749,28 @@
             <?php } ?>
         </div>
         <div id="tb7" style="display: none" data-tablabel="scrutini" class="card_container">
-            <?php if ($admin_level == 0): ?>
-            <a href="../shared/no_js.php" id="sc1_lnk">
-	            <div class="card">
-		            <div class="card_title">Scrutini 1 quadrimestre</div>
-		            <div class="card_minicontent">Carica i dati per gli scrutini del I quadrimestre...</div>
-	            </div>
-            </a>
-            <a href="../shared/no_js.php" id="sc2_lnk">
-	            <div class="card">
-		            <div class="card_title">Scrutini II quadrimestre</div>
-		            <div class="card_minicontent">Carica i dati per gli scrutini del II quadrimestre...</div>
-	            </div>
-            </a>
-             <?php endif; ?>
+	        <?php
+	        if((count($_SESSION['__school_level__']) > 1) && $admin_level == 0) {
+		        foreach ($_SESSION['__school_level__'] as $k => $sl) {
+			        if ($admin_level == $k || $admin_level == 0) {
+				        if ($k == 3) continue;
+	        ?>
+	        <div class="card">
+		        <div class="card_title">Scrutini <?php echo $sl ?></div>
+		        <div class="card_minicontent">
+			        <p style="margin: 0">
+				        <a href="../shared/no_js.php" id="link<?php echo $k ?>_1" class="sc1_lnk normal" data-sl="<?php echo $k ?>" data-q="1">Primo quadrimestre</a>
+			        </p>
+			        <p style="margin: 5px 0">
+				        <a href="../shared/no_js.php" id="link<?php echo $k ?>_2" class="sc2_lnk normal" data-sl="<?php echo $k ?>" data-q="1">Secondo quadrimestre</a>
+			        </p>
+		        </div>
+	        </div>
+			        <?php
+			        }
+		        }
+	        }
+	        ?>
              <?php
             if((count($_SESSION['__school_level__']) > 1) && $admin_level == 0){ 
             	foreach ($_SESSION['__school_level__'] as $k => $sl){

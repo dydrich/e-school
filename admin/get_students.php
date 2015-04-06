@@ -16,11 +16,31 @@ if(!is_numeric($cls)){
 	echo $res;
 	exit;
 }
-if($_POST['action'] == "student_insert"){
-	$sel_sts = "SELECT id_alunno, CONCAT_WS(' ', cognome, nome) AS name FROM rb_alunni WHERE id_classe = {$cls} AND attivo = '1' AND id_alunno NOT IN (SELECT DISTINCT id_alunno FROM rb_reg_alunni, rb_reg_classi WHERE id_reg = id_registro AND id_anno = {$_SESSION['__current_year__']->get_ID()} AND rb_reg_alunni.id_classe = {$cls}) ORDER BY cognome, nome";
+if (isset($_REQUEST['source']) && $_REQUEST['source'] == 'scr') {
+	$q = $_REQUEST['quadrimestre'];
+	/*
+	 * from assignement_table.php
+	 */
+	if($_REQUEST['action'] == 'add') {
+		$sel_sts = "SELECT DISTINCT(id_alunno), CONCAT_WS(' ', cognome, nome) AS name FROM rb_alunni WHERE id_classe = {$cls} AND attivo = '1' AND id_alunno NOT IN (SELECT DISTINCT alunno FROM rb_scrutini WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND classe = {$cls} AND quadrimestre = {$q}) ORDER BY cognome, nome";
+	}
+	else if ($_REQUEST['action'] == 'sub') {
+		$sel_sts = "SELECT DISTINCT(id_alunno), CONCAT_WS(' ', cognome, nome) AS name FROM rb_alunni, rb_scrutini WHERE id_classe = classe AND id_classe = {$cls} AND attivo = '1' AND id_alunno = alunno AND anno = {$_SESSION['__current_year__']->get_ID()} AND quadrimestre = {$q} ORDER BY cognome, nome";
+	}
+	else if ($_REQUEST['action'] == 'reinsert') {
+		$sel_sts = "SELECT DISTINCT(id_alunno), CONCAT_WS(' ', cognome, nome) AS name FROM rb_alunni, rb_scrutini WHERE id_classe = classe AND id_classe = {$cls} AND attivo = '1' AND id_alunno = alunno AND anno = {$_SESSION['__current_year__']->get_ID()} AND quadrimestre = {$q} ORDER BY cognome, nome";
+	}
 }
 else {
-	$sel_sts = "SELECT id_alunno, CONCAT_WS(' ', cognome, nome) AS name FROM rb_alunni WHERE id_classe = {$cls} AND attivo = '1' ORDER BY cognome, nome";
+	/*
+	 * from classbook_state.php
+	 */
+	if ($_POST['action'] == "student_insert") {
+		$sel_sts = "SELECT id_alunno, CONCAT_WS(' ', cognome, nome) AS name FROM rb_alunni WHERE id_classe = {$cls} AND attivo = '1' AND id_alunno NOT IN (SELECT DISTINCT id_alunno FROM rb_reg_alunni, rb_reg_classi WHERE id_reg = id_registro AND id_anno = {$_SESSION['__current_year__']->get_ID()} AND rb_reg_alunni.id_classe = {$cls}) ORDER BY cognome, nome";
+	}
+	else {
+		$sel_sts = "SELECT id_alunno, CONCAT_WS(' ', cognome, nome) AS name FROM rb_alunni WHERE id_classe = {$cls} AND attivo = '1' ORDER BY cognome, nome";
+	}
 }
 try{
 	$res_sts = $db->executeQuery($sel_sts);

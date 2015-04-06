@@ -76,11 +76,17 @@ $exist_reg = $db->executeCount($sel_reg);
 $sel_sch = "SELECT COUNT(*) FROM rb_orario WHERE anno = $anno";
 $exist_sch = $db->executeCount($sel_sch);
 
-$check_data1 = "SELECT COUNT(*) FROM rb_scrutini WHERE anno = $anno AND quadrimestre = 1";
-$count_data1 = $db->executeCount($check_data1);
+$check_data1 = "SELECT COUNT(id) FROM rb_scrutini, rb_classi WHERE classe = id_classe AND ordine_di_scuola = 1 AND anno = $anno AND quadrimestre = 1";
+$count_sl1_data1 = $db->executeCount($check_data1);
 
-$check_data2 = "SELECT COUNT(*) FROM rb_scrutini WHERE anno = $anno AND quadrimestre = 2";
-$count_data2 = $db->executeCount($check_data2);
+$check_data1 = "SELECT COUNT(id) FROM rb_scrutini, rb_classi WHERE classe = id_classe AND ordine_di_scuola = 2 AND anno = $anno AND quadrimestre = 1";
+$count_sl2_data1 = $db->executeCount($check_data1);
+
+$check_data2 = "SELECT COUNT(id) FROM rb_scrutini, rb_classi WHERE classe = id_classe AND ordine_di_scuola = 1 AND anno = $anno AND quadrimestre = 2";
+$count_sl1_data2 = $db->executeCount($check_data2);
+
+$check_data2 = "SELECT COUNT(id) FROM rb_scrutini, rb_classi WHERE classe = id_classe AND ordine_di_scuola = 2 AND anno = $anno AND quadrimestre = 2";
+$count_sl2_data2 = $db->executeCount($check_data2);
 
 /*
  * first install wizard
