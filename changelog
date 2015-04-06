@@ -1,3 +1,25 @@
+4.1.81
+issues #68, #72, #73
+nuova gestione scrutini
+gestione alunno singolo in scrutini
+
+4.1.80
+bug fix (#56)
+
+4.1.79
+aumentata la lunghezza di head_label a 550px
+
+4.1
+gestione esoneri religione
+gestione insegnamento materia alternativa
+
+4.0.78
+bug fixes
+
+4.0.77
+font esterno in admin
+bug fixes
+
 4.0.76
 bug fix per utf8
 
@@ -20,7 +42,7 @@ modifica username utente in admin
 in admin_adm_users aggiunto il css per i font
 
 4.0.69
-fissata un errore che impediva la visualizzazione dei download pagella nel primo quadrimestre
+fissato un errore che impediva la visualizzazione dei download pagella nel primo quadrimestre
 
 4.0.68
 corretta la mancata visualizzazione del nome del docente di religione nelle pagelle della primaria
