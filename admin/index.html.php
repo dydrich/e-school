@@ -873,6 +873,12 @@
 			        <div class="card_minicontent">Cambia utente...</div>
 		        </div>
 	        </a>
+	        <a href="scegli_tema.php" class="theme" id="theme1">
+		        <div class="card">
+			        <div class="card_title">Modifica tema</div>
+			        <div class="card_minicontent">Modifica il tema di default del software</div>
+		        </div>
+	        </a>
         </div>
             <?php } ?>
 	</div>

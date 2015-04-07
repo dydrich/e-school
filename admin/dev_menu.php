@@ -8,6 +8,7 @@
 		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>check_perms.php" id="">Verifica permessi utente</a></li>
 		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>tests.php" id="">Test classi</a></li>
 		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>scegli_utente.php" id="">SuDo</a></li>
+		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>scegli_tema.php" id="">Modifica tema</a></li>
 <?php endif; ?>
 	</ul>
 </div>
