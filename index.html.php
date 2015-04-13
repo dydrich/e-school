@@ -85,11 +85,11 @@
 							}
 							area = "";
 							setTimeout(function(){
-								$('#login_form').html("");
-								$("<div class='start_link' style='height: 120px; text-align: center'><a href='"+link+"'>Accedi all'area privata</a></div>").appendTo($('#login_form'));
-								$("<div class='start_link' style='height: 120px; text-align: center'><a href='<?php print $_SESSION['__config__']['root_site'] ?>/shared/do_logout.php'>Logout</a></div>").appendTo($('#login_form'));
-								$("<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='<?php print $_SESSION['__config__']['root_site'] ?>/shared/do_logout.php'>Logout</a></div>").appendTo($('#login_form'));
-							}, 350);
+								document.location.href=link;
+								//$('#login_form').html("");
+								//$("<div class='start_link' style='height: 120px; text-align: center'><a href='"+link+"'>Accedi all'area privata</a></div>").appendTo($('#login_form'));
+								//$("<div class='start_link' style='height: 120px; text-align: center'><a href='<?php print $_SESSION['__config__']['root_site'] ?>/shared/do_logout.php'>Logout</a></div>").appendTo($('#login_form'));
+							}, 400);
 
 						}
 						else {
@@ -98,7 +98,30 @@
 							setTimeout(function() {
 								$('#login_form').html("");
 								gruppi = json.gids;
-								//alert(gruppi.length);
+								var link = "";
+								if (gruppi.length == 1) {
+									switch (gruppi[0]) {
+										case "2":
+											link = "intranet/teachers/index.php";
+											break;
+										case "4":
+											link = "intranet/genitori/index.php";
+											break;
+										case "5":
+											link = "intranet/manager/index.php?role=5";
+											break;
+										case "6":
+											link = "intranet/manager/index.php?role=6";
+											break;
+										case "7":
+											link = "intranet/manager/index.php?role=7";
+											break;
+										case "1":
+											link = "admin/index.php";
+											break;
+									}
+									document.location.href = link;
+								}
 								col_length = parseInt(300 / (gruppi.length + 1));
 								for(i = 0; i < gruppi.length; i++){
 									if(gruppi[i] == 1 || gruppi[i] == 9 || gruppi[i] == 10)
