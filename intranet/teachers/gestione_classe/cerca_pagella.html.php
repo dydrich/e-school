@@ -129,7 +129,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" style="padding-top: 20px"><a href="../../shared/no_js.php" id="search_lnk" style="text-decoration: none; text-transform: uppercase">Cerca la pagella</a></td>
+				<td colspan="2" style="padding-top: 20px"><a href="../../shared/no_js.php" id="search_lnk" class="material_link">Cerca la pagella</a></td>
 			</tr>
 		</table>
 	</div>

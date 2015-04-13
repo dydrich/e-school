@@ -310,7 +310,7 @@
 			</tr>
 			<tr>
 			<td colspan="2" style="text-align: right; padding-top: 10px; padding-bottom: 10px">
-				<a href="#" onclick="_submit(document.forms[0])" style="margin-right: 25px; text-decoration: none; text-transform: uppercase">Registra</a>
+				<a href="#" onclick="_submit(document.forms[0])" style="margin-right: 25px" class="material_link">Registra</a>
 				<input type="hidden" name="perms" id="perms" />
 			</td>
 			</tr>

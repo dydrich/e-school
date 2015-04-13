@@ -670,3 +670,12 @@ p.popup_header {
     color: white;
     font-weight: bold;
 }
+
+.accent_button a, a.material_link {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0;
+    color: #0097A7 !important;
+    font-size: .95em;
+    font-weight: 400;
+}

@@ -592,7 +592,7 @@ foreach ($firme as $x => $ora){
 	<td style="width: 10%; text-align: center">Argomento</td>
 	<td style="width: 50%">
 		<input type="text" style="width: 75%" id="arg<?php echo $x ?>" name="arg<?php echo $x ?>" value="<?php if (isset($ora['argomento'])) echo htmlentities($ora['argomento'], ENT_QUOTES) ?>" />
-		<button id="reg_<?php echo $x ?>" class="argumentum" style="margin-left: 8px; font-size: 0.9em">Registra</button>
+		<a href="#" id="reg_<?php echo $x ?>" class="argumentum material_link" style="margin-left: 8px">Registra</a>
 		<img src="../../../images/checkminired.png" id="check_<?php echo $x ?>" style="display: none" />
 	</td>
 </tr>

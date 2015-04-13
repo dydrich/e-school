@@ -166,8 +166,8 @@
 		<?php include $_SESSION['__administration_group__']."/menu_supplenze.php" ?>
 	</div>
 	<div id="left_col">
-		<form id="my_form" method="post" action="" style="border: 1px solid #666666; border-radius: 10px; margin-top: 30px; text-align: left; width: 90%; margin-left: auto; margin-right: auto">
-			<table style="width: 90%; margin: 30px auto 20px auto">
+		<form id="my_form" method="post" action="" style="margin-top: 30px; text-align: left; width: 90%; margin-left: auto; margin-right: auto">
+			<table style="width: 90%; margin: 30px auto 10px auto">
 				<tr>
 					<td style="width: 25%" id="lab1">Docente</td>
 					<td style="width: 75%">
@@ -224,17 +224,17 @@
 					</td>
 				</tr>
 			</table>
+			<div style="margin: 20px auto 0 auto; text-align: right; width: 85%">
+				<?php
+				if ($_REQUEST['id'] != 0):
+					?>
+					<a href="#" onclick="del()" class="material_link nav_link_first">Elimina</a>|
+				<?php
+				endif;
+				?>
+				<a href="#" onclick="register()" class="material_link nav_link_last">Registra</a>
+			</div>
 		</form>
-		<div style="margin: 20px auto 0 auto; text-align: right; width: 90%">
-			<?php
-			if ($_REQUEST['id'] != 0):
-			?>
-				<a href="#" onclick="del()" class="standard_link nav_link_first">Elimina</a>|
-			<?php
-			endif;
-			?>
-			<a href="#" onclick="register()" class="standard_link nav_link_last">Registra</a>
-		</div>
 	</div>
 	<p class="spacer"></p>
 </div>

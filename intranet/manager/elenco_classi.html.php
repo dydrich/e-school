@@ -83,7 +83,7 @@
 			        <?php echo $cls['anno_corso'].$cls['sezione'] ?><span style="margin-left: 8px"><?php if (!$_SESSION['__school_order__']) echo $cls['tipo'] ?></span>
 			        <div id="cm_container" style="float: right; width: 20px; margin-right: 10px">
 				        <a href="#" class="showmenu" data-idclass="<?php echo $cls['id_classe'] ?>" data-descclass="<?php print $cls['anno_corso'].$cls['sezione'] ?>" data-tp="<?php echo $cls['tempo_prolungato'] ?>">
-					        <img src="../../images/19.png" />
+					        <img src="../../images/menu.png" />
 				        </a>
 			        </div>
 		        </div>

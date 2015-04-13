@@ -215,9 +215,9 @@
 	</tr>
 </table>
 <div style="width: 90%; text-align: right; margin-right: auto; margin-left: auto; margin-bottom: 20px">
-	<a href="#" onclick="update_test()" style="padding-right: 10px; text-transform: uppercase; text-decoration: none">Modifica dati</a>|
-	<a href="test_goals.php?idv=<?php echo $test->getId() ?>" style="padding-left: 10px; padding-right: 10px; text-transform: uppercase; text-decoration: none">Obiettivi</a>|
-	<a href="#" onclick="choose_del()" style="padding-left: 10px; text-transform: uppercase; text-decoration: none">Cancella verifica</a>
+	<a href="#" onclick="update_test()" style="padding-right: 10px" class="material_link">Modifica dati</a>
+	<a href="test_goals.php?idv=<?php echo $test->getId() ?>" style="padding-left: 10px; padding-right: 10px" class="material_link">Obiettivi</a>
+	<a href="#" onclick="choose_del()" style="padding-left: 10px" class="material_link">Cancella verifica</a>
 </div>
 </fieldset>
 <table class="registro" style="width: 98%; margin-left: auto; margin-right: auto; margin-top: 20px" id="det_table">

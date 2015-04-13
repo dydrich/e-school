@@ -24,12 +24,12 @@
 				print_profile();
 			});
 			$('.phone_buttons').css({"display": "none"});
-			$('#pers_button').button();
+			//$('#pers_button').button();
 			$('#pers_button').click(function(event){
 				event.preventDefault();
 				save('pers');
 			});
-			$('#addr_button').button();
+			//$('#addr_button').button();
 			$('#addr_button').click(function(event){
 				event.preventDefault();
 				save('addr');
@@ -104,35 +104,35 @@
 		<form id="testform" method="post" class="no_border">
 			<input type="hidden" id="area" name="area" />
 			<input type="hidden" id="stid" name="stid" value="<?php echo $_REQUEST['stid'] ?>" />
-			<fieldset class="wd_90 _elem_center">
+			<fieldset class="wd_80 _elem_center">
 				<legend>Dati anagrafici</legend>
 				<div class="wd_90 notification" id="notpers"></div>
 				<div class="wd_90 _elem_center">
 					<div class="wd_35 fleft">Cognome</div>
-					<div class="wd_60 fleft row"><input type="text" id="lname" name="lname" class="wd_95" value="<?php echo $alunno['cognome'] ?>" /></div>
+					<div class="wd_65 fleft row"><input type="text" id="lname" name="lname" class="wd_95" value="<?php echo $alunno['cognome'] ?>" /></div>
 					<div class="wd_35 fleft">Nome</div>
-					<div class="wd_60 fleft row"><input type="text" id="fname" name="fname" class="wd_95" value="<?php echo $alunno['nome'] ?>" /></div>
+					<div class="wd_65 fleft row"><input type="text" id="fname" name="fname" class="wd_95" value="<?php echo $alunno['nome'] ?>" /></div>
 					<div class="wd_35 fleft">Data di nascita</div>
-					<div class="wd_60 fleft row"><input type="text" id="birth" name="birth" class="wd_95" value="<?php echo format_date($alunno['data_nascita'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>" /></div>
+					<div class="wd_65 fleft row"><input type="text" id="birth" name="birth" class="wd_95" value="<?php echo format_date($alunno['data_nascita'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>" /></div>
 					<div class="wd_35 fleft">Luogo di nascita</div>
-					<div class="wd_60 fleft"><input type="text" id="city" name="city" class="wd_95" value="<?php echo $alunno['luogo_nascita'] ?>" /></div>
+					<div class="wd_65 fleft"><input type="text" id="city" name="city" class="wd_95" value="<?php echo $alunno['luogo_nascita'] ?>" /></div>
 					<p class="bclear"></p>
-					<div class="wd_95 _right" id="reg_button">
-						<button id="pers_button" class="standard_link">Registra</button>
+					<div class="_right" id="reg_button" style="width: 96%">
+						<a href="#" id="pers_button" class="material_link">Registra</a>
 					</div>
 				</div>
 			</fieldset>
-			<fieldset class="wd_90 _elem_center">
+			<fieldset class="wd_80 _elem_center">
 				<legend>Domicilio</legend>
 				<div class="wd_90 notification" id="notaddr"></div>
 				<div class="wd_90 _elem_center">
 					<div class="wd_35 fleft">Indirizzo</div>
-					<div class="wd_60 fleft row"><input type="text" id="address" name="address" class="wd_95" value="<?php echo $alunno['indirizzo'] ?>" /></div>
+					<div class="wd_65 fleft row"><input type="text" id="address" name="address" class="wd_95" value="<?php echo $alunno['indirizzo'] ?>" /></div>
 					<div class="wd_35 fleft">Citt&agrave;</div>
-					<div class="wd_60 fleft row"><input type="text" id="residence" name="residence" class="wd_95" value="<?php echo $alunno['citta'] ?>" /></div>
+					<div class="wd_65 fleft row"><input type="text" id="residence" name="residence" class="wd_95" value="<?php echo $alunno['citta'] ?>" /></div>
 					<p class="bclear"></p>
-					<div class="wd_95 _right" id="reg_button">
-						<button id="addr_button" class="standard_link">Registra</button>
+					<div class="_right" id="reg_button" style="width: 96%">
+						<a href="#" id="addr_button" class="material_link">Registra</a>
 					</div>
 				</div>
 			</fieldset>

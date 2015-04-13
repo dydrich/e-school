@@ -85,8 +85,8 @@
 		<li><span style="padding-left: 20px"><?php echo $row['tipologia'] ?></span><input type="checkbox" name="tests[]" <?php if($checked) echo "checked" ?> value="<?php echo $row['id'] ?>" /></li>
 		<?php } ?>
 		</ul>
-		<div class="accent_button" style="height: 20px; margin-right: 30px; margin-top: 20px">
-			<a href="../../shared/no_js.php" id="save_btn" style="text-transform: uppercase; text-decoration: none; padding: 0">Registra</a>
+		<div class="accent_button" style="height: 20px; margin-right: 0; margin-top: 30px">
+			<a href="../../shared/no_js.php" id="save_btn" style="">Registra</a>
 		</div>
 		</div>
 		<input type="hidden" name="field" id="field" value="" />

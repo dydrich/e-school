@@ -423,7 +423,7 @@ div.navigate a {
 }
 
 fieldset {
-    border: 1px solid rgba(30, 67, 137, .8);
+    border: 1px solid #c2185b;
     border-radius: 4px;
 }
 
@@ -560,18 +560,26 @@ div.accordion {
 }
 
 .conf_frame {
-    border: 1px solid #64ffda;
+    border: 1px solid #c2185b;
     border-radius: 3px;
 }
 
 .accent_button {
-    border-bottom: 1px solid #e91e63;
     padding: 0;
     line-height: 25px;
     text-align: right;
-    width: 30%;
+    width: 40%;
     position: relative;
     left: 60%;
+}
+
+.accent_button a, a.material_link {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0;
+    color: #e91e63 !important;
+    font-size: .95em;
+    font-weight: 400;
 }
 
 .accent_decoration {

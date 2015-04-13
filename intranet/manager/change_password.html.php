@@ -70,8 +70,8 @@
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
- 	<form id="my_form" method="post" action="../../shared/account_manager.php" style="border: 1px solid #666666; border-radius: 10px; margin-top: 30px; text-align: left; width: 460px; margin-left: auto; margin-right: auto">
-	<table style="width: 400px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 20px">
+ 	<form id="my_form" method="post" action="../../shared/account_manager.php" style="margin-top: 30px; text-align: left; width: 460px; margin-left: auto; margin-right: auto">
+	<table style="width: 400px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 10px">
 		<tr>
 			<td style="width: 60%">Nuova password</td>
 			<td style="width: 40%"><input type="password" name="new_pwd" id="new_pwd" style="width: 250px; font-size: 11px; border: 1px solid #AAAAAA" /></td> 
@@ -85,7 +85,7 @@
 		</tr>
 		<tr>
 			<td colspan="2" style="text-align: right; margin-right: 50px">
-				<a href="#" onclick="registra()" style="text-decoration: none; text-transform: uppercase">Registra</a>
+				<a href="#" onclick="registra()" class="material_link">Registra</a>
 			</td> 
 		</tr>
 	</table>

@@ -78,8 +78,8 @@
 					<input type="radio" name="active" id="active" value="0" <?php if (0 == $active) echo "checked" ?> />
 				</li>
 		</ul>
-		<div class="accent_button" style="height: 20px; margin-right: 30px; margin-top: 20px">
-			<a href="../../shared/no_js.php" id="save_btn" style="text-transform: uppercase; text-decoration: none">Registra</a>
+		<div class="accent_button" style="height: 20px; margin-right: 0; margin-top: 20px">
+			<a href="../../shared/no_js.php" id="save_btn" style="">Registra</a>
 		</div>
 		</div>
 		<input type="hidden" name="field" id="field" value="" />

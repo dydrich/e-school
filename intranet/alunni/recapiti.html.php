@@ -63,8 +63,8 @@ var registra = function(){
 <?php include "profile_working.php" ?>
 </div>
 <div id="left_col">
-	<form id="my_form" method="post" action="dati.php" style="border: 1px solid #666666; border-radius: 10px; margin-top: 20px; text-align: left; width: 460px; margin-left: auto; margin-right: auto">
-	<table style="width: 400px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 30px">
+	<form id="my_form" method="post" action="dati.php" style="margin-top: 20px; text-align: left; width: 460px; margin-left: auto; margin-right: auto">
+	<table style="width: 400px; margin-left: auto; margin-right: auto; margin-top: 30px; margin-bottom: 10px">
 		<tr>
 			<td style="width: 60%">Indirizzo</td>
 			<td style="width: 40%"><input type="text" name="indirizzo" id="indirizzo" style="width: 250px; font-size: 11px" value="<?php if(isset($rec)) print $rec['indirizzo']; ?>" /></td>
@@ -86,7 +86,7 @@ var registra = function(){
 		</tr>
 		<tr>
 			<td colspan="2" style="text-align: right; margin-right: 50px">
-				<a href="#" onclick="registra()" style="text-decoration: none; text-transform: uppercase">Registra</a>
+				<a href="#" onclick="registra()" class="material_link">Registra</a>
 				<input type="hidden" name="action" id="action" value="address" />
 			</td> 
 		</tr>

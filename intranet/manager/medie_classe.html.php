@@ -28,7 +28,7 @@
 <thead>
 <tr style="height: 35px">
 	<td colspan="<?php echo $num_colonne ?>" style="font-weight: normal; text-align: left">
-		<div class="rowcard" style="width: 75%; height: 20px"><span id="ingresso" style="font-weight: normal; "><?php print $_SESSION['__classe__']->to_string() ?></span>::Quadro riassuntivo della classe</div>
+		<div class="rowcard" style="width: 75%; height: 20px; margin-left: 20px"><span id="ingresso" style="font-weight: normal; "><?php print $_SESSION['__classe__']->to_string() ?></span>::Quadro riassuntivo della classe</div>
 	</td>
 </tr>
 <tr class="manager_row_small">

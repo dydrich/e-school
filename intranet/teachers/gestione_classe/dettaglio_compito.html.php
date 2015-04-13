@@ -80,49 +80,49 @@
 	<div id="left_col">
 	<form id="myform" class="reg_form">
 	<table style="width: 75%; margin: 20px auto 20px auto">
-	<tr>
-		<td style="width: 20%" class="label_form">Per il</td>
-		<td style="width: 80%">
-			<input id="sel3" type="text" value="<?php if($upd == 1) print format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>" style="width: 100%; padding-top: 3px" name="data_inizio" />&nbsp;
-		</td>
-	</tr>
-	<tr>
-		<td style="width: 20%" class="label_form">Materia</td>
-		<td style="width: 80%">
-			<select name="materia" id="tipo" style="width: 100%">
-				<option value="0">Nessuna</option>
-<?php 
-while($mat = $res_materie->fetch_assoc()){
-?>
-			<option <?php if((isset($att)) && $mat['id_materia'] == $att['materia']) print("selected='selected'") ?> value="<?php print $mat['id_materia'] ?>"><?php print $mat['materia'] ?></option>
-<?php 
-}
-?>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td style="width: 20%" class="label_form">Dettagli</td>
-		<td style="width: 80%">
-			<textarea style="width: 100%; height: 40px" name="descrizione"><?php if($upd == 1) print $att['descrizione'] ?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td style="width: 20%" class="label_form">Note</td>
-		<td>
-			<textarea style="width: 100%; height: 40px" name="note"><?php if($upd == 1) print $att['note'] ?></textarea>
-			<input type="hidden" name="id_act" value="<?php echo $t ?>" />
-			<input type="hidden" name="del" />
-		</td>
-	</tr>
-	</table>
+		<tr>
+			<td style="width: 20%" class="label_form">Per il</td>
+			<td style="width: 80%">
+				<input id="sel3" type="text" value="<?php if($upd == 1) print format_date($di, SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>" style="width: 100%; padding-top: 3px" name="data_inizio" />&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="width: 20%" class="label_form">Materia</td>
+			<td style="width: 80%">
+				<select name="materia" id="tipo" style="width: 100%">
+					<option value="0">Nessuna</option>
+	<?php
+	while($mat = $res_materie->fetch_assoc()){
+	?>
+				<option <?php if((isset($att)) && $mat['id_materia'] == $att['materia']) print("selected='selected'") ?> value="<?php print $mat['id_materia'] ?>"><?php print $mat['materia'] ?></option>
+	<?php
+	}
+	?>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td style="width: 20%" class="label_form">Dettagli</td>
+			<td style="width: 80%">
+				<textarea style="width: 100%; height: 40px" name="descrizione"><?php if($upd == 1) print $att['descrizione'] ?></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td style="width: 20%" class="label_form">Note</td>
+			<td>
+				<textarea style="width: 100%; height: 40px" name="note"><?php if($upd == 1) print $att['note'] ?></textarea>
+				<input type="hidden" name="id_act" value="<?php echo $t ?>" />
+				<input type="hidden" name="del" />
+			</td>
+		</tr>
+		</table>
+		<div style="width: 92%; margin: 20px 0 10px 0; text-align: right">
+			<?php if($t != 0){ ?>
+				<a href="../../../shared/no_js.php" id="del_button" class="material_link nav_link_first">Elimina</a>
+			<?php } ?>
+			<a href="../../../shared/no_js.php" id="save_button" class="material_link nav_link_last">Registra</a>
+		</div>
 	</form>
-	<div style="width: 92%; margin: 20px 0 0 0; text-align: right">
-		<?php if($t != 0){ ?>
-		<a href="../../../shared/no_js.php" id="del_button" class="standard_link nav_link_first">Elimina</a>|
-		<?php } ?>
-		<a href="../../../shared/no_js.php" id="save_button" class="standard_link nav_link_last">Salva</a>
-	</div> 
 </div> 
 <p class="spacer"></p>
 </div>

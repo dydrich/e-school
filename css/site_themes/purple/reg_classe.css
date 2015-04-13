@@ -584,11 +584,6 @@ table.registro tr.riepilogo {
     font-weight: 600;
 }
 
-.high_contrast_row a {
-    color: #EEFF41;
-}
-
-
 /* css for timepicker */
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
 .ui-timepicker-div dl { text-align: left; }
@@ -602,22 +597,6 @@ table.registro tr.riepilogo {
 .ui-timepicker-rtl dl dt{ float: right; clear: right; }
 .ui-timepicker-rtl dl dd { margin: 0 45% 10px 10px; }
 
-div.group_head{
-    padding-top: 15px;
-    padding-bottom: 5px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.1em;
-    width: 100%;
-    height: 35px;
-    margin-bottom: 0;
-    text-transform: uppercase;
-    position: relative;
-    top: -30px;
-    background-color: #FB8C00;
-
-}
-
 .outline_line_wrapper {
     width: 100%;
     margin: 0 auto 0 auto;
@@ -627,10 +606,6 @@ div.group_head{
     background-color: #ffd740;
     position: relative;
     top: -30px
-}
-
-.avg_row {
-    background-color: #FFCC80;
 }
 
 tr.bottom_decoration {
@@ -660,4 +635,13 @@ p.popup_header {
     border-color: #7b1fa2;
     color: white;
     font-weight: bold;
+}
+
+.accent_button a, a.material_link {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0;
+    color: #9c27b0 !important;
+    font-size: .95em;
+    font-weight: 400;
 }

@@ -6,6 +6,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
@@ -56,6 +57,11 @@
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
+	<div style="top: -10px; margin-left: 35px; margin-bottom: -25px" class="rb_button">
+		<a href="docenti_sostegno.php">
+			<img src="../../images/47bis.png" style="padding: 12px 0 0 12px" />
+		</a>
+	</div>
  	<form id="my_form" method="post" style="border: 0; margin-top: 10px; text-align: left; width: 85%; margin-left: auto; margin-right: auto">
 	<fieldset style="width: 90%; margin: auto; border-radius: 8px">
 	<legend style="font-weight: bold">Dati docente</legend>
@@ -109,7 +115,6 @@
 	?>
 	</table>
 	</fieldset>
-	<div style="width: 95%; text-align: right; margin-top: 20px"><a href="docenti_sostegno.php" class="standard_link">Torna all'elenco</a></div>
 	</form>
 </div>
 <p class="spacer"></p>	

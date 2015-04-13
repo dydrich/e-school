@@ -79,7 +79,7 @@
 					</li>
 				</ul>
 				<div style="height: 20px; margin-right: 30px; margin-top: 20px" class="accent_button">
-					<a href="../../shared/no_js.php" id="save_btn" style="text-transform: uppercase; text-decoration: none">Registra</a>
+					<a href="../../shared/no_js.php" id="save_btn" style="">Registra</a>
 				</div>
 			</div>
 			<input type="hidden" name="field" id="field" value="" />

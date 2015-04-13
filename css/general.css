@@ -191,3 +191,7 @@ form.no_border {
     background-color: #F6F6F6 !important;
 }
 
+.accent_button a:hover, a.material_link:hover {
+    font-size: 1em;
+}
+
