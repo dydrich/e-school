@@ -108,7 +108,7 @@
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<form class="reg_form" id="search_form" style="height: 150px; margin-top: 10px">
+	<form class="reg_form" id="search_form" style="min-height: 150px; margin-top: 10px; overflow: hidden">
 	<div style="width: 45%; margin: 10px 0 0px 20px; float: left">
 		<table style="width: 95%">
 			<tr id="tr_anno">
@@ -162,7 +162,7 @@
 			</tr>
 		</table>
 	</div>
-	<div style="float: right; width: 45%" id="container"></div>
+	<div style="min-height: 145px;float: right; width: 45%; position: relative" id="container"></div>
 	</form>
 </div>
 <p class="spacer"></p>
