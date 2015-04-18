@@ -57,7 +57,7 @@
 				<a href="elenco_compiti.php"><span>Personali</span></a>
 			</div>
 			<div class="mdtab<?php if (isset($_REQUEST['all'])) echo " mdselected_tab" ?>">
-				<a href="elencocompiti.php?all=1"><span>Tutti</span></a>
+				<a href="elenco_compiti.php?all=1"><span>Tutti</span></a>
 			</div>
 		</div>
 		<div style="position: absolute; top: 92px; margin-left: 625px; margin-bottom: 5px" class="rb_button">

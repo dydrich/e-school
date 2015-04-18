@@ -118,7 +118,7 @@
 		</table>
 		<div style="width: 92%; margin: 20px 0 10px 0; text-align: right">
 			<?php if($t != 0){ ?>
-				<a href="../../../shared/no_js.php" id="del_button" class="material_link nav_link_first">Elimina</a
+				<a href="../../../shared/no_js.php" id="del_button" class="material_link nav_link_first">Elimina</a>
 			<?php } ?>
 			<a href="../../../shared/no_js.php" id="save_button" class="material_link nav_link_last">Registra</a>
 		</div>
