@@ -263,6 +263,10 @@ div.card_title {
     padding-top: 5px;
 }
 
+div.card_nocontent {
+    border-bottom: 0;
+}
+
 div.card_content {
     width: 100%;
     height: 35px;

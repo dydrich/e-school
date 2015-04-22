@@ -175,7 +175,7 @@
 	?>
 	<a id="test_<?php echo $test['id_verifica'] ?>_<?php echo $can_modify ?>" href="#" class="test_link" style="font-weight: normal; ">
 		<div class="card<?php if ($can_modify == 0) echo " no_permission" ?>">
-			<div class="card_title">
+			<div class="card_title card_nocontent">
 				<?php echo $giorno_str ?> - <?php echo $test['prova'] ?>
 				<div style="float: right; margin-right: 20px; color: #1E4389">
 					Media voto: <?php echo $avg ?> <span style="font-weight: normal; text-transform: none">(valutati <?php echo $count_alunni ?> alunni)</span>

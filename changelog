@@ -1,3 +1,15 @@
+4.2.87
+bug fixes
+
+4.2.86
+in caso di utenti con un solo tipo di accesso si viene rediretti alla intranet di riferimento, senza passare per la schermata di accesso
+
+4.2.85
+link in material (issue #75)
+
+4.2.84
+animazioni di transizione in home (issue #74)
+
 4.2.83
 reload pagina circolare dopo salvataggio (mod. communication)
 
