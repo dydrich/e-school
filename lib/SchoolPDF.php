@@ -42,17 +42,17 @@ class SchoolPDF extends TCPDF{
 				$header_x = $this->original_lMargin + ($headerdata['logo_width'] * 1.1);
 			}
 			$cw = $this->w - $this->original_lMargin - $this->original_rMargin - ($headerdata['logo_width'] * 1.1);
-			$this->SetTextColor(0, 0, 0);
+			$this->SetTextColor(50, 50, 50);
 			// header title
-			$this->SetFont($headerfont[0], 'B', $headerfont[2] + 1);
+			$this->SetFont($headerfont[0], 'B', $headerfont[2]);
 			$this->SetX($header_x);
-			$this->SetFillColor(211, 222, 199);
-			$this->Cell($cw, $cell_height, $headerdata['title'], array("LTR"=>array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(211, 222, 199)), "B"=>array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(211, 222, 199))), 1, 'C', 1, '', 0);
+			$this->SetFillColor(255, 255, 255);
+			$this->Cell($cw, $cell_height, $headerdata['title'], 0, 1, 'C', 1, '', 0);
 			// header string
 			$this->SetFont($headerfont[0], $headerfont[1], $headerfont[2]);
 			$this->SetX($header_x);
-			$this->SetFillColor(211, 222, 199);
-			$this->MultiCell($cw, $cell_height, $headerdata['string'], array("LR"=>array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(211, 222, 199)), "B"=>array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(211, 222, 199))), 'C', 1, 1, '', '', true, 0, false, true, 0, 'T', false);
+			$this->SetFillColor(255, 255, 255);
+			$this->MultiCell($cw, $cell_height, $headerdata['string'], array("B"=>array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(211, 211, 211))), 'C', 1, 1, '', '', true, 0, false, true, 0, 'T', false);
 			// print an ending header line
 
 			$this->endTemplate();
@@ -111,7 +111,7 @@ class SchoolPDF extends TCPDF{
 			$_cellw = 88.6;
 		}
 		// left aligned elements
-		$this->Cell($_cellw, 0, 'Stampato il '.date("d/m/Y").' alle ore'.date("H:i"), 'T', 0, 'L');
+		$this->Cell($_cellw, 0, 'Creato il '.date("d/m/Y").' alle ore'.date("H:i"), 'T', 0, 'L');
 		// center aligned elements
 		$this->Cell($_cellw, 0, '', 'T', 0, 'C');
 		//Print page number

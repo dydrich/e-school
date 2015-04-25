@@ -38,7 +38,7 @@
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-	<div class="outline_line_wrapper">
+	<div class="outline_line_wrapper" style="margin-top: 20px">
 		<div style="width: 33%; float: left; position: relative; top: 30%"><span style="padding-left: 15px">Assenze: <?php print $tot_assenze ?></span></div>
 		<div style="width: 33%; float: left; position: relative; top: 30%; text-align: center">Ritardi: <?php print $somma_ritardi['giorni_ritardo']?> (<?php print substr($somma_ritardi['ore_ritardo'], 0, 5) ?>)</div>
 		<div style="width: 33%; float: left; position: relative; top: 30%">Uscite anticipate: <?php print $somma_uscite['giorni_anticipo']?> (<?php print substr($somma_uscite['ore_perse'], 0, 5) ?>)</div>
@@ -130,9 +130,7 @@
 		<?php if(is_installed("com")){ ?>
 			<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=<?php echo $_SESSION['__area__'] ?>"><img src="../../images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
 		<?php } ?>
-		<?php if ($_SESSION['__role__'] == "Dirigente scolastico"): ?>
-			<div class="drawer_link"><a href="utility.php"><img src="../../images/59.png" style="margin-right: 10px; position: relative; top: 5%" />Utility</a></div>
-		<?php endif; ?>
+		<div class="drawer_link"><a href="utility.php"><img src="../../images/59.png" style="margin-right: 10px; position: relative; top: 5%" />Utility</a></div>
 	</div>
 	<?php if (isset($_SESSION['__sudoer__'])): ?>
 		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>

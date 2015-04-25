@@ -1208,3 +1208,63 @@ div.admin_link_wrapper {
 #ticker li a {
     color: #1E4389 !important;
 }
+
+.nowcard {
+    width: 200px;
+    height: 30px;
+    border: 1px solid rgba(215, 215, 215, 1);
+    background-color: #FFFFFF;
+    border-radius: 1px;
+    padding: 0;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.icon_card {
+    position: relative;
+    font-size: 18px;
+    width: 50px;
+    float: left;
+    margin: 0;
+    text-align: center;
+    background-color: #18FFFF;
+    border-radius: 0 0 1px 1px;
+    height: 30px;
+    color: #202020;
+}
+
+.icon_card > span {
+    padding: 6px 0 0 0;
+}
+
+.icon_card_accent {
+    position: relative;
+    font-size: 18px;
+    width: 50px;
+    float: left;
+    margin: 0;
+    text-align: center;
+    border-radius: 0 0 1px 1px;
+    height: 30px;
+    background-color: #00796B;
+    color: white;
+}
+
+.icon_card_accent > span {
+    padding: 6px 0 0 0;
+}
+
+.text_card {
+    float: left;
+    width: 140px;
+    text-align: center;
+    position: relative;
+    bottom: 6px;
+    color: #009688 !important;
+    font-weight: 600;
+}
+
+.text_card a {
+    color: #009688 !important;
+    font-weight: 600;
+}
