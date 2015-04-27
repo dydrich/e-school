@@ -952,7 +952,10 @@ div.anno {
 
 p.doc {
     margin: 5px 0 5px 25px;
-    height: 10px;
+    height: 38px;
+    border-bottom: 1px solid rgba(211, 222, 199, 0.5);
+    line-height: 14px;
+    padding-top: 6px;
 }
 
 a.doc {
