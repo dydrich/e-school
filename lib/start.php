@@ -45,8 +45,3 @@ $id_theme = $db->executeCount("SELECT valore FROM rb_config WHERE variabile = 's
 $_SESSION['default_theme'] = $db->executeCount("SELECT directory FROM rb_themes WHERE id_tema = {$id_theme}");
 
 date_default_timezone_set("Europe/Rome");
-
-/*
- * for dashboard
- */
-$is_teacher_index = false;
