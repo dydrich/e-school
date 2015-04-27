@@ -55,7 +55,7 @@
 						for (i in years) {
 							t = years[i];
 							if (t.id == this_year) {
-								$('<a href="dettaglio_alunno.php?idc='+uid+'"><div class="nowcard"><div class="icon_card_accent"><span class="fa fa-desktop"></span></div><p class="text_card">A. S. '+ t.desc +'</p></div></a>').prependTo($('#container'));
+								$('<a href="dettaglio_alunno.php?id='+uid+'"><div class="nowcard"><div class="icon_card_accent"><span class="fa fa-desktop"></span></div><p class="text_card">A. S. '+ t.desc +'</p></div></a>').prependTo($('#container'));
 								//$('<p><a href="dettaglio_alunno.php?idc='+uid+'">A. S. '+ t.desc +'</a></p>').prependTo($('#container'));
 							}
 							else {
