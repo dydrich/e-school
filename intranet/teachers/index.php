@@ -8,8 +8,6 @@ ini_set("display_errors", DISPLAY_ERRORS);
 check_session();
 check_permission(DOC_PERM);
 
-$is_teacher_index = true;
-
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_reg_home__'] = "./";
 $_SESSION['__area__'] = "teachers";
@@ -97,31 +95,5 @@ else{
 		}
 	}
 }
-
-/*
- * dashboard code
- */
-// messages
-$user_type = $_SESSION['user_type'];
-$uniqID = $_SESSION['__user__']->getUniqID();
-$sel_msg = "SELECT COUNT(mid) FROM rb_com_messages, rb_com_threads, rb_com_utenti_thread WHERE rb_com_messages.tid = rb_com_threads.tid AND rb_com_threads.tid = thread AND type = 'C' AND utente = {$uniqID} AND target = rb_com_threads.tid AND sender <> {$uniqID} AND read_timestamp IS NULL";
-$unread = $db->executeCount($sel_msg);
-$sel_grp = "SELECT COUNT(mid) FROM rb_com_messages, rb_com_threads, rb_com_utenti_thread WHERE rb_com_messages.tid = rb_com_threads.tid AND rb_com_threads.tid = thread AND type = 'G' AND utente = {$uniqID} AND target = rb_com_threads.tid AND sender <> {$uniqID} AND send_timestamp > last_access ";
-$unread += $db->executeCount($sel_grp);
-
-// files
-$sel_files = "SELECT COUNT(id) FROM rb_com_files WHERE destinatario = {$_SESSION['__user__']->getUid()} AND data_download IS NULL";
-$not_downl = $db->executeCount($sel_files);
-
-// circolari
-$sel_unread = "SELECT COUNT(*) AS count FROM rb_com_circolari WHERE anno = ".$_SESSION['__current_year__']->get_ID();
-$res_unread = $db->execute($sel_unread);
-$_unr = $res_unread->fetch_assoc();
-$unread_count = $_unr['count'];
-
-$sel_read = "SELECT COUNT(rb_com_lettura_circolari.id_circolare) AS count FROM rb_com_lettura_circolari, rb_com_circolari WHERE rb_com_lettura_circolari.id_circolare = rb_com_circolari.id_circolare AND docente = ".$_SESSION['__user__']->getUid()." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND letta = 1";
-$res_read = $db->execute($sel_read);
-$_rd = $res_read->fetch_assoc();
-$unread_count -= $_rd['count'];
 
 include "index.html.php";
