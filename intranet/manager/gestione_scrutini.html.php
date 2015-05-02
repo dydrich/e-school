@@ -20,7 +20,7 @@
 	var change_status = function(q){
 		var url = "modifica_stato_scrutinio.php";
 		var stato = $('#status'+q+'q').val();
-		alert(q+"  "+stato);
+
 		$.ajax({
 			type: "POST",
 			url: url,
