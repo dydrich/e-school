@@ -27,11 +27,11 @@
 		});
 	});
 	</script>
-<style type="text/css">
-table tbody tr:hover {
-	/*background-color: rgba(30, 67, 137, .1);*/
-}
-</style>
+	<style type="text/css">
+	table tbody tr:hover {
+		/*background-color: rgba(30, 67, 137, .1);*/
+	}
+	</style>
 </head>
 <body>
 <?php include "header.php" ?>
@@ -53,7 +53,7 @@ table tbody tr:hover {
    		?>
 	 	<tr class="bottom_decoration">
 	 		<td style="width: 5%; text-align: right; font-weight: bold"><?php if ($_REQUEST['show'] == "alunni") echo $x ?></td>
-	 		<td style="width: <?php echo $widths[0] - 5 ?>%; text-align: left; padding-left: 20px"><?php echo $row['nome'] ?></td>
+	 		<td style="width: <?php echo $widths[0] - 5 ?>%; text-align: left; padding-left: 20px"><?php if ($_REQUEST['show'] == "alunni"): ?><a href="scheda_alunno.php?stid=<?php echo $row['id'] ?>"><?php endif; ?><?php echo $row['nome'] ?><?php if ($_REQUEST['show'] == "alunni"): ?></a><?php endif; ?></td>
 	 		<td style="width: <?php echo $widths[1] ?>%; text-align: center; padding-left: 20px"><?php echo implode(', ', $row['sec_f']) ?></td>
  	    </tr>
  	    <?php

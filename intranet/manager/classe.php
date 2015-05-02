@@ -1,6 +1,7 @@
 <?php
 
 require_once "../../lib/start.php";
+require_once "../../lib/SessionUtils.php";
 
 check_session();
 check_permission(DIR_PERM|DSG_PERM|SEG_PERM);
@@ -10,6 +11,14 @@ $_SESSION['__path_to_mod_home__'] = "./";
 
 $navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 $label = " classe ".$_REQUEST['desc'];
+
+if(!isset($_REQUEST['id'])){
+	$_REQUEST['id'] = $_SESSION['__classe__']->get_ID();
+}
+else{
+	$utils = SessionUtils::getInstance($db);
+	$utils->registerCurrentClassFromClassID($_REQUEST['id'], "__classe__");
+}
 
 $cls = $_REQUEST['id'];
 if ($_REQUEST['show'] == "cdc") {
@@ -54,14 +63,14 @@ if ($_REQUEST['show'] == "cdc") {
 	exit;
 }
 else if ($_REQUEST['show'] == "alunni") {
-	$query = "SELECT cognome, nome, DATE_FORMAT(data_nascita, '%d/%m/%Y') AS sec_f FROM rb_alunni WHERE id_classe = {$cls} AND attivo = '1' ORDER BY cognome, nome";
+	$query = "SELECT id_alunno, cognome, nome, DATE_FORMAT(data_nascita, '%d/%m/%Y') AS sec_f FROM rb_alunni WHERE id_classe = {$cls} AND attivo = '1' ORDER BY cognome, nome";
 	$result = $db->execute($query);
 	$fields = array("Alunno", "Data di nascita");
 	$widths = array(55, 40);
 	$drawer_label = "Elenco alunni".$label;
 	$data = array();
 	while ($row = $result->fetch_assoc()) {
-		$data[] = array("nome" => $row['cognome']." ".$row['nome'], "sec_f" => array($row['sec_f']));
+		$data[] = array("id" => $row['id_alunno'], "nome" => $row['cognome']." ".$row['nome'], "sec_f" => array($row['sec_f']));
 	}
 	include "classe.html.php";
 	exit;
