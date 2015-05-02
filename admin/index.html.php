@@ -818,6 +818,12 @@
 					<div class="card_minicontent">Visualizza elenchi e dati statistici riguardo il registro...</div>
 				</div>
 			</a>
+			<a href="login_failed.php">
+				<div class="card">
+					<div class="card_title">Login non riusciti</div>
+					<div class="card_minicontent">Visualizza i log relativi ai login non riusciti...</div>
+				</div>
+			</a>
 		</div>
         <div id="tb10" style="display: none" data-tablabel="moduli" class="card_container">
             <?php if(is_installed("com")){ ?>
