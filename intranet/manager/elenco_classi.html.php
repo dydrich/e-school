@@ -45,6 +45,10 @@
 				event.preventDefault();
 				document.location.href = "medie_classe.php?cls="+cls;
 			})
+			$('.notes_link').click(function(event){
+				event.preventDefault();
+				document.location.href = "note_classe.php?cls="+cls;
+			})
 		});
 
 		var show_menu = function(e, _offset) {
@@ -127,7 +131,8 @@
 	<a href="#" class="cdc_link">Consiglio di classe</a><br />
 	<a href="#" class="schedule_link">Orario</a><br />
 	<a href="#" class="students_link">Alunni</a><br />
-	<a href="#" class="grades_link">Voti</a>
+	<a href="#" class="grades_link">Voti</a><br />
+	<a href="#" class="notes_link">Provvedimenti disciplinari</a>
 </div>
 </body>
 </html>
