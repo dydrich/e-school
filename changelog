@@ -1,3 +1,29 @@
+4.3.96
+visualizzazione log login non riusciti (issue #18)
+
+4.2.95
+bug fix (utf8 in note_manager - teachers)
+
+4.2.94
+note disciplinari di classe in area segreteria (issue #8)
+
+4.2.93
+elenco eventi, news e avvisi in lettura (issue #77)
+
+4.2.92
+i widget per circolari e messaggi/file sono ora mostrati solo se necessari (circolari da leggere, messaggi da leggere/file da scaricare)
+
+4.2.91
+nuova visualizzazione documenti in 2 righe, con seconda che indica data di upload e autore
+
+4.2.90
+revisione template PDF (issue #76)
+bug fixes
+
+4.2.89
+stampa assenze anni precedenti (issue #67)
+grafica: nuove card
+
 4.2.88
 modifiche grafica card
 
