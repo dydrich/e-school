@@ -101,6 +101,11 @@
 	<?php include "class_working.php" ?>
 	</div>
 	<div id="left_col">
+		<div style="top: -10px; margin-left: 35px; margin-bottom: -10px" class="rb_button">
+			<a href="elenco_alunni.php">
+				<img src="../../../images/47bis.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
 		<form id="testform" method="post" class="no_border">
 			<input type="hidden" id="area" name="area" />
 			<input type="hidden" id="stid" name="stid" value="<?php echo $_REQUEST['stid'] ?>" />
@@ -133,51 +138,6 @@
 					<p class="bclear"></p>
 					<div class="_right" id="reg_button" style="width: 96%">
 						<a href="#" id="addr_button" class="material_link">Registra</a>
-					</div>
-				</div>
-			</fieldset>
-			<fieldset class="wd_90 _elem_center" style="display: none">
-				<legend>Telefono</legend>
-				<div class="wd_90 _elem_center">
-					<div class="wd_90" id="container">
-					<?php
-					if (count($tel) == 0){
-					?>
-					Non &egrave; presente alcun recapito telefonico;
-					<?php
-					}
-					else{
-						$i = 0;
-						foreach ($tel as $numbr){
-					?>
-					<div id="row_<?php echo $i ?>">
-					<div class="wd_10 fleft">Numero</div>
-					<div class="wd_30 fleft"><input type="text" id="number_<?php echo $i ?>" name="number_<?php echo $i ?>" class="wd_95" value="<?php echo $numbr['number'] ?>" /></div>
-					<div class="wd_10 fleft"> </div>
-					<div class="wd_15 fleft _center">Descrizione</div>
-					<div class="wd_30 fleft"><input type="text" id="desc_<?php echo $i ?>" name="desc_<?php echo $i ?>" class="wd_95" value="<?php echo $numbr['desc'] ?>" /></div>
-					<a href="#" id="save_<?php echo $i ?>" class="del" style="margin: 0 10px 0 10px" title="Salva"><img src="../../../images/1.png" /></a>
-					<a href="#" id="del_<?php echo $i ?>" class="del" title="Cancella"><img src="../../../images/51.png" /></a>
-					</div>
-
-					<p class="bclear"></p>
-					<?php
-							$i++;
-						}
-					}
-					?>
-					<p class="bclear">&nbsp;</p>
-					<div>
-					<div class="wd_10 fleft">Numero</div>
-					<div class="wd_30 fleft"><input type="text" id="number" name="number" class="wd_95" /></div>
-					<div class="wd_10 fleft"> </div>
-					<div class="wd_15 fleft _center">Descrizione</div>
-					<div class="wd_30 fleft"><input type="text" id="desc" name="desc" class="wd_95" /></div>
-					<div>
-						<a href="#" id="add_phone" class="standard_link">Aggiungi</a>
-					</div>
-					<p class="bclear"></p>
-					</div>
 					</div>
 				</div>
 			</fieldset>

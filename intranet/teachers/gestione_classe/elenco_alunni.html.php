@@ -36,6 +36,10 @@
 				event.preventDefault();
 				print_profile();
 			});
+			$('.phone_link').click(function(event){
+				event.preventDefault();
+				show_phones();
+			});
 			$('#overlay').click(function(event) {
 				if ($('#overlay').is(':visible')) {
 					show_drawer(event);
@@ -61,8 +65,12 @@
 			document.location.href = "dettaglio_alunno.php?stid="+stid;
 		};
 
+		var show_phones = function(){
+			document.location.href = "telefoni_alunno.php?stid="+stid;
+		};
+
 		var print_profile = function(){
-			document.location.href = "pdf_dettaglio_alunno.php?stid="+stid;
+			document.location.href = "pdf_profilo_alunno.php?stid="+stid;
 		};
 
 		var _show = function(e, off) {
@@ -107,15 +115,16 @@
 			if($add['indirizzo'] != ""){
 				$address = $add['indirizzo'];
 			}
+		}
 
-			$tel = array();
-			if (isset($add['telefono']) && strlen($add['telefono']) > 0){
-				$t = explode(";", $add['telefono']);
-				foreach ($t as $row){
-					list($number, $desc) = explode("#", $row);
-					$tel[] = array("desc" => $desc, "number" => $number);
-				}
+		$tel = array();
+		$sel_ph = "SELECT telefono FROM rb_telefoni_alunni WHERE id_alunno = ".$alunno['id_alunno'];
+		$res_ph = $db->execute($sel_ph);
+		if($res_ph->num_rows > 0){
+			while ($ph = $res_ph->fetch_assoc()) {
+				$tel[] = $ph['telefono'];
 			}
+			$phone = implode(", ", $tel);
 		}
 		
 		$data_nascita = "--";
@@ -133,7 +142,7 @@
 		</div>
 		<div class="card_content">
 			<span id="add<?php print $alunno['id_alunno'] ?>">Indirizzo: <?php print $address ?></span><br />
-			<span id="phn<?php print $alunno['id_alunno'] ?>">Telefono: <?php if (isset($tel) && count($tel) > 0) echo $tel[0]['number']; if (isset($tel) && count($tel) > 1) echo " ..." ?></span>
+			<span id="phn<?php print $alunno['id_alunno'] ?>">Telefono: <?php echo $phone ?></span>
 		</div>
 	</div>
 	<?php 
@@ -153,7 +162,8 @@
 <!-- menu contestuale -->
     <div id="std_list_ctx" class="context_menu">
     	<a href="#" class="profile_link">Visualizza il profilo</a><br />
-    	<!-- <a href="#" class="profile_print">Stampa scheda</a><br /> -->
+	    <a href="#" class="phone_link">Numeri di telefono</a><br />
+    	<a href="#" class="profile_print">Scarica scheda</a><br />
     </div>
 <!-- fine menu contestuale -->
 </div>

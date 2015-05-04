@@ -16,15 +16,6 @@ $alunno = array();
 if ($res_alunno->num_rows > 0){
 	$alunno = $res_alunno->fetch_assoc();
 }
-$tel = array();
-if (isset($alunno['telefono']) && strlen($alunno['telefono']) > 0){
-	$t = explode(";", $alunno['telefono']);
-	foreach ($t as $row){
-		list($number, $desc) = explode("#", $row);
-		$tel[] = array("desc" => $desc, "number" => $number);
-	}
-}
-
 
 $navigation_label = "gestione classe";
 $drawer_label = "Dettaglio alunno ".$alunno['cognome']." ".$alunno['nome'];
