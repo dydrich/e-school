@@ -67,7 +67,7 @@ table {
     width: 50%;
     float: left;
     font-size: 1.2em;
-    font-family: Georgia;
+    font-family: Georgia, serif;
     font-weight: bold;
     color: rgb(255, 255, 255);
     margin-top: 15px;
@@ -78,7 +78,7 @@ table {
     width: 40%;
     float: left;
     font-size: 1.2em;
-    font-family: Georgia;
+    font-family: Georgia, serif;
     font-weight: bold;
     text-align: right;
     color: rgb(255, 255, 255);
@@ -600,6 +600,10 @@ div.accordion {
 
 .accent_color a {
     color: #E51C23 !important;
+}
+
+.accent_decoration {
+    border-bottom: 1px solid #E51C23 !important;
 }
 
 .list_row {
@@ -1343,3 +1347,25 @@ div.admin_link_wrapper {
     font-weight: 600;
 }
 
+input.android, select.android, textarea.android {
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px;
+    border-width: 0 0 1px 0;
+    border-color: rgba(30, 67, 137, .6);
+    border-style: solid;
+
+    font-size: 1em
+}
+
+input.android:focus, select.android:focus, textarea.android:focus {
+    border-width: 0 0 2px 0;
+    border-color: #D01716;
+}
+
+.main_700, .main_700 a {
+    color: #D01716 !important;
+}
+
+.main_500, .main_500 a {
+    color: #D01716 !important;
+}

@@ -1294,3 +1294,25 @@ div.admin_link_wrapper {
     font-weight: 600;
 }
 
+input.android, select.android, textarea.android {
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px;
+    border-width: 0 0 1px 0;
+    border-color: rgba(30, 67, 137, .6);
+    border-style: solid;
+
+    font-size: 1em
+}
+
+input.android:focus, select.android:focus, textarea.android:focus {
+    border-width: 0 0 2px 0;
+    border-color: #3F51B5;
+}
+
+.main_700, .main_700 a {
+    color: #303F9F !important;
+}
+
+.main_500, .main_500 a {
+    color: #3F51B5 !important;
+}

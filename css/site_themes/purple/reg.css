@@ -1269,38 +1269,25 @@ div.admin_link_wrapper {
     font-weight: 600;
 }
 
-#dashboard {
-    position: relative;
-    width: 260px;
-    height: 35px;
-    background-color: #7B1FA2;
-    text-align: right;
-    overflow: hidden;
-    float: left;
-    margin-right: 0;
-    color: #EEEEEE;
-    top: -10px;
+input.android, select.android, textarea.android {
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px;
+    border-width: 0 0 1px 0;
+    border-color: rgba(30, 67, 137, .6);
+    border-style: solid;
+
+    font-size: 1em
 }
 
-.numberlabel {
-    border-radius: 50%;
-    font-size: 9px;
-    font-weight: normal;
-    height: 13px;
-    line-height: 1em;
-    padding: 1px;
-    position: absolute;
-    right: 0;
-    text-align: center;
-    top: -3px;
-    width: 13px;
-    color: #ffffff;
-    display: inline;
-    vertical-align: baseline;
-    white-space: nowrap;
-    z-index: 100;
+input.android:focus, select.android:focus, textarea.android:focus {
+    border-width: 0 0 2px 0;
+    border-color: #9c27b0;
 }
 
-.numberlabel-danger {
-    background-color: #d9534f;
+.main_700, .main_700 a {
+    color: #7b1fa2 !important;
+}
+
+.main_500, .main_500 a {
+    color: #9c27b0 !important;
 }
