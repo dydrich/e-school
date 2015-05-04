@@ -77,7 +77,7 @@
 		<?php include "../new_year_menu.php" ?>
 	</div>
 	<div id="left_col">
-	<form method="post" id="_form" action="update_student.php" class="no_border" style="width: 90%">
+	<form method="post" id="_form" action="manage_student.php" class="no_border" style="width: 90%">
 	<fieldset style="width: 95%; padding-top: 10px; margin: 20px auto 20px auto;">
 	<legend>Dati alunno</legend>
 	<table style="width: 80%; margin: auto">
