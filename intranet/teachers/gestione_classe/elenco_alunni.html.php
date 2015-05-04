@@ -52,6 +52,10 @@
 			}).css({
 				cursor: "pointer"
 			});
+			$('#pdf').click(function(event){
+				event.preventDefault();
+				filter();
+			});
 		});
 
 		var show_menu = function(e, _stid, offset){
@@ -86,6 +90,32 @@
 			$('#classeslist_drawer').show('slide', 300);
 			return true;
 		};
+
+		var filter = function(){
+			$('#drawer').hide();
+			$('#listfilter').dialog({
+				autoOpen: true,
+				show: {
+					effect: "appear",
+					duration: 200
+				},
+				hide: {
+					effect: "slide",
+					duration: 200
+				},
+				modal: true,
+				width: 450,
+				height: 300,
+				title: 'Filtra elenco',
+				open: function(event, ui){
+
+				},
+				close: function(event) {
+					$('#overlay').hide();
+				}
+			});
+		};
+
 	</script>
 </head> 
 <body>
@@ -96,7 +126,12 @@
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-	<div class="card_container">
+	<div style="position: absolute; top: 75px; margin-left: 675px; margin-bottom: 10px; " class="rb_button">
+		<a href="#" id="pdf">
+			<img src="../../../images/pdf-32.png" style="padding: 4px 0 0 7px" />
+		</a>
+	</div>
+	<div class="card_container" style="margin-top: 10px">
 	<?php 
 	$background = "";
 	$idx = 1;
@@ -200,6 +235,14 @@
 		}
 	}
 	?>
+</div>
+<div id="listfilter" style="display: none; width: 250px">
+	<p><a href="pdf_elenco_alunni.php?t=1">Solo nomi</a></p>
+	<p><a href="pdf_elenco_alunni.php?t=2">Anagrafica</a></p>
+	<p><a href="pdf_elenco_alunni.php?t=3">Con indirizzi</a></p>
+	<p><a href="pdf_elenco_alunni.php?t=4">Numeri di telefono</a></p>
+	<p><a href="pdf_elenco_alunni.php?t=5">Numeri di telefono con descrizione</a></p>
+	<p><a href="pdf_elenco_alunni.php?t=6">Completo</a></p>
 </div>
 </body>
 </html>
