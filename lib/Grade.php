@@ -9,6 +9,9 @@
  *
  */
 
+require_once "EventLogFactory.php";
+require_once "EventLogDB.php";
+
 class Grade {
 
 	private $id;
@@ -330,6 +333,15 @@ class Grade {
 		}
 		else {
 			// update
+			/*
+			 * evento modifica voto
+			 */
+			$sel_grade = "SELECT * FROM rb_voti WHERE id_voto = {$this->getId()}";
+			$res_grade = $this->datasource->executeQuery($sel_grade);
+			$old_grade = $res_grade[0];
+			$elf = \eschool\EventLogFactory::getInstance($old_grade, $this->datasource);
+			$event_logger = $elf->getEventLog();
+			$event_logger->logUpdatedGrade();
 			$stm = "UPDATE rb_voti SET voto = {$this->getGrade()}, privato = {$privato}, descrizione = '{$this->getDescription()}', tipologia = {$this->getType()}, note = ".field_null($this->getNote(), true).", data_voto = '{$this->getGradeDate()}', argomento = '{$this->getTopic()}' WHERE id_voto = {$this->getId()}";
 			return $this->datasource->executeUpdate($stm);
 		}

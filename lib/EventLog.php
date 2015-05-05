@@ -21,5 +21,7 @@ abstract class EventLog {
 
 	abstract function logDeletedDocument();
 
+	abstract function logUpdatedEndOfYearGrade();
 
+	abstract function logUpdatedGrade();
 } 

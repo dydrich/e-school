@@ -1,6 +1,8 @@
 <?php
 
 require_once "../../../lib/start.php";
+require_once "../../../lib/EventLogFactory.php";
+require_once "../../../lib/EventLogDB.php";
 
 ini_set("display_errors", DISPLAY_ERRORS);
 
@@ -33,6 +35,24 @@ else if ($materia == 47) {
 $q = $_REQUEST['q'];
 $anno = $_SESSION['__current_year__']->get_ID();
 $grade = $_REQUEST['grade'];
+
+/*
+ * codice di tracciamento modifica voto
+ */
+$sel_grade = "SELECT * FROM rb_scrutini WHERE alunno = $id_alunno AND materia = $materia AND anno = $anno AND quadrimestre = $q";
+try {
+	$res_grade = $db->executeQuery($sel_grade);
+	$old_grade = $res_grade->fetch_assoc();
+	$elf = \eschool\EventLogFactory::getInstance($old_grade, new MySQLDataLoader($db));
+	$event_logger = $elf->getEventLog();
+	$event_logger->logUpdatedEndOfYearGrade();
+} catch (MySQLException $ex) {
+	$response['status'] = "kosql";
+	$response['message'] = $ex->getMessage();
+	$response['query'] = $ex->getQuery();
+	echo json_encode($response);
+	exit;
+}
 
 $avg = 0;
 $upd = "UPDATE rb_scrutini SET voto = $grade WHERE alunno = $id_alunno AND materia = $materia AND anno = $anno AND quadrimestre = $q";
