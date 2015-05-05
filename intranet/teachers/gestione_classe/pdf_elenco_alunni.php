@@ -66,8 +66,8 @@ class MYPDF extends SchoolPDF {
 				}
 				break;
 			case 5:
-				$this->SetFont('', '', '11');
 				foreach ($students as $student) {
+					$this->SetFont('', '', '11');
 					$this->Cell(70, 7, $student['anagrafica']['alunno'], 0, 1, "left");
 					$this->SetFont('', '', '9');
 
