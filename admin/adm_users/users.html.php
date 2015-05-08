@@ -86,13 +86,13 @@
 				var strs = this.parentNode.id.split("_");
 				del_user(strs[1]);
 			});
-			$('#filter_button').click(function(event){
-				event.preventDefault();
-				filter();
-			});
 			$('#go_link').click(function(event){
 				event.preventDefault();
 				go();
+			});
+			$('#open_search').click(function(event){
+				event.preventDefault();
+				filter();
 			});
 		});
 
@@ -106,7 +106,12 @@
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div style="position: absolute; top: 75px; margin-left: 575px; margin-bottom: -5px" class="rb_button">
+		<div style="position: absolute; top: 75px; left: 49%; margin-bottom: -5px" class="rb_button">
+			<a href="#" id="open_search">
+				<img src="../../images/7.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
+		<div style="position: absolute; top: 75px; left: 53%; margin-bottom: -5px" class="rb_button">
 			<a href="dettaglio_utente.php?id=0">
 				<img src="../../images/39.png" style="padding: 12px 0 0 12px" />
 			</a>
@@ -164,7 +169,6 @@
 <?php include "../footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">
 	<div style="width: 100%; height: 430px">
-		<div class="drawer_link separator"><a href="#" id="filter_button"><img src="../../images/69.png" style="margin-right: 10px; position: relative; top: 5%" />Filtra elenco</a></div>
 		<div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
 		<div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
 		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
@@ -177,7 +181,7 @@
 			<legend style="font-weight: bold;">Parametri di ricerca</legend>
 			<table style="width: 350px; margin-left: auto; margin-right: auto; margin-top: 10px">
 				<tr>
-					<td class="popup_title" align="left" style="width: 150px">Nome</td>
+					<td class="popup_title" align="left" style="width: 150px">Cognome</td>
 					<td style="width: 200px">
 						<input type="text" name="nome" style="width: 199px; font-size: 11px" value="" />
 					</td>
@@ -188,7 +192,7 @@
 			</table>
 		</fieldset>
 		<div style="width: 350px; margin-left: 15px; margin-top: 20px; margin-bottom: 20px; text-align: right">
-			<a href="../../shared/no_js.php" id="go_link" class="standard_link nav_link_first" style="color: #003366">Estrai</a>
+			<a href="../../shared/no_js.php" id="go_link" class="material_link nav_link_first" style="color: #003366">Estrai</a>
 		</div>
 	</form>
 </div>
