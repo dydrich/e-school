@@ -678,7 +678,7 @@ p.popup_header {
     color: #000000;
     border-radius: 2px;
 }
-.accent_button a, a.material_link {
+.accent_button a, a.material_link, .material_label {
     text-transform: uppercase;
     text-decoration: none;
     padding: 0;
@@ -687,3 +687,37 @@ p.popup_header {
     font-weight: 400;
 }
 
+input.android, select.android, textarea.android {
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px;
+    border-width: 0 0 1px 0;
+    border-color: rgba(30, 67, 137, .6);
+    border-style: solid;
+
+    font-size: 1em
+}
+
+input.android:focus, select.android:focus, textarea.android:focus {
+    border-width: 0 0 2px 0;
+    border-color: #ff9800;
+}
+
+.main_700, .main_700 a {
+    color: #F57C00 !important;
+}
+
+.main_500, .main_500 a {
+    color: #ff9800 !important;
+}
+
+.accent_color {
+    color: #FF9800;
+}
+
+.accent_color a {
+    color: #FF9800 !important;
+}
+
+.accent_decoration {
+    border-bottom: 1px solid #FF9800 !important;
+}

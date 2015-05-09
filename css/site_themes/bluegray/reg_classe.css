@@ -58,7 +58,7 @@ input.student_enter, input.student_exit {
     width: 50%;
     float: left;
     font-size: 1.2em;
-    font-family: Georgia;
+    font-family: Georgia, serif;
     font-weight: bold;
     color: rgb(255, 255, 255);
     margin-top: 15px;
@@ -69,7 +69,7 @@ input.student_enter, input.student_exit {
     width: 40%;
     float: left;
     font-size: 1.2em;
-    font-family: Georgia;
+    font-family: Georgia, serif;
     font-weight: bold;
     text-align: right;
     color: rgb(255, 255, 255);
@@ -150,7 +150,7 @@ div.drawer_label {
     height: 35px;
     border-bottom: 1px solid rgba(30, 67, 137, .7) !important;
     position: relative;
-    font-family: Georgia;
+    font-family: Georgia, serif;
     font-size: 1.1em;
     color: rgba(30, 67, 137, 1);
     text-align: left;
@@ -168,7 +168,7 @@ p#drawer_label {
 }
 
 div.drawer_link a, div.drawer_lastlink a {
-    font-family: Georgia;
+    font-family: Georgia, serif;
     font-size: 1.1em;
     text-decoration: none;
     color: rgba(30, 67, 137, 1);
@@ -365,7 +365,6 @@ div.card_content {
     border-top: 1px solid rgba(215, 215, 215, 1);
     padding-top: 5px;
     color: #212121;
-    #color: rgba(30, 67, 137, 1);
 }
 
 div.card_minicontent {
@@ -375,7 +374,6 @@ div.card_minicontent {
     border-top: 1px solid rgba(215, 215, 215, 1);
     padding-top: 5px;
     color: #1E4389;
-    #color: rgba(30, 67, 137, 1);
 }
 
 div.card_longcontent {
@@ -665,11 +663,46 @@ p.popup_header {
     color: white;
 }
 
-.accent_button a, a.material_link {
+.accent_button a, a.material_link, .material_label {
     text-transform: uppercase;
     text-decoration: none;
     padding: 0;
     color: #607D8B !important;
     font-size: .95em;
     font-weight: 400;
+}
+
+.accent_color {
+    color: #FF9100;
+}
+
+.accent_color a {
+    color: #FF9100 !important;
+}
+
+.accent_decoration {
+    border-bottom: 1px solid #FF9100 !important;
+}
+
+input.android, select.android, textarea.android {
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px;
+    border-width: 0 0 1px 0;
+    border-color: rgba(30, 67, 137, .6);
+    border-style: solid;
+
+    font-size: 1em
+}
+
+input.android:focus, select.android:focus, textarea.android:focus {
+    border-width: 0 0 2px 0;
+    border-color: #607D8B;
+}
+
+.main_700, .main_700 a {
+    color: #455A64 !important;
+}
+
+.main_500, .main_500 a {
+    color: #607D8B !important;
 }

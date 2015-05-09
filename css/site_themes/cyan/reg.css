@@ -576,7 +576,7 @@ div.accordion {
     position: relative;
     left: 60%;
 }
-.accent_button a, a.material_link {
+.accent_button a, a.material_link, .material_label {
     text-transform: uppercase;
     text-decoration: none;
     padding: 0;
