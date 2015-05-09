@@ -1,0 +1,28 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: riccardo
+ * Date: 09/05/15
+ * Time: 19.29
+ */
+require_once "../lib/start.php";
+
+check_session();
+check_permission(ADM_PERM);
+
+$_SESSION['__path_to_root__'] = "../";
+$_SESSION['__path_to_mod_home__'] = "./";
+
+$admin_level = 1;
+
+try {
+	$sel_events = "SELECT * FROM rb_tipievento_log ORDER BY id";
+	$res_events = $db->execute($sel_events);
+} catch (MySQLException $ex) {
+	$ex->redirect();
+}
+
+$drawer_label = "Gestione eventi";
+$navigation_label = "eventi tracciati";
+
+include "events_list.html.php";

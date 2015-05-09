@@ -824,6 +824,12 @@
 					<div class="card_minicontent">Visualizza i log relativi ai login non riusciti...</div>
 				</div>
 			</a>
+			<a href="events_list.php">
+				<div class="card">
+					<div class="card_title">Gestione eventi</div>
+					<div class="card_minicontent">Gestisci gli eventi da registrare...</div>
+				</div>
+			</a>
 		</div>
         <div id="tb10" style="display: none" data-tablabel="moduli" class="card_container">
             <?php if(is_installed("com")){ ?>
