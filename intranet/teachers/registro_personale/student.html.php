@@ -546,7 +546,12 @@ if (count($_SESSION['__subjects__']) > 1) {
 setlocale(LC_TIME, "it_IT.utf8");
 $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
-	<div style="top: -8px; margin-left: 925px; margin-bottom: -26px" class="rb_button">
+	<div style="top: -8px; margin-left: 825px; margin-bottom: -39px" class="rb_button">
+		<a href="#" id="weighted_avg">
+			<img src="../../../images/62.png" style="padding: 12px 0 0 12px" />
+		</a>
+	</div>
+	<div style="top: -8px; margin-left: 895px; margin-bottom: -26px" class="rb_button">
 		<a href="#" onclick="nuovo_voto(<?php print $alunno['id_alunno'] ?>, <?php print $_SESSION['__materia__'] ?>)">
 			<img src="../../../images/39.png" style="padding: 12px 0 0 12px" />
 		</a>
@@ -555,11 +560,11 @@ $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 <thead>
 <tr class="head_tr_no_bg">
 	<td colspan="4" style="width: 50%; text-align: center"><span id="uscita" style="font-weight: normal; text-transform: uppercase; color: #000000"><?php print $alunno['cognome']." ".$alunno['nome'] ?><?php echo $label_subject ?></span></td>
-	<td colspan="2" style="text-align: center"><span id="media" style="font-weight: bold; "></span>
+	<td colspan="2" style="text-align: left"><span id="media" style="font-weight: bold; "></span>
 	<?php 
 	if($num_note > 0){
 	?>
-	&nbsp;(<a href="student_notes.php?stid=<?php print $alunno['id_alunno'] ?>&q=<?php print $q ?>" style="font-weight: normal">Sono presenti <?= $num_note ?> note didattiche</a>)
+	&nbsp;(<a href="student_notes.php?stid=<?php print $alunno['id_alunno'] ?>&q=<?php print $q ?>" style="font-weight: normal"> <?php echo $num_note ?> note</a>)
 	<?php 
 	}
 	?>
@@ -788,10 +793,10 @@ codice per il popup nuovo voto
 </div>
 <!-- calcolo media ponderale -->
 <div id="wavg" style="display: none">
-	<p style='text-align: center; padding-top: 20px; font-weight: bold' id='titolo_w'>Calcola media ponderale</p>
+	<p style='text-align: center; padding-top: 0' id='titolo_w' class="material_label _bold">Calcola media ponderale</p>
 	<form id='avgform' action='' method='post'>
 		<table style='text-align: left; width: 95%; margin: auto; border-collapse: collapse' id='att'>
-			<tr style="border-bottom: 1px solid">
+			<tr class="accent_decoration">
 				<td style='width: 10%'>Voto</td>
 				<td style='width: 20%; text-align: center'>Data</td>
 				<td style='width: 50%; text-align: center'>Prova</td>
@@ -805,7 +810,7 @@ codice per il popup nuovo voto
 			reset($array_voti);
 			while($_row = $res_voti->fetch_assoc()){
 				if($dx % 2) {
-					$background = "background-color: #e8eaec";
+					#$background = "background-color: #e8eaec";
 				}
 				else {
 					$background = "";
@@ -821,7 +826,7 @@ codice per il popup nuovo voto
 					<td style='width: 20%; text-align: center; <?php print $background ?>'><?php echo format_date($_row['data_voto'], SQL_DATE_STYLE, IT_DATE_STYLE, '/') ?></td>
 					<td style='width: 50%; padding-left: 10px; <?php print $background ?>'><?php echo $_row['descrizione'] ?></td>
 					<td style='width: 20%; <?php print $background ?>'>
-						<input onchange='update_avg("<?php echo join(',', $array_voti) ?>")' style='width: 90%; border: 1px solid gray; font-size: 11px; margin: auto' type='text' value='1' id='pound<?php print $dx ?>' maxlength='2' />
+						<input onchange='update_avg("<?php echo join(',', $array_voti) ?>")' style='width: 90%; font-size: 11px; margin: auto; ' class='android' type='text' value='1' id='pound<?php print $dx ?>' class="android" maxlength='2' />
 					</td>
 				</tr>
 				<?php
