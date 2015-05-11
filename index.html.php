@@ -7,10 +7,21 @@
 	<script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="./js/page.js"></script>
 	<script type="text/javascript" src="./js/md5-min.js"></script>
-	<link href="css/site_themes/<?php echo getTheme() ?>/index.css" rel="stylesheet" type="text/css"/>
+	<link href="css/site_themes/light_blue/index.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/site_themes/light_blue/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript">
 		var area = "";
+		var colors = Array();
+<?php
+$i = 0;
+foreach ($colors as $color) {
+?>
+		colors[<?php echo $i ?>] = '<?php echo $color ?>';
+<?php
+	$i++;
+}
+?>
 
 		var check_msie = function(){
 			if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
@@ -122,25 +133,56 @@
 									}
 									document.location.href = link;
 								}
-								col_length = parseInt(300 / (gruppi.length + 1));
+								col_length = parseInt(50 * (gruppi.length + 2));
+								$('#login_form').css({height: col_length+"px", width: "500px", padding: "30px"});
+								ct = 0;
+
 								for(i = 0; i < gruppi.length; i++){
-									if(gruppi[i] == 1 || gruppi[i] == 9 || gruppi[i] == 10)
-										$("<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='admin/index.php'>Amministrazione</a></div>").appendTo($('#login_form'));
-									if(gruppi[i] == 2)
-										$("<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='intranet/teachers/index.php'>Accedi come docente</a></div>").appendTo($('#login_form'));
-									if(gruppi[i] == 3)
-										$("<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='intranet/ata/index.php'>Accedi come ATA</a></div>").appendTo($('#login_form'));
-									if(gruppi[i] == 4)
-										$("<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='intranet/genitori/index.php'>Accedi come genitore</a></div>").appendTo($('#login_form'));
-									if(gruppi[i] == 6)
-										$("<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='intranet/manager/index.php?role=6'>Accedi come DS</a></div>").appendTo($('#login_form'));
-									if(gruppi[i] == 5)
-										$("<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='intranet/manager/index.php?role=5'>Accedi alle funzioni di segreteria</a></div>").appendTo($('#login_form'));
-									if(gruppi[i] == 7)
-										$("<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='intranet/manager/index.php?role=7'>Accedi come DSGA</a></div>").appendTo($('#login_form'));
+									if (ct < 3) {
+										icon_color = "#FFFFFF";
+									}
+									else {
+										icon_color = "#222222";
+									}
+									if(gruppi[i] == 1 || gruppi[i] == 9 || gruppi[i] == 10) {
+										$("<a href='admin/index.php' style='text-transform: uppercase; color: #"+colors[ct]+"'><div class='nowcard'><div class='icon_card' style='background-color: #"+colors[ct]+"'><span class='fa fa-wrench' style='color: "+icon_color+"'></span></div><p class='text_card'>Amministrazione</p></div></a>").appendTo($('#login_form'));
+										ct++;
+										//$("<div class='start_link' style='height: " + col_length + "px; text-align: center'><a href='admin/index.php'>Amministrazione</a></div>").appendTo($('#login_form'));
+									}
+									if(gruppi[i] == 2) {
+										$("<a href='intranet/teachers/index.php' style='text-transform: uppercase; color: #"+colors[ct]+"'><div class='nowcard'><div class='icon_card' style='background-color: #"+colors[ct]+"'><span class='fa fa-users' style='color: "+icon_color+"'></span></div><p class='text_card'>Accedi come docente</p></div></a>").appendTo($('#login_form'));
+										ct++;
+										//$("<div class='start_link' style='height: " + col_length + "px; text-align: center'><a href='intranet/teachers/index.php'>Accedi come docente</a></div>").appendTo($('#login_form'));
+									}
+									if(gruppi[i] == 3) {
+										$("<a href='intranet/ata/index.php' style='text-transform: uppercase; color: #"+colors[ct]+"'><div class='nowcard'><div class='icon_card' style='background-color: #"+colors[ct]+"'><span class='fa fa-desktop' style='color: "+icon_color+"'></span></div><p class='text_card'>Accedi come ATA</p></div></a>").appendTo($('#login_form'));
+										ct++;
+										//$("<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='intranet/ata/index.php'>Accedi come ATA</a></div>").appendTo($('#login_form'));
+									}
+									if(gruppi[i] == 4) {
+										//$("<div class='start_link' style='height: " + col_length + "px; text-align: center'><a href='intranet/genitori/index.php'>Accedi come genitore</a></div>").appendTo($('#login_form'));
+										$("<a href='intranet/genitori/index.php' style='text-transform: uppercase; color: #" + colors[ct] + "'><div class='nowcard'><div class='icon_card' style='background-color: #" + colors[ct] + "'><span class='fa fa-male' style='color: " + icon_color + "'></span><span class='fa fa-female' style='font-size: 0.8em; color: " + icon_color + "'></span></div><p class='text_card'>Accedi come genitore</p></div></a>").appendTo($('#login_form'));
+										ct++;
+									}
+									if(gruppi[i] == 6) {
+										$("<a href='intranet/manager/index.php?role=6' style='text-transform: uppercase; color: #"+colors[ct]+"'><div class='nowcard'><div class='icon_card' style='background-color: #"+colors[ct]+"'><span class='fa fa-keyboard-o' style='color: "+icon_color+"'></span></div><p class='text_card'>Accedi come DS</p></div></a>").appendTo($('#login_form'));
+										ct++;
+										//$("<div class='start_link' style='height: " + col_length + "px; text-align: center'><a href='intranet/manager/index.php?role=6'>Accedi come DS</a></div>").appendTo($('#login_form'));
+									}
+									if(gruppi[i] == 5) {
+										$("<a href='intranet/manager/index.php?role=5' style='text-transform: uppercase; color: #"+colors[ct]+"'><div class='nowcard'><div class='icon_card' style='background-color: #"+colors[ct]+"'><span class='fa fa-archive' style='color: "+icon_color+"'></span></div><p class='text_card'>Accedi alle funzioni di segreteria</p></div></a>").appendTo($('#login_form'));
+										ct++;
+										//$("<div class='start_link' style='height: " + col_length + "px; text-align: center'><a href='intranet/manager/index.php?role=5'>Accedi alle funzioni di segreteria</a></div>").appendTo($('#login_form'));
+									}
+									if(gruppi[i] == 7) {
+										$("<a href='intranet/manager/index.php?role=7' style='text-transform: uppercase; color: #"+colors[ct]+"'><div class='nowcard'><div class='icon_card' style='background-color: #"+colors[ct]+"'><span class='fa fa-calculator' style='color: "+icon_color+"'></span></div><p class='text_card'>Accedi come DSGA</p></div></a>").appendTo($('#login_form'));
+										ct++;
+										//$("<div class='start_link' style='height: " + col_length + "px; text-align: center'><a href='intranet/manager/index.php?role=7'>Accedi come DSGA</a></div>").appendTo($('#login_form'));
+									}
 
 								}
-								$("<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='<?php print $_SESSION['__config__']['root_site'] ?>/shared/do_logout.php'>Logout</a></div>").appendTo($('#login_form'));
+								$("<a href='shared/do_logout.php' style='text-transform: uppercase; color: #607d8b'><div class='nowcard logout'><div class='icon_card' style='background-color: #607d8b'><span class='fa fa-desktop' style='color: #FFFFFF'></span></div><p class='text_card'>Logout</p></div></a>").appendTo($('#login_form'));
+								//$("<div class='start_link' style='height: "+col_length+"px; text-align: center'><a href='<?php print $_SESSION['__config__']['root_site'] ?>/shared/do_logout.php'>Logout</a></div>").appendTo($('#login_form'));
 							}, 350);
 						}
 						$('#login_form').fadeIn("500");
@@ -303,7 +345,7 @@
 		</div>
 	</header>
 	<section class="wrap">
-		<div id="login_form" style="">
+		<div id="login_form" style="<?php if (isset($_SESSION['__user__'])) echo "height: ".$col_length."px; width: 500px; padding: 30px; " ?>">
 		<?php 
 		if(!isset($_SESSION['__user__'])){ 
 		?>
@@ -329,40 +371,59 @@
 		}
 		else {
 			$groups = $_SESSION['__user__']->getGroups();
-			$col_length = 300 / (count($groups) + 1);
+			$col_length = 50 * (count($groups) + 1);
+			$ct = 0;
 			for($i = 0; $i < count($groups); $i++){
+				if ($ct < 3) {
+					$icon_color = "#FFFFFF";
+				}
+				else {
+					$icon_color = "#222222";
+				}
 				if($groups[$i] == 1 || $groups[$i] == 9 || $groups[$i] == 10){
-					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a style='' href='./admin/index.php'>Amministrazione</a></div>");
+					print("<a href='admin/index.php' style='text-transform: uppercase; color: #".$colors[$ct]."'><div class='nowcard'><div class='icon_card' style='background-color: #".$colors[$ct]."'><span class='fa fa-wrench' style='color: ".$icon_color."'></span></div><p class='text_card'>Amministrazione</p></div></a>");
+					$ct++;
 				}
 				if($groups[$i] == 2){
-					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/teachers/index.php'>Accedi come docente</a></div>");
+					print("<a href='intranet/teachers/index.php' style='text-transform: uppercase; color: #".$colors[$ct]."'><div class='nowcard'><div class='icon_card' style='background-color: #".$colors[$ct]."'><span class='fa fa-users' style='color: ".$icon_color."'></span></div><p class='text_card'>Accedi come docente</p></div></a>");
+					$ct++;
 				}
 				if($groups[$i] == 3){
-					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/ata/index.php'>Accedi come ATA</a></div>");
+					print("<a href='intranet/ata/index.php' style='text-transform: uppercase; color: #".$colors[$ct]."'><div class='nowcard'><div class='icon_card' style='background-color: #".$colors[$ct]."'><span class='fa fa-desktop' style='color: ".$icon_color."'></span></div><p class='text_card'>Accedi come ATA</p></div></a>");
+					$ct++;
 				}
 				if($groups[$i] == 4){
-					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/genitori/index.php'>Accedi come genitore</a></div>");
+					print("<a href='intranet/genitori/index.php' style='text-transform: uppercase; color: #".$colors[$ct]."'><div class='nowcard'><div class='icon_card' style='background-color: #".$colors[$ct]."'><span class='fa fa-male' style='color: ".$icon_color."'></span><span class='fa fa-female' style='font-size: 0.8em; color: ".$icon_color."'></span></div><p class='text_card'>Accedi come genitore</p></div></a>");
+					$ct++;
 				}
 				if($groups[$i] == 5){
-					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/manager/index.php?role=5'>Accedi alle funzioni di segreteria</a></div>");
+					print("<a href='intranet/manager/index.php?role=5' style='text-transform: uppercase; color: #".$colors[$ct]."'><div class='nowcard'><div class='icon_card' style='background-color: #".$colors[$ct]."'><span class='fa fa-archive' style='color: ".$icon_color."'></span></div><p class='text_card'>Accedi alle funzioni di segreteria</p></div></a>");
+					$ct++;
 				}
 				if($groups[$i] == 6){
-					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/manager/index.php?role=6'>Accedi come DS</a></div>");
+					print("<a href='intranet/manager/index.php?role=6' style='text-transform: uppercase; color: #".$colors[$ct]."'><div class='nowcard'><div class='icon_card' style='background-color: #".$colors[$ct]."'><span class='fa fa-keyboard-o' style='color: ".$icon_color."'></span></div><p class='text_card'>Accedi come DS</p></div></a>");
+					$ct++;
 				}
 				if($groups[$i] == 7){
-					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/manager/index.php?role=7'>Accedi come DSGA</a></div>");
+					print("<a href='intranet/manager/index.php?role=7' style='text-transform: uppercase; color: #".$colors[$ct]."'><div class='nowcard'><div class='icon_card' style='background-color: #".$colors[$ct]."'><span class='fa fa-calculator' style='color: ".$icon_color."'></span></div><p class='text_card'>Accedi come DSGA</p></div></a>");
+					$ct++;
 				}
 				if($groups[$i] == 8){
-					print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='intranet/alunni/index.php'>Accedi all'area studenti</a></div>");
+					print("<a href='intranet/alunni/index.php' style='text-transform: uppercase; color: #".$colors[$ct]."'><div class='nowcard'><div class='icon_card' style='background-color: #".$colors[$ct]."'><span class='fa fa-graduation-cap' style='color: ".$icon_color."'></span></div><p class='text_card'>Accedi all'area studenti</p></div></a>");
+					$ct++;
 				}
 			
 			}
-			print("<div class='start_link' style='height: {$col_length}px; text-align: center'><a href='shared/do_logout.php'>Logout</a></div>");
+			print("<a href='shared/do_logout.php' style='text-transform: uppercase; color: #607d8b'><div class='nowcard logout'><div class='icon_card' style='background-color: #607d8b'><span class='fa fa-undo' style='color: #FFFFFF'></span></div><p class='text_card'>Logout</p></div></a>");
 		} ?>
 		</div>
-		<nav>
-			<div id="back" style="width: 500px; margin: 10px auto 0 auto; text-align: center; display: none"><a href="#" id="back_link" style="color: #EEEEEE; font-size: 1.5em; text-shadow: 0 0 2px #FFFFFF; text-decoration: underline">Indietro</a></div>
-			<div id="newpwd" style="width: 500px; margin: 10px auto 0 auto; text-align: center; display: none"><a href="#" id="newpwd_link" style="color: #EEEEEE; font-style: italic; font-size: 1.2em; text-shadow: 0 0 2px #FFFFFF;; text-decoration: underline">Password dimenticata?</a></div>
+		<nav style="clear: both">
+			<div id="back" style="width: 500px; margin: 10px auto 0 auto; text-align: center; display: none">
+				<a href="#" id="back_link" style="color: #EEEEEE; font-size: 1.5em; text-shadow: 0 0 2px #FFFFFF; text-decoration: underline">Indietro</a>
+			</div>
+			<div id="newpwd" style="width: 500px; margin: 10px auto 0 auto; text-align: center; display: none">
+				<a href="#" id="newpwd_link" style="color: #EEEEEE; font-style: italic; font-size: 1.2em; text-shadow: 0 0 2px #FFFFFF;; text-decoration: underline">Password dimenticata?</a>
+			</div>
 		</nav>
 	</section>
 	<div id="alert" style="display: none">

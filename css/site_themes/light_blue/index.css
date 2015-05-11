@@ -5,9 +5,8 @@ html {
 }
 
 body {
-    #background-color: #1E4389;
     font-size: 12px;
-    font-family: Georgia
+    font-family: Georgia, serif;
     height: 100%;
     margin: 0;
 
@@ -57,7 +56,6 @@ body {
     border-bottom: 1px solid #FFFFFF;
     color: #FFFFFF;
     font-weight: bold;
-    #text-shadow: 0 0 5px #FFFFFF;
     display: block
 }
 
@@ -101,7 +99,7 @@ input {
     color: rgba(30, 67, 137, 1);
     border: 2px solid rgba(30, 67, 137, .6);
     border-radius: 5px;
-    box-shadow: 0px 0px 5px rgb(255, 255, 255);
+    box-shadow: 0 0 5px rgb(255, 255, 255);
     background-color: rgba(30, 67, 137, .1);
     font-size: 1.5em;
     margin: auto;
@@ -109,10 +107,10 @@ input {
 
 #button, #mail_button {
     width: 120px;
-    heigth: 65px;
+    height: 45px;
     background-color: rgba(30, 67, 137, 1);
     color: #EEEEEE;
-    font-size: 1.15em;
+    font-size: 1.25em;
     margin-top: 20px
 }
 
@@ -148,4 +146,51 @@ div#t1 {
 .start_link img {
     width: 55px;
     display: inline
+}
+.nowcard {
+    width: 450px;
+    height: 40px;
+    border: 1px solid rgba(215, 215, 215, 1);
+    background-color: #FFFFFF;
+    border-radius: 1px;
+    padding: 0;
+    overflow: hidden;
+    margin-bottom: 10px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+.icon_card {
+    position: relative;
+    font-size: 22px;
+    width: 60px;
+    float: left;
+    margin: 0;
+    text-align: center;
+    border-radius: 0 0 1px 1px;
+    height: 40px;
+}
+
+.icon_card > span {
+    padding: 10px 0 0 0;
+}
+
+.text_card {
+    float: left;
+    width: 380px;
+    text-align: center;
+    position: relative;
+    bottom: -13px;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.text_card a {
+    font-weight: 600;
+}
+
+.nowcard.logout {
+    position: relative;
+    margin-top: 50px;
 }
