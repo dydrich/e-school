@@ -82,14 +82,15 @@ while($al = $res_alunni->fetch_assoc()){
 	$alunni[$al['id_alunno']]['alunno'] = $al;
 	$alunni[$al['id_alunno']]['voti'] = array();
 
-	$sel_voti = "SELECT voto, assenze, rb_scrutini.materia FROM rb_scrutini, rb_materie WHERE rb_scrutini.materia = id_materia AND alunno = ".$al['id_alunno']." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND quadrimestre = $q ORDER BY rb_materie.posizione_pagella";
+	$sel_voti = "SELECT COALESCE(voto, 0) AS voto, assenze, rb_scrutini.materia FROM rb_scrutini, rb_materie WHERE rb_scrutini.materia = id_materia AND alunno = ".$al['id_alunno']." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND quadrimestre = $q ORDER BY rb_materie.posizione_pagella";
 	//print $sel_voti;
+
 	try{
 		$res_voti = $db->executeQuery($sel_voti);
 	} catch (MySQLException $ex){
 		$ex->redirect();
 	}
-	$sum = 0;
+	$sum = $corrected_sum = 0;
 	$num_mat = $num_materie - 1;
 	$num_mat = 0;
 
@@ -97,11 +98,21 @@ while($al = $res_alunni->fetch_assoc()){
 		$alunni[$al['id_alunno']]['voti'][$voto['materia']] = $voto;
 		if($voto['materia'] != 26 && $voto['materia'] != 30 && $voto['materia'] != 40){
 			$sum += $voto['voto'];
-			$num_mat++;
+			if ($voto['voto'] != 0) {
+				if ($voto['voto'] < 6) {
+					$corrected_sum += 6;
+				}
+				else {
+					$corrected_sum += $voto['voto'];
+				}
+				$num_mat++;
+			}
 		}
 	}
 	$avg = $sum / $num_mat;
+	$corrected_avg = $corrected_sum / $num_mat;
 	$alunni[$al['id_alunno']]['media'] = round($avg, 2);
+	$alunni[$al['id_alunno']]['media_corretta'] = round($corrected_avg, 2);
 }
 
 class MYPDF extends SchoolPDF {
@@ -144,17 +155,18 @@ class MYPDF extends SchoolPDF {
 			$this->SetFont('helvetica', '', 9);
 			foreach ($alunni as $alunno){
 				$this->SetTextColor(0);
-				$this->Cell(45, 5, "   ".$alunno['alunno']['cognome']." ".substr($alunno['alunno']['nome'], 0, 1).". (".$alunno['media'].")", 1, 0);
+				$this->Cell(45, 5, "   ".$alunno['alunno']['cognome']." ".substr($alunno['alunno']['nome'], 0, 1).". (".$alunno['media']."/".$alunno['media_corretta'].")", 1, 0);
 				foreach ($alunno['voti'] as $k => $voto){
-					if ($ordine_scuola != 2 && $voto['voto'] < 6){
+					if ($ordine_scuola != 2 && $voto['voto'] < 6 && $voto['voto'] > 0){
 						$this->SetTextColor(255, 0, 0);
 					}
 					else {
 						$this->SetTextColor(0);
 					}
-					if (($voto['materia'] == 26 || $voto['materia'] == 30) && $voto['voto'] != "" ){
+					if (($voto['materia'] == 26 || $voto['materia'] == 30) && $voto['voto'] != 0 ){
 						$voto['voto'] = $voti_religione[$voto['voto']];
 					}
+					if ($voto['voto'] == "0") $voto['voto'] = "/";
 					if ($ordine_scuola == 1){
 						$this->Cell($col_w, 5, $voto['voto'], 1, 0, 'C');
 					}
@@ -191,17 +203,18 @@ class MYPDF extends SchoolPDF {
 			$this->SetFont('helvetica', '', 9);
 			foreach ($alunni as $alunno){
 				$this->SetTextColor(0);
-				$this->Cell(40, 2, "   ".$alunno['alunno']['cognome']." ".substr($alunno['alunno']['nome'], 0, 1).". (".$alunno['media'].")", 1, 0);
+				$this->Cell(40, 2, "   ".$alunno['alunno']['cognome']." ".substr($alunno['alunno']['nome'], 0, 1).". (".$alunno['media']."/".$alunno['media_corretta'].")", 1, 0);
 				foreach ($alunno['voti'] as $k => $voto){
-					if ($voto['voto'] < 6){
+					if ($voto['voto'] < 6 && $voto['voto'] > 0){
 						$this->SetTextColor(255, 0, 0);
 					}
 					else {
 						$this->SetTextColor(0);
 					}
-					if (($voto['materia'] == 26 || $voto['materia'] == 30) && $voto['voto'] != "" ){
+					if (($voto['materia'] == 26 || $voto['materia'] == 30) && $voto['voto'] != 0 ){
 						$voto['voto'] = substr($voti_religione[$voto['voto']], 0, 1);
 					}
+					if ($voto['voto'] == "0") $voto['voto'] = "/";
 					if ($voto['materia'] != 2 && $voto['materia'] != 40){
 						$this->SetFont('helvetica', 'B', 9);
 						$this->Cell($col_w / 2, 2, $voto['voto'], 1, 0, 'C');
