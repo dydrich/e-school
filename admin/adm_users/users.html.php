@@ -147,7 +147,7 @@
 					        <img src="../../images/51.png" style="position: relative; bottom: 2px" />
 				        </a>
 			        </div>
-			        <div style="float: right; margin-right: 220px; text-align: left; width: 100px; text-transform: none" class="normal">
+			        <div style="float: right; margin-right: 120px; text-align: left; width: 200px; text-transform: none" class="normal">
 				        <a href="modifica_account.php?uid=<?php echo $user['uid'] ?>&area=<?php echo $area ?>&offset=<?php echo $offset ?>" class="normal"><?php echo $user['username'] ?></a>
 			        </div>
 		        </div>

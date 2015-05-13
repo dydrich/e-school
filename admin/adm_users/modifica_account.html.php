@@ -21,6 +21,7 @@
 				dataType: 'json',
 				error: function() {
 					j_alert("error", "Errore di trasmissione dei dati");
+					return;
 				},
 				succes: function() {
 

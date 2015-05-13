@@ -1,3 +1,66 @@
+4.4.116
+bug fix (bug #84)
+
+4.4.115
+nuova grafica index accesso
+fissato il tema dell'index a lightBlue
+
+4.4.114
+(firstClasses): apertura della funzione alla primaria
+(firstClasses): grafica e porting completo a jquery e j_alert
+
+4.3.113
+pulizia codice
+
+4.3.112
+gestione eventi admin (issue #10)
+
+4.3.111
+nuove classi material design anche in reg_classe
+
+4.3.110
+ripristino calcolo media ponderale
+
+4.3.109
+(documents): codice per il recupero degli ID persi a causa di errori di inserimento nell'albo pretorio
+
+4.3.108
+in users.php il filtro di ricerca spostato dal menu a un pulsante material
+
+4.3.107
+utf8 in scheda_alunno
+
+4.3.106
+bug fix (documents)
+
+4.3.105
+issue #14: log modifica voto (normale e di scrutinio)
+
+4.3.104
+bug fix
+
+4.3.103
+pulizia codice
+
+4.3.102
+pdf elenchi alunni
+
+4.3.101
+pulizia codice
+
+4.3.100
+main_500 e main_700 in tutti i temi
+input android style
+
+4.3.99
+pdf profilo alunno (#79)
+
+4.3.98
+gestione numeri telefonici alunni (issue (#58)
+
+4.3.97
+eliminazione codice di debug in gestione_scrutini (manager)
+
 4.3.96
 visualizzazione log login non riusciti (issue #18)
 

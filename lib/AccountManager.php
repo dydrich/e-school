@@ -157,8 +157,8 @@ class AccountManager{
 	}
 
 	public function checkUsername($uname) {
-		$names = $this->datasource_->executeQuery("SELECT username FROM ".$this->table_);
-		if (in_array($uname, $names)) {
+		$names = $this->datasource_->executeCount("SELECT username FROM ".$this->table_." WHERE username = '".$uname."' AND uid <> ".$this->user_->getUid());
+		if ($names != null) {
 			return false;
 		}
 		return true;
