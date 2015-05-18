@@ -200,7 +200,7 @@ div.card {
     color: #9c27b0 !important;
 }
 
-.normal {
+.normal, a.normal {
     color: #1E4389 !important;
 }
 
@@ -208,7 +208,7 @@ div.card {
     color: #9c27b0 !important;
 }
 
-.card_title a.normal {
+.card_title a.normal, .card a.normal {
     color: #1E4389 !important;
 }
 
@@ -1193,7 +1193,7 @@ div.admin_link_wrapper {
     font-size: .9em;
     margin:0;
     padding:0;
-    height:108px;
+    max-height: 108px;
     width: 450px;
 }
 #ticker li {
