@@ -82,10 +82,10 @@ class Grade {
 			$this->student = $data['alunno'];
 			$this->gradeDate = $data['data_voto'];
 			$this->year = $data['anno'];
-			$this->description = $data['descrizione'];
+			$this->description = utf8_encode($data['descrizione']);
 			$this->type = $data['tipologia'];
-			$this->topic = $data['argomento'];
-			$this->note = $data['note'];
+			$this->topic = utf8_encode($data['argomento']);
+			$this->note = utf8_encode($data['note']);
 			$this->privateGrade = ($data['privato'] == 1) ? true : false;
 			if ($data['id_verifica'] != null && $data['id_verifica'] != "" && $data['id_verifica'] != 0) {
 				$this->classwork = $data['id_verifica'];
