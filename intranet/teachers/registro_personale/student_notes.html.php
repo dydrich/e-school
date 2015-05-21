@@ -19,7 +19,8 @@
 
 		var count_notes = <?php echo $res_note->num_rows ?>;
 
-		var _show = function(e) {
+		var filter = function() {
+			/*
 			if ($('#tipinota').is(":visible")) {
 				$('#tipinota').hide("slide", 300);
 				return;
@@ -31,6 +32,24 @@
 			$('#tipinota').css({top: top+"px", left: left+"px", zIndex: 1000});
 			$('#tipinota').show('slide', 300);
 			return true;
+			*/
+			$('#div_tipinota').dialog({
+				autoOpen: true,
+				show: {
+					effect: "appear",
+					duration: 500
+				},
+				hide: {
+					effect: "slide",
+					duration: 300
+				},
+				modal: true,
+				width: 250,
+				title: 'Tipo nota',
+				open: function(event, ui){
+
+				}
+			});
 		};
 
 		var new_note = function(){
@@ -108,7 +127,7 @@
 				},
 				modal: true,
 				width: 450,
-				title: 'Nuovo voto',
+				title: 'Modifica nota',
 				open: function(event, ui){
 
 				}
@@ -264,18 +283,14 @@
 			return true;
 		};
 
+		var change_subject = function(id){
+			document.location.href="student_notes.php?subject="+id+"&q=<?php echo $q ?>&stid=<?php echo $student_id ?>";
+		};
+
 		$(function(){
 			load_jalert();
 			setOverlayEvent();
-			$('#tipinota').mouseleave(function(event){
-				$('#tipinota').hide();
-			});
-			$('#overlay').click(function(event) {
-				if ($('#overlay').is(':visible')) {
-					show_drawer(event);
-				}
-				$('#tipinota').hide();
-			});
+
 			$('.note_link').click(function(event){
 				//alert(this.id);
 				var strs = this.id.split("_");
@@ -308,20 +323,49 @@
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
+	<?php
+	$label_subject = "";
+	if (count($_SESSION['__subjects__']) > 1) {
+		?>
+		<div class="mdtabs">
+			<?php
+			foreach ($_SESSION['__subjects__'] as $mat) {
+				if (isset($_SESSION['__materia__']) && $_SESSION['__materia__'] == $mat['id']) {
+					$label_subject = "::".$mat['mat'];
+				}
+				?>
+				<div class="mdtab<?php if (isset($_SESSION['__materia__']) && $_SESSION['__materia__'] == $mat['id']) echo " mdselected_tab" ?>">
+					<a href="#" onclick="change_subject(<?php echo $mat['id'] ?>)"><span><?php echo $mat['mat'] ?></span></a>
+				</div>
+			<?php
+			}
+			?>
+		</div>
+	<?php
+	}
+
+	?>
 <?php 
 setlocale(LC_TIME, "it_IT.utf8");
 $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
-	<div style="top: -15px; margin-left: 925px; margin-bottom: -35px" class="rb_button">
-		<a href="#" onclick="new_note(<?php print $alunno['id_alunno'] ?>)">
-			<img src="../../../images/39.png" style="padding: 12px 0 0 12px" />
-		</a>
-	</div>
+	<form>
+		<div style="top: -8px; margin-left: 825px; margin-bottom: -39px" class="rb_button">
+			<a href="#" onclick="filter()">
+				<img src="../../../images/69.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
+		<div style="top: -8px; margin-left: 895px; margin-bottom: -26px" class="rb_button">
+			<a href="#" onclick="new_note(<?php print $alunno['id_alunno'] ?>, <?php print $_SESSION['__materia__'] ?>)">
+				<img src="../../../images/39.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
+
 <table class="registro">
 <thead>
 <tr class="head_tr_no_bg">
 	<td colspan="2" style="text-align: center; "><span id="ingresso" style="font-weight: bold; "><?php print $alunno['cognome']." ".$alunno['nome'] ?></span></td>
-	<td style="text-align: center; font-weight: bold">Materia: <?php print $desc_materia ?></td>
+	<td>Materia: <?php print $desc_materia ?></td>
 </tr>
 <tr class="title_tr"> 
 	<td style="width: 20%; text-align: center"><a href="student_notes.php?stid=<?php echo $student_id ?>&q=<?php echo $q ?>&order=data" style="font-weight: bold; color: #000000">Data</a></td>
@@ -359,7 +403,30 @@ while($row = $res_note->fetch_assoc()){
 <?php 
 	$index++;
 }
+
+$previous = get_sibling($_SESSION['students'], $student_id, PREVIOUS);
+$next = get_sibling($_SESSION['students'], $student_id, NEXT);
+if($previous == INDEX_OUT_OF_BOUND){
+	$link_p = "#";
+	$text_p = "";
+}
+else{
+	$link_p = "student_notes.php?stid=".$previous['id']."&q=$q";
+	$text_p = $previous['value'];
+}
+if($next == INDEX_OUT_OF_BOUND){
+	$link_n = "#";
+	$text_n = "";
+}
+else{
+	$link_n = "student_notes.php?stid=".$next['id']."&q=$q";
+	$text_n = $next['value'];
+}
 ?>
+<tr style="height: 30px">
+	<td colspan="2" style="text-align: left"><a href="<?php echo $link_p ?>" style="margin-left: 30px; font-weight: normal; text-decoration: none">&lt;&lt; <?php echo $text_p ?></a></td>
+	<td colspan="1" style="text-align: right"><a href="<?php echo $link_n ?>" style="margin-right: 30px; font-weight: normal; text-decoration: none"><?php echo $text_n ?> &gt;&gt;</a></td>
+</tr>
 </tbody>
 <tfoot>
 <tr>
@@ -367,14 +434,12 @@ while($row = $res_note->fetch_assoc()){
 </tr>
 </tfoot>
 </table>
+		</form>
 </div>
 <?php include "../footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">
 	<div style="width: 100%; height: 430px">
 		<div class="drawer_label"><span>Classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?></span></div>
-		<div class="drawer_link submenu separator">
-			<a href="#" onclick="_show(event)"><img src="../../../images/1.png" style="margin-right: 10px; position: relative; top: 5%"/>Filtra per tipo nota</a>
-		</div>
 		<div class="drawer_link submenu"><a href="index.php"><img src="../../../images/4.png" style="margin-right: 10px; position: relative; top: 5%" />Registro personale</a></div>
 		<?php if(count($_SESSION['__subjects__']) > 1){ ?>
 			<div class="drawer_link submenu">
@@ -436,18 +501,21 @@ while($row = $res_note->fetch_assoc()){
 	<?php } ?>
 </div>
 <!-- tipi nota -->
-    <div id="tipinota" style="position: absolute; width: 200px; height: 250px; display: none">
-    	<p style="line-height: 16px"><a style="font-weight: normal" href="student_notes.php?stid=<?php echo $student_id ?>&q=<?php echo $q ?>&order=data">Tutte le note</a></p>
-    <?php 
+    <div id="div_tipinota" style="display: none">
+	    <p>
+		    <a style="font-weight: normal" class="material_link" href="student_notes.php?stid=<?php echo $student_id ?>&q=<?php echo $q ?>&order=data">Tutte le note</a>
+	    </p>
+    <?php
     while($t = $res_tipi->fetch_assoc()){
     ?>
-    	<p style="line-height: 16px"><a style="font-weight: normal" href="student_notes.php?stid=<?php echo $student_id ?>&q=<?php echo $q ?>&order=data&tipo=<?php echo $t['id_tiponota'] ?>"><?php echo $t['descrizione'] ?></a></p>
+    	<p>
+		    <a style="font-weight: normal" class="material_link" href="student_notes.php?stid=<?php echo $student_id ?>&q=<?php echo $q ?>&order=data&tipo=<?php echo $t['id_tiponota'] ?>"><?php echo $t['descrizione'] ?></a>
+	    </p>
     <?php } ?>
     </div>
 <!-- tipi nota -->
 <!-- popup nota -->
 <div id="pop_note" style="display: none">
-	<p class="popup_header" id='titolo_nota'>Note didattiche</p>
 	<form id='testform' method='post' onsubmit="_submit()">
 		<table style='text-align: left; width: 95%; margin: auto' id='att'>
 			<tr>

@@ -30,6 +30,13 @@ else{
 	$q = 0;
 }
 
+if(isset($_REQUEST['subject'])) {
+	$materia = $_REQUEST['subject'];
+}
+else {
+	$materia = $_SESSION['__materia__'];
+}
+
 if(isset($_REQUEST['tipo'])){
 	$q_type = "AND tipo = ".$_REQUEST['tipo'];
 }
@@ -52,7 +59,7 @@ switch($q){
 }
 
 $sel_alunno = "SELECT * FROM rb_alunni WHERE id_alunno = $student_id";
-$sel_materia = "SELECT materia FROM rb_materie WHERE id_materia = ".$_SESSION['__materia__'];
+$sel_materia = "SELECT materia FROM rb_materie WHERE id_materia = $materia";
 $sel_tipi = "SELECT * FROM rb_tipi_note_didattiche ORDER BY id_tiponota";
 $sel_note = "SELECT rb_note_didattiche.*, rb_tipi_note_didattiche.descrizione AS tipo_nota FROM rb_note_didattiche, rb_tipi_note_didattiche WHERE id_tiponota = tipo AND alunno = $student_id AND materia = ".$_SESSION['__materia__']." AND anno = {$_SESSION['__current_year__']->get_ID()} $int_time $q_type ORDER BY $order DESC";
 //print $sel_voti;
