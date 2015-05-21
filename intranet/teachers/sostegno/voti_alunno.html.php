@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>Registro personale: riepilogo classe</title>
+	<title>Registro personale: voti alunno</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
@@ -26,6 +26,10 @@
 			return true;
 		};
 
+		var change_subject = function(id){
+			document.location.href="voti_alunno.php?subj="+id+"&q=<?php echo $q ?>";
+		};
+
 		$(function(){
 			load_jalert();
 			setOverlayEvent();
@@ -46,73 +50,80 @@
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
-	<table class="registro">
+	<div class="mdtabs">
+		<?php
+		foreach ($materie as $mat) {
+			if (isset($_REQUEST['subj']) && $_REQUEST['subj'] == $mat['id']) {
+				$label_subject = "::".$mat['mat'];
+			}
+			if ($mat['mat'] == "Materia alternativa") {
+				$mat['mat'] = "Mat. alt.";
+			}
+			if ($mat['mat'] == "Arte e immagine") {
+				$mat['mat'] = "Arte";
+			}
+			if ($mat['mat'] == "Educazione fisica") {
+				$mat['mat'] = "Ed. fis.";
+			}
+
+			?>
+			<div class="mdtab<?php if (isset($_REQUEST['subj']) && $_REQUEST['subj'] == $mat['id']) echo " mdselected_tab" ?>" style="width: 75px">
+				<a href="#" onclick="change_subject(<?php echo $mat['id'] ?>)"><span><?php echo $mat['mat'] ?></span></a>
+			</div>
+		<?php
+		}
+		?>
+	</div>
+	<div style="top: -7px; margin-left: 35px" class="rb_button">
+		<a href="medie_voto.php">
+			<img src="../../../images/47bis.png" style="padding: 12px 0 0 12px" />
+		</a>
+	</div>
+	<table class="registro" style="margin-top: -25px">
 		<thead>
 		<tr class="head_tr_no_bg">
-			<td style="text-align: center; "><span id="ingresso" style=""><?php print $_SESSION['__classe__']->to_string() ?></span></td>
-			<td colspan="<?php echo ($num_colonne - 1) ?>" style="text-align: center">Quadro riassuntivo dell'alunno</td>
+			<td style="text-align: center; " colspan="3"><span id="ingresso" style=""><?php print $_SESSION['__classe__']->to_string() ?></span></td>
+			<td colspan="1" style="text-align: center">Elenco voti dell'alunno <?php echo $alunno['nome']." ".$alunno['cognome'] ?>::<?php echo $materie[$subj]['mat'] ?></td>
 		</tr>
-		<tr class="title_tr">
-			<td style="width: <?php echo $first_column_width ?>%; font-weight: bold; padding-left: 12px">Alunno</td>
-			<?php
-			foreach ($materie as $materia){
-				?>
-				<td <?php if($materia['id_materia'] == 1111) print ("rowspan='2'") ?> style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold"><?php echo strtoupper(substr($materia['materia'], 0, 3)) ?></td>
-			<?php
-			}
-			?>
+		<tr class="title_tr _center">
+			<td style="width: 8%">Voto</td>
+			<td style="width: 10%">Data</td>
+			<td style="width: 27%">Descrizione</td>
+			<td style="width: 55%">Argomento</td>
 		</tr>
 		</thead>
 		<tbody>
 		<?php
-		$idx = 1;
-		foreach ($alunni as $al){
-		$student_sum = 0;
-		$num_materie = $res_materie->num_rows;
-		if(!isset($al['media'])){
-			$al['media'] = 0;
-		}
-		?>
-		<tr style="border-bottom: 1px solid #CCC">
-			<td style="width: <?php print $first_column_width ?>%; padding-left: 8px; font-weight:normal;">
-				<?php if($idx < 10) print "&nbsp;&nbsp;"; ?><?php echo $idx.". " ?>
-				<a href="scheda_alunno.php?stid=<?php echo $al['id_alunno'] ?>" style="font-weight: normal"><?php print $al['cognome']." ".substr($al['nome'], 0, 1) ?> (</a><span class="<?php if(isset($al['media']) && ($al['media'] < 6 && $al['media'] > 0)) print("attention _bold") ?>"><?php echo $al['media'] ?></span>)
-			</td>
-			<?php
-			reset($materie);
-			foreach ($materie as $materia){
-				if (isset($al['voti'][$materia['id_materia']])){
-					$avg = $al['voti'][$materia['id_materia']];
-					if ($materia['id_materia'] == 26 || $materia['id_materia'] == 30) {
-						$voti_rel = RBUtilities::getReligionGrades();
-						$avg = $voti_rel[RBUtilities::convertReligionGrade($avg)];
-					}
-				}
-				else {
-					$avg = 0;
-				}
-				?>
-				<td style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold;"><a href="voti_alunno.php?subj=<?php echo $materia['id_materia'] ?>" class="<?php if($avg < 6 && $avg > 0) echo "attention"; else echo "normal" ?>"><?php echo $avg ?></a></td>
-			<?php
-			}
-			$idx++;
-			echo "</tr>";
+		while ($voto = $res_voti->fetch_assoc()){
+			if ($subj == 26 || $subj == 30) {
+				$voti_rel = RBUtilities::getReligionGrades();
+				$voto['voto'] = $voti_rel[RBUtilities::convertReligionGrade($voto['voto'])];
 			}
 			?>
+			<tr class="title_tr">
+				<td style="width: 8%" class="_center _bold <?php if($voto['voto'] < 6 && $voto['voto'] > 0) echo "attention" ?>"><?php echo $voto['voto'] ?></td>
+				<td style="width: 10%" class="_center"><?php echo format_date($voto['data_voto'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
+				<td style="width: 27%; padding-left: 5px" class="_center"><?php echo utf8_decode($voto['descrizione']) ?></td>
+				<td style="width: 55%; padding-left: 5px"><?php echo utf8_decode($voto['argomento']) ?></td>
+			</tr>
+		<?php
+		}
+
+		?>
 		</tbody>
 		<tfoot>
 		<tr>
-			<td colspan="<?php echo $num_colonne ?>" style="height: 15px"></td>
+			<td colspan="4" style="height: 15px"></td>
 		</tr>
 		<tr class="nav_tr">
-			<td colspan="<?php echo $num_colonne ?>" style="text-align: center; height: 40px">
-				<a href="medie_voto.php?q=1" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
+			<td colspan="5" style="text-align: center; height: 40px">
+				<a href="voti_alunno.php?q=1&subj=<?php echo $subj ?>" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
 					<img style="margin-right: 5px; position: relative; top: 2px" src="../../../images/24.png" />1 Quadrimestre
 				</a>
-				<a href="medie_voto.php?q=2" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px; margin-left: 8px">
+				<a href="voti_alunno.php?q=2&subj=<?php echo $subj ?>" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px; margin-left: 8px">
 					<img style="margin-right: 5px; position: relative; top: 2px" src="../../../images/24.png" />2 Quadrimestre
 				</a>
-				<a href="medie_voto.php?q=0" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
+				<a href="voti_alunno.php?q=0&subj=<?php echo $subj ?>" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
 					<img style="margin-right: 5px; position: relative; top: 2px" src="../../../images/24.png" />Totale
 				</a>
 				<!-- <a href="dettaglio_medie.php?q=1">1 Quadrimestre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="dettaglio_medie.php?q=2">2 Quadrimestre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="dettaglio_medie.php?q=0">Totale</a> -->
@@ -125,7 +136,7 @@
 <div id="drawer" class="drawer" style="display: none; position: absolute">
 	<div style="width: 100%; height: 430px">
 		<div class="drawer_label"><span>Classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?></span></div>
-
+		<div class="drawer_link submenu"><a href="medie_voto.php"><img src="../../../images/4.png" style="margin-right: 10px; position: relative; top: 5%" />Medie voto</a></div>
 		<div class="drawer_link submenu"><a href="../registro_classe/registro_classe.php?data=<?php echo date("Y-m-d") ?>"><img src="../../../images/28.png" style="margin-right: 10px; position: relative; top: 5%" />Registro di classe</a></div>
 		<div class="drawer_link submenu"><a href="scrutini.php?q=1"><img src="../../../images/74.png" style="margin-right: 10px; position: relative; top: 5%" />Scrutini</a></div>
 		<div class="drawer_link submenu separator"><a href="../gestione_classe/classe.php"><img src="../../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />Gestione classe</a></div>

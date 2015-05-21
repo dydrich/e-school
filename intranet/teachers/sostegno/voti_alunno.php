@@ -2,9 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: riccardo
- * Date: 16/02/15
- * Time: 18.32
- * medie voto per l'alunno H
+ * Date: 21/05/15
+ * Time: 19.04
  */
 require_once "../../../lib/start.php";
 require_once "../../../lib/SessionUtils.php";
@@ -44,6 +43,8 @@ else{
 	}
 }
 
+$subj = $_REQUEST['subj'];
+
 $label = "";
 $anno = $_SESSION['__current_year__']->get_ID();
 
@@ -80,61 +81,28 @@ while ($row = $res_alunni->fetch_assoc()){
 	$alunno['voti'] = array();
 }
 
-$sel_voti = "SELECT ROUND(AVG(voto), 2) AS voto, materia, alunno FROM rb_voti, rb_alunni WHERE alunno = id_alunno AND alunno = $id_alunno AND id_classe = {$_SESSION['__classe__']->get_ID()} AND anno = ".$_SESSION['__current_year__']->get_ID()." $int_time GROUP BY materia, alunno ORDER BY alunno, materia ";
+$sel_voti = "SELECT voto, data_voto, descrizione, argomento FROM rb_voti WHERE alunno = $id_alunno AND materia = $subj AND anno = ".$_SESSION['__current_year__']->get_ID()." $int_time ORDER BY data_voto DESC ";
 try{
 	$res_voti = $db->executeQuery($sel_voti);
 } catch (MySQLException $ex){
 	$ex->redirect();
 }
-$sum = 0;
-$materie = 0;
-while ($r = $res_voti->fetch_assoc()){
-	$alunno['voti'][$r['materia']] = $r['voto'];
-	$idalunno = $r['alunno'];
-	$materie++;
-	$sum += $r['voto'];
-}
-if ($materie > 0){
-	$val = $sum / $materie;
-	$alunno['media'] = round($val, 2);
-}
 
-$alunni = array();
-$alunni[0] = $alunno;
-
-$sel_cls = "SELECT musicale FROM rb_classi WHERE id_classe = ".$_SESSION['__classe__']->get_ID();
-$musicale = $db->executeCount($sel_cls);
-
-$num_colonne = 1;
-$first_column_width = 25;
-$column_width = null;
-$available_space = 100 - $first_column_width;
 $sel_materie = "SELECT rb_materie.id_materia, rb_materie.materia FROM rb_materie, rb_scrutini WHERE id_materia = rb_scrutini.materia AND id_materia <> 40 AND classe = {$_SESSION['__classe__']->get_ID()} ".$scr_par." AND anno = {$anno} AND id_materia > 2 AND tipologia_scuola = {$ordine_scuola} GROUP BY rb_materie.id_materia, rb_materie.materia ORDER BY rb_materie.id_materia";
 try {
 	$res_materie = $db->executeQuery($sel_materie);
 } catch (MySQLException $ex) {
 	$ex->redirect();
 }
-if ($res_materie->num_rows < 1) {
-	$sel_materie = "SELECT rb_materie.id_materia, materia FROM rb_materie WHERE pagella = 1 AND id_materia > 2 AND tipologia_scuola = {$ordine_scuola}";
-	if($musicale != "1"){
-		$sel_materie .= " AND id_materia <> 13 ";
-	}
-	$sel_materie .= "ORDER BY id_materia";
-	$res_materie = $db->executeQuery($sel_materie);
-}
+
 $materie = array();
 while($materia = $res_materie->fetch_assoc()){
 	if($materia['materia'] == "Scienze motorie")
 		$materia['materia'] = "Smotorie";
-	$materie[$materia['id_materia']] = $materia;
+	$materie[$materia['id_materia']] = array("id" => $materia['id_materia'], "mat" => $materia['materia'], "media" => 0);
 }
 
-$num_materie = $res_materie->num_rows;
-$num_colonne += $num_materie;
-$column_width = intval($available_space / ($num_colonne - 1));
-
 $navigation_label = "Registro personale ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
-$drawer_label = "Riepilogo medie generali ".$label;
+$drawer_label = "Dettaglio voti ".$label;
 
-include "medie_voto.html.php";
+include "voti_alunno.html.php";
