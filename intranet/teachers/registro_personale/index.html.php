@@ -177,7 +177,7 @@
 						descrizione: $('#descrizione').val(),
 						tipologia: $('#tipo').val(),
 						argomento: $('#argomento').val(),
-						$note: $('#note').val(),
+						note: $('#note').val(),
 						privato: $('#privato').val(),
 						verifica: 0,
 						q: <?php echo $q ?>
