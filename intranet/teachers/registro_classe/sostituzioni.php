@@ -31,7 +31,7 @@ while($row = $res_firme->fetch_assoc()){
 }
 */
 
-$navigation_label = "Registro della classe ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
+$navigation_label = "Registro del docente";
 $drawer_label = "Sostituzioni";
 
 include "sostituzioni.html.php";
