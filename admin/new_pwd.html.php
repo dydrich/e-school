@@ -136,8 +136,8 @@
             <?php 
             if($gruppo == 2){
             ?>
-            <tr style="vertical-align: middle; text-align: center; height: 20px; background-color: #E7E7E7">
-                <td colspan="4" style="border: 0; border-radius: 3px 3px 3px 3px; ">
+            <tr style="vertical-align: middle; text-align: center; height: 20px">
+                <td colspan="4" style="border: 0" class="accent_decoration">
                 <?php
 		        for($i = 0; $i < count($alfabeto); $i++){
 		        	if(isset($_REQUEST['start']) && $_REQUEST['start'] == $alfabeto[$i]){
@@ -147,12 +147,12 @@
 		        	}
 		        	else{
 		        ?>
-		            <a style="text-decoration: none" href="new_pwd.php?gruppo=<?php print $gruppo?>&start=<?php print $alfabeto[$i] ?>">&nbsp;&nbsp;<?php print $alfabeto[$i] ?>&nbsp;&nbsp;</a>
+		            <a href="new_pwd.php?gruppo=<?php print $gruppo?>&start=<?php print $alfabeto[$i] ?>" class="material_link">&nbsp;&nbsp;<?php print $alfabeto[$i] ?>&nbsp;&nbsp;</a>
 		        <?php
 		        	}
 		        }
 		        ?>
-		        	<a style="text-decoration: none" href="#" onclick="gruppo(<?php print $gruppo?>)">&nbsp;&nbsp;Tutti&nbsp;&nbsp;</a>
+		        	<a href="#" onclick="gruppo(<?php print $gruppo?>)" class="material_link">&nbsp;&nbsp;Tutti&nbsp;&nbsp;</a>
                 </td>
             </tr>
             <tr class="admin_void">
