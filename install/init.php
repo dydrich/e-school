@@ -9,9 +9,11 @@ session_start();
 
 ini_set("display_errors", "0");
 
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "step completato");
+
 switch($_REQUEST['step']){
 	case "1":
-		header("Content-type: text/plain");
 		$server   = $_REQUEST['host'];
 		$db 	  = $_REQUEST['db'];
 		$user     = $_REQUEST['user'];
@@ -19,26 +21,28 @@ switch($_REQUEST['step']){
 		$port     = $_REQUEST['port'];
 		$mysqli = new mysqli($server, $user, $password, $db, $port);
 		if (mysqli_connect_error()) {
-			$errno = mysqli_connect_errno();
+			$response['errno'] = mysqli_connect_errno();
 			switch($errno){
 				case "2005":
 					// e
-					$error = "il server indicato non esiste o &egrave; irraggiungibile.";
+					$response['error'] = "il server indicato non esiste o &egrave; irraggiungibile.";
 					break;
 				case 1045:
 					// access denied for user
-					$error = "l'utente indicato non esiste o la password inserita non &egrave; corretta";
+					$response['error'] = "l'utente indicato non esiste o la password inserita non &egrave; corretta";
 					break;
 				case 1049:
 					// unknow database
-					$error = "il database indicato non esiste";
+					$response['error'] = "il database indicato non esiste";
 					break;
 				case 2003:
 					// Can't connect to MySQL server on...
-					$error = "la porta indicata non &egrave; corretta";
+					$response['error'] = "la porta indicata non &egrave; corretta";
 					break;
 			}
-		    echo "ko#Errore di connessione: verifica attentamente i dati inseriti (".mysqli_connect_errno()."). Messaggio d'errore: ".mysqli_connect_error()."#".$errno."#".$error;
+			$response['message'] = "Errore di connesisone: verifica attentamente i parametri inseriti";
+			$response['status'] = "kosql";
+			echo json_encode($response);
 		    exit;
 		}
 		else{
@@ -46,7 +50,9 @@ switch($_REQUEST['step']){
 			//chmod("../lib", 0777);
 			$conn_file = fopen("../lib/conn.php", "w");
 			if(!$conn_file){
-				echo "ko#File non creato";
+				$response['status'] = "ko";
+				$response['message'] = "Impossibile creare il file conn.php";
+				echo json_encode($response);
 				exit;
 			}
 			fwrite($conn_file, "<?php");
@@ -56,7 +62,7 @@ switch($_REQUEST['step']){
 			fwrite($conn_file, "\n\n");
 			fwrite($conn_file, "?>\n");
 			$_SESSION['step'] = 2;
-			echo "ok";
+			echo json_encode($response);
 			exit;
 		}
 		break;
@@ -75,7 +81,11 @@ switch($_REQUEST['step']){
 			$db->executeUpdate("BEGIN");
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
-			echo "ko#".$ex->getMessage()."#".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['message'] = "Errore BEGIN";
+			$response['dbg'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
 			exit;
 		}
 		foreach($file as $sql){
@@ -83,7 +93,11 @@ switch($_REQUEST['step']){
 				$db->executeUpdate($sql);
 			} catch (MySQLException $ex){
 				$db->executeUpdate("ROLLBACK");
-				echo "ko#".$ex->getMessage()."#".$ex->getQuery();
+				$response['status'] = "kosql";
+				$response['message'] = "Errore creazione tabelle";
+				$response['dbg'] = $ex->getMessage();
+				$response['query'] = $ex->getQuery();
+				echo json_encode($response);
 				exit;
 			}
 		}
@@ -94,12 +108,17 @@ switch($_REQUEST['step']){
 			$db->executeUpdate($insert_step);
 		} catch (MySQLException $ex){
 			$db->executeUpdate("ROLLBACK");
-			echo "ko#".$ex->getMessage();
+			$response['status'] = "kosql";
+			$response['message'] = "Errore inserimento dati";
+			$response['dbg'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
 			exit;
 		}
 		$db->executeUpdate("COMMIT");
 		$_SESSION['step'] = 3;
-		echo "ok";
+		echo json_encode($response);
+		exit;
 		break;
 	case "3":
 		$school = $db->real_escape_string($_REQUEST['school']);
@@ -107,7 +126,7 @@ switch($_REQUEST['step']){
 		$start  = $_REQUEST['start'];
 		$stop   = $_REQUEST['stop'];
 		$insert_vars = "INSERT INTO rb_config (variabile, valore, readonly) VALUES ('intestazione_scuola', '$school', 0), ('indirizzo_scuola', '$address', 0)";
-		$insert_vars .= ", ('last_stats_absences_manager', '".date("Y-m-d")."', 1), ('software_name', 'e-School', 1), ('software_version', '0.9.5-2', 1), ('installazione_completata', '0', 1)";
+		$insert_vars .= ", ('last_stats_absences_manager', '".date("Y-m-d")."', 1), ('installazione_completata', '0', 1)";
 		/*
 		 * inserimento dell'anno
 		 */
@@ -119,6 +138,8 @@ switch($_REQUEST['step']){
 			 * siamo nell'anno in scadenza
 			 */
 			$start_day = date("Y-m-d");
+			$end_day = ($y)."-08-31";
+			$description = ($y-1)."-".$y;
 		}
 		else{
 			/* 
@@ -130,7 +151,7 @@ switch($_REQUEST['step']){
 			$lessons_end_day = ($y + 1)."-06-10";
 			$description = "{$y}-".($y + 1);
 		}
-		$insert_year = "INSERT INTO rb_anni (descrizione, data_inizio, data_fine, data_inizio_lezioni, data_termine_lezioni) VALUES ('{$description}', '{$start_day}', '{$end_day}', '{$lessons_start_day}', '{$lessons_end_day}')";
+		$insert_year = "INSERT INTO rb_anni (descrizione, data_inizio, data_fine) VALUES ('{$description}', '{$start_day}', '{$end_day}')";
 		/*
 		 * creazione delle variabili di posizione
 		 * #1: root_site - contiene la directory di installazione del software in uri web
@@ -150,25 +171,41 @@ switch($_REQUEST['step']){
 			$year = $db->executeUpdate($insert_year);
 			$db->executeUpdate("INSERT INTO rb_dati_lezione (id_anno, id_ordine_scuola) SELECT {$year}, id_tipo FROM rb_tipologia_scuola WHERE id_tipo != 4");
 		} catch (MySQLException $ex){
-			echo "ko#".$ex->getMessage()."#".$ex->getQuery();
+			$response['status'] = "kosql";
+			$response['message'] = "Errore inserimento dati";
+			$response['dbg'] = $ex->getMessage();
+			$response['query'] = $ex->getQuery();
+			echo json_encode($response);
 			exit;
 		}
-		
+
 		$funcs = file("../lib/functions.lib.php");
 		$funcs[2] = "include 'pers_define.php';\n\n" . $funcs[2];
-		$lib = fopen("../lib/functions.lib.php", "w");
-		foreach($funcs as $line){
-			if(!fwrite($lib, $line)){
-				echo "ko#function.lib non modificato";
+
+		try {
+			if (!is_writable("../lib/functions.lib.php")) {
+				$response['message'] = "File functions.lib non scrivibile";
+				echo json_encode($response);
 				exit;
 			}
+			$lib = fopen("../lib/functions.lib.php", "w");
+			foreach ($funcs as $line) {
+				fwrite($lib, $line);
+			}
+			fclose($lib);
+		}  catch (Exception $ex) {
+			$response['status'] = "ko";
+			$response['message'] = "Errore modifica functions.lib: " . $ex->getMessage();
+			echo json_encode($response);
+			exit;
 		}
-		fclose($lib);
 		
 		$def_file = fopen("../lib/pers_define.php", "w");
 		$def_row = "<?php\n\ndefine('ROOT_SITE', '{$root_site}');\n\n?>\n";
 		if(!fwrite($def_file, $def_row)){
-			echo "ko#file define non creato";
+			$response['status'] = "kosql";
+			$response['message'] = "Errore creazione pers_define: ".$ex->getMessage();
+			echo json_encode($response);
 			exit;
 		}
 		fclose($def_file);
@@ -179,7 +216,7 @@ switch($_REQUEST['step']){
 		$file_to_delete = "./to_be_installed";
 		unlink($file_to_delete);
 		$_SESSION['step'] = 4;
-		echo "ok";
+		echo json_encode($response);
 		exit;
 		break;
 		
