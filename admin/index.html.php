@@ -4,6 +4,7 @@
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<title>Admin home page</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
 	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
@@ -18,18 +19,18 @@
 		var cdc_created = <?php print $exist_cdc ?>;
 		var reg_created = <?php print $exist_reg ?>;
 		var schedule_created = <?php print $exist_sch ?>;
-		var scr_sl1_created1 = <?echo $count_sl1_data1 ?>;
-		var scr_sl1_created2 = <?echo $count_sl1_data2 ?>;
-		var scr_sl2_created1 = <?echo $count_sl2_data1 ?>;
-		var scr_sl2_created2 = <?echo $count_sl2_data2 ?>;
+		var scr_sl1_created1 = <?php echo $count_sl1_data1 ?>;
+		var scr_sl1_created2 = <?php echo $count_sl1_data2 ?>;
+		var scr_sl2_created1 = <?php echo $count_sl2_data1 ?>;
+		var scr_sl2_created2 = <?php echo $count_sl2_data2 ?>;
 
 		var scrutini = [];
 		scrutini[1] = [];
 		scrutini[2] = [];
-		scrutini[1][1] = <?echo $count_sl1_data1 ?>;
-		scrutini[2][1] = <?echo $count_sl1_data2 ?>;
-		scrutini[1][2] = <?echo $count_sl2_data1 ?>;
-		scrutini[2][2] = <?echo $count_sl2_data2 ?>;
+		scrutini[1][1] = <?php echo $count_sl1_data1 ?>;
+		scrutini[2][1] = <?php echo $count_sl1_data2 ?>;
+		scrutini[1][2] = <?php echo $count_sl2_data1 ?>;
+		scrutini[2][2] = <?php echo $count_sl2_data2 ?>;
 
 		var tm = 0;
 		var complete = false;
@@ -904,11 +905,11 @@
 <?php include "footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">
 	<div style="width: 100%; height: 430px">
-		<div class="drawer_link"><a href="../index.php"><img src="../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
-		<div class="drawer_link"><a href="index.php"><img src="../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
-		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+		<div class="drawer_link"><a href="../index.php" class=""><i class="fa fa-home _right material_label" style="font-size: 1.15em; margin-right: 10px; position: relative; top: 2%; width: 20px"></i>Home</a></div>
+		<div class="drawer_link"><a href="index.php"><i class="fa fa-keyboard-o" style="font-size: 1.15em; margin-right: 10px; position: relative; top: 2%; width: 20px"></i>Admin</a></div>
+		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><i class="fa fa-university" style="font-size: 1.15em; margin-right: 10px; position: relative; top: 2%; width: 20px"></i>Home Page Nivola</a></div>
 	</div>
-	<div class="drawer_lastlink"><a href="../shared/do_logout.php"><img src="../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+	<div class="drawer_lastlink"><a href="../shared/do_logout.php"><i class="fa fa-desktop" style="font-size: 1.15em; margin-right: 10px; position: relative; top: 2%; width: 20px"></i>Logout</a></div>
 </div>
 </body>
 </html>
