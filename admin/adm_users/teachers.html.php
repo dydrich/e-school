@@ -301,7 +301,7 @@
 				            </a>
 			            </div>
 		            </div>
-		            <div class="card_content">
+		            <div class="card_minicontent">
 			            <div style="float: left; text-align: left; width: 400px">
 				            <a href="../../shared/no_js.php" id="tipo_<?php print $user['id_docente'] ?>" data-id="<?php print $user['id_docente'] ?>" style="text-transform: capitalize" class="tipo normal"><?php echo $user['tipologia'] ?></a>
 			            </div>
