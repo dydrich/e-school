@@ -20,19 +20,6 @@
 		var count_notes = <?php echo $res_note->num_rows ?>;
 
 		var filter = function() {
-			/*
-			if ($('#tipinota').is(":visible")) {
-				$('#tipinota').hide("slide", 300);
-				return;
-			}
-			var offset = $('#drawer').offset();
-			var top = offset.top;
-			top += 35;
-			var left = offset.left + $('#drawer').width();
-			$('#tipinota').css({top: top+"px", left: left+"px", zIndex: 1000});
-			$('#tipinota').show('slide', 300);
-			return true;
-			*/
 			$('#div_tipinota').dialog({
 				autoOpen: true,
 				show: {

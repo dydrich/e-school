@@ -14,18 +14,24 @@
 	<script type="text/javascript" src="../../../js/page.js"></script>
 	<script type="text/javascript">
 		var notes_count = <?php echo $res_note->num_rows ?>;
-		var _show = function(e) {
-			if ($('#tipinota').is(":visible")) {
-				$('#tipinota').hide("slide", 300);
-				return;
-			}
-			var offset = $('#drawer').offset();
-			var top = offset.top;
-			top += 35;
-			var left = offset.left + $('#drawer').width();
-			$('#tipinota').css({top: top+"px", left: left+"px", zIndex: 1000});
-			$('#tipinota').show('slide', 300);
-			return true;
+		var filter = function(e) {
+			$('#div_tipinota').dialog({
+				autoOpen: true,
+				show: {
+					effect: "appear",
+					duration: 500
+				},
+				hide: {
+					effect: "slide",
+					duration: 300
+				},
+				modal: true,
+				width: 300,
+				title: 'Tipo nota',
+				open: function(e, ui){
+
+				}
+			});
 		};
 
 		var note_manager = function(nid){
@@ -74,14 +80,10 @@
 				}
 				note_manager($(this).attr("data-id"));
 			});
-			$('#tipinota').mouseleave(function(event){
-				$('#tipinota').hide();
-			});
 			$('#overlay').click(function(event) {
 				if ($('#overlay').is(':visible')) {
 					show_drawer(event);
 				}
-				$('#tipinota').hide();
 				$('#classeslist_drawer').hide();
 			});
 			$('.drawer_label span').click(function(event){
@@ -117,7 +119,12 @@
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
-	<div style="top: -8px; margin-left: 925px; margin-bottom: -28px" class="rb_button">
+	<div style="top: -8px; margin-left: 855px; margin-bottom: -39px" class="rb_button">
+		<a href="#" onclick="filter(event)">
+			<img src="../../../images/69.png" style="padding: 12px 0 0 12px" />
+		</a>
+	</div>
+	<div style="top: -8px; margin-left: 925px; margin-bottom: -26px" class="rb_button">
 		<a href="#" onclick="note_manager(0)">
 			<img src="../../../images/39.png" style="padding: 12px 0 0 12px" />
 		</a>
@@ -175,9 +182,6 @@ while($row = $res_note->fetch_assoc()){
 <div id="drawer" class="drawer" style="display: none; position: absolute">
 	<div style="width: 100%; height: 430px">
 		<div class="drawer_label"><span>Classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?></span></div>
-		<div class="drawer_link submenu separator">
-			<a href="#" onclick="_show(event)"><img src="../../../images/1.png" style="margin-right: 10px; position: relative; top: 5%"/>Filtra per tipo nota</a>
-		</div>
 		<div class="drawer_link submenu">
 			<a href="registro_classe.php?data=<?php echo date("Y-m-d") ?>"><img src="../../../images/28.png" style="margin-right: 10px; position: relative; top: 5%"/>Registro di classe</a>
 		</div>
@@ -215,12 +219,12 @@ while($row = $res_note->fetch_assoc()){
 	?>
 </div>
 <!-- tipi nota -->
-<div id="tipinota" style="display: none; height: 210px">
-    <p style="line-height: 16px"><a style="font-weight: normal" href="notes.php?q=<?php echo $q ?>&order=data">Tutte le note</a></p>
+<div id="div_tipinota" style="display: none; height: 210px">
+    <p><a style="font-weight: normal; padding-left: 5px" href="notes.php?q=<?php echo $q ?>&order=data" class="material_link">Tutte le note</a></p>
 <?php
 while($t = $res_tipi->fetch_assoc()){
 ?>
-    <p style="line-height: 16px"><a style="font-weight: normal" href="notes.php?q=<?php echo $q ?>&order=data&tipo=<?= $t['id_tiponota'] ?>"><?php echo $t['descrizione'] ?></a></p>
+    <p><a style="font-weight: normal; padding-left: 5px" href="notes.php?q=<?php echo $q ?>&order=data&tipo=<?= $t['id_tiponota'] ?>" class="material_link"><?php echo $t['descrizione'] ?></a></p>
 <?php } ?>
 </div>
 <!-- tipi nota -->
