@@ -15,46 +15,46 @@ $drawer_label = "Compiti assegnati";
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area genitori</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area genitori</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript">
-	$(function(){
-		load_jalert();
-		setOverlayEvent();
-		$('#overlay').click(function(event) {
-			if ($('#overlay').is(':visible')) {
-				show_drawer(event);
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('#overlay').click(function(event) {
+				if ($('#overlay').is(':visible')) {
+					show_drawer(event);
+				}
+				$('#other_drawer').hide();
+			});
+			$('#showsub').click(function(event){
+				var off = $(this).parent().offset();
+				_show(event, off);
+			});
+		});
+
+		var _show = function(e, off) {
+			if ($('#other_drawer').is(":visible")) {
+				$('#other_drawer').hide('slide', 300);
+				return;
 			}
-			$('#other_drawer').hide();
-		});
-		$('#showsub').click(function(event){
-			var off = $(this).parent().offset();
-			_show(event, off);
-		});
-	});
+			var offset = $('#drawer').offset();
+			var top = off.top;
 
-	var _show = function(e, off) {
-		if ($('#other_drawer').is(":visible")) {
-			$('#other_drawer').hide('slide', 300);
-			return;
-		}
-		var offset = $('#drawer').offset();
-		var top = off.top;
-
-		var left = offset.left + $('#drawer').width() + 1;
-		$('#other_drawer').css({top: top+"px", left: left+"px", zIndex: 1000});
-		$('#other_drawer').show('slide', 300);
-		return true;
-	};
-</script>
+			var left = offset.left + $('#drawer').width() + 1;
+			$('#other_drawer').css({top: top+"px", left: left+"px", zIndex: 1000});
+			$('#other_drawer').show('slide', 300);
+			return true;
+		};
+	</script>
 </head>
 <body>
 <?php include "header.php" ?>

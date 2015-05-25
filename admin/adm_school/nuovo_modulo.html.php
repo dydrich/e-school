@@ -4,72 +4,72 @@
 	<title>Nuovo modulo</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
-	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
 	<link href="../../css/general.css" rel="stylesheet" />
+	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
 	<script type="text/javaScript">
-	var go = function(){
-		msg = "Ci sono degli errori nel modulo: \n";
-		index = 1;
-		ok = true;
-		$giorni = $('#giorni').val();
-		$ore = $('#ore').val();
-		if ($giorni == "" || isNaN($giorni) || ($giorni > 6) || ($giorni < 1)){
-			msg += index+". Numero di giorni assente o non valido (inserire un numero compreso tra 1 e 6)\n";
-			index++;
-			ok = false;
-		}
-		if ($ore == "" || isNaN($ore)){
-			msg += index+". Numero di ore settimanali assente o non valido (inserire un numero)\n";
-			index++;
-			ok = false;
-		}
-		if(!ok){
-			alert(msg);
-			return false;
-		}
-		$('#action').val("new_module");
-	    var url = "module_manager.php";
-
-		$.ajax({
-			type: "POST",
-			url: url,
-			data:  $('#site_form').serialize(true),
-			dataType: 'json',
-			error: function() {
-				show_error("Errore di trasmissione dei dati");
-			},
-			succes: function() {
-
-			},
-			complete: function(data){
-				r = data.responseText;
-				if(r == "null"){
-					return false;
-				}
-				var json = $.parseJSON(r);
-				if (json.status == "kosql"){
-					alert(json.message);
-					console.log(json.dbg_message);
-				}
-				else {
-					document.location.href = "dettaglio_modulo.php?idm="+json.idm;
-				}
+		var go = function(){
+			msg = "Ci sono degli errori nel modulo: \n";
+			index = 1;
+			ok = true;
+			$giorni = $('#giorni').val();
+			$ore = $('#ore').val();
+			if ($giorni == "" || isNaN($giorni) || ($giorni > 6) || ($giorni < 1)){
+				msg += index+". Numero di giorni assente o non valido (inserire un numero compreso tra 1 e 6)\n";
+				index++;
+				ok = false;
 			}
-		});
-	};
+			if ($ore == "" || isNaN($ore)){
+				msg += index+". Numero di ore settimanali assente o non valido (inserire un numero)\n";
+				index++;
+				ok = false;
+			}
+			if(!ok){
+				alert(msg);
+				return false;
+			}
+			$('#action').val("new_module");
+		    var url = "module_manager.php";
 
-	$(function(){
-		load_jalert();
-		setOverlayEvent();
-		$('#save_button').click(function(event){
-			event.preventDefault();
-			go();
+			$.ajax({
+				type: "POST",
+				url: url,
+				data:  $('#site_form').serialize(true),
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						document.location.href = "dettaglio_modulo.php?idm="+json.idm;
+					}
+				}
+			});
+		};
+
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('#save_button').click(function(event){
+				event.preventDefault();
+				go();
+			});
 		});
-	});
 
 	</script>
 </head>

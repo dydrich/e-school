@@ -47,7 +47,7 @@
 		var indirizzi = new Array();
 		<?php
 		$i = 0;
-		if (count($tel) > 0){
+		if (isset($tel) && count($tel) > 0){
 			reset($t);
 			foreach ($t as $row){
 		?>

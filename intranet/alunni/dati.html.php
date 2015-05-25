@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area studenti</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area studenti</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
@@ -17,44 +17,44 @@
 			setOverlayEvent();
 		})
 
-	var registra = function(){
-		if(document.forms[0].email.value == ""){
-			alert("Email assente. Inserire un indirizzo email valido per proseguire");
-			$('#email_label').css({color: "red"});
-			$('#email_row').css({border: "1px solid #FF0000"});
-			return false;
-		}
-		$.ajax({
-			type: "POST",
-			url: 'save_profile.php',
-			data: $('#my_form').serialize(true),
-			dataType: 'json',
-			error: function() {
-				j_alert("error", "Errore di trasmissione dei dati");
-			},
-			succes: function() {
-
-			},
-			complete: function(data){
-				r = data.responseText;
-				if(r == "null"){
-					return false;
-				}
-				var json = $.parseJSON(r);
-				if (json.status == "kosql"){
-					alert(json.message);
-					console.log(json.dbg_message);
-				}
-				else if(json.status == "ko") {
-					j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
-					return;
-				}
-				else {
-					j_alert("alert", json.message);
-				}
+		var registra = function(){
+			if(document.forms[0].email.value == ""){
+				alert("Email assente. Inserire un indirizzo email valido per proseguire");
+				$('#email_label').css({color: "red"});
+				$('#email_row').css({border: "1px solid #FF0000"});
+				return false;
 			}
-		});
-	};
+			$.ajax({
+				type: "POST",
+				url: 'save_profile.php',
+				data: $('#my_form').serialize(true),
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else if(json.status == "ko") {
+						j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+						return;
+					}
+					else {
+						j_alert("alert", json.message);
+					}
+				}
+			});
+		};
 	</script>
 </head>
 <body>

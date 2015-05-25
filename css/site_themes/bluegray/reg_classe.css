@@ -5,9 +5,6 @@ html {
 }
 
 body {
-    font-size: 13px;
-    font-family: 'Source Sans Pro', Raleway, Ubuntu, sans-serif;
-    color: rgba(0, 0, 0, .84);
     background: rgb(236, 239, 241);
     background: -moz-linear-gradient(90deg, rgb(236, 239, 241) 30%, rgb(176, 190, 197) 60%);
     background: -webkit-linear-gradient(90deg, rgb(236, 239, 241) 30%, rgb(176, 190, 197) 60%);
@@ -18,225 +15,63 @@ body {
     background-repeat: no-repeat;
 }
 
+form {
+    padding: 0
+}
+
+
 input, select, textarea {
     background-color: #eceff1;
-    border-radius: 2px;
     border: 1px solid rgba(30, 67, 137, .6);
-    font-size: 0.9em
 }
 
 input.student_enter, input.student_exit {
     background-color: white;
 }
 
-#cls_enter, #cls_exit {
-    font-size: 1em;
-    font-weight: 500;
-    color: black;
-    background-color: #FFFFFF;
-    border: 0
+#header {
+    background-color: #455A64;
 }
 
-#header {
-    width:  1020px;
-    margin: 10px auto 0 auto;
-    background-color: #455A64;
-    background-image: none;
-    height: 40px;
-    -webkit-box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.38);
-    -moz-box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.38);
-    box-shadow:  0px 2px 2px 0px rgba(50, 50, 50, 0.38);
-}
 #header a {
     color: #FFFFFF;
-    text-decoration: none;
-    font-size: 1.1em;
-    text-transform: uppercase
 }
 
 #sc_firstrow {
-    width: 50%;
-    float: left;
-    font-size: 1.2em;
-    font-family: Georgia, serif;
-    font-weight: bold;
     color: rgb(255, 255, 255);
-    margin-top: 15px;
-    margin-left: 15px
 }
 
 #sc_secondrow {
     width: 40%;
-    float: left;
     font-size: 1.2em;
-    font-family: Georgia, serif;
-    font-weight: bold;
-    text-align: right;
     color: rgb(255, 255, 255);
-    margin-top: 15px;
-    margin-left: 35px
 }
 
 #main {
-    width: 1020px;
-    background-color: #FFFFFF;
-    margin: 0 auto 0 auto;
     padding: 30px 0 30px 0;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 #main a {
     color: #1E4389;
-    text-decoration: none;
 }
 
 #navigation {
-    width: 1020px;
-    text-align: left;
     color: #DDDDDD;
-    font-size: 1.2em;
-    font-weight: normal;
-    margin: 0 auto 0 auto;
-    padding-top: 6px;
     background-color: #607D8B;
-    height: 40px;
-    border-radius: 0;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
+
 #navigation a {
     color: #DDDDDD;
-    text-decoration: none;
-    font-size: 1em;
-    text-transform: uppercase;
 }
 
 #head_label {
-    float: left;
     width: 550px;
     margin-left: 20px;
-    color: #FFFFFF;
-    height: 30px;
-}
-
-img#open_drawer {
-    cursor: pointer;
-}
-
-div.drawer {
-    width: 300px;
-    height: 470px;
-    background-color: #FAFAFA;
-    position: absolute;
-    box-shadow: 0 19px 10px rgba(0, 0, 0, 0.2);
-    z-index: 300;
-}
-div.drawer_link {
-    width: 100%;
-    height: 35px;
-    border-bottom: 1px solid rgba(30, 67, 137, .1);
-    position: relative
-}
-
-.separator {
-    border-bottom: 1px solid rgba(30, 67, 137, .7) !important;
-}
-
-.submenu {
-    padding-left: 30px;
-}
-
-div.drawer_label {
-    width: 100%;
-    height: 35px;
-    border-bottom: 1px solid rgba(30, 67, 137, .7) !important;
-    position: relative;
-    font-family: Georgia, serif;
-    font-size: 1.1em;
-    color: rgba(30, 67, 137, 1);
-    text-align: left;
-    font-weight: bold;
-}
-
-.drawer_label span {
-    position: relative;
-    top: 10px;
-    left: 10px;
-}
-
-p#drawer_label {
-    font-weight: 600;
-}
-
-div.drawer_link a, div.drawer_lastlink a {
-    font-family: Georgia, serif;
-    font-size: 1.1em;
-    text-decoration: none;
-    color: rgba(30, 67, 137, 1);
-    position: relative;
-    padding-left: 10px;
-    top: 25%
-}
-
-div.drawer_lastlink {
-    width: 100%;
-    height: 35px;
-    border-top: 1px solid rgba(30, 67, 137, .1);
-    background-color: #F1F1F1;
-    position: relative;
-    bottom: 0
-}
-
-.overlay{
-    background:#000;
-    position:fixed;
-    top:0px;
-    bottom:0px;
-    left:0px;
-    right:0px;
-    z-index:100;
-    cursor:pointer;
-    /*Trasperenza cross browser*/
-    opacity: .7; filter: alpha(opacity=70);
-    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
-
-}
-
-#footer {
-    clear: both;
-    font-size: 1em;
-    color: #263238;
-    width: 1020px;
-    margin: 10px auto 0 auto;
-    text-align: right;
-    height: 15px;
-
-}
-
-#footer span {
-    border-top: 1px solid #263238;
-}
-
-#footer a {
-    text-decoration: none;
-    color: #263238
 }
 
 div.mdtabs {
-    width: 100%;
-    height: 18px;
-    font-size: 12px;
-    margin: 0;
-    padding: 0;
     background-color: #607D8B;
-    position: relative;
     top: -30px;
-    text-align: center;
-}
-
-div.mdtab {
-    width: 100px;
-    float: left;
-    text-align: center;
 }
 
 div.mdtab a > span {
@@ -250,170 +85,25 @@ div.mdselected_tab {
 
 div.mdselected_tab a > span {
     color: #ffffff !important;
-    font-weight: 600;
 }
 
 div.navigate {
-    width: 90%;
-    margin-top: 25px;
-    margin-left: auto;
-    margin-right: auto;
     border: 1px solid rgba(215, 215, 215, 1);
     background-color: #eceff1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-    padding-left: 10px;
-    padding-right: 5px;
-    height: 30px;
-    text-align: center;
 }
 
 div.navigate span {
-    position: relative;
     top: 3px
 }
 
 div.navigate a {
     position: relative;
-    top: 0px;
+    top: 0;
     color: #000000 !important;
 }
 
-div.card_container {
-    width: 90%;
-    margin: 0 auto;
-}
-
-div.card {
-    width: 98%;
-    border: 1px solid rgba(215, 215, 215, 1);
-    background-color: #FFFFFF;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-    padding-left: 10px;
-    padding-right: 5px;
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.card .normal {
-    color: #1E4389 !important;
-}
-
-.card a.normal {
-    color: #1E4389 !important;
-}
-
-div.minicard {
-    width: 40%;
-    float: left;
-    border: 1px solid rgba(215, 215, 215, 1);
-    background-color: #FFFFFF;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 2px;
-    padding-left: 10px;
-    padding-right: 5px;
-    margin-bottom: 10px;
-}
-
-div.rowcard {
-    width: 100%;
-    float: left;
-    border: 1px solid rgba(215, 215, 215, 1);
-    background-color: #FFFFFF;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 2px;
-    padding-left: 10px;
-    padding-right: 5px;
-    margin-bottom: 10px;
-}
-
-div.halfrowcard {
-    width: 300px;
-    height: 25px;
-    border: 1px solid rgba(215, 215, 215, 1);
-    background-color: #FFFFFF;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 2px;
-    padding-top: 5px;
-    padding-left: 10px;
-    padding-right: 5px;
-    margin-bottom: 10px;
-}
-
 div.card_title {
-    width: 100%;
-    height: 20px;
-    font-size: 0.9em;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-bottom: 1px solid rgba(215, 215, 215, 1);
-    #color: #777777;
     color: #FB8C00;
-    padding-top: 5px;
-}
-
-div.card_nocontent {
-    border-bottom: 0;
-}
-
-div.card_content {
-    width: 100%;
-    height: 35px;
-    font-size: 1em;
-    border-top: 1px solid rgba(215, 215, 215, 1);
-    padding-top: 5px;
-    color: #212121;
-}
-
-div.card_minicontent {
-    width: 100%;
-    min-height: 25px;
-    font-size: 1em;
-    border-top: 1px solid rgba(215, 215, 215, 1);
-    padding-top: 5px;
-    color: #1E4389;
-}
-
-div.card_longcontent {
-    width: 100%;
-    height: 55px;
-    font-size: 1em;
-    border-top: 1px solid rgba(215, 215, 215, 1);
-    padding-top: 5px;
-    #color: #212121;
-    #color: rgba(30, 67, 137, 1);
-}
-
-div.card_varcontent {
-    width: 100%;
-    font-size: 1em;
-    border-top: 1px solid rgba(215, 215, 215, 1);
-    padding-top: 5px;
-    #color: #212121;
-    #color: rgba(30, 67, 137, 1);
-}
-
-div.card_row {
-    width: 90%;
-    border: 1px solid rgba(215, 215, 215, 1);
-    background-color: #FFFFFF;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    border-radius: 2px;
-    padding-left: 10px;
-    padding-right: 5px;
-    margin-bottom: 5px;
-    margin-top: 5px;
-}
-
-.no_permission {
-    background-color: #F4F4F4 !important;
-}
-
-p.card_row {
-    margin: 0;
-    padding: 0
 }
 
 #tipinota {
@@ -432,13 +122,7 @@ p.card_row {
 }
 
 .rb_button {
-    width: 40px;
-    height: 40px;
-    position:relative;
     background-color: #FF9100;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-    z-index: 100;
 }
 
 .tooltip {
@@ -456,43 +140,13 @@ p.card_row {
     text-decoration: none
 }
 
-table.registro {
-    width: 95%;
-    border-collapse: collapse;
-    margin: 0 auto 0 auto;
-}
-
-table.registro tbody a {
-    text-decoration: none;
-}
-
-table.registro tr.nav_tr {
-    /*background-color: #90A4AE;*/
-    height: 2.5em;
-    text-align: center;
-}
-
 table.registro tr.nav_tr a {
     color: #000000 !important;
 }
 
 table.registro tr.head_tr_no_bg {
-    height: 2.1em;
     color: #000000;
-    text-transform: uppercase;
 }
-
-table.registro tr.head_tr_no_bg td:not(:first-of-type):not(:last-of-type) {
-    border-right: 0;
-    border-left: 0;
-}
-table.registro tr.head_tr_no_bg td:first-of-type {
-    border-right: 0;
-}
-table.registro tr.head_tr_no_bg td:last-of-type {
-    border-left: 0;
-}
-
 
 table.registro tr.title_tr {
     color: #030303;
@@ -500,13 +154,9 @@ table.registro tr.title_tr {
 
 table.registro tr.head_tr {
     background-color: rgba(251, 140, 0, 1);
-    height: 2.5em;
-    font-weight: bold;
-    text-align: center
 }
 
 table.registro tr.head_tr a, div.group_head a {
-    text-decoration: none;
     font-weight: normal !important;
     color: rgb(13, 9, 171) !important
 }
@@ -520,31 +170,11 @@ table.registro tbody tr:hover {
 }
 
 .riepilogo {
-    /*background-color: #CFD8DC;*/
-    height: 30px;
     color: #111111;
 }
 
-.attention {
-    color: rgb(200, 6, 6);
-}
-
-._bold{
-    font-weight: bold
-}
-
 .nav_div {
-    float: left;
-    text-transform: uppercase;
-    width: 350px;
-    font-size: 0.9em;
     color: #FFFFFF;
-}
-
-.nav_div a {
-    font-weight: normal;
-    position: relative;
-    top: 5px;
 }
 
 .page_menu{
@@ -561,11 +191,12 @@ table.registro tbody tr:hover {
     background-color: #F5F5F5;
     padding: 10px;
     border: 1px solid rgba(30, 67, 137, .6);
-    border-radius: 0px 0px 0px 0px;
+    border-radius: 0 0 0 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     color: #222222;
     z-index: 100
 }
+
 #context_menu a, #pop a, #hid a, .page_menu a {
     text-decoration: none;
     color: rgba(30, 67, 137, 1);
@@ -590,12 +221,6 @@ table.registro tbody tr:hover {
     background-color: #eceff1;
 }
 
-.popup_body {
-    background-color: #ffffff;
-    background-image: none;
-}
-
-
 /* css for timepicker */
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
 .ui-timepicker-div dl { text-align: left; }
@@ -609,22 +234,6 @@ table.registro tbody tr:hover {
 .ui-timepicker-rtl dl dt{ float: right; clear: right; }
 .ui-timepicker-rtl dl dd { margin: 0 45% 10px 10px; }
 
-div.group_head{
-    padding-top: 15px;
-    padding-bottom: 5px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.1em;
-    width: 100%;
-    height: 35px;
-    margin-bottom: 0;
-    text-transform: uppercase;
-    position: relative;
-    top: -30px;
-    background-color: #FB8C00;
-
-}
-
 .outline_line_wrapper {
     width: 100%;
     margin: 0 auto 0 auto;
@@ -636,27 +245,6 @@ div.group_head{
     top: -30px
 }
 
-.avg_row {
-    background-color: #FFCC80;
-}
-
-tr.bottom_decoration {
-    border-bottom: 1px solid rgba(30, 67, 137, .4);;
-}
-
-p.popup_header {
-    font-size: 1em;
-    font-weight: bold;
-    margin: 0 auto 0 auto;
-    text-align: center;
-    vertical-align: middle;
-    width: 100%;
-    height: 30px;
-    background-color: #FFCC80;
-    padding-top: 10px;
-    border: 0
-}
-
 #gotoday {
     border-color: #FF9100;
     background-color: #455A64;
@@ -664,12 +252,7 @@ p.popup_header {
 }
 
 .accent_button a, a.material_link, .material_label {
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 0;
     color: #607D8B !important;
-    font-size: .95em;
-    font-weight: 400;
 }
 
 .accent_color {
@@ -684,18 +267,7 @@ p.popup_header {
     border-bottom: 1px solid #FF9100 !important;
 }
 
-input.android, select.android, textarea.android {
-    background-color: rgb(255, 255, 255);
-    border-radius: 2px;
-    border-width: 0 0 1px 0;
-    border-color: rgba(30, 67, 137, .6);
-    border-style: solid;
-
-    font-size: 1em
-}
-
 input.android:focus, select.android:focus, textarea.android:focus {
-    border-width: 0 0 2px 0;
     border-color: #607D8B;
 }
 

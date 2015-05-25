@@ -4,8 +4,8 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area studenti</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
@@ -13,42 +13,42 @@
 	<script type="text/javascript" src="../../js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
 	<script type="text/javascript">
-	var stid = 0;
+		var stid = 0;
 
-	var dettaglio_assenze = function(f_id, q){
-		$('#context_menu').hide();
-		if (f_id == 0) {
-			$('#iframe').attr("src", "../teachers/registro_classe/elenco_assenze.php?alunno=<?php echo $_SESSION['__user__']->getUid() ?>");
-			lab_title = "Elenco assenze";
-		}
-		else {
-			$('#iframe').attr("src", "../teachers/registro_classe/dettaglio_rit_uscite.php?alunno=<?php echo $_SESSION['__user__']->getUid() ?>&q="+q);
-			lab_title = "Ritardi";
-		}
-		$('#abs_pop').dialog({
-			autoOpen: true,
-			show: {
-				effect: "appear",
-				duration: 500
-			},
-			hide: {
-				effect: "slide",
-				duration: 300
-			},
-			modal: true,
-			width: 450,
-			title: lab_title,
-			open: function(event, ui){
-
+		var dettaglio_assenze = function(f_id, q){
+			$('#context_menu').hide();
+			if (f_id == 0) {
+				$('#iframe').attr("src", "../teachers/registro_classe/elenco_assenze.php?alunno=<?php echo $_SESSION['__user__']->getUid() ?>");
+				lab_title = "Elenco assenze";
 			}
-		});
-		//var w = new Window({className: "mac_os_x",  width:400, zIndex: 100, resizable: true, title: "Elenco assenze", url: "elenco_assenze.php?alunno="+stid, showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});
-		//w.showCenter(true);
-	}
+			else {
+				$('#iframe').attr("src", "../teachers/registro_classe/dettaglio_rit_uscite.php?alunno=<?php echo $_SESSION['__user__']->getUid() ?>&q="+q);
+				lab_title = "Ritardi";
+			}
+			$('#abs_pop').dialog({
+				autoOpen: true,
+				show: {
+					effect: "appear",
+					duration: 500
+				},
+				hide: {
+					effect: "slide",
+					duration: 300
+				},
+				modal: true,
+				width: 450,
+				title: lab_title,
+				open: function(event, ui){
 
-	var dialogclose = function(){
-		$('#abs_pop').dialog("close");
-	};
+				}
+			});
+			//var w = new Window({className: "mac_os_x",  width:400, zIndex: 100, resizable: true, title: "Elenco assenze", url: "elenco_assenze.php?alunno="+stid, showEffect:Effect.Appear, hideEffect: Effect.Fade, draggable:true, wiredDrag: true});
+			//w.showCenter(true);
+		}
+
+		var dialogclose = function(){
+			$('#abs_pop').dialog("close");
+		};
 
 		$(function(){
 			load_jalert();
@@ -60,7 +60,6 @@
 				cursor: "pointer"
 			});
 		});
-
 	</script>
 </head>
 <body>

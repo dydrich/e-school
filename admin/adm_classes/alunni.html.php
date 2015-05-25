@@ -1,91 +1,91 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<title>Elenco alunni</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>Elenco alunni</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
-<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../../css/general.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript">
-	var upd_cls = function(sel, student){
-		var url = "update_class.php";
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: {cls: $('#'+sel).val(), stud_id: student, old_cls: <?php echo $_REQUEST['id_classe'] ?>},
-			dataType: 'json',
-			error: function() {
-				show_error("Errore di trasmissione dei dati");
-			},
-			succes: function() {
+	<link href="../../css/general.css" rel="stylesheet" />
+	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		var upd_cls = function(sel, student){
+			var url = "update_class.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {cls: $('#'+sel).val(), stud_id: student, old_cls: <?php echo $_REQUEST['id_classe'] ?>},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-			},
-			complete: function(data){
-				r = data.responseText;
-				if(r == "null"){
-					return false;
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						$('#tr_'+student).hide();
+						var st_count = parseInt($('#st_count').text());
+						$('#st_count').text(--st_count);
+					}
 				}
-				var json = $.parseJSON(r);
-				if (json.status == "kosql"){
-					alert(json.message);
-					console.log(json.dbg_message);
-				}
-				else {
-					$('#tr_'+student).hide();
-					var st_count = parseInt($('#st_count').text());
-					$('#st_count').text(--st_count);
-				}
+			});
+		};
+
+		var exempt = function(_id) {
+			var url = "exemption_manager.php";
+			var action = "uncheck";
+			if ($('#es'+_id).prop("checked")) {
+				action = "check";
 			}
-		});
-	};
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {student: _id, cls: <?php echo $_REQUEST['id_classe'] ?>, action: action},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-	var exempt = function(_id) {
-		var url = "exemption_manager.php";
-		var action = "uncheck";
-		if ($('#es'+_id).prop("checked")) {
-			action = "check";
-		}
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: {student: _id, cls: <?php echo $_REQUEST['id_classe'] ?>, action: action},
-			dataType: 'json',
-			error: function() {
-				show_error("Errore di trasmissione dei dati");
-			},
-			succes: function() {
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
 
-			},
-			complete: function(data){
-				r = data.responseText;
-				if(r == "null"){
-					return false;
+					}
 				}
-				var json = $.parseJSON(r);
-				if (json.status == "kosql"){
-					alert(json.message);
-					console.log(json.dbg_message);
-				}
-				else {
+			});
+		};
 
-				}
-			}
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('.esonerati').click(function(event){
+				var _id = $(this).attr("data-id");
+				exempt(_id);
+			});
 		});
-	};
-
-	$(function(){
-		load_jalert();
-		setOverlayEvent();
-		$('.esonerati').click(function(event){
-			var _id = $(this).attr("data-id");
-			exempt(_id);
-		});
-	});
-</script>
+	</script>
 </head>
 <body>
 <?php include "../header.php" ?>

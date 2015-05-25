@@ -1,109 +1,109 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<title>Dettaglio classe</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>Dettaglio classe</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
-<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../../css/general.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript">
-function upd_cls(){
-	if($('#anno_corso').val() < 0 || $('#sezione').val() == -1 || $('#sede').val() == -1){
-		alert("I campi anno, sezione e sede sono obbligatori");
-		return false;
-	}
-    var url = "class_manager.php";
-    $('#action').val("insert");
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: $('#myform').serialize(true),
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
+	<link href="../../css/general.css" rel="stylesheet" />
+	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		var upd_cls = function(){
+			if($('#anno_corso').val() < 0 || $('#sezione').val() == -1 || $('#sede').val() == -1){
+				alert("I campi anno, sezione e sede sono obbligatori");
 				return false;
 			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else {
-				alert("Operazione conclusa con successo");
-			}
-		}
-	});
-}
+		    var url = "class_manager.php";
+		    $('#action').val("insert");
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: $('#myform').serialize(true),
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-var upd_field = function(field){
-	is_char = 0;
-	name = field.name;
-	if(name == "sezione"){
-		is_char = 1;
-	}
-	value = field.value;
-	if(value < 1){
-		return;
-	}
-	if(field.type == "checkbox"){
-		if(field.checked){
-			value = 1;
-		}
-		else{
-			value = 0;
-		}
-	}
-	var url = "class_manager.php";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {action: 'upgrade', field: name, value: value, is_char: is_char, cls: <?php echo $_REQUEST['id'] ?>},
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						alert("Operazione conclusa con successo");
+					}
+				}
+			});
+		};
 
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
+		var upd_field = function(field){
+			is_char = 0;
+			name = field.name;
+			if(name == "sezione"){
+				is_char = 1;
 			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
+			value = field.value;
+			if(value < 1){
+				return;
 			}
-			else {
-				alert("Operazione conclusa con successo");
+			if(field.type == "checkbox"){
+				if(field.checked){
+					value = 1;
+				}
+				else{
+					value = 0;
+				}
 			}
-		}
-	});
-};
+			var url = "class_manager.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {action: 'upgrade', field: name, value: value, is_char: is_char, cls: <?php echo $_REQUEST['id'] ?>},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-$(function(){
-	load_jalert();
-	setOverlayEvent();
-	$('#go_link').button();
-	$('#go_link').click(function(event){
-		event.preventDefault();
-		upd_cls();
-	});
-});
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						alert("Operazione conclusa con successo");
+					}
+				}
+			});
+		};
 
-</script>
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('#go_link').button();
+			$('#go_link').click(function(event){
+				event.preventDefault();
+				upd_cls();
+			});
+		});
+
+	</script>
 </head>
 <body>
 <?php include "../header.php" ?>

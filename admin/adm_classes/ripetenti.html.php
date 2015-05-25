@@ -1,96 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<title>Elenco ripetenti per assegnazione alle classi</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>Elenco ripetenti per assegnazione alle classi</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
-<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../../css/general.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript">
-var shown_up = '<?php echo $first ?>';
-var show_class = function(cls){
-	$('#tb'+shown_up).hide();
-	$('#tb'+cls).show();
-	shown_up = cls;
-};
+	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
+	<link href="../../css/general.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		var shown_up = '<?php echo $first ?>';
+		var show_class = function(cls){
+			$('#tb'+shown_up).hide();
+			$('#tb'+cls).show();
+			shown_up = cls;
+		};
 
-$(function(){
-	load_jalert();
-	setOverlayEvent();
-	$('input[type=checkbox]').change(function(event){
-		upd_student(this.value, this.checked);
-	});
-	$('#close_lnk').click(function(event){
-		event.preventDefault();
-		close_step();
-	});
-});
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('input[type=checkbox]').change(function(event){
+				upd_student(this.value, this.checked);
+			});
+			$('#close_lnk').click(function(event){
+				event.preventDefault();
+				close_step();
+			});
+		});
 
-var upd_student = function(student, checked){
-	var url = "check_ripetente.php";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {school_order: <?php echo $school_order ?>, alunno: student, checked: checked},
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
+		var upd_student = function(student, checked){
+			var url = "check_ripetente.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {school_order: <?php echo $school_order ?>, alunno: student, checked: checked},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else {
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
 
-			}
-		}
-	});
-};
+					}
+				}
+			});
+		};
 
-var close_step = function(){
-	var url = "aggiorna_stato.php";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {school_order: <?php echo $school_order ?>, step: 1},
-		dataType: 'json',
-		error: function() {
-			alert("Errore di trasmissione dei dati");
-		},
-		succes: function() {
+		var close_step = function(){
+			var url = "aggiorna_stato.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {school_order: <?php echo $school_order ?>, step: 1},
+				dataType: 'json',
+				error: function() {
+					alert("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else {
-				document.location.href = "new_year_classes.php?school_order=<?php echo $school_order ?>";
-			}
-		}
-	});
-};
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						document.location.href = "new_year_classes.php?school_order=<?php echo $school_order ?>";
+					}
+				}
+			});
+		};
 
-</script>
+	</script>
 </head>
 <body>
 <?php include "../header.php" ?>

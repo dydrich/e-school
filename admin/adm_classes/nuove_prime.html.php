@@ -1,98 +1,98 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<title>Nuove classi prime</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>Nuove classi prime</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
-<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../../css/general.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript">
-var sezioni = new Array();
-<?php 
-while($sec = $res_sezioni->fetch_assoc()){
-?>
-	sezioni.push('<?php echo $sec['sezione'] ?>');
-<?php 
-}
-?>
-
-var add = function(cl){
-	if(!in_array(sezioni, cl)){
-		sezioni.push(cl);
-		sezioni.sort();
-	}
-	reload_cls();
-};
-
-var del = function(cl){
-	sezioni.remove_by_value(cl);
-	reload_cls();
-};
-
-var reload_cls = function(){
-	$('#classi').text("");
-	for(var i = 0; i < sezioni.length; i++){
-		var _a = document.createElement("a");
-		_a.setAttribute("href", "#");
-		_a.setAttribute("style", "margin-right: 10px");
-		_a.setAttribute("onclick", "del('"+sezioni[i]+"')");
-		_a.appendChild(document.createTextNode("1"+sezioni[i]));
-		$('#classi').append(_a);
-	}
-};
-
-var save = function(){
-	var url = "crea_classi_prime.php";
-	var cls = sezioni.join();
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {school_order: <?php echo $school_order ?>, cls: cls},
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else if (json.status == "wrong_step"){
-				alert(json.message);
-			}
-			else {
-				alert("Operazione completata");
-			}
+	<link href="../../css/general.css" rel="stylesheet" />
+	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		var sezioni = new Array();
+		<?php
+		while($sec = $res_sezioni->fetch_assoc()){
+		?>
+			sezioni.push('<?php echo $sec['sezione'] ?>');
+		<?php
 		}
-	});
-};
+		?>
 
-$(function(){
-	load_jalert();
-	setOverlayEvent();
-	$('div#sezioni a').mouseover(function(event){
-		//alert(this.id);
-		$('#'+this.id).css({color: '#8a1818', fontWeight: 'bold'});
-	});
-	$('div#sezioni a').mouseout(function(event){
-		//alert(this.id);
-		$('#'+this.id).css({color: '', fontWeight: 'normal'});
-	});
-});
+		var add = function(cl){
+			if(!in_array(sezioni, cl)){
+				sezioni.push(cl);
+				sezioni.sort();
+			}
+			reload_cls();
+		};
 
-</script>
+		var del = function(cl){
+			sezioni.remove_by_value(cl);
+			reload_cls();
+		};
+
+		var reload_cls = function(){
+			$('#classi').text("");
+			for(var i = 0; i < sezioni.length; i++){
+				var _a = document.createElement("a");
+				_a.setAttribute("href", "#");
+				_a.setAttribute("style", "margin-right: 10px");
+				_a.setAttribute("onclick", "del('"+sezioni[i]+"')");
+				_a.appendChild(document.createTextNode("1"+sezioni[i]));
+				$('#classi').append(_a);
+			}
+		};
+
+		var save = function(){
+			var url = "crea_classi_prime.php";
+			var cls = sezioni.join();
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {school_order: <?php echo $school_order ?>, cls: cls},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else if (json.status == "wrong_step"){
+						alert(json.message);
+					}
+					else {
+						alert("Operazione completata");
+					}
+				}
+			});
+		};
+
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('div#sezioni a').mouseover(function(event){
+				//alert(this.id);
+				$('#'+this.id).css({color: '#8a1818', fontWeight: 'bold'});
+			});
+			$('div#sezioni a').mouseout(function(event){
+				//alert(this.id);
+				$('#'+this.id).css({color: '', fontWeight: 'normal'});
+			});
+		});
+
+	</script>
 </head>
 <body>
 <?php include "../header.php" ?>

@@ -2,6 +2,8 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../css/general.css" type="text/css" />
 	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
 	<link rel="stylesheet" href="../css/general.css" type="text/css" />
 	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
@@ -10,45 +12,45 @@
 	<script type="text/javascript" src="../js/page.js"></script>
 	<script type="text/javascript">
 
-	var upd_modulo = function(cbox){
-		var url = "aggiorna_modulo.php";
+		var upd_modulo = function(cbox){
+			var url = "aggiorna_modulo.php";
 
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: {field: cbox.name, value: cbox.checked},
-			dataType: 'json',
-			error: function() {
-				console.log(json.dbg_message);
-				j_alert("error", "Errore di trasmissione dei dati");
-			},
-			succes: function() {
-
-			},
-			complete: function(data){
-				r = data.responseText;
-				if(r == "null"){
-					return false;
-				}
-				var json = $.parseJSON(r);
-				if (json.status == "kosql"){
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {field: cbox.name, value: cbox.checked},
+				dataType: 'json',
+				error: function() {
 					console.log(json.dbg_message);
-					console.log(json.query);
-					j_alert("error", json.message);
-				}
-				else {
-					j_alert("alert", json.message);
-				}
-			}
-		});
-	};
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-	$(function(){
-		load_jalert();
-		setOverlayEvent();
-	});
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						console.log(json.dbg_message);
+						console.log(json.query);
+						j_alert("error", json.message);
+					}
+					else {
+						j_alert("alert", json.message);
+					}
+				}
+			});
+		};
+
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+		});
 	</script>
-<title>Modifica moduli installati</title>
+	<title>Modifica moduli installati</title>
 </head>
 <body>
 <?php include "header.php" ?>

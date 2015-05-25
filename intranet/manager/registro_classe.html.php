@@ -4,6 +4,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Verifica registro di classe</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
@@ -11,60 +12,53 @@
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
 	<script>
-	$(function(){
-		load_jalert();
-		setOverlayEvent();
-		$('#menu_div').mouseleave(function(event){
-			event.preventDefault();
-	        $('#menu_div').slideToggle();
-	    });
-		$('.show_abs').click(function(event){
-			data = $(this).attr("data-id");
-			show_absents(data);
-			//$('#abs_'+data[1]).slideToggle(600);
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('#menu_div').mouseleave(function(event){
+				event.preventDefault();
+		        $('#menu_div').slideToggle();
+		    });
+			$('.show_abs').click(function(event){
+				data = $(this).attr("data-id");
+				show_absents(data);
+				//$('#abs_'+data[1]).slideToggle(600);
+			});
 		});
-	});
 
-	var show_absents = function(id_reg){
-		$.ajax({
-			type: "POST",
-			url: "../../lib/ws/get_absents.php",
-			data: {id_reg: id_reg},
-			dataType: 'json',
-			error: function() {
-				alert("Errore di trasmissione dei dati");
-			},
-			succes: function() {
+		var show_absents = function(id_reg){
+			$.ajax({
+				type: "POST",
+				url: "../../lib/ws/get_absents.php",
+				data: {id_reg: id_reg},
+				dataType: 'json',
+				error: function() {
+					alert("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-			},
-			complete: function(data){
-				r = data.responseText;
-				if(r == "null"){
-					return false;
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						data = json.data.split(";");
+						string = data.join(", ");
+						$('#abs_'+id_reg).html("Assenti: "+string);
+						$('#abs_'+id_reg).slideToggle(600);
+					}
 				}
-				var json = $.parseJSON(r);
-				if (json.status == "kosql"){
-					alert(json.message);
-					console.log(json.dbg_message);
-				}
-				else {
-					data = json.data.split(";");
-					string = data.join(", ");
-					$('#abs_'+id_reg).html("Assenti: "+string);
-					$('#abs_'+id_reg).slideToggle(600);
-				}
-			}
-		});
-	};
+			});
+		};
 
 	</script>
-	<style type="text/css">
-	<!--
-	td a {
-		text-decoration: none;
-	}
-	-->
-	</style>
 </head>
 <body>
 <?php include "header.php" ?>

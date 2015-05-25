@@ -1,3 +1,35 @@
+4.4.126
+(communication): bug fix in w_events
+
+4.4.125
+(documents): modifiche grafiche in doc.php
+
+4.4.124
+bug fix (sostituzioni.php)
+
+4.4.123
+scheda alunno di sostegno
+
+4.4.122
+utf8 in student.php
+
+4.4.121
+utf8 in Grade.php
+
+4.4.120
+aggiunta della materia nelle note didattiche
+
+4.4.119
+bug fix
+
+4.4.118
+modificata height in max-height per #ticker (reg.css_)
+
+4.4.117
+bug fixes
+ - lunghezza campi in users.php
+ - modifica username utente
+
 4.4.116
 bug fix (bug #84)
 

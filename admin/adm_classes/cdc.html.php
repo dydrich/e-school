@@ -1,249 +1,249 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<title>Consiglio di classe</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<title>Consiglio di classe</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
-<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
-<link href="../../css/general.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript">
-var sc_order = <?php echo $classe['ordine_di_scuola'] ?>;
-var upd_cdc = function(materia, sel){
-    var doc = $('#'+sel).val();
-    //var text = sel.options[sel.selectedIndex].text;
-    var url = "update_cdc.php";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {cls: <?php echo $classID ?>, mat: materia, doc: doc},
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
+	<link href="../../css/general.css" rel="stylesheet" />
+	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		var sc_order = <?php echo $classe['ordine_di_scuola'] ?>;
+		var upd_cdc = function(materia, sel){
+		    var doc = $('#'+sel).val();
+		    //var text = sel.options[sel.selectedIndex].text;
+		    var url = "update_cdc.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {cls: <?php echo $classID ?>, mat: materia, doc: doc},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+
+					}
+				}
+			});
+		};
+
+		var add_teacher = function(){
+			$('#dialog').dialog({
+				autoOpen: true,
+				show: {
+					effect: "appear",
+					duration: 500
+				},
+				hide: {
+					effect: "slide",
+					duration: 300
+				},
+				buttons: [{
+					text: "Chiudi",
+					click: function() {
+						$( this ).dialog( "close" );
+					}
+				}],
+				modal: true,
+				width: 450,
+				title: 'Elenco docenti',
+				open: function(event, ui){
+
+				}
+			});
+		};
+
+		var add_alt = function(){
+			$('#altdialog').dialog({
+				autoOpen: true,
+				show: {
+					effect: "appear",
+					duration: 500
+				},
+				hide: {
+					effect: "slide",
+					duration: 300
+				},
+				buttons: [{
+					text: "Chiudi",
+					click: function() {
+						$( this ).dialog( "close" );
+					}
+				}],
+				modal: true,
+				width: 450,
+				title: 'Elenco docenti',
+				open: function(event, ui){
+
+				}
+			});
+		};
+
+		var save_teacher = function(){
+			var url = "update_cdc.php";
+
+			var mat = 27;
+			if (sc_order == 2){
+				mat = 41;
 			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {action: "add", cls: <?php echo $classID ?>, mat: mat, doc: $('#doc').val(), ore: $('#ore').val()},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						document.location.href = "cdc.php?id=<?php echo $classID ?>";
+					}
+				}
+			});
+		};
+
+		var save_alt = function(){
+			var url = "update_cdc.php";
+
+			var mat = 46;
+			if (sc_order == 2){
+				mat = 47;
 			}
-			else {
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {action: "add_alt", cls: <?php echo $classID ?>, mat: mat, doc: $('#doc_alt').val()},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						document.location.href = "cdc.php?id=<?php echo $classID ?>";
+					}
+				}
+			});
+		};
+
+		var del_teacher = function(uid){
+			var mat = 27;
+			if (sc_order == 2){
+				mat = 41;
 			}
-		}
-	});
-};
+			var url = "update_cdc.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {action: "del", cls: <?php echo $classID ?>, mat: mat, doc: uid},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-var add_teacher = function(){
-	$('#dialog').dialog({
-		autoOpen: true,
-		show: {
-			effect: "appear",
-			duration: 500
-		},
-		hide: {
-			effect: "slide",
-			duration: 300
-		},
-		buttons: [{
-			text: "Chiudi",
-			click: function() {
-				$( this ).dialog( "close" );
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						document.location.href = "cdc.php?id=<?php echo $classID ?>";
+					}
+				}
+			});
+			$('#row_'+uid).hide()
+			$('#row_'+uid).attr("id", "");
+		};
+
+		var del_alt = function(uid){
+			var mat = 46;
+			if (sc_order == 2){
+				mat = 47;
 			}
-		}],
-		modal: true,
-		width: 450,
-		title: 'Elenco docenti',
-		open: function(event, ui){
+			var url = "update_cdc.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {action: "del_alt", cls: <?php echo $classID ?>, mat: mat, doc: uid},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-		}
-	});
-};
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						alert(json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						document.location.href = "cdc.php?id=<?php echo $classID ?>";
+					}
+				}
+			});
+			$('#rowalt_'+uid).hide()
+			$('#rowalt_'+uid).attr("id", "");
+		};
 
-var add_alt = function(){
-	$('#altdialog').dialog({
-		autoOpen: true,
-		show: {
-			effect: "appear",
-			duration: 500
-		},
-		hide: {
-			effect: "slide",
-			duration: 300
-		},
-		buttons: [{
-			text: "Chiudi",
-			click: function() {
-				$( this ).dialog( "close" );
-			}
-		}],
-		modal: true,
-		width: 450,
-		title: 'Elenco docenti',
-		open: function(event, ui){
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+		});
 
-		}
-	});
-};
-
-var save_teacher = function(){
-	var url = "update_cdc.php";
-
-	var mat = 27;
-	if (sc_order == 2){
-		mat = 41;
-	}
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {action: "add", cls: <?php echo $classID ?>, mat: mat, doc: $('#doc').val(), ore: $('#ore').val()},
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else {
-				document.location.href = "cdc.php?id=<?php echo $classID ?>";
-			}
-		}
-	});
-};
-
-var save_alt = function(){
-	var url = "update_cdc.php";
-
-	var mat = 46;
-	if (sc_order == 2){
-		mat = 47;
-	}
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {action: "add_alt", cls: <?php echo $classID ?>, mat: mat, doc: $('#doc_alt').val()},
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else {
-				document.location.href = "cdc.php?id=<?php echo $classID ?>";
-			}
-		}
-	});
-};
-
-var del_teacher = function(uid){
-	var mat = 27;
-	if (sc_order == 2){
-		mat = 41;
-	}
-	var url = "update_cdc.php";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {action: "del", cls: <?php echo $classID ?>, mat: mat, doc: uid},
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else {
-				document.location.href = "cdc.php?id=<?php echo $classID ?>";
-			}
-		}
-	});
-	$('#row_'+uid).hide()
-	$('#row_'+uid).attr("id", "");
-};
-
-var del_alt = function(uid){
-	var mat = 46;
-	if (sc_order == 2){
-		mat = 47;
-	}
-	var url = "update_cdc.php";
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: {action: "del_alt", cls: <?php echo $classID ?>, mat: mat, doc: uid},
-		dataType: 'json',
-		error: function() {
-			show_error("Errore di trasmissione dei dati");
-		},
-		succes: function() {
-
-		},
-		complete: function(data){
-			r = data.responseText;
-			if(r == "null"){
-				return false;
-			}
-			var json = $.parseJSON(r);
-			if (json.status == "kosql"){
-				alert(json.message);
-				console.log(json.dbg_message);
-			}
-			else {
-				document.location.href = "cdc.php?id=<?php echo $classID ?>";
-			}
-		}
-	});
-	$('#rowalt_'+uid).hide()
-	$('#rowalt_'+uid).attr("id", "");
-};
-
-	$(function(){
-		load_jalert();
-		setOverlayEvent();
-	});
-
-</script>
+	</script>
 </head>
 <body>
 <?php include "../header.php" ?>

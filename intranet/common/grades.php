@@ -62,105 +62,105 @@ $voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Bu
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area genitori</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area genitori</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../../js/page.js"></script>
-<script type="text/javascript">
-	$(function(){
-		load_jalert();
-		setOverlayEvent();
-		$('#overlay').click(function(event) {
-			if ($('#overlay').is(':visible')) {
-				show_drawer(event);
-			}
-			$('#other_drawer').hide();
-		});
-		$('#showsub').click(function(event){
-			var off = $(this).parent().offset();
-			_show(event, off);
-		});
-	});
-
-	var _show = function(e, off) {
-		if ($('#other_drawer').is(":visible")) {
-			$('#other_drawer').hide('slide', 300);
-			return;
-		}
-		var offset = $('#drawer').offset();
-		var top = off.top;
-
-		var left = offset.left + $('#drawer').width() + 1;
-		$('#other_drawer').css({top: top+"px", left: left+"px", zIndex: 1000});
-		$('#other_drawer').show('slide', 300);
-		return true;
-	};
-
-	function show_div(div, subjectID){
-		// recupero i voti da visualizzare
-		if($('#'+div).is(":hidden")){
-			url = "../common/get_marks.php";
-			$.ajax({
-				type: "POST",
-				url: url,
-				data: {subjectID: subjectID, q: <?php print $q ?>, ric: "<?php echo $area ?>"},
-				dataType: 'json',
-				error: function() {
-					j_alert("error", "Errore di trasmissione dei dati");
-				},
-				succes: function() {
-
-				},
-				complete: function(data){
-					$('#'+div).html("");
-					r = data.responseText;
-					if(r == "null"){
-						return false;
-					}
-					var json = $.parseJSON(r);
-					if (json.status == "kosql"){
-						alert(json.message);
-						console.log(json.dbg_message);
-					}
-					else if(json.status == "ko") {
-						j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
-						return;
-					}
-					else {
-
-						if(json.numero_voti == 0){
-							$('#'+div).html("<span style='padding-left: 30px; padding-bottom: 20px'>Nessun voto presente</span>");
-						}
-						else{
-							var html = "<table style='margin-left: 30px; width: 80%; margin-bottom: 20px'>";
-							//alert(json.voti.length);
-							for(data in json.voti){
-								riga = json.voti[data];
-								if (riga.data != "" && riga.data != undefined) {
-									html += "<tr class='manager_row_xsmall'><td style='width: 20%; '>"+riga.data+"</td><td style='width: 55%; '>"+riga.desc+"</td><td style='width: 25%; text-align: center'>"+riga.voto+"</td></tr>";
-									//$('<div style="width: 80%; margin-left: 30px; background-color: rgba(30, 67, 137, .1); border-bottom: 1px solid rgba(30, 67, 137, .2)">'+riga.data+': <span class="_bold _right">'+riga.voto+'</span></div>').appendTo($('#'+div));
-								}
-							}
-							html += "</table>";
-							$('#'+div).html(html);
-						}
-						$('#line_'+subjectID).addClass("_bold");
-					}
+	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/communication.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('#overlay').click(function(event) {
+				if ($('#overlay').is(':visible')) {
+					show_drawer(event);
 				}
+				$('#other_drawer').hide();
 			});
-			$('#'+div).fadeIn(400);
+			$('#showsub').click(function(event){
+				var off = $(this).parent().offset();
+				_show(event, off);
+			});
+		});
+
+		var _show = function(e, off) {
+			if ($('#other_drawer').is(":visible")) {
+				$('#other_drawer').hide('slide', 300);
+				return;
+			}
+			var offset = $('#drawer').offset();
+			var top = off.top;
+
+			var left = offset.left + $('#drawer').width() + 1;
+			$('#other_drawer').css({top: top+"px", left: left+"px", zIndex: 1000});
+			$('#other_drawer').show('slide', 300);
+			return true;
+		};
+
+		function show_div(div, subjectID){
+			// recupero i voti da visualizzare
+			if($('#'+div).is(":hidden")){
+				url = "../common/get_marks.php";
+				$.ajax({
+					type: "POST",
+					url: url,
+					data: {subjectID: subjectID, q: <?php print $q ?>, ric: "<?php echo $area ?>"},
+					dataType: 'json',
+					error: function() {
+						j_alert("error", "Errore di trasmissione dei dati");
+					},
+					succes: function() {
+
+					},
+					complete: function(data){
+						$('#'+div).html("");
+						r = data.responseText;
+						if(r == "null"){
+							return false;
+						}
+						var json = $.parseJSON(r);
+						if (json.status == "kosql"){
+							alert(json.message);
+							console.log(json.dbg_message);
+						}
+						else if(json.status == "ko") {
+							j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+							return;
+						}
+						else {
+
+							if(json.numero_voti == 0){
+								$('#'+div).html("<span style='padding-left: 30px; padding-bottom: 20px'>Nessun voto presente</span>");
+							}
+							else{
+								var html = "<table style='margin-left: 30px; width: 80%; margin-bottom: 20px'>";
+								//alert(json.voti.length);
+								for(data in json.voti){
+									riga = json.voti[data];
+									if (riga.data != "" && riga.data != undefined) {
+										html += "<tr class='manager_row_xsmall'><td style='width: 20%; '>"+riga.data+"</td><td style='width: 55%; '>"+riga.desc+"</td><td style='width: 25%; text-align: center'>"+riga.voto+"</td></tr>";
+										//$('<div style="width: 80%; margin-left: 30px; background-color: rgba(30, 67, 137, .1); border-bottom: 1px solid rgba(30, 67, 137, .2)">'+riga.data+': <span class="_bold _right">'+riga.voto+'</span></div>').appendTo($('#'+div));
+									}
+								}
+								html += "</table>";
+								$('#'+div).html(html);
+							}
+							$('#line_'+subjectID).addClass("_bold");
+						}
+					}
+				});
+				$('#'+div).fadeIn(400);
+			}
+			else{
+				$('#'+div).fadeOut(300);
+				$('#line_'+subjectID).removeClass("_bold");
+			}
 		}
-		else{
-			$('#'+div).fadeOut(300);
-			$('#line_'+subjectID).removeClass("_bold");
-		}
-	}
 	</script>
 <style type="text/css">
 </style>

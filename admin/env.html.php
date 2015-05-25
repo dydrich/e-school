@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
-<link rel="stylesheet" href="../css/general.css" type="text/css" />
-<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
-<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../js/jquery.jeditable.mini.js"></script>
-<script type="text/javascript" src="../js/page.js"></script>
-<script type="text/javascript">
-	$(function(){
-		load_jalert();
-		setOverlayEvent();
-		$('.edit').editable('../shared/env_manager.php', {
-			indicator : 'Saving...',
-			tooltip   : 'Click to edit...'
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../css/general.css" type="text/css" />
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
+	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+	<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.jeditable.mini.js"></script>
+	<script type="text/javascript" src="../js/page.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('.edit').editable('../shared/env_manager.php', {
+				indicator : 'Saving...',
+				tooltip   : 'Click to edit...'
+			});
 		});
-	});
-</script>
-<style>
-	form {border: 0}
-</style>
-<title>Registro elettronico</title>
+	</script>
+	<title>Registro elettronico</title>
 </head>
 <body>
 <?php include "header.php" ?>

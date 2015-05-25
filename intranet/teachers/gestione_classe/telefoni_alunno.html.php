@@ -5,8 +5,8 @@
 	<title>Recapiti telefonici alunno</title>
 	<link rel="stylesheet" href="../../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
