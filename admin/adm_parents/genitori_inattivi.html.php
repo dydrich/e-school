@@ -36,7 +36,6 @@
 			$('table tbody a.del_link').click(function(event){
 				event.preventDefault();
 				var strs = this.parentNode.id.split("_");
-				alert(strs[1]);
 				del_user(strs[1]);
 			});
 		});
