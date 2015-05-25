@@ -70,6 +70,10 @@ else{
     $show_account = true;
 }
 
+if (isset($_GET['referer']) && $_GET['referer'] == "inactive") {
+	$back_link = "genitori_inattivi.php";
+}
+
 $navigation_label = "gestione utenti";
 
 include "dettaglio_genitore.html.php";

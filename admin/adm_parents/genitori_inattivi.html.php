@@ -160,9 +160,9 @@
             	<td style="">
                 	<span id="span_<?php echo $parent['uid'] ?>" class="ov_red"><?php echo $parent['cognome']." ".$parent['nome'] ?></span>
                 	<div id="link_<?php echo $parent['uid'] ?>" style="display: none; vertical-align: bottom">
-                	<a href="dettaglio_genitore.php?id=<?php echo $parent['uid'] ?>" class="ren_link">Modifica</a>
-                	<span style="margin-left: 5px; margin-right: 5px">|</span>
-                	<a href="../../shared/no_js.php" class="del_link">Elimina</a>
+                	<a href="dettaglio_genitore.php?id=<?php echo $parent['uid'] ?>&referer=inactive" class="ren_link material_link">Modifica</a>
+                	<span style="margin-left: 5px; margin-right: 5px"></span>
+                	<a href="../../shared/no_js.php" class="del_link material_link">Elimina</a>
                 	</div>
                 </td>
                 <td style=""><span><?php echo $parent['username'] ?></span></td>
@@ -175,8 +175,8 @@
         </tr>
         	<tr class="admin_menu">
                 <td colspan="3" >
-                	<a href="#" class="standard_link nav_link_first" onclick="del_all()">Elimina selezionati</a>|
-                    <a href="../index.php" class="standard_link nav_link_last">Torna al menu</a>
+                	<a href="#" class="material_link nav_link_first" onclick="del_all()">Elimina selezionati</a>
+                    <a href="../index.php" class="material_link nav_link_last">Torna al menu</a>
                 </td>
             </tr>
 
