@@ -96,7 +96,7 @@ if($comp){
  */
 if ($q == 2){
 	if ($_SESSION['__classe__']->get_anno() != 3){
-		$sel_es = "SELECT * FROM rb_esiti WHERE ordine_scuola = {$ordine_scuola} AND (classe = {$_SESSION['__classe__']->get_anno()}) ORDER BY positivo DESC";
+		$sel_es = "SELECT * FROM rb_esiti WHERE ordine_scuola = {$ordine_scuola} AND (classe = {$_SESSION['__classe__']->get_anno()} OR classe = 0) AND id_esito <> 17 ORDER BY positivo DESC";
 	}
 	else {
 		$sel_es = "SELECT * FROM rb_esiti WHERE ordine_scuola = {$ordine_scuola} AND (classe = {$_SESSION['__classe__']->get_anno()}) ORDER BY positivo DESC";
