@@ -1043,6 +1043,10 @@ div.admin_link_wrapper {
     padding: 5px
 }
 
+div.ticker_container {
+    width: 450px;
+}
+
 #ticker {
     overflow: hidden;
     font-size: .9em;
@@ -1051,6 +1055,7 @@ div.admin_link_wrapper {
     max-height: 108px;
     width: 450px;
 }
+
 #ticker li {
     list-style:none;
     margin:0;
