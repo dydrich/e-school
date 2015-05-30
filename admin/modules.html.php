@@ -48,6 +48,16 @@
 		$(function(){
 			load_jalert();
 			setOverlayEvent();
+			$(":checkbox").button();
+			$(":checkbox").click(function(event) {
+				mod = $(this).attr("data-mod");
+				if ($(this).prop("checked") == true) {
+					$('#label'+mod+ " span").text("ON ");
+				}
+				else {
+					$('#label'+mod+ " span").text("OFF");
+				}
+			});
 		});
 	</script>
 	<title>Modifica moduli installati</title>
@@ -80,7 +90,10 @@
             <tr class="admin_row" style="height: 20px; vertical-align: middle">
             	<td style="width: 50%"><?php echo $mod['name'] ?></td>
             	<td style="width: 30%"><?php echo $mod['tipo'] ?></td>
-            	<td style="width: 20%; text-align: center"><input type="checkbox" id="<?php echo $mod['code_name'] ?>" name="<?php echo $mod['code_name'] ?>" <?php if($mod['active'] == 1) print "checked" ?> onclick="upd_modulo(this)" /></td>
+            	<td style="width: 20%; text-align: center">
+		            <input type="checkbox" id="<?php echo $mod['code_name'] ?>" data-mod="<?php echo $mod['code_name'] ?>" name="<?php echo $mod['code_name'] ?>" <?php if($mod['active'] == 1) print "checked" ?> onclick="upd_modulo(this)" />
+		            <label for="<?php echo $mod['code_name'] ?>" id="label<?php echo $mod['code_name'] ?>" style="font-size: 0.8em"><?php if($mod['active'] == 1) echo "ON "; else echo "OFF" ?></label>
+	            </td>
             </tr>
             <?php 
             	$x++;

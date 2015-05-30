@@ -57,6 +57,7 @@
 	$(function(){
 		load_jalert();
 		setOverlayEvent();
+		$("#buttonset").buttonset();
 		$('.form_input').focus(function(event){
 			$(this).css({outline: '1px solid blue'});
 		});
@@ -80,6 +81,11 @@
 	});
 
 	</script>
+	<style>
+		.ui-button-text-only .ui-button-text {
+			padding: 0.4em 0.5em;
+		}
+	</style>
 </head>
 <body>
 <?php include "../header.php" ?>
@@ -138,9 +144,9 @@
 	    </fieldset>
 	    <fieldset style="margin-right: auto; margin-left: auto; width: 95%; padding-top: 20px; padding-bottom: 20px; margin-bottom: 30px; margin-top: 20px">
 	    <legend style="">Gruppi</legend>
-	    <table style="width: 95%">
-	        <tr class="popup_row header_row _center">
-	            <td colspan="2">
+	    <table style="width: 100%">
+	        <tr class="_center">
+	            <td colspan="2" id="buttonset">
 	                <?php
 	                while($gr = $res_g->fetch_assoc()){
 	                    $checked = "";
@@ -157,7 +163,7 @@
 	                    	}
 	                    }
 	                ?>
-	                <input type="checkbox" style="margin: auto" value="<?php print $gr['gid'] ?>" name="gruppi[]" <?php print $checked ?> />&nbsp;&nbsp;&nbsp;<?php print $gr['nome'] ?>&nbsp;&nbsp;&nbsp;
+	                <input type="checkbox" style="margin: 0; padding: 0" value="<?php print $gr['gid'] ?>" id="gr<?php print $gr['gid'] ?>" name="gruppi[]" <?php print $checked ?> /><label for="gr<?php print $gr['gid'] ?>" style="font-size: 0.95em"><?php print $gr['nome'] ?></label>
 	                <?php } ?>
 	                <input type="hidden" name="action" id="action" />
 	    			<input type="hidden" name="_i" id="_i" />
