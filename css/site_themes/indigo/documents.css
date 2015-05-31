@@ -214,3 +214,13 @@ p.doc a {
 .didascalia{
     font-size: 0.9em
 }
+
+.float_button {
+    background-color: #303F9F !important;
+    color: #ffffff;
+}
+
+.float_button:hover {
+    background-color: #FF4081 !important;
+    color: #000000;
+}

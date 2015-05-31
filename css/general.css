@@ -1427,3 +1427,23 @@ table.registro tr.riepilogo {
     border: 1px solid rgba(30, 67, 137, .8);
 }
 
+/*documents */
+.float_button {
+    display: none;
+    width: 45px;
+    height: 45px;
+    position: fixed;
+    z-index: 990;
+    right: 625px;
+    bottom: 20%;
+    box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.2) !important;
+}
+
+.float_button i {
+    font-size: 1.4em;
+    padding: 13px 0 0 14px
+}
+
+.top_button {
+    right: 555px;
+}
