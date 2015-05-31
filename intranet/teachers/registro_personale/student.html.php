@@ -548,7 +548,7 @@ $giorno_str = strftime("%A", strtotime(date("Y-m-d")));
 ?>
 	<div style="top: -8px; margin-left: 825px; margin-bottom: -39px" class="rb_button">
 		<a href="#" id="weighted_avg">
-			<img src="../../../images/62.png" style="padding: 12px 0 0 12px" />
+			<img src="../../../images/62.png" style="padding: 12px 0 0 13px" />
 		</a>
 	</div>
 	<div style="top: -8px; margin-left: 895px; margin-bottom: -26px" class="rb_button">
