@@ -414,3 +414,7 @@ var setOverlayEvent = function() {
         show_drawer(event);
     });
 };
+
+var show_error = function(error) {
+    j_alert("error", error);
+};
