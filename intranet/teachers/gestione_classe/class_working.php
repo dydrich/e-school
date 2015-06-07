@@ -6,6 +6,20 @@ else{
 	$q = 0;
 }
 
+$anni_corso_classe = array();
+
+$year = $_SESSION['__current_year__']->get_ID();
+
+$sel_anni = "SELECT id_anno, descrizione FROM rb_anni WHERE id_anno < $year ORDER BY id_anno DESC";
+try{
+	$res_anni = $db->executeQuery($sel_anni);
+} catch(MySQLException $ex){
+	$ex->redirect();
+}
+while ($row = $res_anni->fetch_assoc()) {
+	$anni_corso_classe[] = $row;
+}
+
 $is_teacher_in_this_class = $_SESSION['__user__']->isTeacherInClass($_SESSION['__classe__']->get_ID());
 
 ?>
@@ -27,6 +41,20 @@ $is_teacher_in_this_class = $_SESSION['__user__']->isTeacherInClass($_SESSION['_
 	?>
 	<li><a href="cerca_pagella.php" style="font-weight: normal">Cerca pagella</a></li>
 	<?php endif; ?>
+	<?php
+	if ($_SESSION['__classe__']->getSchoolOrder() == 1) {
+		if ($_SESSION['__classe__']->get_anno() == 2) {
+			?>
+			<li><a href="archivio_scrutini.php?y=<?php echo $anni_corso_classe[0]['id'] ?>" style="font-weight: normal">Archivio scrutini</a></li>
+		<?php
+		}
+		else if ($_SESSION['__classe__']->get_anno() == 3) {
+	?>
+			<li><a href="archivio_scrutini.php" style="font-weight: normal">Archivio scrutini</a></li>
+	<?php
+		}
+	}
+	?>
  </ul>
  <?php if(is_installed("com")){ ?>
  <?php } ?>
