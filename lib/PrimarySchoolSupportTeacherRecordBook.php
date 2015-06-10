@@ -65,12 +65,11 @@ class PrimarySchoolSupportTeacherRecordBook extends PrimarySchoolTeacherRecordBo
 		$student['indirizzo'] = "";
 		$student['citta'] = "";
 		$student['telefono'] = "";
-		$_address = $this->datasource->executeQuery("SELECT indirizzo, citta, telefono1 FROM rb_indirizzi_alunni WHERE id_alunno = {$st}");
+		$_address = $this->datasource->executeQuery("SELECT indirizzo, citta FROM rb_indirizzi_alunni WHERE id_alunno = {$st}");
 		if ($_address){
 			$address = $_address[0];
 			$student['indirizzo'] = $address['indirizzo'];
 			$student['citta'] = $address['citta'];
-			$student['telefono'] = $address['telefono1'];
 		}
 
 		$student['sostegno'] = array();
