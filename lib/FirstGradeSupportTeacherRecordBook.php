@@ -75,7 +75,6 @@ class FirstGradeSupportTeacherRecordBook extends FirstGradeTeacherRecordBook{
 			$address = $_address[0];
 			$student['indirizzo'] = $address['indirizzo'];
 			$student['citta'] = $address['citta'];
-			$student['telefono'] = $address['telefono1'];
 		}
 
 		$student['sostegno'] = array();
