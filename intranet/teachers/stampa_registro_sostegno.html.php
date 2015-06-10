@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
+	<link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
@@ -14,14 +15,14 @@
 		var cls = 0;
 		var std = 0;
 
-		var show_menu = function(e, _all, _ff){
+		var show_menu = function(e, idc, subj, offset){
 			tempY = offset.top;
 			tempX = offset.left;
 			$('#context_menu').css({top: parseInt(tempY)+"px"});
 			$('#context_menu').css({left: parseInt(tempX)+"px"});
 			$('#context_menu').slideDown(500);
 			cls = idc;
-			stud = subj;
+			std = subj;
 			return false;
 		};
 
