@@ -24,8 +24,8 @@ class ReportPDF extends SchoolPDF {
 				break;
 		}
 		$this->setPage(1, true);
-		$this->Image($_SESSION['__path_to_root__'].'images/ministero.jpg', 90, 8, 20, 20, 'JPG', '', '', false, '');
-		$this->SetFont('times', 'B', '16');
+		$this->Image($_SESSION['__path_to_root__'].'images/ministero.jpg', 90, 8, 20, 20, 'JPG', '', '', false, '', 'C');
+		$this->SetFont('helvetica', 'B', '15');
 		$this->Cell(0, 20, "Ministero dell'Istruzione, dell'Università e della Ricerca", 0, 1, 'C', 0, '', 0);
 		$this->SetFont('helvetica', 'B', '14');
 		$this->Cell(0, 10, "ISTITUTO COMPRENSIVO C. NIVOLA", 0, 1, 'C', 0, '', 0);
@@ -150,8 +150,8 @@ class ReportPDF extends SchoolPDF {
 			$this->setPage(2, true);
 			$this->SetFont('', 'B');
 			$this->SetDrawColor(120, 120, 120);
-			$this->Image('../../images/ministero.jpg', 90, 8, 15, 15, 'JPG', '', '', false, '');
-			$this->SetFont('times', 'B', '11');
+			$this->Image('../../images/ministero.jpg', 90, 8, 15, 15, 'JPG', '', '', false, '', 'C');
+			$this->SetFont('helvetica', 'B', '11');
 			$this->Cell(0, 10, "MINISTERO DELL'ISTRUZIONE, DELL'UNIVERSITÀ E DELLA RICERCA", 0, 1, 'C', 0, '', 0);
 			$this->SetFont('helvetica', 'B', '14');
 			$this->Cell(0, 10, "NOTA PER LA VALUTAZIONE RELATIVA ALL'INSEGNAMENTO", 0, 1, 'C', 0, '', 0);
@@ -173,7 +173,7 @@ class ReportPDF extends SchoolPDF {
 			}
 			$this->Cell(0, 10, "Iscritt{$final_letter} alla classe {$cls}, sezione ".$st['sezione'], 0, 1, 'C', 0, '', 0);
 			$this->SetY(140);
-			$this->SetFont('times', '', '14');
+			$this->SetFont('helvetica', '', '11');
 			$this->Cell(180, 22, "Dio e l'uomo. I valori etici e religiosi. La Bibbia e le altre fonti. Il linguaggio religioso", "LTRB", 1, 'C', 0, '', 0);
 			$this->SetFont('times', 'B', '13');
 			$this->Cell(180, 8, "VALUTAZIONI PERIODICHE", "LRB", 1, 'C', 0, '', 0);
@@ -196,7 +196,7 @@ class ReportPDF extends SchoolPDF {
 			$this->Cell(90, 30, "Il dirigente scolastico", "RB", 0, 'R', 0, '', 0);
 			$this->Ln();
 			$this->SetFont('', 'I', '7');
-			$this->MultiCell(180, 20, "\n\nfirma autografa sostituita a mezzo stampa ai sensi dell'articolo 3 comma 2 del decreto legislativo 12 dicembre 1993, n. 39", 0, 'R', false, 0, 35);
+			$this->MultiCell(150, 20, "\n\nfirma autografa sostituita a mezzo stampa ai sensi dell'articolo 3 comma 2 del decreto legislativo 12 dicembre 1993, n. 39", 0, 'L', false, 0, 35);
 			$this->setY(230);
 			$this->setX(148);
 			$this->SetFont('times', 'I', '9');
@@ -218,8 +218,8 @@ class ReportPDF extends SchoolPDF {
 			$string_4 = implode(", ", $grades_4);
 			$this->SetFont('', 'B');
 			$this->SetDrawColor(120, 120, 120);
-			$this->Image('../../images/ministero.jpg', 90, 8, 15, 15, 'JPG', '', '', false, '');
-			$this->SetFont('times', 'B', '11');
+			$this->Image('../../images/ministero.jpg', 90, 8, 15, 15, 'JPG', '', '', false, '', 'C');
+			$this->SetFont('helvetica', 'B', '11');
 			$this->Cell(0, 10, "MINISTERO DELL'ISTRUZIONE, DELL'UNIVERSITÀ E DELLA RICERCA", 0, 1, 'C', 0, '', 0);
 			$this->SetFont('helvetica', 'B', '14');
 			$this->SetFont('', 'I', '12');
