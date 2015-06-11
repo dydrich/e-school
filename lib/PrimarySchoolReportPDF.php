@@ -38,7 +38,7 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 		
 		$this->setPage(1, true);
 		$this->Image($_SESSION['__path_to_root__'].'images/ministero.jpg', 90, 8, 20, 20, 'JPG', '', '', false, '');
-		$this->SetFont('times', 'B', '16');
+		$this->SetFont('helvetica', 'B', '16');
 		$this->Cell(0, 20, "Ministero dell'Istruzione, dell'Università e della Ricerca", 0, 1, 'C', 0, '', 0);
 		$this->SetFont('helvetica', 'B', '14');
 		$this->Cell(0, 10, "ISTITUTO COMPRENSIVO C. NIVOLA", 0, 1, 'C', 0, '', 0);
@@ -139,7 +139,7 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 		
 		$this->setPage(2, true);
 		$this->Image($_SESSION['__path_to_root__'].'images/ministero.jpg', 90, 8, 20, 20, 'JPG', '', '', false, '');
-		$this->SetFont('times', 'B', '16');
+		$this->SetFont('helvetica', 'B', '16');
 		$this->Cell(0, 20, "Ministero dell'Istruzione, dell'Università e della Ricerca", 0, 1, 'C', 0, '', 0);
 		$this->SetFont('helvetica', 'B', '14');
 		$this->Cell(0, 10, "ISTITUTO COMPRENSIVO C. NIVOLA", 0, 1, 'C', 0, '', 0);
@@ -158,10 +158,10 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 		$this->SetFont('', 'B', '13');
 		$this->Cell(0, 8, "Iscritt{$final_letter} alla classe {$cls}, sezione ".$st['sezione'], 0, 1, 'C', 0, '', 0);
 		$this->SetFont('', '', '12');
-		$this->SetFont('times', 'B', '16');
+		$this->SetFont('helvetica', 'B', '16');
 		$this->Cell(0, 15, "", 0, 1, 'C', 0, '', 0);
 		$this->Cell(180, 15, "Giudizio sul livello globale di maturazione", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('times', '', '14');
+		$this->SetFont('hel', '', '14');
 		$this->Cell(0, 15, "", 0, 1, 'C', 0, '', 0);
 		$this->SetFillColor(232, 234, 236);
 		$this->Cell(180, 9, "I Quadrimestre", "LTRB", 1, 'C', 1, '', 0);
@@ -182,7 +182,7 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 			$this->Ln();
 			$fill=!$fill;
 		}
-		$this->SetFont('times', '', '14');
+		$this->SetFont('helvetica', '', '14');
 		$this->Cell(180, 9, "II Quadrimestre", "LTRB", 1, 'C', 1, '', 0);
 		$this->SetLineWidth(0.3);
 		$this->SetFont('', 'B', '11');
@@ -222,7 +222,7 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 			$this->SetFont('', 'B');
 			$this->SetDrawColor(120, 120, 120);
 			$this->Image('../../images/ministero.jpg', 90, 8, 15, 15, 'JPG', '', '', false, '');
-			$this->SetFont('times', 'B', '11');
+			$this->SetFont('helvetica', 'B', '11');
 			$this->Cell(0, 10, "MINISTERO DELL'ISTRUZIONE, DELL'UNIVERSITÀ E DELLA RICERCA", 0, 1, 'C', 0, '', 0);
 			$this->SetFont('helvetica', 'B', '14');
 			$this->Cell(0, 10, "NOTA PER LA VALUTAZIONE RELATIVA ALL'INSEGNAMENTO", 0, 1, 'C', 0, '', 0);
