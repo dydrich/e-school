@@ -2,6 +2,7 @@
 
 require_once "../../lib/start.php";
 require_once "../../lib/SessionUtils.php";
+require_once "../../lib/RBUtilities.php";
 
 ini_set("display_errors", DISPLAY_ERRORS);
 
@@ -21,14 +22,8 @@ if(isset($_REQUEST['son'])){
 	$utils->registerCurrentClassFromUser($_REQUEST['son'], "__classe__");
 }
 
-$classe = $_SESSION['__classe__']->get_ID();
-	
-$sel_cdc = "SELECT cognome, nome, materia FROM rb_utenti, rb_materie, rb_cdc WHERE rb_cdc.id_docente = rb_utenti.uid AND rb_cdc.id_materia = rb_materie.id_materia AND rb_cdc.id_anno = ".$_SESSION['__current_year__']->get_ID()." AND rb_cdc.id_classe = ".$classe;
-$res_cdc = $db->execute($sel_cdc);
-$cdc = array();
-while($_cdc = $res_cdc->fetch_assoc()){
-	array_push($cdc, array($_cdc['cognome']." ".$_cdc['nome'], $_cdc['materia']));
-}
+$utilities = RBUtilities::getInstance($db);
+$data = $utilities->getTeachersOfClass($_SESSION['__classe__']->get_ID());
 
 $navigation_label = "alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
 $drawer_label = "Elenco docenti del consiglio di classe ". $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();

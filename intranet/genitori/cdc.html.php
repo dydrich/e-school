@@ -51,11 +51,11 @@
 <div id="left_col">
 	<div class="card_container">
 	<?php 
-	foreach ($cdc as $a){
+	foreach ($data as $a){
 	?>
 	<div class="card_row normal">
-		<span class="normal"><?php print $a[1] ?></span>
-		<div style="float: right; width: 40%; margin-right: 20px"><?php print $a[0] ?></div>
+		<span class="normal"><?php echo $a['nome'] ?></span>
+		<div style="float: right; width: 60%; margin-right: 10px"><?php echo implode(", ", $a['sec_f']) ?></div>
 	</div>
 	<?php 
 	}
