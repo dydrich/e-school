@@ -457,5 +457,56 @@ final class RBUtilities{
 		}
 		return $this->loadUserFromUid($udata['uid'], $udata['type']);
 	}
+
+	/*
+	 * Returns all the teachers (with subjects) of received class
+	 * @param integer $cls - the class ID
+	 * @return array $data - array of teachers and subjects
+	 */
+	public function getTeachersOfClass($cls) {
+		$classe = $cls;
+
+		$sel_cdc = "SELECT uid, cognome, nome, materia as sec_f, posizione_pagella FROM rb_utenti, rb_materie, rb_cdc WHERE rb_cdc.id_docente = rb_utenti.uid AND rb_cdc.id_materia = rb_materie.id_materia AND rb_cdc.id_anno = ".$_SESSION['__current_year__']->get_ID()." AND rb_cdc.id_classe = ".$classe." ORDER BY cognome, nome, posizione_pagella";
+		$res_cdc = $this->datasource->execute($sel_cdc);
+		$data = array();
+		foreach($res_cdc as $row){
+			if ($row['sec_f'] == "Approfondimento materie letterarie") {
+				$row['sec_f'] = "App. mat. letterarie";
+			}
+			if (!isset($data[$row['uid']])) {
+				$data[$row['uid']] = array("nome" => $row['cognome']." ".$row['nome'], "sec_f" => array($row['sec_f']));
+			}
+			else {
+				$data[$row['uid']]['sec_f'][] = $row['sec_f'];
+			}
+		}
+		/*
+		 * sostegno
+		 */
+		$query_sos = "SELECT uid, nome, cognome FROM rb_utenti, rb_assegnazione_sostegno WHERE uid = rb_assegnazione_sostegno.docente AND rb_assegnazione_sostegno.anno = ".$_SESSION['__current_year__']->get_ID()." AND rb_assegnazione_sostegno.classe = ".$classe." ORDER BY cognome, nome";
+		$result_sos = $this->datasource->execute($query_sos);
+		if ($result_sos) {
+			foreach ($result_sos as $row) {
+				$data[$row['uid']] = array("nome" => $row['cognome'] . " " . $row['nome'], "sec_f" => array('Sostegno'));
+			}
+		}
+
+		/*
+		 materia alternativa
+		*/
+		$sel_alt = "SELECT uid, nome, cognome FROM rb_utenti, rb_materia_alternativa WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND classe = {$classe} AND docente = uid";
+		$res_alt = $this->datasource->execute($sel_alt);
+		if ($res_alt) {
+			foreach ($res_alt as $row) {
+				if (!isset($data[$row['uid']])) {
+					$data[$row['uid']] = array("nome" => $row['cognome'] . " " . $row['nome'], "sec_f" => array('Materia alternativa'));
+				}
+				else {
+					$data[$row['uid']]['sec_f'][] = "Materia alternativa";
+				}
+			}
+		}
+		return $data;
+	}
 	
 }
