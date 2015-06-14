@@ -55,7 +55,7 @@
 	?>
 	<div class="card_row normal">
 		<span class="normal"><?php echo $a['nome'] ?></span>
-		<div style="float: right; width: 60%; margin-right: 10px"><?php echo implode(", ", $a['sec_f']) ?></div>
+		<div style="float: right; width: 60%; margin-right: 10px" class="main_700"><?php echo implode(", ", $a['sec_f']) ?></div>
 	</div>
 	<?php 
 	}
