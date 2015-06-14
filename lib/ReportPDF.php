@@ -175,9 +175,9 @@ class ReportPDF extends SchoolPDF {
 			$this->SetY(140);
 			$this->SetFont('helvetica', '', '11');
 			$this->Cell(180, 22, "Dio e l'uomo. I valori etici e religiosi. La Bibbia e le altre fonti. Il linguaggio religioso", "LTRB", 1, 'C', 0, '', 0);
-			$this->SetFont('times', 'B', '13');
+			$this->SetFont('helvetica', 'B', '13');
 			$this->Cell(180, 8, "VALUTAZIONI PERIODICHE", "LRB", 1, 'C', 0, '', 0);
-			$this->SetFont('times', 'B', '11');
+			$this->SetFont('helvetica', 'B', '11');
 			$this->SetCellPaddings(10, 0, 0, 0);
 			$this->Cell(90, 12, "I Quadrimestre:   ".strtoupper($voti_religione[$vr[1]]), "LRB", 0, 'L', 0, '', 0);
 			$this->SetCellPaddings(10, 0, 0, 0);
@@ -185,11 +185,11 @@ class ReportPDF extends SchoolPDF {
 			$this->Ln();
 			$this->Cell(180, 10, "", "LRB", 1, 'C', 0, '', 0);
 			$this->Cell(180, 12, "", "LR", 1, 'L', 0, '', 0);
-			$this->SetFont('times', '', '10');
+			$this->SetFont('helvetica', '', '10');
 			$this->Cell(90, 10, "Il docente: {$doc_rel}", "LB", 0, 'C', 0, '', 0);
 			$this->Cell(90, 10, "", "RB", 0, 'C', 0, '', 0);
 			$this->Ln();
-			$this->SetFont('times', '', '10');
+			$this->SetFont('helvetica', '', '10');
 			$this->SetCellPaddings(16);
 			$this->Cell(90, 30, "", "LB", 0, 'L', 0, '', 0);
 			$this->SetCellPaddings(0, 0, 16, 0);
@@ -199,7 +199,7 @@ class ReportPDF extends SchoolPDF {
 			$this->MultiCell(150, 20, "\n\nfirma autografa sostituita a mezzo stampa ai sensi dell'articolo 3 comma 2 del decreto legislativo 12 dicembre 1993, n. 39", 0, 'L', false, 0, 35);
 			$this->setY(230);
 			$this->setX(148);
-			$this->SetFont('times', 'I', '9');
+			$this->SetFont('helvetica', 'I', '9');
 			$this->Write(10, "Prof.ssa Giorgia Floris");
 		}
 
