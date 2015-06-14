@@ -242,7 +242,7 @@ class ReportManager {
 		$materia_alternativa = array();
 		$sel_mat_alt = "SELECT classe FROM rb_materia_alternativa WHERE anno = {$this->year}";
 		$res_mat_alt = $this->datasource->executeQuery($sel_mat_alt);
-		if (count($res_mat_alt) > 0) {
+		if (is_array($res_mat_alt) && count($res_mat_alt) > 0) {
 			$materia_alternativa = $res_mat_alt;
 		}
 		
@@ -389,7 +389,7 @@ class ReportManager {
 			
 			if ($this->schoolOrder == 2){
 				$pdf->AddPage("P", "A4");
-				$pdf->createFirstPage($student, $esito[0], $voti_q1, $voti_q2, $voto_rel, $res_param, $vals1q, $vals2q, $cdc, $esonerato);
+				$pdf->createFirstPage($student, $esito[0], $voti_q1, $voti_q2, $voto_rel, $res_param, $vals1q, $vals2q, $cdc, $doc_religione, $esonerato);
 			}
 			else {
 				$pdf->createFirstPage($student, $esito[0], $voti_q1, $voti_q2, $voto_rel, $cdc, $doc_religione, $esonerato);

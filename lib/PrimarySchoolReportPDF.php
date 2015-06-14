@@ -4,7 +4,7 @@ require_once "SchoolPDF.php";
 
 class PrimarySchoolReportPDF extends SchoolPDF {
 
-	public function createFirstPage($st, $esito, $vt1, $vt2, $vr, $param, $vals1q, $vals2q, $cdc, $esonerato) {
+	public function createFirstPage($st, $esito, $vt1, $vt2, $vr, $param, $vals1q, $vals2q, $cdc, $doc_religione, $esonerato) {
 		$final_letter = "o";
 		if($st['sesso'] == "F"){
 			$final_letter = "a";
@@ -161,7 +161,7 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 		$this->SetFont('helvetica', 'B', '16');
 		$this->Cell(0, 15, "", 0, 1, 'C', 0, '', 0);
 		$this->Cell(180, 15, "Giudizio sul livello globale di maturazione", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('hel', '', '14');
+		$this->SetFont('helvetica', '', '14');
 		$this->Cell(0, 15, "", 0, 1, 'C', 0, '', 0);
 		$this->SetFillColor(232, 234, 236);
 		$this->Cell(180, 9, "I Quadrimestre", "LTRB", 1, 'C', 1, '', 0);
@@ -242,31 +242,31 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 			$this->SetFont('', '', '12');
 			$this->Cell(0, 5, "Iscritt{$final_letter} alla classe {$cls}, sezione ".$st['sezione'], 0, 1, 'C', 0, '', 0);
 			$this->SetY(140);
-			$this->SetFont('times', '', '14');
+			$this->SetFont('helvetica', '', '12');
 			$this->Cell(180, 22, "Dio e l'uomo. I valori etici e religiosi. La Bibbia e le altre fonti. Il linguaggio religioso", "LTRB", 1, 'C', 0, '', 0);
-			$this->SetFont('times', 'B', '13');
-			$this->Cell(180, 8, "VALUTAZIONI PERIODICHE", "LRB", 1, 'C', 0, '', 0);
-			$this->SetFont('times', 'B', '11');
+			$this->SetFont('helvetica', 'B', '11');
 			$this->SetCellPaddings(10, 0, 0, 0);
-			$this->Cell(90, 12, "I Quadrimestre:   ".strtoupper($voti_religione[$vr[1]]), "LRB", 0, 'L', 0, '', 0);
+			$this->Cell(90, 12, "I Quadrimestre:   ".strtoupper($rel), "LRB", 0, 'L', 0, '', 0);
 			$this->SetCellPaddings(10, 0, 0, 0);
-			$this->Cell(90, 12, "II Quadrimestre: ".strtoupper($voti_religione[$vr[2]]), "RB", 0, 'L', 0, '', 0);
+			$this->Cell(90, 12, "II Quadrimestre: ", "RB", 0, 'L', 0, '', 0);
 			$this->Ln();
 			$this->Cell(180, 30, "", "LRB", 1, 'C', 0, '', 0);
-			$this->Cell(180, 12, "", "LR", 1, 'L', 0, '', 0);
-			$this->SetFont('times', 'B', '12');
-			$this->Cell(90, 10, "FIRMA DELL'INSEGNANTE ", "LB", 0, 'C', 0, '', 0);
-			$this->Cell(90, 10, "FIRMA DELL'INSEGNANTE ", "RB", 0, 'C', 0, '', 0);
+			$this->Cell(180, 12, "", "", 1, 'L', 0, '', 0);
+			$this->SetFont('helvetica', '', '10');
+			$this->Cell(90, 5, "Il docente", "", 1, 'C', 0, '', 0);
+			$this->Cell(90, 5, $doc_religione, "", 0, 'C', 0, '', 0);
 			$this->Ln();
-			$this->SetFont('times', 'B', '9');
-			$this->SetCellPaddings(16);
-			$this->Cell(90, 30, "TIMBRO DELLA SCUOLA", "LB", 0, 'L', 0, '', 0);
-			$this->SetCellPaddings(0, 0, 16, 0);
-			$this->Cell(90, 30, "TIMBRO DELLA SCUOLA", "RB", 0, 'R', 0, '', 0);
-			$this->Ln();
-			$this->SetDrawColor(0, 0, 0);
-			$this->Line(25, 224, 95, 224);
-			$this->Line(115, 224, 185, 224);
+			$this->SetFont('helvetica', 'I', '9');
+			$this->setY(215);
+			$this->setX(148);
+			$this->Write(10, "Il Dirigente scolastico");
+			$this->setY(220);
+			$this->setX(148);
+			$this->Write(10, "Prof.ssa Giorgia Floris");
+			$this->SetFont('', 'I', '7');
+			$this->setY(240);
+			$this->setX(68);
+			$this->Write(10, "\n\nfirma autografa sostituita a mezzo stampa ai sensi dell'articolo 3 comma 2 del decreto legislativo 12 dicembre 1993, n. 39");
 		}
 		
 	}
@@ -456,6 +456,17 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 			$this->Cell(90, 10, "Il docente", "", 1, 'C', 0, '', 0);
 			$this->Cell(90, 10, $doc_religione, "", 0, 'C', 0, '', 0);
 			$this->Ln();
+			$this->SetFont('helvetica', 'I', '9');
+			$this->setY(215);
+			$this->setX(148);
+			$this->Write(10, "Il Dirigente scolastico");
+			$this->setY(220);
+			$this->setX(148);
+			$this->Write(10, "Prof.ssa Giorgia Floris");
+			$this->SetFont('', 'I', '7');
+			$this->setY(240);
+			$this->setX(68);
+			$this->Write(10, "\n\nfirma autografa sostituita a mezzo stampa ai sensi dell'articolo 3 comma 2 del decreto legislativo 12 dicembre 1993, n. 39");
 		}
 	}
 }
