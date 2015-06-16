@@ -246,9 +246,9 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 			$this->Cell(180, 22, "Dio e l'uomo. I valori etici e religiosi. La Bibbia e le altre fonti. Il linguaggio religioso", "LTRB", 1, 'C', 0, '', 0);
 			$this->SetFont('helvetica', 'B', '11');
 			$this->SetCellPaddings(10, 0, 0, 0);
-			$this->Cell(90, 12, "I Quadrimestre:   ".strtoupper($rel), "LRB", 0, 'L', 0, '', 0);
+			$this->Cell(90, 12, "I Quadrimestre:   ".strtoupper($voti_religione[$vr[1]]), "LRB", 0, 'L', 0, '', 0);
 			$this->SetCellPaddings(10, 0, 0, 0);
-			$this->Cell(90, 12, "II Quadrimestre: ", "RB", 0, 'L', 0, '', 0);
+			$this->Cell(90, 12, "II Quadrimestre: ".strtoupper($voti_religione[$vr[2]]), "RB", 0, 'L', 0, '', 0);
 			$this->Ln();
 			$this->Cell(180, 30, "", "LRB", 1, 'C', 0, '', 0);
 			$this->Cell(180, 12, "", "", 1, 'L', 0, '', 0);
