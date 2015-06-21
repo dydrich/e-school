@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
+	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: registri della programmazione</title>
 	<link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
@@ -16,24 +16,26 @@
 		$(function(){
 			load_jalert();
 			setOverlayEvent();
-			$('#createreports').click(function(event){
+			$(".createrecord").click(function(event) {
+				mod = $(this).attr("data-modulo");
 				event.preventDefault();
-				getFile("createreports");
+				createPDF(mod);
 			});
-			$('#createbooks').click(function(event){
+			$('#zip').click(function(event){
 				event.preventDefault();
-				getFile("createbooks");
+				document.location.href = 'planning_manager.php?action=zip';
 			});
 		});
 
-		var getFile = function(action){
+		var createPDF = function(mod) {
+			j_alert("working", "Creazione registro in corso");
 			$.ajax({
 				type: "POST",
-				url: "utilities_manager.php",
-				data: {action: action},
+				url: "planning_manager.php",
+				data: {module: mod},
 				dataType: 'json',
 				error: function() {
-					show_error("Errore di trasmissione dei dati");
+					j_alert("error", "Errore di trasmissione dei dati");
 				},
 				succes: function() {
 
@@ -45,24 +47,45 @@
 					}
 					var json = $.parseJSON(r);
 					if (json.status == "kosql"){
-						show_error(json.message);
+						j_alert("error", json.message);
 						console.log(json.dbg_message);
 					}
 					else {
-						if (action == "createreports"){
-							$('#dw_link1').text("Scarica l'archivio");
-						}
-						else if (action == "createbooks"){
-							$('#dw_link2').text("Scarica l'archivio");
-						}
+						j_alert("alert", json.message);
+						$('#alert .alert_title i').removeClass("fa-circle-o-notch fa-spin").addClass("fa-thumbs-up");
+						$("a[data-modulo='"+mod+"'].dwnlrecord > span").text(json.date+" alle "+json.time);
+						$("a[data-modulo='"+mod+"'].dwnlrecord").attr("href", json.href).fadeIn(400);
 					}
 				}
 			});
 		};
 
-		var getAllBooks = function(){
+		var zipFile = function(){
+			$.ajax({
+				type: "POST",
+				url: "planning_manager.php",
+				data: {action: 'zip'},
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						j_alert("error", json.message);
+						console.log(json.dbg_message);
+					}
+				}
+			});
 		};
+
 	</script>
 </head>
 <body>
@@ -73,52 +96,45 @@
 		<?php include $_SESSION['__administration_group__']."/menu.php" ?>
 	</div>
 	<div id="left_col">
-		<div class="welcome">
-			<p id="w_head">Schede di valutazione</p>
-			<p class="w_text" style="width: 350px">
-				<a href="../../shared/no_js.php" id="createreports">Crea l'archivio con tutte le schede di valutazione finali</a>
-			</p>
-			<p id="" class="w_text" style="width: 350px">
-			<?php
-			$file_zip = $_SESSION['__config__']['html_root']."/download/pagelle/pagelle_{$year_desc}.zip";
-			$write = false;
-			if(file_exists($file_zip)){
-				$time = filemtime($file_zip);
-				$write = true;
+		<div style="position: absolute; top: 75px; margin-left: 625px" class="rb_button _center">
+			<a href="#" id="zip">
+				<i class="fa fa-download" style="font-size: 2em; padding: 8px 0 0 0; color: #000000"></i>
+			</a>
+		</div>
+		<?php
+		foreach ($moduli as $mod => $dati_modulo) {
+			$display_link = "none";
+			if ($dati_modulo['data']['data_creazione'] != "") {
+				$display_link = "inline";
+				$dt = $dati_modulo['data']['data_creazione'];
+				$date = format_date(substr($dt, 0, 10), SQL_DATE_STYLE, IT_DATE_STYLE, "/");
+				$time = substr($dt, 11, 5);
+				$date_string = $date.' alle '.$time;
+				$file = $dati_modulo['data']['file'];
 			}
-			?>
-				<a id="dw_link1" href='../../modules/documents/download_manager.php?doc=report_backup&area=manager&f=<?php echo basename($file_zip) ?>&sess=0&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>' style=''><?php if ($write): ?>Scarica l'archivio (ultima modifica <?php echo date("d/m/Y H:i:s", $time) ?>)<?php endif; ?></a>
-			</p>
-		</div>
+			$mod_string = "";
+			$dir = array();
+			foreach ($dati_modulo['classi'] as $cl) {
+				$mod_string .= $classi[$cl] . ", ";
+				$dir[] = $classi[$cl];
+			}
+			$f = implode("-", $dir);
+			$path = "../../download/registri/".$_SESSION['__current_year__']->get_descrizione()."/scuola_primaria/programmazione/modulo".$f."/";
+			$mod_string = substr($mod_string, 0, (strlen($mod_string) - 2));
+
+		?>
 		<div class="welcome">
-			<p id="w_head">Registri</p>
-			<p class="w_text" style="width: 350px">
-				<a href="../../shared/no_js.php" id="createbooks">Crea tutti i registri docente</a>
-			</p>
-			<p id="" class="w_text" style="width: 350px; margin-bottom: 0">
-				<?php
-				$file_zip = $_SESSION['__config__']['html_root']."/download/registri/registri_{$year_desc}.zip";
-				$write = false;
-				if(file_exists($file_zip)){
-					$time = filemtime($file_zip);
-					$write = true;
-				}
-				?>
-				<a id="dw_link2" href='../../modules/documents/download_manager.php?doc=teacherbooks_archive&area=manager&f=<?php echo basename($file_zip) ?>&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>' style=''><?php if ($write): ?>Scarica l'archivio (ultima modifica <?php echo date("d/m/Y H:i:s", $time) ?>)<?php endif; ?></a>
-			</p>
-			<p class="w_text" style="width: 350px; margin-top: 0">
-				<a href="stampa_registri_programmazione.php" id="">Registri della programmazione</a>
+			<p id="w_head">Modulo <?php echo $mod_string ?></p>
+			<p class="w_text" style="width: 350px;">
+				<a href="../../shared/no_js.php" data-modulo="<?php echo $mod ?>" class="createrecord">Genera registro</a>
+				<p style="margin-bottom: 0">
+					<a href="<?php if(isset($file)) echo $path.$file; else echo "#" ?>" data-modulo="<?php echo $mod ?>" class="dwnlrecord" style="display: <?php echo $display_link ?>">Scarica registro (creato il <span><?php if (isset($date_string)) echo $date_string ?></span>)</a>
+				</p>
 			</p>
 		</div>
-		<div class="welcome">
-			<p id="w_head">Varie</p>
-			<p class="w_text" style="width: 350px">
-				<a href="../../modules/fc/load_module.php?module=fc&area=manager" id="">Crea le nuove classi prime</a>
-			</p>
-			<p class="w_text" style="width: 350px">
-				<a href="stampa_assenze.php" id="">Stampa assenze alunni</a>
-			</p>
-		</div>
+		<?php
+		}
+		?>
 	</div>
 	<p class="spacer"></p>
 </div>

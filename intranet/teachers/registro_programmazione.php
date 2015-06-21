@@ -25,6 +25,7 @@ $_SESSION['fs_module'] = $modulo;
 
 try {
 	$res_mod = $db->executeQuery("SELECT * FROM rb_riunioni_programmazione WHERE id_modulo = $modulo ORDER BY data DESC");
+	$res_reg = $db->executeQuery("SELECT * FROM rb_registri_programmazione WHERE modulo = $modulo");
 } catch (MySQLException $ex) {
 	$ex->redirect();
 }
@@ -36,6 +37,22 @@ while ($row = $res_mod->fetch_assoc()) {
 		$riunioni[$m] = array();
 	}
 	$riunioni[$m][] = $row;
+}
+
+$res_classes = $db->executeQuery("SELECT CONCAT(rb_classi.anno_corso, rb_classi.sezione) AS desc_cls FROM rb_classi_modulo, rb_classi WHERE id_classe = classe AND id_modulo = ".$modulo);
+$classes = array();
+while ($res_cls = $res_classes->fetch_assoc()) {
+	$classes[] = $res_cls['desc_cls'];
+}
+
+$path = "../../download/registri/".$_SESSION['__current_year__']->get_descrizione()."/scuola_primaria/programmazione/modulo".implode("-", $classes)."/";
+if ($res_reg->num_rows > 0) {
+	$reg = $res_reg->fetch_assoc();
+	$dt = $reg['data_creazione'];
+	$date = format_date(substr($dt, 0, 10), SQL_DATE_STYLE, IT_DATE_STYLE, "/");
+	$time = substr($dt, 11, 5);
+	$file = $path.$reg['file'];
+	$string_date = "(ultima modifica il ".$date." alle ore ".$time.")";
 }
 
 setlocale(LC_TIME, "it_IT.utf8");
