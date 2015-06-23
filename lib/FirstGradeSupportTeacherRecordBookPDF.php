@@ -80,7 +80,7 @@ class FirstGradeSupportTeacherRecordBookPDF extends FirstGradeTeacherRecordBookP
 	protected function createCover($teacher = null, $mat = null, $cls = null, $subs = null){
 		$this->setPage(1, true);
 		$this->Image($_SESSION['__path_to_root__'].'images/ministero.jpg', 95, 28, 20, 20, 'JPG', '', '', false, '');
-		$this->SetFont('times', 'B', '14');
+		$this->SetFont('helvetica', 'B', '14');
 		$this->Cell(0, 50, "Ministero dell'Istruzione, dell'Università e della Ricerca", 0, 1, 'C', 0, '', 0);
 		$this->SetFont('helvetica', 'B', '15');
 		$this->Cell(0, 20, "", 0, 1, 'C', 0, '', 0);
@@ -98,26 +98,26 @@ class FirstGradeSupportTeacherRecordBookPDF extends FirstGradeTeacherRecordBookP
 		$this->AddPage("P", "A4");
 		$this->setPage(2, true);
 		$this->_page++;
-		$this->SetFont('times', 'B', '14');
+		$this->SetFont('helvetica', 'B', '14');
 		$this->Cell(0, 10, "Elenco docenti della classe", 0, 1, 'C', 0, '', 0);
 		$this->Cell(0, 5, "", 0, 1, 'C', 0, '', 0);
 		$teachers = $this->cls['teachers'];
-		$this->SetFont('times', 'B', '12');
+		$this->SetFont('helvetica', 'B', '12');
 		$this->Cell(90, 10, "   Docente", 'B', 0, 'L', 0, '', 0);
 		$this->Cell(90, 10, "Materia", 'B', 0, 'C', 0, '', 0);
 		$this->Ln();
 		$this->Cell(0, 5, "", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('times', '', '12');
+		$this->SetFont('helvetica', '', '12');
 		foreach ($teachers as $t){
 			$this->Cell(90, 8, "   ".$t['name'], array('B' => array('color' => array(168, 168, 168))), 0, 'L', 0, '', 0);
 			$this->Cell(90, 8, $t['subj'], 'B', 0, 'C', 0, '', 0);
 			$this->Ln();
 		}
 		$this->Cell(0, 15, "", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('times', 'B', '13');
+		$this->SetFont('helvetica', 'B', '13');
 		$this->Cell(0, 10, "Tipologia della classe", array('B' => array('color' => array(68, 68, 68))), 1, 'L', 0, '', 0);
 		$this->Cell(0, 5, "", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('times', '', '11');
+		$this->SetFont('helvetica', '', '11');
 		$this->MultiCell(0, 0, $this->student['sostegno']['tipologia_classe']);
 	}
 
@@ -125,7 +125,7 @@ class FirstGradeSupportTeacherRecordBookPDF extends FirstGradeTeacherRecordBookP
 		$this->AddPage("P", "A4");
 		$this->setPage(3, true);
 		$this->_page++;
-		$this->SetFont('times', 'B', '15');
+		$this->SetFont('helvetica', 'B', '15');
 		$this->SetFillColor(246, 246, 246);
 		$this->Cell(0, 15, "Scheda anagrafica dell'alunno", array('BLRT' => array('color' => array(168, 168, 168))), 1, 'C', 1, '', 0);
 		$this->Cell(0, 5, "", 0, 1, 'C', 0, '', 0);
@@ -150,7 +150,7 @@ class FirstGradeSupportTeacherRecordBookPDF extends FirstGradeTeacherRecordBookP
 		$this->SetFont('', '', '12');
 		$this->Cell(130, 8, $this->student['indirizzo']." - ".$this->student['citta'], array('B' => array('color' => array(168, 168, 168))), 1, 'L', 0, '', 0);
 		$this->Cell(0, 10, "", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('times', 'B', '13');
+		$this->SetFont('helvetica', 'B', '13');
 		$this->Cell(180, 10, "Composizione nucleo familiare", array('B' => array('color' => array(68, 68, 68))), 1, 'L', 0, '', 0);
 		$this->Cell(0, 5, "", 0, 1, 'C', 0, '', 0);
 		$this->SetFont('', 'B', '12');
@@ -170,7 +170,7 @@ class FirstGradeSupportTeacherRecordBookPDF extends FirstGradeTeacherRecordBookP
 		$this->SetFont('', '', '12');
 		$this->Cell(130, 8, $this->student['sostegno']['altro'], array('B' => array('color' => array(168, 168, 168))), 1, 'L', 0, '', 0);
 		$this->Cell(0, 10, "", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('times', 'B', '13');
+		$this->SetFont('helvetica', 'B', '13');
 		$this->Cell(180, 10, "Scuola e classe di provenienza", array('B' => array('color' => array(68, 68, 68))), 1, 'L', 0, '', 0);
 		$this->SetFont('', '', '12');
 		$from = "";
@@ -192,18 +192,18 @@ class FirstGradeSupportTeacherRecordBookPDF extends FirstGradeTeacherRecordBookP
 		$this->AddPage("P", "A4");
 		$this->setPage(4, true);
 		$this->_page++;
-		$this->SetFont('times', 'B', '15');
+		$this->SetFont('helvetica', 'B', '14');
 		$this->SetFillColor(246, 246, 246);
 		$this->Cell(0, 15, "Informazioni medico-diagnostiche", array('BLRT' => array('color' => array(168, 168, 168))), 1, 'C', 1, '', 0);
 		$this->Cell(0, 5, "", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('times', 'B', '13');
+		$this->SetFont('helvetica', 'B', '13');
 		$this->Cell(180, 10, "Difficolta prevalenti", array('B' => array('color' => array(68, 68, 68))), 1, 'L', 0, '', 0);
 		$this->SetFont('', '', '12');
 		$this->MultiCell(180, 70, $this->student['sostegno']['difficolta_prevalenti'], 0, 'L', 0, 1);
 		$this->Cell(0, 10, "", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('times', 'B', '13');
+		$this->SetFont('helvetica', 'B', '13');
 		$this->Cell(180, 10, "Terapia", array('B' => array('color' => array(68, 68, 68))), 1, 'L', 0, '', 0);
-		$this->SetFont('times', '', '12');
+		$this->SetFont('helvetica', '', '12');
 		if ($this->student['sostegno']['terapia'] == ""){
 			$this->Cell(0, 10, "Nessuna terapia in atto", 0, 1, 'C', 0, '', 0);
 		}
@@ -243,10 +243,10 @@ class FirstGradeSupportTeacherRecordBookPDF extends FirstGradeTeacherRecordBookP
 		$this->AddPage("P", "A4");
 		$this->setPage(5, true);
 		$this->_page++;
-		$this->SetFont('times', 'B', '15');
+		$this->SetFont('helvetica', 'B', '15');
 		$this->Cell(0, 15, "Informazioni medico-diagnostiche", array('BLRT' => array('color' => array(168, 168, 168))), 1, 'C', 1, '', 0);
 		$this->Cell(0, 5, "", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('times', 'B', '13');
+		$this->SetFont('helvetica', 'B', '13');
 		$this->Cell(180, 10, "Profilo dinamico-funzionale", array('B' => array('color' => array(68, 68, 68))), 1, 'L', 0, '', 0);
 		$this->SetFont('', '', '12');
 		$this->MultiCell(180, 0, $this->student['sostegno']['profilo'], 0, 'L', 0, 1);
@@ -256,23 +256,23 @@ class FirstGradeSupportTeacherRecordBookPDF extends FirstGradeTeacherRecordBookP
 		$this->AddPage("P", "A4");
 		$this->_page = 6;
 		$this->setPage(6, true);
-		$this->SetFont('times', 'B', '15');
+		$this->SetFont('helvetica', 'B', '15');
 		$this->SetFillColor(246, 246, 246);
 		$this->Cell(0, 15, "Elenco attivita svolte", array('BLRT' => array('color' => array(168, 168, 168))), 1, 'C', 1, '', 0);
 		$this->Cell(0, 5, "", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('times', '', '11');
+		$this->SetFont('helvetica', '', '11');
 		$h = 55.0;
 		$i = 0;
 		foreach ($this->activities as $les){
 			//if ($i > 0) break;
 			setlocale(LC_TIME, "it_IT.UTF8");
 			$giorno_str = ucfirst(strftime("%A %d %B", strtotime($les['data'])));
-			$this->SetFont('times', 'B', '11');
+			$this->SetFont('helvetica', 'B', '11');
 			$h += 5;
 			$this->Cell(0, 5, "", 0, 1, 'C', 0, '', 0);
 			$this->Cell(180, 5, $giorno_str, array('B' => array('color' => array(108, 108, 108))), 1, 'L', 0, '', 0);
 			//$this->SetY($h);
-			$this->SetFont('times', '', '11');
+			$this->SetFont('helvetica', '', '11');
 			$this->MultiCell(180, 10, $les['attivita'], 0, 'L', 0, '1', 15, $this->GetY() + 2);
 			$h += $this->getLastH();
 			$h += 5;/*
