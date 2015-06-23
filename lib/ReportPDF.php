@@ -283,7 +283,7 @@ class ReportPDF extends SchoolPDF {
 		$this->setPage(1, true);
 		$this->SetFont('', 'B');
 		$this->Image('../../images/ministero.jpg', 90, 8, 20, 20, 'JPG', '', '', false, '');
-		$this->SetFont('times', 'B', '16');
+		$this->SetFont('helvetica', 'B', '16');
 		$this->Cell(0, 30, "Ministero dell'Istruzione, dell'Università e della Ricerca", 0, 1, 'C', 0, '', 0);
 		$this->SetFont('helvetica', 'B', '22');
 		$this->Cell(0, 10, "ISTITUTO COMPRENSIVO C. NIVOLA", 0, 1, 'C', 0, '', 0);
@@ -351,7 +351,7 @@ class ReportPDF extends SchoolPDF {
 			$this->SetFont('', 'B');
 			$this->SetDrawColor(120, 120, 120);
 			$this->Image('../../images/ministero.jpg', 90, 8, 15, 15, 'JPG', '', '', false, '');
-			$this->SetFont('times', 'B', '11');
+			$this->SetFont('helvetica', 'B', '11');
 			$this->Cell(0, 10, "MINISTERO DELL'ISTRUZIONE, DELL'UNIVERSITÀ E DELLA RICERCA", 0, 1, 'C', 0, '', 0);
 			$this->SetFont('helvetica', 'B', '14');
 			$this->Cell(0, 10, "NOTA PER LA VALUTAZIONE RELATIVA ALL'INSEGNAMENTO", 0, 1, 'C', 0, '', 0);
@@ -373,11 +373,11 @@ class ReportPDF extends SchoolPDF {
 			}
 			$this->Cell(0, 10, "Iscritt{$final_letter} alla classe {$cls}, sezione ".$st['sezione'], 0, 1, 'C', 0, '', 0);
 			$this->SetY(140);
-			$this->SetFont('times', '', '14');
+			$this->SetFont('helvetica', '', '14');
 			$this->Cell(180, 22, "Dio e l'uomo. I valori etici e religiosi. La Bibbia e le altre fonti. Il linguaggio religioso", "LTRB", 1, 'C', 0, '', 0);
-			$this->SetFont('times', 'B', '13');
+			$this->SetFont('helvetica', 'B', '13');
 			$this->Cell(180, 8, "VALUTAZIONI PERIODICHE", "LRB", 1, 'C', 0, '', 0);
-			$this->SetFont('times', 'B', '11');
+			$this->SetFont('helvetica', 'B', '11');
 			$this->SetCellPaddings(10, 0, 0, 0);
 			$this->Cell(90, 12, "I Quadrimestre:   ".strtoupper($rel), "LRB", 0, 'L', 0, '', 0);
 			$this->SetCellPaddings(10, 0, 0, 0);
@@ -385,7 +385,7 @@ class ReportPDF extends SchoolPDF {
 			$this->Ln();
 			$this->Cell(180, 30, "", "LRB", 1, 'C', 0, '', 0);
 			$this->Cell(180, 12, "", "", 1, 'C', 0, '', 0);
-			$this->SetFont('times', '', '12');
+			$this->SetFont('helvetica', '', '12');
 			$this->Cell(90, 2, "Il docente", "", 1, 'C', 0, '', 0);
 			$this->Cell(90, 2, $doc_religione, "", 0, 'C', 0, '', 0);
 			$this->Ln();
