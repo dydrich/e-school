@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Registro personale: scrutini</title>
+	<link rel="stylesheet" href="../../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../../css/general.css" type="text/css" />
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
@@ -112,10 +113,10 @@
 					}
 					else {
 						if (json.positivo == 0){
-							$('#st_'+stid).parentNode.parentNode.css({backgroundColor: 'rgba(225,11,52,.2)'});
+							$('#st_'+stid).parent().parent().css({backgroundColor: 'rgba(225,11,52,.2)'});
 						}
 						else{
-							$('#st_'+stid).parentNode.parentNode.css({backgroundColor: 'rgba(30, 67, 137, .2)'});
+							$('#st_'+stid).parent().parent().css({backgroundColor: 'rgba(30, 67, 137, .2)'});
 						}
 					}
 					show_context_menu('');
@@ -150,7 +151,7 @@
 				},
 				modal: true,
 				width: 350,
-				height: 150,
+				height: 170,
 				title: 'Scarica riepiloghi',
 				open: function(event, ui){
 
@@ -245,7 +246,7 @@
 <thead>
 <tr class="head_tr_no_bg">
 	<td style="text-align: center"><span id="ingresso" style=""><?php echo $_SESSION['__classe__']->to_string() ?></span></td>
-	<td colspan="<?php echo ($num_colonne - 1) ?>" style="text-align: center">Quadro riassuntivo della classe</td>
+	<td colspan="<?php echo ($num_colonne - 1) ?>" style="text-align: center">Quadro di scrutinio della classe</td>
 </tr>
 <tr class="title_tr">
 	<td rowspan="2" style="width: <?php echo $first_column_width ?>%; font-weight: bold; padding-left: 2px">Alunno</td>
@@ -447,6 +448,11 @@ while($al = $res_alunni->fetch_assoc()){
 <div id="drawer" class="drawer" style="display: none; position: absolute">
 	<div style="width: 100%; height: 430px">
 		<div class="drawer_label"><span>Classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?></span></div>
+		<?php if ($ordine_scuola == 1 && $_SESSION['__classe__']->get_anno() == 3 && $q == 2): ?>
+		<div class="drawer_link submenu">
+			<a href="esiti_esame.php"><img src="../../../images/27.png" style="margin-right: 10px; position: relative; top: 5%"/>Esiti esame</a>
+		</div>
+		<?php endif; ?>
 		<div class="drawer_link submenu">
 			<a href="scrutini.php?q=<?php echo $_q ?>"><img src="../../../images/34.png" style="margin-right: 10px; position: relative; top: 5%"/>Scrutini</a>
 		</div>
@@ -519,7 +525,9 @@ while ($row = $res_out->fetch_assoc()){
 <!-- fine menu contestuale -->
 <?php endif; ?>
 <div id="confirm_print" style="display: none">
+	<?php if ($ordine_scuola == 1): ?>
 	<p><a href="stampa_scrutini_classe.php?q=<?php echo $q ?>&abs=1"">Scarica riepilogo completo</a></p>
+	<?php endif; ?>
 	<p><a href="stampa_scrutini_classe.php?q=<?php echo $q ?>&abs=0">Scarica riepilogo voti</a></p>
 	<?php if ($q == 2 && ($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID()) || $_SESSION['__user__']->getUsername() == "rbachis")): ?>
 	<a href="crea_tabellone.php">Crea il tabellone esiti</a>

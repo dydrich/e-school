@@ -384,8 +384,8 @@ div.navigate a {
     z-index:100;
     cursor:pointer;
     /*Trasperenza cross browser*/
-    opacity: .7; filter: alpha(opacity=70);
-    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+    opacity: .3; filter: alpha(opacity=30);
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 }
 
 fieldset {
@@ -478,7 +478,7 @@ div.accordion {
     position:relative;
     border-radius: 50%;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-    z-index: 100;
+    z-index: 200;
 }
 
 .rb_bg {
@@ -1275,7 +1275,7 @@ form.no_border {
 .popup_form {
     border: 1px solid rgba(30, 67, 137, 1);
     border-radius: 10px;
-    padding: 15px 0px 15px 0px;
+    padding: 15px 0 15px 0;
     margin-top: 20px;
     text-align: left;
     margin-left: auto;
@@ -1331,19 +1331,32 @@ form.no_border {
 }
 
 .cyan_contrast {
-    background-color: #00838f !important;
-}
-
-.cyan_contrast a, .blue_contrast a, .red_contrast a {
-    color: white!important;
+    background-color: #0097A7 !important;
+    color: white !important
 }
 
 .blue_contrast {
-    background-color: #0d47a1 !important;
+    background-color: #448aff !important;
+    color: #222222 !important
+}
+
+.yellow_contrast {
+    background-color: #ffd740;
+    color: #222222 !important;
 }
 
 .red_contrast {
     background-color: #d32f2f;
+    color: white !important
+}
+
+.teal_contrast {
+    background-color: #00695c !important;
+    color: white !important
+}
+
+.cyan_contrast a, .blue_contrast a, .red_contrast a, .teal_contrast a {
+    color: white !important;
 }
 
 div.material_card {
@@ -1354,12 +1367,45 @@ div.material_card {
     padding-left: 10px;
     padding-right: 5px;
     margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.material_card:first-of-type {
+    margin-top: 0;
 }
 
 div.material_card a, div.material_card span {
     position: relative;
     top: .4em;
     font-weight: 600;
+}
+
+.material_row {
+    min-height: 20px;
+    padding: 0;
+    margin-bottom: 10px;
+    overflow: hidden;
+    border-radius: 2px;
+    display: table;
+}
+
+.material_row_title {
+    float: left;
+    min-height: 20px;
+    font-size: 1em;
+    border-radius: 2px 0 0 2px;
+    padding-left: 5px;
+    padding-top: 8px;
+    display: table-cell;
+}
+
+.material_row_text {
+    margin: 0;
+    float: right;
+    padding-left: 10px;
+    min-height: 20px;
+    display: table-cell;
+    padding-top: 8px;
 }
 
 /*
@@ -1427,6 +1473,43 @@ table.registro tr.riepilogo {
     border: 1px solid rgba(30, 67, 137, .8);
 }
 
+/*
+j_alert
+*/
+.alert_msg, .error_msg {
+    width: 300px;
+    min-height: 150px;
+    border-radius: 3px;
+    position: fixed;
+    box-shadow: rgba(0, 0, 0, 0.156863) 0 2px 5px 0, rgba(0, 0, 0, 0.117647) 0 2px 10px 0;
+    z-index: 777;
+}
+
+.alert_title, .error_title {
+    margin: auto;
+    padding: 5px 0 5px 10px;
+    width: 90%;
+    height: 30px;
+    font-size: 1.6em;
+}
+
+.alert_title span, .error_title span {
+    padding-left: 10px;
+    font-size: 1em
+}
+
+.alert_msg .alertmessage {
+    width: 90%;
+    margin: 10px auto;
+    font-size: 1.2em;
+}
+
+.error_msg .errormessage {
+    width: 90%;
+    margin: 10px auto;
+    font-size: 1.2em;
+}
+
 /*documents */
 .float_button {
     display: none;
@@ -1446,4 +1529,19 @@ table.registro tr.riepilogo {
 
 .top_button {
     right: 555px;
+}
+
+/*
+jQuery editInPlace
+*/
+p.edit form {
+    border: none !important;
+}
+
+.esito_negativo {
+    background-color: rgba(239, 154, 154, .3);
+}
+
+.esito_positivo {
+    background-color: rgba(128, 203, 196, .3);
 }
