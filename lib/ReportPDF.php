@@ -84,13 +84,13 @@ class ReportPDF extends SchoolPDF {
 		$this->SetFont('');
 		// Data
 		$fill = 0;
-		$max = count($vt1);
+		$max = count($vt2);
 		$has_negative_grades = false;
 		$grades_5 = array();
 		$grades_4 = array();
 		for ($i = 0; $i < $max; $i++){
 			//$this->SetX(40);
-			if ($esonerato == 2 && $vt1[$i]['desc_mat'] == "Comportamento") {
+			if ($esonerato == 2 && $vt2[$i]['desc_mat'] == "Comportamento") {
 				$this->setCellPaddings(10, 0, 0, 0);
 				$this->Cell(120, 6, "Materia alternativa", 'LR', 0, 'L', $fill);
 				$this->SetCellPadding(0);
@@ -100,7 +100,7 @@ class ReportPDF extends SchoolPDF {
 				$fill=!$fill;
 			}
 			$this->setCellPaddings(10, 0, 0, 0);
-			$this->Cell(120, 6, $vt1[$i]['desc_mat'], 'LR', 0, 'L', $fill);
+			$this->Cell(120, 6, $vt2[$i]['desc_mat'], 'LR', 0, 'L', $fill);
 			$this->SetCellPadding(0);
 			$this->Cell(30, 6, $vt1[$i]['voto'], 'LR', 0, 'C', $fill);
 			$fgrade = $vt2[$i]['voto'];
@@ -134,14 +134,14 @@ class ReportPDF extends SchoolPDF {
 		$this->SetFont('', 'I', '7');
 		$this->MultiCell(150, 20, "\n\nfirma autografa sostituita a mezzo stampa ai sensi dell'articolo 3 comma 2 del decreto legislativo 12 dicembre 1993, n. 39", 0, 'R', false, 0, 35);
 
-		$voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
+		$voti_religione = array("0" => "", "4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
 		$rel = true;
 		/*
 		if ($vr[2] == 0 || $vr[2] == ''){
 			$rel = false;
 		}
 		*/
-		if ($esonerato > 0) {
+		if ($esonerato > 0 || $esito['id_esito'] == 17) {
 			$rel = false;
 		}
 
@@ -179,6 +179,12 @@ class ReportPDF extends SchoolPDF {
 			$this->Cell(180, 8, "VALUTAZIONI PERIODICHE", "LRB", 1, 'C', 0, '', 0);
 			$this->SetFont('helvetica', 'B', '11');
 			$this->SetCellPaddings(10, 0, 0, 0);
+			if (!isset($vr[1]) || $vr[1] == "") {
+				$vr[1] = "0";
+ 			}
+			if ($vr[2] == "") {
+				//echo "Alunno ".$st['cognome']." ".$st['nome'];
+			}
 			$this->Cell(90, 12, "I Quadrimestre:   ".strtoupper($voti_religione[$vr[1]]), "LRB", 0, 'L', 0, '', 0);
 			$this->SetCellPaddings(10, 0, 0, 0);
 			$this->Cell(90, 12, "II Quadrimestre: ".strtoupper($voti_religione[$vr[2]]), "RB", 0, 'L', 0, '', 0);
@@ -186,19 +192,19 @@ class ReportPDF extends SchoolPDF {
 			$this->Cell(180, 10, "", "LRB", 1, 'C', 0, '', 0);
 			$this->Cell(180, 12, "", "LR", 1, 'L', 0, '', 0);
 			$this->SetFont('helvetica', '', '10');
-			$this->Cell(90, 10, "Il docente: {$doc_rel}", "LB", 0, 'C', 0, '', 0);
+			$this->Cell(90, 10, "", "LB", 0, 'C', 0, '', 0);
 			$this->Cell(90, 10, "", "RB", 0, 'C', 0, '', 0);
 			$this->Ln();
 			$this->SetFont('helvetica', '', '10');
 			$this->SetCellPaddings(16);
-			$this->Cell(90, 30, "", "LB", 0, 'L', 0, '', 0);
+			$this->Cell(90, 30,  "Il docente: {$doc_rel}", "LB", 0, 'L', 0, '', 0);
 			$this->SetCellPaddings(0, 0, 16, 0);
 			$this->Cell(90, 30, "Il dirigente scolastico", "RB", 0, 'R', 0, '', 0);
 			$this->Ln();
 			$this->SetFont('', 'I', '7');
 			$this->MultiCell(150, 20, "\n\nfirma autografa sostituita a mezzo stampa ai sensi dell'articolo 3 comma 2 del decreto legislativo 12 dicembre 1993, n. 39", 0, 'L', false, 0, 35);
 			$this->setY(230);
-			$this->setX(148);
+			$this->setX(146);
 			$this->SetFont('helvetica', 'I', '9');
 			$this->Write(10, "Prof.ssa Giorgia Floris");
 		}

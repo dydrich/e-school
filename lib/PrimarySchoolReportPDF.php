@@ -95,10 +95,11 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 		$this->SetFont('');
 		// Data
 		$fill = 0;
-		$max = count($vt1);
+		$max = count($vt2);
+		//if ($st['cognome'] == 'Usai') echo $max."###";
 		for ($i = 0; $i < $max; $i++){
 			//$this->SetX(40);
-			if ($esonerato == 2 && $vt1[$i]['desc_mat'] == "Comportamento") {
+			if ($esonerato == 2 && $vt2[$i]['desc_mat'] == "Comportamento") {
 				$this->setCellPaddings(10, 0, 0, 0);
 				$this->Cell(120, 6, "Materia alternativa", 'LR', 0, 'L', $fill);
 				$this->SetCellPadding(0);
@@ -108,7 +109,7 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 				$fill=!$fill;
 			}
 			$this->setCellPaddings(10, 0, 0, 0);
-			$this->Cell(100, 6, $vt1[$i]['desc_mat'], 'LR', 0, 'L', $fill);
+			$this->Cell(100, 6, $vt2[$i]['desc_mat'], 'LR', 0, 'L', $fill);
 			$this->SetCellPadding(0);
 			if ($vt1[$i]['id_materia'] == 40){
 				$this->SetFont('', '', 9);
@@ -124,7 +125,7 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 				$this->Cell(40, 6, $vt1[$i]['voto'], 'LR', 0, 'C', $fill);
 			}
 			$fgrade = $vt2[$i]['voto'];
-			if ($vt1[$i]['id_materia'] == 40){
+			if ($vt2[$i]['id_materia'] == 40){
 				$this->SetFont('', '', 9);
 				$this->Cell(40, 6, $voti_comportamento_primaria[$fgrade]['nome'], 'LR', 0, 'C', $fill);
 				$this->SetFont('');
