@@ -30,6 +30,15 @@ if((!$_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) &&
 $anno = $_SESSION['__current_year__']->get_ID();
 $q = 2;
 
+$sel_idpubblicazione = "SELECT MAX(id_pagella) AS id_pagella FROM rb_pubblicazione_pagelle WHERE anno = {$_SESSION['__current_year__']->get_ID()}";
+try{
+	$res_idp = $db->executeQuery($sel_idpubblicazione);
+} catch (MySQLException $ex){
+	$ex->redirect();
+}
+$row = $res_idp->fetch_assoc();
+$idp = $row['id_pagella'];
+
 $alunni = array();
 $sel_alunni = "SELECT cognome, nome, id_alunno, sesso FROM rb_alunni WHERE id_classe = ". $_SESSION['__classe__']->get_ID() ." AND attivo = '1' ORDER BY cognome, nome";
 try{
@@ -38,11 +47,19 @@ try{
 	$ex->redirect();
 }
 while ($row = $res_alunni->fetch_assoc()) {
-	$alunni[$row['id_alunno']] = $row;
-	$alunni[$row['id_alunno']]['esito'] = "";
-	$alunni[$row['id_alunno']]['id_esito'] = 0;
-	$alunni[$row['id_alunno']]['id_voto'] = 0;
-	$alunni[$row['id_alunno']]['voto'] = "";
+	$sel_outcome = "SELECT esito FROM rb_pagelle WHERE id_pubblicazione = {$idp} AND id_alunno = {$row['id_alunno']}";
+	$outcome = $db->executeCount($sel_outcome);
+	if ($outcome != "" && $outcome != null){
+		$sel_es = "SELECT positivo FROM rb_esiti WHERE id_esito = {$outcome}";
+		$positivo = $db->executeCount($sel_es);
+		if ($positivo == 1){
+			$alunni[$row['id_alunno']] = $row;
+			$alunni[$row['id_alunno']]['esito'] = "";
+			$alunni[$row['id_alunno']]['id_esito'] = 0;
+			$alunni[$row['id_alunno']]['id_voto'] = 0;
+			$alunni[$row['id_alunno']]['voto'] = "";
+		}
+	}
 }
 
 $sel_esiti = "SELECT rb_esami_licenza.* FROM rb_esami_licenza WHERE classe = ".$_SESSION['__classe__']->get_ID();
