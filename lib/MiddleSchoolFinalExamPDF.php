@@ -46,11 +46,11 @@ class MiddleSchoolFinalExamPDF extends SchoolPDF{
 		}
 		$this->Cell(0, 10, "", 0, 1, 'L', 0);
 		$this->Cell(130, 10, "", 0, 0, 'L', 0);
-		$this->Cell(50, 10, "Il Dirigente scolastico", 0, 0, 'C', 0);
+		$this->Cell(50, 10, "Il Presidente di commissione", 0, 0, 'C', 0);
 		$this->Ln();
 		$this->Cell(130, 2, "", 0, 0, 'L', 0);
 		$this->SetFont('', 'I', '10');
-		$this->Cell(50, 2, "Prof.ssa Giorgia Floris", 0, 0, 'C', 0);
+		$this->Cell(50, 2, "Prof.ssa Angela Sanna", 0, 0, 'C', 0);
 		$this->Ln();
 	}
 }
