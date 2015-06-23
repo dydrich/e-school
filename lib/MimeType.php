@@ -293,6 +293,12 @@ class MimeType{
 				$tipo = "Archivio gz";
 				$image = "application-x-gzip.png";
 				break;
+			case "bzip":
+			case "bz2":
+				$ctype = "application/x-bzip";
+				$tipo = "Archivio bzip2";
+				$image = "application-x-gzip.png";
+				break;
 			case "bin":
 			case "exe":
 			case "com":
