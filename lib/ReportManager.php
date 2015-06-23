@@ -406,7 +406,7 @@ class ReportManager {
 			else {
 				$this->datasource->executeUpdate("UPDATE rb_pubblicazione_pagelle SET disponibili_docenti = NOW() WHERE id_pagella = {$id_pubblicazione}");
 			}
-			$this->datasource->executeQuery("UPDATE rb_pagelle SET id_file = '{$basefile}', desc_classe = '{$desc_class}' WHERE id_pubblicazione = {$id_pubblicazione} AND id_alunno = {$student['id_alunno']}");
+			$this->datasource->executeUpdate("UPDATE rb_pagelle SET id_file = '{$basefile}', desc_classe = '{$desc_class}' WHERE id_pubblicazione = {$id_pubblicazione} AND id_alunno = {$student['id_alunno']}");
 		}
 	}
 
