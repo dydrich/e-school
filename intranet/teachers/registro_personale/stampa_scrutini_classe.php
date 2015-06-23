@@ -109,8 +109,11 @@ while($al = $res_alunni->fetch_assoc()){
 			}
 		}
 	}
-	$avg = $sum / $num_mat;
-	$corrected_avg = $corrected_sum / $num_mat;
+	$avg = $corrected_avg = 0;
+	if ($num_mat > 0) {
+		$avg = $sum / $num_mat;
+		$corrected_avg = $corrected_sum / $num_mat;
+	}
 	$alunni[$al['id_alunno']]['media'] = round($avg, 2);
 	$alunni[$al['id_alunno']]['media_corretta'] = round($corrected_avg, 2);
 }

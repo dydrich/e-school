@@ -206,7 +206,7 @@ switch($_REQUEST['req']){
 		if ($materia == 26 || $materia == 30){
 			$grd = $voti_religione[RBUtilities::convertReligionGrade($grd)];
 		}
-		$st_absence = get_absences_time($db, $teacher, $materia, $anno, $abs_time, $class, $id_alunno, $schedule_module);
+		$st_absence = get_absences_time($db, $teacher, $materia, $anno, $abs_time, $class, $id_alunno, $schedule_module, $fine_q);
 		$ret = $grd."#";
 		if(strlen($st_absence) > 1){
 			list($h, $m) = explode(":", $st_absence);

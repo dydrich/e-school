@@ -181,7 +181,7 @@ p.doc a {
 }
 
 .has_error {
-    border: 1px solid red
+    color: red;
 }
 
 .mandatory:after {
@@ -213,14 +213,4 @@ p.doc a {
 
 .didascalia{
     font-size: 0.9em
-}
-
-.float_button {
-    background-color: #F57C00 !important;
-    color: #ffffff;
-}
-
-.float_button:hover {
-    background-color: #40c4ff !important;
-    color: #000000;
 }

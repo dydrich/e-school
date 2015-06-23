@@ -147,6 +147,7 @@ div#t1 {
     width: 55px;
     display: inline
 }
+
 .nowcard {
     width: 450px;
     height: 40px;
@@ -193,4 +194,24 @@ div#t1 {
 .nowcard.logout {
     position: relative;
     margin-top: 50px;
+}
+
+.alert_msg, .error_msg {
+    background-color: #FFFFFF;
+    border: 1px solid #01579b;
+}
+
+.alert_title {
+    border-bottom: 1px solid #0288D1;
+    color: #01579b;
+}
+
+.error_title {
+    color: rgba(200, 6, 6, 1);
+    border-bottom: 1px solid #03A9F4;
+}
+
+.alert_title span, .error_title span {
+    padding-left: 10px;
+    font-size: 1em
 }

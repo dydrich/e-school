@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Segnala alunno</title>
+	<link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
@@ -11,49 +12,49 @@
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
 	<script type="text/javascript">
-	$(function() {
-		load_jalert();
-		setOverlayEvent();
-	    //autocomplete
-	    $("#student").autocomplete({
-	        source: "get_students.php?action=active",
-	        minLength: 2,
-	        select: function(event, ui){
-				uid = ui.item.uid;
-				$('#studentID').val(uid);
-	        }
-	    });
+		$(function() {
+			load_jalert();
+			setOverlayEvent();
+		    //autocomplete
+		    $("#student").autocomplete({
+		        source: "get_students.php?action=active",
+		        minLength: 2,
+		        select: function(event, ui){
+					uid = ui.item.uid;
+					$('#studentID').val(uid);
+		        }
+		    });
 
-	});
+		});
 
 
-	var registra = function(){
-		//alert($('#ore').val());
-		$.ajax({
-			type: "GET",
-			url: "ore_sostegno.php",
-			data: {f: $('#studentID').val(), val: $('#ore').val()},
-			dataType: 'text',
-			error: function() {
-				alert("Errore di trasmissione dei dati");
-			},
-			succes: function() {
+		var registra = function(){
+			//alert($('#ore').val());
+			$.ajax({
+				type: "GET",
+				url: "ore_sostegno.php",
+				data: {f: $('#studentID').val(), val: $('#ore').val()},
+				dataType: 'text',
+				error: function() {
+					alert("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-			},
-			complete: function(data){
-				r = data.responseText;
-				if(r == "null"){
-					return false;
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					if (r == "kosql"){
+
+					}
+					else {
+						document.location.href = "alunni_sostegno.php";
+					}
 				}
-				if (r == "kosql"){
-
-				}
-				else {
-					document.location.href = "alunni_sostegno.php";
-				}
-			}
-	    });
-	};
+		    });
+		};
 	</script>
 </head>
 <body>

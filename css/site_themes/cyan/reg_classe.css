@@ -122,7 +122,7 @@ div.card_title {
 }
 
 .rb_button {
-    background-color: #e040fb;
+    background-color: #ea80fc;
 }
 
 .rb_bg {
@@ -200,7 +200,7 @@ table.registro tr.riepilogo {
     background-color: #E0F7FA;
 	padding: 10px;
 	border: 1px solid rgba(30, 67, 137, .6);
-	border-radius: 0px 0px 0px 0px;
+	border-radius: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 	color: #222222;
 	z-index: 100

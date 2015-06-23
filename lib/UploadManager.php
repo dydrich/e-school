@@ -52,7 +52,7 @@ class UploadManager {
 				if ($id_f != "") {
 					return self::FILE_EXISTS;
 				}
-				
+
 				return self::UPL_OK;
 			}
 			return self::UPL_OK;

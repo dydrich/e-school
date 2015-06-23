@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
+	<link rel="stylesheet" href="../../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
@@ -74,7 +75,7 @@
 	}
 	else{
 	?>
-	<div class="card_container" style="margin-top: 15px">
+	<div class="card_container" style="margin-top: 15px; width: 80%">
 	<?php
 		$idx = 1;
 		$bc = "";
@@ -92,9 +93,7 @@
 			setlocale(LC_ALL, "it_IT.utf8");
 			$giorno_str = strftime("%A %d %B %Y", strtotime($di));
 	?>
-		<div class="card">
-			<div class="card_title"><?php echo $giorno_str ?></div>
-			<div class="card_varcontent">
+		<div class="material_card material_light_bg" style="float: none;"><span><?php echo $giorno_str ?></span></div>
 	<?php
 			while($hw = $res_hw->fetch_assoc()){
 				$bc = "";
@@ -107,10 +106,12 @@
 			<?php if ($mod): ?>
 			<a href="dettaglio_compito.php?t=<?php echo $hw['id_impegno'] ?>">
 			<?php endif; ?>
-				<div class="card_row<?php if (!$mod) echo " no_permission" ?>">
-					<p class="<?php if ($mod) echo " normal" ?>" style="font-weight: bold; text-transform: none; padding-bottom: 0; margin-bottom: 0; line-height: 12px"><?php echo $hw['mat'] ?></p>
-					<p class="<?php if ($mod) echo " normal" ?>"><?php print $hw['descrizione'] ?></p>
+			<div class="card" style="width: 98%; margin-left: 1%">
+				<div class="card_title<?php if (!$mod) echo " _italic" ?>" style="padding-left: 0; width: 100%">
+					<?php echo $hw['mat'] ?>
 				</div>
+				<div class="card_varcontent <?php if ($mod) echo " normal"; else echo " _italic" ?>"><?php echo $hw['descrizione'] ?></div>
+			</div>
 			<?php if ($mod): ?>
 			</a>
 			<?php endif; ?>
@@ -119,12 +120,9 @@
 				$ct++;
 				$idx++;
 			}
-	?>
-				</div>
-			</div>
-	<?php
 		}
 	?>
+		</div>
 	<?php
 	}
 	?>

@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
+	<link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
@@ -12,91 +13,91 @@
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
 	<script type="text/javascript">
-	var y = <?php echo $year ?>;
-	var q = <?php echo $q ?>;
-	var search = function(){
-		if($('#cognome').val() == ""){
-			alert("E' obbligatorio indicare il cognome");
-			yellow_fade("tr_cognome");
-			return false;
-		}
-		var url = "report_manager.php";
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: {y: y, cls: $('#classe').val(), lname: $('#cognome').val(), q: q, action: "search"},
-			error: function() {
-				j_alert("error", "Errore di trasmissione dei dati");
-			},
-			succes: function() {
+		var y = <?php echo $year ?>;
+		var q = <?php echo $q ?>;
+		var search = function(){
+			if($('#cognome').val() == ""){
+				alert("E' obbligatorio indicare il cognome");
+				yellow_fade("tr_cognome");
+				return false;
+			}
+			var url = "report_manager.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {y: y, cls: $('#classe').val(), lname: $('#cognome').val(), q: q, action: "search"},
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-			},
-			complete: function(data){
-				r = data.responseText;
-				if(r == "null"){
-					return false;
-				}
-				var json = $.parseJSON(r);
-				if (json.status == "kosql"){
-					sqlalert();
-					console.log(json.dbg_message);
-					return;
-				}
-				else if(json.status == "ko") {
-					j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
-					return;
-				}
-				else if(json.status == "nostd"){
-					$('#container').text("Nessun alunno in archivio per i parametri richiesti");
-				}
-				else if(json.status == "nopg"){
-					$('#container').text(json.message);
-				}
-				else{
-					//alert(response);
-					print_string = "";
-					for(data in json){
-						var t = json[data];
-						//alert(t.del);
-						if (t.del == 1){
-							print_string += "<p><a href='#' onclick='dwld_file(\"../../modules/documents/download_manager.php?doc=report&school_order=<?php echo $_SESSION['__school_order__'] ?>&area=manager&f="+t.file+"&sess=1&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1&delete=1\")' style=''>"+t.nome+" (1 quadrimestre)</a></p>";
-						}
-						else {
-							print_string += "<p><a href='../../modules/documents/download_manager.php?doc=report&school_order=<?php echo $_SESSION['__school_order__'] ?>&area=manager&f="+t.file+"&sess=2&stid="+t.id+"&y="+y+"&noread=1' style=''>"+t.nome+" (2 quadrimestre)</a></p>";
-						}
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
 					}
-					$('#container').html(print_string);
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						sqlalert();
+						console.log(json.dbg_message);
+						return;
+					}
+					else if(json.status == "ko") {
+						j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+						return;
+					}
+					else if(json.status == "nostd"){
+						$('#container').text("Nessun alunno in archivio per i parametri richiesti");
+					}
+					else if(json.status == "nopg"){
+						$('#container').text(json.message);
+					}
+					else{
+						//alert(response);
+						print_string = "";
+						for(data in json){
+							var t = json[data];
+							//alert(t.del);
+							if (t.del == 1){
+								print_string += "<p><a href='#' onclick='dwld_file(\"../../modules/documents/download_manager.php?doc=report&school_order=<?php echo $_SESSION['__school_order__'] ?>&area=manager&f="+t.file+"&sess=1&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1&delete=1\")' style=''>"+t.nome+" (1 quadrimestre)</a></p>";
+							}
+							else {
+								print_string += "<p><a href='../../modules/documents/download_manager.php?doc=report&school_order=<?php echo $_SESSION['__school_order__'] ?>&area=manager&f="+t.file+"&sess=2&stid="+t.id+"&y="+y+"&noread=1' style=''>"+t.nome+" (2 quadrimestre)</a></p>";
+							}
+						}
+						$('#container').html(print_string);
+					}
 				}
-			}
-		});
-	};
+			});
+		};
 
-	var dwld_file = function(href){
-		document.location = href;
-		$('container').update('');
-	};
+		var dwld_file = function(href){
+			document.location = href;
+			$('container').update('');
+		};
 
-	$(function(){
-		load_jalert();
-		setOverlayEvent();
-		if(y != <?php echo $_SESSION['__current_year__']->get_ID() ?>){
-			$('#classe').attr("disabled", "disabled");
-		}
-		$('#anno').change(function(event){
-			if($('#anno').val() == <?php echo $_SESSION['__current_year__']->get_ID() ?>){
-				$('#classe').removeAttr("disabled");
-			}
-			else{
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			if(y != <?php echo $_SESSION['__current_year__']->get_ID() ?>){
 				$('#classe').attr("disabled", "disabled");
 			}
-			$('#container').text("");
-		});
+			$('#anno').change(function(event){
+				if($('#anno').val() == <?php echo $_SESSION['__current_year__']->get_ID() ?>){
+					$('#classe').removeAttr("disabled");
+				}
+				else{
+					$('#classe').attr("disabled", "disabled");
+				}
+				$('#container').text("");
+			});
 
-		$('#search_lnk').click(function(event){
-			event.preventDefault();
-			search();
+			$('#search_lnk').click(function(event){
+				event.preventDefault();
+				search();
+			});
 		});
-	});
 
 	</script>
 </head>

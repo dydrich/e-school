@@ -77,6 +77,11 @@
 	}
 
 	?>
+	<div style="top: -20px; margin-left: 35px; margin-bottom: -30px" class="rb_button">
+		<a href="<?php echo $back_link ?>">
+			<img src="../../../images/47bis.png" style="padding: 12px 0 0 12px" />
+		</a>
+	</div>
 	<form method="post">
 		<table class="registro">
 			<thead>

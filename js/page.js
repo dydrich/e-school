@@ -221,9 +221,9 @@ function getElementPosition(elemID) {
 
 var yellow_fade = function(elem){
 	var trasp = 1;
-	$('#'+elem).setStyle({backgroundColor: "rgba(238, 238, 76, 1)"});
+	$('#'+elem).css({backgroundColor: "rgba(238, 238, 76, 1)"});
 	var i = 0;
-	var intv = window.setInterval(function(){trasp -= 0.1; i++; $('#'+elem).setStyle({backgroundColor: "rgba(238, 238, 76, "+trasp+")"});}, 200);
+	var intv = window.setInterval(function(){trasp -= 0.1; i++; $('#'+elem).css({backgroundColor: "rgba(238, 238, 76, "+trasp+")"});}, 200);
 	if(i > 10)
 		window.clearInterval(intv);	
 };
@@ -262,6 +262,7 @@ var select_level = function(path, page, level){
 };
 
 var load_jalert = function(){
+    /*
     $('#alert').dialog({
         autoOpen: false,
         dialogClass: 'no_display ui-state-highlight',
@@ -299,22 +300,64 @@ var load_jalert = function(){
 
         }
     });
+    */
 };
 
 var j_alert = function(type, msg){
+    var mtop = mleft = 0;
+    mtop = screen.height / 3;
+    mleft = (screen.width - 300) / 2;
     if (type == "alert") {
         $('#alertmessage').text(msg);
+        /*
         $('#alert').dialog("open");
         window.setTimeout(function(){
             $('#alert').dialog("close");
         }, 3000);
+        */
+        $('#alert').css({
+            top: mtop,
+            left: mleft
+        });
+        $('#overlay').fadeIn(100);
+        $('#alert').fadeIn(300);
+        window.setTimeout(function(){
+            $('#alert').fadeOut(500);
+            $('#overlay').fadeOut(100);
+        }, 2500);
     }
-    else {
+    else if (type == "error") {
         $('#errormessage').text(msg);
+        /*
         $('#error').dialog("open");
         window.setTimeout(function(){
             $('#error').dialog("close");
         }, 3000);
+        */
+        $('#error').css({
+            top: mtop,
+            left: mleft
+        });
+        $('#overlay').fadeIn(100);
+        $('#error').fadeIn(300);
+        window.setTimeout(function(){
+            $('#error').fadeOut(500);
+            $('#overlay').fadeOut(100);
+        }, 2500);
+    }
+    else if (type == "confirm") {
+
+    }
+    else if (type == "working") {
+        $('#alert .alert_title i').removeClass("fa-thumbs-up").addClass("fa-circle-o-notch fa-spin");
+        $('#alert .alert_title span').text('Attendi');
+        $('#alertmessage').text(msg);
+        $('#alert').css({
+            top: mtop,
+            left: mleft
+        });
+        $('#overlay').fadeIn(100);
+        $('#alert').fadeIn(300);
     }
 };
 
@@ -326,7 +369,10 @@ var exec_code;
 var bckg_timer;
 var timeout;
 var background_process = function(msg, tm, show_progress) {
+    $('#background .alert_title i').removeClass("fa-thumbs-up").addClass("fa-circle-o-notch fa-spin");
+    $('#background .alert_title span').text("Attendi");
     $('#background_msg').text(msg);
+    /*
     $('#background_msg').dialog({
         autoOpen: true,
         dialogClass: 'no_display ui-state-highlight',
@@ -345,6 +391,17 @@ var background_process = function(msg, tm, show_progress) {
 
         }
     });
+    */
+    var mtop = mleft = 0;
+    mtop = screen.height / 3;
+    mleft = (screen.width - 300) / 2;
+    $('#background').css({
+        top: mtop,
+        left: mleft
+    });
+    $('#overlay').fadeIn(100);
+    $('#background').fadeIn(300);
+
     timeout = tm;
     bckg_timer = setTimeout(function() {
         background_progress(msg, show_progress);
@@ -359,8 +416,8 @@ var background_progress = function(msg, show_progress) {
             //alert(tm);
             if(tm > 5){
                 tm = 0;
-                new_msg = msg.substr(0, msg.length - 5);
-                $('#background_msg').text(new_msg);
+                msg = msg.substr(0, msg.length - 5);
+                $('#background_msg').text(msg);
             }
             else {
                 msg += ".";
@@ -375,12 +432,19 @@ var background_progress = function(msg, show_progress) {
         );
     }
     else{
-        clearTimeout(bckg_timer);
-        $('#background_msg').text("Operazione conclusa");
-        setTimeout(function() {
-            $('#background_msg').dialog("close");
-        }, 2000);
+        loaded("Operazione completata");
     }
+};
+
+var loaded = function(txt) {
+    clearTimeout(bckg_timer);
+    $('#background .alert_title i').removeClass("fa-circle-o-notch fa-spin").addClass("fa-thumbs-up");
+    $('#background .alert_title span').text("Successo");
+    $('#background_msg').text(txt);
+    setTimeout(function() {
+        $('#background').fadeOut();
+        $('#overlay').fadeOut();
+    }, 2000);
 };
 
 var loading = function(string, time){

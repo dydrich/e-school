@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
+	<link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
@@ -39,7 +40,7 @@
 			$.ajax({
 				type: "POST",
 				url: '../../modules/documents/document_manager.php',
-				data: {cls: <?php echo $_GET['cls'] ?>, sub: <?php echo $_GET['sub'] ?>, std: <?php echo $_GET['std'] ?>, doc_type: 'teacherbook_att', action: 2, id: all, f: ff},
+				data: {cls: <?php echo $_GET['cls'] ?>, sub: <?php echo $_GET['sub'] ?>, std: <?php echo $_GET['std'] ?>, doc_type: 'teacherbook_att', action: 2, id: docID, f: file},
 				dataType: 'json',
 				error: function() {
 					j_alert("error", "Errore di trasmissione dei dati");
@@ -64,15 +65,18 @@
 					else {
 						j_alert("alert", "File cancellato")
 					}
-					$("#att_"+all).hide();
+					$("#att_"+docID).hide();
 				}
 			});
 		};
 
-		var loaded = false;
 		function loading(time){
-			background_process("Attendere il caricamento del file...", time);
+			background_process("Attendere il caricamento del file", time, false);
 		}
+
+		var loading_done = function() {
+			loaded("File caricato");
+		};
 
 		$(function(){
 			load_jalert();

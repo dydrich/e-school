@@ -177,3 +177,36 @@ input.android:focus, select.android:focus, textarea.android:focus {
 .main_500, .main_500 a {
     color: #9c27b0 !important;
 }
+
+.alert_msg, .error_msg {
+    background-color: #FFFFFF;
+    border: 1px solid #7b1fa2;
+}
+
+.alert_title {
+    border-bottom: 1px solid #9c27b0;
+    color: #7b1fa2;
+}
+
+.error_title {
+    color: rgba(200, 6, 6, 1);
+    border-bottom: 1px solid #9c27b0;
+}
+
+.alert_title span, .error_title span {
+    padding-left: 10px;
+    font-size: 1em
+}
+
+.material_dark_bg {
+
+}
+
+.material_light_bg {
+    background-color: #b39ddb;
+    color: #222222;
+}
+
+.popup_form {
+    border: 1px solid rgba(156, 39, 176, .6);
+}

@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Registro personale: scrutini</title>
+	<link rel="stylesheet" href="../../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../../css/general.css" />
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
@@ -188,7 +189,7 @@
 <body>
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
-<div id="main" style="clear: both; ">
+<div id="main">
 <?php
 $label_subject = "";
 if ($subject_number > 1) {
@@ -221,135 +222,156 @@ if ($subject_number > 1) {
 }
 
 ?>
-<form action="student.php" method="post">
-<table class="registro">
-<thead>
-<tr class="head_tr_no_bg">
-	<td colspan="3" style="text-align: center; border-top: 0"><span id="ingresso" style="font-weight: normal; text-transform: uppercase; color: black"><?php print $_SESSION['__classe__']->to_string() ?><?php echo $label_subject ?></span></td>
-</tr>
-<tr class="title_tr">
-	<td style="width: 50%; font-weight: bold; padding-left: 8px">Alunno</td>
-	<td style="width: 25%; text-align: center; font-weight: bold">Voto (media voto)</td>
-	<td style="width: 25%; text-align: center; font-weight: bold">Assenze</td>
-</tr>
-</thead>
-<tbody>
-<?php 
-$idx = 0;
-$res_dati->data_seek(0);
-while($al = $res_dati->fetch_assoc()){
-	$esonerato = 0;
-	if (in_array($al['alunno'], $esonerati)) {
-		$esonerato = 1;
-	}
-	if (($_SESSION['__materia__'] == 46 || $_SESSION['__materia__'] == 47) && $esonerato == 0) {
-		continue;
-	}
-	$background = "";
-	if($idx%2)
-		$background = "background-color: #e8eaec";
-?>
-<tr>
-	<td style="width: 40%; padding-left: 8px; font-weight: bold;<?php if($esonerato == 1 && ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30)) echo "background-color: #DDDDDD" ?>"><?php if($idx < 9) print "&nbsp;&nbsp;"; ?><?php echo ($idx+1).". " ?>
-		<span style="font-weight: normal"><?php print $al['cognome']." ".$al['nome']?></span>
-	</td>
+	<?php if ($q == 2): ?>
+		<div style="top: 92px; left: 51%; z-index: 999; position: absolute" class="rb_button">
+			<a href="confronta_scrutini.php" title="confronta scrutini primo e secondo quadrimestre">
+				<i class="fa fa-bar-chart" style="font-size: 15px; color: #000000; padding: 12px 0 0 12px"></i>
+			</a>
+		</div>
+	<?php endif; ?>
+	<?php if(count($_SESSION['__subjects__']) > 1): ?>
+		<div style="top: 92px; left: 55%; z-index: 999; position: absolute" class="rb_button">
+			<a href="riepilogo_scrutini.php?q=<?php echo $q ?>" title="riepilogo personale scrutini">
+				<i class="fa fa-th-list" style="font-size: 15px; color: #000000; padding: 12px 0 0 12px"></i>
+			</a>
+		</div>
+	<?php endif; ?>
+	<?php if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID()) || $_SESSION['__user__']->getUsername() == 'rbachis'): ?>
+		<div style="top: 92px; left: 59%; z-index: 999; position: absolute" class="rb_button">
+			<a href="scrutini_classe.php?q=<?php echo $q ?>" title="scrutini classe">
+				<i class="fa fa-users" style="font-size: 15px; color: #000000; padding: 12px 0 0 12px"></i>
+			</a>
+		</div>
+	<?php endif; ?>
+	<form action="student.php" method="post" style="">
+	<table class="registro" style="margin-top: 0">
+	<thead>
+	<tr class="head_tr_no_bg">
+		<td colspan="3" style="text-align: center; border-top: 0"><span id="ingresso" style="font-weight: normal; text-transform: uppercase; color: black"><?php print $_SESSION['__classe__']->to_string() ?><?php echo $label_subject ?></span></td>
+	</tr>
+	<tr class="title_tr">
+		<td style="width: 50%; font-weight: bold; padding-left: 8px">Alunno</td>
+		<td style="width: 25%; text-align: center; font-weight: bold">Voto (media voto)</td>
+		<td style="width: 25%; text-align: center; font-weight: bold">Assenze</td>
+	</tr>
+	</thead>
+	<tbody>
 	<?php
-	if ($esonerato == 1 && ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30)) {
+	$idx = 0;
+	$res_dati->data_seek(0);
+	while($al = $res_dati->fetch_assoc()){
+		$esonerato = 0;
+		if (in_array($al['alunno'], $esonerati)) {
+			$esonerato = 1;
+		}
+		if (($_SESSION['__materia__'] == 46 || $_SESSION['__materia__'] == 47) && $esonerato == 0) {
+			continue;
+		}
+		$background = "";
+		if($idx%2)
+			$background = "background-color: #e8eaec";
 	?>
-	<td colspan="2" class="_bold _center" style="background-color: #DDDDDD">Esonerato</td>
-	<?php
-	}
-	else {
-	?>
-	<td style="width: 10%; text-align: center; font-weight: normal;">
+	<tr>
+		<td style="width: 40%; padding-left: 8px; font-weight: bold;<?php if($esonerato == 1 && ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30)) echo "background-color: #DDDDDD" ?>"><?php if($idx < 9) print "&nbsp;&nbsp;"; ?><?php echo ($idx+1).". " ?>
+			<span style="font-weight: normal"><?php print $al['cognome']." ".$al['nome']?></span>
+		</td>
 		<?php
-		if (!$readonly) {
-			?>
-			<select name="sel_<?php echo $al['alunno'] ?>" style="width: 75px; height: 15px; font-size: 11px" onchange="upd_grade(this, <?php echo $al['alunno'] ?>)">
-				<option value="0">NC</option>
-				<?php
-				if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30) {
-				?>
-				<option value='10' <?php if ($al['voto'] == 10) print "selected" ?>>Ottimo</option>
-				<option value='9' <?php if ($al['voto'] == 9) print "selected" ?>>Distinto</option>
-				<option value='8' <?php if ($al['voto'] == 8) print "selected" ?>>Buono</option>
-				<option value='6' <?php if ($al['voto'] == 6) print "selected" ?>>Sufficiente</option>
-				<option value='4' <?php if ($al['voto'] == 4) print "selected" ?>>Insufficiente</option>
-				<?php
-				}
-				else {
-					for ($i = 10; $i > 0; $i--) {
-					?>
-					<option value="<?php echo $i ?>" <?php if ($al['voto'] == $i) print "selected" ?>><?php echo $i ?></option>
-				<?php
-					}
-				}
-				?>
-			</select>
+		if ($esonerato == 1 && ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30)) {
+		?>
+		<td colspan="2" class="_bold _center" style="background-color: #DDDDDD">Esonerato</td>
 		<?php
 		}
 		else {
-			if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30) {
-				?>
-				<span><?php echo $voti_religione[RBUtilities::convertReligionGrade($al['voto'])] ?></span>
-			<?php
-			}
-			else {
-				?>
-				<span><?php echo $al['voto'] ?></span>
-			<?php
-			}
-		}
 		?>
-		<span id="grade_<?php echo $al['alunno'] ?>" style="margin-left: 15px; display: none"></span>
-	</td>
-	<td style="width: 10%; text-align: center; font-weight: normal">
-		<span id="abstd_<?php echo $al['alunno'] ?>" style="<?php if ($ordine_scuola == 1) : ?>font-weight: bold;<?php endif; ?> font-size: 1.1em">
-			<?php if ($ordine_scuola == 1) {
-				echo $al['assenze'];
+		<td style="width: 10%; text-align: center; font-weight: normal;">
+			<?php
+			if (!$readonly) {
+				?>
+				<select name="sel_<?php echo $al['alunno'] ?>" style="width: 75px; height: 15px; font-size: 11px" onchange="upd_grade(this, <?php echo $al['alunno'] ?>)">
+					<option value="0">NC</option>
+					<?php
+					if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30) {
+					?>
+					<option value='10' <?php if ($al['voto'] == 10) print "selected" ?>>Ottimo</option>
+					<option value='9' <?php if ($al['voto'] == 9) print "selected" ?>>Distinto</option>
+					<option value='8' <?php if ($al['voto'] == 8) print "selected" ?>>Buono</option>
+					<option value='6' <?php if ($al['voto'] == 6) print "selected" ?>>Sufficiente</option>
+					<option value='4' <?php if ($al['voto'] == 4) print "selected" ?>>Insufficiente</option>
+					<?php
+					}
+					else {
+						for ($i = 10; $i > 0; $i--) {
+						?>
+						<option value="<?php echo $i ?>" <?php if ($al['voto'] == $i) print "selected" ?>><?php echo $i ?></option>
+					<?php
+						}
+					}
+					?>
+				</select>
+			<?php
 			}
 			else {
-				echo "ND";
-			} ?>
-		</span>
-		<span id="abs_<?php echo $al['alunno'] ?>" style="margin-left: 15px; display: none"></span>
-	</td>
-	</tr>
-	<?php
+				if ($_SESSION['__materia__'] == 26 || $_SESSION['__materia__'] == 30) {
+					?>
+					<span><?php echo $voti_religione[RBUtilities::convertReligionGrade($al['voto'])] ?></span>
+				<?php
+				}
+				else {
+					?>
+					<span><?php echo $al['voto'] ?></span>
+				<?php
+				}
+			}
+			?>
+			<span id="grade_<?php echo $al['alunno'] ?>" style="margin-left: 15px; display: none"></span>
+		</td>
+		<td style="width: 10%; text-align: center; font-weight: normal">
+			<span id="abstd_<?php echo $al['alunno'] ?>" style="<?php if ($ordine_scuola == 1) : ?>font-weight: bold;<?php endif; ?> font-size: 1.1em">
+				<?php if ($ordine_scuola == 1) {
+					echo $al['assenze'];
+				}
+				else {
+					echo "ND";
+				} ?>
+			</span>
+			<span id="abs_<?php echo $al['alunno'] ?>" style="margin-left: 15px; display: none"></span>
+		</td>
+		</tr>
+		<?php
+		}
+		$idx++;
 	}
-	$idx++; 
-}
-?>
-</tbody>
-<tfoot>
-<tr>
-	<td colspan="3" style="height: 15px"></td>
-</tr>
-<tr class="riepilogo">
-	<td style="padding-left: 10px">Media classe</td>
-	<td style="text-align: center">
-		<span id="avg" style="padding-right: 10px"></span>
-		<span id="avg2" style="font-weight: normal"></span>
-	</td>
-	<td></td>
-</tr>
-<tr>
-	<td colspan="3" style="height: 15px"></td>
-</tr>
-<tr class="nav_tr">
-	<td colspan="3" style="text-align: center; height: 40px">
-			<a href="scrutini.php?q=1" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
-				<img style="margin-right: 5px; position: relative; top: 5px" src="../../../images/24.png" /><span>1 Quadrimestre</span>
-			</a>
-			<a href="scrutini.php?q=2" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px; margin-left: 8px">
-				<img style="margin-right: 5px; position: relative; top: 5px" src="../../../images/24.png" /><span>2 Quadrimestre</span>
-			</a>
-		<!-- <a href="index.php?q=1">1 Quadrimestre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="index.php?q=2">2 Quadrimestre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="index.php?q=0">Totale</a> -->
-	</td>
-</tr>
-</tfoot>
-</table>
-</form>
+	?>
+	</tbody>
+	<tfoot>
+	<tr>
+		<td colspan="3" style="height: 15px"></td>
+	</tr>
+	<tr class="riepilogo">
+		<td style="padding-left: 10px">Media classe</td>
+		<td style="text-align: center">
+			<span id="avg" style="padding-right: 10px"></span>
+			<span id="avg2" style="font-weight: normal"></span>
+		</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td colspan="3" style="height: 15px"></td>
+	</tr>
+	<tr class="nav_tr">
+		<td colspan="3" style="text-align: center; height: 40px">
+				<a href="scrutini.php?q=1" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
+					<img style="margin-right: 5px; position: relative; top: 5px" src="../../../images/24.png" /><span>1 Quadrimestre</span>
+				</a>
+				<a href="scrutini.php?q=2" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px; margin-left: 8px">
+					<img style="margin-right: 5px; position: relative; top: 5px" src="../../../images/24.png" /><span>2 Quadrimestre</span>
+				</a>
+			<!-- <a href="index.php?q=1">1 Quadrimestre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="index.php?q=2">2 Quadrimestre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="index.php?q=0">Totale</a> -->
+		</td>
+	</tr>
+	</tfoot>
+	</table>
+	</form>
 </div>
 <?php include "../footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">

@@ -7,8 +7,9 @@
 	<script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="./js/page.js"></script>
 	<script type="text/javascript" src="./js/md5-min.js"></script>
-	<link href="css/site_themes/light_blue/index.css" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+	<link href="css/general.css" rel="stylesheet" type="text/css"/>
+	<link href="css/site_themes/light_blue/index.css" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" href="css/site_themes/light_blue/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript">
 		var area = "";
@@ -38,7 +39,7 @@ foreach ($colors as $color) {
 			var nick = $('#nick').val();
 			var pwd = $('#pass').val();
 			if (nick == "" || pwd == "") {
-				j_alert("alert", "Non hai inserito i dati necessari");
+				j_alert("error", "Non hai inserito i dati necessari");
 				return;
 			}
 			var pass = hex_md5(pwd);
@@ -326,15 +327,15 @@ foreach ($colors as $color) {
 		});
 	</script>
 	<style>
-	#links a {
-		display: block;
-		height: 25px;
-		font-size: 1.2em;
-	}
+		#links a {
+			display: block;
+			height: 25px;
+			font-size: 1.2em;
+		}
 	</style>
 </head>
 <body>
-	<header id="header">
+	<header>
 		<div class="wrap">
 			<div style="" id="_header">
 				<?php echo stripslashes($_SESSION['__config__']['intestazione_scuola']) ?><br />
@@ -426,17 +427,19 @@ foreach ($colors as $color) {
 			</div>
 		</nav>
 	</section>
-	<div id="alert" style="display: none">
-		<p>
-			<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-			<span class="_bold" id="alertmessage" style="font-size: 1.2em"></span>
-		</p>
+	<div id="alert" class="alert_msg" style="display: none">
+		<div class="alert_title">
+			<i class="fa fa-thumbs-up"></i>
+			<span>Successo</span>
+		</div>
+		<p id="alertmessage" class="alertmessage"></p>
 	</div>
-	<div id="error" style="display: none">
-		<p>
-			<span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-			<span class="_bold" id="errormessage" style="font-size: 1.2em"></span>
-		</p>
+	<div id="error" class="error_msg" style="display: none">
+		<div class="error_title">
+			<i class="fa fa-warning"></i>
+			<span>Errore</span>
+		</div>
+		<p class="errormessage" id="errormessage"></p>
 	</div>
 	<div id='background_msg' style='width: 200px; text-align: center; font-size: 12px; font-weight: bold; padding-top: 30px; margin: auto'></div>
 	<div class="overlay" id="overlay" style="display:none;"></div>

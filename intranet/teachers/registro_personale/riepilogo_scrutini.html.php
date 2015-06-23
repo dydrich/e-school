@@ -48,10 +48,9 @@
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
 	<?php if ($q == 2): ?>
-	<div style="top: -20px; margin-left: 925px; margin-bottom: -10px; z-index: 100" class="rb_button">
+	<div style="position: absolute; top: 75px; left: 55%; margin-bottom: -10px; z-index: 100" class="rb_button">
 		<a href="confronta_riepilogo_scrutini.php" title="Confronta scrutini">
-			<i class="fa fa-sort-numeric-asc" style="margin: 13px 0 0 5px"></i>
-			<i class="fa fa-sort-numeric-desc"></i>
+			<i class="fa fa-bar-chart" style="font-size: 15px; color: #000000; padding: 12px 0 0 12px"></i>
 		</a>
 	</div>
 	<?php endif; ?>
@@ -176,11 +175,6 @@ while($al = $res_alunni->fetch_assoc()){
 		<?php
 		}
 		?>
-		<?php if ($q == 2): ?>
-		<div class="drawer_link separator">
-			<a href="confronta_scrutini.php"><img src="../../../images/46.png" style="margin-right: 10px; position: relative; top: 5%"/>Confronta scrutini</a>
-		</div>
-		<?php endif; ?>
 		<div class="drawer_link submenu"><a href="index.php"><img src="../../../images/4.png" style="margin-right: 10px; position: relative; top: 5%" />Registro personale</a></div>
 		<?php if($is_teacher_in_this_class && $_SESSION['__user__']->getSubject() != 27 && $_SESSION['__user__']->getSubject() != 44) { ?>
 		<div class="drawer_link submenu separator">

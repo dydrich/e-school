@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Docente sostegno</title>
+	<link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
@@ -11,42 +12,42 @@
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
 	<script type="text/javascript">
-	$(function(){
-		load_jalert();
-		setOverlayEvent();
-		$('.sel').change(function(){
-			dati = this.id.split("_");
-			registra(dati[1]);
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('.sel').change(function(){
+				dati = this.id.split("_");
+				registra(dati[1]);
+			});
 		});
-	});
 
-	function registra(id){
-		//alert($('#ore').val());
-		$.ajax({
-			type: "POST",
-			url: "assegna_alunno.php",
-			data: {id: id, alunno: $('#al_'+id).val()},
-			dataType: 'text',
-			error: function() {
-				alert("Errore di trasmissione dei dati");
-			},
-			succes: function() {
+		var registra = function(id){
+			//alert($('#ore').val());
+			$.ajax({
+				type: "POST",
+				url: "assegna_alunno.php",
+				data: {id: id, alunno: $('#al_'+id).val()},
+				dataType: 'text',
+				error: function() {
+					alert("Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-			},
-			complete: function(data){
-				r = data.responseText;
-				if(r == "null"){
-					return false;
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					if (r == "kosql"){
+
+					}
+					else {
+
+					}
 				}
-				if (r == "kosql"){
-
-				}
-				else {
-
-				}
-			}
-	    });
-	}
+		    });
+		};
 	</script>
 </head>
 <body>

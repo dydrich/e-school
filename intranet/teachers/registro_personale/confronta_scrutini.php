@@ -29,8 +29,11 @@ $_SESSION['__path_to_reg_home__'] = "../";
 
 $voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Buono", "9" => "Distinto", "10" => "Ottimo");
 
-if(isset($_REQUEST['subject']))
+$back_link = "scrutini.php?q=2";
+if(isset($_REQUEST['subject'])) {
 	$_SESSION['__materia__'] = $_REQUEST['subject'];
+	$back_link .= "&subject=".$_REQUEST['subject'];
+}
 
 $sel_dati = "SELECT rb_alunni.cognome, rb_alunni.nome, alunno, voto, quadrimestre FROM rb_alunni LEFT JOIN rb_scrutini ON id_alunno = alunno WHERE anno = ".$_SESSION['__current_year__']->get_ID()." AND id_classe = ". $_SESSION['__classe__']->get_ID() ." AND classe = id_classe AND materia = ".$_SESSION['__materia__']." ORDER BY cognome, nome";
 $res_dati = $db->execute($sel_dati);

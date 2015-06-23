@@ -125,12 +125,13 @@
 		?>
 		<div class="welcome">
 			<p id="w_head">Modulo <?php echo $mod_string ?></p>
-			<p class="w_text" style="width: 350px;">
+			<p class="w_text" style="width: 350px; margin-bottom: 5px">
 				<a href="../../shared/no_js.php" data-modulo="<?php echo $mod ?>" class="createrecord">Genera registro</a>
-				<p style="margin-bottom: 0">
-					<a href="<?php if(isset($file)) echo $path.$file; else echo "#" ?>" data-modulo="<?php echo $mod ?>" class="dwnlrecord" style="display: <?php echo $display_link ?>">Scarica registro (creato il <span><?php if (isset($date_string)) echo $date_string ?></span>)</a>
-				</p>
 			</p>
+			<p style="margin-bottom: 0; margin-top: 0">
+				<a href="<?php if(isset($file)) echo $path.$file; else echo "#" ?>" data-modulo="<?php echo $mod ?>" class="dwnlrecord" style="display: <?php echo $display_link ?>">Scarica registro (creato il <span><?php if (isset($date_string)) echo $date_string ?></span>)</a>
+			</p>
+
 		</div>
 		<?php
 		}

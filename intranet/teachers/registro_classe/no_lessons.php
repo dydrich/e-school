@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Registro di classe</title>
+	<link rel="stylesheet" href="../../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
@@ -44,13 +45,13 @@
 			return false;
 		}
 		else {
-			file = "registro_<?php echo $_SESSION['__current_year__']->get_ID() ?>_<?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?>";
-			document.location.href = "../../../modules/documents/download_manager.php?doc=classbook&f="+file;
+			file = "registro_<?php echo $_SESSION['__current_year__']->get_descrizione() ?>_<?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?>";
+			document.location.href = "../../../modules/documents/download_manager.php?doc=classbook&f="+file+"&sc=<?php echo $_SESSION['__classe__']->getSchoolOrder() ?>";
 		}
 	};
 
 	var createCB = function(){
-		background_process("Attendere la creazione del registro...", 20);
+		background_process("Attendere la creazione del registro...", 20, false);
 		$.ajax({
 			type: "POST",
 			url: 'print_classbook.php',
@@ -71,7 +72,7 @@
 				timeout = 0;
 				var json = $.parseJSON(r);
 				if (json.status == "kosql"){
-					alert(json.message);
+					j_alert("error", json.message);
 					console.log(json.dbg_message);
 				}
 				else if(json.status == "no_permission") {
@@ -79,6 +80,7 @@
 				}
 				else {
 					$("#dlog").attr("data_disabled", 0);
+					loaded("Operazione completata. Ora puoi scaricare il registro");
 				}
 			}
 		});
@@ -88,8 +90,6 @@
 		load_jalert();
 		setOverlayEvent();
 	});
-
-	var loaded = false;
 
 	</script>
 </head>

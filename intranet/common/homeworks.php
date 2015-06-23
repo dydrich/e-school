@@ -8,6 +8,13 @@ $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL
 
 $sel_act = "SELECT rb_impegni.*, rb_materie.materia AS mat FROM rb_impegni, rb_materie WHERE rb_materie.id_materia = rb_impegni.materia AND classe = ".$_SESSION['__classe__']->get_ID()." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND data_inizio >= NOW() AND rb_impegni.tipo = 2 ORDER BY data_inizio DESC";
 $res_act = $db->execute($sel_act);
+$homeworks = array();
+while ($row = $res_act->fetch_assoc()) {
+	if (!isset($homeworks[$row['data_inizio']])) {
+		$homeworks[$row['data_inizio']] = array();
+	}
+	$homeworks[$row['data_inizio']][] = $row;
+}
 
 $drawer_label = "Compiti assegnati";
 
@@ -76,34 +83,37 @@ else{
 ?>
 	<div class="card_container">
 <?php
-	while($row = $res_act->fetch_assoc()){
-		$ct = 1;
-		list($di, $oi) = explode(" ", $row['data_inizio']);
-		setlocale(LC_ALL, "it_IT.utf8");
-		$giorno_str = strftime("%A %d %B", strtotime($di));
-?>
-		<div class="card">
-			<div class="card_title">
-				<?php echo $giorno_str ?>
-				<div style="float: right; margin-right: 20px; width: 150px">
+foreach($homeworks as $dt => $hw){
+	$ct = 1;
+	list($di, $oi) = explode(" ", $dt);
+	setlocale(LC_ALL, "it_IT.utf8");
+	$giorno_str = strftime("%A %d %B %Y", strtotime($di));
+	?>
+	<div class="material_card material_light_bg" style="float: none"><span><?php echo $giorno_str ?></span></div>
+	<div style="width: 95%; margin: auto; overflow: hidden">
+		<?php
+		foreach ($hw as $row) {
+			list($da, $oa) = explode(" ", $row['data_assegnazione']);
+			?>
+			<div class="material_row accent_decoration" style="padding-left: 0; width: 100%">
+				<div class="material_row_title material_label" style="width: 20%; text-transform: none">
 					<?php echo $row['mat'] ?>
 				</div>
+				<div class="material_row_text" style="width: 77%"><?php echo $row['descrizione'] ?></div>
 			</div>
-			<div class="card_minicontent">
-				<?php echo $row['descrizione'] ?>
-			</div>
-		</div>
+
+			<?php
+		}
+		?>
+	</div>
+
 <?php
-	}
+}
 ?>
 		</div>
 <?php
 }
 ?>
-	<form class="no_border">
-	<input type="hidden" name="id_impegno" id="impegno" />
-	<input type="hidden" name="tipo" id="tipo" />
-	</form>
 	</div>
 <p class="spacer"></p>
 </div>

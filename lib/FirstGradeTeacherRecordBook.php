@@ -73,17 +73,20 @@ class FirstGradeTeacherRecordBook extends TeacherRecordBook{
 	}
 	
 	public function loadStudentsData($cls, $subject){
-		$st = $this->datasource->executeQuery("SELECT rb_alunni.id_alunno, cognome, nome, rb_esiti.esito, positivo FROM rb_alunni, rb_pagelle LEFT JOIN rb_esiti ON rb_pagelle.esito = id_esito WHERE id_pubblicazione = {$this->pubbID} AND rb_alunni.id_classe = {$cls} AND rb_alunni.id_alunno = rb_pagelle.id_alunno AND attivo = '1' ORDER BY cognome, nome");
-		//echo "SELECT rb_alunni.id_alunno, cognome, nome, rb_esiti.esito, positivo FROM rb_alunni, rb_pagelle, rb_esiti WHERE rb_pagelle.esito = id_esito AND id_pubblicazione = {$this->pubbID} AND rb_alunni.id_classe = {$cls} AND rb_alunni.id_alunno = rb_pagelle.id_alunno AND attivo = '1' ORDER BY cognome, nome";
+		$st = $this->datasource->executeQuery("SELECT rb_alunni.id_alunno, cognome, nome, attivo, rb_esiti.esito, positivo FROM rb_alunni, rb_pagelle LEFT JOIN rb_esiti ON rb_pagelle.esito = id_esito WHERE id_pubblicazione = {$this->pubbID} AND rb_alunni.id_classe = {$cls} AND rb_alunni.id_alunno = rb_pagelle.id_alunno ORDER BY cognome, nome");
+		//echo "SELECT rb_alunni.id_alunno, cognome, nome, attivo, rb_esiti.esito, positivo FROM rb_alunni, rb_pagelle LEFT JOIN rb_esiti ON rb_pagelle.esito = id_esito WHERE id_pubblicazione = {$this->pubbID} AND rb_alunni.id_classe = {$cls} AND rb_alunni.id_alunno = rb_pagelle.id_alunno ORDER BY cognome, nome";
 		$students = array();
 		foreach ($st as $s){
+			if ($s['attivo'] == "T") {
+				$s['esito'] = "Trasferito";
+			}
 			$students[$s['id_alunno']] = array("id" => $s['id_alunno'], "cognome" => $s['cognome'], "nome" => $s['nome'], "esito" => $s['esito'], "positivo" => $s['positivo']);
 		}
 		$sel_grades = "SELECT * FROM rb_scrutini WHERE classe = {$cls} AND anno = {$this->year->get_ID()} AND materia = {$subject} ORDER BY alunno";
 		$rows = $this->datasource->executeQuery($sel_grades);
 		
 		foreach ($rows as $row){
-			if (!$students[$row['alunno']]){
+			if (!isset($students[$row['alunno']])){
 				$students[$row['alunno']] = array();
 			}
 			if ($row['quadrimestre'] == 1){

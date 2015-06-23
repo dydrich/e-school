@@ -19,7 +19,7 @@ $_SESSION['__path_to_mod_home__'] = "./";
 
 $response = array("status" => "ok", "message" => "Il registro è stato creato correttamente");
 
-if ($_REQUEST['action'] == "zip") {
+if (isset($_REQUEST['action']) && $_REQUEST['action'] == "zip") {
 	$year_desc = $_SESSION['__current_year__']->get_descrizione();
 	$old_dir = getcwd();
 	chdir("../../download/registri/{$year_desc}/scuola_primaria/programmazione/");

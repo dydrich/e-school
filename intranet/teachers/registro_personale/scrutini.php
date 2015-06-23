@@ -149,7 +149,7 @@ if ($load_mat == $alt_subject) {
 	$load_mat = $id_religione;
 }
 
-$sel_dati = "SELECT rb_alunni.cognome, rb_alunni.nome, alunno, voto, assenze FROM rb_alunni LEFT JOIN rb_scrutini ON id_alunno = alunno WHERE anno = ".$_SESSION['__current_year__']->get_ID()." AND id_classe = ". $_SESSION['__classe__']->get_ID() ." AND classe = id_classe AND quadrimestre = $q AND materia = {$load_mat} ORDER BY cognome, nome";
+$sel_dati = "SELECT rb_alunni.cognome, rb_alunni.nome, alunno, voto, assenze FROM rb_alunni LEFT JOIN rb_scrutini ON id_alunno = alunno WHERE anno = ".$_SESSION['__current_year__']->get_ID()." AND id_classe = ". $_SESSION['__classe__']->get_ID() ." AND classe = id_classe AND quadrimestre = $q AND materia = {$load_mat} AND attivo = '1' ORDER BY cognome, nome";
 $res_dati = $db->execute($sel_dati);
 
 $esonerati = array();

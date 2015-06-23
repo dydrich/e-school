@@ -75,7 +75,7 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 		$cls = $_cls['id'];
 		$this->createCover($teacher, $sub['mat'], $_cls['cls'], $substitutions);
 		$this->studentsList($students);
-		$this->sessionGrades($students, $subject);
+		@$this->sessionGrades($students, $subject);
 		$this->lessons($lessons);
 		@$this->studentGrades($students, $subject);
 		@$this->lessonAbsences($lessons);
@@ -170,7 +170,7 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 				$v1 = substr($voti_religione[RBUtilities::convertReligionGrade($row['voto1q'])], 0, 1);
 			}
 			else {
-				$v1 = $row['voto1q'];
+				$v1 = isset($row['voto1q']) ? $row['voto1q'] : "";
 			}
 			$this->Cell(12, 5, $v1, 'LRTB', 0, 'C', 0, '', 0);
 			if ($subject == 26){
@@ -184,10 +184,17 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 				$v2 = "6*";
 			}
 			*/
+			$assenze1q = 0;
+			if (isset($row['assenze1q'])) {
+				$assenze1q = $row['assenze1q'];
+			}
+			else {
+				$assenze1q = 0;
+			}
 			$this->Cell(12, 5, $v2, 'LRTB', 0, 'C', 0, '', 0);
-			$this->Cell(12, 5, $row['assenze1q'], 'LRTB', 0, 'C', 0, '', 0);
+			$this->Cell(12, 5, $assenze1q, 'LRTB', 0, 'C', 0, '', 0);
 			$this->Cell(12, 5, $row['assenze2q'], 'LRTB', 0, 'C', 0, '', 0);
-			$this->Cell(12, 5, $row['assenze1q'] + $row['assenze2q'], 'LRTB', 0, 'C', 0, '', 0);
+			$this->Cell(12, 5, $assenze1q + $row['assenze2q'], 'LRTB', 0, 'C', 0, '', 0);
 			$this->Cell(12, 5, $row['comp1q'], 'LRTB', 0, 'C', 0, '', 0);
 			$this->Cell(12, 5, $row['comp2q'], 'LRTB', 0, 'C', 0, '', 0);
 			$this->Ln();

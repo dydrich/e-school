@@ -109,7 +109,7 @@ div.mdtab a > span {
 }
 
 div.mdselected_tab {
-    color: #EEFF41;
+    color: #ffd740;
     border-bottom: 2px solid #000000;
 }
 
@@ -123,7 +123,7 @@ div.mdselected_tab a > span {
 }
 
 .rb_button {
-    background-color: #e040fb;
+    background-color: #ffd740;
 }
 
 .rb_bg {
@@ -212,4 +212,37 @@ input.android:focus, select.android:focus, textarea.android:focus {
 
 .main_500, .main_500 a {
     color: #00BCD4 !important;
+}
+
+.alert_msg, .error_msg {
+    background-color: #FFFFFF;
+    border: 1px solid #006064;
+}
+
+.alert_title {
+    border-bottom: 1px solid #0097A7;
+    color: #006064;
+}
+
+.error_title {
+    color: rgba(200, 6, 6, 1);
+    border-bottom: 1px solid #00BCD4;
+}
+
+.alert_title span, .error_title span {
+    padding-left: 10px;
+    font-size: 1em
+}
+
+.material_dark_bg {
+
+}
+
+.material_light_bg {
+    background-color: #4dd0e1;
+    color: #222222;
+}
+
+.popup_form {
+    border: 1px solid rgba(0, 188, 212, .6);
 }

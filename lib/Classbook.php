@@ -3,6 +3,9 @@
 require_once 'ClassbookData.php';
 require_once 'RBTime.php';
 require_once 'ClassbookPDF.php';
+require_once 'MiddleSchoolClassbookPDF.php';
+require_once 'PrimarySchoolClassbookPDF.php';
+require_once 'RBUtilities.php';
 
 class Classbook {
 	
@@ -16,6 +19,7 @@ class Classbook {
 	private $path;
 	private $schedule;
 	private $cdc;
+	private $creationDateTime;
 	/**
 	 * 
 	 * @var integer
@@ -33,7 +37,13 @@ class Classbook {
 		$this->loadAddresses();
 		$this->loadSchedule();
 		$this->loadCDC();
-		$this->pdf = new ClassbookPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		$school_order = $c->getSchoolOrder();
+		if ($school_order == 1) {
+			$this->pdf = new MiddleSchoolClassbookPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		}
+		else {
+			$this->pdf = new PrimarySchoolClassbookPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		}
 		$this->path = $path;
 		$this->pdf->setFilePath($path);
 	}
@@ -77,8 +87,8 @@ class Classbook {
 		}
 	}
 	
-	private function loadStudentsData(){
-		$sel_dati_alunni .= "SELECT rb_reg_alunni.ingresso, rb_reg_alunni.uscita, data, giustificata, rb_reg_alunni.id_alunno, cognome, nome, data_nascita FROM rb_reg_classi, rb_reg_alunni, rb_alunni WHERE rb_reg_alunni.id_alunno = rb_alunni.id_alunno AND rb_reg_classi.id_classe = {$this->cls->get_ID()} AND rb_reg_classi.id_reg = rb_reg_alunni.id_registro AND id_anno = {$this->year->getYear()->get_ID()} AND id_reg = id_registro ORDER BY cognome, nome, data";
+	protected function loadStudentsData(){
+		$sel_dati_alunni = "SELECT rb_reg_alunni.ingresso, rb_reg_alunni.uscita, data, giustificata, rb_reg_alunni.id_alunno, cognome, nome, data_nascita FROM rb_reg_classi, rb_reg_alunni, rb_alunni WHERE rb_reg_alunni.id_alunno = rb_alunni.id_alunno AND rb_reg_classi.id_classe = {$this->cls->get_ID()} AND rb_reg_classi.id_reg = rb_reg_alunni.id_registro AND id_anno = {$this->year->getYear()->get_ID()} ORDER BY cognome, nome, data";
 		$res_dati_alunni = $this->datasource->executeQuery($sel_dati_alunni);
 		$studentsData = array();
 		$dt = "";
@@ -160,18 +170,45 @@ class Classbook {
 	}
 	
 	private function loadCDC(){
-		$query = "SELECT cognome, nome, materia FROM rb_utenti, rb_materie, rb_cdc WHERE rb_cdc.id_docente = rb_utenti.uid AND rb_cdc.id_materia = rb_materie.id_materia AND rb_cdc.id_anno = {$this->year->getYear()->get_ID()} AND rb_cdc.id_classe = {$this->cls->get_ID()} ORDER BY materia, cognome, nome ";
-		$result = $this->datasource->execute($query);
-		$this->cdc = $result;
+		$rb = RBUtilities::getInstance($this->datasource);
+		$this->cdc = $rb->getTeachersOfClass($this->cls->get_ID());
 	}
 	
 	public function createPDF(){
 		$this->pdf->init($this->classData, $this->studentsData, $this->cls, $this->year, $this->days, $this->cdc, $this->schedule, $this->hours);
 		$this->pdf->createClassbook();
+		$this->save();
 	}
 	
 	public function getPDF(){
 	
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getCreationDateTime() {
+		return $this->creationDateTime;
+	}
+
+	/**
+	 * @param mixed $creationDateTime
+	 */
+	public function setCreationDateTime($creationDateTime) {
+		$this->creationDateTime = $creationDateTime;
+	}
+
+	private function save() {
+		$count = $this->datasource->executeCount("SELECT id FROM rb_registri_classe WHERE classe = ".$this->cls->get_ID()." AND anno = ".$this->year->getYear()->get_ID());
+		if ($count != null && $count != "") {
+			$this->datasource->executeUpdate("UPDATE rb_registri_classe SET data_creazione = NOW(), docente = ".$_SESSION['__user__']->getUid()." WHERE id = $count");
+		}
+		else {
+			$file = "registro_".$this->year->getYear()->get_descrizione()."_".$this->cls->get_anno().$this->cls->get_sezione().".pdf";
+			$count = $this->datasource->executeUpdate("INSERT INTO rb_registri_classe (anno, classe, docente, data_creazione, file) VALUES ({$this->year->getYear()->get_ID()}, {$this->cls->get_ID()}, {$_SESSION['__user__']->getUid()}, NOW(), '$file')");
+		}
+
+		$this->creationDateTime = $this->datasource->executeCount("SELECT data_creazione FROM rb_registri_classe WHERE id = $count");
 	}
 	
 }

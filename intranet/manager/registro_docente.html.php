@@ -11,101 +11,101 @@
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
 	<script>
-	var _class = <?php echo $start_cls ?>;
-	var mat = <?php if (count($id_materie) == 1) echo $id_materie[0]; else echo 0; ?>;
-	$(function() {
-		load_jalert();
-		setOverlayEvent();
-	    $(".mdtab").click(function(){
-			data = $(this).attr("data-id");
-			$(".table_tab").hide();
-			$(".mdtab").removeClass("mdselected_tab");
-			$("#tab_"+data).show(400);
-			$(this).addClass("mdselected_tab");
-			_class = data;
-	    });
-	    $(".snotes").click(function(event){
-			event.preventDefault();
-			std = this.dataset.std;
-			doc = this.dataset.doc;
-			show_notes(std, doc, <?php echo $q ?>);
-	    });
-	    $(".sgrade").click(function(event){
-			event.preventDefault();
-			std = this.dataset.std;
-			doc = this.dataset.doc;
-			subj = this.dataset.subject;
-			show_grades(std, doc, <?php echo $q ?>, subj);
-	    });
-	    $("#load_lss").click(function(event){
-			event.preventDefault();
-			load_lessons(<?php echo $doc ?>);
-	    });
-	});
-
-	var show_notes = function(std, doc, q){
-		$('#dialog').load("show_didactic_notes.php?std="+std+"&doc="+doc+"&q="+q, function(){
-			$(this).dialog({
-				autoOpen: true,
-				show: {
-					effect: "fade",
-					duration: 500
-				},
-				hide: {
-					effect: "fade",
-					duration: 300
-				},
-				buttons: [{
-					text: "Chiudi",
-					click: function() {
-						$( this ).dialog( "close" );
-					}
-				}],
-				modal: true,
-				width: 550,
-				title: 'Elenco note didattiche',
-				open: function(event, ui){
-
-				}
-			});
+		var _class = <?php echo $start_cls ?>;
+		var mat = <?php if (count($id_materie) == 1) echo $id_materie[0]; else echo 0; ?>;
+		$(function() {
+			load_jalert();
+			setOverlayEvent();
+		    $(".mdtab").click(function(){
+				data = $(this).attr("data-id");
+				$(".table_tab").hide();
+				$(".mdtab").removeClass("mdselected_tab");
+				$("#tab_"+data).show(400);
+				$(this).addClass("mdselected_tab");
+				_class = data;
+		    });
+		    $(".snotes").click(function(event){
+				event.preventDefault();
+				std = this.dataset.std;
+				doc = this.dataset.doc;
+				show_notes(std, doc, <?php echo $q ?>);
+		    });
+		    $(".sgrade").click(function(event){
+				event.preventDefault();
+				std = this.dataset.std;
+				doc = this.dataset.doc;
+				subj = this.dataset.subject;
+				show_grades(std, doc, <?php echo $q ?>, subj);
+		    });
+		    $("#load_lss").click(function(event){
+				event.preventDefault();
+				load_lessons(<?php echo $doc ?>);
+		    });
 		});
-	};
 
-	var show_grades = function(std, doc, q, subj){
-		$('#grades').load("show_grades.php?std="+std+"&doc="+doc+"&q="+q+"&subj="+subj, function(){
-			$(this).dialog({
-				autoOpen: true,
-				show: {
-					effect: "fade",
-					duration: 500
-				},
-				hide: {
-					effect: "fade",
-					duration: 300
-				},
-				buttons: [{
-					text: "Chiudi",
-					click: function() {
-						$( this ).dialog( "close" );
+		var show_notes = function(std, doc, q){
+			$('#dialog').load("show_didactic_notes.php?std="+std+"&doc="+doc+"&q="+q, function(){
+				$(this).dialog({
+					autoOpen: true,
+					show: {
+						effect: "fade",
+						duration: 500
+					},
+					hide: {
+						effect: "fade",
+						duration: 300
+					},
+					buttons: [{
+						text: "Chiudi",
+						click: function() {
+							$( this ).dialog( "close" );
+						}
+					}],
+					modal: true,
+					width: 550,
+					title: 'Elenco note didattiche',
+					open: function(event, ui){
+
 					}
-				}],
-				modal: true,
-				width: 550,
-				title: 'Elenco voti',
-				open: function(event, ui){
-
-				}
+				});
 			});
-		});
-	};
+		};
 
-	var load_lessons = function(doc){
-		url = "lezioni_docente.php?doc="+doc+"&cls="+_class;
-		if (mat != 0) {
-			url += "&mat="+mat;
-		}
-		document.location.href = url;
-	};
+		var show_grades = function(std, doc, q, subj){
+			$('#grades').load("show_grades.php?std="+std+"&doc="+doc+"&q="+q+"&subj="+subj, function(){
+				$(this).dialog({
+					autoOpen: true,
+					show: {
+						effect: "fade",
+						duration: 500
+					},
+					hide: {
+						effect: "fade",
+						duration: 300
+					},
+					buttons: [{
+						text: "Chiudi",
+						click: function() {
+							$( this ).dialog( "close" );
+						}
+					}],
+					modal: true,
+					width: 550,
+					title: 'Elenco voti',
+					open: function(event, ui){
+
+					}
+				});
+			});
+		};
+
+		var load_lessons = function(doc){
+			url = "lezioni_docente.php?doc="+doc+"&cls="+_class;
+			if (mat != 0) {
+				url += "&mat="+mat;
+			}
+			document.location.href = url;
+		};
 
 	</script>
 </head>

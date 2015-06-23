@@ -26,39 +26,39 @@
 			});
 		});
 
-	var del = function(id){
-		var url = "elimina_segnalazione.php";
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: {id: id},
-			error: function() {
-				j_alert("error", "Errore di trasmissione dei dati");
-			},
-			succes: function() {
+		var del = function(id){
+			var url = "elimina_segnalazione.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {id: id},
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-			},
-			complete: function(data){
-				r = data.responseText;
-				if(r == "null"){
-					return false;
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						sqlalert();
+						console.log(json.dbg_message);
+						return;
+					}
+					else if(json.status == "ko") {
+						j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+						return;
+					}
+					else {
+						$('#row'+id).hide();
+					}
 				}
-				var json = $.parseJSON(r);
-				if (json.status == "kosql"){
-					sqlalert();
-					console.log(json.dbg_message);
-					return;
-				}
-				else if(json.status == "ko") {
-					j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
-					return;
-				}
-				else {
-					$('#row'+id).hide();
-				}
-			}
-		});
-	};
+			});
+		};
 	</script>
 </head>
 <body>

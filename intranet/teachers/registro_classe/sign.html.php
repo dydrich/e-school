@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Firma il registro di classe</title>
+	<link rel="stylesheet" href="../../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area docenti</title>
 	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
@@ -514,15 +515,15 @@ reset ($firme);
 $index = 0;
 foreach ($firme as $x => $ora){
 	/*
-	 * display delete sign link
+	 * show delete sign link
 	 */
 	$display = "none";
 	/*
-	 * display delete compresence sign link
+	 * show delete compresence sign link
 	 */
 	$cdisplay = "none";
 	/*
-	 * display delete support sign link
+	 * show delete support sign link
 	*/
 	$sdisplay = "none";
 	

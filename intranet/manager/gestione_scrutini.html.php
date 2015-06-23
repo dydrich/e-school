@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
+	<link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
@@ -12,60 +13,60 @@
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
 	<script type="text/javascript">
-	var timestamp;
-	var tm = 0;
-	var complete = false;
-	var timer;
+		var timestamp;
+		var tm = 0;
+		var complete = false;
+		var timer;
 
-	var change_status = function(q){
-		var url = "modifica_stato_scrutinio.php";
-		var stato = $('#status'+q+'q').val();
+		var change_status = function(q){
+			var url = "modifica_stato_scrutinio.php";
+			var stato = $('#status'+q+'q').val();
 
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: {q: q, stato: stato},
-			error: function() {
-				j_alert("error", "Errore di trasmissione dei dati");
-			},
-			succes: function() {
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {q: q, stato: stato},
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
 
-			},
-			complete: function(data){
-				r = data.responseText;
-				if(r == "null"){
-					return false;
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						sqlalert();
+						console.log(json.dbg_message);
+						return;
+					}
+					else if(json.status == "ko") {
+						j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+						return;
+					}
+					else {
+						j_alert("alert", json.message);
+					}
 				}
-				var json = $.parseJSON(r);
-				if (json.status == "kosql"){
-					sqlalert();
-					console.log(json.dbg_message);
-					return;
-				}
-				else if(json.status == "ko") {
-					j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
-					return;
-				}
-				else {
-					j_alert("alert", json.message);
-				}
-			}
+			});
+
+		};
+
+		$(function(){
+			load_jalert();
+			setOverlayEvent();
+			$('#status1q').change(function(event){
+				event.preventDefault();
+				change_status(1);
+			});
+			$('#status2q').change(function(event){
+				event.preventDefault();
+				change_status(2);
+			});
 		});
-
-	};
-
-	$(function(){
-		load_jalert();
-		setOverlayEvent();
-		$('#status1q').change(function(event){
-			event.preventDefault();
-			change_status(1);
-		});
-		$('#status2q').change(function(event){
-			event.preventDefault();
-			change_status(2);
-		});
-	});
 
 	</script>
 </head>

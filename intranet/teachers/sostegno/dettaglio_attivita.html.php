@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Attivit&agrave;</title>
+	<link rel="stylesheet" href="../../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
@@ -12,47 +13,47 @@
 	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../../js/page.js"></script>
 	<script type="text/javascript">
-	$(function(){
-		$('#day').datepicker({
-			dateFormat: "dd/mm/yy",
-			currentText: "Oggi",
-			closeText: "Chiudi"
+		$(function(){
+			$('#day').datepicker({
+				dateFormat: "dd/mm/yy",
+				currentText: "Oggi",
+				closeText: "Chiudi"
+			});
+			load_jalert();
+			setOverlayEvent();
 		});
-		load_jalert();
-		setOverlayEvent();
-	});
 
-	function registra(){
-		if ($('#day').val() == "" || $('#att').val() == ""){
-			alert("Data e lavoro svolto sono campi obbligatori");
-			return false;
-		}
-		$.ajax({
-			type: "POST",
-			url: "aggiorna_dati_studente.php",
-			data: $('#my_form').serialize(),
-			dataType: 'json',
-			error: function(data, status, errore) {
-				j_alert("error", "Si e' verificato un errore");
+		var registra = function(){
+			if ($('#day').val() == "" || $('#att').val() == ""){
+				alert("Data e lavoro svolto sono campi obbligatori");
 				return false;
-			},
-			succes: function(result) {
-
-			},
-			complete: function(data, status){
-				r = data.responseText;
-				var json = $.parseJSON(r);
-				if(json.status == "kosql"){
-					j_alert("error", "Errore SQL. \nQuery: "+json.query+"\nErrore: "+json.message);
-					return;
-	            }
-				else {
-					j_alert("alert", json.message);
-					setTimeout("document.location.href='attivita.php'", 2000);
-				}
 			}
-		});
-	}
+			$.ajax({
+				type: "POST",
+				url: "aggiorna_dati_studente.php",
+				data: $('#my_form').serialize(),
+				dataType: 'json',
+				error: function(data, status, errore) {
+					j_alert("error", "Si e' verificato un errore");
+					return false;
+				},
+				succes: function(result) {
+
+				},
+				complete: function(data, status){
+					r = data.responseText;
+					var json = $.parseJSON(r);
+					if(json.status == "kosql"){
+						j_alert("error", "Errore SQL. \nQuery: "+json.query+"\nErrore: "+json.message);
+						return;
+		            }
+					else {
+						j_alert("alert", json.message);
+						setTimeout("document.location.href='attivita.php'", 2000);
+					}
+				}
+			});
+		};
 	</script>
 </head>
 <body>
