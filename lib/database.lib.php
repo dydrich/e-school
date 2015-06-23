@@ -73,7 +73,7 @@ class MySQLConnection extends mysqli{
 	}
 
 	/*
-	 * prepared statemt
+	 * prepared statement
 	 */
 	public function prepare($query){
 		if (!($result = parent::prepare($query))){
