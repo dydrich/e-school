@@ -90,7 +90,7 @@ class PrimarySchoolTeacherRecordBookPDF extends TeacherRecordBookPDF{
 	protected function createCover($teacher, $mat, $cls, $subs){
 		$this->setPage(1, true);
 		$this->Image($_SESSION['__path_to_root__'].'images/ministero.jpg', 95, 28, 20, 20, 'JPG', '', '', false, '');
-		$this->SetFont('times', 'B', '14');
+		$this->SetFont('helvetica', 'B', '14');
 		$this->Cell(0, 50, "Ministero dell'Istruzione, dell'Università e della Ricerca", 0, 1, 'C', 0, '', 0);
 		$this->SetFont('helvetica', 'B', '15');
 		$this->Cell(0, 20, "", 0, 1, 'C', 0, '', 0);
@@ -106,11 +106,11 @@ class PrimarySchoolTeacherRecordBookPDF extends TeacherRecordBookPDF{
 		if ($subs != null && $subs !== false) {
 			$this->AddPage("P", "A4");
 			$this->setPage(2, true);
-			$this->SetFont('times', 'B', '13');
+			$this->SetFont('helvetica', 'B', '13');
 			$this->Cell(190, 8, "Elenco supplenze", 'B', 0, 'L', 0, '', 0);
 			$this->Ln();
 			$this->Cell(0, 7, "", 0, 1, 'C', 0, '', 0);
-			$this->SetFont('times', 'B', '11');
+			$this->SetFont('helvetica', 'B', '11');
 			foreach ($subs as $k => $sub){
 				$this->Cell(100, 7, $sub['doc'], array("B" => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(200, 200, 200))), 0, 'L', 0, '', 0);
 				$this->Cell(90, 7, format_date($sub['data_inizio_supplenza'], SQL_DATE_STYLE, IT_DATE_STYLE, "/")." - ".format_date($sub['data_fine_supplenza'], SQL_DATE_STYLE, IT_DATE_STYLE, "/")." ({$sub['days']} giorni)", array("B" => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(200, 200, 200))), 0, 'L', 0, '', 0);
@@ -124,12 +124,12 @@ class PrimarySchoolTeacherRecordBookPDF extends TeacherRecordBookPDF{
 		$this->AddPage("P", "A4");
 		$this->_page++;
 		$this->setPage($this->_page, true);
-		$this->SetFont('times', 'B', '13');
+		$this->SetFont('helvetica', 'B', '13');
 		$this->Cell(95, 8, "Elenco alunni", 'B', 0, 'L', 0, '', 0);
 		$this->Cell(95, 8, "Esito finale", 'B', 0, 'L', 0, '', 0);
 		$this->Ln();
 		$this->Cell(0, 7, "", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('times', 'B', '11');
+		$this->SetFont('helvetica', 'B', '11');
 		foreach ($st_list as $k => $st){
 			$this->Cell(95, 7, $st['cognome']." ".$st['nome'], array("B" => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(200, 200, 200))), 0, 'L', 0, '', 0);
 			$this->Cell(95, 7, $st['esito'], array("B" => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(200, 200, 200))), 0, 'L', 0, '', 0);
@@ -148,13 +148,13 @@ class PrimarySchoolTeacherRecordBookPDF extends TeacherRecordBookPDF{
 		$this->AddPage("P", "A4");
 		$this->_page++;
 		$this->setPage($this->_page, true);
-		$this->SetFont('times', 'B', '11');
+		$this->SetFont('helvetica', 'B', '11');
 		$this->Cell(0, 12, "Valutazioni quadrimestrali", 'B', 1, 'C', 0, '', 0);
 		$this->Cell(91, 8, "Alunno", 'LRTB', 0, 'L', 0, '', 0);
 		$this->Cell(24, 8, "Voto", 'LRTB', 0, 'C', 0, '', 0);
 		$this->Cell(70, 8, "Comportamento", 'LRTB', 0, 'C', 0, '', 0);
 		$this->Ln();
-		$this->SetFont('times', 'B', '11');
+		$this->SetFont('helvetica', 'B', '11');
 		$this->Cell(91, 5, "", 'LRTB', 0, 'L', 0, '', 0);
 		$this->Cell(12, 5, "1Q", 'LRTB', 0, 'C', 0, '', 0);
 		$this->Cell(12, 5, "2Q", 'LRTB', 0, 'C', 0, '', 0);
@@ -190,7 +190,7 @@ class PrimarySchoolTeacherRecordBookPDF extends TeacherRecordBookPDF{
 			}
 			*/
 			$this->Cell(12, 5, $v2, 'LRTB', 0, 'C', 0, '', 0);
-			$this->SetFont('times', '', '10');
+			$this->SetFont('helvetica', '', '10');
 			if (isset($row['comp1q']) && $row['comp1q'] != ''){
 				$this->Cell(35, 5, $voti_comportamento_primaria[$row['comp1q']]['nome'], 'LRTB', 0, 'C', 0, '', 0);
 			}
