@@ -220,8 +220,7 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 				$this->SetFont('helvetica', '', '11');
 				setlocale(LC_TIME, "it_IT.UTF8");
 				list($y, $m, $d) = explode("-", $g['data']);
-				//$giorno_str = ucfirst(utf8_encode(strftime("%A %d", strtotime($g['data']))));
-				$giorno_str = format_date($g['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");			
+				$giorno_str = format_date($g['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
 				$this->Cell(30, 7, $giorno_str, 0, 0, 'L', 0, '', 0);
 				$voto = $g['voto'];
 				if ($voto == "impreparato"){
@@ -291,7 +290,6 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 				$this->SetFont('helvetica', '', '11');
 				setlocale(LC_TIME, "it_IT.UTF8");
 				list($y, $m, $d) = explode("-", $g['data']);
-				//$giorno_str = ucfirst(utf8_encode(strftime("%A %d", strtotime($g['data']))));
 				$giorno_str = format_date($g['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
 				$this->Cell(30, 7, $giorno_str, 0, 0, 'L', 0, '', 0);
 				$voto = $g['voto'];
