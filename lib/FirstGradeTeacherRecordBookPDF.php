@@ -2,6 +2,7 @@
 
 require_once "TeacherRecordBookPDF.php";
 require_once "RBUtilities.php";
+require_once 'Encoding.php';
 
 class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 	
@@ -232,7 +233,7 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 
 				$this->Cell(30, 7, $voto, 0, 0, 'L', 0, '', 0);
 				$this->SetFont('helvetica', '', '9');
-				$this->Cell(120, 7, $g['desc'], 0, 0, 'L', 0, '', 0);
+				$this->Cell(120, 7, \ForceUTF8\Encoding::fixUTF8($g['desc']), 0, 0, 'L', 0, '', 0);
 				$this->SetFont('helvetica', '', '11');
 				$this->Ln();
 			}
@@ -301,7 +302,7 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 				}
 				$this->Cell(30, 7, $voto, 0, 0, 'L', 0, '', 0);
 				$this->SetFont('helvetica', '', '9');
-				$this->Cell(120, 7, $g['desc'], 0, 0, 'L', 0, '', 0);
+				$this->Cell(120, 7, \ForceUTF8\Encoding::fixUTF8($g['desc']), 0, 0, 'L', 0, '', 0);
 				$this->SetFont('helvetica', '', '11');
 				$this->Ln();
 			}
@@ -378,7 +379,7 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 			$giorno_str = ucfirst(strftime("%A %d", strtotime($les['data'])));
 			$print_day = ($day != $les['data']) ? true : false;
 			$this->Cell(30, 5, $giorno_str, 0, 0, 'L', 0, '', 0);
-			$this->Cell(150, 5, $les['argomento'], 0, 0, 'L', 0, '', 0);
+			$this->Cell(150, 5, \ForceUTF8\Encoding::fixUTF8($les['argomento']), 0, 0, 'L', 0, '', 0);
 			$this->Ln();
 			$cy += 10;
 			$day = $les['data'];

@@ -6,6 +6,8 @@
  * Time: 23.08
  */
 
+require_once 'Encoding.php';
+
 class PrimarySchoolSupportTeacherRecordBookPDF extends PrimarySchoolTeacherRecordBookPDF {
 
 	private $student;
@@ -274,7 +276,7 @@ class PrimarySchoolSupportTeacherRecordBookPDF extends PrimarySchoolTeacherRecor
 				$this->Cell(180, 5, $giorno_str, array('B' => array('color' => array(108, 108, 108))), 1, 'L', 0, '', 0);
 				//$this->SetY($h);
 				$this->SetFont('helvetica', '', '11');
-				$this->MultiCell(0, 10, $les['attivita'], 0, 'L', 0, '1', 15, $this->GetY() + 2);
+				$this->MultiCell(0, 10, \ForceUTF8\Encoding::fixUTF8($les['attivita']), 0, 'L', 0, '1', 15, $this->GetY() + 2);
 				$h += $this->getLastH();
 				$h += 5;/*
 				if ($h > 250){
