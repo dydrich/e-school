@@ -14,10 +14,12 @@
 	<script type="text/javascript">
 		var cls = 0;
 		var sub = 0;
+		var $that = null;
 
 		var show_menu = function(e, idc, subj, offset){
 			if ($('#context_menu').is(":visible")) {
-				$('#context_menu').slideUp(400);
+				//$('#context_menu').slideUp(400);
+				$('#context_menu').trigger("mouseleave");
 				return false;
 			}
 			tempY = offset.top;
@@ -86,16 +88,37 @@
 			setOverlayEvent();
 			$('a.dlog').click(function(event){
 				//alert(this.id);
+				$(this).parent().css({
+					/* stampa registro */
+					backgroundColor: '#01579b',
+				});
+				$(this).css({
+					color: '#FFFFFF',
+					fontWeight: 'normal',
+					fontSize: '1.1em',
+					paddingLeft: '10px'
+				});
 				event.preventDefault();
 				idc = $(this).attr("data-idc");
 				subj = $(this).attr("data-subj");
 				offset = $(this).parent().offset();
 				offset.top += $(this).parent().height();
+				$that = $(this);
 				show_menu(event, idc, subj, offset);
 			});
 			$('#context_menu').mouseleave(function(event){
 				event.preventDefault();
-				$(this).hide();
+				$(this).slideUp(400);
+				$that.parent().css({
+					/* stampa registro */
+					backgroundColor: '',
+				});
+				$that.css({
+					color: '',
+					fontWeight: 'normal',
+					fontSize: '1em',
+					paddingLeft: '0'
+				});
 			})
 		});
 	</script>
