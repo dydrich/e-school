@@ -183,21 +183,21 @@
 				if (voto > 5) {
 					if (sesso == "M") {
 						esito = 1;
-						s_esito = "Licenziato";
+						s_esito = "Esito positivo";
 					}
 					else {
 						esito = 2;
-						s_esito = "Licenziata";
+						s_esito = "Esito positivo";
 					}
 				}
 				else {
 					if (sesso == "M") {
 						esito = 3;
-						s_esito = "Non licenziato";
+						s_esito = "Esito negativo";
 					}
 					else {
 						esito = 4;
-						s_esito = "Non licenziata";
+						s_esito = "Esito negativo";
 					}
 				}
 				set_grade(id_voto, id_alunno, voto);
