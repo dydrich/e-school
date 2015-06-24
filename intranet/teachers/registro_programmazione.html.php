@@ -65,10 +65,10 @@
 					}
 					else if(json.status == "ko") {
 						j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore all'amministratore del sistema");
-						return;
 					}
 					else {
 						j_alert("alert", json.message)
+						$('#dwnl').attr("href", json.href);
 						$('#dwnl > span').text("(ultima modifica il "+json.date+" alle "+json.time+ ")");
 					}
 				}
