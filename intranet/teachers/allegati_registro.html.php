@@ -76,6 +76,7 @@
 
 		var loading_done = function() {
 			loaded("File caricato");
+			$('#noatt').hide();
 		};
 
 		$(function(){
@@ -112,7 +113,7 @@
 			<?php 
 			if (count($allegati) < 1){
 			?>
-			Nessun allegato presente.
+			<p id="noatt">Nessun allegato presente.</p>
 			<?php
 			}
 			else{
