@@ -201,7 +201,7 @@ class FirstGradeSupportTeacherRecordBookPDF extends FirstGradeTeacherRecordBookP
 		$this->SetFont('helvetica', 'B', '13');
 		$this->Cell(180, 10, "Difficolta prevalenti", array('B' => array('color' => array(68, 68, 68))), 1, 'L', 0, '', 0);
 		$this->SetFont('', '', '12');
-		$this->MultiCell(180, 70, $this->student['sostegno']['difficolta_prevalenti'], 0, 'L', 0, 1);
+		$this->MultiCell(180, 70, \ForceUTF8\Encoding::fixUTF8($this->student['sostegno']['difficolta_prevalenti']), 0, 'L', 0, 1);
 		$this->Cell(0, 10, "", 0, 1, 'C', 0, '', 0);
 		$this->SetFont('helvetica', 'B', '13');
 		$this->Cell(180, 10, "Terapia", array('B' => array('color' => array(68, 68, 68))), 1, 'L', 0, '', 0);
@@ -243,21 +243,21 @@ class FirstGradeSupportTeacherRecordBookPDF extends FirstGradeTeacherRecordBookP
 
 		}
 		$this->AddPage("P", "A4");
-		$this->setPage(5, true);
-		$this->_page++;
+		//$this->setPage(5, true);
+		//$this->_page++;
 		$this->SetFont('helvetica', 'B', '15');
 		$this->Cell(0, 15, "Informazioni medico-diagnostiche", array('BLRT' => array('color' => array(168, 168, 168))), 1, 'C', 1, '', 0);
 		$this->Cell(0, 5, "", 0, 1, 'C', 0, '', 0);
 		$this->SetFont('helvetica', 'B', '13');
 		$this->Cell(180, 10, "Profilo dinamico-funzionale", array('B' => array('color' => array(68, 68, 68))), 1, 'L', 0, '', 0);
 		$this->SetFont('', '', '12');
-		$this->MultiCell(180, 0, $this->student['sostegno']['profilo'], 0, 'L', 0, 1);
+		$this->MultiCell(180, 0, \ForceUTF8\Encoding::fixUTF8($this->student['sostegno']['profilo']), 0, 'L', 0, 1);
 	}
 
 	protected function activities(){
 		$this->AddPage("P", "A4");
-		$this->_page = 6;
-		$this->setPage(6, true);
+		//$this->_page = 6;
+		//$this->setPage(6, true);
 		$this->SetFont('helvetica', 'B', '15');
 		$this->SetFillColor(246, 246, 246);
 		$this->Cell(0, 15, "Elenco attivita svolte", array('BLRT' => array('color' => array(168, 168, 168))), 1, 'C', 1, '', 0);
