@@ -70,7 +70,7 @@
 						return;
 					}
 					else {
-						$('#background_msg').text("Il registro è stato creato");
+						loaded("Il registro è stato creato");
 						timeout = 3;
 					}
 				}
@@ -96,7 +96,6 @@
 			})
 		});
 
-		var loaded = false;
 	</script>
 </head>
 <body>
