@@ -4,10 +4,18 @@ require_once "../../lib/start.php";
 require_once "../../lib/PageMenu.php";
 
 check_session();
-check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
+check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM|SEG_PERM);
 
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "../";
+
+/*
+ * accesso da segreteria
+ */
+$menu = "../adm_users/menu.php";
+if (isset($_SESSION['area_from'])) {
+	$menu = $_SESSION['area_from']['menu'];
+}
 
 if(!isset($_REQUEST['offset'])){
     $offset = 0;
@@ -174,6 +182,7 @@ $count_name = "count_alunni";
 $row_class = "admin_void";
 
 $navigation_label = "gestione utenti";
+if (isset($_SESSION['area_from'])) $navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 $drawer_label = "Elenco alunni: pagina $page di $pagine (estratti ".$_SESSION['count_alunni']." alunni) "; //<span style='text-decoration: underline'>$query_label</span>";
 
 include "alunni.html.php";

@@ -4,19 +4,19 @@
 	if (isset($_SESSION['__school_order__'])){
 	?>
 	<ul class="menublock" style="" dir="rtl">
-		<li><a href="elenco_docenti.php">Docenti</a></li>
-		<li><a href="supplenze.php">Supplenze</a></li>
-		<li><a href="elenco_alunni.php">Alunni</a></li>
-		<li><a href="sostegno.php">Sostegno</a></li>
-		<li><a href="elenco_classi.php">Classi</a></li>
-		<li><a href="pagelle.php">Pagelle online</a></li>
-		<li><a href="gestione_scrutini.php">Gestione scrutini</a></li>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>elenco_docenti.php">Docenti</a></li>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>supplenze.php">Supplenze</a></li>
+		<li><a href="../../admin/adm_students/alunni.php?area_from=SEG">Alunni</a></li>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>sostegno.php">Sostegno</a></li>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>elenco_classi.php">Classi</a></li>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>pagelle.php">Pagelle online</a></li>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>gestione_scrutini.php">Gestione scrutini</a></li>
 	</ul>
 	<p class="menu_label act_icon">Registro di classe</p>
 	<ul class="menublock" style="" dir="rtl">
-		<li><a href="registro.php?do=cls">Riepilogo classi</a></li>
-		<li><a href="registro.php?do=abs">Alunni a rischio</a></li>
-		<li><a href="stampa_registri.php">Registri PDF</a></li>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>registro.php?do=cls">Riepilogo classi</a></li>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>registro.php?do=abs">Alunni a rischio</a></li>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>stampa_registri.php">Registri PDF</a></li>
 	</ul>
 	<?php 
 	}

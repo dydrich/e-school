@@ -3,10 +3,18 @@
 require_once "../../lib/start.php";
 
 check_session(FAKE_WINDOW);
-check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
+check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM|SEG_PERM);
 
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "../";
+
+/*
+ * accesso da segreteria
+ */
+$menu = "../adm_users/menu.php";
+if (isset($_SESSION['area_from'])) {
+	$menu = $_SESSION['area_from']['menu'];
+}
 
 $back_link = "alunni.php";
 $offset = 0;
@@ -50,5 +58,6 @@ else{
 }
 
 $navigation_label = "gestione utenti";
+if (isset($_SESSION['area_from'])) $navigation_label = setNavigationLabel($_SESSION['__school_order__']);
 
 include "dettaglio_alunno.html.php";

@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Dettaglio alunno</title>
+	<link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link href="../../css/general.css" rel="stylesheet" />
 	<link href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" rel="stylesheet" />
@@ -237,7 +238,7 @@
 <?php include "../navigation.php" ?>
 <div id="main">
 	<div id="right_col">
-		<?php include "../adm_users/menu.php" ?>
+		<?php include $menu ?>
 	</div>
 	<div id="left_col">
 		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">

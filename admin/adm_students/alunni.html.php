@@ -111,7 +111,7 @@
 <?php include "../navigation.php" ?>
 <div id="main">
 	<div id="right_col">
-		<?php include "../adm_users/menu.php" ?>
+		<?php include $menu ?>
 	</div>
 	<div id="left_col">
 		<div style="position: absolute; top: 75px; left: 53%; margin-bottom: -5px" class="rb_button">

@@ -6,7 +6,7 @@ require_once "../../lib/start.php";
 ini_set("display_errors", DISPLAY_ERRORS);
 
 check_session(AJAX_CALL);
-check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
+check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM|SEG_PERM);
 
 header("Content-type: application/json");
 $response = array("status" => "ok", "message" => "Password modificata");
