@@ -15,5 +15,11 @@
 	</div>
 	<p class="errormessage" id="errormessage"></p>
 </div>
-<div id='background_msg' style='width: 200px; text-align: center; font-size: 12px; font-weight: bold; padding-top: 30px; margin: auto'></div>
+<div id='background' class="alert_msg" style='display: none'>
+	<div class="alert_title">
+		<i class="fa fa-spin fa-circle-o-notch"></i>
+		<span>Attendi...</span>
+	</div>
+	<p id="background_msg" class="alertmessage"></p>
+</div>
 <div class="overlay" id="overlay" style="display:none;"></div>

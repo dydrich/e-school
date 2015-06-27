@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<title>Gestione record registro di classe</title>
+	<link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../css/general.css" type="text/css" />
 	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
@@ -59,12 +60,11 @@
 
 		var do_action = function(action){
 			var url = "classbook_manager.php";
-			//leftS = (screen.width - 200) / 2;
-			//$('wait_label').setStyle({left: leftS+"px"});
-			//$('wait_label').setStyle({top: "300px"});
-			//$('wait_label').update("Operazione in corso");
-			//$('over1').show();
-			//$('wait_label').appear({duration: 0.8});
+			if (action == "delete" || action == "reinsert") {
+				if (!confirm("Sei sicuro? Con questa operazione tutti i dati in archivio verranno cancellati")) {
+					return false;
+				}
+			}
 			background_process("Operazione in corso", 20, true);
 
 			$.ajax({
@@ -99,10 +99,10 @@
 						console.log(json.dbg_message);
 					}
 					else {
-						$('#background_msg').text("Operazione conclusa");
+						loaded("Operazione conclusa");
 						setTimeout(function() {
 							document.location.href = document.location.href;
-						}, 1500);
+						}, 500);
 					}
 				}
 			});
