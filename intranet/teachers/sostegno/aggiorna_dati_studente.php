@@ -2,6 +2,7 @@
 
 require_once "../../../lib/start.php";
 require_once "../../../lib/SessionUtils.php";
+require_once "../../../lib/Encoding.php";
 
 ini_set("display_errors", DISPLAY_ERRORS);
 
@@ -36,7 +37,10 @@ switch ($_POST['area']) {
 		break;
 	case "profilo":
 		$diff = $db->real_escape_string($_POST['diff']);
-		$profile = $db->real_escape_string($_POST['profile']);
+		$diff = preg_replace("/’/", "'", $diff);
+
+		$profile = preg_replace("/’/", "'", $_POST['profile']);
+		$profile = $db->real_escape_string($profile);
 		if ($_POST['idd'] == 0){
 			$statement = "INSERT INTO rb_dati_sostegno (alunno, difficolta_prevalenti, profilo) VALUES ({$_SESSION['__sp_student__']['alunno']}, '{$diff}', '{$profile}')";
 		}
