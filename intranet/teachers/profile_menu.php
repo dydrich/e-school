@@ -10,9 +10,9 @@
 	<p class="menu_label schedule_icon">Didattica</p>
 	<ul class="menublock" style="" dir="rtl">
 		<?php if (27 != $_SESSION['__user__']->getSubject() && 41 != $_SESSION['__user__']->getSubject()): ?>
-		<li><a href="stampa_registro.php" style="text-decoration: none">Stampa registro</a></li>
+		<li><a href="stampa_registro.php" style="text-decoration: none">Registri PDF</a></li>
 		<?php else : ?>
-			<li><a href="stampa_registro_sostegno.php" style="text-decoration: none">Stampa registro</a></li>
+			<li><a href="stampa_registro_sostegno.php" style="text-decoration: none">Registri PDF</a></li>
 		<?php endif; ?>
 		<?php if (27 != $_SESSION['__user__']->getSubject() && 41 != $_SESSION['__user__']->getSubject() && isset($_SESSION['__user_config__']['registro_obiettivi'][0]) && 1 == $_SESSION['__user_config__']['registro_obiettivi'][0]): ?>
 		<li><a href="obiettivi.php" style="text-decoration: none">Obiettivi didattici</a></li>
