@@ -419,7 +419,7 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 			$giorno_str = ucfirst(strftime("%A %d", strtotime($les['data'])));
 			$print_day = ($day != $les['data']) ? true : false;
 			$this->Cell(30, 5, $giorno_str, 0, 0, 'L', 0, '', 0);
-			$this->Cell(150, 5, utf8_decode(stripslashes($les['argomento'])), 0, 0, 'L', 0, '', 0);
+			$this->Cell(150, 5, \ForceUTF8\Encoding::fixUTF8($les['argomento']), 0, 0, 'L', 0, '', 0);
 			$this->Ln();
 			$absents = array();
 			$part_absents = array();

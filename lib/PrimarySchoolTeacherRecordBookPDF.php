@@ -356,7 +356,7 @@ class PrimarySchoolTeacherRecordBookPDF extends TeacherRecordBookPDF{
 			$giorno_str = ucfirst(utf8_encode(strftime("%A %d", strtotime($les['data']))));
 			$print_day = ($day != $les['data']) ? true : false;
 			$this->Cell(30, 5, $giorno_str, 0, 0, 'L', 0, '', 0);
-			$this->Cell(150, 5, utf8_decode(stripslashes($les['argomento'])), 0, 0, 'L', 0, '', 0);
+			$this->Cell(150, 5, \ForceUTF8\Encoding::fixUTF8($les['argomento']), 0, 0, 'L', 0, '', 0);
 			$this->Ln();
 			$absents = array();
 			$part_absents = array();
@@ -389,7 +389,7 @@ class PrimarySchoolTeacherRecordBookPDF extends TeacherRecordBookPDF{
 		$this->SetFont('helvetica', '', '10');
 		if (count($this->att) > 0){
 			foreach ($this->att as $row){
-				$this->Cell(180, 6, ucfirst(utf8_decode($row['file'])), 0, 1, 'L', 0, '', 0, 0, '', 'C');
+				$this->Cell(180, 6, ucfirst(\ForceUTF8\Encoding::fixUTF8($row['file'])), 0, 1, 'L', 0, '', 0, 0, '', 'C');
 			}
 		}
 	}

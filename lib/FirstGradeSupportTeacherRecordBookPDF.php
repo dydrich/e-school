@@ -199,7 +199,7 @@ class FirstGradeSupportTeacherRecordBookPDF extends FirstGradeTeacherRecordBookP
 		$this->Cell(0, 15, "Informazioni medico-diagnostiche", array('BLRT' => array('color' => array(168, 168, 168))), 1, 'C', 1, '', 0);
 		$this->Cell(0, 5, "", 0, 1, 'C', 0, '', 0);
 		$this->SetFont('helvetica', 'B', '13');
-		$this->Cell(180, 10, "Difficolta prevalenti", array('B' => array('color' => array(68, 68, 68))), 1, 'L', 0, '', 0);
+		$this->Cell(180, 10, "Difficoltà prevalenti", array('B' => array('color' => array(68, 68, 68))), 1, 'L', 0, '', 0);
 		$this->SetFont('', '', '12');
 		$this->MultiCell(180, 70, \ForceUTF8\Encoding::fixUTF8($this->student['sostegno']['difficolta_prevalenti']), 0, 'L', 0, 1);
 		$this->Cell(0, 10, "", 0, 1, 'C', 0, '', 0);
