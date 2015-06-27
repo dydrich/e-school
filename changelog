@@ -1,3 +1,136 @@
+4.4.165
+codice per l'eliminazione dell'apostrofo di word, che manda in tilt TCPDF, in teachers/sostegno/aggiorna_dati_studente.php
+
+4.4.164
+StudentManager: deleteStudent: modifica per permettere il passaggio di una stringa da inserire nel campo password (default: trasferito)
+StudentManager: insertStudent: modifica per aggiornare uid e uniqID
+
+4.4.163
+j_alert in admin
+bug fix utf8
+pulizia codice
+
+4.4.162
+(communication): j_alert
+(communication): bug fix
+(communication): nuova grafica in files.php
+
+4.4.161
+(documents): bug fix per RBFile in document_manager.php
+(documents): j_alert in upload_manager.php
+
+4.4.160
+usabilita`: eliminazione voce Nessun file presente all'inserimento del primo allegato in allegati_registro.php
+
+4.4.159
+bug fix
+
+4.4.158
+uso di Encoding per controllare le stringhe UTF8 nel registro personale
+
+4.4.157
+eliminazione non ammessi dalla stampa elenco esiti esame
+modifica voci di esito esame
+
+4.4.156
+miglioramento dell'usabilita` in stampa_registro.php (teachers), con indicazione grafica del registro sul quale si sta lavorando
+
+4.4.155
+nuova grafica j_alert (issue #90)
+gestione stampa registri classe (issue #101)
+sistemazione stampa registri classe (issue #100)
+bug fix
+
+4.4.154
+correzione errata visualizzazione alunni non ammessi in esiti_esame.php
+
+4.4.153
+bug fix
+eliminazione font times dai registri di sostegno
+
+4.4.152
+vari bug fix
+
+4.4.151
+bug fix gestione pagelle alunni inseriti nel secondo quadrimestre
+
+4.4.150
+gestione file bzip in MimeType
+
+4.4.149
+bug fixes (utf_decode non serve in TCPDF) in stampa registro di sostegno e personale
+
+4.4.148
+gestione esiti esame conclusivo del primo ciclo (issue #102)
+
+4.4.147
+bug fix in PrimarySchoolReportPDF
+
+4.4.146
+bug fix times font in ReportPDF
+
+4.4.145
+bug fix pagelle primaria
+
+4.4.144
+nuova funzione che restituisce il cdc di una classe passata come parametro e utilizzo in area genitori e manager
+
+4.4.143
+collegamento della ricerca a evento invio in cerca_pagella.php, area docenti
+
+4.4.142
+bug fix font times in ReportPDF, PrimarySchoolReportPDF
+
+4.4.141
+(communication): bug fix in news.php
+(communication): pulsante back in event.php
+
+4.4.140
+bug fix: campo telefono1 in stampa registro di sostegno
+
+4.4.139
+archivio scrutini anni precedenti (issue #94)
+
+4.4.138
+confronto scrutini in riepilogo (docenti con almeno 2 materie in pagella) (issue #93)
+
+4.4.137
+(documents): bug fix
+(documents): bug fix (modifica file)
+
+4.4.136
+(documents): completato il passaggio al nuovo sistema di notifiche con la correzione dei messaggi
+(documents): code cleaning
+
+4.4.135
+pulsanti float in documents
+
+4.4.134
+aggiustamento grafico pulsante media in student.php
+
+4.4.133
+utilizzo di jqueryui per checkbox e radio
+
+4.4.132
+ticker container per eliminare il ridimensionamento della pagina creato dal widget hilighted_docsflow in caso di pochi documenti
+(documents): calcolo dinamico delle dimensioni del widget highlighteddocsflow
+
+4.4.131
+bug fix (esiti in scrutini_classe)
+grafica menu esiti in scrutini_classe
+
+4.4.130
+bug fix (alert in genitori_inattivi)
+
+4.4.129
+bug fix (referer in adm/parents/dettaglio_genitore) #89
+
+4.4.128
+bug fix (utf8 in common/voti) #88
+
+4.4.127
+sistemazione css (issue #86)
+
 4.4.126
 (communication): bug fix in w_events
 
