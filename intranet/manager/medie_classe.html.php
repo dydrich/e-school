@@ -24,73 +24,80 @@
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
-<table class="manager_table" style="width: 99%; margin: 10px auto 0 auto">
-<thead>
-<tr style="height: 35px">
-	<td colspan="<?php echo $num_colonne ?>" style="font-weight: normal; text-align: left">
-		<div class="rowcard" style="width: 75%; height: 20px; margin-left: 20px"><span id="ingresso" style="font-weight: normal; "><?php print $_SESSION['__classe__']->to_string() ?></span>::Quadro riassuntivo della classe</div>
-	</td>
-</tr>
-<tr class="manager_row_small">
-	<td style="width: <?php echo $first_column_width ?>%; font-weight: bold; padding-left: 12px">Alunno</td>
-	<?php 
-	foreach ($materie as $materia){
+	<table class="manager_table" style="width: 99%; margin: 10px auto 0 auto">
+	<thead>
+	<tr style="height: 35px">
+		<td colspan="<?php echo $num_colonne ?>" style="font-weight: normal; text-align: left">
+			<div class="rowcard" style="width: 75%; height: 20px; margin-left: 20px"><span id="ingresso" style="font-weight: normal; "><?php print $_SESSION['__classe__']->to_string() ?></span>::Quadro riassuntivo della classe</div>
+		</td>
+	</tr>
+	<tr class="manager_row_small">
+		<td style="width: <?php echo $first_column_width ?>%; font-weight: bold; padding-left: 12px">Alunno</td>
+		<?php
+		foreach ($materie as $materia){
+		?>
+		<td <?php if($materia['id_materia'] == 1111) print ("rowspan='2'") ?> style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold"><?php echo strtoupper(substr($materia['materia'], 0, 3)) ?></td>
+		<?php
+		}
+		?>
+	</tr>
+	</thead>
+	<tbody>
+	<?php
+	$idx = 1;
+	foreach ($alunni as $al){
+		$student_sum = 0;
+		$num_materie = $res_materie->num_rows;
 	?>
-	<td <?php if($materia['id_materia'] == 1111) print ("rowspan='2'") ?> style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold"><?php echo strtoupper(substr($materia['materia'], 0, 3)) ?></td>
-	<?php 
+	<tr class="bottom_decoration">
+		<td style="width: <?php print $first_column_width ?>%; padding-left: 8px; font-weight:normal;">
+			<?php if($idx < 10) print "&nbsp;&nbsp;"; ?><?php echo $idx.". " ?>
+			<span style="font-weight: normal"><?php print $al['cognome']." ".substr($al['nome'], 0, 1) ?> (</span><span class="<?php if(isset($al['media']) && $al['media'] < 6 && $al['media'] > 0) print("attention") ?> _bold"><?php if(isset($al['media'])) echo $al['media'] ?></span>)
+		</td>
+		<?php
+		reset($materie);
+		$voti_religione = RBUtilities::getReligionGrades();
+		foreach ($materie as $materia){
+			if (isset($al['voti'][$materia['id_materia']])) {
+				$avg = $al['voti'][$materia['id_materia']];
+				if ($materia['id_materia'] == 26 || $materia['id_materia'] == 30) {
+					$avg = substr($voti_religione[RBUtilities::convertReligionGrade($avg)], 0, 3);
+				}
+			}
+			else {
+				$avg = "";
+			}
+		?>
+		<td style="width: <?php echo $column_width ?>%; text-align: center; font-weight: normal;"><span class="<?php if($avg != "" && $avg < 6 && $avg > 0) print("attention") ?>"><?php echo $avg ?></span></td>
+	<?php
+		}
+		$idx++;
+		echo "</tr>";
 	}
 	?>
-</tr>
-</thead>
-<tbody>
-<?php 
-$idx = 1;
-foreach ($alunni as $al){
-	$student_sum = 0;
-	$num_materie = $res_materie->num_rows;
-?>
-<tr class="bottom_decoration">
-	<td style="width: <?php print $first_column_width ?>%; padding-left: 8px; font-weight:normal;">
-		<?php if($idx < 10) print "&nbsp;&nbsp;"; ?><?php echo $idx.". " ?>
-		<span style="font-weight: normal"><?php print $al['cognome']." ".substr($al['nome'], 0, 1) ?> (</span><span class="<?php if(isset($al['media']) && $al['media'] < 6 && $al['media'] > 0) print("attention") ?> _bold"><?php if(isset($al['media'])) echo $al['media'] ?></span>)
-	</td>
-	<?php 
+	</tbody>
+	<tfoot>
+	<tr class="bottom_decoration" style="height: 30px">
+		<td style="width: <?php print $first_column_width ?>%; padding-left: 8px; font-weight:bold">Media classe</td>
+	<?php
 	reset($materie);
 	foreach ($materie as $materia){
-		if (isset($al['voti'][$materia['id_materia']])) {
-			$avg = $al['voti'][$materia['id_materia']];
+		$sel_voti = "SELECT ROUND(AVG(voto), 2) FROM rb_voti, rb_alunni WHERE alunno = id_alunno AND id_classe = ".$_SESSION['__classe__']->get_ID()." AND materia = ".$materia['id_materia']." AND anno = ".$_SESSION['__current_year__']->get_ID()." $int_time ";
+		try{
+			$class_avg = $db->executeCount($sel_voti);
+		} catch (MySQLException $ex){
+			$ex->redirect();
 		}
-		else {
-			$avg = "";
+		if ($materia['id_materia'] == 26 || $materia['id_materia'] == 30) {
+			$class_avg = substr($voti_religione[RBUtilities::convertReligionGrade($class_avg)], 0, 3);
 		}
 	?>
-	<td style="width: <?php echo $column_width ?>%; text-align: center; font-weight: normal;"><span class="<?php if($avg != "" && $avg < 6 && $avg > 0) print("attention") ?>"><?php echo $avg ?></span></td>
-<?php
+		<td style="width: <?php echo $column_width ?>%; text-align: center; border-bottom: rgba(30, 67, 137, .3); font-weight: bold"><span class="<?php if($class_avg < 6 && $class_avg > 0) print("attention") ?>"><?php echo $class_avg ?></span></td>
+	<?php
 	}
-	$idx++;
-	echo "</tr>";
-}
-?>
-</tbody>
-<tfoot>
-<tr class="bottom_decoration" style="height: 30px">
-	<td style="width: <?php print $first_column_width ?>%; padding-left: 8px; font-weight:bold">Media classe</td>
-<?php 
-reset($materie);
-foreach ($materie as $materia){
-	$sel_voti = "SELECT ROUND(AVG(voto), 2) FROM rb_voti, rb_alunni WHERE alunno = id_alunno AND id_classe = ".$_SESSION['__classe__']->get_ID()." AND materia = ".$materia['id_materia']." AND anno = ".$_SESSION['__current_year__']->get_ID()." $int_time ";
-	try{
-		$class_avg = $db->executeCount($sel_voti);
-	} catch (MySQLException $ex){
-		$ex->redirect();
-	}
-?>
-	<td style="width: <?php echo $column_width ?>%; text-align: center; border-bottom: rgba(30, 67, 137, .3); font-weight: bold"><span class="<?php if($class_avg < 6 && $class_avg > 0) print("attention") ?>"><?php echo $class_avg ?></span></td>
-<?php 
-}
-?>
-</tr>
-</tfoot>
+	?>
+	</tr>
+	</tfoot>
 </table>
 	<div class="navigate" style="margin-bottom: 30px">
 	<a href="medie_classe.php?cls=<?php echo $_REQUEST['cls'] ?>&q=1" style="color: #000000; vertical-align: middle; text-transform: uppercase; text-decoration: none; margin-right: 8px;">
