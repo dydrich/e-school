@@ -41,8 +41,8 @@ class StudentManager
 		}
 	}
 	
-	public function deleteStudent(){
-		$this->datasource->executeUpdate("UPDATE rb_alunni SET attivo = '0', password = 'NON ATTIVO', id_classe = NULL WHERE id_alunno = {$this->student->getUid()}");
+	public function deleteStudent($reason = "TRASFERITO"){
+		$this->datasource->executeUpdate("UPDATE rb_alunni SET attivo = '0', password = '{$reason}', id_classe = NULL WHERE id_alunno = {$this->student->getUid()}");
 	}
 	
 	public function updateAccount(){
@@ -67,15 +67,16 @@ class StudentManager
 		$sex = $this->student->getSex();
 		$birthday = $this->student->getBirthday();
 		$cf = $this->student->getCf();
-		$alunno = $this->student->getUid();
 		$uname = $this->getStudent()->getUsername();
 		$pwd = $this->getStudent()->getPwd();
 		$id_classe = $this->student->getClass();
 		$luogo_nascita = $this->student->getBirthPlace();
 		$uid = $this->datasource->executeUpdate("INSERT INTO rb_alunni (username, password, nome, cognome, data_nascita, luogo_nascita, codice_fiscale, id_classe, sesso) VALUES ('{$uname}', '{$pwd}', '{$fname}', '{$lname}', ".field_null($birthday, true).", ".field_null($luogo_nascita, true).", ".field_null($cf, true).", {$id_classe}, '{$sex}')");
 		if (is_installed("com")) {
-			$this->datasource->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_alunni', 'student')");
+			$uniqID = $this->datasource->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_alunni', 'student')");
+			$this->student->setUniqID($uniqID);
 		}
+		$this->student->setUid($uid);
 	}
 	
 	public function updateStudent(){
