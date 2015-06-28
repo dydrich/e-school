@@ -139,19 +139,14 @@ class StudentManager
 		$alunno = $this->student->getUid();
 		$subjects = $this->getSubjects($id_anno, $quadrimestre, $id_classe);
 		foreach($subjects as $subject){
-			if($quadrimestre == 1){
-				$this->datasource->executeUpdate("INSERT INTO rb_scrutini (alunno, classe, anno, quadrimestre, materia) VALUES ({$alunno}, {$id_classe}, {$id_anno}, 1, {$subject})");
-			}
+			$this->datasource->executeUpdate("INSERT INTO rb_scrutini (alunno, classe, anno, quadrimestre, materia) VALUES ({$alunno}, {$id_classe}, {$id_anno}, 1, {$subject})");
 			$this->datasource->executeUpdate("INSERT INTO rb_scrutini (alunno, classe, anno, quadrimestre, materia) VALUES ({$alunno}, {$id_classe}, {$id_anno}, 2, {$subject})");
 		}
 		/* report data */
 		$desc_class = $this->datasource->executeCount("SELECT CONCAT(anno_corso, sezione) FROM rb_classi WHERE id_classe = {$id_classe}");
-		if($quadrimestre == 1){
-			$pub = $this->datasource->executeQuery("SELECT id_pagella FROM rb_pubblicazione_pagelle WHERE anno = {$id_anno}");
-		}
-		else{
-			$pub = $this->datasource->executeQuery("SELECT id_pagella FROM rb_pubblicazione_pagelle WHERE anno = {$id_anno} AND quadrimestre = 2");
-		}
+		$pub = array();
+		$pub[] = $this->datasource->executeQuery("SELECT id_pagella FROM rb_pubblicazione_pagelle WHERE anno = {$id_anno}");
+		$pub[] = $this->datasource->executeQuery("SELECT id_pagella FROM rb_pubblicazione_pagelle WHERE anno = {$id_anno} AND quadrimestre = 2");
 		foreach ($pub as $d){
 			$this->datasource->executeUpdate("INSERT INTO rb_pagelle (id_pubblicazione, id_alunno, id_classe, desc_classe) VALUES ({$d}, {$alunno}, {$id_classe}, '{$desc_class}')");
 		}
@@ -207,7 +202,7 @@ class StudentManager
 			$pub = $this->datasource->executeQuery("SELECT id_pagella FROM rb_pubblicazione_pagelle WHERE anno = {$id_anno} AND quadrimestre = 2");
 		}
 		foreach ($pub as $d){
-			$this->datasource->executeUpdate("UPDATE rb_pagelle SET id_classe = {$id_classe}, desc_classe = '{$desc_classe}' WHERE id_alunno = {$alunno}");
+			$this->datasource->executeUpdate("UPDATE rb_pagelle SET id_classe = {$id_classe}, desc_classe = '{$desc_classe}' WHERE id_alunno = {$alunno} AND id_pubblicazione = $d");
 		}
 	}
 	
