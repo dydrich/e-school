@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../../js/page.js"></script>
 	<script type="text/javascript">
+		var main = 0;
 		$(function(){
 			load_jalert();
 			setOverlayEvent();
@@ -32,6 +33,19 @@
 				$('#action').val("upd");
 				$('#idp').val($(this).attr("data-id"));
 				save();
+			});
+			$('.main_check').change(function(event) {
+				$id = $(this).data("id");
+				if ($(this).prop("checked") == true) {
+					$('#main_p').val($id);
+					$('label').css({fontWeight: "normal"});
+					$('label[for="main_'+$id+'"]').css({fontWeight: "bold"});
+					$('.main_check').each(function(event){
+						if ($(this).data("id") != $id) {
+							$(this).prop("checked", false);
+						}
+					});
+				}
 			});
 		});
 
@@ -107,6 +121,7 @@
 		<form id="testform" method="post" class="no_border">
 			<input type="hidden" id="action" name="action" />
 			<input type="hidden" id="idp" name="idp" />
+			<input type="hidden" id="main_p" name="main_p" />
 			<input type="hidden" id="stid" name="stid" value="<?php echo $_REQUEST['stid'] ?>" />
 			<fieldset class="wd_90 _elem_center">
 				<legend>Telefono</legend>
@@ -130,8 +145,8 @@
 									<div class="wd_45 fleft"><input type="text" id="number_<?php echo $numbr['id'] ?>" name="number_<?php echo $numbr['id'] ?>" class="wd_95 android" value="<?php echo $numbr['telefono'] ?>" /></div>
 									<div class="wd_5 fleft"> </div>
 									<div class="wd_25 fleft">
-										<label for="main_phone">Principale</label>
-										<input type="checkbox" name="main_phone_<?php echo $numbr['id'] ?>" id="main_phone_<?php echo $numbr['id'] ?>" value="1" />
+										<label for="main_<?php echo $numbr['id'] ?>">Principale</label>
+										<input type="checkbox" class="main_check" data-id="<?php echo $numbr['id'] ?>" name="main_<?php echo $numbr['id'] ?>" id="main_<?php echo $numbr['id'] ?>" value="<?php echo $numbr['id'] ?>" <?php if ($numbr['principale'] == 1) echo "checked='checked'" ?> />
 									</div>
 									<div class="wd_20 fleft">Descrizione</div>
 									<div class="wd_70 fleft"><input type="text" id="desc_<?php echo $numbr['id'] ?>" name="desc_<?php echo $numbr['id'] ?>" class="wd_95 android" value="<?php echo $numbr['descrizione'] ?>" /></div>

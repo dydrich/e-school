@@ -18,8 +18,8 @@ $_SESSION['__path_to_reg_home__'] = "../";
 $stid = $_REQUEST['stid'];
 
 $main = 0;
-if (isset($_REQUEST['main_phone']) && $_REQUEST['main_phone'] == 1) {
-	$main = 1;
+if (isset($_REQUEST['main_p']) && $_REQUEST['main_p'] != 0) {
+	$main = $_REQUEST['main_p'];
 }
 
 $response = array("status" => "ok", "message" => "Operazione completata");
@@ -29,8 +29,7 @@ switch ($_REQUEST['action']) {
 	case "new":
 		$number = $db->real_escape_string($_REQUEST['number']);
 		$desc = $db->real_escape_string($_REQUEST['desc']);
-		$main = 0;
-		$sql = "INSERT INTO rb_telefoni_alunni (id_alunno, telefono, descrizione, principale) VALUES ($stid, '$number', '$desc', $main)";
+		$sql = "INSERT INTO rb_telefoni_alunni (id_alunno, telefono, descrizione, principale) VALUES ($stid, '$number', '$desc', 0)";
 		break;
 	case "del":
 		$idp = $_REQUEST['idp'];
@@ -48,9 +47,13 @@ switch ($_REQUEST['action']) {
 }
 
 try {
-	$new = $db->executeUpdate($sql);
-	if ($_REQUEST['action'] == "new" && $main == 1) {
-		$db->executeUpdate("UPDATE rb_telefoni_alunni SET principale = 0 WHERE id_alunno = $stid AND id <> $new");
+	$idp = $db->executeUpdate($sql);
+	if ($_REQUEST['action'] == "new" && isset($_REQUEST['main_phone']) && $_REQUEST['main_phone'] == 1) {
+		$main = $idp;
+	}
+	if ($_REQUEST['action'] != "del" && $main != 0) {
+		$db->executeUpdate("UPDATE rb_telefoni_alunni SET principale = 0 WHERE id_alunno = $stid");
+		$db->executeUpdate("UPDATE rb_telefoni_alunni SET principale = 1 WHERE id_alunno = $stid AND id = $main");
 	}
 } catch (MySQLException $ex) {
 	$response['status'] = "kosql";
@@ -61,8 +64,10 @@ try {
 	exit;
 }
 
-$res['phone'] = $number;
-$res['desc'] = $desc;
+if ($_REQUEST['action'] != "del") {
+	$res['phone'] = $number;
+	$res['desc'] = $desc;
+}
 $res['main'] = $main;
 
 $res = json_encode($response);
