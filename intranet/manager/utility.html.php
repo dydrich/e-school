@@ -27,6 +27,7 @@
 		});
 
 		var getFile = function(action){
+			background_process("Creazione dell'archivio in corso", 120, false);
 			$.ajax({
 				type: "POST",
 				url: "utilities_manager.php",
@@ -55,6 +56,7 @@
 						else if (action == "createbooks"){
 							$('#dw_link2').text("Scarica l'archivio");
 						}
+						loaded("Archivio creato correttamente");
 					}
 				}
 			});
@@ -93,9 +95,9 @@
 		<div class="welcome">
 			<p id="w_head">Registri</p>
 			<p class="w_text" style="width: 350px">
-				<a href="../../shared/no_js.php" id="createbooks">Crea tutti i registri docente</a>
+				<a href="../../shared/no_js.php" id="createbooks">Scarica archivio dei registri docente</a>
 			</p>
-			<p id="" class="w_text" style="width: 350px; margin-bottom: 0">
+			<p id="" class="w_text" style="width: 350px; margin-bottom: 0; margin-top: 0">
 				<?php
 				$file_zip = $_SESSION['__config__']['html_root']."/download/registri/registri_{$year_desc}.zip";
 				$write = false;
@@ -106,7 +108,7 @@
 				?>
 				<a id="dw_link2" href='../../modules/documents/download_manager.php?doc=teacherbooks_archive&area=manager&f=<?php echo basename($file_zip) ?>&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>' style=''><?php if ($write): ?>Scarica l'archivio (ultima modifica <?php echo date("d/m/Y H:i:s", $time) ?>)<?php endif; ?></a>
 			</p>
-			<p class="w_text" style="width: 350px; margin-top: 0">
+			<p class="w_text" style="width: 350px">
 				<a href="stampa_registri_programmazione.php" id="">Registri della programmazione</a>
 			</p>
 		</div>
