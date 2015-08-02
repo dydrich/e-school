@@ -133,9 +133,11 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 		$this->Cell(0, 7, "", 0, 1, 'C', 0, '', 0);
 		$this->SetFont('helvetica', 'B', '11');
 		foreach ($st_list as $k => $st){
-			$this->Cell(115, 7, $st['cognome']." ".$st['nome'], array("B" => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(200, 200, 200))), 0, 'L', 0, '', 0);
-			$this->Cell(55, 7, $st['esito'], array("B" => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(200, 200, 200))), 0, 'L', 0, '', 0);
-			$this->Ln();
+			if (isset($st['cognome'])) {
+				$this->Cell(115, 7, $st['cognome'] . " " . $st['nome'], array("B" => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(200, 200, 200))), 0, 'L', 0, '', 0);
+				$this->Cell(55, 7, $st['esito'], array("B" => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(200, 200, 200))), 0, 'L', 0, '', 0);
+				$this->Ln();
+			}
 		}
 	}
 
@@ -356,34 +358,38 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 		$day = "";
 		$mese = "";
 		$cy = 12;
-		foreach ($lessons as $les){
-			setlocale(LC_TIME, "it_IT.UTF8");
-			list($y, $m, $d) = explode("-", $les['data']);
-			if ($cy > 370){
-				$this->_page++;
-				$this->AddPage("P", "A4");
-				$this->setPage($this->_page, true);
-				$cy = 0;
-				$this->SetFont('helvetica', 'B', '11');
-				$str_month = ucfirst(strftime("%B", strtotime($les['data'])));
-				$this->Cell(180, 12, $str_month, "B", 1, 'C', 0, '', 0, 0, '', 'B');
-				$cy += 12;
+		if ($lessons) {
+			foreach ($lessons as $les) {
+				setlocale(LC_TIME, "it_IT.UTF8");
+				list($y, $m, $d) = explode("-", $les['data']);
+				if ($cy > 370) {
+					$this->_page++;
+					$this->AddPage("P", "A4");
+					$this->setPage($this->_page, true);
+					$cy = 0;
+					$this->SetFont('helvetica', 'B', '11');
+					$str_month = ucfirst(strftime("%B", strtotime($les['data'])));
+					$this->Cell(180, 12, $str_month, "B", 1, 'C', 0, '', 0, 0, '', 'B');
+					$cy += 12;
+				}
+				else {
+					if ($mese != $m) {
+						$this->SetFont('helvetica', 'B', '11');
+						$str_month = ucfirst(strftime("%B", strtotime($les['data'])));
+						$this->Cell(180, 12, $str_month, "B", 1, 'C', 0, '', 0, 0, '', 'B');
+						$cy += 12;
+					}
+				}
+				$this->SetFont('helvetica', '', '10');
+				$giorno_str = ucfirst(strftime("%A %d", strtotime($les['data'])));
+				$print_day = ($day != $les['data']) ? true : false;
+				$this->Cell(30, 5, $giorno_str, 0, 0, 'L', 0, '', 0);
+				$this->Cell(150, 5, \ForceUTF8\Encoding::fixUTF8($les['argomento']), 0, 0, 'L', 0, '', 0);
+				$this->Ln();
+				$cy += 10;
+				$day = $les['data'];
+				$mese = $m;
 			}
-			else if($mese != $m){
-				$this->SetFont('helvetica', 'B', '11');
-				$str_month = ucfirst(strftime("%B", strtotime($les['data'])));
-				$this->Cell(180, 12, $str_month, "B", 1, 'C', 0, '', 0, 0, '', 'B');
-				$cy += 12;
-			}
-			$this->SetFont('helvetica', '', '10');
-			$giorno_str = ucfirst(strftime("%A %d", strtotime($les['data'])));
-			$print_day = ($day != $les['data']) ? true : false;
-			$this->Cell(30, 5, $giorno_str, 0, 0, 'L', 0, '', 0);
-			$this->Cell(150, 5, \ForceUTF8\Encoding::fixUTF8($les['argomento']), 0, 0, 'L', 0, '', 0);
-			$this->Ln();
-			$cy += 10;
-			$day = $les['data'];
-			$mese = $m;
 		}
 	}
 

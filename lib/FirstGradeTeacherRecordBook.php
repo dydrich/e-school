@@ -123,87 +123,91 @@ class FirstGradeTeacherRecordBook extends TeacherRecordBook{
 		$hmod = $_cls->get_modulo_orario();
 		
 		$cont = 0;
-		foreach ($lessons as $les){
-			$d = date("w", strtotime($les['data']));
-			$day = $hmod->getDay($d);
-			$starts = $day->getLessonsStartTime();
-			$hstart = $starts[$les['ora']];
-			$duration = $day->getHourDuration();
-			$end = new RBTime(0, 0, 0);
-			$end->setTime($hstart->getTime());
-			$end->add($duration->getTime());
-			
-			$abs = array();
-			$absh = array();
-			$fine_q = format_date($this->schoolYear->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
-			$sel_reg = "SELECT rb_reg_alunni.*, data, nome, cognome FROM rb_reg_alunni, rb_reg_classi, rb_alunni WHERE rb_alunni.id_alunno = rb_reg_alunni.id_alunno AND id_registro = id_reg AND id_registro = {$les['id_registro']} AND rb_reg_alunni.id_classe = {$cls}";
-			$rows = $this->datasource->executeQuery($sel_reg);
+		if ($lessons) {
+			foreach ($lessons as $les) {
+				$d = date("w", strtotime($les['data']));
+				$day = $hmod->getDay($d);
+				$starts = $day->getLessonsStartTime();
+				$hstart = $starts[$les['ora']];
+				$duration = $day->getHourDuration();
+				$end = new RBTime(0, 0, 0);
+				$end->setTime($hstart->getTime());
+				$end->add($duration->getTime());
 
-			foreach ($rows as $row){
-				$working_date = "";
-				if ($row['ingresso'] == ""){
-					if ($les['data'] <= $fine_q){
-						if (!isset($this->studentsData[$row['id_alunno']]['dett_abs1'])){
-							$this->studentsData[$row['id_alunno']]['dett_abs1'] = array();
-						}
-					}
-					else {
-						if (!isset($this->studentsData[$row['id_alunno']]['dett_abs2'])){
-							$this->studentsData[$row['id_alunno']]['dett_abs2'] = array();
-						}
-					}
-					$abs[] = $row;
-					if ($les['data'] <= $fine_q){
-						//echo "1Q###".$les['data']." => ###".$working_date."###";
-						if ($working_date != $les['data']){
-							//echo "create";
-							$this->studentsData[$row['id_alunno']]['dett_abs1'][$les['data']] = array("data" => $les['data'], "time" => 60);
+				$abs = array();
+				$absh = array();
+				$fine_q = format_date($this->schoolYear->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+				$sel_reg = "SELECT rb_reg_alunni.*, data, nome, cognome FROM rb_reg_alunni, rb_reg_classi, rb_alunni WHERE rb_alunni.id_alunno = rb_reg_alunni.id_alunno AND id_registro = id_reg AND id_registro = {$les['id_registro']} AND rb_reg_alunni.id_classe = {$cls}";
+				$rows = $this->datasource->executeQuery($sel_reg);
+
+				foreach ($rows as $row) {
+					$working_date = "";
+					if ($row['ingresso'] == "") {
+						if ($les['data'] <= $fine_q) {
+							if (!isset($this->studentsData[$row['id_alunno']]['dett_abs1'])) {
+								$this->studentsData[$row['id_alunno']]['dett_abs1'] = array();
+							}
 						}
 						else {
-							$this->studentsData[$row['id_alunno']]['dett_abs1'][$les['data']]['time'] += 60;
+							if (!isset($this->studentsData[$row['id_alunno']]['dett_abs2'])) {
+								$this->studentsData[$row['id_alunno']]['dett_abs2'] = array();
+							}
 						}
-					}
-					else {
-						//echo "2Q###".$les['data']."# => ###".$working_date."###";
-						if ($working_date != $les['data']){
-							//echo "create";
-							$this->studentsData[$row['id_alunno']]['dett_abs2'][$les['data']] = array("data" => $les['data'], "time" => 60);
-						}
-						else {
-							$this->studentsData[$row['id_alunno']]['dett_abs2'][$les['data']]['time'] += 60;
-						}
-						//$this->studentsData[$row['id_alunno']]['dett_abs2'][] = array("data" => $les['data'], "time" => "");
-					}
-				}
-				else {
-					$min = $utils->calcola_minuti_assenza($row['ingresso'], $row['uscita'], $hstart->toString(), $end->toString());
-					if ($min > 0){
-						if (!isset($this->studentsData[$row['id_alunno']]['dett_abs1'])){
-							$this->studentsData[$row['id_alunno']]['dett_abs1'] = array();
-						}
-						if (!isset($this->studentsData[$row['id_alunno']]['dett_abs2'])){
-							$this->studentsData[$row['id_alunno']]['dett_abs2'] = array();
-						}
-					}
-					$dur = $duration->getTime() / 60;
-					if ($min > 0 && $min < ($dur)){
-						$absh[] = array($row['nome'], $row['cognome'], $min);
-						if ($les['data'] <= $fine_q){
-							$this->studentsData[$row['id_alunno']]['dett_abs1'][$les['data']] = array("data" => $les['data'], "time" => $min);
-						}
-						else {
-							$this->studentsData[$row['id_alunno']]['dett_abs2'][$les['data']] = array("data" => $les['data'], "time" => $min);
-						}
-					}
-					else if ($min == $dur){
 						$abs[] = $row;
+						if ($les['data'] <= $fine_q) {
+							//echo "1Q###".$les['data']." => ###".$working_date."###";
+							if ($working_date != $les['data']) {
+								//echo "create";
+								$this->studentsData[$row['id_alunno']]['dett_abs1'][$les['data']] = array("data" => $les['data'], "time" => 60);
+							}
+							else {
+								$this->studentsData[$row['id_alunno']]['dett_abs1'][$les['data']]['time'] += 60;
+							}
+						}
+						else {
+							//echo "2Q###".$les['data']."# => ###".$working_date."###";
+							if ($working_date != $les['data']) {
+								//echo "create";
+								$this->studentsData[$row['id_alunno']]['dett_abs2'][$les['data']] = array("data" => $les['data'], "time" => 60);
+							}
+							else {
+								$this->studentsData[$row['id_alunno']]['dett_abs2'][$les['data']]['time'] += 60;
+							}
+							//$this->studentsData[$row['id_alunno']]['dett_abs2'][] = array("data" => $les['data'], "time" => "");
+						}
 					}
+					else {
+						$min = $utils->calcola_minuti_assenza($row['ingresso'], $row['uscita'], $hstart->toString(), $end->toString());
+						if ($min > 0) {
+							if (!isset($this->studentsData[$row['id_alunno']]['dett_abs1'])) {
+								$this->studentsData[$row['id_alunno']]['dett_abs1'] = array();
+							}
+							if (!isset($this->studentsData[$row['id_alunno']]['dett_abs2'])) {
+								$this->studentsData[$row['id_alunno']]['dett_abs2'] = array();
+							}
+						}
+						$dur = $duration->getTime() / 60;
+						if ($min > 0 && $min < ($dur)) {
+							$absh[] = array($row['nome'], $row['cognome'], $min);
+							if ($les['data'] <= $fine_q) {
+								$this->studentsData[$row['id_alunno']]['dett_abs1'][$les['data']] = array("data" => $les['data'], "time" => $min);
+							}
+							else {
+								$this->studentsData[$row['id_alunno']]['dett_abs2'][$les['data']] = array("data" => $les['data'], "time" => $min);
+							}
+						}
+						else {
+							if ($min == $dur) {
+								$abs[] = $row;
+							}
+						}
+					}
+					$working_date = $les['data'];
 				}
-				$working_date = $les['data'];
+				$lessons[$cont]['abs'] = $abs;
+				$lessons[$cont]['absh'] = $absh;
+				$cont++;
 			}
-			$lessons[$cont]['abs'] = $abs;
-			$lessons[$cont]['absh'] = $absh;
-			$cont++;
 		}
 		$this->lessons = $lessons;
 		//print_r($this->studentsData);
