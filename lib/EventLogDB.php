@@ -20,7 +20,6 @@ class EventLogDB extends EventLog{
 		$this->datasource = $dl;
 	}
 
-
 	public function logFailedLogin() {
 		$ip_address = $_SERVER['REMOTE_ADDR'];
 		$query = "INSERT INTO rb_log (data_ora, utente, tipo_evento, numeric1, text1, text2) VALUES (NOW(), 0, 2, {$this->data['area']}, '{$ip_address}', '{$this->data['username']}')";
@@ -43,5 +42,9 @@ class EventLogDB extends EventLog{
 		$this->datasource->executeUpdate("INSERT INTO rb_log (data_ora, utente, tipo_evento, numeric1, float1, text1, text2) VALUES (NOW(), {$_SESSION['__user__']->getUid()}, 4, '{$old_grade['id_voto']}', '{$old_grade['voto']}', '{$_SERVER['REMOTE_ADDR']}', NULL)");
 	}
 
+	public function logStudentDeleted() {
+		$data = $this->data;
+		$this->datasource->executeUpdate("INSERT INTO rb_log (data_ora, utente, tipo_evento, numeric1, numeric2, text1) VALUES (NOW(), {$_SESSION['__user__']->getUid()}, 5, '{$data['classe']}', '{$data['std']}', 'trasferimento ad altra scuola')");
+	}
 
 } 

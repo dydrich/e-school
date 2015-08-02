@@ -42,6 +42,13 @@ class StudentManager
 	}
 	
 	public function deleteStudent($reason = "TRASFERITO"){
+		require_once 'EventLogFactory.php';
+		require_once "EventLogDB.php";
+		$id_classe = $this->datasource->executeCount("SELECT id_classe FROM rb_alunni WHERE id_alunno = ".$this->student->getUid());
+		$data = array('classe' => $id_classe, 'std' => $this->student->getUid());
+		$elf = \eschool\EventLogFactory::getInstance($data, $this->datasource);
+		$logger = $elf->getEventLog();
+		$logger->logStudentDeleted();
 		$this->datasource->executeUpdate("UPDATE rb_alunni SET attivo = '0', password = '{$reason}', id_classe = NULL WHERE id_alunno = {$this->student->getUid()}");
 	}
 	
