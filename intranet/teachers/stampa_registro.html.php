@@ -48,12 +48,17 @@
 			document.location.href = "allegati_registro.php?cls="+cls+"&sub="+sub;
 		};
 
-		var createLog = function(){
-			loading("Creazione registro in corso", 20);
+		var createLog = function(batch){
+			if (batch) {
+				loading("Creazione registri in corso", 20);
+			}
+			else {
+				loading("Creazione registro in corso", 20);
+			}
 			$.ajax({
 				type: "POST",
 				url: 'print_log.php',
-				data: {cls: cls, sub: sub},
+				data: {cls: cls, sub: sub, batch: batch},
 				dataType: 'json',
 				error: function() {
 					j_alert("error", "Errore di trasmissione dei dati");
@@ -76,7 +81,7 @@
 						return;
 					}
 					else {
-						loaded("Il registro è stato creato");
+						loaded(json.message);
 					}
 				}
 			});
@@ -111,7 +116,7 @@
 				$(this).slideUp(400);
 				$that.parent().css({
 					/* stampa registro */
-					backgroundColor: '',
+					backgroundColor: ''
 				});
 				$that.css({
 					color: '',
@@ -119,7 +124,11 @@
 					fontSize: '1em',
 					paddingLeft: '0'
 				});
-			})
+			});
+			$('#batch_create').click(function(event){
+				event.preventDefault();
+				createLog(1);
+			});
 		});
 	</script>
 </head>
@@ -133,6 +142,13 @@
 	<div id="left_col">
 	<?php
 	if ($ordine_scuola == 1){
+	?>
+		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: 10px" class="rb_button">
+			<a href="#" id="batch_create" title="Crea tutti i registri">
+				<i class="fa fa-save" style="font-size: 26px; padding: 7px 0 0 10px; color: #222222"></i>
+			</a>
+		</div>
+	<?php
 		if ($_SESSION['__user__']->getSubject() == 12 || $_SESSION['__user__']->getSubject() == 9){
 			foreach ($classi as $k => $classe){
 				if (in_array($k, $ids)){
@@ -222,7 +238,7 @@
     <a style="font-weight: normal; text-decoration: none" href="#" onclick="attach()">Gestisci allegati</a><br />
     <a style="font-weight: normal; text-decoration: none" href="#" onclick="downloadLog()">Scarica solo il registro</a><br />
     <a style="font-weight: normal; text-decoration: none" href="#" onclick="downloadAll()">Scarica registro e allegati</a><br />
-    <a style="font-weight: normal; text-decoration: none" href="#" onclick="createLog()">Crea o ricrea il registro</a><br />
+    <a style="font-weight: normal; text-decoration: none" href="#" onclick="createLog(0)">Crea o ricrea il registro</a><br />
 </div>
 <!-- fine menu contestuale -->
 </body>

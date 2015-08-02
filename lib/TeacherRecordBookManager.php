@@ -55,7 +55,30 @@ class TeacherRecordBookManager{
 	}
 	
 	public function createWholeRecordBook(){
-		return $this->recordBook->createWholeRecordBook();
+		$classi = $this->recordBook->getRecordBooks();
+		foreach ($classi as $cls => $book) {
+			foreach ($book['subjects'] as $subId => $subject) {
+				switch ($this->teacher->getSchoolOrder()){
+					case 1:
+						if ($this->type == "standard"){
+							$this->recordBook = new FirstGradeTeacherRecordBook($this->teacher, $this->datasource, $this->path, $this->year, $this->pubblicationID, $this->schoolYear);
+						}
+						else {
+							$this->recordBook = new FirstGradeSupportTeacherRecordBook($this->teacher, $this->datasource, $this->path, $this->year, $this->pubblicationID, $this->schoolYear);
+						}
+						break;
+					case 2:
+						if ($this->type == "standard"){
+							$this->recordBook = new PrimarySchoolTeacherRecordBook($this->teacher, $this->datasource, $this->path, $this->year, $this->pubblicationID, $this->schoolYear);
+						}
+						else {
+							$this->recordBook = new PrimarySchoolSupportTeacherRecordBook($this->teacher, $this->datasource, $this->path, $this->year, $this->pubblicationID, $this->schoolYear);
+						}
+						break;
+				}
+				$this->createRecordBook($cls, $subId);
+			}
+		}
 	}
 
 	/*

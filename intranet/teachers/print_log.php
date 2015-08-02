@@ -25,7 +25,7 @@ if ($ordine_scuola == 2){
 
 ini_set("display_errors", DISPLAY_ERRORS);
 header("Content-type: application/json");
-$response = array("status" => "ok", "message" => "");
+$response = array("status" => "ok", "message" => "Il registro è stato creato");
 
 $rb = RBUtilities::getInstance($db);
 
@@ -43,26 +43,33 @@ $user_directory = strtolower($user_directory);
 $path = $_SESSION['__path_to_root__']."download/registri/".$_SESSION['__current_year__']->get_descrizione()."/{$school_order_directory}/docenti/{$user_directory}/";
 @mkdir($path, 0755, true);
 
-$cls = $_POST['cls'];
-$type = "standard";
-if (isset($_POST['sub'])){
-	$field = $_POST['sub'];
+if (isset($_REQUEST['batch']) && $_REQUEST['batch'] == 1) {
+	$log_manager = new TeacherRecordBookManager($user, $db, $path, $_SESSION['__current_year__'], $_SESSION['__school_year__'][$ordine_scuola], "standard");
+	$log_manager->createWholeRecordBook();
+	$response['message'] = "I registri sono stati creati";
 }
-else if (isset($_POST['std'])){
-	$field = $_POST['std'];
-	$type = "support";
-}
+else {
+	$cls = $_POST['cls'];
+	$type = "standard";
+	if (isset($_POST['sub'])){
+		$field = $_POST['sub'];
+	}
+	else if (isset($_POST['std'])){
+		$field = $_POST['std'];
+		$type = "support";
+	}
 
-try {
-	$log_manager = new TeacherRecordBookManager($user, $db, $path, $_SESSION['__current_year__'], $_SESSION['__school_year__'][$ordine_scuola], $type);
-	$log_manager->createRecordBook($cls, $field);
-} catch (MySQLException $ex) {
-	$response['status'] = "kosql";
-	$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
-	$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
-	$res = json_encode($response);
-	echo $res;
-	exit;
+	try {
+		$log_manager = new TeacherRecordBookManager($user, $db, $path, $_SESSION['__current_year__'], $_SESSION['__school_year__'][$ordine_scuola], $type);
+		$log_manager->createRecordBook($cls, $field);
+	} catch (MySQLException $ex) {
+		$response['status'] = "kosql";
+		$response['message'] = "Si è verificato un errore. Si prega di segnalare il problema al responsabile del software";
+		$response['dbg_message'] = $ex->getQuery()."----".$ex->getMessage();
+		$res = json_encode($response);
+		echo $res;
+		exit;
+	}
 }
 
 $res = json_encode($response);
