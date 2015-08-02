@@ -1,11 +1,11 @@
 <?php
 
 require_once "../../lib/start.php";
+check_session();
 require_once "../../lib/ArrayMultiSort.php";
 require_once "../../lib/TeacherRecordBookManager.php";
 require_once "../../lib/RBUtilities.php";
 
-check_session();
 check_permission(DOC_PERM);
 
 $_SESSION['__path_to_root__'] = "../../";
