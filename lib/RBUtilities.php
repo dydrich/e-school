@@ -508,5 +508,27 @@ final class RBUtilities{
 		}
 		return $data;
 	}
+
+	/*
+	 * Returns all subjects the teachers (with received id) could teach
+	 * @param integer $cls - the class ID
+	 * @return array $data - array of teachers and subjects
+	 */
+	public function getSubjectsOfTeacher($teacher) {
+		$subjects = array();
+		$mat = $teacher->getSubject();
+		$main_subject = $this->datasource->executeQuery("SELECT * FROM rb_materie WHERE id_materia = ".$mat);
+		if ($main_subject[0]['has_sons'] > 0) {
+			$subjets_with_record = $this->datasource->executeQuery("SELECT * FROM rb_materie WHERE idpadre = ".$mat." AND registro = 1");
+			foreach ($subjets_with_record as $row) {
+				$subjects[] = array("id" => $row['id_materia'], "materia" => $row['materia']);
+			}
+
+		}
+		else {
+			$subjects[] = array("id" => $main_subject[0]['id_materia'], "materia" => $main_subject[0]['materia']);
+		}
+		return $subjects;
+	}
 	
 }
