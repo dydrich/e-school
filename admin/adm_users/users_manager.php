@@ -55,7 +55,7 @@ switch($_POST['action']){
            	$recordset = $db->executeUpdate($statement);
            	$uid = $recordset;
 			if (is_installed("com")) {
-				echo "INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_utenti', '$type')";
+				//echo "INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_utenti', '$type')";
 				$db->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_utenti', '$type')");
 			}
         } catch (MySQLException $ex){
