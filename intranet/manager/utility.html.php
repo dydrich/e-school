@@ -120,6 +120,9 @@
 			<p class="w_text" style="width: 350px">
 				<a href="stampa_assenze.php" id="">Stampa assenze alunni</a>
 			</p>
+			<p class="w_text" style="width: 350px">
+				<a href="relazioni.php" id="">Relazioni docenti</a>
+			</p>
 		</div>
 	</div>
 	<p class="spacer"></p>

@@ -35,6 +35,7 @@ $is_teacher_in_this_class = $_SESSION['__user__']->isTeacherInClass($_SESSION['_
 	<li><a href="elenco_attivita.php?all=1" style="font-weight: normal">Attivit&agrave;</a></li>
 	<li><a href="elenco_compiti.php?all=1" style="font-weight: normal">Compiti</a></li>
 	<li><a href="../registro_personale/index.php?cls=<?php print $_SESSION['__classe__']->get_ID() ?>&q=<?php print $q ?>" style="font-weight: normal">Voti</a></li>
+	<li><a href="relazioni.php?all=0" style="font-weight: normal">Relazioni</a></li>
 	<?php } ?>
 	<?php 
 	if(($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) || ($_SESSION['__user__']->isAdministrator()) || ($_SESSION['__user__']->getUsername() == "rbachis")):
