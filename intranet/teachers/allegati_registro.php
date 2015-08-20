@@ -1,11 +1,12 @@
 <?php
 
 require_once "../../lib/start.php";
-require_once "../../lib/MimeType.php";
-require_once "../../lib/TeacherRecordBookManager.php";
 
 check_session();
 check_permission(DOC_PERM);
+
+require_once "../../lib/MimeType.php";
+require_once "../../lib/TeacherRecordBookManager.php";
 
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_reg_home__'] = "./";
@@ -41,9 +42,18 @@ if (isset($_REQUEST['sub'])){
 	$hasLog = true;
 	if ($res_registro->num_rows > 0){
 		$registro = $res_registro->fetch_assoc();
-		$sel_allegati = "SELECT * FROM rb_allegati_registro_docente WHERE registro = {$registro['id']}";
+		$sel_allegati = "SELECT rb_allegati_registro_docente.*, titolo FROM rb_allegati_registro_docente, rb_documents WHERE id_documento = rb_documents.id AND registro = {$registro['id']} AND id_documento IS NOT NULL";
 		$res_allegati = $db->execute($sel_allegati);
 		while ($all = $res_allegati->fetch_assoc()){
+			$all['delete_file_on_delete'] = "0";
+			$allegati[] = $all;
+		}
+		$sel_allegati = "SELECT * FROM rb_allegati_registro_docente WHERE registro = {$registro['id']} AND id_documento IS NULL";
+		$res_allegati = $db->execute($sel_allegati);
+		while ($all = $res_allegati->fetch_assoc()){
+			$all['titolo'] = $all['file'];
+			$all['delete_file_on_delete'] = "1";
+			$all['id_documento'] = 0;
 			$allegati[] = $all;
 		}
 	}
@@ -70,7 +80,13 @@ else if (isset($_REQUEST['std'])){
 	$hasLog = true;
 	if ($res_registro->num_rows > 0){
 		$registro = $res_registro->fetch_assoc();
-		$sel_allegati = "SELECT * FROM rb_allegati_registro_docente WHERE registro = {$registro['id']}";
+		$sel_allegati = "SELECT rb_allegati_registro_docente.*, titolo FROM rb_allegati_registro_docente, rb_documents WHERE id_documento = rb_documents.id AND registro = {$registro['id']} AND id_documento IS NOT NULL";
+		$res_allegati = $db->execute($sel_allegati);
+		while ($all = $res_allegati->fetch_assoc()){
+			$all['delete_file_on_delete'] = "0";
+			$allegati[] = $all;
+		}
+		$sel_allegati = "SELECT * FROM rb_allegati_registro_docente WHERE registro = {$registro['id']} AND id_documento IS NULL";
 		$res_allegati = $db->execute($sel_allegati);
 		while ($all = $res_allegati->fetch_assoc()){
 			$allegati[] = $all;

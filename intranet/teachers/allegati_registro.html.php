@@ -13,7 +13,11 @@
 	<script type="text/javascript" src="../../js/page.js"></script>
 	<script type="text/javascript">
 		var file = 0;
+		// attachment id
+		var attID = "";
+		// document id
 		var docID = "";
+		var delete_file_on_delete_attach = 0;
 
 		var show_menu = function(e, _all, _ff, offset){
 			tempY = offset.top;
@@ -21,16 +25,16 @@
 			$('#context_menu').css({top: parseInt(tempY)+"px"});
 			$('#context_menu').css({left: parseInt(tempX)+"px"});
 			$('#context_menu').slideDown(500);
-		    docID = _all;
+		    attID = _all;
 		    file = _ff;
 		    return false;
 		};
 
 		var download_file = function(){
 			<?php if (isset($_GET['sub'])): ?>
-			document.location.href = "../../modules/documents/download_manager.php?doc=teacherbook_att&area=teachers&f="+ff+"&cls=<?php echo $_GET['cls'] ?>&sub=<?php echo $_GET['sub'] ?>";
+			document.location.href = "../../modules/documents/download_manager.php?doc=teacherbook_att&area=teachers&f="+file+"&cls=<?php echo $_GET['cls'] ?>&sub=<?php echo $_GET['sub'] ?>";
 			<?php else: ?>
-			document.location.href = "../../modules/documents/download_manager.php?doc=teacherbook_att&area=teachers&f="+ff+"&cls=<?php echo $_GET['cls'] ?>&std=<?php echo $_REQUEST['std'] ?>";
+			document.location.href = "../../modules/documents/download_manager.php?doc=teacherbook_att&area=teachers&f="+file+"&cls=<?php echo $_GET['cls'] ?>&std=<?php echo $_REQUEST['std'] ?>";
 			<?php endif; ?>
 			$('#context_menu').hide();
 		};
@@ -40,7 +44,7 @@
 			$.ajax({
 				type: "POST",
 				url: '../../modules/documents/document_manager.php',
-				data: {cls: <?php echo $_GET['cls'] ?>, sub: <?php echo $_GET['sub'] ?>, std: <?php echo $_GET['std'] ?>, doc_type: 'teacherbook_att', action: 2, id: docID, f: file},
+				data: {cls: <?php echo $_GET['cls'] ?>, sub: <?php echo $_GET['sub'] ?>, std: <?php echo $_GET['std'] ?>, doc_type: 'teacherbook_att', action: 2, id: attID, f: file, delete_file: delete_file_on_delete_attach, registro: <?php echo $_SESSION['registro']['id'] ?>, id_doc: docID},
 				dataType: 'json',
 				error: function() {
 					j_alert("error", "Errore di trasmissione dei dati");
@@ -65,7 +69,7 @@
 					else {
 						j_alert("alert", "File cancellato")
 					}
-					$("#att_"+docID).hide();
+					$("#att_"+attID).hide();
 				}
 			});
 		};
@@ -85,11 +89,13 @@
 			$('a.showmenu').click(function(event){
 				//alert(this.id);
 				event.preventDefault();
-				docID = $(this).attr("data-docID");
+				attID = $(this).attr("data-attID");
 				file = $(this).attr("data-file");
+				delete_file_on_delete_attach = $(this).data("deletefile");
+				docID = $(this).attr("data-docID");
 				offset = $(this).parent().offset();
 				offset.top += $(this).parent().height();
-				show_menu(event, docID, file, offset);
+				show_menu(event, attID, file, offset);
 			});
 			$('#context_menu').mouseleave(function(event){
 				event.preventDefault();
@@ -128,7 +134,7 @@
 						$filesize .= "K";
 					}
 			?>
-				<p id="att_<?php echo $all['id'] ?>"><a href="#" style="text-decoration: none" class="showmenu" data-docID="<?php echo $all['id'] ?>" data-file="<?php echo $ff ?>"><?php echo $all['file'] ?> (<?php echo $filesize ?>)</a></p>
+				<p id="att_<?php echo $all['id'] ?>"><a href="#" style="text-decoration: none" class="showmenu" data-deletefile="<?php echo $all['delete_file_on_delete'] ?>" data-attID="<?php echo $all['id'] ?>" data-docID="<?php echo $all['id_documento'] ?>" data-file="<?php echo $ff ?>"><?php echo $all['titolo'] ?> (<?php echo $filesize ?>)</a></p>
 			<?php
 				}
 			}
