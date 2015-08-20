@@ -439,12 +439,14 @@ class Subject
 	private $children = array();
 	private $report;
 	private $school_type;
+	private $recordGrade;
 	
 	public function __construct($record){
 		$this->id = $record['id_materia'];
 		$this->description = $record['materia'];
 		$this->report = $record['pagella'];
 		$this->school_type = $record['tipologia_scuola'];
+		$this->recordGrade = $record['registro'];
 	}
 	
 	public function getId(){
@@ -493,6 +495,10 @@ class Subject
 	
 	public function setSchoolType($t){
 		$this->school_type = $t;
+	}
+
+	public function hasRecordGrades() {
+		return $this->recordGrade;
 	}
 	
 }
