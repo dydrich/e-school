@@ -82,5 +82,3 @@ class MySQLConnection extends mysqli{
 		return $result;
 	}
 }
-
-?>
