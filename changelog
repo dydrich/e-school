@@ -1,3 +1,56 @@
+4.5
+issue #110:
+ - gestione relazioni e documenti del cdc
+ - revisione sistema di allegati al registro personale
+gestione e download (docente) delle proprie relazioni (issue #112)
+gestione e download (coordinatore) delle relazioni della classe (issue #113)
+gestione e download (area segreteria) delle relazioni per classe o per ordine di scuola (issue #114)
+
+4.4.180
+in RBUtilities aggiunto un metodo getSubjectsOfTeacher, che restituisce un array con le materie che il docente puo' insegnare
+
+4.4.179
+modifica dicitura per file odt in MimeType
+
+4.4.178
+piccole modifiche alla classe Subject (non usate)
+
+4.4.177
+aggiornamento a json di shared/get_students.php
+
+4.4.176
+gestione flag registro per indicare se la materia ha un suo registro personale (richiesto dalla gestione delle relazioni)
+
+4.4.175
+bug fix
+
+4.4.174
+aggiunta una classe in generic.css per i link disabilitati
+
+4.4.173
+correzione bug che mostrava errori in stampa_registro.php in caso di sessione scaduta
+
+4.4.172
+issue #9: evento cancellazione studente
+
+4.4.171:
+(documents): cancellazione registri docente in formato zip subito dopo il download
+
+4.4.170
+issue #105: creazione centralizzata registri docente
+
+4.4.169
+bug fix
+
+4.4.168
+in utility.php (manager) aggiunto background_process e alcune migliorie grafiche
+
+4.4.167
+risolto bug nella gestione del flag principale nei telefoni alunno (bug #108)
+
+4.4.166
+issue #103: StudentManager
+
 4.4.165
 codice per l'eliminazione dell'apostrofo di word, che manda in tilt TCPDF, in teachers/sostegno/aggiorna_dati_studente.php
 
