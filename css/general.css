@@ -1537,6 +1537,9 @@ jQuery editInPlace
 p.edit form {
     border: none !important;
 }
+/*
+end of jQuery editInPlace
+*/
 
 .esito_negativo {
     background-color: rgba(239, 154, 154, .3);
@@ -1544,4 +1547,16 @@ p.edit form {
 
 .esito_positivo {
     background-color: rgba(128, 203, 196, .3);
+}
+
+/*
+forms
+*/
+.doc_title.mandatory::after {
+    content: " *";
+}
+
+.disabled_link {
+    color: #9E9E9E;
+    cursor: default;
 }
