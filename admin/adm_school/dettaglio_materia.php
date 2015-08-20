@@ -16,9 +16,8 @@ if (isset($_REQUEST['offset'])){
 }
 
 $materie = array();
-$sel_sub = "SELECT * FROM rb_materie WHERE id_materia <> 1";
+$sel_sub = "SELECT * FROM rb_materie WHERE id_materia <> 1 ORDER BY id_materia";
 $res_sub = $db->executeQuery($sel_sub);
-$sub = $res_sub->fetch_assoc();
 $_i = $_REQUEST['id'];
 while($m = $res_sub->fetch_assoc()) {
 	$materie[$m['id_materia']] = $m;

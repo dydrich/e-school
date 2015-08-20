@@ -7,12 +7,19 @@ check_permission(ADM_PERM|AIS_PERM|AMS_PERM|APS_PERM);
 
 if($_POST['action'] != 2){
 	$materia = $db->real_escape_string(utf8_encode($_POST['materia']));
-	$parent = $_POST['parent'];
+	if (isset($_POST['parent'])) {
+		$parent = $_POST['parent'];
+	}
+	else {
+		$parent = null;
+	}
+
 	if($parent == 0) {
 		$parent = null;
 	}
 	$report = $_POST['report'];
 	$type = $_POST['tipo'];
+	$record = $_POST['record'];
 }
 $id = $_REQUEST['_i'];
 
@@ -21,7 +28,7 @@ $response = array("status" => "ok", "message" => "Operazione completata");
 
 switch($_POST['action']){
 	case 1:     // inserimento
-		$statement = "INSERT INTO rb_materie (materia, has_sons, pagella, idpadre, tipologia_scuola) VALUES ('{$materia}', 0, {$report}, ".field_null($parent, false).", {$type})";
+		$statement = "INSERT INTO rb_materie (materia, has_sons, pagella, idpadre, tipologia_scuola, registro) VALUES ('{$materia}', 0, {$report}, ".field_null($parent, false).", {$type}, {$record})";
 		try{
 			$db->executeUpdate("BEGIN");
 			$recordset = $db->executeUpdate($statement);
@@ -62,7 +69,7 @@ switch($_POST['action']){
 		break;
 	case 3:     // modifica
 		$sel_parent = "SELECT idpadre FROM rb_materie WHERE id_materia = $id";
-		$statement = "UPDATE rb_materie SET materia = '$materia', pagella = $report, idpadre = ".field_null($parent, false).", tipologia_scuola = {$type} WHERE id_materia = $id";
+		$statement = "UPDATE rb_materie SET materia = '$materia', pagella = $report, idpadre = ".field_null($parent, false).", tipologia_scuola = {$type}, registro = {$record} WHERE id_materia = $id";
 		try{
 			$db->executeUpdate("BEGIN");
 			$idpadre = $db->executeCount($sel_parent);

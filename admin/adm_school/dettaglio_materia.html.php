@@ -98,9 +98,9 @@
                 	<option value="0" selected >Nessuna</option>
                 	<?php 
                 	foreach ($materie as $mat) {
-                		if($mat['idpadre'] == "" && $mat['id_materia'] != $subject['id_materia']){
+                		if(isset($subject) && $mat['idpadre'] == "" && $mat['id_materia'] != $subject['id_materia']){
                 	?>
-                	<option value="<?php echo $mat['id_materia'] ?>" <?php if($mat['id_materia'] == $subject['idpadre']) echo "selected" ?>><?php echo $mat['materia'] ?></option>
+                	<option value="<?php echo $mat['id_materia'] ?>" <?php if(isset($subject) && $mat['id_materia'] == $subject['idpadre']) echo "selected" ?>><?php echo $mat['materia'] ?></option>
                 	<?php
                 		}
                 	}
@@ -130,6 +130,15 @@
                 </select>
             </td>
         </tr>
+	    <tr class="popup_row">
+		    <td style="width: 30%"><label for="record" class="popup_title">Registro</label></td>
+		    <td style="width: 70%">
+			    <select class="form_input" name="record" id="record" style="width: 100%">
+				    <option value="0" <?php if(isset($subject) && $subject['registro'] == 0) echo "selected" ?>>NO</option>
+				    <option value="1" <?php if(isset($subject) && $subject['registro'] == 1) echo "selected" ?>>SI</option>
+			    </select>
+		    </td>
+	    </tr>
         <tr class="popup_row">
             <td colspan="2">
             	<input type="hidden" name="action" id="action" />

@@ -103,7 +103,12 @@
 							<img src="../../images/51.png" style="position: relative; bottom: 2px" />
 						</a>
 					</div>
-					<div class="normal" style="float: right; margin-right: 220px; text-align: center; width: 100px; <?php if (!$subject->isInReport()) echo "color: #656565" ?>"><?php echo ($subject->isInReport() ? "In pagella" : "Non in pagella") ?></div>
+					<div class="normal" style="float: right; margin-right: 100px; text-align: center; width: 260px; <?php if (!$subject->isInReport()) echo "color: #656565" ?>">
+						<?php echo ($subject->isInReport() ? "In pagella" : "Non in pagella") ?>
+						<span style="margin: 0 20px 0 20px">/</span>
+						<span class="normal" style="<?php if (!$subject->hasRecordGrades()) echo "color: #656565" ?>"><?php echo ($subject->hasRecordGrades() ? "Ha un registro" : "Non ha un registro") ?></span>
+					</div>
+
 				</div>
 				<div class="card_content">
 					Sottomaterie: <?php if (count($children) > 0) echo join(", ", $children); else echo "nessuna" ?>
