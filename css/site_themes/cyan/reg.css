@@ -149,7 +149,7 @@ div.mdselected_tab a > span {
     border-radius: 4px;
 }
 
-.accent_color {
+.accent_color, div.accent_color {
     color: #e040fb;
 }
 
