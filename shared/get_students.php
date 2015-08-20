@@ -2,26 +2,27 @@
 
 require_once "../lib/start.php";
 
-ini_set("display_errors", "1");
+ini_set("display_errors", DISPLAY_ERRORS);
 
-header("Content-type: text/plain");
+header("Content-type: application/json");
+$response = array("status" => "ok", "message" => "Operazione completata");
 
 $sel_students = "SELECT * FROM rb_alunni WHERE attivo = '1' AND id_classe = ".$_REQUEST['classe']." ORDER BY cognome, nome";
 try {
 	$result = $db->executeQuery($sel_students);
 } catch (MySQLException $ex) {
-	echo "ko|".$ex->getQuery()."|".$ex->getMessage();
+	$response['status'] = "kosql";
+	$response['message'] = $ex->getMessage();
+	$response['query'] = $ex->getQuery();
+	echo json_encode($response);
 	exit;
 }
 
-$return = "ok|";
-$str = "";
+$students = array();
 while ($st = $result->fetch_assoc()) {
-	if ($_REQUEST['req'] == 'name') {
-		$str .= $st['cognome']." ".$st['nome']."#";
-	}
+	$students[] = array("id" => $st['id_alunno'], "name" => $st['cognome']." ".$st['nome']);
 }
 
-$return .= $str;
-echo $return; 
+$response['data'] = $students;
+echo json_encode($response);
 exit;
