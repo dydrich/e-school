@@ -30,9 +30,14 @@ class UploadManager {
 		 * gestione del filesystem
 		 */
 		$file_name = $this->file['name'];
-		$file = ereg_replace(" ", "_", basename($this->file['name']));
-		$file = ereg_replace("'", "", $file);
+		//$file = ereg_replace(" ", "_", basename($this->file['name']));
+		//$file = ereg_replace("'", "", $file);
+		//$file = preg_replace("/\\\/", "", $file);
+
+		$file = preg_replace("/ /", "_", basename($this->file['name']));
+		$file = preg_replace("/'/", "", $file);
 		$file = preg_replace("/\\\/", "", $file);
+
 		/**
 		 * gestione file nel filesystem
 		*/
@@ -74,11 +79,15 @@ class UploadManager {
 	
 	public function upload(){
 		switch ($this->uploadType){
+			case "document":
+			case "document_cdc":
+				return $this->uploadDocument();
+				break;
+			case "teaching_doc":
+				return $this->uploadDocument();
+				break;
 			case "teacherbook_att":
 				return $this->teacherbookAttach();
-				break;
-			case "document":
-				return $this->uploadDocument();
 				break;
 		}
 	}
