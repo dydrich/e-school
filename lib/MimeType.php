@@ -178,7 +178,7 @@ class MimeType{
 				*/
 			case "odt":
 				$ctype = "application/vnd.oasis.opendocument.text";
-				$tipo = "File OO.org - LibreOffice Writer";
+				$tipo = "File OpenDocument text: OO.org - LibreOffice Writer";
 				$image = "libreoffice-writer.png";
 				break;
 			case "ott":
