@@ -12,7 +12,7 @@ $_SESSION['__path_to_mod_home__'] = "./";
 
 $search = "";
 if(isset($_REQUEST['start']) && ($_REQUEST['start'] != "all")){
-	$search = "WHERE cognome LIKE '".$db->real_escape_string($_REQUEST['start'])."%'";
+	$search = "AND cognome LIKE '".$db->real_escape_string($_REQUEST['start'])."%'";
 }
 
 $gruppo = 1;
@@ -22,14 +22,14 @@ if(isset($_REQUEST['gruppo']) && $_REQUEST['gruppo']){
 }
 switch($gruppo){
 	case 2:
-		$sel_utenti = "SELECT id_alunno AS id, cognome, nome FROM rb_alunni {$search} ORDER BY cognome, nome";
+		$sel_utenti = "SELECT id_alunno AS id, cognome, nome FROM rb_alunni WHERE attivo = 1 {$search} ORDER BY cognome, nome";
 		break;
 	case 3:
-		$sel_utenti = "SELECT rb_utenti.uid AS id, cognome, nome FROM rb_utenti, rb_gruppi_utente WHERE rb_utenti.uid = rb_gruppi_utente.uid AND gid = 4 $search ORDER BY cognome, nome";
+		$sel_utenti = "SELECT rb_utenti.uid AS id, cognome, nome FROM rb_utenti, rb_gruppi_utente WHERE rb_utenti.uid = rb_gruppi_utente.uid AND gid = 4 AND attivo = 1 $search ORDER BY cognome, nome";
 		break;
 	case 1:
 	default:
-		$sel_utenti = "SELECT rb_utenti.uid AS id, cognome, nome FROM rb_utenti, rb_gruppi_utente WHERE rb_utenti.uid = rb_gruppi_utente.uid AND gid <> 4 $search ORDER BY cognome, nome";
+		$sel_utenti = "SELECT rb_utenti.uid AS id, cognome, nome FROM rb_utenti, rb_gruppi_utente WHERE rb_utenti.uid = rb_gruppi_utente.uid AND attivo = 1 AND gid <> 4 $search ORDER BY cognome, nome";
 		break;
 }
 
