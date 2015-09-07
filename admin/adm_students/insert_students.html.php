@@ -140,8 +140,8 @@
 	</table>
 	</fieldset>
 	<div style="width: 95%; text-align: right; margin: 15px auto 25px auto">
-		<a href="#" onclick="save(false)" class="standard_link nav_link_first">Salva e concludi</a>|
-    	<a href="#" onclick="save(true)" class="standard_link nav_link_last">Salva e continua</a>
+		<a href="#" onclick="save(false)" class="material_link nav_link_first">Salva e concludi</a>
+    	<a href="#" onclick="save(true)" class="material_link nav_link_last">Salva e continua</a>
     </div>
 	</form>	             
     </div>

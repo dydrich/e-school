@@ -83,7 +83,7 @@
 	</div>
 	<div id="left_col">
     <form class="no_border">
-    	<div style="width: 90%; margin: 0px auto 0 auto;">
+    	<div style="width: 90%; margin: 0 auto 0 auto;">
     		<em>Questa funzione ti permette di importare tutti gli alunni con un solo comando, usando un file che contenga i dati nel formato richiesto.<br />
     		Tale formato DEVE essere preciso ed &egrave; facilmente ottenibile, se si hanno i dati in un file excel: basta esportare il file in formato
     		CSV, rispettando le indicazioni di sotto riportate. Ecco le caratteristiche:<br /></em>
@@ -149,17 +149,12 @@
             <tr>
                 <td colspan="3" class="admin_void"></td>
             </tr>
-            <tr class="admin_menu">
-                <td colspan="3" align="right">
-                	<input type="hidden" name="server_file" id="server_file" />
-                	<a href="../../shared/no_js.php" id="import_button" class="standard_link nav_link_first">Importa il file</a>|
-                	<a href="../index.php" class="standard_link nav_link_last">Torna menu</a>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3" class="admin_void"></td>
-            </tr>
         </table>
+	    <div class="_right" style="margin: 20px 20px 0 0">
+		    <input type="hidden" name="server_file" id="server_file" />
+		    <a href="../../shared/no_js.php" id="import_button" class="material_link nav_link_first">Importa il file</a>
+		    <a href="../index.php" class="material_link nav_link_last">Torna menu</a>
+	    </div>
         </form>
         </div>
         <p class="spacer"></p>
