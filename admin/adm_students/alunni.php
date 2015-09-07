@@ -13,8 +13,10 @@ $_SESSION['__path_to_mod_home__'] = "../";
  * accesso da segreteria
  */
 $menu = "../adm_users/menu.php";
-if (isset($_SESSION['area_from'])) {
-	$menu = $_SESSION['area_from']['menu'];
+if (!$_SESSION['__user__']->isAdministrator()) {
+	if (isset($_SESSION['area_from'])) {
+		$menu = $_SESSION['area_from']['menu'];
+	}
 }
 
 if(!isset($_REQUEST['offset'])){

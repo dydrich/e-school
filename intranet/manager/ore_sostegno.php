@@ -2,11 +2,11 @@
 
 require_once "../../lib/start.php";
 
-$id = $_REQUEST['id'];
-$id_st = substr($id, 1);
-$value = $_REQUEST['value'];
+$id = $_REQUEST['f'];
 
-$upd = "UPDATE rb_alunni SET legge104 = {$value} WHERE id_alunno = {$id_st}";
+$value = $_REQUEST['val'];
+
+$upd = "UPDATE rb_alunni SET legge104 = {$value} WHERE id_alunno = {$id}";
 $update_var = $db->executeUpdate($upd);
 
 header("Content-type: text/plain");

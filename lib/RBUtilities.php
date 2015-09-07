@@ -289,11 +289,13 @@ final class RBUtilities{
 						$modules = array();
 						$clkeys = array_keys($classes);
 						$mod = $this->datasource->executeQuery("SELECT rb_classi_modulo.* FROM rb_classi_modulo, rb_moduli_primaria WHERE id_modulo = rb_moduli_primaria.id AND anno = ".$_SESSION['__current_year__']->get_ID()." AND classe IN (".join(",", $clkeys).")");
-						foreach ($mod as $row) {
-							if (!isset($modules[$row['id_modulo']])) {
-								$modules[$row['id_modulo']] = array();
+						if ($mod) {
+							foreach ($mod as $row) {
+								if (!isset($modules[$row['id_modulo']])) {
+									$modules[$row['id_modulo']] = array();
+								}
+								$modules[$row['id_modulo']][] = $row['classe'];
 							}
-							$modules[$row['id_modulo']][] = $row['classe'];
 						}
 						$user->setModules($modules);
 					}
