@@ -75,7 +75,7 @@
 	}
 	else{
 	?>
-	<div class="card_container" style="margin-top: 15px; width: 80%">
+	<div class="card_container" style="margin-top: 15px; width: 80%; border: 1px solid #DDDDDD">
 	<?php
 		$idx = 1;
 		$bc = "";
@@ -84,7 +84,7 @@
 			if($idx > 1) {
 				//print('<tr><td colspan="5" style="text-align: center; border-width: 0px 1px 1px 1px; border-style: solid; font-weight: bold; font-size: 12px;height: 10px; border-color: #B0BEC5;"></td></tr>');
 			}
-			$sel_hw = "SELECT rb_impegni.*, rb_materie.materia AS mat FROM rb_impegni, rb_materie WHERE rb_materie.id_materia = rb_impegni.materia AND classe = ".$_SESSION['__classe__']->get_ID()." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND data_inizio = '".$dt['data_inizio']."' AND rb_impegni.tipo = 2 $teacher ORDER BY data_inizio DESC";
+			$sel_hw = "SELECT rb_impegni.*, rb_materie.materia AS mat FROM rb_impegni, rb_materie WHERE rb_materie.id_materia = rb_impegni.materia AND classe = ".$_SESSION['__classe__']->get_ID()." AND anno = ".$_SESSION['__current_year__']->get_ID()." AND data_inizio = '".$dt['data_inizio']."' AND rb_impegni.tipo = 2 $teacher ORDER BY data_inizio";
 			//print $sel_hw;
 			$res_hw = $db->execute($sel_hw);
 			$rows = $res_hw->num_rows;
@@ -93,7 +93,7 @@
 			setlocale(LC_ALL, "it_IT.utf8");
 			$giorno_str = strftime("%A %d %B %Y", strtotime($di));
 	?>
-		<div class="material_card material_light_bg" style="float: none;"><span><?php echo $giorno_str ?></span></div>
+		<p class="material_title material_dark_bg" style="float: none;"><span><?php echo $giorno_str ?></span></p>
 	<?php
 			while($hw = $res_hw->fetch_assoc()){
 				$bc = "";
@@ -106,7 +106,7 @@
 			<?php if ($mod): ?>
 			<a href="dettaglio_compito.php?t=<?php echo $hw['id_impegno'] ?>">
 			<?php endif; ?>
-			<div class="card" style="width: 98%; margin-left: 1%">
+			<div class="card" style="width: 94%; margin-left: 1%">
 				<div class="card_title<?php if (!$mod) echo " _italic" ?>" style="padding-left: 0; width: 100%">
 					<?php echo $hw['mat'] ?>
 				</div>

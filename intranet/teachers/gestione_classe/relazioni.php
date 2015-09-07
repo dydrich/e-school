@@ -39,8 +39,8 @@ else {
 	if((!$_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) && ($_SESSION['__user__']->getUsername() != "rbachis") && $_SESSION['__user__']->getSchoolOrder() != 2 ){
 		header("Location: relazioni.php?all=0");
 	}
-	$sel_rel = "SELECT rb_documents.id AS doc_id, data_upload, file, titolo, doc_type, rb_relazioni_docente.id AS rel_id, classe, owner FROM rb_documents, rb_relazioni_docente WHERE rb_documents.id = id_documento AND anno_scolastico = {$_SESSION['__current_year__']->get_ID()} AND classe = {$_SESSION['__classe__']->get_ID()} ORDER BY tipo_documento, data_upload DESC";
-	$sel_cdc = "SELECT rb_documents.id AS doc_id, data_upload, file, titolo, doc_type, rb_documenti_cdc.id AS rel_id, classe, owner FROM rb_documents, rb_documenti_cdc WHERE rb_documents.id = id_documento AND anno_scolastico = {$_SESSION['__current_year__']->get_ID()} AND classe = {$_SESSION['__classe__']->get_ID()} ORDER BY tipo_documento, data_upload DESC";
+	$sel_rel = "SELECT rb_documents.id AS doc_id, data_upload, file, titolo, doc_type, rb_relazioni_docente.id AS rel_id, classe, owner, categoria FROM rb_documents, rb_relazioni_docente WHERE rb_documents.id = id_documento AND anno_scolastico = {$_SESSION['__current_year__']->get_ID()} AND classe = {$_SESSION['__classe__']->get_ID()} ORDER BY tipo_documento, data_upload DESC";
+	$sel_cdc = "SELECT rb_documents.id AS doc_id, data_upload, file, titolo, doc_type, rb_documenti_cdc.id AS rel_id, classe, owner, categoria FROM rb_documents, rb_documenti_cdc WHERE rb_documents.id = id_documento AND anno_scolastico = {$_SESSION['__current_year__']->get_ID()} AND classe = {$_SESSION['__classe__']->get_ID()} ORDER BY tipo_documento, data_upload DESC";
 	try {
 		$res_cdc = $db->executeQuery($sel_cdc);
 	} catch (MySQLException $ex) {
@@ -51,7 +51,12 @@ $relazioni = array();
 if (isset($res_cdc)) {
 	while ($row = $res_cdc->fetch_assoc()) {
 		if (!isset($relazioni[$row['doc_id']])) {
-			$relazioni[$row['doc_id']] = array("id_documento" => $row['doc_id'], "tipo" => $row['doc_type'], "data" => $row['data_upload'], "file" => $row['file'], "titolo" => substr($row['titolo'], 0, strlen($row['titolo']) - 11), "id_relazione" => $row['rel_id'], "classe" => $row['classe'], "owner" => $row['owner']);
+			if ($row['categoria'] > 3) {
+				$relazioni[$row['doc_id']] = array("id_documento" => $row['doc_id'], "tipo" => $row['doc_type'], "data" => $row['data_upload'], "file" => $row['file'], "titolo" => substr($row['titolo'], 0, strlen($row['titolo']) - 11), "id_relazione" => $row['rel_id'], "classe" => $row['classe'], "owner" => $row['owner']);
+			}
+			else {
+				$relazioni[$row['doc_id']] = array("id_documento" => $row['doc_id'], "tipo" => $row['doc_type'], "data" => $row['data_upload'], "file" => $row['file'], "titolo" => substr($row['titolo'], 0, strlen($row['titolo']) - 2), "id_relazione" => $row['rel_id'], "classe" => $row['classe'], "owner" => $row['owner']);
+			}
 		}
 	}
 }
