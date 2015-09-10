@@ -82,7 +82,8 @@ class AccountManager{
 			$field = 'uid';
 		}
 		$smt = $this->datasource_->prepare("UPDATE {$table} SET username = ? WHERE $field = ?");
-		$smt->bind_param("si", $newUsername, $this->user_->getUid());
+		$id = $this->user_->getUid();
+		$smt->bind_param("si", $newUsername, $id);
 		$smt->execute();
 	}
 
