@@ -45,7 +45,7 @@
 					}
 					$stds = implode(", ", $studenti);
 	 	    ?>
- 	    	<tr id="row<?php echo $k ?>" class="list_row">
+ 	    	<tr id="row<?php echo $k ?>" class="bottom_decoration">
  	    		<td style="width: 30%; text-align: left"><a href="docente_sostegno.php?did=<?php echo $k ?>" style="text-decoration: none"><?php echo $docente['nome'] ?></a></td>
  	    		<td style="width: 20%; text-align: center"><?php echo $classi ?></td>
  	    		<td style="width: 50%; text-align: center"><?php echo $stds ?></td>	

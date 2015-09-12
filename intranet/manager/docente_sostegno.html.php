@@ -109,7 +109,9 @@
 	?>
 			</select>
 			</td>
-			<td style="width: 15%; text-align: center">X</td>
+			<td style="width: 15%; text-align: center">
+				<i class="fa fa-trash"></i>
+			</td>
 		</tr>
 	<?php
 	}
