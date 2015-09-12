@@ -254,6 +254,11 @@
 		<?php include "menu.php" ?>
 	</div>
 	<div id="left_col">
+		<div style="position: absolute; top: 105px; margin-left: 55px; margin-bottom: 0" class="rb_button">
+			<a href="classi.php?second=1&offset=<?php echo $_GET['offset'] ?>">
+				<img src="../../images/47bis.png" style="padding: 12px 0 0 12px" />
+			</a>
+		</div>
 		<form action="cdc.php?upd=1" method="post" class="popup_form" style="width: 90%">
 	    <div style="text-align: left">
 	    <table style="width: 95%; margin: auto; border-spacing: 0" >
@@ -319,13 +324,17 @@ else if ($res_sost->num_rows > 0){
 ?>
 					<div id="row_<?php echo $row['uid'] ?>">
 					<span><?php echo $row['cognome']." ".$row['nome'] ?> (<?php echo $row['ore'] ?> ore)</span>
-					<span style="float: right; margin-right: 40px"><a href="#" onclick="del_teacher(<?php echo $row['uid'] ?>)" style="color: red; font-weight: bold">x</a></span>
+					<span style="float: right; margin-right: 40px">
+						<a href="#" onclick="del_teacher(<?php echo $row['uid'] ?>)" style="color: red; font-weight: bold">
+							<i class="fa fa-trash"></i>
+						</a>
+					</span>
 					</div>
 <?php
 	}
 }
 ?>
-					<span style="float: right; margin-right: 30px"><a href="#" onclick="add_teacher()">Aggiungi</a></span><br />
+					<span style="float: right; margin-right: 30px"><a href="#" onclick="add_teacher()" class="material_link">Aggiungi</a></span><br />
 	        	</td>
 	        </tr>
 		    <tr>
@@ -345,13 +354,17 @@ else if ($res_sost->num_rows > 0){
 						    ?>
 						    <div id="rowalt_<?php echo $row['uid'] ?>">
 							    <span><?php echo $row['cognome']." ".$row['nome'] ?></span>
-							    <span style="float: right; margin-right: 40px"><a href="#" onclick="del_alt(<?php echo $row['uid'] ?>)" style="color: red; font-weight: bold">x</a></span>
+							    <span style="float: right; margin-right: 40px">
+								    <a href="#" onclick="del_alt(<?php echo $row['uid'] ?>)" style="color: red; font-weight: bold">
+										<i class="fa fa-trash"></i>
+								    </a>
+							    </span>
 						    </div>
 					    <?php
 					    }
 				    }
 				    ?>
-				    <span style="float: right; margin-right: 30px"><a href="#" onclick="add_alt()">Aggiungi</a></span><br />
+				    <span style="float: right; margin-right: 30px"><a href="#" onclick="add_alt()" class="material_link">Aggiungi</a></span><br />
 			    </td>
 		    </tr>
 	        <tr>
@@ -365,9 +378,9 @@ else if ($res_sost->num_rows > 0){
 	<p class="spacer"></p>
 </div>
 <div id="dialog" style="display: none; width: 400px">
-	<form action="update_cdc.php" method="post" id="doc_form">
+	<form class="no_border" action="update_cdc.php" method="post" id="doc_form">
 		<div style="margin: 10px auto 0 auto; width: 95%">
-			<fieldset style="width: 100%; border: 1px solid #BBBBBB; padding: 10px 0 ; margin: 0 auto 0 auto; position: relative">
+			<fieldset style="width: 100%; padding: 10px 0 ; margin: 0 auto 0 auto; position: relative">
 				<legend style="font-weight: bold; margin-left: 10px">Docenti di sostegno</legend>
 				<table style="margin: 0 auto 0 auto; width: 90%">
 					<tr class="popup_row header_row">
@@ -398,7 +411,7 @@ else if ($res_sost->num_rows > 0){
 				</table>
 			</fieldset>
 			<div style="width: 100%; text-align: right; margin-top: 30px">
-				<a href="#" onclick="save_teacher(<?php echo $classID ?>)" class="standard_link nav_link_last">Registra</a>
+				<a href="#" onclick="save_teacher(<?php echo $classID ?>)" class="material_link nav_link_last">Registra</a>
 				<input type="hidden" name="action" id="action" />
 				<input type="hidden" name="_i" id="_i" />
 			</div>
@@ -406,9 +419,9 @@ else if ($res_sost->num_rows > 0){
 	</form>
 </div>
 <div id="altdialog" style="display: none; width: 400px">
-	<form action="update_cdc.php" method="post" id="doc_form">
+	<form class="no_border" action="update_cdc.php" method="post" id="doc_form">
 		<div style="margin: 10px auto 0 auto; width: 95%">
-			<fieldset style="width: 100%; border: 1px solid #BBBBBB; padding: 10px 0 ; margin: 0 auto 0 auto; position: relative">
+			<fieldset style="width: 100%; padding: 10px 0 ; margin: 0 auto 0 auto; position: relative">
 				<legend style="font-weight: bold; margin-left: 10px">Docenti per materia alternativa</legend>
 				<table style="margin: 0 auto 0 auto; width: 90%">
 					<tr class="popup_row header_row">
@@ -427,7 +440,7 @@ else if ($res_sost->num_rows > 0){
 				</table>
 			</fieldset>
 			<div style="width: 100%; text-align: right; margin-top: 30px">
-				<a href="#" onclick="save_alt(<?php echo $classID ?>)" class="standard_link nav_link_last">Registra</a>
+				<a href="#" onclick="save_alt(<?php echo $classID ?>)" class="material_link nav_link_last">Registra</a>
 				<input type="hidden" name="action" id="action" />
 				<input type="hidden" name="_i" id="_i" />
 			</div>
