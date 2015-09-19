@@ -204,7 +204,7 @@ function field_null($var, $is_char, $cmd_type = 'update'){
 function nmb_format($val, $length, $char){
     if(strlen($val) < $length){
         $start = strlen($val) - 1;
-        for($i = $srtart; $i < $length - 1; $i++)
+        for($i = $start; $i < $length - 1; $i++)
             $val = $char.$val;
     }
     return $val;
