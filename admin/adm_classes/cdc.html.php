@@ -255,7 +255,7 @@
 	</div>
 	<div id="left_col">
 		<div style="position: absolute; top: 105px; margin-left: 55px; margin-bottom: 0" class="rb_button">
-			<a href="classi.php?second=1&offset=<?php echo $_GET['offset'] ?>">
+			<a href="classi.php?second=1&offset=<?php echo $offset ?>">
 				<img src="../../images/47bis.png" style="padding: 12px 0 0 12px" />
 			</a>
 		</div>

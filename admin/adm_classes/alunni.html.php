@@ -112,7 +112,7 @@
             ?>
             <tr class="admin_row<?php if($x % 2) print(" odd") ?>" style="height: 20px" id="tr_<?php echo $stud['id_alunno'] ?>">
             	<td style="width: 5%; padding-right: 12px; text-align: right"><?php print $x ?>.</td>
-                <td style="width: 40%; padding-left: 2px; text-align: left"><?php print utf8_decode($stud['cognome']." ".$stud['nome']) ?></td>
+                <td style="width: 40%; padding-left: 2px; text-align: left"><?php print $stud['cognome']." ".$stud['nome'] ?></td>
                 <td style="width: 40%">
 	                <select name="cls_<?php print $stud['id_alunno'] ?>" id="cls_<?php print $stud['id_alunno'] ?>" style="width: 95%; font-size: 11px;" onchange="upd_cls(this.id, <?php print $stud['id_alunno'] ?>)">
 	                <?php

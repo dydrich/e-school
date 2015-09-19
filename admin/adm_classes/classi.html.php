@@ -187,7 +187,7 @@
 			});
 			$('a.cdc_link').click(function(event){
 				event.preventDefault();
-				var _offset = <?php echo $_GET['offset'] ?>;
+				var _offset = <?php echo $offset ?>;
 				document.location.href="cdc.php?id="+cls+"&offset="+_offset;
 			});
 			$('a.del_link').click(function(event){
