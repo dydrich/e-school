@@ -126,9 +126,9 @@
 	<div id="left_col">
     <form class="no_border">
 	    <div class="navigate">
-		    <a href="#" onclick="gruppo(1)" style="margin-right: 10px">Personale della scuola</a><span>|</span>
-		    <a href="#" onclick="gruppo(2)" style="margin: 0 10px 0 10px">Studenti</a><span>|</span>
-		    <a href="#" onclick="gruppo(3)" style="margin-left: 10px">Genitori</a>
+		    <a href="#" onclick="gruppo(1)" class="material_link" style="margin-right: 10px">Personale della scuola</a>
+		    <a href="#" onclick="gruppo(2)" class="material_link" style="margin: 0 10px 0 10px">Studenti</a>
+		    <a href="#" onclick="gruppo(3)" class="material_link" style="margin-left: 10px">Genitori</a>
 	    </div>
         <table class="admin_table">
         <thead>
