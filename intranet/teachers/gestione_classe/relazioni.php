@@ -33,13 +33,13 @@ $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQ
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 
 if ($_REQUEST['all'] == 0) {
-	$sel_rel = "SELECT rb_documents.id AS doc_id, data_upload, file, titolo, doc_type, rb_relazioni_docente.id AS rel_id, classe, owner FROM rb_documents, rb_relazioni_docente WHERE rb_documents.id = id_documento AND anno_scolastico = {$_SESSION['__current_year__']->get_ID()} AND owner = {$_SESSION['__user__']->getUid()} AND classe = {$_SESSION['__classe__']->get_ID()} ORDER BY tipo_documento, data_upload DESC";
+	$sel_rel = "SELECT rb_documents.id AS doc_id, data_upload, file, titolo, doc_type, rb_relazioni_docente.id AS rel_id, classe, owner FROM rb_documents, rb_relazioni_docente WHERE rb_documents.id = id_documento AND tipo_documento <> 6 AND anno_scolastico = {$_SESSION['__current_year__']->get_ID()} AND owner = {$_SESSION['__user__']->getUid()} AND classe = {$_SESSION['__classe__']->get_ID()} ORDER BY tipo_documento, data_upload DESC";
 }
 else {
 	if((!$_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) && ($_SESSION['__user__']->getUsername() != "rbachis") && $_SESSION['__user__']->getSchoolOrder() != 2 ){
 		header("Location: relazioni.php?all=0");
 	}
-	$sel_rel = "SELECT rb_documents.id AS doc_id, data_upload, file, titolo, doc_type, rb_relazioni_docente.id AS rel_id, classe, owner, categoria FROM rb_documents, rb_relazioni_docente WHERE rb_documents.id = id_documento AND anno_scolastico = {$_SESSION['__current_year__']->get_ID()} AND classe = {$_SESSION['__classe__']->get_ID()} ORDER BY tipo_documento, data_upload DESC";
+	$sel_rel = "SELECT rb_documents.id AS doc_id, data_upload, file, titolo, doc_type, rb_relazioni_docente.id AS rel_id, classe, owner, categoria FROM rb_documents, rb_relazioni_docente WHERE rb_documents.id = id_documento AND tipo_documento <> 6 AND anno_scolastico = {$_SESSION['__current_year__']->get_ID()} AND classe = {$_SESSION['__classe__']->get_ID()} ORDER BY tipo_documento, data_upload DESC";
 	$sel_cdc = "SELECT rb_documents.id AS doc_id, data_upload, file, titolo, doc_type, rb_documenti_cdc.id AS rel_id, classe, owner, categoria FROM rb_documents, rb_documenti_cdc WHERE rb_documents.id = id_documento AND anno_scolastico = {$_SESSION['__current_year__']->get_ID()} AND classe = {$_SESSION['__classe__']->get_ID()} ORDER BY tipo_documento, data_upload DESC";
 	try {
 		$res_cdc = $db->executeQuery($sel_cdc);
