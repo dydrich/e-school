@@ -23,7 +23,7 @@ if(isset($_GET['delete'])){
 		$dir = "download/pagelle";
 	}
 	if(file_exists("../{$dir}/{$ff_open}")){
-		$mime = MimeType::getMimeContentType($file);
+		$mime = MimeType::getMimeContentType($ff_open);
 		
 		$fp = fopen("../{$dir}/{$ff_open}", "r");
 		header("Content-Type: ".$mime['ctype']);
@@ -31,7 +31,7 @@ if(isset($_GET['delete'])){
 		header("Expires: 0");
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Pragma: public");
-		fpassthru($fp);
+		readfile("../{$dir}/{$ff_open}");
 		@fclose($fp);
 		if ($_GET['delete'] == 1){
 			unlink("../{$dir}/{$ff_open}");
@@ -111,7 +111,7 @@ if(file_exists($fpath.$ff_open)){
     header("Expires: 0");
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     header("Pragma: public");
-    fpassthru($fp);
+	readfile($fpath.$ff_open);
     @fclose($fp);
     exit;
 }
