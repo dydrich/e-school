@@ -198,6 +198,40 @@
 		    });
 		};
 
+		var activate_new_accounts = function() {
+			var url = "accounts_maker.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {notcomplete: 1},
+				dataType: 'json',
+				error: function() {
+					show_error("Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						console.log(json.dbg_message);
+						j_alert("error", json.message);
+
+					}
+					else if(json.status == "ko"){
+						j_alert("alert", json.message);
+					}
+					else {
+						j_alert("alert", json.message);
+					}
+				}
+			});
+		};
+
 
 		var pop_scrutini = function(q, school_level){
 			leftS = (screen.width - 200) / 2;
@@ -243,26 +277,17 @@
 						if (json.status == "kosql"){
 							console.log(json.dbg_message);
 							clearTimeout(bckg_timer);
-							$('#background_msg').text(json.message);
-							setTimeout(function() {
-								$('#background_msg').dialog("close");
-							}, 2000);
+							loaded(json.message);
 
 						}
 						else if(json.status == "ko"){
 							clearTimeout(bckg_timer);
-							$('#background_msg').text(json.message);
-							setTimeout(function() {
-								$('#background_msg').dialog("close");
-							}, 2000);
+							loaded(json.message);
 			                return;
 						}
 						else {
 							clearTimeout(bckg_timer);
-							$('#background_msg').text("Operazione conclusa");
-							setTimeout(function() {
-								$('#background_msg').dialog("close");
-							}, 2000);
+							loaded("Operazione conclusa");
 							scrutini[q][school_level] = 999;
 						}
 					}
@@ -402,6 +427,10 @@
 			$('#new_year_lnk_1').click(function(event){
 				event.preventDefault();
 				new_year();
+			});
+			$('#new_accounts').click(function(event){
+				event.preventDefault();
+				activate_new_accounts();
 			});
 
 
@@ -830,6 +859,12 @@
 				<div class="card">
 					<div class="card_title">Gestione eventi</div>
 					<div class="card_minicontent">Gestisci gli eventi da registrare...</div>
+				</div>
+			</a>
+			<a href="../shared/no_js.php" id="new_accounts">
+				<div class="card">
+					<div class="card_title">Nuovi account alunni</div>
+					<div class="card_minicontent">Abilita gli account dei nuovi alunni...</div>
 				</div>
 			</a>
 		</div>
