@@ -46,7 +46,7 @@ $is_teacher_in_this_class = $_SESSION['__user__']->isTeacherInClass($_SESSION['_
 	if ($_SESSION['__classe__']->getSchoolOrder() == 1) {
 		if ($_SESSION['__classe__']->get_anno() == 2) {
 			?>
-			<li><a href="archivio_scrutini.php?y=<?php echo $anni_corso_classe[0]['id'] ?>" style="font-weight: normal">Archivio scrutini</a></li>
+			<li><a href="archivio_scrutini.php?y=<?php echo $anni_corso_classe[0]['id_anno'] ?>" style="font-weight: normal">Archivio scrutini</a></li>
 		<?php
 		}
 		else if ($_SESSION['__classe__']->get_anno() == 3) {

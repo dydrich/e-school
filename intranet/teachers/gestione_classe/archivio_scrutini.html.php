@@ -51,7 +51,7 @@
 <?php include "../header.php" ?>
 <?php include "../navigation.php" ?>
 <div id="main" style="clear: both; ">
-	<?php if (isset($_REQUEST['y'])): ?>
+	<?php if (isset($_REQUEST['y']) && $anno_corso == 3): ?>
 		<div style="top: -20px; margin-left: 35px; margin-bottom: -10px" class="rb_button">
 			<a href="archivio_scrutini.php">
 				<img src="../../../images/47bis.png" style="padding: 12px 0 0 12px" />

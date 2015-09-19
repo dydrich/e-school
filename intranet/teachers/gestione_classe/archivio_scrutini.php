@@ -41,10 +41,15 @@ while ($row = $res_anni->fetch_assoc()) {
 $anno_corso = $_SESSION['__classe__']->get_anno();
 $sezione = $_SESSION['__classe__']->get_sezione();
 
-$anno_sel = isset($_REQUEST['sel']) ? $_REQUEST['sel'] : 0;
+$anno_sel = isset($_REQUEST['sel']) ? $_REQUEST['sel'] : 1;
 
-if (isset($_REQUEST['y'])) {
-	$index = abs($anno_sel - 2);
+if (isset($_REQUEST['y']) && $_REQUEST['y'] != "") {
+	if (isset($_REQUEST['sel'])) {
+		$index = abs($anno_sel - 2);
+	}
+	else {
+		$index = 0;
+	}
 	$num_colonne = 1;
 	$first_column_width = 23;
 	$column_width = null;
@@ -112,9 +117,11 @@ else {
 	$ac2 = $anno_corso - 1;
 	$ac1 = $anno_corso - 2;
 	$idc2 = $anni_corso_classe[0]['id_anno'];
-	$idc1 = $anni_corso_classe[1]['id_anno'];
 	$desc2 = $anni_corso_classe[0]['descrizione'];
-	$desc1 = $anni_corso_classe[1]['descrizione'];
+	if ($ac1 > 0) {
+		$idc1 = $anni_corso_classe[1]['id_anno'];
+		$desc1 = $anni_corso_classe[1]['descrizione'];
+	}
 	include "scegli_archivio_scrutini.html.php";
 }
 
