@@ -1,9 +1,28 @@
 <?php
 
 require_once "../../lib/start.php";
+require_once "../../lib/AccountManager.php";
 
 check_session();
 check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
+
+/**
+ * getSexFromCF
+ *
+ * @desc restituisce il sesso a partire dal codice fiscale
+ * @param string (codice fiscale)
+ * @return string (sesso)
+ *
+ */
+function getSexFromCF($cf) {
+	$data = intval(substr($cf, 9, 2));
+	if ($data < 40) {
+		return 'M';
+	}
+	else {
+		return 'F';
+	}
+}
 
 ini_set("display_errors", DISPLAY_ERRORS);
 
@@ -25,7 +44,7 @@ $log_path = "accounts".date("YmdHis").".txt";
 $log = fopen("../../tmp/{$log_path}", "w");
 foreach($rows as $row){
 	if ($school_order == 1){
-		list($cognome, $nome, $data, $luogo, $cf, $sex, $rip, $cod_classe) = explode(";", $row);	
+		list($cognome, $nome, $data, $luogo, $cf, $sex, $rip, $cod_classe) = explode(";", $row);
 		if ($cod_classe != ""){
 			$sel_id = "SELECT id_classe FROM rb_classi WHERE ordine_di_scuola = {$school_order} AND anno_corso = ".substr($cod_classe, 0, 1)." AND sezione = '".substr($cod_classe, 1, 1)."'";
 			$id_classe = $db->executeCount($sel_id);
@@ -64,10 +83,10 @@ foreach($rows as $row){
 		}
 	}
 	else if ($school_order == 2){
-		list($cognomenome, $cls, $cf, $dataluogo, $sex) = explode(";", $row);
-		list($cognome, $nome) = explode(" ", $cognomenome, 2);
-		list($annoc, $sezione) = explode(" ", $cls);
-		$sel_id = "SELECT id_classe FROM rb_classi WHERE ordine_di_scuola = {$school_order} AND anno_corso = {$annoc} AND sezione = '{$sezione}'";
+		list($cognome, $nothing, $nome, $cf, $dataluogo, $boh, $cls) = explode(";", $row);
+		$annoc = substr($cls, 0, 1);
+		$sezione = substr($cls, 1, 1);
+		$sel_id = "SELECT id_classe FROM rb_classi WHERE ordine_di_scuola = {$school_order} AND anno_corso = {$annoc} AND sezione = '{$sezione}' AND anno_scolastico = ".$_SESSION['__current_year__']->get_ID();
 		$id_classe = $db->executeCount($sel_id);
 		$data = format_date(substr($dataluogo, 0, 10), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 		$luogo = substr($dataluogo, 11);
@@ -77,24 +96,27 @@ foreach($rows as $row){
 		while($row = $res_usernames->fetch_assoc()){
 			$names[] = $row['username'];
 		}
+
+		$sex = getSexFromCF($cf);
 		
-		$username = get_login($names, $nome, $cognome);
+		$username = AccountManager::generateLogin($names, $nome, $cognome);
 		$pwd_chiaro = "";
-		$pwd = get_password(strtolower($nome), strtolower($cognome), $pwd_chiaro);
+		$pwd = AccountManager::generatePassword();
 		$names[] = $username;
 		
 		$cognome = $db->real_escape_string($cognome);
 		$nome = $db->real_escape_string($nome);
 		$luogo = $db->real_escape_string($luogo);
 		
-		$insert = "INSERT INTO rb_alunni (username, password, cognome, nome, codice_fiscale, data_nascita, luogo_nascita, sesso, id_classe, attivo, accessi) VALUES ('{$username}', '{$pwd}', '{$cognome}', '{$nome}', NULL, '{$data}', '{$luogo}', '$sex', $id_classe, '1', 0)";
+		$insert = "INSERT INTO rb_alunni (username, password, cognome, nome, codice_fiscale, data_nascita, luogo_nascita, sesso, id_classe, attivo, accessi)
+				   VALUES ('{$username}', '{$pwd['e']}', '{$cognome}', '{$nome}', NULL, '{$data}', '{$luogo}', '$sex', $id_classe, '1', 0)";
 		try{
 			$uid = $db->executeUpdate($insert);
 			if (is_installed("com")) {
 				$db->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_alunni', 'student')");
 			}
 			//echo $insert;
-			fwrite($log, $insert."=>{$pwd_chiaro}\n");
+			fwrite($log, $insert."=>{$pwd['c']}\n");
 			$ok++;
 		} catch (MySQLException $ex) {
 			$ko++;

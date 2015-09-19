@@ -48,7 +48,7 @@
 						console.log(json.dbg_message);
 					}
 					else {
-						$('#load_info').text(json/ok);
+						$('#load_info').text(json.ok);
 						$('#tot').text(json.tot);
 						$('#err').text(json.ko);
 						$('#info_div').show();
@@ -57,7 +57,7 @@
 						}
 						$('#dw_link').attr("href", "../../shared/get_file.php?f="+json.log_path+"&delete=1&dir=tmp");
 						$('#dw_link').show();
-						$('#background_msg').text("Operazione conclusa");
+						loaded("Operazione conclusa");
 					}
 				}
 			});
