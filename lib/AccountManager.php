@@ -136,7 +136,7 @@ class AccountManager{
 			$nomi[1] = "";
 		}
 		// elimino eventuali accenti (apostrofi) e spazi (solo dal cognome)
-		$nm = strtolower(preg_replace("/'/", "", $nomi[0].$nomi[1]));
+		$nm = strtolower(preg_replace("/'/", "", $nomi[0]));
 		$cm = strtolower(preg_replace("/'/", "", trim($cognome)));
 		$cm = strtolower(preg_replace("/ /", "", $cm));
 		// creo la login e verifico
