@@ -24,6 +24,7 @@ $is_active = $son[3];
 		<li><a href="compiti.php">Compiti</a></li>
 		<li><a href="attivita.php">Attivit&agrave;</a></li>
 		<li><a href="lezioni.php">Lezioni</a></li>
+		<li><a href="programmazioni.php">Programmazioni</a></li>
 	</ul>
 	<?php endif; ?>
 </div>
