@@ -304,8 +304,9 @@ div.drawer_link {
     border-bottom: 1px solid rgba(30, 67, 137, .7) !important;
 }
 
-.submenu {
-    padding-left: 30px;
+.submenu a {
+    /* padding-left: 30px; */
+    margin-left: 30px;
 }
 
 div.drawer_label {
@@ -1408,6 +1409,10 @@ div.material_card a, div.material_card span {
     padding-top: 8px;
 }
 
+input.material_input {
+    border-width: 0 0 1px 0;
+}
+
 /*
 reg_classe
 */
@@ -1559,4 +1564,23 @@ forms
 .disabled_link {
     color: #9E9E9E;
     cursor: default;
+}
+
+/*
+end of forms
+*/
+div.material_container {
+    width: 90%;
+    margin: auto;
+}
+
+p.material_title {
+    width: 100%;
+    margin: 0 0 10px 0;
+    padding: 10px 0 10px 0;
+}
+
+p.material_title span {
+    margin-left: 10px;
+    color: white
 }
