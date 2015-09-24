@@ -222,7 +222,7 @@
 		var del_note = function(){
 			count_notes--;
 			note_id = $('#id_nota').val();
-			if(!confirm("Sei sicuro di voler cancellare questa nota?")) {
+			if(!confirm("Cancellare la nota?")) {
 				$('#pop_note').dialog("close");
 				return false;
 			}
@@ -257,7 +257,7 @@
 			});
 		};
 
-		var show_subdrawer = function(e) {
+		var show_subdrawer = function(e, off) {
 			if ($('#other_drawer').is(":visible")) {
 				$('#other_drawer').hide('slide', 300);
 				return;
