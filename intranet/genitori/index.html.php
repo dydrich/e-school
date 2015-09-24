@@ -54,7 +54,6 @@
 			<p class="w_text">
 				Sei entrato nell'area riservata ai genitori della intranet della <?php echo $_SESSION['__config__']['intestazione_scuola'] ?>.<br />
 				In quest'area avrai accesso a varie informazioni riguardanti i tuoi figli e potrai comunicare con il personale della scuola, sia docente che non docente.<br />
-				<p class="attention _bold">Ti preghiamo di scaricare il <a href="http://www.istitutoiglesiasserraperdosa.it/rclasse/modules/documents/download_manager.php?id=1146&doc=document">manuale introduttivo</a> alla nuova versione del Registro elettronico.</p>
 			</p>
 		</div>
 		<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_msg.php'; ?>
