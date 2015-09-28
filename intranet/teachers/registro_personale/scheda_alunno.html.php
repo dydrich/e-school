@@ -144,9 +144,21 @@
 				<?php
 				if ($note_didattiche['count'] > 0) {
 					foreach ($note_didattiche['data'] as $k => $tipo_nota) {
+						$sel_note_nd = "SELECT rb_materie.materia AS materia, COUNT(id_nota) AS count
+										FROM rb_note_didattiche, rb_materie
+										WHERE rb_note_didattiche.materia = id_materia
+										AND alunno = $stid
+										AND tipo = $k
+										AND anno = {$_SESSION['__current_year__']->get_ID()} ".$par_tot."
+										GROUP BY rb_materie.materia ORDER BY rb_materie.materia DESC";
+						$res_note_tp = $db->executeQuery($sel_note_nd);
+						$note_tipo = array();
+						while($row = $res_note_tp->fetch_assoc()) {
+							$note_tipo[] = $row['count']." ".$row['materia'];
+						}
 				?>
 				<div class="card_row">
-					<?php echo $tipo_nota['tipo_nota'] ?>: <?php echo $tipo_nota['count'] ?> volte
+					<?php echo $tipo_nota['tipo_nota'] ?>: <?php echo $tipo_nota['count'] ?> volte <?php if (count($note_tipo) > 0) echo "(".implode(", ", $note_tipo).")" ?>
 				</div>
 				<?php
 					}
