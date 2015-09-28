@@ -43,14 +43,16 @@ switch($q){
 
 $sel_alunno = "SELECT * FROM rb_alunni WHERE id_alunno = $student_id";
 $sel_materia = "SELECT materia FROM rb_materie WHERE id_materia = ".$_REQUEST['materia'];
+$sel_materie = "SELECT rb_materie.* FROM rb_materie, rb_scrutini WHERE alunno = {$student_id} AND id_materia > 2 AND tipologia_scuola = $ordine_scuola AND pagella = 1 AND anno = {$_SESSION['__current_year__']->get_ID()} AND quadrimestre = 2 AND classe = {$_SESSION['__classe__']->get_ID()} AND rb_scrutini.materia = rb_materie.id_materia ORDER BY posizione_pagella";
 $sel_tipi = "SELECT * FROM rb_tipi_note_didattiche ORDER BY id_tiponota";
-$sel_note = "SELECT rb_note_didattiche.*, rb_tipi_note_didattiche.descrizione AS tipo_nota FROM rb_note_didattiche, rb_tipi_note_didattiche WHERE id_tiponota = tipo AND alunno = $student_id AND materia = ".$_REQUEST['materia']." AND anno = {$_SESSION['__current_year__']->get_ID()} $int_time $q_type ORDER BY $order DESC";
+$sel_note = "SELECT rb_note_didattiche.*, rb_tipi_note_didattiche.descrizione AS tipo_nota, id_tiponota FROM rb_note_didattiche, rb_tipi_note_didattiche WHERE id_tiponota = tipo AND alunno = $student_id AND materia = ".$_REQUEST['materia']." AND anno = {$_SESSION['__current_year__']->get_ID()} $int_time $q_type ORDER BY $order DESC";
 //print $sel_voti;
 try{
 	$res_alunno = $db->executeQuery($sel_alunno);
 	$res_materia = $db->executeQuery($sel_materia);
 	$res_note = $db->executeQuery($sel_note);
 	$res_tipi = $db->executeQuery($sel_tipi);
+	$res_materie = $db->executeQuery($sel_materie);
 } catch (MySQLException $ex){
 	$ex->redirect();
 }
@@ -69,6 +71,7 @@ $drawer_label = "Elenco note didattiche - ".$desc_materia.$label;
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
+	<link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
@@ -85,10 +88,24 @@ $drawer_label = "Elenco note didattiche - ".$desc_materia.$label;
 			}
 			var offset = $('#drawer').offset();
 			var top = offset.top;
-			top += 36;
+			//top += 36;
 			var left = offset.left + $('#drawer').width();
 			$('#tipinota').css({top: top+"px", left: left+"px", zIndex: 1000});
 			$('#tipinota').show('slide', 300);
+			return true;
+		};
+
+		var show_subjects = function(e) {
+			if ($('#subjects').is(":visible")) {
+				$('#subjects').hide("slide", 300);
+				return;
+			}
+			var offset = $('#drawer').offset();
+			var top = offset.top;
+			top += 36;
+			var left = offset.left + $('#drawer').width();
+			$('#subjects').css({top: top+"px", left: left+"px", zIndex: 1000});
+			$('#subjects').show('slide', 300);
 			return true;
 		};
 
@@ -158,7 +175,7 @@ $index = 1;
 $array_voti = array();
 while($row = $res_note->fetch_assoc()){
 ?>
-		<tr class="bottom_decoration">
+		<tr class="bottom_decoration <?php if ($row['id_tiponota'] == 3) echo 'main_700' ?>">
 			<td style="width: 20%; text-align: center; "><?php print format_date($row['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td> 
 			<td style="width: 30%; text-align: center; "><?php print $row['tipo_nota'] ?></td> 
 			<td style="width: 50%; text-align: center; "><?php print $row['note'] ?></td>   
@@ -187,6 +204,12 @@ while($row = $res_note->fetch_assoc()){
 				Filtra per tipo nota
 			</a>
 		</div>
+		<div class="drawer_link separator">
+			<a href="#" onclick="show_subjects(event)">
+				<i class="fa fa-forward" style="margin-right: 10px; color: #222222; font-size: 1.1em"></i>
+				Cambia materia
+			</a>
+		</div>
 		<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
 		<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>profile.php"><img src="../../images/33.png" style="margin-right: 10px; position: relative; top: 5%" />Profilo</a></div>
 		<?php if (!$_SESSION['__user__'] instanceof ParentBean) : ?>
@@ -211,7 +234,7 @@ while($row = $res_note->fetch_assoc()){
 		}
 		?>
 		<div class="drawer_link">
-			<a href="<?php print $page ?>?son=<?php print $key ?>" clas="<?php echo $cl ?>"><?php print $val[0] ?></a>
+			<a href="<?php print $page ?>?son=<?php print $key ?>" class="<?php echo $cl ?>"><?php print $val[0] ?></a>
 		</div>
 	<?php
 	}
@@ -221,14 +244,25 @@ while($row = $res_note->fetch_assoc()){
 }
 ?>
 <!-- tipi nota -->
-<div id="tipinota" style="position: absolute; width: 200px; height: 240px; display: none; ">
-    <p style="line-height: 16px"><a style="font-weight: normal; font-size: 11px" href="<?php echo $link ?>&q=<?php echo $q ?>&order=data">Tutte le note</a></p>
+<div id="tipinota" style="position: absolute; width: 200px; height: 240px; display: none; background-color: white; box-shadow: none">
+    <p style="line-height: 16px" class="bottom_decoration"><a style="font-weight: normal; font-size: 11px" href="<?php echo $link ?>&q=<?php echo $q ?>&order=data">Tutte le note</a></p>
 <?php
 while($t = $res_tipi->fetch_assoc()){
 ?>
-	<p style="line-height: 16px"><a style="font-weight: normal; font-size: 11px" href="<?php echo $link ?>&q=<?php echo $q ?>&order=data&tipo=<?php echo $t['id_tiponota'] ?>"><?php echo $t['descrizione'] ?></a></p>
+	<p style="line-height: 16px" class="accent_decoration"><a style="font-weight: normal; font-size: 11px" href="<?php echo $link ?>&q=<?php echo $q ?>&order=data&tipo=<?php echo $t['id_tiponota'] ?>"><?php echo $t['descrizione'] ?></a></p>
 <?php } ?>
 </div>
 <!-- tipi nota -->
+<!-- materie -->
+<div id="subjects" style="width: 200px; position: absolute; padding: 0px 0px 10px; border: 1px solid rgb(170, 170, 170); border-radius: 2px; box-shadow: rgb(136, 136, 136) 0px 0px 8px; top: 169px; left: 577px; display: none; background-color: rgb(255, 255, 255);">
+	<?php
+	while($subj = $res_materie->fetch_assoc()){
+		?>
+		<p style="line-height: 16px; border-bottom: 1px solid #EEEEEE">
+			<a class="normal standard_link" style="font-weight: normal; font-size: 11px; padding-left: 10px" href="<?php echo $link ?>&q=<?php echo $q ?>&order=data&materia=<?php echo $subj['id_materia'] ?>"><?php echo $subj['materia'] ?></a>
+		</p>
+	<?php } ?>
+</div>
+<!-- materie -->
 </body>
 </html>

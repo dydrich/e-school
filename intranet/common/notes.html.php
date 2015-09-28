@@ -51,8 +51,7 @@
 </div>
 <div id="left_col">
 <?php 
-setlocale(LC_TIME, "it_IT.utf8");
-$giorno_str = strftime("%A %d %B %Y", strtotime(date("Y-m-d")));
+setlocale(LC_ALL, "it_IT.utf8");
 
 if($res_note->num_rows < 1){
 ?>
@@ -64,16 +63,17 @@ else{
 	<div class="card_container">
 <?php
 	while($row = $res_note->fetch_assoc()){
+		$giorno_str = strftime("%A %d %B %Y", strtotime($row['data']));
 ?>
 		<div class="card">
 			<div class="card_title">
 				<?php echo $row['tipo_nota'] ?><?php if($row['id_tiponota'] > 1) echo ""; else echo " - ".$row['cognome']." ".$row['nome'] ?>
-				<div style="float: right; margin-right: 20px; width: 150px">
+				<div style="float: right; margin-right: 20px; width: 180px">
 					<?php echo $giorno_str ?>
 				</div>
 			</div>
 			<div class="card_minicontent">
-				<?php echo $row['descrizione'] ?>
+				<?php echo utf8_decode($row['descrizione']) ?>
 			</div>
 		</div>
 <?php

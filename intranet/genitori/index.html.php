@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?>:: area genitori</title>
+	<link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
@@ -39,6 +40,14 @@
 			$('#other_drawer').show('slide', 300);
 			return true;
 		};
+
+		function ticker(){
+			$('#ticker li:first').slideUp(
+				function () {
+					$(this).appendTo($('#ticker')).slideDown(); }
+			);
+		}
+		setInterval(function(){ ticker () }, 3000);
 	</script>
 </head>
 <body>
@@ -49,11 +58,87 @@
 	<?php include "class_working.php" ?>
 	</div>
 	<div id="left_col">
+		<?php if (count($avvisi) > 0): ?>
 		<div class="welcome">
-			<p id="w_head">Bentornato <?php echo $_SESSION['__user__']->getFullName() ?></p>
-			<p class="w_text">
-				Sei entrato nell'area riservata ai genitori della intranet della <?php echo $_SESSION['__config__']['intestazione_scuola'] ?>.<br />
-				In quest'area avrai accesso a varie informazioni riguardanti i tuoi figli e potrai comunicare con il personale della scuola, sia docente che non docente.<br />
+			<p class="beware">
+				<i class="fa fa-info-circle main_700 _bold"></i>
+				<span>Avvisi importanti</span>
+			</p>
+			<p class="w_text attention" style="">
+				<?php
+				foreach ($avvisi as $avviso) {
+				?>
+				<i class="fa fa-warning"></i>
+				<span style="margin-left: 15px"><?php echo $avviso ?></span>
+				<?php
+				}
+				?>
+			</p>
+		</div>
+		<?php endif; ?>
+		<div class="welcome">
+			<p id="w_head">Ultime attivit&agrave;</p>
+			<div id="ticker_container" style="height: <?php echo $ticker_height ?>px">
+				<ul id="ticker" class="ticker">
+					<?php
+					setlocale(LC_TIME, "it_IT.utf8");
+					if(count($activities) > 0){
+						$x = 0;
+						foreach ($activities as $date => $act) {
+							$giorno_str = strftime("%a %d/%m/%Y", strtotime($date));
+							foreach ($act as $ac) {
+								$class = "normal";
+								if($ac['tipo'] == "Ritardo") {
+									$class = "main_700";
+								}
+								else if ($ac['tipo'] == "Assenza") {
+									$class = "main_700 _bold";
+									$ac['tipo'] = "";
+								}
+								else if ($ac['tipo'] == "Voto" && $ac['voto'] < 6) {
+									$class = "attention";
+								}
+								else if ($ac['tipo'] == "Nota disciplinare") {
+									$class = "attention _bold";
+									$ac['tipo'] = "";
+								}
+								else if ($ac['tipo'] == "Nota didattica") {
+									if ($ac['idnota'] != 3) {
+										$class = "attention _italic";
+									}
+									else {
+										$class = "normal _italic";
+									}
+									$ac['tipo'] = "";
+								}
+								?>
+								<li class="<?php echo $class ?>" style="font-size: 1.08em">
+									<span style="font-family: monospace"><?php echo $giorno_str ?></span>
+									<span style="margin-left: 20px"><?php echo $ac['tipo'].$ac['descrizione'] ?></span>
+								</li>
+								<?php
+								$x++;
+							}
+						}
+					}
+					else {
+						echo "<span>Nessuna attivit&agrave; recente</span>";
+						$more_space = true;
+					}
+					?>
+				</ul>
+			</div>
+		</div>
+		<div class="welcome" style="margin-top: 45px;">
+			<p id="w_head">Riepiloghi</p>
+			<p>
+				<a href="riepilogo_registro.php?q=0" class="material_link">Assenze e ritardi</a>
+			</p>
+			<p>
+				<a href="voti.php" class="material_link">Voti e note didattiche</a>
+			</p>
+			<p>
+				<a href="riepilogo_note.php?q=0" class="material_link">Note disciplinari</a>
 			</p>
 		</div>
 		<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_msg.php'; ?>

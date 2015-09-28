@@ -71,7 +71,7 @@ if (count($pagelle) > 0) {
 		</p>
 <?php
 	}
-	else if ($pagella1q['data_pubblicazione'] < date("Y-m-d") || ($pagella1q['data_pubblicazione'] == date("Y-m-d") && $pagella1q['ora_pubblicazione'] <= date("H:i:s"))){
+	else if (($pagella1q['data_pubblicazione'] < date("Y-m-d") || ($pagella1q['data_pubblicazione'] == date("Y-m-d")) && $pagella1q['ora_pubblicazione'] <= date("H:i:s"))){
 		$report_manager = new ReportManager($db, $_SESSION['__current_year__']->get_ID(), $school_order);
 		$sel_stds = "SELECT cognome, nome, rb_alunni.id_alunno AS alunno, sesso, rb_alunni.id_classe, anno_corso, sezione FROM rb_alunni, rb_classi WHERE rb_alunni.id_classe = rb_classi.id_classe AND id_alunno = ".$_SESSION['__current_son__'];
 		$res_stds = $db->executeQuery($sel_stds);

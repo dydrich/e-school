@@ -197,10 +197,12 @@ while($row = $res_materie->fetch_assoc()){
 	$sel_tipi = "SELECT * FROM rb_tipi_note_didattiche ORDER BY id_tiponota";
 	$sel_note = "SELECT rb_note_didattiche.*, rb_tipi_note_didattiche.descrizione AS tipo_nota FROM rb_note_didattiche, rb_tipi_note_didattiche WHERE id_tiponota = tipo AND alunno = {$alunno} AND materia = ".$row['id_materia']." AND anno = {$year} $nt_time ORDER BY data DESC";
 	$res_note = $db->execute($sel_note);
-	if($res_note->num_rows == 0)
+	if($res_note->num_rows == 0) {
 		$note = "--";
-	else
-		$note = "<a href='elenco_note_didattiche.php?q=".$q."&materia=".$row['id_materia']."'>".$res_note->num_rows."</a>";
+	}
+	else {
+		$note = "<a href='elenco_note_didattiche.php?q=" . $q . "&materia=" . $row['id_materia'] . "'>" . $res_note->num_rows . " note</a>";
+	}
 ?>
 	<div style="width: 90%; height: auto; margin: auto;" class="_hov">
 		<table style="width: 100%; ">

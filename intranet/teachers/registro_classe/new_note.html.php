@@ -228,8 +228,8 @@
 	</script>
 </head>
 <body class="popup_body">
-<div id="popup_main" style="min-height: 250px; padding-top: 20px">
-	<form id='testform' action='manage_test.php' method='post' class="popup_form no_border" onsubmit="_submit()">
+<div id="popup_main" style="min-height: 200px; padding-top: 20px">
+	<form id='testform' action='manage_test.php' method='post' class="no_border" onsubmit="_submit()">
 		<table style='text-align: left; width: 95%; margin: auto' id='att'>
 		<tr>
 			<td style="width: 25%; font-weight: bold">Tipo nota *</td>
@@ -246,7 +246,7 @@
 			<tr>
 			<td style="width: 25%; font-weight: bold" id="desc_lab">Descrizione *</td>
 			<td style="width: 75%; " colspan="3">
-				<textarea style="width: 100%; height: 40px; font-size: 11px; border: 1px solid gray" id="desc" name="desc"><?php if(isset($nota)) print(utf8_decode($nota['descrizione'])) ?></textarea>
+				<textarea style="width: 100%; height: 80px; font-size: 11px; border: 1px solid gray" id="desc" name="desc"><?php if(isset($nota)) print(utf8_decode($nota['descrizione'])) ?></textarea>
 			</td>
 			</tr>
 			<tr>
@@ -261,8 +261,8 @@
 		</tr>
 		<tr>
 			<td colspan="4" style="padding-top: 20px; text-align: right;">
-			<a id="manage_link" href="#" onclick="_submit()">Registra</a>
-				<?php if(isset($nota)){ ?>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onclick="del_note(<?php print $nota['id_nota'] ?>)">Cancella nota</a><?php } ?>
+			<a id="manage_link" href="#" onclick="_submit()" class="material_link nav_link_first">Registra</a>
+				<?php if(isset($nota)){ ?><a href="#" onclick="del_note(<?php print $nota['id_nota'] ?>)" class="material_link nav_link_last">Cancella nota</a><?php } ?>
 			</td>
 		</tr>
 		</table>

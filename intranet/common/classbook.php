@@ -29,7 +29,7 @@ if ($previous < 1) $previous = 12;
 if ($month == 6) $next = null;
 if ($month == 9) $previous = null;
 
-$sel_orario_alunno = "SELECT data, rb_reg_alunni.ingresso, rb_reg_alunni.uscita, note, id_alunno, giustificata FROM rb_reg_alunni, rb_reg_classi WHERE id_alunno = {$student_id} AND DATE_FORMAT(data, '%c') = {$month} AND data <= NOW() AND id_anno = {$_SESSION['__current_year__']->get_ID()} AND id_registro = id_reg AND rb_reg_classi.id_classe = ".$_SESSION['__classe__']->get_ID()." ORDER BY data DESC";
+$sel_orario_alunno = "SELECT data, rb_reg_alunni.ingresso AS ingresso, rb_reg_classi.ingresso AS enter, rb_reg_alunni.uscita AS uscita, rb_reg_classi.uscita AS cl_exit, note, id_alunno, giustificata FROM rb_reg_alunni, rb_reg_classi WHERE id_alunno = {$student_id} AND DATE_FORMAT(data, '%c') = {$month} AND data <= NOW() AND id_anno = {$_SESSION['__current_year__']->get_ID()} AND id_registro = id_reg AND rb_reg_classi.id_classe = ".$_SESSION['__classe__']->get_ID()." ORDER BY data DESC";
 //print $sel_orario_alunno;
 $res_orario_alunno = $db->execute($sel_orario_alunno);
 setlocale(LC_TIME, "it_IT.utf8");
@@ -122,8 +122,9 @@ while($orario_alunno = $res_orario_alunno->fetch_assoc()){
 		$entrata = "A";
 		$assente = true;
 	}
-	else
+	else {
 		$entrata = substr($orario_alunno['ingresso'], 0, 5);
+	}
 	if($orario_alunno['uscita'] == "")
 		$uscita = "A";
 	else
@@ -156,11 +157,11 @@ while($orario_alunno = $res_orario_alunno->fetch_assoc()){
 ?>
 	<tr class="bottom_decoration <?php if($assente) echo " attention _bold" ?>">
 		<td style="width: 30%; padding-left: 8px" class="normal"><?php print ucfirst($giorno_str)." ". format_date($orario_alunno['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
-		<td style="width: 15%; text-align: center" <?php if($assente) print("colspan='2'") ?>><?php if($assente) print "Assente"; else print $entrata ?></td>
+		<td style="width: 15%; text-align: center" <?php if($assente) print("colspan='2'"); else if ($entrata > $orario_alunno['enter']) echo 'class="attention _bold"' ?>><?php if($assente) print "Assente"; else print $entrata ?></td>
 <?php 
 	if(!$assente){	
 ?>
-		<td style="width: 15%; text-align: center; font-weight: normal;  "><?php print $uscita ?></td>
+		<td style="width: 15%; text-align: center" <?php if ($uscita < substr($orario_alunno['cl_exit'], 0, 5)) echo 'class="attention _bold"' ?>><?php print $uscita ?></td>
 <?php 
 	}
 ?>

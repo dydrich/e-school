@@ -41,7 +41,13 @@ switch($q){
 
 $sel_alunno = "SELECT * FROM rb_alunni WHERE id_alunno = $student_id";
 $sel_tipi = "SELECT * FROM rb_tipi_note_disciplinari ORDER BY id_tiponota";
-$sel_note = "SELECT rb_note_disciplinari.*, rb_utenti.cognome, rb_utenti.nome, rb_tipi_note_disciplinari.descrizione AS tipo_nota, rb_tipi_note_disciplinari.id_tiponota FROM rb_note_disciplinari, rb_tipi_note_disciplinari, rb_utenti WHERE id_tiponota = tipo AND alunno = $student_id AND docente = uid $int_time $q_type ORDER BY $order DESC";
+$sel_note = "SELECT rb_note_disciplinari.*,
+			rb_utenti.cognome,
+			rb_utenti.nome,
+			rb_tipi_note_disciplinari.descrizione AS tipo_nota,
+			rb_tipi_note_disciplinari.id_tiponota
+			FROM rb_note_disciplinari, rb_tipi_note_disciplinari, rb_utenti
+			WHERE id_tiponota = tipo AND alunno = $student_id AND anno = {$_SESSION['__current_year__']->get_ID()} AND docente = uid $int_time $q_type ORDER BY $order DESC";
 //print $sel_note;
 try{
 	$res_alunno = $db->executeQuery($sel_alunno);

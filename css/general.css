@@ -242,6 +242,7 @@ div.card_minicontent {
     font-size: 1em;
     border-top: 1px solid rgba(215, 215, 215, 1);
     padding-top: 5px;
+    padding-bottom: 5px;
     color: #1E4389;
 }
 
@@ -258,6 +259,7 @@ div.card_varcontent {
     font-size: 1em;
     border-top: 1px solid rgba(215, 215, 215, 1);
     padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 div.card_row {
@@ -536,11 +538,7 @@ div.accordion {
     text-decoration: none
 }
 
-#welcome {
-    margin: 25px 10px 5px 50px;
-}
-
-.welcome {
+.welcome, #welcome {
     margin: 25px 10px 5px 50px;
 }
 
@@ -1585,3 +1583,23 @@ p.material_title span {
     color: white;
     font-weight: bold;
 }
+
+.beware {
+    width: 280px;
+    padding: 0 0 5px 0;
+    border-bottom: 1px solid #1E4389;
+    font-weight: bold;
+}
+
+.beware span {
+    padding-left: 10px;
+}
+
+.beware i {
+    font-size: 1.2em;
+}
+
+a.material_link {
+    line-height: 16px;
+}
+

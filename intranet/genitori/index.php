@@ -2,6 +2,10 @@
 
 require_once "../../lib/start.php";
 require_once "../../lib/SessionUtils.php";
+require_once "../../lib/StudentActivityReport.php";
+require_once "../../lib/RBUtilities.php";
+require_once "../../lib/ClassbookData.php";
+require_once "../../lib/RBTime.php";
 
 ini_set("display_errors", DISPLAY_ERRORS);
 
@@ -18,6 +22,27 @@ include "check_sons.php";
 
 $utils = SessionUtils::getInstance($db);
 $utils->registerCurrentClassFromUser($_SESSION['__current_son__'], "__classe__");
+
+$rb = RBUtilities::getInstance($db);
+$student = $rb->loadUserFromUid($_SESSION['__current_son__'], "student");
+
+$stAcR = new \eschool\StudentActivityReport($student, 15, new MySQLDataLoader($db));
+$activities = $stAcR->getActivities();
+
+$avvisi = array();
+
+$school_year = $_SESSION['__school_year__'][$_SESSION['__classe__']->getSchoolOrder()];
+$classbook_data = new ClassbookData($_SESSION['__classe__'], $school_year, "AND data <= NOW()", $db);
+$totali = $classbook_data->getClassSummary();
+$presence = $classbook_data->getStudentSummary($student->getUid());
+$absences = new RBTime(0, 0, 0);
+$absences->setTime($totali['ore']->getTime() - $presence['presence']->getTime());
+$perc_hour = round((($absences->getTime() / $totali['ore']->getTime()) * 100), 2);
+if ($perc_hour > 25) {
+	$avvisi[] = "Attenzione: la percentuale di ore di assenza &egrave; superiore al 25%, limite massimo per la validazione dell'anno ai sensi dell’articolo 11, comma 1, del Decreto legislativo n. 59 del 2004, e successive modificazioni";
+}
+
+$ticker_height = 100;
 
 $navigation_label = "alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];
 $drawer_label = "Home page";
