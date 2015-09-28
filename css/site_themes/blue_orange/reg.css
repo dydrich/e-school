@@ -216,7 +216,7 @@ input.android:focus, select.android:focus, textarea.android:focus {
 }
 
 .material_dark_bg {
-
+    background-color: #0277bd;
 }
 
 .material_light_bg {

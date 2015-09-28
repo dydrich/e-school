@@ -1582,5 +1582,6 @@ p.material_title {
 
 p.material_title span {
     margin-left: 10px;
-    color: white
+    color: white;
+    font-weight: bold;
 }

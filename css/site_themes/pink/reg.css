@@ -129,7 +129,7 @@ div.mdselected_tab a > span {
 }
 
 .rb_button {
-    background-color: #64ffda;
+    background-color: #00b0ff;
 }
 
 .rb_bg {
@@ -229,7 +229,7 @@ input.android:focus, select.android:focus, textarea.android:focus {
 }
 
 .material_dark_bg {
-
+    background-color: #01579b;
 }
 
 .material_light_bg {
