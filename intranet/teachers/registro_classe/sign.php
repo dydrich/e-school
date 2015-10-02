@@ -38,7 +38,7 @@ $_SESSION['registro']['data'] = $_REQUEST['data'];
 /*
  * docenti di sostegno
  */
-$sel_sos = "SELECT COUNT(*) FROM rb_assegnazione_sostegno WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND classe = {$_SESSION['__classe__']->get_ID()} ";
+$sel_sos = "SELECT COUNT(DISTINCT(docente)) FROM rb_assegnazione_sostegno WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND classe = {$_SESSION['__classe__']->get_ID()} ";
 $count_sos = $db->executeCount($sel_sos);
 // numero di righe in rowspan per il campo ora
 $rowspan = $count_sos + 3;
