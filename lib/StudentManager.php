@@ -138,7 +138,7 @@ class StudentManager
 	}
 	
 	public function insertReport(){
-		/* ballot data */
+		/* assessment data */
 		$id_anno = $this->schoolYear->getYear()->get_ID();
 		$id_classe = $this->student->getClass();
 		$fq = format_date($this->schoolYear->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
@@ -185,11 +185,11 @@ class StudentManager
 	}
 	
 	public function updateReport(){
-		/* ballot data */
+		/* assessment data */
 		$id_anno = $this->schoolYear->getYear()->get_ID();
 		$id_classe = $this->student->getClass();
 		$fq = format_date($this->schoolYear->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "");
-		$quadrimestre = date("Ymd") > $fq ? 2 : 1;
+		$quadrimestre = date("Y-m-d") > $fq ? 2 : 1;
 		$alunno = $this->student->getUid();
 		$subjects = $this->getSubjects($id_anno, $quadrimestre, $id_classe);
 		foreach($subjects as $subject){
@@ -214,7 +214,6 @@ class StudentManager
 	}
 	
 	public function getSubjects($id_anno, $quadrimestre, $id_classe){
-		$subjects = array();
 		$sel_subjects = "SELECT DISTINCT materia FROM rb_scrutini WHERE anno = {$id_anno} AND quadrimestre = {$quadrimestre} AND classe = {$id_classe}";
 		$subjects = $this->datasource->executeQuery($sel_subjects);
 		return $subjects;
