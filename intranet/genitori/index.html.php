@@ -67,9 +67,18 @@
 			<p class="w_text attention" style="">
 				<?php
 				foreach ($avvisi as $avviso) {
+					if ($avviso[0] == "warning") {
 				?>
-				<i class="fa fa-warning"></i>
-				<span style="margin-left: 15px"><?php echo $avviso ?></span>
+				<i class="fa fa-warning _bold"></i>
+				<?php
+					}
+					else {
+				?>
+				<i class="fa fa-exclamation-circle"></i>
+				<?php
+					}
+				?>
+				<span style="margin-left: 15px"><?php echo $avviso[1] ?></span>
 				<?php
 				}
 				?>

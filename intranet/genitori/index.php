@@ -39,7 +39,10 @@ $absences = new RBTime(0, 0, 0);
 $absences->setTime($totali['ore']->getTime() - $presence['presence']->getTime());
 $perc_hour = round((($absences->getTime() / $totali['ore']->getTime()) * 100), 2);
 if ($perc_hour > 25) {
-	$avvisi[] = "Attenzione: la percentuale di ore di assenza &egrave; superiore al 25%, limite massimo per la validazione dell'anno ai sensi dell’articolo 11, comma 1, del Decreto legislativo n. 59 del 2004, e successive modificazioni";
+	$avvisi[] = array("warning", "Attenzione: la percentuale di ore di assenza &egrave; superiore al 25%, limite massimo per la validazione dell'anno ai sensi dell’articolo 11, comma 1, del Decreto legislativo n. 59 del 2004, e successive modificazioni");
+}
+else if ($perc_hour > 19) {
+	$avvisi[] = array("info", "Attenzione alle assenze, che potrebbero compromettere la validazione dell'anno scolastico");
 }
 
 $ticker_height = 100;
