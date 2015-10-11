@@ -447,6 +447,12 @@ var loaded = function(txt) {
     }, 2000);
 };
 
+var loaded_with_error = function(txt) {
+    clearTimeout(bckg_timer);
+    $('#background').hide();
+    j_alert("error", txt);
+};
+
 var loading = function(string, time){
     background_process(string, time);
 };
