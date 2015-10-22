@@ -125,13 +125,14 @@ class StudentActivityReport
 					AND data BETWEEN DATE_SUB(NOW(), INTERVAL 15 DAY) AND NOW()
 					ORDER BY data DESC";
 		$res_notes = $this->datasource->executeQuery($sel_notes);
-		foreach ($res_notes as $note) {
-			if (!isset($activities[$note['data']])) {
-				$activities[$note['data']] = array();
+		if ($res_notes) {
+			foreach ($res_notes as $note) {
+				if (!isset($activities[$note['data']])) {
+					$activities[$note['data']] = array();
+				}
+				$activities[$note['data']][] = array("tipo" => "Nota disciplinare", "descrizione" => $note['tipo_nota'] . " (" . $note['cognome'] . " " . $note['nome'] . ")");
 			}
-			$activities[$note['data']][] = array("tipo" => "Nota disciplinare", "descrizione" => $note['tipo_nota']." (".$note['cognome']." ".$note['nome'].")");
 		}
-
 		/*
 		 * note didattiche
 		 */
@@ -148,11 +149,13 @@ class StudentActivityReport
 					AND data BETWEEN DATE_SUB(NOW(), INTERVAL 15 DAY) AND NOW()
 					ORDER BY data DESC";
 		$res_notes = $this->datasource->executeQuery($sel_notes);
-		foreach ($res_notes as $note) {
-			if (!isset($activities[$note['data']])) {
-				$activities[$note['data']] = array();
+		if ($res_notes) {
+			foreach ($res_notes as $note) {
+				if (!isset($activities[$note['data']])) {
+					$activities[$note['data']] = array();
+				}
+				$activities[$note['data']][] = array("tipo" => "Nota didattica", "descrizione" => $note['tipo_nota'] . " (" . $note['desc_mat'] . ")", "idnota" => $note['tipo']);
 			}
-			$activities[$note['data']][] = array("tipo" => "Nota didattica", "descrizione" => $note['tipo_nota']." (".$note['desc_mat'].")", "idnota" => $note['tipo']);
 		}
 		krsort($activities);
 		$this->activities = $activities;

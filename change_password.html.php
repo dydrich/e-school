@@ -3,11 +3,14 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
-	<link rel="stylesheet" href="css/site_themes/<?php echo getTheme() ?>/index.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
-	<script type="text/javascript" src="js/page.js"></script>
-	<script type="text/javascript" src="js/md5-min.js"></script>
+	<script type="text/javascript" src="./js/page.js"></script>
+	<script type="text/javascript" src="./js/md5-min.js"></script>
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+	<link href="css/general.css" rel="stylesheet" type="text/css"/>
+	<link href="css/site_themes/light_blue/index.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" href="css/site_themes/light_blue/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript">
 		function registra(){
 			var patt = /[^a-zA-Z0-9]/;
@@ -54,7 +57,7 @@
 							function(){
 								window.location = "index.php";
 							},
-							4000
+							2000
 						);
 					}
 				}
@@ -63,17 +66,16 @@
 	</script>
 </head>
 <body>
-<body>
-<header id="header">
-	<div class="wrap">
-		<div style="" id="_header">
-			<?php echo stripslashes($_SESSION['__config__']['intestazione_scuola']) ?><br />
-			<p style="font-size: 0.7em; font-weight: normal; line-height: 20px; margin: 0; padding-top: 10px; text-transform: none">
-				<?php echo $_SESSION['__config__']['software_name']." ".$_SESSION['__config__']['software_version'] ?> - Registro elettronico<span id="area"></span>
-			</p>
+	<header>
+		<div class="wrap">
+			<div style="" id="_header">
+				<?php echo stripslashes($_SESSION['__config__']['intestazione_scuola']) ?><br />
+				<p id="sw_version" style="font-size: 0.7em; font-weight: normal; line-height: 20px; margin: 0; padding-top: 10px; text-transform: none">
+					<?php echo $_SESSION['__config__']['software_name']." ".$_SESSION['__config__']['software_version'] ?> - Registro elettronico<span id="area"></span>
+				</p>
+			</div>
 		</div>
-	</div>
-</header>
+	</header>
 <section class="wrap">
 	<div id="login_form" style="">
 		<form id='myform' method='post' action='#'>
@@ -82,18 +84,18 @@
 		?>
 			<div id='r1' style='margin: 40px auto 0 auto; height: 60px; '>
 				<div style='width: 50%; float: left; text-align: right'>
-					<input type='password' autofocus name='pwd1' id='pwd1' style='width: 90%; color: #EEEEEE; border: 2px solid #FFFFFF; border-radius: 5px; box-shadow: 0 0 5px #FFFFFF; background-color:transparent; font-size: 1.5em; margin: auto' />
+					<input type='password' autofocus name='pwd1' id='pwd1' style='width: 90%' />
 				</div>
-				<div style='width: 45%; float: left; text-align: center; color: #FFFFFF; font-size: 1.15em; text-transform: uppercase; text-shadow: 0 0 5px #FFFFFF; padding-top: 7px'>Inserisci password</div>
+				<div style='width: 45%; float: left; text-align: center; font-size: 1.15em; text-transform: uppercase; text-shadow: 0 0 5px #FFFFFF; padding-top: 7px'>Inserisci password</div>
 			</div>
 			<div id='r2' style='clear: left; margin: 0 auto 0 auto; height: 60px;'>
 				<div style='width: 50%; float: left; text-align: right'>
-					<input type='password' name='pwd2' id='pwd2' style='width: 90%; color: #EEEEEE; border: 2px solid #FFFFFF; border-radius: 5px; box-shadow: 0 0 5px #FFFFFF; background-color:transparent; font-size: 1.5em; margin: auto' />
+					<input type='password' name='pwd2' id='pwd2' style='width: 90%; ' />
 				</div>
-				<div style='width: 45%; float: left; text-align: center; color: #FFFFFF; font-size: 1.15em; text-transform: uppercase; text-shadow: 0 0 5px #FFFFFF; padding-top: 7px'>Ripeti password</div>
+				<div style='width: 45%; float: left; text-align: center; font-size: 1.15em; text-transform: uppercase; text-shadow: 0 0 5px #FFFFFF; padding-top: 7px'>Ripeti password</div>
 			</div>
 			<div id='r3' style='clear: left; height: 120px; text-align: center'>
-				<input type='button' onclick='registra()' style='width: 90px; heigth: 45px; border: 2px solid #FFFFFF; border-radius: 5px; box-shadow: 0 0 5px #FFFFFF; background-color: transparent; color: #EEEEEE; font-size: 1.15em; margin-top: 20px' value='INVIA' />
+				<input type='button' id="mail_button" onclick='registra()' style="" value='INVIA' />
 			</div>
 
 		<?php
@@ -112,5 +114,21 @@
 		</form>
 	</div>
 </section>
+	<div id="alert" class="alert_msg" style="display: none">
+		<div class="alert_title">
+			<i class="fa fa-thumbs-up"></i>
+			<span>Successo</span>
+		</div>
+		<p id="alertmessage" class="alertmessage"></p>
+	</div>
+	<div id="error" class="error_msg" style="display: none">
+		<div class="error_title">
+			<i class="fa fa-warning"></i>
+			<span>Errore</span>
+		</div>
+		<p class="errormessage" id="errormessage"></p>
+	</div>
+	<div id='background_msg' style='width: 200px; text-align: center; font-size: 12px; font-weight: bold; padding-top: 30px; margin: auto'></div>
+	<div class="overlay" id="overlay" style="display:none;"></div>
 </body>
 </html>

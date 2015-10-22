@@ -40,7 +40,9 @@ class AccountManager{
 		}
 
 		$smt = $this->datasource_->prepare("INSERT INTO rb_recupero_password (utente, gruppo, token, data_richiesta, data_scadenza_token) VALUES (?, ?, ?, ?, ?)");
-		$smt->bind_param("iisss", $this->user_->getUid(), $area, $uniqid, $now, $due->format("Y-m-d H:i:s"));
+		$id = $this->user_->getUid();
+		$dt = $due->format("Y-m-d H:i:s");
+		$smt->bind_param("iisss", $id, $area, $uniqid, $now, $dt);
 		$smt->execute();
 
 		/*
@@ -68,7 +70,8 @@ class AccountManager{
 			$field = 'uid';
 		}
 		$smt = $this->datasource_->prepare("UPDATE {$table} SET password = ? WHERE $field = ?");
-		$smt->bind_param("si", $newPwd, $this->user_->getUid());
+		$uid = $this->user_->getUid();
+		$smt->bind_param("si", $newPwd, $uid);
 		$smt->execute();
 	}
 

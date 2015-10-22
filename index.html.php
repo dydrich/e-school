@@ -193,7 +193,7 @@ foreach ($colors as $color) {
 		}
 
 		var send_email = function(_area){
-			var mail = $F('email');
+			var mail = $('#email').val();
 
 			$.ajax({
 				type: "POST",

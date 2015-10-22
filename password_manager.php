@@ -41,7 +41,7 @@ if (!isset($_POST['action']) || $_POST['action'] == 'sendmail'){
 	}
 	if ($uid == null){
 		$response['status'] = "nomail";
-		$response['message'] = "L'email inserita non e` presente in archivio: ricontrolla o rivolgiti all'amministratore";
+		$response['message'] = "L'email inserita non è presente in archivio: ricontrolla o rivolgiti all'amministratore";
 		echo json_encode($response);
 		exit;
 	}
@@ -51,6 +51,7 @@ if (!isset($_POST['action']) || $_POST['action'] == 'sendmail'){
 			$user = $rb->loadUserFromUid($uid, $area);
 			$am = new AccountManager($user, new MySQLDataLoader($db));
 			$am->recoveryPasswordViaEmail();
+			$response['message'] = "La tua richiesta è stata inviata. ";
 		} catch (MySQLException $ex){
 			$response['status'] = "kosql";
 			$response['message'] = $ex->getMessage()." === ".$ex->getQuery();
