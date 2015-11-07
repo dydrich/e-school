@@ -252,7 +252,6 @@
 							$('#ct_' + ora + '_' + position).append(alink);
 							$("#att" + alunni[0]['id_alunno'] + "_" + id_ore[ora] + "_0").html("Attivit&agrave; di " + alunni[0]['cognome']);
 
-
 							for (var i = 1; i < alunni.length; i++) {
 								sp = document.createElement("span");
 								sp.setAttribute("style", "margin: 0 15px 0 15px");
