@@ -43,7 +43,9 @@ class UploadManager {
 		*/
 		$dir = $_SESSION['__config__']['document_root']."/rclasse/{$this->pathTo}";
 		if(!file_exists($dir)){
-			mkdir($dir, 0775);
+			if (!mkdir($dir, 0775, true)) {
+				return self::UPL_ERROR;
+			}
 		}
 		
 		$target_path = $dir . $file;
