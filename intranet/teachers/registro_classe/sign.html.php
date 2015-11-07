@@ -219,57 +219,57 @@
 				succes: function() {
 
 				},
-				complete: function(data){
+				complete: function(data) {
 					r = data.responseText;
-					if(r == "null"){
+					if (r == "null") {
 						return false;
 					}
 					var json = $.parseJSON(r);
-					if (json.status == "kosql"){
+					if (json.status == "kosql") {
 						j_alert("error", json.message);
 						console.log(json.dbg_message);
 					}
-					else if (json.status == "ko"){
+					else if (json.status == "ko") {
 						j_alert("error", json.message);
 					}
 					else {
-						$('#support_'+ora+'_'+position).text("Sostegno: "+json.teacher);
-						$('#del_ssign_'+ora+'_'+position).show();
-		                id_ore[ora] = json.id_ora;
-		                alunni = json.alunni;
-		                if (alunni.length == 1){
-			                alink = document.createElement("A");
-			                alink.setAttribute("href", "../sostegno/dettaglio_attivita.php?id="+alunni[0]['attivita']['id']+"&data="+json.day)+"&st="+alunni[0]['id_alunno'];
-			                alink.setAttribute("style", "margin-left: 115px");
-			                alink.appendChild(document.createTextNode("Attivita"));
-			                $('#ct_'+ora+'_'+position).append(alink);
-		                }
-		                else {
-		                    alink = document.createElement("A");
-			                alink.setAttribute("href", "../sostegno/dettaglio_attivita.php?id="+alunni[0].attivita.id+"&data="+json.day+"&st="+alunni[0]['id_alunno']);
-			                alink.setAttribute("style", "margin-left: 115px");
-			                alink.setAttribute("id", "att"+alunni[0]['id_alunno']+"_"+id_ore[ora]+"_0");
-			                $('#ct_'+ora+'_'+position).append(alink);
-			                $("#att"+alunni[0]['id_alunno']+"_"+id_ore[ora]+"_0").html("Attivit&agrave; di "+alunni[0]['cognome']);
+						$('#support_' + ora + '_' + position).text("Sostegno: " + json.teacher);
+						$('#del_ssign_' + ora + '_' + position).show();
+						id_ore[ora] = json.id_ora;
+						alunni = json.alunni;
+						if (alunni.length == 1) {
+							alink = document.createElement("A");
+							alink.setAttribute("href", "../sostegno/dettaglio_attivita.php?id=" + alunni[0]['attivita']['id'] + "&data=" + json.day + "&st=" + alunni[0]['id_alunno']);
+							alink.setAttribute("style", "margin-left: 115px");
+							alink.appendChild(document.createTextNode("Attività"));
+							$('#ct_' + ora + '_' + position).append(alink);
+						}
+						else {
+							alink = document.createElement("A");
+							alink.setAttribute("href", "../sostegno/dettaglio_attivita.php?id=" + alunni[0].attivita.id + "&data=" + json.day + "&st=" + alunni[0]['id_alunno']);
+							alink.setAttribute("style", "margin-left: 115px");
+							alink.setAttribute("id", "att" + alunni[0]['id_alunno'] + "_" + id_ore[ora] + "_0");
+							$('#ct_' + ora + '_' + position).append(alink);
+							$("#att" + alunni[0]['id_alunno'] + "_" + id_ore[ora] + "_0").html("Attivit&agrave; di " + alunni[0]['cognome']);
 
-		                    }
-			                for (var i = 1; i < alunni.length; i++) {
-				                sp = document.createElement("span");
-				                sp.setAttribute("style", "margin: 0 15px 0 15px");
-				                sp.appendChild(document.createTextNode("|"));
-				                sp.setAttribute("id", "sep"+alunni[i]['id_alunno']+"_"+id_ore[ora]+"_0");
-				                $('#ct_'+ora+'_'+position).append(sp);
+
+							for (var i = 1; i < alunni.length; i++) {
+								sp = document.createElement("span");
+								sp.setAttribute("style", "margin: 0 15px 0 15px");
+								sp.appendChild(document.createTextNode("|"));
+								sp.setAttribute("id", "sep" + alunni[i]['id_alunno'] + "_" + id_ore[ora] + "_0");
+								$('#ct_' + ora + '_' + position).append(sp);
 								otlink = document.createElement("A");
-								otlink.setAttribute("href", "../sostegno/dettaglio_attivita.php?id="+alunni[i]['attivita']['id']+"&data="+json.day+"&st="+alunni[0]['id_alunno']);
-								otlink.setAttribute("id", "att"+alunni[i]['id_alunno']+"_"+id_ore[ora]+"_"+i);
+								otlink.setAttribute("href", "../sostegno/dettaglio_attivita.php?id=" + alunni[i]['attivita']['id'] + "&data=" + json.day + "&st=" + alunni[i]['id_alunno']);
+								otlink.setAttribute("id", "att" + alunni[i]['id_alunno'] + "_" + id_ore[ora] + "_" + i);
 
-								$('#ct_'+ora+'_'+position).append(otlink);
-				                last = $("#att"+alunni[i]['id_alunno']+"_"+id_ore[ora]+"_"+i);
-				                $("#att"+alunni[i]['id_alunno']+"_"+id_ore[ora]+"_"+i).html("Attivit&agrave; di "+alunni[i]['cognome']);
-			                }
-		                }
+								$('#ct_' + ora + '_' + position).append(otlink);
+								last = $("#att" + alunni[i]['id_alunno'] + "_" + id_ore[ora] + "_" + i);
+								$("#att" + alunni[i]['id_alunno'] + "_" + id_ore[ora] + "_" + i).html("Attivit&agrave; di " + alunni[i]['cognome']);
+							}
+						}
 					}
-
+				}
 		    });
 		};
 
