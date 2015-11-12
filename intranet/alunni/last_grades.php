@@ -12,7 +12,7 @@
 		?>
 		<p class="w_text bottom_decoration <?php if($voto['voto'] < 6) echo "attention"; else echo "normal" ?>" style="width: 90%; margin: auto">
 			<?php echo $voto['voto'] ?>
-			<span style="margin-left: 15px"><?php echo truncateString($grade_label, 60) ?></span>
+			<span style="margin-left: 15px"><?php echo utf8_decode(truncateString($grade_label, 80)) ?></span>
 		</p>
 	<?php
 	}
