@@ -28,11 +28,11 @@
 		<?php
 		}
 		?>
-		subject = "";
+		subject = <?php if(count($materie) == 1) echo $materie[0][0]; else echo "''"; ?>;
 		clas = old_clas = "";
 		hour = "";
 		day = "";
-		desc = "";
+		desc = "<?php if(count($materie) == 1) echo $materie[0][1]?>";
 		var giorni = ['', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
 		// readonly
 		var readonly = <?php if ($readonly) echo "true"; else echo "false" ?>;
@@ -49,6 +49,7 @@
 		};
 
 		var mod_ora = function(giorno, ora, classe, materia, descrizione){
+			alert(materia);
 			if (readonly) {
 				j_alert("error", "Non hai i permessi per modificare l'orario");
 				return false;
@@ -65,11 +66,17 @@
 				$('#desc').val("");
 			}
 
-			subject = materia;
+			if (materia != 0) {
+				subject = materia;
+				desc = descrizione;
+			}
+			else {
+				$('#materia').text(desc);
+			}
+
 			clas = old_clas = classe;
 			hour = ora;
 			day = giorno;
-			desc = descrizione;
 
 			$('#r1').text(giorni[giorno]+", "+ora+" ora");
 
@@ -83,12 +90,7 @@
 						effect: "slide",
 						duration: 300
 					},
-					buttons: [{
-						text: "Chiudi",
-						click: function() {
-							$( this ).dialog( "close" );
-						}
-					}],
+
 					modal: true,
 					width: 450,
 					title: 'Modifica orario',
@@ -108,6 +110,7 @@
 				act = 1;
 			}
 			desc = $('#desc').val();
+			alert(subject);
 
 			$.ajax({
 				type: "POST",
@@ -134,7 +137,12 @@
 						old_clas = 0;
 						var parent_row = "ora_"+day+"_"+hour;
 						if(del == 0){
-						    $('#'+parent_row).html($('#classe').html()+" -- "+$('#materia').html().substring(0, 19));
+							_string = $('#classe').html();
+							<?php if (count($materie) > 1) : ?>
+							_string += " -- "+$('#materia').html().substring(0, 19);
+							<?php endif; ?>
+						    $('#'+parent_row).html(_string);
+
 						    if(desc != ""){
 							    $html = $('#'+parent_row).html();
 						        $('#'+parent_row).html($html + " ("+desc+")");
@@ -188,9 +196,50 @@ table a {
         ?>
 	        <tr style="border-top: 1px solid #c0c0c0">
 	        	<td style="width: 7%; border-bottom: 1px solid; border-right: 1px solid; border-left: 1px solid; border-color: #c0c0c0"><?php print $i+1 ?></td>
-	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid;; border-color: #c0c0c0"><a style="font-weight: normal" href="#" onclick="mod_ora(1, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[1][$i + 1])) print ($orario_doc[1][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[1][$i + 1])) print ($orario_doc[1][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[1][$i + 1])) print ($orario_doc[1][$i + 1]['descrizione']); else print ""; ?>')" id="ora_1_<?php print ($i + 1) ?>"><?php if(isset($orario_doc[1][$i + 1])) {print ($orario_doc[1][$i + 1]['cl'].$orario_doc[1][$i + 1]['sezione']." -- ".substr($orario_doc[1][$i + 1]['mat'], 0, 19)); if($orario_doc[1][$i + 1]['descrizione'] != "") print(" (".$orario_doc[1][$i + 1]['descrizione'].")");} else print "--"; ?></a></td>
-	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid;; border-color: #c0c0c0"><a style="font-weight: normal" href="#" onclick="mod_ora(2, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[2][$i + 1])) print ($orario_doc[2][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[2][$i + 1])) print ($orario_doc[2][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[2][$i + 1])) print ($orario_doc[2][$i + 1]['descrizione']); else print ""; ?>')" id="ora_2_<?php print ($i + 1) ?>"><?php if(isset($orario_doc[2][$i + 1])) {print ($orario_doc[2][$i + 1]['cl'].$orario_doc[2][$i + 1]['sezione']." -- ".substr($orario_doc[2][$i + 1]['mat'], 0, 19)); if($orario_doc[2][$i + 1]['descrizione'] != "") print(" (".$orario_doc[2][$i + 1]['descrizione'].")");}else print "--"; ?></a></td>
-	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid;; border-color: #c0c0c0"><a style="font-weight: normal" href="#" onclick="mod_ora(3, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[3][$i + 1])) print ($orario_doc[3][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[3][$i + 1])) print ($orario_doc[3][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[3][$i + 1])) print ($orario_doc[3][$i + 1]['descrizione']); else print ""; ?>')" id="ora_3_<?php print ($i + 1) ?>"><?php if(isset($orario_doc[3][$i + 1])) {print ($orario_doc[3][$i + 1]['cl'].$orario_doc[3][$i + 1]['sezione']." -- ".substr($orario_doc[3][$i + 1]['mat'], 0, 19)); if($orario_doc[3][$i + 1]['descrizione'] != "") print(" (".$orario_doc[3][$i + 1]['descrizione'].")");}else print "--"; ?></a></td>
+	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid;; border-color: #c0c0c0">
+			        <a style="font-weight: normal" href="#" onclick="mod_ora(1, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[1][$i + 1])) print ($orario_doc[1][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[1][$i + 1])) print ($orario_doc[1][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[1][$i + 1])) print ($orario_doc[1][$i + 1]['descrizione']); else print ""; ?>')" id="ora_1_<?php print ($i + 1) ?>">
+				        <?php
+				        if(isset($orario_doc[1][$i + 1])) {
+					        print ($orario_doc[1][$i + 1]['cl'].$orario_doc[1][$i + 1]['sezione']);
+					        if (count($materie) > 1) {
+						        echo " -- " . substr($orario_doc[1][$i + 1]['mat'], 0, 19);
+					        }
+					        if($orario_doc[1][$i + 1]['descrizione'] != "") print(" (".$orario_doc[1][$i + 1]['descrizione'].")");
+				        }
+				        else print "--";
+				        ?>
+			        </a>
+		        </td>
+	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid;; border-color: #c0c0c0">
+			        <a style="font-weight: normal" href="#" onclick="mod_ora(2, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[2][$i + 1])) print ($orario_doc[2][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[2][$i + 1])) print ($orario_doc[2][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[2][$i + 1])) print ($orario_doc[2][$i + 1]['descrizione']); else print ""; ?>')" id="ora_2_<?php print ($i + 1) ?>">
+				        <?php
+				        if(isset($orario_doc[2][$i + 1])) {
+					        print ($orario_doc[2][$i + 1]['cl'].$orario_doc[2][$i + 1]['sezione']);
+				            if (count($materie) > 1) {
+					            echo " -- ".substr($orario_doc[2][$i + 1]['mat'], 0, 19);
+				            }
+					        if($orario_doc[2][$i + 1]['descrizione'] != "") print(" (".$orario_doc[2][$i + 1]['descrizione'].")");
+				        }
+				        else print "--";
+				        ?>
+			        </a>
+		        </td>
+	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid;; border-color: #c0c0c0">
+			        <a style="font-weight: normal" href="#" onclick="mod_ora(3, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[3][$i + 1])) print ($orario_doc[3][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[3][$i + 1])) print ($orario_doc[3][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[3][$i + 1])) print ($orario_doc[3][$i + 1]['descrizione']); else print ""; ?>')" id="ora_3_<?php print ($i + 1) ?>">
+				        <?php
+				        if(isset($orario_doc[3][$i + 1])) {
+					        print ($orario_doc[3][$i + 1]['cl'].$orario_doc[3][$i + 1]['sezione']);
+					        if (count($materie) > 1) {
+						        echo " -- ".substr($orario_doc[3][$i + 1]['mat'], 0, 19);
+					        }
+					        if($orario_doc[3][$i + 1]['descrizione'] != "") print(" (".$orario_doc[3][$i + 1]['descrizione'].")");
+				        }
+				        else {
+					        print "--";
+				        }
+				        ?>
+			        </a>
+		        </td>
 	        </tr>
         <?php 
         }
@@ -212,9 +261,54 @@ table a {
 	        ?>
 	        <tr style="border-top: 1px solid #c0c0c0">
 	        	<td style="width: 7%; border-bottom: 1px solid; border-left: 1px solid; border-right: 1px solid; border-color: #c0c0c0"><?php print $i+1 ?></td>
-	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid; border-color: #c0c0c0"><a style="font-weight: normal" href="#" onclick="mod_ora(4, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[4][$i + 1])) print ($orario_doc[4][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[4][$i + 1])) print ($orario_doc[4][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[4][$i + 1])) print ($orario_doc[4][$i + 1]['descrizione']); else print ""; ?>')" id="ora_4_<?php print ($i + 1) ?>"><?php if(isset($orario_doc[4][$i + 1])) {print ($orario_doc[4][$i + 1]['cl'].$orario_doc[4][$i + 1]['sezione']." -- ".substr($orario_doc[4][$i + 1]['mat'], 0, 19)); if($orario_doc[4][$i + 1]['descrizione'] != "") print(" (".$orario_doc[4][$i + 1]['descrizione'].")");}else print "--"; ?></a></td>
-	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid; border-color: #c0c0c0"><a style="font-weight: normal" href="#" onclick="mod_ora(5, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[5][$i + 1])) print ($orario_doc[5][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[5][$i + 1])) print ($orario_doc[5][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[5][$i + 1])) print ($orario_doc[5][$i + 1]['descrizione']); else print ""; ?>')" id="ora_5_<?php print ($i + 1) ?>"><?php if(isset($orario_doc[5][$i + 1])) {print ($orario_doc[5][$i + 1]['cl'].$orario_doc[5][$i + 1]['sezione']." -- ".substr($orario_doc[5][$i + 1]['mat'], 0, 19)); if($orario_doc[5][$i + 1]['descrizione'] != "") print(" (".$orario_doc[5][$i + 1]['descrizione'].")");}else print "--"; ?></a></td>
-	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid; border-color: #c0c0c0"><a style="font-weight: normal" href="#" onclick="mod_ora(6, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[6][$i + 1])) print ($orario_doc[6][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[6][$i + 1])) print ($orario_doc[6][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[6][$i + 1])) print ($orario_doc[6][$i + 1]['descrizione']); else print ""; ?>')" id="ora_6_<?php print ($i + 1) ?>"><?php if(isset($orario_doc[6][$i + 1])) {print ($orario_doc[6][$i + 1]['cl'].$orario_doc[6][$i + 1]['sezione']." -- ".substr($orario_doc[6][$i + 1]['mat'], 0, 19)); if($orario_doc[6][$i + 1]['descrizione'] != "") print(" (".$orario_doc[6][$i + 1]['descrizione'].")");}else print "--"; ?></a></td>
+	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid; border-color: #c0c0c0">
+			        <a style="font-weight: normal" href="#" onclick="mod_ora(4, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[4][$i + 1])) print ($orario_doc[4][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[4][$i + 1])) print ($orario_doc[4][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[4][$i + 1])) print ($orario_doc[4][$i + 1]['descrizione']); else print ""; ?>')" id="ora_4_<?php print ($i + 1) ?>">
+				        <?php
+				        if(isset($orario_doc[4][$i + 1])) {
+					        print ($orario_doc[4][$i + 1]['cl'].$orario_doc[4][$i + 1]['sezione']);
+					        if (count($materie) > 1) {
+						        echo " -- ".substr($orario_doc[4][$i + 1]['mat'], 0, 19);
+					        }
+					        if($orario_doc[4][$i + 1]['descrizione'] != "") print(" (".$orario_doc[4][$i + 1]['descrizione'].")");
+				        }
+				        else {
+					        print "--";
+				        }
+				        ?>
+			        </a>
+		        </td>
+	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid; border-color: #c0c0c0">
+			        <a style="font-weight: normal" href="#" onclick="mod_ora(5, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[5][$i + 1])) print ($orario_doc[5][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[5][$i + 1])) print ($orario_doc[5][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[5][$i + 1])) print ($orario_doc[5][$i + 1]['descrizione']); else print ""; ?>')" id="ora_5_<?php print ($i + 1) ?>">
+				        <?php
+				        if(isset($orario_doc[5][$i + 1])) {
+					        print ($orario_doc[5][$i + 1]['cl'].$orario_doc[5][$i + 1]['sezione']);
+					        if (count($materie) > 1) {
+						        echo " -- ".substr($orario_doc[5][$i + 1]['mat'], 0, 19);
+					        }
+					        if($orario_doc[5][$i + 1]['descrizione'] != "") print(" (".$orario_doc[5][$i + 1]['descrizione'].")");
+				        }
+				        else {
+					        print "--";
+				        }
+				        ?>
+			        </a>
+		        </td>
+	        	<td style="width: 31%; border-bottom: 1px solid; border-right: 1px solid; border-color: #c0c0c0">
+			        <a style="font-weight: normal" href="#" onclick="mod_ora(6, <?php print ($i + 1) ?>, <?php if(isset($orario_doc[6][$i + 1])) print ($orario_doc[6][$i + 1]['classe']); else print "0"; ?>, <?php if(isset($orario_doc[6][$i + 1])) print ($orario_doc[6][$i + 1]['materia']); else print "0"; ?>, '<?php if(isset($orario_doc[6][$i + 1])) print ($orario_doc[6][$i + 1]['descrizione']); else print ""; ?>')" id="ora_6_<?php print ($i + 1) ?>">
+				        <?php
+				        if(isset($orario_doc[6][$i + 1])) {
+					        print ($orario_doc[6][$i + 1]['cl'].$orario_doc[6][$i + 1]['sezione']);
+					        if (count($materie) > 1) {
+						        echo " -- ".substr($orario_doc[6][$i + 1]['mat'], 0, 19);
+					        }
+					        if($orario_doc[6][$i + 1]['descrizione'] != "") print(" (".$orario_doc[6][$i + 1]['descrizione'].")");
+				        }
+				        else {
+					        print "--";
+				        }
+				        ?>
+			        </a>
+		        </td>
 	        </tr>
 	        <?php 
 	        }
@@ -237,7 +331,7 @@ table a {
 <div id="r1" style='font-weight: bold; font-size: 0.95em; text-align: center; margin-top: 10px'></div>
 <div style='text-align: center; font-weight: normal; font-size: 0.95em; padding: 5px; margin-top: 10px; padding-bottom: 20px'>	
 	Classe: <span id='classe' class='attention' style='font-weight: bold'></span> - 
-	Materia: <span id='materia' class='attention' style='font-weight: bold'></span>	
+	Materia: <span id='materia' class='attention' style='font-weight: bold'><?php reset($materie); if(count($materie) == 1) echo $materie[0][1]?></span>
 	<table style='width: 85%; margin: auto'>		
 		<tr>
 			<td colspan='2' style='text-align: center; font-weight: bold; height: 3em'>Modifica l'orario</td>
@@ -266,13 +360,13 @@ table a {
 		?>
 		<tr>		
 			<td colspan='2' style='text-align: left; font-weight: normal; height: 2em '>Personalizza&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type='text' style='width: 60%; border: 1px solid #467aa7; font-size: 11px; color: gray' maxlength='20' id='desc' value='' />
+				<input type='text' style='width: 70%; border: 1px solid #467aa7; font-size: 11px; color: gray' maxlength='20' id='desc' value='' />
 			</td>	
 		</tr>	
 	</table>	
 	<div style='width: 90%; text-align: right; padding-right: 20px; margin-top: 15px'>	
-		<a href='#' onclick='upd_ora(0)' class='standard_link' style='color: #373946' >Registra</a>&nbsp;|&nbsp;	
-		<a href='#' onclick='upd_ora(1)' class='standard_link' style='color: #373946' >Cancella</a>	
+		<a href='#' onclick='upd_ora(0)' class='material_link nav_link_first'>Registra</a>
+		<a href='#' onclick='upd_ora(1)' class='material_link nav_link_last'>Cancella</a>
 	</div>
 </div>
 </div>
