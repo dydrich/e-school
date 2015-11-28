@@ -101,11 +101,13 @@ class StudentActivityReport
 					  AND data_voto BETWEEN DATE_SUB(NOW(), INTERVAL 15 DAY) AND NOW()
 					  ORDER BY data_voto DESC";
 		$res_grades = $this->datasource->executeQuery($sel_grades);
-		foreach ($res_grades as $grade) {
-			if (!isset($activities[$grade['data_voto']])) {
-				$activities[$grade['data_voto']] = array();
+		if($res_grades) {
+			foreach ($res_grades as $grade) {
+				if (!isset($activities[$grade['data_voto']])) {
+					$activities[$grade['data_voto']] = array();
+				}
+				$activities[$grade['data_voto']][] = array("tipo" => "Voto", "descrizione" => " di ".$grade['desc_mat'].": ".$grade['voto'], "voto" => $grade['voto']);
 			}
-			$activities[$grade['data_voto']][] = array("tipo" => "Voto", "descrizione" => " di ".$grade['desc_mat'].": ".$grade['voto'], "voto" => $grade['voto']);
 		}
 
 		/*
