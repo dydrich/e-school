@@ -1,3 +1,101 @@
+4.5 212
+issue #121: orario personale del docente, modifiche per facilitare inserimento dei docenti che insegnano una sola materia
+
+4.5.211
+correzione utf8 in alunni/last_grades.php
+
+4.5.210
+sign.php: risolti problemi relativi al passaggio del parametro alunno nel link Attivita all'atto della firma del docente di sostegno
+
+4.5.209
+risolto problema per cui UploadManager non creava la directory (mancato parametro true a mkdir)
+
+4.5.208
+numerosi bug fix (principalmente per la funzione di recupero password)
+
+4.5.207
+issue #119 (documents #7): cancellazione documenti da schermata elenco
+
+4.5.206
+bug fix
+
+4.5.205
+aggiunta segnalazione per assenze non oltre il 25, ma superiori al 20, in index.php genitori
+
+4.5.204
+funzione loaded_with_error in page.js per caricamenti non andati a buon fine
+
+4.5.203
+modifica classe float_button (general.css)
+
+4.5.202
+scheda_alunno mostra il dettaglio delle note didattiche per materia
+
+4.5.201
+issue #117: report e segnalazioni genitori
+bug fix
+
+4.5.200
+bug fix css
+
+4.5.199
+gestione linee di lunghezza eccedente nel div con classe submenu
+varie correzioni in general.css
+
+4.5.198
+bug fix (student_notes.php)
+
+4.5.197
+bug fix (utf8 e offset) in adm_classes
+bug fix StudentManager
+
+4.5.196
+bug fix e material design
+
+4.5.195
+nuovo formato di importazione alunni primaria
+
+4.5.194
+funzione di attivazione account alunni
+
+4.5.193
+issue #115: funzione di download relazioni di classe (versione pubblica)
+
+4.5.192
+bug fix per relazioni.php che mostrava erroneamente i documenti web
+
+4.5.191
+modifica al metodo generateLogin di AccountManager per utilizzare solo il primo nome
+
+4.5.190
+aggiornamento per funzione deprecata di get_file.php
+bug fix
+
+4.5.189
+bug fix archivio scrutini
+
+4.5.188
+bug fix
+migliorie grafiche al tema
+
+4.5.187
+bug fix in AccountManager
+
+4.5.186
+bug fix in communication
+
+4.5.185
+bug fix alunni.php (admin)
+
+4.5.184
+bug fix gestione ore di sostegno (manager)
+
+4.5.183
+bug fix in RBUtilities per i docenti della primaria (moduli classe non presenti)
+
+4.5.182
+corretta errata visualizzazione degli utenti non attivi in new_pwd.php
+
 4.5
 issue #110:
  - gestione relazioni e documenti del cdc

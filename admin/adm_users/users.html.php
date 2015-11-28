@@ -95,6 +95,26 @@
 				event.preventDefault();
 				filter();
 			});
+			$('#top_btn').click(function() {
+				$('html,body').animate({
+					scrollTop: 0
+				}, 700);
+				return false;
+			});
+
+			var amountScrolled = 200;
+
+			$(window).scroll(function() {
+				if ($(window).scrollTop() > amountScrolled) {
+					$('#plus_btn').fadeOut('slow');
+					$('#float_btn').fadeIn('slow');
+					$('#top_btn').fadeIn('slow');
+				} else {
+					$('#float_btn').fadeOut('slow');
+					$('#plus_btn').fadeIn();
+					$('#top_btn').fadeOut('slow');
+				}
+			});
 		});
 
 	</script>
@@ -120,13 +140,8 @@
 		<div class="card_container" style="margin-top: 20px">
         <?php
         $x = 1;
-        if($res_user->num_rows > $limit)
-            $max = $limit;
-        else
-            $max = $res_user->num_rows;
 
         while($user = $res_user->fetch_assoc()){
-            if($x > $limit) break;
             // estraggo i gruppi di appartenenza
             $sel_gruppi = "SELECT rb_gruppi.gid, nome, codice FROM rb_gruppi, rb_gruppi_utente WHERE rb_gruppi.gid = rb_gruppi_utente.gid AND rb_gruppi_utente.uid = {$user['uid']}";
             $res_gruppi = $db->execute($sel_gruppi);
@@ -142,14 +157,14 @@
         ?>
 	        <div class="card" id="row_<?php echo $user['uid'] ?>">
 		        <div class="card_title">
-			        <a href="dettaglio_utente.php?id=<?php echo $user['uid'] ?>&offset=<?php echo $offset ?>" class="mod_link"><?php echo $user['cognome']." ".$user['nome'] ?></a>
+			        <a href="dettaglio_utente.php?id=<?php echo $user['uid'] ?>" class="mod_link"><?php echo $user['cognome']." ".$user['nome'] ?></a>
 			        <div style="float: right; margin-right: 20px" id="del_<?php echo $user['uid'] ?>">
 				        <a href="users_manager.php?action=2&id=<?php echo $user['uid'] ?>" class="del_link">
 					        <img src="../../images/51.png" style="position: relative; bottom: 2px" />
 				        </a>
 			        </div>
 			        <div style="float: right; margin-right: 120px; text-align: left; width: 200px; text-transform: none" class="normal">
-				        <a href="modifica_account.php?uid=<?php echo $user['uid'] ?>&area=<?php echo $area ?>&offset=<?php echo $offset ?>" class="normal"><?php echo $user['username'] ?></a>
+				        <a href="modifica_account.php?uid=<?php echo $user['uid'] ?>&area=<?php echo $area ?>" class="normal"><?php echo $user['username'] ?></a>
 			        </div>
 		        </div>
 		        <div class="card_minicontent">
@@ -159,9 +174,6 @@
         <?php
             $x++;
         }
-        ?>
-        <?php
-        include "../../shared/navigate.php";
         ?>
 		</div>
     </div>
@@ -197,5 +209,11 @@
 		</div>
 	</form>
 </div>
+<a href="dettaglio_utente.php?id=0" id="float_btn" class="rb_button float_button">
+	<i class="fa fa-pencil"></i>
+</a>
+<a href="#" id="top_btn" class="rb_button float_button top_button">
+	<i class="fa fa-arrow-up"></i>
+</a>
 </body>
 </html>

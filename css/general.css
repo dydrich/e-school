@@ -594,6 +594,15 @@ div.welcome:first-of-type {
     color: rgba(200, 6, 6, 1) !important;
 }
 
+.attention_bg {
+    background-color: rgba(200, 6, 6, .7) !important;
+    color: white;
+}
+
+.attention_bg a {
+    color: white !important;
+}
+
 #hd a.attention:link  {
     color: rgb(131, 2, 29);
     text-decoration: none

@@ -215,3 +215,13 @@ input.android:focus, select.android:focus, textarea.android:focus {
 .popup_form {
     border: 1px solid rgba(96, 125, 139, .6);
 }
+
+.float_button {
+    background-color: #455A64 !important;
+    color: #ffffff;
+}
+
+.float_button:hover {
+    background-color: #FF9100 !important;
+    color: #000000;
+}
