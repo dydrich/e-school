@@ -177,18 +177,15 @@
 			});
 			$('a.sched_link').click(function(event){
 				event.preventDefault();
-				var _offset = $(this).attr("data_offset");
-				document.location.href="orario.php?cls="+cls+"&offset="+_offset;
+				document.location.href="orario.php?cls="+cls;
 			});
 			$('a.stud_link').click(function(event){
 				event.preventDefault();
-				var _offset = $(this).attr("data_offset");
-				document.location.href="alunni.php?id_classe="+cls+"&offset="+_offset;
+				document.location.href="alunni.php?id_classe="+cls;
 			});
 			$('a.cdc_link').click(function(event){
 				event.preventDefault();
-				var _offset = <?php echo $offset ?>;
-				document.location.href="cdc.php?id="+cls+"&offset="+_offset;
+				document.location.href="cdc.php?id="+cls;
 			});
 			$('a.del_link').click(function(event){
 				event.preventDefault();
@@ -211,6 +208,26 @@
 			$('#segretario').change(function(event){
 				upd_cdc('segretario');
 			});
+			$('#top_btn').click(function() {
+				$('html,body').animate({
+					scrollTop: 0
+				}, 700);
+				return false;
+			});
+
+			var amountScrolled = 200;
+
+			$(window).scroll(function() {
+				if ($(window).scrollTop() > amountScrolled) {
+					$('#plus_btn').fadeOut('slow');
+					$('#float_btn').fadeIn('slow');
+					$('#top_btn').fadeIn('slow');
+				} else {
+					$('#float_btn').fadeOut('slow');
+					$('#plus_btn').fadeIn();
+					$('#top_btn').fadeOut('slow');
+				}
+			});
 		});
 
 	</script>
@@ -224,7 +241,7 @@
 	</div>
 	<div id="left_col">
 		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
-			<a href="classe.php?id=0&offset=<?php echo $offset ?>&school_order=<?php echo $_GET['school_order'] ?>">
+			<a href="classe.php?id=0&school_order=<?php echo $_GET['school_order'] ?>">
 				<img src="../../images/39.png" style="padding: 12px 0 0 12px" />
 			</a>
 		</div>
@@ -232,13 +249,8 @@
             <?php
             $res_cls->data_seek(0);
             $x = 1;
-            if($res_cls->num_rows > $limit)
-                $max = $limit;
-            else
-                $max = $res_cls->num_rows;
 
             while($class = $res_cls->fetch_assoc()){
-                if($x > $limit) break;
                 $cdc = "";
                 // estrazione consiglio di classe
                 $sel_state = "SELECT count(*) AS count FROM rb_cdc WHERE id_anno = $anno AND id_classe = ".$class['id_classe']." AND id_docente IS NOT NULL AND id_materia <>11";
@@ -274,7 +286,7 @@
             ?>
             <div class="card" id="row_<?php echo $class['id_classe'] ?>">
 	            <div class="card_title">
-		            <a href="classe.php?id=<?php echo $class['id_classe'] ?>&offset=<?php echo $offset ?>&school_order=<?php echo $school_order ?>" class="ren_link">
+		            <a href="classe.php?id=<?php echo $class['id_classe'] ?>&school_order=<?php echo $school_order ?>" class="ren_link">
 			            <span id="ren_<?php echo $class['id_classe'] ?>"><?php print $class['anno_corso']." ".$class['sezione'] ?></span> - <span id="" style="margin-left: 0px; margin-right: 30px"><?php echo $class['nome'] ?></span>
 		            </a>
 		            <div style="float: right; margin-right: 20px" id="del_<?php echo $class['id_classe'] ?>">
@@ -294,7 +306,6 @@
             <?php
                 $x++;
             }
-            include "../../shared/navigate.php";
             ?>
 		</div>
     </div>
@@ -339,10 +350,16 @@
 </div>
 <div id="hid" style="position: absolute; width: 200px; height: 130px; display: none; ">
 	<p id="classname" style="width: 100%; margin: auto; text-align: center" class="pop_label"></p>
-	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="cdc_link" data-offset="<?php echo $offset ?>">Consiglio di classe</a></p>
+	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="cdc_link">Consiglio di classe</a></p>
 	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="coord_link">Coordinatore</a></p>
-	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="sched_link" data-offset="<?php echo $offset ?>">Orario</a></p>
-	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="stud_link" data-offset="<?php echo $offset ?>">Alunni</a></p>
+	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="sched_link">Orario</a></p>
+	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="stud_link">Alunni</a></p>
 </div>
+<a href="classe.php?id=0&school_order=<?php echo $_GET['school_order'] ?>" id="float_btn" class="rb_button float_button">
+	<i class="fa fa-pencil"></i>
+</a>
+<a href="#" id="top_btn" class="rb_button float_button top_button">
+	<i class="fa fa-arrow-up"></i>
+</a>
 </body>
 </html>

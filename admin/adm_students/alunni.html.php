@@ -102,6 +102,26 @@
 				event.preventDefault();
 				go();
 			});
+			$('#top_btn').click(function() {
+				$('html,body').animate({
+					scrollTop: 0
+				}, 700);
+				return false;
+			});
+
+			var amountScrolled = 200;
+
+			$(window).scroll(function() {
+				if ($(window).scrollTop() > amountScrolled) {
+					$('#plus_btn').fadeOut('slow');
+					$('#float_btn').fadeIn('slow');
+					$('#top_btn').fadeIn('slow');
+				} else {
+					$('#float_btn').fadeOut('slow');
+					$('#plus_btn').fadeIn();
+					$('#top_btn').fadeOut('slow');
+				}
+			});
 		});
 
 	</script>
@@ -134,13 +154,8 @@
 		</a>
     <?php
     $x = 1;
-    if($res_user->num_rows > $limit)
-        $max = $limit;
-    else
-        $max = $res_user->num_rows;
 
     while($user = $res_user->fetch_assoc()){
-        if($x > $limit) break;
         $class_string = $user['classe']." (";
         if($classes_table == "rb_classi"){
 			$class_string .= $user['codice']." - ";
@@ -166,9 +181,6 @@
         <?php
             $x++;
         }
-        ?>
-        <?php
-        include "../../shared/navigate.php";
         ?>
     </form>
     </div>
@@ -237,5 +249,11 @@
 		</div>
 	</form>
 </div>
+<a href="dettaglio_alunno.php?id=0&type=0" id="float_btn" class="rb_button float_button">
+	<i class="fa fa-pencil"></i>
+</a>
+<a href="#" id="top_btn" class="rb_button float_button top_button">
+	<i class="fa fa-arrow-up"></i>
+</a>
 </body>
 </html>

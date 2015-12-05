@@ -240,6 +240,26 @@
 				event.preventDefault();
 				$('#hid').hide();
 			});
+			$('#top_btn').click(function() {
+				$('html,body').animate({
+					scrollTop: 0
+				}, 700);
+				return false;
+			});
+
+			var amountScrolled = 200;
+
+			$(window).scroll(function() {
+				if ($(window).scrollTop() > amountScrolled) {
+					$('#plus_btn').fadeOut('slow');
+					$('#float_btn').fadeIn('slow');
+					$('#top_btn').fadeIn('slow');
+				} else {
+					$('#float_btn').fadeOut('slow');
+					$('#plus_btn').fadeIn();
+					$('#top_btn').fadeOut('slow');
+				}
+			});
 		});
 
 	</script>
@@ -282,16 +302,10 @@
 			<form method="post" style="width: 100%" class="no_border">
             <?php
             $x = 1;
-            if($res_user->num_rows > $limit)
-                $max = $limit;
-            else
-                $max = $res_user->num_rows;
-
             while($user = $res_user->fetch_assoc()){
                 $ruolo = "SI";
                 if($user['ruolo'] != "S")
                     $ruolo = "NO";
-                if($x > $limit) break;
             ?>
 	            <div class="card" id="row_<?php print $user['id_docente'] ?>">
 		            <div class="card_title">
@@ -312,7 +326,6 @@
             <?php
                 $x++;
             }
-            include "../../shared/navigate.php";
             ?>
         </form>
     </div>
@@ -320,13 +333,16 @@
     <p class="spacer"></p>
 </div>
 <?php include "../footer.php" ?>
-    <div id="drawer" class="drawer" style="display: none; position: absolute">
-	    <div style="width: 100%; height: 430px">
-		    <div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
-		    <div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
-		    <div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
-	    </div>
-	    <div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+<div id="drawer" class="drawer" style="display: none; position: absolute">
+    <div style="width: 100%; height: 430px">
+	    <div class="drawer_link"><a href="../../index.php"><img src="../../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
+	    <div class="drawer_link"><a href="../index.php"><img src="../../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
+	    <div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
     </div>
+    <div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
+<a href="#" id="top_btn" class="rb_button float_button top_button">
+    <i class="fa fa-arrow-up"></i>
+</a>
 </body>
 </html>

@@ -19,15 +19,6 @@ if (!$_SESSION['__user__']->isAdministrator()) {
 	}
 }
 
-if(!isset($_REQUEST['offset'])){
-    $offset = 0;
-}
-else{
-    $offset = $_REQUEST['offset'];
-}
-
-$limit = 12;
-
 $classes_table = "rb_classi";
 $school_order = 0;
 if(isset($_GET['school_order']) && $_GET['school_order'] != 0){
@@ -154,29 +145,17 @@ else{
 	$icon = "fa-sort-numeric-asc";
 }
 
-if(!isset($_GET['second'])){
+try {
     $res_user = $db->execute($sel_user);
-    //print $sel_links;
     $count = $res_user->num_rows;
     $_SESSION['count_alunni'] = $count;
-}
-else{
-    $sel_user .= " LIMIT $limit OFFSET $offset";
-    $res_user = $db->execute($sel_user);
+} catch (MySQLException $ex) {
+    $ex->redirect();
 }
 
 if($query_label != "")
 	$query_label = "[".$query_label."]";
 
-if($offset == 0)
-    $page = 1;
-else
-    $page = ($offset / $limit) + 1;
-
-$pagine = ceil($_SESSION['count_alunni'] / $limit);
-if($pagine < 1)
-    $pagine = 1;
-    
 // dati per la paginazione (navigate.php)
 $colspan = 3;
 $link = basename($_SERVER['PHP_SELF']);
@@ -185,6 +164,6 @@ $row_class = "admin_void";
 
 $navigation_label = "gestione utenti";
 if (isset($_SESSION['area_from'])) $navigation_label = setNavigationLabel($_SESSION['__school_order__']);
-$drawer_label = "Elenco alunni: pagina $page di $pagine (estratti ".$_SESSION['count_alunni']." alunni) "; //<span style='text-decoration: underline'>$query_label</span>";
+$drawer_label = "Elenco alunni: (estratti ".$_SESSION['count_alunni']." record) "; //<span style='text-decoration: underline'>$query_label</span>";
 
 include "alunni.html.php";

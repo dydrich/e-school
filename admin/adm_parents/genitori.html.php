@@ -154,7 +154,7 @@
 						return;
 					}
 					else {
-						link = "genitori.php?offset=<?php print $offset ?>&school_order=<?php echo $school_order ?>";
+						link = "genitori.php?school_order=<?php echo $school_order ?>";
 						j_alert("alert", "Utente cancellato correttamente");
 						window.setTimeout(function(){
 							document.location.href = link;
@@ -195,6 +195,26 @@
 			$('#open_search').click(function(event){
 				event.preventDefault();
 				get_pop_search();
+			});
+			$('#top_btn').click(function() {
+				$('html,body').animate({
+					scrollTop: 0
+				}, 700);
+				return false;
+			});
+
+			var amountScrolled = 200;
+
+			$(window).scroll(function() {
+				if ($(window).scrollTop() > amountScrolled) {
+					$('#plus_btn').fadeOut('slow');
+					$('#float_btn').fadeIn('slow');
+					$('#top_btn').fadeIn('slow');
+				} else {
+					$('#float_btn').fadeOut('slow');
+					$('#plus_btn').fadeIn();
+					$('#top_btn').fadeOut('slow');
+				}
 			});
 		});
 
@@ -242,21 +262,8 @@
         $final_uid = 0;
         $figli = array();
         $classi = array();
-        $_max = ($offset + $limit) -1;
-        if(count($ordered_parents) > $limit)
-            $max = $limit;
-        else
-            $max = count($ordered_parents);
-        foreach ($ordered_parents as $user){
-            if($offset > 0 && ($index < $offset)) {
-                $index++;
-                continue;
-            }
-            //echo $index . "==" .$_max ."<br>";
-            if ($index >= $_max) {
-                break;
-            }
 
+        foreach ($ordered_parents as $user){
             if($id_genitore != $user['uid'] && $id_genitore != 0){
                 $index++;
     ?>
@@ -316,7 +323,6 @@
             </div>
         </div>
         <?php
-            include "../../shared/navigate.php";
         }
         ?>
 	</div>
@@ -344,5 +350,11 @@
 	</div>
 	<div id="list_names" style="width: 90%; margin: auto"></div>
 </div>
+<a href="dettaglio_genitore.php?id=0&school_order=<?php echo $_GET['school_order'] ?>" id="float_btn" class="rb_button float_button">
+	<i class="fa fa-pencil"></i>
+</a>
+<a href="#" id="top_btn" class="rb_button float_button top_button">
+	<i class="fa fa-arrow-up"></i>
+</a>
 </body>
 </html>

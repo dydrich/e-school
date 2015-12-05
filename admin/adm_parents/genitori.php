@@ -10,15 +10,6 @@ $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "../";
 
 $offlink = "";
-if(!isset($_REQUEST['offset'])){
-    $offset = 0;
-}
-else{
-    $offset = $_REQUEST['offset'];
-	$offlink = "&second=1&offset=".$_REQUEST['offset'];
-}
-
-$limit = 10;
 
 $school_order = 0;
 $classes_table = "rb_classi";
@@ -118,18 +109,8 @@ else{
 }
 */
 
-if($offset == 0){
-    $page = 1;
-}
-else{
-    $page = ($offset / $limit) + 1;
-}
-$_SESSION['count_parents'] = count($uids);
 
-$pagine = ceil($_SESSION['count_parents'] / $limit);
-if($pagine < 1){
-    $pagine = 1;
-}
+$_SESSION['count_parents'] = count($uids);
 
 // dati per la paginazione (navigate.php)
 $colspan = 3;
@@ -144,10 +125,8 @@ if(isset($_REQUEST['order'])) {
 if(isset($_GET['school_order'])){
 	$nav_params .= "&school_order=".$_GET['school_order'];
 }
-$first = $offset + 1;
-$last = (($offset + ($limit)) > $_SESSION['count_parents']) ? $_SESSION['count_parents'] : $offset + ($limit);
 
 $navigation_label = "gestione utenti";
-$drawer_label = "Elenco genitori: estratti ".$_SESSION['count_parents']." (".$first." - ".$last.")";
+$drawer_label = "Elenco genitori: estratti ".$_SESSION['count_parents'];
 
 include "genitori.html.php";
