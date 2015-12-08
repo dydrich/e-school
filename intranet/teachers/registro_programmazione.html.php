@@ -76,7 +76,8 @@
 		};
 
 		var load_meeting = function(rid, closed) {
-			if (closed) {
+			var user = '<?php echo $_SESSION['__user__']->getUsername() ?>';
+			if (closed && user != 'marinella.mameli@gmail.com') {
 				//return false;
 			}
 			document.location.href = "riunione_programmazione.php?rid="+rid;
