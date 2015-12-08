@@ -234,7 +234,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="popup_title" align="left" style="width: 150px">Nome</td>
+					<td class="popup_title" align="left" style="width: 150px">Cognome</td>
 					<td style="width: 200px">
 						<input type="text" name="nome" style="width: 199px; font-size: 11px" value="" />
 					</td>
