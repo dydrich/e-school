@@ -99,7 +99,7 @@ else{
 		<?php if ($mod): ?><a style="font-weight: normal" href="dettaglio_attivita.php?t=<?php print $act['id_impegno'] ?>"><?php endif; ?>
 		<div class="card<?php if (!$mod) echo " no_permission" ?>">
 			<div class="card_title">
-				<?php print $desc ?>
+				<?php echo truncateString($desc, 75) ?>
 				<div style="float: right; margin-right: 20px">
 					<?php echo $giorno_str.", ore ".substr($oi, 0, 5) ?>
 				</div>
