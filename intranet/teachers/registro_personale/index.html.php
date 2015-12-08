@@ -845,8 +845,11 @@ codice per il popup nuovo voto
 	<div class="drawer_link">
 		<a href="lessons.php"><img src="../../../images/62.png" style="margin-right: 10px; position: relative; top: 5%"/>Lezioni</a>
 	</div>
-	<div class="drawer_link separator">
+	<div class="drawer_link">
 		<a href="scrutini.php?q=<?php echo $_q ?>"><img src="../../../images/34.png" style="margin-right: 10px; position: relative; top: 5%"/>Scrutini</a>
+	</div>
+	<div class="drawer_link separator">
+		<a href="pagellini.php"><img src="../../../images/60.png" style="margin-right: 10px; position: relative; top: 5%"/>Pagellini</a>
 	</div>
 	<?php
 	}

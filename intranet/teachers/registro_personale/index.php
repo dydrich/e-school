@@ -271,9 +271,9 @@ if ($_SESSION['__user__']->getSubject() == 26 || $_SESSION['__materia__'] == 30 
 }
 
 $drawer_label = "Medie voto".$label;
-$other_drawer_height = 180;
+$other_drawer_height = 216;
 if (!isset($_REQUEST['__goals__']) && (isset($_SESSION['__user_config__']['registro_obiettivi']) && (1 == $_SESSION['__user_config__']['registro_obiettivi'][0]))){
-	$other_drawer_height = 216;
+	$other_drawer_height = 252;
 }
 
 if (isset($_REQUEST['__goals__']) && $_REQUEST['__goals__'] == 1) {
