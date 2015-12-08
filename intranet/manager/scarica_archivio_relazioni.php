@@ -65,6 +65,8 @@ foreach ($relazioni as $idc => $relazione) {
 	$docs_11 = array();
 	$zip->addEmptyDir("relazioni".$year_dir."/".$school_order_directory."/".$relazione['classe']);
 	foreach ($relazione['docs'] as $id => $doc) {
+		$ext = pathinfo($doc['file'], PATHINFO_EXTENSION);
+		$_filename = pathinfo($doc['file'], PATHINFO_FILENAME);
 		if ($doc['tipo'] == 11) {
 			// documenti del cdc
 			$docs_11[] = $doc;
@@ -75,12 +77,12 @@ foreach ($relazioni as $idc => $relazione) {
 			$user_directory = preg_replace("/ /", "_", $user_directory);
 			$user_directory = strtolower($user_directory);
 			chdir($root.$path_to_user_docs.$user_directory);
-			$zip->addFile($doc['file'], "relazioni".$year_dir."/".$school_order_directory."/".$relazione['classe']."/".$doc['file']);
+			$zip->addFile($doc['file'], "relazioni".$year_dir."/".$school_order_directory."/".$relazione['classe']."/".trim($doc['titolo']).".".$ext);
 		}
 	}
 	chdir($root.$path_to_cdc_docs);
 	foreach ($docs_11 as $doc) {
-		$zip->addFile($doc['file'], "relazioni".$year_dir."/".$school_order_directory."/".$relazione['classe']."/".$doc['file']);
+		$zip->addFile($doc['file'], "relazioni".$year_dir."/".$school_order_directory."/".$relazione['classe']."/".trim($doc['titolo']).".".$ext);
 	}
 }
 

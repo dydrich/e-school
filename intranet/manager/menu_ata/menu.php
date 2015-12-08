@@ -11,6 +11,7 @@
 		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>elenco_classi.php">Classi</a></li>
 		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>pagelle.php">Pagelle online</a></li>
 		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>gestione_scrutini.php">Gestione scrutini</a></li>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>pagellini.php">Gestione pagellini</a></li>
 	</ul>
 	<p class="menu_label act_icon">Registro di classe</p>
 	<ul class="menublock" style="" dir="rtl">
