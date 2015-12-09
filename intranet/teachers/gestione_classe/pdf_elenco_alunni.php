@@ -18,7 +18,7 @@ class MYPDF extends SchoolPDF {
 
 		$this->SetX(40.0);
 		$this->SetFont('', 'B');
-		$this->Write(5, $_SESSION['__current_year__']->to_string()."  -  Elenco alunni classe  ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione(), $align='C');
+		$this->Write(5, $_SESSION['__current_year__']->to_string()."  -  Elenco alunni classe  ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione()." (".count($students).")", $align='C');
 
 		$this->SetY(40.0);
 		// Colors, line width and bold font
@@ -40,7 +40,7 @@ class MYPDF extends SchoolPDF {
 					if ($student['anagrafica']['sesso'] == "F") {
 						$vowel = "a";
 					}
-					$this->Cell(100, 10, $student['anagrafica']['alunno'], array('B' => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(195, 195, 195))), 0, "left");
+					$this->Cell(80, 10, $student['anagrafica']['alunno'], array('B' => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(195, 195, 195))), 0, "left");
 					$this->Cell(100, 10, "Nat".$vowel." il ".format_date($student['anagrafica']['data_nascita'], SQL_DATE_STYLE, IT_DATE_STYLE, "/")." a ".$student['anagrafica']['luogo_nascita'], array('B' => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(195, 195, 195))), 1, "left");
 				}
 				break;
@@ -48,7 +48,7 @@ class MYPDF extends SchoolPDF {
 				$this->SetFont('', '', '11');
 				foreach ($students as $student) {
 					$this->Cell(70, 10, $student['anagrafica']['alunno'], array('B' => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(195, 195, 195))), 0, "left");
-					$this->Cell(130, 10, $student['indirizzo']['indirizzo']." - ".$student['indirizzo']['citta'], array('B' => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(195, 195, 195))), 1, "left");
+					$this->Cell(110, 10, $student['indirizzo']['indirizzo']." - ".$student['indirizzo']['citta'], array('B' => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(195, 195, 195))), 1, "left");
 				}
 				break;
 			case 4:
@@ -62,7 +62,7 @@ class MYPDF extends SchoolPDF {
 					}
 					$tel = substr($tel, 0, strlen($tel) - 2);
 					$this->Cell(70, 10, $student['anagrafica']['alunno'], array('B' => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(195, 195, 195))), 0, "left");
-					$this->Cell(130, 10, $tel, array('B' => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(195, 195, 195))), 1, "left");
+					$this->Cell(110, 10, $tel, array('B' => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(195, 195, 195))), 1, "left");
 				}
 				break;
 			case 5:
@@ -88,7 +88,7 @@ class MYPDF extends SchoolPDF {
 					}
 					$this->Cell(70, 7, $student['anagrafica']['alunno'], 0, 1, "left");
 					$this->SetFont('', '', '8');
-					$this->Cell(130, 5, "Nat".$vowel." il ".format_date($student['anagrafica']['data_nascita'], SQL_DATE_STYLE, IT_DATE_STYLE, "/")." a ".$student['anagrafica']['luogo_nascita'], 0, 1, "left");
+					$this->Cell(110, 5, "Nat".$vowel." il ".format_date($student['anagrafica']['data_nascita'], SQL_DATE_STYLE, IT_DATE_STYLE, "/")." a ".$student['anagrafica']['luogo_nascita'], 0, 1, "left");
 					$this->Cell(0, 5, "Residente in ".$student['indirizzo']['indirizzo']." - ".$student['indirizzo']['citta'], 0, 1, "left");
 					$this->Cell(0, 5, "Recapiti telefonici", 0, 1, "left");
 					$this->SetFont('', '', '8');

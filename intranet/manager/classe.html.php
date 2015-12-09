@@ -26,7 +26,36 @@
 			var strs = this.id.split("_");
 			$('#link_'+strs[1]).hide();
 		});
+		$('#pdf').click(function(event){
+			event.preventDefault();
+			filter();
+		});
 	});
+
+	var filter = function(){
+		$('#drawer').hide();
+		$('#listfilter').dialog({
+			autoOpen: true,
+			show: {
+				effect: "appear",
+				duration: 200
+			},
+			hide: {
+				effect: "slide",
+				duration: 200
+			},
+			modal: true,
+			width: 450,
+			height: 300,
+			title: 'Filtra elenco',
+			open: function(event, ui){
+
+			},
+			close: function(event) {
+				$('#overlay').hide();
+			}
+		});
+	};
 	</script>
 	<style type="text/css">
 	table tbody tr:hover {
@@ -42,6 +71,17 @@
 <?php include $_SESSION['__administration_group__']."/menu.php" ?>
 </div>
 <div id="left_col">
+	<?php
+	if ($_REQUEST['show'] == 'alunni') {
+		?>
+		<div style="position: absolute; top: 75px; margin-left: 675px; margin-bottom: 10px; " class="rb_button">
+			<a href="#" id="pdf">
+				<img src="../../images/pdf-32.png" style="padding: 4px 0 0 7px"/>
+			</a>
+		</div>
+		<?php
+	}
+	?>
    	<table style="width: 95%; margin: 20px auto 0 auto">
    		<tbody>
    		<?php 
@@ -90,6 +130,14 @@
 		<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
 	<?php endif; ?>
 	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
+<div id="listfilter" style="display: none; width: 250px">
+	<p><a href="../teachers/gestione_classe/pdf_elenco_alunni.php?t=1">Solo nomi</a></p>
+	<p><a href="../teachers/gestione_classe/pdf_elenco_alunni.php?t=2">Anagrafica</a></p>
+	<p><a href="../teachers/gestione_classe/pdf_elenco_alunni.php?t=3">Con indirizzi</a></p>
+	<p><a href="../teachers/gestione_classe/pdf_elenco_alunni.php?t=4">Numeri di telefono</a></p>
+	<p><a href="../teachers/gestione_classe/pdf_elenco_alunni.php?t=5">Numeri di telefono con descrizione</a></p>
+	<p><a href="../teachers/gestione_classe/pdf_elenco_alunni.php?t=6">Completo</a></p>
 </div>
 </body>
 </html>
