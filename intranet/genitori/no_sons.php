@@ -36,6 +36,9 @@ $drawer_label = "Problema di accesso";
 				<li><a href="mailto:<?php echo $_SESSION['__config__']['admin_email'] ?>?subject=Genitore non associato">Segnala il problema</a></li>
 				<li><a href="../../shared/do_logout.php">Logout</a></li>
 				<li><a href="<?php print $_SESSION['__config__']['root_site'] ?>">Home page</a></li>
+				<?php if (isset($_SESSION['__sudoer__'])): ?>
+				<li><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back">DeSuDo</a></li>
+				<?php endif; ?>
 			</ul>
 		</div>
 	</div>
