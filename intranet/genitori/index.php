@@ -20,14 +20,21 @@ $page = "index.php";
 
 include "check_sons.php";
 
+if (count($_SESSION['__sons__'])  < 1) {
+	include "no_sons.php";
+	exit;
+}
+
 $utils = SessionUtils::getInstance($db);
 $utils->registerCurrentClassFromUser($_SESSION['__current_son__'], "__classe__");
 
 $rb = RBUtilities::getInstance($db);
 $student = $rb->loadUserFromUid($_SESSION['__current_son__'], "student");
 
-$stAcR = new \eschool\StudentActivityReport($student, 15, new MySQLDataLoader($db));
-$activities = $stAcR->getActivities();
+if ($student) {
+	$stAcR = new \eschool\StudentActivityReport($student, 15, new MySQLDataLoader($db));
+	$activities = $stAcR->getActivities();
+}
 
 $avvisi = array();
 

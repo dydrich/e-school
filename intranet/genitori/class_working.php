@@ -2,8 +2,12 @@
 /**
  * controllo se il figlio e` attivo o licenziato
  */
-$son = $_SESSION['__sons__'][$_SESSION['__current_son__']];
-$is_active = $son[3];
+$is_active = false;
+if (isset($_SESSION['__sons__'][$_SESSION['__current_son__']])) {
+	$son = $_SESSION['__sons__'][$_SESSION['__current_son__']];
+	$is_active = $son[3];
+}
+
 ?>
 
 <div class="smallbox" id="working">
