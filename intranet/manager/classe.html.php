@@ -28,33 +28,89 @@
 		});
 		$('#pdf').click(function(event){
 			event.preventDefault();
-			filter();
+			filter('pdf');
+		});
+		$('#xls').click(function(event){
+			event.preventDefault();
+			filter('xls');
+		});
+		$('#ods').click(function(event){
+			event.preventDefault();
+			filter('ods');
 		});
 	});
 
-	var filter = function(){
+	var filter = function(type){
 		$('#drawer').hide();
-		$('#listfilter').dialog({
-			autoOpen: true,
-			show: {
-				effect: "appear",
-				duration: 200
-			},
-			hide: {
-				effect: "slide",
-				duration: 200
-			},
-			modal: true,
-			width: 450,
-			height: 300,
-			title: 'Filtra elenco',
-			open: function(event, ui){
+		if (type == 'pdf') {
+			$('#listfilter').dialog({
+				autoOpen: true,
+				show: {
+					effect: "appear",
+					duration: 200
+				},
+				hide: {
+					effect: "slide",
+					duration: 200
+				},
+				modal: true,
+				width: 450,
+				height: 300,
+				title: 'Filtra elenco',
+				open: function (event, ui) {
 
-			},
-			close: function(event) {
-				$('#overlay').hide();
-			}
-		});
+				},
+				close: function (event) {
+					$('#overlay').hide();
+				}
+			});
+		}
+		else if (type == 'xls') {
+			$('#listfilter2').dialog({
+				autoOpen: true,
+				show: {
+					effect: "appear",
+					duration: 200
+				},
+				hide: {
+					effect: "slide",
+					duration: 200
+				},
+				modal: true,
+				width: 450,
+				height: 300,
+				title: 'Filtra elenco',
+				open: function (event, ui) {
+
+				},
+				close: function (event) {
+					$('#overlay').hide();
+				}
+			});
+		}
+		else if (type == 'ods') {
+			$('#listfilter3').dialog({
+				autoOpen: true,
+				show: {
+					effect: "appear",
+					duration: 200
+				},
+				hide: {
+					effect: "slide",
+					duration: 200
+				},
+				modal: true,
+				width: 450,
+				height: 300,
+				title: 'Filtra elenco',
+				open: function (event, ui) {
+
+				},
+				close: function (event) {
+					$('#overlay').hide();
+				}
+			});
+		}
 	};
 	</script>
 	<style type="text/css">
@@ -74,6 +130,16 @@
 	<?php
 	if ($_REQUEST['show'] == 'alunni') {
 		?>
+		<div style="position: absolute; top: 75px; margin-left: 575px; margin-bottom: 10px; " class="rb_button">
+			<a href="#" id="ods">
+				<img src="../../../images/ods-32.png" style="padding: 4px 0 0 5px" />
+			</a>
+		</div>
+		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: 10px; " class="rb_button">
+			<a href="#" id="xls">
+				<i class="fa fa-file-excel-o _center" style="font-size: 2.2em; margin: 6px 0 0 8px; color: black"></i>
+			</a>
+		</div>
 		<div style="position: absolute; top: 75px; margin-left: 675px; margin-bottom: 10px; " class="rb_button">
 			<a href="#" id="pdf">
 				<img src="../../images/pdf-32.png" style="padding: 4px 0 0 7px"/>
@@ -138,6 +204,22 @@
 	<p><a href="../teachers/gestione_classe/pdf_elenco_alunni.php?t=4">Numeri di telefono</a></p>
 	<p><a href="../teachers/gestione_classe/pdf_elenco_alunni.php?t=5">Numeri di telefono con descrizione</a></p>
 	<p><a href="../teachers/gestione_classe/pdf_elenco_alunni.php?t=6">Completo</a></p>
+</div>
+<div id="listfilter2" style="display: none; width: 250px">
+	<p><a href="../teachers/gestione_classe/xls_elenco_alunni.php?t=1&app=xls">Solo nomi</a></p>
+	<p><a href="../teachers/gestione_classe/xls_elenco_alunni.php?t=2&app=xls">Anagrafica</a></p>
+	<p><a href="../teachers/gestione_classe/xls_elenco_alunni.php?t=3&app=xls">Con indirizzi</a></p>
+	<p><a href="../teachers/gestione_classe/xls_elenco_alunni.php?t=4&app=xls">Numeri di telefono</a></p>
+	<p><a href="../teachers/gestione_classe/xls_elenco_alunni.php?t=5&app=xls">Numeri di telefono con descrizione</a></p>
+	<p><a href="../teachers/gestione_classe/xls_elenco_alunni.php?t=6&app=xls">Completo</a></p>
+</div>
+<div id="listfilter3" style="display: none; width: 250px">
+	<p><a href="../teachers/gestione_classe/xls_elenco_alunni.php?t=1&app=ods">Solo nomi</a></p>
+	<p><a href="../teachers/gestione_classe/xls_elenco_alunni.php?t=2&app=ods">Anagrafica</a></p>
+	<p><a href="../teachers/gestione_classe/xls_elenco_alunni.php?t=3&app=ods">Con indirizzi</a></p>
+	<p><a href="../teachers/gestione_classe/xls_elenco_alunni.php?t=4&app=ods">Numeri di telefono</a></p>
+	<p><a href="../teachers/gestione_classe/xls_elenco_alunni.php?t=5&app=ods">Numeri di telefono con descrizione</a></p>
+	<p><a href="../teachers/gestione_classe/xls_elenco_alunni.php?t=6&app=ods">Completo</a></p>
 </div>
 </body>
 </html>
