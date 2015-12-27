@@ -918,7 +918,7 @@
 	        </a>
 	        <a href="scegli_utente.php" class="sudo" id="sudo1">
 		        <div class="card">
-			        <div class="card_title">SuDo</div>
+			        <div class="card_title">Cambia utente</div>
 			        <div class="card_minicontent">Cambia utente...</div>
 		        </div>
 	        </a>
