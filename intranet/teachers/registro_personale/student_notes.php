@@ -36,6 +36,7 @@ if(isset($_REQUEST['subject'])) {
 else {
 	$materia = $_SESSION['__materia__'];
 }
+$_SESSION['__materia__'] = $materia;
 
 if(isset($_REQUEST['tipo'])){
 	$q_type = "AND tipo = ".$_REQUEST['tipo'];
