@@ -66,6 +66,7 @@ if($_REQUEST['action'] == 1 || $_REQUEST['action'] == 3){
 	}
 }
 else if ($_REQUEST['action'] == 2){
+	$why = $_POST['why'];
 	$studentBean = new Student($alunno, "", "", "", "", "");
 }
 else if($_REQUEST['action'] == 4){
@@ -100,7 +101,7 @@ switch($_POST['action']){
 	break;
 	case 2:     // cancellazione
 		try{
-			$student_manager->deleteStudent();
+			$student_manager->deleteStudent($why);
 		} catch (MySQLException $ex){
 			$response['status'] = "kosql";
 			$response['dbg_message'] = "Query: {$ex->getQuery()} ------ Errore: {$ex->getMessage()}";

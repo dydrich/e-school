@@ -12,15 +12,15 @@
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
 	<script type="text/javascript">
-
-		var del_user = function(id){
+		var student = 0;
+		var del_user = function(why){
 			if(!confirm("Sei sicuro di voler cancellare questo alunno?"))
 		        return false;
 			var url = "student_manager.php";
 			$.ajax({
 				type: "POST",
 				url: url,
-				data: {action: 2, _i: id},
+				data: {action: 2, _i: student, why: why},
 				dataType: 'json',
 				error: function() {
 					j_alert("error", "Errore di trasmissione dei dati");
@@ -40,7 +40,7 @@
 					}
 					else {
 						j_alert("alert", json.message);
-						$('#row_'+id).hide();
+						$('#row_'+student).hide();
 					}
 				}
 			});
@@ -71,6 +71,31 @@
 			});
 		};
 
+		var why_delete = function(){
+			$('#drawer').hide();
+			$('#mtrasf').dialog({
+				autoOpen: true,
+				show: {
+					effect: "fade",
+					duration: 500
+				},
+				hide: {
+					effect: "fade",
+					duration: 300
+				},
+				modal: true,
+				width: 350,
+				height: 250,
+				title: 'Cancellazione alunno',
+				open: function(event, ui){
+
+				},
+				close: function(event) {
+					$('#overlay').hide();
+				}
+			});
+		};
+
 		var go = function(){
 			var url = "alunni.php?order=nome";
 			if(document.forms[1].sezione.value != "all")
@@ -90,8 +115,15 @@
 			setOverlayEvent();
 			$('a.del_link').click(function(event){
 				event.preventDefault();
-				var strs = this.parentNode.id.split("_");
-				del_user(strs[1]);
+				student = $(this).data("stud");
+				why_delete();
+				//del_user(strs[1]);
+			});
+			$('a.trasf').click(function(event){
+				event.preventDefault();
+				why = $(this).data("reason");
+				del_user(why);
+				$('#mtrasf').dialog("close");
 			});
 			$('#filter_button').click(function(event){
 				event.preventDefault();
@@ -166,7 +198,7 @@
 		    <div class="card_title">
 			    <a href="dettaglio_alunno.php?id=<?php print $user['id_alunno'] ?>&type=1&order=" class="mod_link"><?php echo stripslashes($user['cognome']." ".$user['nome']) ?></a>
 			    <div style="float: right; margin-right: 20px" id="del_<?php echo $user['id_alunno'] ?>">
-				    <a href="student_manager.php?action=2&_id=<?php echo $user['id_alunno'] ?>" class="del_link">
+				    <a href="student_manager.php?action=2&_id=<?php echo $user['id_alunno'] ?>" data-stud="<?php echo $user['id_alunno'] ?>" class="del_link">
 					    <img src="../../images/51.png" style="position: relative; bottom: 2px" />
 				    </a>
 			    </div>
@@ -248,6 +280,18 @@
 			<button id="go_link">Estrai</button>
 		</div>
 	</form>
+</div>
+<div id="mtrasf">
+	<p class="_center _bold">Motivo della cancellazione</p>
+	<p>
+		<a href="#" class="trasf normal" data-reason="TRASFERITO">Trasferito ad altra scuola</a>
+	</p>
+	<p>
+		<a href="#" class="trasf normal" data-reason="LICENZIATO">Licenziato</a>
+	</p>
+	<p>
+		<a href="#" class="trasf normal" data-reason="SCONOSCIUTO">Non precisato</a>
+	</p>
 </div>
 <a href="dettaglio_alunno.php?id=0&type=0" id="float_btn" class="rb_button float_button">
 	<i class="fa fa-pencil"></i>
