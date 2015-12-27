@@ -28,7 +28,7 @@ if (isset($_SESSION['__sons__'][$_SESSION['__current_son__']])) {
 		<li><a href="compiti.php">Compiti</a></li>
 		<li><a href="attivita.php">Attivit&agrave;</a></li>
 		<li><a href="lezioni.php">Lezioni</a></li>
-		<li><a href="programmazioni.php">Programmazioni</a></li>
+		<!--<li><a href="programmazioni.php">Programmazioni</a></li> -->
 	</ul>
 	<?php endif; ?>
 </div>

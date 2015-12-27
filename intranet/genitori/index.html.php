@@ -138,6 +138,7 @@
 				</ul>
 			</div>
 		</div>
+		<?php if ($student && $student->isActive()): ?>
 		<div class="welcome" style="margin-top: 45px;">
 			<p id="w_head">Riepiloghi</p>
 			<p>
@@ -151,6 +152,7 @@
 			</p>
 		</div>
 		<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_msg.php'; ?>
+		<?php endif; ?>
 	</div>
 	<p class="spacer"></p>
 </div>

@@ -115,19 +115,24 @@ final class RBUtilities{
 				$user->setClass($utente['id_classe']);
 				$user->setClassDescritption($utente['desc_cls']);
 				*/
-				$sel_user = "SELECT id_alunno, nome, cognome, username, nickname, accessi, stile, rb_alunni.id_classe, CONCAT(anno_corso, sezione) AS desc_cls, ordine_di_scuola FROM rb_alunni, rb_classi WHERE rb_alunni.id_classe = rb_classi.id_classe AND id_alunno = {$uid} AND attivo = '1'";
+				$sel_user = "SELECT id_alunno, nome, cognome, username, nickname, accessi, stile, rb_alunni.id_classe, CONCAT(anno_corso, sezione) AS desc_cls, ordine_di_scuola, attivo FROM rb_alunni, rb_classi WHERE rb_alunni.id_classe = rb_classi.id_classe AND id_alunno = {$uid} AND attivo = '1'";
 				$res_user = $this->datasource->executeQuery($sel_user);
 				if($res_user == null){
 					return false;
 				}
 				$utente = $res_user[0];
+				$attivo = true;
+				if ($utente['attivo'] != 1) {
+					$attivo = false;
+				}
 
-				$gid = array(8);
+				$gid = [8];
 				$perms = 256;
 				$user = new StudentBean($utente['id_alunno'], $utente['nome'], $utente['cognome'], $gid, $perms, $utente['username']);
 				$user->setClass($utente['id_classe']);
 				$user->setClassDescritption($utente['desc_cls']);
 				$user->setSchoolOrder($utente['ordine_di_scuola']);
+				$user->setActive($attivo);
 				break;
 			case "parent":
 				$sel_user = "SELECT nome, cognome, username, accessi FROM rb_utenti WHERE uid = {$uid}";
@@ -136,10 +141,10 @@ final class RBUtilities{
 				$gid = array(4);
 				$perms = 8;
 				$user = new ParentBean($uid, $utente['nome'], $utente['cognome'], $gid, $perms, $utente['username']);
-				$sel_figli = "SELECT id_alunno FROM rb_genitori_figli WHERE id_genitore = {$uid}";
+				$sel_figli = "SELECT rb_genitori_figli.id_alunno FROM rb_genitori_figli, rb_alunni WHERE id_genitore = {$uid} AND rb_genitori_figli.id_alunno = rb_alunni.id_alunno ORDER BY attivo DESC";
 				$figli = $this->datasource->executeQuery($sel_figli);
 				$user->setChildren($figli);
-				$sel_children_names = "SELECT CONCAT_WS(' ', cognome, nome) AS nome FROM rb_alunni WHERE id_alunno IN (".implode(", ", $figli).")";
+				$sel_children_names = "SELECT CONCAT_WS(' ', cognome, nome) AS nome FROM rb_alunni WHERE id_alunno IN (".implode(", ", $figli).") ORDER BY attivo DESC";
 				$children_names = $this->datasource->executeQuery($sel_children_names);
 				$user->setChildrenNames($children_names);
 				break;

@@ -1,6 +1,7 @@
 <?php
 
 $figli = explode(",", trim($_SESSION['__figli__']));
+rsort($figli);
 if(isset($_REQUEST['son'])){
 	$_SESSION['__current_son__'] = $_REQUEST['son'];
 }
@@ -17,8 +18,8 @@ if(!isset($_SESSION['__sons__'])){
 	 */
 	$all_active = true;
 	$c_active = $c_inactive = 0;
-	$actives = array();
-	$inactives = array();
+	$actives = [];
+	$inactives = [];
 	foreach ($figli as $figlio){
 		$act = $db->executeCount("SELECT attivo FROM rb_alunni WHERE id_alunno = {$figlio}");
 		if ($act != 1) {
@@ -31,7 +32,7 @@ if(!isset($_SESSION['__sons__'])){
 			$actives[] = $figlio;
 		}
 	}
-	$stds = array();
+	$stds = [];
 	if ($c_active > 0) {
 		// alunni attivi
 		$str_active = implode(",", $actives);
@@ -40,7 +41,7 @@ if(!isset($_SESSION['__sons__'])){
 		$res_alunni = $db->execute($sel_alunni);
 
 		while($al = $res_alunni->fetch_assoc()){
-			$stds[$al['id_alunno']] = array($al['nome']." ".$al['cognome'], $al['id_classe'], $al['ordine_di_scuola'], 1);
+			$stds[$al['id_alunno']] = [$al['nome']." ".$al['cognome'], $al['id_classe'], $al['ordine_di_scuola'], 1];
 		}
 	}
 	if ($c_inactive > 0) {
@@ -50,7 +51,7 @@ if(!isset($_SESSION['__sons__'])){
 		$res_alunni = $db->execute($sel_alunni);
 
 		while($al = $res_alunni->fetch_assoc()){
-			$stds[$al['id_alunno']] = array($al['nome']." ".$al['cognome'], $al['id_classe'], $al['ordine_di_scuola'], 0);
+			$stds[$al['id_alunno']] = [$al['nome']." ".$al['cognome'], $al['id_classe'], $al['ordine_di_scuola'], 0];
 		}
 	}
 

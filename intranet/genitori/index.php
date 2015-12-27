@@ -31,25 +31,24 @@ $utils->registerCurrentClassFromUser($_SESSION['__current_son__'], "__classe__")
 $rb = RBUtilities::getInstance($db);
 $student = $rb->loadUserFromUid($_SESSION['__current_son__'], "student");
 
-if ($student) {
+if ($student && $student->isActive()) {
 	$stAcR = new \eschool\StudentActivityReport($student, 15, new MySQLDataLoader($db));
 	$activities = $stAcR->getActivities();
-}
+	$avvisi = [];
 
-$avvisi = array();
-
-$school_year = $_SESSION['__school_year__'][$_SESSION['__classe__']->getSchoolOrder()];
-$classbook_data = new ClassbookData($_SESSION['__classe__'], $school_year, "AND data <= NOW()", $db);
-$totali = $classbook_data->getClassSummary();
-$presence = $classbook_data->getStudentSummary($student->getUid());
-$absences = new RBTime(0, 0, 0);
-$absences->setTime($totali['ore']->getTime() - $presence['presence']->getTime());
-$perc_hour = round((($absences->getTime() / $totali['ore']->getTime()) * 100), 2);
-if ($perc_hour > 25) {
-	$avvisi[] = array("warning", "Attenzione: la percentuale di ore di assenza &egrave; superiore al 25%, limite massimo per la validazione dell'anno ai sensi dell’articolo 11, comma 1, del Decreto legislativo n. 59 del 2004, e successive modificazioni");
-}
-else if ($perc_hour > 19) {
-	$avvisi[] = array("info", "Attenzione alle assenze, che potrebbero compromettere la validazione dell'anno scolastico");
+	$school_year = $_SESSION['__school_year__'][$_SESSION['__classe__']->getSchoolOrder()];
+	$classbook_data = new ClassbookData($_SESSION['__classe__'], $school_year, "AND data <= NOW()", $db);
+	$totali = $classbook_data->getClassSummary();
+	$presence = $classbook_data->getStudentSummary($student->getUid());
+	$absences = new RBTime(0, 0, 0);
+	$absences->setTime($totali['ore']->getTime() - $presence['presence']->getTime());
+	$perc_hour = round((($absences->getTime() / $totali['ore']->getTime()) * 100), 2);
+	if ($perc_hour > 25) {
+		$avvisi[] = ["warning", "Attenzione: la percentuale di ore di assenza &egrave; superiore al 25%, limite massimo per la validazione dell'anno ai sensi dell’articolo 11, comma 1, del Decreto legislativo n. 59 del 2004, e successive modificazioni"];
+	}
+	else if ($perc_hour > 19) {
+		$avvisi[] = ["info", "Attenzione alle assenze, che potrebbero compromettere la validazione dell'anno scolastico"];
+	}
 }
 
 $ticker_height = 100;

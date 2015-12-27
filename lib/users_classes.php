@@ -399,6 +399,7 @@ class StudentBean extends UserBean {
 	private $classDescritption;
 	private $schoolOrder;
 	private $birthPlace;
+	private $active;
 	
 	public function setClass($cl){
 		$this->class = $cl;
@@ -431,6 +432,15 @@ class StudentBean extends UserBean {
 	public function setBirthPlace($bp){
 		$this->birthPlace = $bp;
 	}
+
+	public function setActive ($active) {
+		$this->active = $active;
+	}
+
+	public function isActive() {
+		return $this->active;
+	}
+
 	
 	/**
 	 * if $full print class description
