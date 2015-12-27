@@ -11,11 +11,51 @@
 	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
+	<script type="text/javascript" src="../../js/md5-min.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			load_jalert();
 			setOverlayEvent();
+			$('#su').on('click', function(event) {
+				event.preventDefault();
+				ins_pass();
+			});
+			$('#su_go').on('click', function(event) {
+				event.preventDefault();
+				_su();
+			});
 		});
+
+		var ins_pass = function(){
+			$('#drawer').hide();
+			$('#adm_pwd').dialog({
+				autoOpen: true,
+				show: {
+					effect: "fade",
+					duration: 500
+				},
+				hide: {
+					effect: "fade",
+					duration: 300
+				},
+				modal: true,
+				width: 350,
+				height: 200,
+				title: 'Admin Login',
+				open: function(event, ui){
+
+				},
+				close: function(event) {
+					$('#overlay').hide();
+				}
+			});
+		};
+
+		var _su = function() {
+			var pass = hex_md5($('#pass').val());
+			document.location.href = "../../admin/sudo_manager.php?pwd="+pass+"&action=su";
+		};
+
 	</script>
 	<style>
 		div.welcome:last-of-type {
@@ -75,6 +115,15 @@
 	<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>
 	<?php endif; ?>
 	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
+</div>
+<div id="adm_pwd" style="display: none">
+	<p>
+		<label for="pass" class="material_label">Inserisci la password</label>
+		<input type="password" class="material_input" id="pass" name="pass" style="width: 200px" />
+	</p>
+	<p style="margin-top: 45px; text-align: right">
+		<a href="#" id="su_go" class="material_link">SuperUser</a>
+	</p>
 </div>
 </body>
 </html>

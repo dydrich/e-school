@@ -27,6 +27,10 @@ switch ($_REQUEST['action']){
 		$uid = $_REQUEST['uid'];
 		$go = $sudo_manager->sudo($area, $uid);
 		break;
+	case "su":
+		$pwd = $_REQUEST['pwd'];
+		$go = $sudo_manager->su($pwd);
+		break;
 	case "back":
 		$go = $sudo_manager->back();
 		break;

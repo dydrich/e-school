@@ -21,6 +21,19 @@ class SuDo {
 		$this->datasource = $dl;
 	}
 
+	public function su($pwd){
+		$user = $this->authenticator->login(3, 'admin', $pwd);
+		if ($user != null){
+			$temp_user = $_SESSION['__user__'];
+			$_SESSION['__user__'] = $user;
+			$_SESSION['__sudoer__'] = $temp_user;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	public function sudo($area, $uid){
 		$data = $this->getLoginData($area, $uid);
 		$user = $this->authenticator->login($area, $data[0]['username'], $data[0]['password']);
