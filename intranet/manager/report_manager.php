@@ -142,4 +142,40 @@ switch ($_REQUEST['action']){
 		echo json_encode($response);
 		exit;
 		break;
+	case "monthly_report":
+		header("Content-type: application/json");
+		$student = $_REQUEST['student'];
+		$month = $_REQUEST['month'];
+		try {
+			$file = $report_manager->createMonthlyReport($student, $month);
+		} catch (MySQLException $ex){
+			$response['status'] = "kosql";
+			$response['message'] = $ex->getMessage()." ===== ".$ex->getQuery();
+			echo json_encode($response);
+			exit;
+		}
+		if (!$response){
+			$response['status'] = "nopag";
+			$response['message'] = "Nessun pagellino trovato";
+			echo json_encode($response);
+			exit;
+		}
+		echo json_encode($response);
+		exit;
+		break;
+	case 'search_monthly_report':
+		header("Content-type: application/json");
+		$report_id = $_REQUEST['id'];
+		$cls = $_REQUEST['cls'];
+		try {
+			$response['data'] = $report_manager->createMonthlyReport($student, $month);
+		} catch (MySQLException $ex){
+			$response['status'] = "kosql";
+			$response['message'] = $ex->getMessage()." ===== ".$ex->getQuery();
+			echo json_encode($response);
+			exit;
+		}
+		echo json_encode($response);
+		exit;
+		break;
 }

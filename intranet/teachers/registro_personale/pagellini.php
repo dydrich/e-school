@@ -17,6 +17,8 @@ $_SESSION['__path_to_root__'] = "../../../";
 $_SESSION['__path_to_reg_home__'] = "../";
 
 $num_subject = count($_SESSION['__subjects__']);
+$first_column = 70;
+$other_column = 30;
 if($num_subject == 2){
 	$first_column = 60;
 	$other_column = 20;
@@ -31,12 +33,12 @@ else if($num_subject == 4){
 }
 
 $drawer_label = "Gestione pagellino";
-$months = array("11" => "Novembre", "12" => "Dicembre", "1" => "Gennaio", "3" => "Marzo", "4" => "Aprile", "5" => "Maggio");
+$months = ["11" => "Novembre", "12" => "Dicembre", "1" => "Gennaio", "3" => "Marzo", "4" => "Aprile", "5" => "Maggio"];
 $sel_active = "SELECT * FROM rb_pagellini WHERE data_apertura <= NOW() AND data_chiusura >= NOW()";
 $res_active = $db->executeQuery($sel_active);
 
-$active_report = array();
-if ($res_active) {
+$active_report = [];
+if ($res_active && $res_active->num_rows > 0) {
 	$active_report = $res_active->fetch_assoc();
 	$sel_alunni = "SELECT rb_alunni.* FROM rb_alunni WHERE rb_alunni.id_classe = ".$_SESSION['__classe__']->get_ID()." AND attivo = '1' ORDER BY cognome, nome";
 	try{
@@ -52,13 +54,13 @@ if ($res_active) {
 	} catch (MySQLException $ex){
 		$ex->redirect();
 	}
-	$materie = array();
-	$materie_senza_alternativa = array();
+	$materie = [];
+	$materie_senza_alternativa = [];
 	while($mt = $res_materie->fetch_assoc()){
-		$materie[] = array("id" => $mt['id_materia'], "mat" => $mt['materia']);
-		$materie_senza_alternativa[] = array("id" => $mt['id_materia'], "mat" => $mt['materia']);
+		$materie[] = ["id" => $mt['id_materia'], "mat" => $mt['materia']];
+		$materie_senza_alternativa[] = ["id" => $mt['id_materia'], "mat" => $mt['materia']];
 	}
-	$orig_materie = array();
+	$orig_materie = [];
 	/*
 	 * controllo materia alternativa
 	 */
@@ -66,7 +68,7 @@ if ($res_active) {
 	$sel_alt_sub = "SELECT COUNT(*) FROM rb_materia_alternativa WHERE anno = ".$_SESSION['__current_year__']->get_ID()." AND classe = ".$_SESSION['__classe__']->get_ID()." AND docente = ".$_SESSION['__user__']->getUid();
 	$res_alt_sub = $db->executeCount($sel_alt_sub);
 	if ($res_alt_sub > 0) {
-		$materie[] = array("id" => $alt_subject, "mat" => "Materia alternativa");
+		$materie[] = ["id" => $alt_subject, "mat" => "Materia alternativa"];
 	}
 	$drawer_label .= " mese di ".$months[$active_report['mese']];
 }

@@ -13,13 +13,15 @@
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
 	<script type="text/javascript">
-		var save = function(){
+		var repID = 0;
+		var month = 0;
+		var save = function(action){
 			var url = "gestione_pagellino.php";
 
 			$.ajax({
 				type: "POST",
 				url: url,
-				data: {month: $('#month').val(), start: $('#open_at').val(), end: $('#close_at').val()},
+				data: {month: $('#month').val(), start: $('#open_at').val(), end: $('#close_at').val(), id: repID, action: action},
 				error: function() {
 					j_alert("error", "Errore di trasmissione dei dati");
 				},
@@ -41,12 +43,49 @@
 					}
 					else {
 						j_alert("alert", json.message);
-						$('table').prepend($('<tr id="tr'+json.id+'" class="bottom_decoration accent_color"><td style="width: 100px">'+json.mese+'</td><td style="width: 200px">aperto sino al '+$('#close_at').val()+'</td></tr>'))
-						$('#new_report').dialog('close');
+						if (repID == 0) {
+							$('table').prepend($('<tr id="tr' + json.id + '" class="bottom_decoration accent_color"><td style="width: 100px">' + json.mese + '</td><td style="width: 200px">aperto sino al ' + $('#close_at').val() + '</td></tr>'))
+						}
+						else {
+							if (action != 'delete') {
+								$('#tr'+json.id+' td:nth-child(2)').text(json.state);
+							}
+							else {
+								$('#tr'+json.id).hide();
+							}
+						}
+						window.setTimeout(function() {
+							$('#new_report').dialog('close');
+						}, 2000);
 					}
 				}
 			});
 
+		};
+
+		var show_reports = function() {
+			$('#rep_div').dialog({
+				autoOpen: true,
+				show: {
+					effect: "appear",
+					duration: 200
+				},
+				hide: {
+					effect: "slide",
+					duration: 200
+				},
+				modal: true,
+				width: 250,
+				height: 380,
+				title: 'Elenco schede di segnalazione',
+				open: function(event, ui){
+					$('#reports_container').html('');
+					$('#cls').val(0);
+				},
+				close: function(event) {
+					$('#overlay').hide();
+				}
+			});
 		};
 
 		var open_rep = function() {
@@ -86,7 +125,74 @@
 				id = $(this).data("id");
 			});
 			$('#savebutton').on('click', function(){
-				save();
+				save('');
+			});
+			$('.rep').on('click', function(event) {
+				$id = $(this).data("id");
+				repID = $id;
+				$month = $(this).data('month');
+				$opens = $(this).data("open");
+				$closes = $(this).data("end");
+				$('#month').val($month);
+				$('#open_at').val($opens);
+				$('#close_at').val($closes);
+				open_rep();
+			});
+			$('.del_rep').on('click', function(event) {
+				$id = $(this).data("id");
+				repID = $id;
+				save('delete');
+			});
+			$('.search_rep').on('click', function(event) {
+				$id = $(this).data("id");
+				repID = $id;
+				month = $(this).data('month');
+				show_reports();
+			});
+			$('#cls').on('change', function(event) {
+				$('#reports_container').html('');
+				$cls = $(this).val();
+				var url = "../../shared/get_monthly_report.php";
+
+				$.ajax({
+					type: "POST",
+					url: url,
+					data: {action: 'search', id: repID, cls: $cls},
+					error: function() {
+						j_alert("error", "Errore di trasmissione dei dati");
+					},
+					succes: function() {
+
+					},
+					complete: function(data){
+						r = data.responseText;
+						if(r == "null"){
+							return false;
+						}
+						var json = $.parseJSON(r);
+						if (json.status == "kosql"){
+							sqlalert();
+							console.log(json.dbg_message);
+						}
+						else if(json.status == "ko") {
+							j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+						}
+						else if (json.status == 'no_st') {
+							$('<p class="_center _bold" style="margin-top: 40px">'+json.message+'</p>').appendTo($('#reports_container'));
+						}
+						else {
+							students = json.students;
+							for(t in students) {
+								if (students.hasOwnProperty(t)) {
+									var student = students[t];
+									var st = student.id_alunno;
+									var link = "../../shared/get_monthly_report.php?st=" + st + "&m=" + month;
+									$('<p style="line-height: 25px; margin: 0"><a href="' + link + '" class="normal" style="text-decoration: none">' + student.cognome + ' ' + student.nome + '</a></p>').appendTo($('#reports_container'));
+								}
+							}
+						}
+					}
+				});
 			});
 		});
 
@@ -110,7 +216,7 @@
 			}
 			else {
 			?>
-			<table style="width: 300px; margin-top: 30px">
+			<table style="width: 350px; margin-top: 30px">
 				<?php
 				foreach ($pagellini as $item) {
 					$state = "Stato: ";
@@ -120,13 +226,35 @@
 						$class = "normal";
 					}
 					else {
-						$state = "aperto sino al ".format_date($item['data_chiusura'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
+						if ($item['data_apertura'] <= $today) {
+							$state = "aperto sino al ".format_date($item['data_chiusura'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
+						}
+						else {
+							$state = "disponibile dal ".format_date($item['data_apertura'], SQL_DATE_STYLE, IT_DATE_STYLE, "/");
+						}
 						$class = "accent_color";
 					}
 				?>
-				<tr id="tr<?php echo $item['id_pagellino'] ?>" class="bottom_decoration <?php echo $class ?>">
-					<td style="width: 100px"><?php echo $months[$item['mese']] ?></td>
+
+				<tr id="tr<?php echo $item['id_pagellino'] ?>" class="bottom_decoration <?php echo $class ?>" style="height: 30px">
+					<td style="width: 100px">
+						<a href="#" class="rep" data-id="<?php echo $item['id_pagellino'] ?>" data-month="<?php echo $item['mese'] ?>" data-open="<?php echo format_date($item['data_apertura'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>" data-end="<?php echo format_date($item['data_chiusura'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>">
+							<?php echo $months[$item['mese']] ?>
+						</a>
+					</td>
 					<td style="width: 200px"><?php echo $state ?></td>
+					<td style="width: 25px" class="_right">
+					<?php if ($item['data_chiusura'] < $today) : ?>
+						<a href="#" class="search_rep" data-id="<?php echo $item['id_pagellino'] ?>" data-month="<?php echo $item['mese'] ?>">
+							<i class="fa fa-search"></i>
+						</a>
+					<?php endif; ?>
+					</td>
+					<td style="width: 25px" class="_right">
+						<a href="#" class="del_rep" data-id="<?php echo $item['id_pagellino'] ?>">
+							<i class="fa fa-trash"></i>
+						</a>
+					</td>
 				</tr>
 				<?php
 				}
@@ -179,6 +307,23 @@
 	<p>
 		<a href="#" id="savebutton" class="material_link">Registra pagellino</a>
 	</p>
+</div>
+<div id="rep_div" style="display: none; width: 250px; min-height: 250px">
+	<div id="change_class" style="width: 100%; height: 25px">
+		<select id="cls" name="cls" style="width: 95%">
+			<option value="0">.</option>
+			<?php
+			while($row = $res_cls->fetch_assoc()) {
+			?>
+				<option value="<?php echo $row['id_classe'] ?>"><?php echo $row['anno_corso'], $row['sezione'] ?></option>
+			<?php
+			}
+			?>
+		</select>
+	</div>
+	<div id="reports_container">
+
+	</div>
 </div>
 </body>
 </html>

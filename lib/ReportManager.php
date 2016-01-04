@@ -3,8 +3,8 @@
 require_once "classes.php";
 require_once "data_source.php";
 require_once "ReportPDF.php";
-require_once "FinalReportPDF.php";
 require_once "PrimarySchoolReportPDF.php";
+require_once "MonthlyReportPDF.php";
 
 class ReportManager {
 	
@@ -574,6 +574,48 @@ class ReportManager {
 			chdir($old_dir);
 			return $file_zip;
 		}
+	}
+
+	public function createMonthlyReport($student, $month) {
+		$sel_students = "SELECT id_alunno, cognome, nome, sesso, anno_corso, sezione, CONCAT(anno_corso, sezione) AS desc_class FROM rb_alunni, rb_classi WHERE rb_alunni.id_classe = rb_classi.id_classe AND id_alunno = {$student} ORDER BY sezione, anno_corso, cognome, nome";
+		$studentData = $this->datasource->executeQuery($sel_students);
+		$sel_active = "SELECT id_pagellino, data_chiusura FROM rb_pagellini WHERE anno_scolastico = {$_SESSION['__current_year__']->get_ID()} AND mese = {$month}";
+		$data = $this->datasource->executeQuery($sel_active);
+		$idp = $data[0]['id_pagellino'];
+		$subjects = $this->datasource->executeQuery("SELECT rb_materie.materia FROM rb_materie, rb_segnalazioni_pagellino WHERE id_pagellino = {$idp} AND alunno = {$student} AND id_materia = rb_segnalazioni_pagellino.materia");
+		$student = $studentData[0];
+
+		$months = ["11" => "novembre", "12" => "dicembre", "1" => "gennaio", "3" => "marzo", "4" => "aprile", "5" => "maggio"];
+
+		$dir = "../tmp/";
+		$file = "segnalazione_".$months[$month]."-".$student['cognome']."_".$student['nome'].".pdf";
+
+		$pdf = new \eschool\MonthlyReportPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor("Istituto comprensivo Nivola");
+		$pdf->SetTitle('Scheda di segnalazione insufficienze');
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+		$pdf->SetMargins(PDF_MARGIN_LEFT, 25, PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+		$pdf->SetHeaderData("", 0, $_SESSION['__config__']['intestazione_scuola'], $_SESSION['__config__']['indirizzo_scuola']."\nScuola secondaria di primo grado");
+		$pdf->setPrintHeader(true);
+		$pdf->setPrintFooter(false);
+		$pdf->SetAutoPageBreak(TRUE, 15);
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+		$pdf->SetDisplayMode('fullpage', 'SinglePage', 'UseNone');
+		$pdf->SetFont('helvetica', '', 12);
+		$pdf->setJPEGQuality(75);
+		$pdf->AddPage("P", "A4");
+		$pdf->createReport($student, $months[$month], $subjects, $data[0]['data_chiusura']);
+		$pdf->Output($dir.$file, 'F');
+
+		return $file;
+	}
+
+	public function searchMonthlyReports ($reportID, $cls) {
+		$students = $this->datasource->executeQuery("SELECT cognome, nome, id_alunno FROM rb_segnalazioni_pagellino, rb_alunni WHERE id_pagellino = {$reportID} AND id_alunno = alunno AND classe = {$cls} GROUP BY cognome, nome, id_alunno ORDER BY cognome, nome");
+		return $students;
 	}
 	
 }

@@ -25,7 +25,21 @@
 				var off = $(this).parent().offset();
 				_show(event, off);
 			});
+			<?php if ($has_report) : ?>
+			$('#ins').on('click', function(event) {
+				event.preventDefault();
+				create_report();
+			});
+			<?php endif; ?>
 		});
+
+		<?php if ($has_report) : ?>
+		var create_report = function () {
+			var st = <?php echo $_SESSION['__current_son__'] ?>;
+			var month = <?php echo $has_report ?>;
+			document.location.href = "../../shared/get_monthly_report.php?st="+st+"&m="+month;
+		};
+		<?php endif; ?>
 
 		var _show = function(e, off) {
 			if ($('#other_drawer').is(":visible")) {
@@ -59,7 +73,7 @@
 	</div>
 	<div id="left_col">
 		<?php if (count($avvisi) > 0): ?>
-		<div class="welcome">
+		<div class="welcome" style="padding-bottom: 25px;">
 			<p class="beware">
 				<i class="fa fa-info-circle main_700 _bold"></i>
 				<span>Avvisi importanti</span>
@@ -77,9 +91,16 @@
 				<i class="fa fa-exclamation-circle"></i>
 				<?php
 					}
+					if ($avviso[2] == "ins") {
 				?>
-				<span style="margin-left: 15px"><?php echo $avviso[1] ?></span>
+					<a href="#" style="margin-left: 15px" id="ins" class="attention"><?php echo $avviso[1] ?></a>
 				<?php
+					}
+					else {
+				?>
+				<span style="margin-left: 15px" <?php if($avviso[2] != "") echo 'id="'.$avviso[2].'"'; ?>><?php echo $avviso[1] ?></span>
+				<?php
+					}
 				}
 				?>
 			</p>
@@ -139,7 +160,7 @@
 			</div>
 		</div>
 		<?php if ($student && $student->isActive()): ?>
-		<div class="welcome" style="margin-top: 45px;">
+		<div class="welcome" style="margin-top: 15px;">
 			<p id="w_head">Riepiloghi</p>
 			<p>
 				<a href="riepilogo_registro.php?q=0" class="material_link">Assenze e ritardi</a>

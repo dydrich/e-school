@@ -18,16 +18,19 @@ $drawer_label = "Gestione pagellini";
 
 $school = $_SESSION['__school_level__'][$_SESSION['__school_order__']];
 
-$months = array("11" => "Novembre", "12" => "Dicembre", "1" => "Gennaio", "3" => "Marzo", "4" => "Aprile", "5" => "Maggio");
+$months = ["11" => "Novembre", "12" => "Dicembre", "1" => "Gennaio", "3" => "Marzo", "4" => "Aprile", "5" => "Maggio"];
 
 $sel_pagellini = "SELECT * FROM rb_pagellini WHERE anno_scolastico = {$_SESSION['__current_year__']->get_ID()} ORDER BY id_pagellino DESC";
 $res_pagellini = $db->executeQuery($sel_pagellini);
 
-$pagellini = array();
+$pagellini = [];
 if ($res_pagellini) {
 	while ($row = $res_pagellini->fetch_assoc()) {
 		$pagellini[$row['id_pagellino']] = $row;
 	}
 }
+
+// classes
+$res_cls = $db->executeQuery("SELECT * FROM rb_vclassi_s1 ORDER BY sezione, anno_corso");
 
 include "pagellini.html.php";

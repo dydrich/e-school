@@ -62,7 +62,7 @@
 		});
 
 		var report_failure = function(student, subj, action) {
-			var id_report = <?php echo $active_report['id_pagellino'] ?>;
+			var id_report = <?php if ($res_active && $res_active->num_rows > 0) echo $active_report['id_pagellino']; else echo '0' ?>;
 			var url = "report_failure.php";
 			//alert(subj);
 			$.ajax({
@@ -96,14 +96,17 @@
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
-	<?php
-	setlocale(LC_TIME, "it_IT.utf8");
-	$giorno_str = strftime("%A", strtotime(date("Y-m-d")));
+<?php
+setlocale(LC_TIME, "it_IT.utf8");
+$giorno_str = strftime("%A", strtotime(date("Y-m-d")));
+if ($res_active && $res_active->num_rows > 0) {
 	?>
 	<table class="registro">
 		<thead>
 		<tr class="head_tr_no_bg">
-			<td style="text-align: center; "><span id="ingresso" style=""><?php print $_SESSION['__classe__']->to_string() ?></span></td>
+			<td style="text-align: center; "><span id="ingresso"
+			                                       style=""><?php print $_SESSION['__classe__']->to_string() ?></span>
+			</td>
 			<td colspan="<?php print ($num_subject + 1) ?>" style="text-align: center;">Quadro riassuntivo</td>
 		</tr>
 		<tr class="title_tr">
@@ -121,12 +124,14 @@
 		<?php
 		$num_alunni = $res_alunni->num_rows;
 		$idx = 0;
-		while($al = $res_alunni->fetch_assoc()){
+		while ($al = $res_alunni->fetch_assoc()) {
 			$idx++;
 			?>
 			<tr>
-				<td style="width: <?php print $first_column ?>%; font-weight: normal; padding-left: 8px;"><?php if($idx < 10) print "&nbsp;&nbsp;"; ?><?php echo ($idx).". " ?>
-					<?php print $al['cognome']." ".$al['nome']?>
+				<td style="width: <?php print $first_column ?>%; font-weight: normal; padding-left: 8px;"><?php if ($idx < 10) {
+						print "&nbsp;&nbsp;";
+					} ?><?php echo ($idx) . ". " ?>
+					<?php print $al['cognome'] . " " . $al['nome'] ?>
 				</td>
 				<?php
 				reset($_SESSION['__subjects__']);
@@ -134,8 +139,13 @@
 					$sel_ins = "SELECT COUNT(*) FROM rb_segnalazioni_pagellino WHERE id_pagellino = {$active_report['id_pagellino']} AND alunno = {$al['id_alunno']} AND materia = {$materia['id']}";
 					$ins = $db->executeCount($sel_ins);
 					?>
-					<td style="width: <?php print $other_column ?>%; text-align: center; font-weight: normal" class="<?php if($ins > 0) echo 'attention_bg' ?>">
-						<a href="#" data-al="<?php echo $al['id_alunno'] ?>" data-mat="<?php echo $materia['id'] ?>" class="seg <?php if($ins > 0) echo '_bold' ?>"><?php if($ins > 0) echo 'non sufficiente'; else echo "sufficiente" ?></a></td>
+					<td style="width: <?php print $other_column ?>%; text-align: center; font-weight: normal"
+					    class="<?php if ($ins > 0) echo 'attention_bg' ?>">
+						<a href="#" data-al="<?php echo $al['id_alunno'] ?>" data-mat="<?php echo $materia['id'] ?>"
+						   class="seg <?php if ($ins > 0) echo '_bold' ?>"><?php if ($ins > 0) {
+								echo 'non sufficiente';
+							}
+							else echo "sufficiente" ?></a></td>
 					<?php
 				}
 				?>
@@ -150,6 +160,14 @@
 		</tr>
 		</tfoot>
 	</table>
+	<?php
+}
+else {
+	?>
+	<div style="width: 95%; height: 100px; margin: 20px auto" class="_center _bold material_label">Nessun pagellino attivo</div>
+	<?php
+}
+?>
 </div>
 <?php include "../footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">

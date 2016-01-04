@@ -65,7 +65,7 @@ class StudentActivityReport
 		$year = $_SESSION['__current_year__']->get_ID();
 		$cls = $this->student->getClass();
 		$studID = $this->student->getUid();
-		$activities = array();
+		$activities = [];
 		/*
 		 * ritardi e assenze
 		 */
@@ -80,15 +80,15 @@ class StudentActivityReport
 		foreach ($res_delays as $as) {
 			if ($as['ingresso'] == "") {
 				if (!isset($activities[$as['data']])) {
-					$activities[$as['data']] = array();
+					$activities[$as['data']] = [];
 				}
-				$activities[$as['data']][] = array("tipo" => "Assenza", "descrizione" => "Assente");
+				$activities[$as['data']][] = ["tipo" => "Assenza", "descrizione" => "Assente"];
 			}
 			else if ($as['ingresso'] > $as['enter']) {
 				if (!isset($activities[$as['data']])) {
-					$activities[$as['data']] = array();
+					$activities[$as['data']] = [];
 				}
-				$activities[$as['data']][] = array("tipo" => "Ritardo", "descrizione" => " - ingresso ore " . substr($as['ingresso'], 0, 5));
+				$activities[$as['data']][] = ["tipo" => "Ritardo", "descrizione" => " - ingresso ore " . substr($as['ingresso'], 0, 5)];
 			}
 		}
 		/*
@@ -104,9 +104,9 @@ class StudentActivityReport
 		if($res_grades) {
 			foreach ($res_grades as $grade) {
 				if (!isset($activities[$grade['data_voto']])) {
-					$activities[$grade['data_voto']] = array();
+					$activities[$grade['data_voto']] = [];
 				}
-				$activities[$grade['data_voto']][] = array("tipo" => "Voto", "descrizione" => " di ".$grade['desc_mat'].": ".$grade['voto'], "voto" => $grade['voto']);
+				$activities[$grade['data_voto']][] = ["tipo" => "Voto", "descrizione" => " di ".$grade['desc_mat'].": ".$grade['voto'], "voto" => $grade['voto']];
 			}
 		}
 
@@ -130,9 +130,9 @@ class StudentActivityReport
 		if ($res_notes) {
 			foreach ($res_notes as $note) {
 				if (!isset($activities[$note['data']])) {
-					$activities[$note['data']] = array();
+					$activities[$note['data']] = [];
 				}
-				$activities[$note['data']][] = array("tipo" => "Nota disciplinare", "descrizione" => $note['tipo_nota'] . " (" . $note['cognome'] . " " . $note['nome'] . ")");
+				$activities[$note['data']][] = ["tipo" => "Nota disciplinare", "descrizione" => $note['tipo_nota'] . " (" . $note['cognome'] . " " . $note['nome'] . ")"];
 			}
 		}
 		/*
@@ -154,9 +154,9 @@ class StudentActivityReport
 		if ($res_notes) {
 			foreach ($res_notes as $note) {
 				if (!isset($activities[$note['data']])) {
-					$activities[$note['data']] = array();
+					$activities[$note['data']] = [];
 				}
-				$activities[$note['data']][] = array("tipo" => "Nota didattica", "descrizione" => $note['tipo_nota'] . " (" . $note['desc_mat'] . ")", "idnota" => $note['tipo']);
+				$activities[$note['data']][] = ["tipo" => "Nota didattica", "descrizione" => $note['tipo_nota'] . " (" . $note['desc_mat'] . ")", "idnota" => $note['tipo']];
 			}
 		}
 		krsort($activities);
@@ -168,6 +168,20 @@ class StudentActivityReport
 	 */
 	public function getActivities() {
 		return $this->activities;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function checkMonthlyReport() {
+		$activeReport = $this->datasource->executeQuery("SELECT * FROM rb_pagellini WHERE data_chiusura >= DATE_SUB(NOW(), INTERVAL 15 DAY)");
+		if ($activeReport && count($activeReport) > 0) {
+			$ins = $this->datasource->executeCount("SELECT * FROM rb_segnalazioni_pagellino WHERE id_pagellino = ".$activeReport[0]['id_pagellino']." AND alunno = ".$this->student->getUid());
+			if ($ins) {
+				return $activeReport[0]['mese'];
+			}
+		}
+		return false;
 	}
 
 }

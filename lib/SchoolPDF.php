@@ -49,10 +49,10 @@ class SchoolPDF extends TCPDF{
 			$this->SetFillColor(255, 255, 255);
 			$this->Cell($cw, $cell_height, $headerdata['title'], 0, 1, 'C', 1, '', 0);
 			// header string
-			$this->SetFont($headerfont[0], $headerfont[1], $headerfont[2]);
+			$this->SetFont($headerfont[0], $headerfont[1], 10);
 			$this->SetX($header_x);
 			$this->SetFillColor(255, 255, 255);
-			$this->MultiCell($cw, $cell_height, $headerdata['string'], array("B"=>array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(211, 211, 211))), 'C', 1, 1, '', '', true, 0, false, true, 0, 'T', false);
+			$this->MultiCell($cw, $cell_height, $headerdata['string'], array("B"=>array('width' => 0.20, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(211, 211, 211))), 'C', 1, 1, '', '', true, 0, false, true, 0, 'T', false);
 			// print an ending header line
 
 			$this->endTemplate();
