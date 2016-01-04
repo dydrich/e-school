@@ -1,3 +1,52 @@
+4.5.228
+gestione pagellini (issue #116)
+
+4.5.227
+apertura area documenti a genitori (documents: issue #8)
+
+4.5.226
+modifica menu admin per sudo -> cambia utente
+
+4.5.225
+funzione su (super user) per area scuola
+
+4.5.224
+motivo cancellazione alunno (issue #106)
+
+4.5.223
+bug fix
+
+4.5.222
+miglioramento della gestione dei figli non attivi
+
+4.5.221
+elenchi alunni in formato xls/ods (issue #122)
+
+4.5.220
+controllo accesso genitori senza figli associati
+
+4.5.219
+stampa elenchi alunni da segreteria
+modifica grafica per linee tabella troppo lunghe nelle stampe alunni
+
+4.5.218
+bug fix
+
+4.5.217
+gestione pagellini
+
+4.5.216
+bug fix
+
+4.5.215
+gestione relazioni docente area manager
+
+4.5.214
+bug fix
+
+4.5.213
+scroll infinito in admin/adm_users/users.php e modifiche grafiche per i pulsanti
+
 4.5 212
 issue #121: orario personale del docente, modifiche per facilitare inserimento dei docenti che insegnano una sola materia
 
