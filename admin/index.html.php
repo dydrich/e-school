@@ -929,7 +929,20 @@
 		        </div>
 	        </a>
         </div>
-            <?php } ?>
+            <?php }
+            else {
+	            ?>
+	        <div id="tb9" style="display: none" data-tablabel="sviluppo" class="card_container">
+	            <a href="scegli_utente.php?school_order=<?php echo $admin_level ?>" class="sudo" id="sudo1">
+		            <div class="card">
+			            <div class="card_title">Cambia utente</div>
+			            <div class="card_minicontent">Cambia utente...</div>
+		            </div>
+	            </a>
+		    </div>
+	            <?php
+            }
+		?>
 	</div>
 
     <div class="overlay" id="over1" style="display: none">

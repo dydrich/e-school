@@ -19,11 +19,9 @@
 		<li><a href="#" class="_tab" id="tab_6">Registri</a></li>
 		<li><a href="#" class="_tab" id="tab_7">Scrutini</a></li>
 		<li><a href="#" class="_tab" id="tab_8">Varie</a></li>
-		<?php if (is_installed("com")): ?>
+		<?php if (is_installed("com") && $admin_level == 0): ?>
 		<li><a href="#" class="_tab" id="tab_10">Moduli</a></li>
 		<?php endif; ?>
-		<?php if($admin_level == 0): ?>
 		<li><a href="#" class="_tab" id="tab_9">Sviluppo</a></li>
-		<?php endif; ?>
 	</ul>
 </div>

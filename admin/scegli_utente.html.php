@@ -17,7 +17,7 @@
 			setOverlayEvent();
 		});
 		function gruppo(gr){
-			document.location.href = "scegli_utente.php?gruppo="+gr;
+			document.location.href = "scegli_utente.php?gruppo="+gr<?php if(isset($_REQUEST['school_order'])) echo '+"&school_order='.$_REQUEST['school_order'].'"'; ?>;
 		}
 
 		var su_do = function(area, uid){
@@ -35,7 +35,9 @@
 	<div id="left_col">
 		<div class="navigate">
 			<a href="#" onclick="gruppo(3)" style="margin-right: 10px">Personale della scuola</a>
+			<?php if ($admin_level == 0) : ?>
 			<a href="#" onclick="gruppo(2)" style="margin: 0 10px 0 10px">Studenti</a>
+			<?php endif; ?>
 			<a href="#" onclick="gruppo(1)" style="margin-left: 10px">Genitori</a>
 		</div>
 		<form class="no_border">
