@@ -32,7 +32,7 @@ else if($num_subject == 4){
 	$other_column = 15;
 }
 
-$drawer_label = "Gestione pagellino";
+$drawer_label = "Segnalazione insufficienze";
 $months = ["11" => "Novembre", "12" => "Dicembre", "1" => "Gennaio", "3" => "Marzo", "4" => "Aprile", "5" => "Maggio"];
 $sel_active = "SELECT * FROM rb_pagellini WHERE data_apertura <= NOW() AND data_chiusura >= NOW()";
 $res_active = $db->executeQuery($sel_active);

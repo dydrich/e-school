@@ -50,9 +50,13 @@ $is_teacher_in_this_class = $_SESSION['__user__']->isTeacherInClass($_SESSION['_
 		<?php
 		}
 		else if ($_SESSION['__classe__']->get_anno() == 3) {
-	?>
+			?>
 			<li><a href="archivio_scrutini.php" style="font-weight: normal">Archivio scrutini</a></li>
-	<?php
+			<?php
+		}
+		if(($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) || ($_SESSION['__user__']->isAdministrator()) || ($_SESSION['__user__']->getUsername() == "rbachis")) { ?>
+			<li><a href="archivio_pagellini.php">Archivio segnalazioni</a></li>
+			<?php
 		}
 	}
 	?>

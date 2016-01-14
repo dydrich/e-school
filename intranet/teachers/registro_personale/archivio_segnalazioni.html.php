@@ -2,16 +2,17 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>Registro personale: pagellino</title>
-	<link rel="stylesheet" href="../../../font-awesome/css/font-awesome.min.css">
+	<title>Registro personale: archivio segnalazioni insufficienza</title>
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/reg_classe.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript" src="../../../js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="../../../js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="../../../js/page.js"></script>
 	<script type="text/javascript">
+
 		var _show = function(e, off) {
 			if ($('#other_drawer').is(":visible")) {
 				$('#other_drawer').hide('slide', 300);
@@ -26,7 +27,7 @@
 			return true;
 		};
 
-		$(function () {
+		$(function() {
 			load_jalert();
 			setOverlayEvent();
 			$('#overlay').click(function(event) {
@@ -35,163 +36,99 @@
 				}
 				$('#other_drawer').hide();
 			});
+
 			$('#showsub').click(function(event){
 				var off = $(this).parent().offset();
 				_show(event, off);
 			});
-			$('.seg').on('click', function(event) {
-				$id = $(this).data('al');
-				$mat = $(this).data('mat');
-				if ($(this).text() == "non sufficiente") {
-					$action = 'del';
-				}
-				else {
-					$action = 'ins';
-				}
-				report_failure($id, $mat, $action);
-				if ($(this).text() == "non sufficiente") {
-					$(this).text('sufficiente');
-					$(this).parent().removeClass('attention_bg');
-					$(this).removeClass('_bold');
-				}
-				else {
-					$(this).text('non sufficiente');
-					$(this).parent().addClass('attention_bg');
-					$(this).addClass('_bold');
-				}
-			})
 		});
 
-		var report_failure = function(student, subj, action) {
-			var id_report = <?php if ($res_active && $res_active->num_rows > 0) echo $active_report['id_pagellino']; else echo '0' ?>;
-			var url = "report_failure.php";
-			//alert(subj);
-			$.ajax({
-				type: "POST",
-				url: url,
-				data: {student: student, subject: subj, action: action, id_report: id_report},
-				dataType: 'json',
-				error: function() {
-					j_alert("error", "Errore di trasmissione dei dati");
-				},
-				succes: function() {
-
-				},
-				complete: function(data){
-					r = data.responseText;
-					if(r == "null"){
-						return false;
-					}
-					var json = $.parseJSON(r);
-					if (json.status == "kosql"){
-						j_alert("error", json.message);
-						console.log(json.dbg_message);
-					}
-				}
-			});
-		};
-
 	</script>
+	<style>
+		tbody tr:hover {
+			background-color: #EEEEEE;
+			font-weight: bold;
+		}
+	</style>
 </head>
 <body>
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
-<?php
-if (($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID()) || $_SESSION['__user__']->getUsername() == 'rbachis') && ($res_active && $res_active->num_rows > 0)) {
-?>
-	<div style="width: 100px; height: 40px; position: relative; top: -15px; margin-left: 55px; margin-bottom: -39px; text-align: right">
-		<div style="margin-bottom: -10px" class="rb_button">
-			<a href="segnalazioni_classe.php">
-				<i class="fa fa-group" style="font-size: 1.5em; margin-top: 10px; margin-right: 9px"></i>
-			</a>
-		</div>
-	</div>
-<?php
-}
-?>
-	<div style="width: 200px; height: 40px; position: relative; top: -15px; margin-left: 55px; margin-bottom: -33px; text-align: left; float: right">
-		<a href="archivio_segnalazioni.php" class="material_link">Archivio segnalazioni</a>
-	</div>
-<?php
-setlocale(LC_TIME, "it_IT.utf8");
-$giorno_str = strftime("%A", strtotime(date("Y-m-d")));
-if ($res_active && $res_active->num_rows > 0) {
-	?>
-	<table class="registro">
-		<thead>
-		<tr class="head_tr_no_bg">
-			<td style="text-align: center; ">
-				<span id="ingresso" style=""><?php print $_SESSION['__classe__']->to_string() ?></span>
-			</td>
-			<td colspan="<?php print ($num_subject + 1) ?>" style="text-align: center;">Quadro riassuntivo</td>
-		</tr>
-		<tr class="title_tr">
-			<td style="width: <?php print $first_column ?>%; font-weight: bold; padding-left: 8px">Alunno</td>
+	<div style="width: 75%; float: left; border-right: 1px solid #CCCCCC; min-height: 150px; margin-bottom: 20px">
+		<?php
+		if (count($materie) > 1) {
+		?>
+		<table style="width: 95%; margin: 0 auto 0 auto">
+			<thead>
+			</thead>
+			<tbody>
 			<?php
-			foreach ($_SESSION['__subjects__'] as $materia) {
+			foreach ($alunni as $item) {
+				$str = [];
+				if (count($item['ins']) > 0) {
+					foreach ($item['ins'] as $ins) {
+						if (in_array($ins, $idm)) {
+							$str[] = $materie[$ins]['mat'];
+						}
+					}
+				}
 				?>
-				<td style="width: <?php print $other_column ?>%; text-align: center; font-weight: bold"><?php print $materia['mat'] ?></td>
+				<tr class="bottom_decoration">
+					<td style="width: 35%; padding-left: 20px" <?php if (count($item['ins']) > 0) echo 'class="attention"' ?>><?php echo $item['cognome'] . " " . $item['nome'] ?></td>
+					<td style="width: 65%">
+						<?php echo implode(", ", $str); ?>
+					</td>
+				</tr>
 				<?php
 			}
 			?>
-		</tr>
-		</thead>
-		<tbody>
+			</tbody>
+		</table>
 		<?php
-		$num_alunni = $res_alunni->num_rows;
-		$idx = 0;
-		while ($al = $res_alunni->fetch_assoc()) {
-			$idx++;
-			?>
-			<tr>
-				<td style="width: <?php print $first_column ?>%; font-weight: normal; padding-left: 8px;"><?php if ($idx < 10) {
-						print "&nbsp;&nbsp;";
-					} ?><?php echo ($idx) . ". " ?>
-					<?php print $al['cognome'] . " " . $al['nome'] ?>
-				</td>
-				<?php
-				reset($_SESSION['__subjects__']);
-				foreach ($_SESSION['__subjects__'] as $materia) {
-					$sel_ins = "SELECT COUNT(*) FROM rb_segnalazioni_pagellino WHERE id_pagellino = {$active_report['id_pagellino']} AND alunno = {$al['id_alunno']} AND materia = {$materia['id']}";
-					$ins = $db->executeCount($sel_ins);
-					?>
-					<td style="width: <?php print $other_column ?>%; text-align: center; font-weight: normal"
-					    class="<?php if ($ins > 0) echo 'attention_bg' ?>">
-						<a href="#" data-al="<?php echo $al['id_alunno'] ?>" data-mat="<?php echo $materia['id'] ?>"
-						   class="seg <?php if ($ins > 0) echo '_bold' ?>"><?php if ($ins > 0) {
-								echo 'non sufficiente';
-							}
-							else echo "sufficiente" ?></a></td>
-					<?php
+		}
+		else {
+		?>
+		<div style="width: 35%; margin: auto">
+			<?php
+			foreach ($alunni as $item) {
+				if (!in_array($mat, $item['ins'])) {
+					continue;
 				}
-				?>
-			</tr>
+			?>
+			<p class="bottom_decoration"><?php echo $item['cognome'], " ", $item['nome'] ?></p>
+			<?php
+			}
+			?>
+		</div>
 			<?php
 		}
 		?>
-		</tbody>
-		<tfoot>
-		<tr>
-			<td colspan="<?php print ($num_subject + 1) ?>" style="height: 15px"></td>
-		</tr>
-		</tfoot>
-	</table>
-	<?php
-}
-else {
-	?>
-	<div style="width: 95%; height: 100px; margin: 20px auto" class="_center _bold material_label">Nessun consiglio di classe attivo</div>
-	<?php
-}
-?>
+	</div>
+	<div style="float: right; width: 23%">
+		<ul>
+			<?php
+			foreach ($active as $itm) {
+				?>
+				<li><a href="archivio_segnalazioni.php?idp=<?php echo $itm['id_pagellino'] ?>&m=<?php echo $itm['mese'] ?>"><?php echo $months[$itm['mese']] ?></a></li>
+				<?php
+			}
+			?>
+		</ul>
+	</div>
 </div>
 <?php include "../footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">
 	<div style="width: 100%; height: 430px">
 		<div class="drawer_label"><span>Classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?></span></div>
 		<div class="drawer_link submenu"><a href="index.php"><img src="../../../images/4.png" style="margin-right: 10px; position: relative; top: 5%" />Registro personale</a></div>
-		<?php if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID()) || $_SESSION['__user__']->getUsername() == 'rbachis') { ?>
+		<?php if(count($_SESSION['__subjects__']) > 1){ ?>
+			<div class="drawer_link submenu">
+				<a href="summary.php"><img src="../../../images/10.png" style="margin-right: 10px; position: relative; top: 5%"/>Riepilogo</a>
+			</div>
+			<?php
+		}
+		if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID()) || $_SESSION['__user__']->getUsername() == 'rbachis') { ?>
 			<div class="drawer_link submenu">
 				<a href="dettaglio_medie.php"><img src="../../../images/9.png" style="margin-right: 10px; position: relative; top: 5%"/>Dettaglio classe</a>
 			</div>
@@ -216,7 +153,7 @@ else {
 	<?php endif; ?>
 	<div class="drawer_lastlink"><a href="../../../shared/do_logout.php"><img src="../../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
 </div>
-<div id="other_drawer" class="drawer" style="height: 180px; display: none; position: absolute">
+<div id="other_drawer" class="drawer" style="height: 144px; display: none; position: absolute">
 	<?php if (!isset($_REQUEST['__goals__']) && (isset($_SESSION['__user_config__']['registro_obiettivi']) && (1 == $_SESSION['__user_config__']['registro_obiettivi'][0]))): ?>
 		<div class="drawer_link ">
 			<a href="index.php?q=<?php echo $q ?>&subject=<?php echo $_SESSION['__materia__'] ?>&__goals__=1"><img src="../../../images/31.png" style="margin-right: 10px; position: relative; top: 5%"/>Registro per obiettivi</a>
@@ -229,9 +166,6 @@ else {
 	<?php endif; ?>
 	<div class="drawer_link">
 		<a href="tests.php"><img src="../../../images/79.png" style="margin-right: 10px; position: relative; top: 5%"/>Verifiche</a>
-	</div>
-	<div class="drawer_link">
-		<a href="lessons.php"><img src="../../../images/62.png" style="margin-right: 10px; position: relative; top: 5%"/>Lezioni</a>
 	</div>
 	<div class="drawer_link separator">
 		<a href="scrutini.php?q=<?php echo $_q ?>"><img src="../../../images/34.png" style="margin-right: 10px; position: relative; top: 5%"/>Scrutini</a>
