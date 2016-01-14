@@ -13,6 +13,7 @@ class UploadManager {
 	const FILE_EXISTS = 1;
 	const UPL_ERROR = 2;
 	const UPL_OK = 3;
+	const WRONG_FILE_EXT = 4;
 	
 	public function __construct($pt, $file, $ut, $db){
 		$this->pathTo = $pt;
@@ -79,7 +80,11 @@ class UploadManager {
 		return self::UPL_OK;
 	}
 	
-	public function upload(){
+	public function upload($ext = null){
+		$file_ext = pathinfo($this->file['name'], PATHINFO_EXTENSION);
+		if ($ext != null && !in_array($file_ext, $ext)) {
+			return self::WRONG_FILE_EXT;
+		}
 		switch ($this->uploadType){
 			case "document":
 			case "document_cdc":
