@@ -44,7 +44,12 @@
 					else {
 						j_alert("alert", json.message);
 						if (repID == 0) {
-							$('table').prepend($('<tr id="tr' + json.id + '" class="bottom_decoration accent_color"><td style="width: 100px">' + json.mese + '</td><td style="width: 200px">aperto sino al ' + $('#close_at').val() + '</td></tr>'))
+							$('table').prepend($('<tr id="tr' + json.id + '" class="bottom_decoration accent_color"><td style="width: 100px">' + json.mese + '</td><td style="width: 200px">disponibile dal ' + $('#open_at').val() + '</td><td style="25px"></td><td style="25px" class="_right"><a href="#" class="del_rep" data-id="' + json.id + '"><i class="fa fa-trash"></i></a></td></tr>'));
+							$('.del_rep').on('click', function(event) {
+								$id = $(this).data("id");
+								repID = $id;
+								save('delete');
+							});
 						}
 						else {
 							if (action != 'delete') {
@@ -54,9 +59,11 @@
 								$('#tr'+json.id).hide();
 							}
 						}
-						window.setTimeout(function() {
-							$('#new_report').dialog('close');
-						}, 2000);
+						if (action != 'delete') {
+							window.setTimeout(function () {
+								$('#new_report').dialog('close');
+							}, 2000);
+						}
 					}
 				}
 			});

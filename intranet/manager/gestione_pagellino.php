@@ -68,6 +68,8 @@ try {
 	exit;
 }
 
-$response['mese'] = $months[$month];
+if (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'delete') {
+	$response['mese'] = $months[$month];
+}
 echo json_encode($response);
 exit;
