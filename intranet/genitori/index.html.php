@@ -171,6 +171,9 @@
 			<p>
 				<a href="riepilogo_note.php?q=0" class="material_link">Note disciplinari</a>
 			</p>
+			<p>
+				<a href="archivio_pagellini.php" class="material_link">Pagellini</a>
+			</p>
 		</div>
 		<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_msg.php'; ?>
 		<?php endif; ?>
