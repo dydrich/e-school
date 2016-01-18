@@ -490,6 +490,12 @@
 			        <div class="card_minicontent">Gestisci le sedi della scuola...</div>
 		        </div>
 	        </a>
+	        <a href="adm_school/labs.php">
+		        <div class="card">
+			        <div class="card_title">Laboratori</div>
+			        <div class="card_minicontent">Gestisci laboratori e aule speciali, che richiedono prenotazione</div>
+		        </div>
+	        </a>
 	        <a href="adm_school/moduli_orario.php">
 		        <div class="card">
 			        <div class="card_title">Moduli orario</div>

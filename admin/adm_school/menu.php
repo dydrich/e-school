@@ -4,6 +4,7 @@
 		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>index.php">Home</a></li>
 		<?php if($admin_level == 0): ?>
 		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>adm_school/sedi.php">Sedi</a></li>
+		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>adm_school/labs.php">Aule speciali</a></li>
 		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>adm_school/moduli_orario.php">Moduli orario</a></li>
 		<?php endif; ?>
 		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>adm_school/materie.php">Materie</a></li>
