@@ -1,6 +1,7 @@
 <?php
 
 require_once "../../lib/start.php";
+require_once "../../lib/Classroom.php";
 
 check_session(FAKE_WINDOW);
 check_permission(ADM_PERM);
@@ -11,9 +12,7 @@ $_SESSION['__path_to_mod_home__'] = "../";
 $admin_level = 0;
 
 if(isset($_REQUEST['id']) && $_REQUEST['id'] != 0){
-	$sel_lab = "SELECT * FROM rb_aule_speciali WHERE id_lab = ".$_REQUEST['id'];
-	$res_lab = $db->executeQuery($sel_lab);
-	$lab = $res_lab->fetch_assoc();
+	$lab = new \eschool\Classroom($_REQUEST['id'], new MySQLDataLoader($db));
 	$_i = $_REQUEST['id'];
 }
 else{
