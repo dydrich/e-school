@@ -60,6 +60,7 @@ $is_teacher_in_this_class = $_SESSION['__user__']->isTeacherInClass($_SESSION['_
 		}
 	}
 	?>
+	<li><a href="laboratori.php" style="font-weight: normal">Prenota laboratorio</a></li>
  </ul>
  <?php if(is_installed("com")){ ?>
  <?php } ?>
