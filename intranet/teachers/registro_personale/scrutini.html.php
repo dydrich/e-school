@@ -237,7 +237,7 @@ if ($subject_number > 1) {
 		</div>
 	<?php endif; ?>
 	<?php if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID()) || $_SESSION['__user__']->getUsername() == 'rbachis'): ?>
-		<div style="top: 92px; left: 59%; z-index: 999; position: absolute" class="rb_button">
+		<div style="top: 75px; left: 59%; z-index: 999; position: absolute" class="rb_button">
 			<a href="scrutini_classe.php?q=<?php echo $q ?>" title="scrutini classe">
 				<i class="fa fa-users" style="font-size: 15px; color: #000000; padding: 12px 0 0 12px"></i>
 			</a>
