@@ -236,7 +236,36 @@
 				?>
 			</div>
 		</div>
+		<div style="width: 90%; margin: 20px auto 0px auto; height: 20px" class="riepilogo bottom_decoration">
+			<?php
+
+$previous = get_sibling($_SESSION['students'], $stid, PREVIOUS);
+$next = get_sibling($_SESSION['students'], $stid, NEXT);
+if($previous == INDEX_OUT_OF_BOUND){
+	$link_p = "#";
+	$text_p = "";
+}
+else{
+	$link_p = "scheda_alunno.php?stid=".$previous['id']."&q=$q";
+	$text_p = $previous['value'];
+}
+if($next == INDEX_OUT_OF_BOUND){
+	$link_n = "#";
+	$text_n = "";
+}
+else{
+	$link_n = "scheda_alunno.php?stid=".$next['id']."&q=$q";
+	$text_n = $next['value'];
+}
+?>
+<div style="text-align: left; float: left; width: 200px">
+	<a href="<?php echo $link_p ?>" style="margin-left: 30px; font-weight: normal; text-decoration: none">&lt;&lt;&nbsp; &nbsp;<?php echo $text_p ?></a>
+</div>
+	<div style="text-align: right; float: right">
+	<a href="<?php echo $link_n ?>" style="margin-right: 30px; font-weight: normal; text-decoration: none"><?php echo $text_n ?> &nbsp;&nbsp;&gt;&gt;</a>
+		</div>
 	</div>
+</div>
 </div>
 <?php include "../footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">

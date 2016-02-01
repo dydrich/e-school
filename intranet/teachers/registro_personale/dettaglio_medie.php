@@ -62,6 +62,7 @@ switch($q){
 }
 
 $alunni = array();
+$_SESSION['students'] = [];
 $sel_alunni = "SELECT rb_alunni.* FROM rb_alunni WHERE rb_alunni.id_classe = ".$_SESSION['__classe__']->get_ID()." ORDER BY cognome, nome";
 try{
 	$res_alunni = $db->executeQuery($sel_alunni);
@@ -71,6 +72,10 @@ try{
 while ($row = $res_alunni->fetch_assoc()){
 	$alunni[$row['id_alunno']] = $row;
 	$alunni[$row['id_alunno']]['voti'] = array();
+	$st = array();
+	$st['id'] = $row['id_alunno'];
+	$st['value'] = $row['cognome']." ".$row['nome'];
+	$_SESSION['students'][] = $st;
 }
 
 $sel_voti = "SELECT ROUND(AVG(voto), 2) AS voto, materia, alunno FROM rb_voti, rb_alunni WHERE alunno = id_alunno AND id_classe = {$_SESSION['__classe__']->get_ID()} AND anno = ".$_SESSION['__current_year__']->get_ID()." $int_time GROUP BY materia, alunno ORDER BY alunno, materia ";
