@@ -18,6 +18,17 @@ switch ($_REQUEST['action']){
 		$stid = $_REQUEST['stid'];
 		try{
 			$begin = $db->execute("BEGIN");
+			/* verifico se l'alunno e' segnato come assente */
+			$is_absent = $db->executeCount("SELECT ingresso FROM rb_reg_alunni WHERE id_registro = {$_SESSION['registro']['id_reg']} AND id_alunno = {$stid}");
+			if ($is_absent == "") {
+				$rollback = $db->execute("ROLLBACK");
+				$response['status'] = "ko_absent";
+				$response['message'] = "Segnalare l'alunno come presente prima di modificare l'orario di ingresso o di uscita";
+				$res = json_encode($response);
+				echo $res;
+				exit;
+			}
+
 			$update = "UPDATE rb_reg_alunni SET {$campo} = '{$value}', giustificata = NULL WHERE id_registro = {$_SESSION['registro']['id_reg']} AND id_alunno = {$stid}";
 			$db->executeUpdate($update);
 			$commit = $db->execute("COMMIT");

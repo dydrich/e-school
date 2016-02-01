@@ -55,6 +55,12 @@
 				onClose: function(){
 					strs = this.id.split('_');
 					updateStudentTime(strs[1], "ingresso");
+				},
+				beforeShow: function() {
+					if($(this).val() == 'A') {
+						j_alert("error", "Segnalare l'alunno come presente prima di modificare l'orario di ingresso o di uscita");
+						return false;
+					}
 				}
 			});
 			$('.student_exit').timepicker({
@@ -167,6 +173,10 @@
 					if (json.status == "kosql"){
 						j_alert("error", json.message);
 						console.log(json.dbg_message);
+					}
+					else if (json.status == "ko_absent") {
+						j_alert("error", json.message);
+						//$('#ingresso_'+stid).val('A');
 					}
 				}
 		    });

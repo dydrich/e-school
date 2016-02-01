@@ -137,12 +137,12 @@ div.card_title {
     background-color: #FFF3E0;
 }
 
-.tooltip { 
+.tooltip {
     position: absolute;
-    top: 1em; 
-    left: 1em; 
+    top: 1em;
+    left: 1em;
     width: 15em;
-    border: 1px solid #AAAAAA; 
+    border: 1px solid #AAAAAA;
     background-color: rgb(211, 222, 199);
     border-radius: 8px 8px 8px 8px;
     padding: 10px;
@@ -191,7 +191,7 @@ table.registro tr.riepilogo {
 
 .page_menu{
 	background-color: #C5CAE9;
-	padding: 10px; 
+	padding: 10px;
 	border: 1px solid rgba(30, 67, 137, .6);
 	border-radius: 10px 10px 10px 10px;
 	color: #222222;
@@ -279,4 +279,24 @@ input.android:focus, select.android:focus, textarea.android:focus {
 
 .accent_color a {
     color: #FF4081 !important;
+}
+
+.alert_msg, .error_msg {
+    background-color: #FFFFFF;
+    border: 1px solid #303F9F;
+}
+
+.alert_title {
+    border-bottom: 1px solid #3F51B5;
+    color: #303F9F;
+}
+
+.error_title {
+    color: rgba(200, 6, 6, 1);
+    border-bottom: 1px solid #3F51B5;
+}
+
+.alert_title span, .error_title span {
+    padding-left: 10px;
+    font-size: 1em
 }

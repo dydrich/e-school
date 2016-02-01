@@ -284,3 +284,23 @@ input.android:focus, select.android:focus, textarea.android:focus {
 .main_500, .main_500 a {
     color: #00BCD4 !important;
 }
+
+.alert_msg, .error_msg {
+    background-color: #FFFFFF;
+    border: 1px solid #006064;
+}
+
+.alert_title {
+    border-bottom: 1px solid #0097A7;
+    color: #006064;
+}
+
+.error_title {
+    color: rgba(200, 6, 6, 1);
+    border-bottom: 1px solid #00BCD4;
+}
+
+.alert_title span, .error_title span {
+    padding-left: 10px;
+    font-size: 1em
+}
