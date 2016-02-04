@@ -191,8 +191,10 @@
 <?php include "navigation.php" ?>
 <div id="main">
 <?php
+$top = 75;
 $label_subject = "";
 if ($subject_number > 1) {
+	$top = 92;
 	?>
 	<div class="mdtabs">
 		<?php
@@ -223,21 +225,21 @@ if ($subject_number > 1) {
 
 ?>
 	<?php if ($q == 2): ?>
-		<div style="top: 92px; left: 51%; z-index: 999; position: absolute" class="rb_button">
+		<div style="top: <?php echo $top ?>px; left: 51%; z-index: 999; position: absolute" class="rb_button">
 			<a href="confronta_scrutini.php" title="confronta scrutini primo e secondo quadrimestre">
 				<i class="fa fa-bar-chart" style="font-size: 15px; color: #000000; padding: 12px 0 0 12px"></i>
 			</a>
 		</div>
 	<?php endif; ?>
 	<?php if(count($_SESSION['__subjects__']) > 1): ?>
-		<div style="top: 92px; left: 55%; z-index: 999; position: absolute" class="rb_button">
+		<div style="top: <?php echo $top ?>px; left: 55%; z-index: 999; position: absolute" class="rb_button">
 			<a href="riepilogo_scrutini.php?q=<?php echo $q ?>" title="riepilogo personale scrutini">
 				<i class="fa fa-th-list" style="font-size: 15px; color: #000000; padding: 12px 0 0 12px"></i>
 			</a>
 		</div>
 	<?php endif; ?>
 	<?php if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID()) || $_SESSION['__user__']->getUsername() == 'rbachis'): ?>
-		<div style="top: 75px; left: 59%; z-index: 999; position: absolute" class="rb_button">
+		<div style="top: <?php echo $top ?>px; left: 59%; z-index: 999; position: absolute" class="rb_button">
 			<a href="scrutini_classe.php?q=<?php echo $q ?>" title="scrutini classe">
 				<i class="fa fa-users" style="font-size: 15px; color: #000000; padding: 12px 0 0 12px"></i>
 			</a>
