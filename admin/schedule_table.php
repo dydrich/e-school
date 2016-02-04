@@ -16,7 +16,7 @@ $admin_level = getAdminLevel($_SESSION['__user__']);
 $year = $_SESSION['__current_year__']->get_ID();
 
 $cls = array();
-$sel_classi = "SELECT * FROM rb_classi ORDER BY sezione, anno_corso";
+$sel_classi = "SELECT * FROM rb_classi ORDER BY ordine_di_scuola, sezione, anno_corso";
 $res_classi = $db->execute($sel_classi);
 while($c = $res_classi->fetch_assoc()){
 	$cls[$c['id_classe']] = new Classe($c, $db);
