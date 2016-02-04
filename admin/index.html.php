@@ -17,113 +17,6 @@
 		 */
 		var count_year = <?php print $count ?>;
 
-		var cdc_created = <?php print $exist_cdc ?>;
-		var reg_created = <?php print $exist_reg ?>;
-		var schedule_created = <?php print $exist_sch ?>;
-		var scr_sl1_created1 = <?php echo $count_sl1_data1 ?>;
-		var scr_sl1_created2 = <?php echo $count_sl1_data2 ?>;
-		var scr_sl2_created1 = <?php echo $count_sl2_data1 ?>;
-		var scr_sl2_created2 = <?php echo $count_sl2_data2 ?>;
-
-		var scrutini = [];
-		scrutini[1] = [];
-		scrutini[2] = [];
-		scrutini[1][1] = <?php echo $count_sl1_data1 ?>;
-		scrutini[2][1] = <?php echo $count_sl1_data2 ?>;
-		scrutini[1][2] = <?php echo $count_sl2_data1 ?>;
-		scrutini[2][2] = <?php echo $count_sl2_data2 ?>;
-
-		var tm = 0;
-		var complete = false;
-		var timer;
-
-		var show_message = function(msg){
-			alert(msg);
-		};
-
-		function crea_cdc(){
-			if(cdc_created){
-				if(!confirm("I dati relativi ai consigli di classe sono già presenti in archivio. Vuoi modificarli?")) {
-					return false;
-				}
-				else {
-					document.location.href = "cdc_state.php";
-					return false;
-				}
-			}
-			var url = "crea_cdc.php";
-
-			$.ajax({
-				type: "POST",
-				url: url,
-				data: {},
-				dataType: 'json',
-				error: function() {
-					show_error("Errore di trasmissione dei dati");
-				},
-				succes: function() {
-
-				},
-				complete: function(data){
-					r = data.responseText;
-					if(r == "null"){
-						return false;
-					}
-					var json = $.parseJSON(r);
-					if (json.status == "kosql"){
-						alert(json.message);
-						console.log(json.dbg_message);
-					}
-					else {
-						alert("Operazione conclusa con successo");
-					}
-				}
-		    });
-		}
-
-		function crea_orario(){
-			action = "insert";
-			if(schedule_created){
-				if(!confirm("I dati relativi all'orario sono già presenti in archivio. Vuoi cancellarli e ricrearli? ATTENZIONE: cliccando su OK tutte le modifiche apportate all'orario verranno perse.")) {
-					return false;
-				}
-				else {
-					action = "reinsert";
-				}
-			}
-			var url = "popola_tabella_orario.php";
-
-			$.ajax({
-				type: "POST",
-				url: url,
-				data: {action: action},
-				dataType: 'json',
-				error: function() {
-					show_error("Errore di trasmissione dei dati");
-				},
-				succes: function() {
-
-				},
-				complete: function(data){
-					r = data.responseText;
-					if(r == "null"){
-						return false;
-					}
-					var json = $.parseJSON(r);
-					if (json.status == "kosql"){
-						show_error(json.message);
-						console.log(json.dbg_message);
-					}
-					else if(json.status == "ko"){
-						show_error(json.message);
-					}
-					else {
-						alert("Operazione conclusa con successo");
-					}
-				}
-		    });
-		}
-
 		var new_year = function(){
 			today = new Date();
 			y = today.getFullYear();
@@ -134,70 +27,6 @@
 			document.location.href = "year.php?do=new";
 		};
 
-		var crea_registro = function(){
-			if(reg_created){
-				if(!confirm("I dati relativi al registro di classe sono già presenti in archivio. Vuoi modificarli?")) {
-					return false;
-				}
-				else {
-					document.location.href = "classbook_state.php";
-					return false;
-				}
-			}
-			var url = "classbook_manager.php";
-			background_process("Operazione in corso", 20, true);
-			$.ajax({
-				type: "POST",
-				url: url,
-				data: {action: "insert"},
-				dataType: 'json',
-				error: function() {
-					clearTimeout(bckg_timer);
-					$('#background_msg').text("Errore di trasmissione dei dati");
-					setTimeout(function() {
-						$('#background_msg').dialog("close");
-					}, 2000);
-				},
-				succes: function() {
-
-				},
-				complete: function(data){
-					r = data.responseText;
-					if(r == "null"){
-						return false;
-					}
-					var json = $.parseJSON(r);
-					if (json.status == "kosql"){
-						console.log(json.dbg_message);
-						console.log(json.dbg_message);
-						clearTimeout(bckg_timer);
-						$('#background_msg').text(json.message);
-						setTimeout(function() {
-							$('#background_msg').dialog("close");
-						}, 2000);
-
-					}
-					else if(json.status == "ko"){
-						console.log(json.dbg_message);
-						clearTimeout(bckg_timer);
-						$('#background_msg').text(json.message);
-						setTimeout(function() {
-							$('#background_msg').dialog("close");
-						}, 2000);
-		                return;
-					}
-					else {
-						clearTimeout(bckg_timer);
-						$('#background_msg').text("Operazione conclusa");
-						setTimeout(function() {
-							$('#background_msg').dialog("close");
-						}, 2000);
-						reg_created = 999;
-					}
-				}
-		    });
-		};
-
 		var activate_new_accounts = function() {
 			var url = "accounts_maker.php";
 			$.ajax({
@@ -206,7 +35,7 @@
 				data: {notcomplete: 1},
 				dataType: 'json',
 				error: function() {
-					show_error("Errore di trasmissione dei dati");
+					j_alert("error", "Errore di trasmissione dei dati");
 				},
 				succes: function() {
 
@@ -232,18 +61,6 @@
 			});
 		};
 
-		var upd_str = function(){
-			tm++;
-			//alert(tm);
-			if(tm > 5){
-				tm = 0;
-				$('#wait_label').text("Caricamento in corso");
-			}
-			else
-				$('#wait_label').text($('#wait_label').text()+".");
-			timer = setTimeout("upd_str()", 1000);
-		};
-
 		var _hide = function(){
 			$('#over1').hide();
 			$('#wait_label').hide();
@@ -259,7 +76,7 @@
 				data: {field: 'intestazione_scuola', value: _header},
 				dataType: 'json',
 				error: function() {
-					show_error("Errore di trasmissione dei dati");
+					j_alert("error", "Errore di trasmissione dei dati");
 				},
 				succes: function() {
 
@@ -274,14 +91,14 @@
 					var json = $.parseJSON(r);
 					if (json.status == "kosql"){
 						console.log(json.dbg_message);
-						show_message(json.message);
+						j_alert("error", json.message);
 
 					}
 					else if(json.status == "ko"){
-						show_message(json.message);
+						j_alert("error", json.message);
 					}
 					else {
-						show_message("Operazione completata");
+						j_alert("alert", "Operazione completata");
 					}
 				}
 		    });
@@ -296,7 +113,7 @@
 				data: {table: table},
 				dataType: 'json',
 				error: function() {
-					show_error("Errore di trasmissione dei dati");
+					j_alert("error", "Errore di trasmissione dei dati");
 				},
 				succes: function() {
 
@@ -309,14 +126,14 @@
 					var json = $.parseJSON(r);
 					if (json.status == "kosql"){
 						console.log(json.dbg_message);
-						show_message(json.message);
+						j_alert("error", json.message);
 
 					}
 					else if(json.status == "ko"){
-						show_message(json.message);
+						j_alert("error", json.message);
 					}
 					else {
-						show_message(json.message);
+						j_alert("alert", json.message);
 					}
 				}
 		    });
@@ -346,14 +163,6 @@
 			$('#head_lnk_1').click(function(event){
 				event.preventDefault();
 				school_header();
-			});
-			$('#cdc_lnk').click(function(event){
-				event.preventDefault();
-				crea_cdc();
-			});
-			$('#cdc_lnk_1').click(function(event){
-				event.preventDefault();
-				crea_cdc();
 			});
 			<?php } ?>
 			$('#new_year_lnk').click(function(event){
@@ -648,14 +457,6 @@
             <?php endif; ?>
         </div>
         <div id="tb5" style="display: none" data-tablabel="cdc" class="card_container">
-            <?php if($admin_level == 0): ?>
-            <a href="../shared/no_js.php" id="cdc_lnk">
-	            <div class="card">
-		            <div class="card_title">Popola la tabella</div>
-		            <div class="card_minicontent">Crea i record che ti permetteranno di gestire i cdc...</div>
-	            </div>
-            </a>
-            <?php endif; ?>
             <?php
             if((count($_SESSION['__school_level__']) > 1) && $admin_level == 0){ 
             	foreach ($_SESSION['__school_level__'] as $k => $sl){
