@@ -21,7 +21,7 @@ if (!is_numeric($_REQUEST['quadrimestre'])) {
 	exit;
 }
 
-$school_orders = array("1" => "scuola media", "2" => "scuola primaria", "3" => "scuola dell'infanzia");
+$school_orders = ["1" => "scuola media", "2" => "scuola primaria", "3" => "scuola dell'infanzia"];
 
 $classes_table = "rb_classi";
 $subject_params = "";
@@ -38,25 +38,6 @@ else if(isset($_SESSION['__school_order__']) && $_SESSION['__school_order__'] !=
 	$subject_params = " AND tipologia_scuola = ".$_SESSION['__school_order__'];
 	$scr_classes = "AND classe IN (SELECT id_classe FROM {$classes_table})";
 	$school_order = $_SESSION['__school_order__'];
-}
-
-/*
- * controllo preliminare di integrita` dei dati
-* se sono presenti record relativi a classi che non si trovano nella tabella delle classi,
-* siamo in presenza di classi cancellate e i record relativi nella tabella scrutini vanno eliminati
-*/
-$sel_to_delete = "SELECT DISTINCT(classe) FROM rb_scrutini WHERE anno = {$year} AND quadrimestre = {$_REQUEST['quadrimestre']} AND classe NOT IN (SELECT id_classe FROM {$classes_table})";
-try {
-	$res_to_delete = $db->executeQuery($sel_to_delete);
-	if ($res_to_delete->num_rows > 0) {
-		$to_delete = array();
-		while ($row = $res_to_delete->fetch_assoc()) {
-			$to_delete[] = $row['classe'];
-		}
-		$db->executeUpdate("DELETE FROM rb_scrutini WHERE anno = {$year} AND quadrimestre = {$_REQUEST['quadrimestre']} AND classe IN (".join(",", $to_delete).")");
-	}
-} catch (MySQLException $ex) {
-	$ex->redirect();
 }
 
 $cls = array();
@@ -90,7 +71,19 @@ while ($_scr = $res_scr->fetch_assoc()) {
 	}
 }
 
+$check_data = "SELECT COUNT(id) FROM rb_scrutini, rb_classi WHERE classe = id_classe AND ordine_di_scuola = $school_order AND anno = $year AND quadrimestre = {$_REQUEST['quadrimestre']}";
+$count_data = $db->executeCount($check_data);
+$inserted_data = 0;
+$class_data = [];
+foreach ($cls as $k => $cl) {
+	$class_data[$k] = $db->executeCount("SELECT COUNT(id) FROM rb_scrutini, rb_classi WHERE classe = id_classe AND ordine_di_scuola = $school_order AND anno = $year AND quadrimestre = {$_REQUEST['quadrimestre']} AND voto IS NOT NULL AND classe = $k");
+	$inserted_data += $class_data[$k];
+}
+if ($count_data > 0) {
+	//$inserted_data = $db->executeCount("SELECT COUNT(id) FROM rb_scrutini, rb_classi WHERE classe = id_classe AND ordine_di_scuola = $school_order AND anno = $year AND quadrimestre = {$_REQUEST['quadrimestre']} AND voto IS NOT NULL");
+}
+
 $navigation_label = "gestione scrutini";
-$drawer_label = "Gestione tabella scrutini - ".$_REQUEST['quadrimestre']." quadrimestre";
+$drawer_label = "Gestione tabella scrutini ".$school_orders[$school_order]." - ".$_REQUEST['quadrimestre']." quadrimestre";
 
 include "assignment_table.html.php";

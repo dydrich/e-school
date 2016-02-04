@@ -232,70 +232,6 @@
 			});
 		};
 
-
-		var pop_scrutini = function(q, school_level){
-			leftS = (screen.width - 200) / 2;
-
-			var myvar = scrutini[q][school_level];
-			if(myvar > 0){
-				if(!confirm("I dati relativi agli scrutini per il "+q+" quadrimestre sono già presenti in archivio. Vuoi modificarli?")) {
-					$('#over1').hide();
-					return false;
-				}
-				else {
-					document.location.href = "assignment_table.php?quadrimestre="+q+"&school_order="+school_level;
-					return false;
-				}
-			}
-			else{
-				var url = "eoyevaluation_manager.php";
-				background_process("Operazione in corso", 20, true);
-
-				$.ajax({
-					type: "POST",
-					url: url,
-					data: {quadrimestre: q, action: "insert", school_order: school_level},
-					dataType: 'json',
-					error: function() {
-						clearTimeout(bckg_timer);
-						$('#background_msg').text("Errore di trasmissione dei dati");
-						setTimeout(function() {
-							$('#background_msg').dialog("close");
-						}, 2000);
-					},
-					succes: function() {
-
-					},
-					complete: function(data){
-						complete = true;
-				        clearTimeout(timer);
-						r = data.responseText;
-						if(r == "null"){
-							return false;
-						}
-						var json = $.parseJSON(r);
-						if (json.status == "kosql"){
-							console.log(json.dbg_message);
-							clearTimeout(bckg_timer);
-							loaded(json.message);
-
-						}
-						else if(json.status == "ko"){
-							clearTimeout(bckg_timer);
-							loaded(json.message);
-			                return;
-						}
-						else {
-							clearTimeout(bckg_timer);
-							loaded("Operazione conclusa");
-							scrutini[q][school_level] = 999;
-						}
-					}
-			    });
-				//upd_str();
-			}
-		};
-
 		var upd_str = function(){
 			tm++;
 			//alert(tm);
@@ -431,20 +367,6 @@
 			$('#new_accounts').click(function(event){
 				event.preventDefault();
 				activate_new_accounts();
-			});
-
-
-			$('.sc1_lnk').click(function(event){
-				event.preventDefault();
-				var quad = $(this).attr("data-q");
-				var level = $(this).attr("data-sl");
-				pop_scrutini(1, level);
-			});
-			$('.sc2_lnk').click(function(event){
-				event.preventDefault();
-				var quad = $(this).attr("data-q");
-				var level = $(this).attr("data-sl");
-				pop_scrutini(2, level);
 			});
 
 			$('._tab').click(function(event){
@@ -796,10 +718,10 @@
 		        <div class="card_title">Scrutini <?php echo $sl ?></div>
 		        <div class="card_minicontent">
 			        <p style="margin: 0">
-				        <a href="../shared/no_js.php" id="link<?php echo $k ?>_1" class="sc1_lnk normal" data-sl="<?php echo $k ?>" data-q="1">Primo quadrimestre</a>
+				        <a href="assignment_table.php?quadrimestre=1&school_order=<?php echo $k ?>" id="link<?php echo $k ?>_1" class="sc1_lnk normal" data-sl="<?php echo $k ?>" data-q="1">Primo quadrimestre</a>
 			        </p>
 			        <p style="margin: 5px 0">
-				        <a href="../shared/no_js.php" id="link<?php echo $k ?>_2" class="sc2_lnk normal" data-sl="<?php echo $k ?>" data-q="1">Secondo quadrimestre</a>
+				        <a href="assignment_table.php?quadrimestre=2&school_order=<?php echo $k ?>" id="link<?php echo $k ?>_2" class="sc2_lnk normal" data-sl="<?php echo $k ?>" data-q="1">Secondo quadrimestre</a>
 			        </p>
 		        </div>
 	        </div>

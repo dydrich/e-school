@@ -261,4 +261,21 @@ class EndOfYearEvaluationManager {
 		}
 	}
 
+	public function fix() {
+		$this->insertReportCards();
+		reset ($this->students);
+		foreach ($this->students as $alunno) {
+			$id_alunno = $alunno['id_alunno'];
+			$classe = $alunno['id_classe'];
+			$desc_classe = $alunno['desc_cls'];
+			foreach($this->subjects as $materia){
+				if (($alunno['musicale'] != 1) && ($materia == 13)) {
+					continue;
+				}
+
+				$ins = "INSERT IGNORE INTO rb_scrutini (alunno, classe, anno, quadrimestre, materia) VALUES ($id_alunno, $classe, {$this->year}, {$this->session}, {$materia})";
+				$this->datasource->executeUpdate($ins);
+			}
+		}
+	}
 }

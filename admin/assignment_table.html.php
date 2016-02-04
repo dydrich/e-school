@@ -16,6 +16,9 @@
 		var tempX = 0;
 		var tempY = 0;
 
+		var check_count = <?php echo $count_data ?>;
+		var inserted_data = <?php echo $inserted_data ?>;
+
 		var school_order = <?php echo $school_order ?>;
 		var scr_records = [];
 		<?php
@@ -34,6 +37,15 @@
 		}
 		?>
 
+		var class_data = [];
+		<?php
+		foreach ($class_data as $k => $a) {
+		?>
+		class_data[<?php echo $k ?>] = '<?php echo $a ?>';
+		<?php
+		}
+		?>
+
 		var mat = [];
 		<?php
 		foreach ($materie as $k => $a) {
@@ -45,14 +57,32 @@
 
 		var assignment_marks = function(action){
 			and_class = "";
-			cls = null;
+			cls = 0;
+
 			if (action != "reinsert") {
 				and_class = "per la classe";
 				cls = selected_class.id;
 			}
 
-			if (!confirm("Sei sicuro di voler reinserire i record nella tabella? Questa operazione cancellerà tutti i dati inseriti "+and_class+".")) {
-				return false;
+			if (action == 'reinsert') {
+				if (inserted_data > 0) {
+					if (!confirm("Attenzione! Sono presenti dei voti. Vuoi davvero cancellarli e reinserire tutto?")) {
+						return false;
+					}
+				}
+				else if (!confirm("Reinserire i dati?")) {
+					return false;
+				}
+			}
+			else if (action == 'cl_reinsert') {
+				if (class_data[cls] > 0) {
+					if (!confirm("Attenzione! Sono presenti dei voti " + and_class + ". Vuoi davvero cancellarli e reinserire tutto?")) {
+						return false;
+					}
+				}
+				else if (!confirm("Reinserire i dati " + and_class + "?")) {
+					return false;
+				}
 			}
 
 			var url = "eoyevaluation_manager.php";
@@ -438,6 +468,51 @@
 			});
 		};
 
+		var fix_data = function() {
+			var url = "eoyevaluation_manager.php";
+			background_process("Operazione in corso", 200, true);
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {quadrimestre: <?php echo $_REQUEST['quadrimestre'] ?>, action: 'fix', school_order: school_order},
+				dataType: 'json',
+				error: function() {
+					console.log(json.dbg_message);
+					clearTimeout(bckg_timer);
+					$('#background_msg').text("Errore di trasmissione dei dati");
+					setTimeout(function() {
+						$('#background_msg').dialog("close");
+					}, 2000);
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						console.log(json.dbg_message);
+						console.log(json.query);
+						clearTimeout(bckg_timer);
+						$('#background_msg').text(json.message);
+						setTimeout(function() {
+							$('#background_msg').dialog("close");
+						}, 2000);
+					}
+					else {
+						clearTimeout(bckg_timer);
+						loaded("Operazione conclusa");
+						setTimeout(function() {
+							document.location.href = document.location.href;
+						}, 2000);
+					}
+				}
+			});
+		};
+
 		var show_menu = function(e, div) {
 			if (div == "add_div") {
 				$('#del_div').hide();
@@ -500,7 +575,16 @@
 			setOverlayEvent();
 			$('#reins').click(function(event){
 				event.preventDefault();
-				assignment_marks('reinsert');
+				if (check_count > 0) {
+					assignment_marks('reinsert');
+				}
+				else {
+					assignment_marks('insert');
+				}
+			});
+			$('#fix').on('click', function(event) {
+				event.preventDefault();
+				fix_data();
 			});
 			$('#del_sub').click(function(event){
 				event.preventDefault();
@@ -629,7 +713,16 @@
 	<div id="left_col">
 		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: -5px" class="rb_button">
 			<a href="../shared/no_js.php" id="reins">
+				<?php if($count_data > 0){ ?>
 				<img src="../images/45.png" style="padding: 12px 0 0 12px" />
+				<?php  } else { ?>
+				<i class="fa fa-plus" style="color: black; font-size: 1.6em; padding: 10px 0 0 12px"></i>
+				<?php } ?>
+			</a>
+		</div>
+		<div style="position: absolute; top: 75px; margin-left: 575px; margin-bottom: -5px" class="rb_button">
+			<a href="../shared/no_js.php" id="fix" title="Ripara o completa l'archivio">
+				<i class="fa fa-magic" style="color: black; font-size: 1.6em; padding: 10px 0 0 12px"></i>
 			</a>
 		</div>
 		<table style="width: 90%; margin: 0 auto 0 auto; border-collapse: collapse">
@@ -638,7 +731,7 @@
             </tr>
             <?php
             foreach ($cls as $k => $cl) {
-            	$mt = array();
+            	$mt = [];
             	$scr_str = "Nessun record presente";
             	if (count($cl['scr']) > 0) {
 	            	foreach ($cl['scr'] as $c) {
@@ -649,8 +742,8 @@
             	
             ?>
             <tr class="admin_row" id="tr<?php echo $k ?>">
-	            <td style="width:  25%; font-weight: bold"><?php if (isset($cl)) echo $cl['anno_corso'],$cl['sezione'] ?><span style="font-weight: normal"> <?php echo " (",$cl['nome'],")" ?></span></td>
-	            <td style="width: 70%"><?php echo $scr_str ?></td>
+	            <td style="width:  5%; font-weight: bold"><?php if (isset($cl)) echo $cl['anno_corso'],$cl['sezione'] ?></td>
+	            <td style="width: 90%"><?php echo $scr_str ?></td>
 	            <td style="width:  5%">
 	            	<p style="width: 25px; height: 25px; line-height: 41px; text-align: center; margin: 6px 0 0 0">
 	            		<a href="../shared/no_js.php" class="img_link" id="imglink_<?php echo $k ?>" data-id="<?php echo $k ?>" data-desc="<?php echo $cl['anno_corso'],$cl['sezione'] ?>">
