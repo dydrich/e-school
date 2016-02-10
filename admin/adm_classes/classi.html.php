@@ -192,6 +192,10 @@
 				var strs = this.parentNode.id.split("_");
 				del_class(strs[1]);
 			});
+			$('a.parent_link').click(function(event){
+				event.preventDefault();
+				document.location.href="rappresentanti_di_classe.php?id="+cls;
+			});
 			$('#close_btn').click(function(event){
 				event.preventDefault();
 				$('#coord').hide();
@@ -348,12 +352,14 @@
 	</div>
 	<div class="drawer_lastlink"><a href="../../shared/do_logout.php"><img src="../../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
 </div>
-<div id="hid" style="position: absolute; width: 200px; height: 130px; display: none; ">
+<div id="hid" style="position: absolute; width: 200px; height: 160px; display: none; ">
 	<p id="classname" style="width: 100%; margin: auto; text-align: center" class="pop_label"></p>
 	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="cdc_link">Consiglio di classe</a></p>
 	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="coord_link">Coordinatore</a></p>
 	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="sched_link">Orario</a></p>
 	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="stud_link">Alunni</a></p>
+	<p style="line-height: 12px; margin-bottom: 5px"><a href="../../shared/no_js.php" class="parent_link">Rappresentanti di classe</a></p>
+
 </div>
 <a href="classe.php?id=0&school_order=<?php echo $_GET['school_order'] ?>" id="float_btn" class="rb_button float_button">
 	<i class="fa fa-pencil"></i>
