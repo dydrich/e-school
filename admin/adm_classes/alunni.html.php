@@ -14,13 +14,17 @@
 	<script type="text/javascript">
 		var upd_cls = function(sel, student){
 			var url = "update_class.php";
+			background_process("Trasferimento in corso", 200, true);
 			$.ajax({
 				type: "POST",
 				url: url,
 				data: {cls: $('#'+sel).val(), stud_id: student, old_cls: <?php echo $_REQUEST['id_classe'] ?>},
 				dataType: 'json',
 				error: function() {
-					show_error("Errore di trasmissione dei dati");
+					$('#background_msg').text("Errore di trasmissione dei dati");
+					setTimeout(function() {
+						$('#background_msg').dialog("close");
+					}, 2000);
 				},
 				succes: function() {
 
@@ -32,11 +36,17 @@
 					}
 					var json = $.parseJSON(r);
 					if (json.status == "kosql"){
-						alert(json.message);
+						clearTimeout(bckg_timer);
+						$('#background_msg').text(json.message);
+						setTimeout(function() {
+							$('#background_msg').dialog("close");
+						}, 2000);
 						console.log(json.dbg_message);
 					}
 					else {
-						$('#tr_'+student).hide();
+						clearTimeout(bckg_timer);
+						loaded("Operazione conclusa");
+						$('#tr_'+student).hide(400);
 						var st_count = parseInt($('#st_count').text());
 						$('#st_count').text(--st_count);
 					}
@@ -56,7 +66,7 @@
 				data: {student: _id, cls: <?php echo $_REQUEST['id_classe'] ?>, action: action},
 				dataType: 'json',
 				error: function() {
-					show_error("Errore di trasmissione dei dati");
+					j_alert("error", "Errore di trasmissione dei dati");
 				},
 				succes: function() {
 
@@ -68,7 +78,7 @@
 					}
 					var json = $.parseJSON(r);
 					if (json.status == "kosql"){
-						alert(json.message);
+						j_alert("error", json.message);
 						console.log(json.dbg_message);
 					}
 					else {

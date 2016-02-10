@@ -16,8 +16,8 @@ class StudentManager
 	function __construct($ds, Student $s){
 		$this->datasource = new MySQLDataLoader($ds);
 		$this->student = $s;
-		$this->existClassbook = false;
-		$this->existReport = false;
+		$this->existClassbook = $this->checkClassbook();
+		$this->existReport = $this->checkReports();
 	}
 	
 	public function setSchoolYear(SchoolYear $s){
@@ -104,7 +104,21 @@ class StudentManager
 	public function getStudent(){
 		return $this->student;
 	}
-	
+
+	private function checkClassbook() {
+		$id_anno = $_SESSION['__current_year__']->get_ID();
+		$alunno = $this->student->getUid();
+		$sel_reg = "SELECT COUNT(rb_reg_alunni.id_registro) FROM rb_reg_alunni, rb_reg_classi WHERE id_anno = {$id_anno} AND id_registro = id_reg AND id_alunno = {$alunno}";
+		return $this->datasource->executeCount($sel_reg);
+	}
+
+	private function checkReports() {
+		$id_anno = $_SESSION['__current_year__']->get_ID();
+		$alunno = $this->student->getUid();
+		$check_reports = "SELECT COUNT(*) FROM rb_scrutini WHERE anno = {$id_anno} AND quadrimestre = 1 AND alunno = {$alunno}";
+		return $this->datasource->executeCount($check_reports);
+	}
+
 	public function changeClass(){
 		$alunno = $this->student->getUid();
 		$new_class = $this->student->getClass();
@@ -119,7 +133,7 @@ class StudentManager
 	
 	public function insertClassbook(){
 		/* classbook data */
-		$orari = array();
+		$orari = [];
 		$id_anno = $this->schoolYear->getYear()->get_ID();
 		$id_classe = $this->student->getClass();
 		$alunno = $this->student->getUid();
@@ -127,11 +141,11 @@ class StudentManager
 		$res_registro = $this->datasource->executeQuery($sel_registro);
 
 		foreach($res_registro as $day){
-			$orari[$day['data']] = array();
+			$orari[$day['data']] = [];
 			$orari[$day['data']]['new_id_registro'] = $day['id_reg'];
 			$orari[$day['data']]['new_enter'] = $day['ingresso'];
 			$orari[$day['data']]['new_exit'] = $day['uscita'];
-			$insert_al = "INSERT INTO rb_reg_alunni VALUES ({$day['id_reg']}, {$alunno}, '{$day['ingresso']}', '{$day['uscita']}', NULL, NULL, {$id_classe})";
+			$insert_al = "INSERT IGNORE INTO rb_reg_alunni VALUES ({$day['id_reg']}, {$alunno}, '{$day['ingresso']}', '{$day['uscita']}', NULL, NULL, {$id_classe})";
 			$this->datasource->executeUpdate($insert_al);
 		}
 		return $orari;
@@ -151,7 +165,7 @@ class StudentManager
 		}
 		/* report data */
 		$desc_class = $this->datasource->executeCount("SELECT CONCAT(anno_corso, sezione) FROM rb_classi WHERE id_classe = {$id_classe}");
-		$pub = array();
+		$pub = [];
 		$pub[] = $this->datasource->executeCount("SELECT id_pagella FROM rb_pubblicazione_pagelle WHERE anno = {$id_anno} AND quadrimestre = 1");
 		$pub[] = $this->datasource->executeCount("SELECT id_pagella FROM rb_pubblicazione_pagelle WHERE anno = {$id_anno} AND quadrimestre = 2");
 		foreach ($pub as $d){
@@ -178,9 +192,10 @@ class StudentManager
 				$this->datasource->executeUpdate("UPDATE rb_reg_alunni SET ingresso = NULL, uscita = NULL, giustificata = '{$dt['giustificata']}' WHERE id_registro = ".$orari[$dt['data']]['new_id_registro']." AND id_alunno = {$alunno}");
 			}
 		}
-
 		foreach($orari as $d_day){
-			$this->datasource->executeUpdate("DELETE FROM rb_reg_alunni WHERE id_registro = ".$d_day['old_id_registro']." AND id_alunno = {$alunno}");
+			if (isset($d_day['old_id_registro'])) {
+				$this->datasource->executeUpdate("DELETE FROM rb_reg_alunni WHERE id_registro = " . $d_day['old_id_registro'] . " AND id_alunno = {$alunno}");
+			}
 		}
 	}
 	
@@ -191,15 +206,13 @@ class StudentManager
 		$fq = format_date($this->schoolYear->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "");
 		$quadrimestre = date("Y-m-d") > $fq ? 2 : 1;
 		$alunno = $this->student->getUid();
-		$subjects = $this->getSubjects($id_anno, $quadrimestre, $id_classe);
-		foreach($subjects as $subject){
-			if($quadrimestre == 1){
-				$this->datasource->executeUpdate("UPDATE rb_scrutini SET classe = {$id_classe} WHERE alunno = {$alunno} AND anno = {$id_anno}");
-			}
-			else{
-				$this->datasource->executeUpdate("UPDATE rb_scrutini SET classe = {$id_classe} WHERE alunno = {$alunno} AND anno = {$id_anno} AND quadrimestre = 2");
-			}
+		if($quadrimestre == 1){
+			$this->datasource->executeUpdate("UPDATE rb_scrutini SET classe = {$id_classe} WHERE alunno = {$alunno} AND anno = {$id_anno}");
 		}
+		else{
+			$this->datasource->executeUpdate("UPDATE rb_scrutini SET classe = {$id_classe} WHERE alunno = {$alunno} AND anno = {$id_anno} AND quadrimestre = 2");
+		}
+
 		/* report data */
 		$desc_classe = $this->datasource->executeCount("SELECT CONCAT(anno_corso, sezione) FROM rb_classi WHERE id_classe = {$id_classe}");
 		if($quadrimestre == 1){

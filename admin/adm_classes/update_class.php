@@ -50,12 +50,18 @@ try{
 	$student_manager->changeClass();
 } catch (MySQLException $ex){
 	// TODO: continuare se errore di duplicazione
-	$response['status'] = "kosql";
-	$response['message'] = $ex->getMessage();
-	$response['query'] = $ex->getQuery();
-	echo json_encode($response);
-	exit;
+	if(0 === strpos($ex->getMessage(), 'Duplicate')) {
+
+	}
+	else {
+		$response['status'] = "kosql";
+		$response['message'] = $ex->getMessage();
+		$response['query'] = $ex->getQuery();
+		echo json_encode($response);
+		exit;
+	}
 }
 
+$response['rep'] = $exist_rep;
 echo json_encode($response);
 exit;
