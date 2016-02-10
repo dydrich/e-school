@@ -1569,7 +1569,7 @@ forms
 }
 
 .disabled_link {
-    color: #9E9E9E;
+    color: #9E9E9E !important;
     cursor: default;
 }
 
