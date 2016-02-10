@@ -14,13 +14,6 @@ $admin_level = getAdminLevel($_SESSION['__user__']);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "../";
 
-if(!isset($_GET['offset'])) {
-	$offset = 0;
-}
-else {
-	$offset = $_GET['offset'];
-}
-
 $classID = $_GET['id'];
 $anno = $_SESSION['__current_year__']->get_ID();
 
