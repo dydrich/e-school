@@ -131,7 +131,7 @@ class Authenticator {
 		}
 		$_SESSION['__parent__'] = 1;
 
-		$update = "UPDATE rb_utenti SET accessi = (accessi + 1) WHERE uid = ".$res_user;
+		$update = "UPDATE rb_utenti SET accessi = (accessi + 1), previous_access = last_access, last_access = NOW() WHERE uid = ".$res_user;
 		$upd = $this->datasource->executeUpdate($update);
 
 		$this->response['group'] = "G";
