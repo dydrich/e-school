@@ -25,6 +25,11 @@ if(isset($_REQUEST['son'])){
 	$utils->registerCurrentClassFromUser($_REQUEST['son'], "__classe__");
 }
 $is_active = $son[3];
+$ordine_scuola = $_SESSION['__classe__']->getSchoolOrder();
+$suffix = "";
+if ($ordine_scuola == 2) {
+	$suffix = "_sp";
+}
 
 $pagelle = array();
 $pagelle_old = array();
@@ -34,8 +39,8 @@ if ($is_active) {
 	$school_order = $_SESSION['__classe__']->getSchoolOrder();
 
 	// pagelle anno in corso
-	$sel_pagelle1 = "SELECT rb_pagelle.*, anno, descrizione, quadrimestre, data_pubblicazione, ora_pubblicazione FROM rb_pagelle, rb_pubblicazione_pagelle, rb_anni WHERE rb_pubblicazione_pagelle.id_pagella = id_pubblicazione AND id_anno = anno AND id_anno = ".$_SESSION['__current_year__']->get_ID()." AND id_alunno = {$_SESSION['__current_son__']} AND quadrimestre = 1 ORDER BY id_pagella ";
-	$sel_pagelle2 = "SELECT rb_pagelle.*, anno, descrizione, quadrimestre, data_pubblicazione, ora_pubblicazione FROM rb_pagelle, rb_pubblicazione_pagelle, rb_anni WHERE rb_pubblicazione_pagelle.id_pagella = id_pubblicazione AND id_anno = anno AND id_anno = ".$_SESSION['__current_year__']->get_ID()." AND id_alunno = {$_SESSION['__current_son__']} AND quadrimestre = 2 ORDER BY id_pagella ";
+	$sel_pagelle1 = "SELECT rb_pagelle.*, anno, descrizione, quadrimestre, data_pubblicazione".$suffix." AS data_pubblicazione, ora_pubblicazione".$suffix." AS ora_pubblicazione FROM rb_pagelle, rb_pubblicazione_pagelle, rb_anni WHERE rb_pubblicazione_pagelle.id_pagella = id_pubblicazione AND id_anno = anno AND id_anno = ".$_SESSION['__current_year__']->get_ID()." AND id_alunno = {$_SESSION['__current_son__']} AND quadrimestre = 1 ORDER BY id_pagella ";
+	$sel_pagelle2 = "SELECT rb_pagelle.*, anno, descrizione, quadrimestre, data_pubblicazione".$suffix." AS data_pubblicazione, ora_pubblicazione".$suffix." AS ora_pubblicazione FROM rb_pagelle, rb_pubblicazione_pagelle, rb_anni WHERE rb_pubblicazione_pagelle.id_pagella = id_pubblicazione AND id_anno = anno AND id_anno = ".$_SESSION['__current_year__']->get_ID()." AND id_alunno = {$_SESSION['__current_son__']} AND quadrimestre = 2 ORDER BY id_pagella ";
 	try {
 		$res_pagelle1 = $db->executeQuery($sel_pagelle1);
 		$res_pagelle2 = $db->executeQuery($sel_pagelle2);
