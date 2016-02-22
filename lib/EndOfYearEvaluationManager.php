@@ -169,13 +169,22 @@ class EndOfYearEvaluationManager {
 			$id_alunno = $alunno['id_alunno'];
 			$classe = $alunno['id_classe'];
 			$desc_classe = $alunno['desc_cls'];
-			foreach($this->subjects as $materia){
-				if (($alunno['musicale'] != 1) && ($materia == 13)) {
-					continue;
+			/*
+				 * controllo se esistono dei record per l'alunno ma con classe diversa
+				 * nel caso vado in update, invece che in insert
+				 */
+			$count_records = $this->datasource->executeCount("SELECT COUNT(*) FROM rb_scrutini WHERE alunno = $id_alunno AND anno = {$this->year}");
+			if ($count_records > 0) {
+				$this->datasource->executeUpdate("UPDATE rb_scrutini SET classe = $classe WHERE alunno = $id_alunno AND anno = {$this->year}");
+			}
+			else {
+				foreach ($this->subjects as $materia) {
+					if (($alunno['musicale'] != 1) && ($materia == 13)) {
+						continue;
+					}
+					$ins = "INSERT INTO rb_scrutini (alunno, classe, anno, quadrimestre, materia) VALUES ($id_alunno, $classe, {$this->year}, {$this->session}, {$materia})";
+					$this->datasource->executeUpdate($ins);
 				}
-
-				$ins = "INSERT INTO rb_scrutini (alunno, classe, anno, quadrimestre, materia) VALUES ($id_alunno, $classe, {$this->year}, {$this->session}, {$materia})";
-				$this->datasource->executeUpdate($ins);
 			}
 		}
 	}
@@ -209,12 +218,18 @@ class EndOfYearEvaluationManager {
 
 	}
 
+	/*
+	 * inizializza il manager
+	 */
 	private function init() {
 		$this->checkReportCard();
 		$this->loadStudents();
 		$this->loadSubjects();
 	}
 
+	/*
+	 * verifica che i dati della pagella siano inseriti in archivio, altrimenti li inserisce
+	 */
 	private function checkReportCard() {
 		$pub = $this->datasource->executeCount("SELECT id_pagella FROM rb_pubblicazione_pagelle WHERE anno = {$this->year} AND quadrimestre = {$this->session}");
 		if ($pub == null){
@@ -226,6 +241,9 @@ class EndOfYearEvaluationManager {
 		}
 	}
 
+	/*
+	 * carica in $this->students i dati degli studenti, a seconda dello scope
+	 */
 	private function loadStudents() {
 		$classes_table = "rb_vclassi_s{$this->schoolLevel}";
 		$students_param = "";
@@ -241,6 +259,9 @@ class EndOfYearEvaluationManager {
 		$this->students = $this->datasource->executeQuery($sel_alunni);
 	}
 
+	/*
+	carica i dati delle materie
+	*/
 	private function loadSubjects() {
 		if ($this->subject != null) {
 			$sel_materie = "SELECT id_materia FROM rb_materie WHERE id_materia = ".$this->subject;
@@ -261,6 +282,9 @@ class EndOfYearEvaluationManager {
 		}
 	}
 
+	/**
+	completa i dati di scrutinio di ogni studente
+	*/
 	public function fix() {
 		$this->insertReportCards();
 		reset ($this->students);
