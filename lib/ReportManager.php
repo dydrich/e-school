@@ -104,7 +104,7 @@ class ReportManager {
 		$id_pubblicazione = 0;
 		$id_pubblicazione = $this->datasource->executeCount("SELECT id_pagella FROM rb_pubblicazione_pagelle WHERE anno = {$this->year} AND quadrimestre = {$session}");
 				
-		$dir = $_SESSION['__path_to_root__']."tmp/";
+		$dir = $_SESSION['__config__']['html_root']."/tmp/";
 		$file_prefix = "{$this->year}_{$session}";
 		
 		$desc_class = $student['anno_corso'].$student['sezione'];
@@ -179,9 +179,11 @@ class ReportManager {
 		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 		$pdf->setPrintHeader(false);
 		$pdf->setPrintFooter(false);
-		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		//$pdf->setLanguageArray($l);
+		$pdf->setFontSubsetting(false);
+		$pdf->AddFont('helvetica', '', 'helvetica', false);
+		$pdf->AddFont('helvetica', 'B', 'helvetica', false);
 		$pdf->SetDisplayMode('fullpage', 'SinglePage', 'UseNone');
 		$pdf->SetFont('helvetica', '', 12);
 		$pdf->AddPage("P", "A4");
@@ -419,7 +421,7 @@ class ReportManager {
 		}
 
 		$year_desc = $this->datasource->executeCount("SELECT descrizione FROM rb_anni WHERE id_anno = {$this->year}");
-		$dir = $_SESSION['__path_to_root__']."tmp/{$year_desc}/{$session}/{$folder}";
+		$dir = $_SESSION['__config__']['html_root']."/tmp/{$year_desc}/{$session}/{$folder}";
 		if(!file_exists($_SESSION['__config__']['html_root']."/tmp/{$year_desc}/{$session}/{$folder}")){
 			mkdir($_SESSION['__config__']['html_root']."/tmp/{$year_desc}/{$session}/{$folder}", 0777, true);
 		}

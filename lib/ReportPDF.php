@@ -259,6 +259,10 @@ class ReportPDF extends SchoolPDF {
 	}
 
 	public function onFlyReport($st, $vt, $rel = 0, $cdc, $doc_religione) {
+		$this->setFontSubsetting(false);
+		$this->AddFont('helvetica', '', 'helvetica', false);
+		$this->AddFont('helvetica', 'B', 'helvetica', false);
+
 		$final_letter = "o";
 		if($st['sesso'] == "F"){
 			$final_letter = "a";
@@ -287,20 +291,20 @@ class ReportPDF extends SchoolPDF {
 		$this->Cell(0, 30, "Ministero dell'Istruzione, dell'Università e della Ricerca", 0, 1, 'C', 0, '', 0);
 		$this->SetFont('helvetica', 'B', '22');
 		$this->Cell(0, 10, "ISTITUTO COMPRENSIVO C. NIVOLA", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('', '', '12');
+		$this->SetFont('helvetica', '', '12');
 		$this->Cell(0, 5, "Via Pacinotti snc - (loc. Serra Perdosa), Iglesias (CI) ", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('', 'B', '14');
+		$this->SetFont('helvetica', 'B', '14');
 		$this->Cell(0, 15, "Scuola statale - secondaria di primo grado", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('', 'B', '14');
+		$this->SetFont('helvetica', 'B', '14');
 		$this->Cell(0, 25, $_SESSION['__current_year__']->to_string(), 0, 1, 'C', 0, '', 0);
-		$this->SetFont('', 'B', '14');
+		$this->SetFont('helvetica', 'B', '14');
 		$this->Cell(0, 10, "SCHEDA PERSONALE PRIMO QUADRIMESTRE", 0, 1, 'C', 0, '', 0);
-		$this->SetFont('', 'B', '13');
+		$this->SetFont('helvetica', 'B', '13');
 		$this->Cell(0, 5, "dell'alunn{$final_letter} ".$st['cognome']." ".$st['nome'], 0, 1, 'C', 0, '', 0);
 		if ((isset($st['data_nascita']) && $st['data_nascita'] != "") && (isset($st['luogo_nascita']) && $st['luogo_nascita'] != "")){
-			$this->SetFont('', '', '11');
+			$this->SetFont('helvetica', '', '11');
 			$this->Cell(0, 5, "nat{$final_letter} a ".$st['luogo_nascita']." il ".format_date($st['data_nascita'], SQL_DATE_STYLE, IT_DATE_STYLE, "/"), 0, 1, 'C', 0, '', 0);
-			$this->SetFont('', 'B', '13');
+			$this->SetFont('helvetica', 'B', '13');
 		}
 		$this->Cell(0, 10, "Iscritt{$final_letter} alla classe {$cls}, sezione ".$st['sezione'], 0, 1, 'C', 0, '', 0);
 		//$this->Write(9, $_SESSION['__current_year__']->to_string()."  -  Classe ".$st['anno_corso'].$st['sezione'], $align='C');
@@ -348,7 +352,7 @@ class ReportPDF extends SchoolPDF {
 		// religione
 		if ($rel != ""){
 			$this->setPage(2, true);
-			$this->SetFont('', 'B');
+			$this->SetFont('helvetica', 'B');
 			$this->SetDrawColor(120, 120, 120);
 			$this->Image('../../images/ministero.jpg', 90, 8, 15, 15, 'JPG', '', '', false, '');
 			$this->SetFont('helvetica', 'B', '11');
@@ -356,20 +360,20 @@ class ReportPDF extends SchoolPDF {
 			$this->SetFont('helvetica', 'B', '14');
 			$this->Cell(0, 10, "NOTA PER LA VALUTAZIONE RELATIVA ALL'INSEGNAMENTO", 0, 1, 'C', 0, '', 0);
 			$this->Cell(0, 0, "DELLA RELIGIONE CATTOLICA", 0, 1, 'C', 0, '', 0);
-			$this->SetFont('', 'I', '12');
+			$this->SetFont('helvetica', 'I', '12');
 			$this->Cell(0, 20, $_SESSION['__current_year__']->to_string(), 0, 1, 'C', 0, '', 0);
-			$this->SetFont('', 'B', '14');
+			$this->SetFont('helvetica', 'B', '14');
 			$this->Cell(0, 10, "ISTITUTO COMPRENSIVO C. NIVOLA", 0, 1, 'C', 0, '', 0);
-			$this->SetFont('', '', '12');
+			$this->SetFont('helvetica', '', '12');
 			$this->Cell(0, 0, "Via Pacinotti, Iglesias (CI)", 0, 1, 'C', 0, '', 0);
-			$this->SetFont('', 'BI', '12');
+			$this->SetFont('helvetica', 'BI', '12');
 			$this->Cell(0, 20, "Scuola statale - secondaria di primo grado", 0, 1, 'C', 0, '', 0);
-			$this->SetFont('', '', '12');
+			$this->SetFont('helvetica', '', '12');
 			$this->Cell(0, 5, "dell'alunn{$final_letter} ".$st['cognome']." ".$st['nome'], 0, 1, 'C', 0, '', 0);
 			if ((isset($st['data_nascita']) && $st['data_nascita'] != "") && (isset($st['luogo_nascita']) && $st['luogo_nascita'] != "")){
-				$this->SetFont('', '', '11');
+				$this->SetFont('helvetica', '', '11');
 				$this->Cell(0, 5, "nat{$final_letter} a ".$st['luogo_nascita']." il ".format_date($st['data_nascita'], SQL_DATE_STYLE, IT_DATE_STYLE, "/"), 0, 1, 'C', 0, '', 0);
-				$this->SetFont('', '', '12');
+				$this->SetFont('helvetica', '', '12');
 			}
 			$this->Cell(0, 10, "Iscritt{$final_letter} alla classe {$cls}, sezione ".$st['sezione'], 0, 1, 'C', 0, '', 0);
 			$this->SetY(140);
