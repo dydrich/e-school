@@ -1612,3 +1612,7 @@ a.material_link {
     line-height: 16px;
 }
 
+#header #su {
+    font-size: 1em;
+    font-weight: bold;
+}
