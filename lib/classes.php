@@ -13,7 +13,7 @@ class Classe{
 	private $modulo_orario;
 	private $coordinatore;
 	private $segretario;
-	
+
 	function __construct($record, $ds){
 		$this->ID = $record['id_classe'];
 		$this->sede = $record['sede'];
@@ -278,10 +278,7 @@ class MySQLException extends CustomException{
 	* @return String
 	*/
 	function alert(){
-		$alert = '<script type="text/javascript">
-				alert("Errore SQL.\nQuery: '.$this->getQuery().'\nErrore: '.$this->getMessage().'");
-		window.close();
-		</script>';
+		$alert = '<script type="text/javascript">alert("Si è verificato un errore.");window.close();</script>';
 		print $alert;
 	}
 	
@@ -342,7 +339,7 @@ class MailMessage{
 
 	public function addAttachement($att){
 		array_push($this->attachements, $att);
-		array_push($this->attachContentTypes, MimeType::getMimeContentType($att, $tipo));
+		array_push($this->attachContentTypes, MimeType::getMimeContentType($att));
 	}
 
 	public function getAttachements(){
@@ -502,5 +499,3 @@ class Subject
 	}
 	
 }
-
-?>
