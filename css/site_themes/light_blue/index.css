@@ -25,16 +25,17 @@ body {
 .area {
     width: 33%;
     text-align: center;
-    padding-top: 10%;
-    float: left
+    flex: 1 1 auto;
+    align-self: flex-start;
+    margin-top: 70px;
 }
 
 #area_school {
-    padding-top: 14%;
+    margin-top: 98px;
 }
 
 #center_el {
-    padding-top: 20%
+    margin-top: 100px
 }
 
 #login_form {
@@ -111,7 +112,14 @@ input {
     background-color: rgba(30, 67, 137, 1);
     color: #EEEEEE;
     font-size: 1.25em;
-    margin-top: 20px
+    margin-top: 20px;
+    position: relative
+}
+
+#button:active, #mail_button:active {
+    top: 2px;
+    background-color: rgba(30, 67, 137, 0.9);
+    border: 1px solid rgba(30, 67, 137, 1);
 }
 
 div.login_label {
