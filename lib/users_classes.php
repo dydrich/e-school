@@ -467,7 +467,13 @@ class StudentBean extends UserBean {
 class ParentBean extends UserBean {
 	private $children;
 	private $childrenNames;
-	
+	private $classesRepresented;
+
+	public function __construct($u, $fn, $ln, $gr, $pr, $un) {
+		parent::__construct($u, $fn, $ln, $gr, $pr, $un);
+		$this->classesRepresented = [];
+	}
+
 	public function setChildren($c){
 		$this->children = $c;
 	}
@@ -507,5 +513,17 @@ class ParentBean extends UserBean {
 
 	public function getSchoolOrder() {
 
+	}
+
+	public function addRepresentedClass($cls) {
+		$this->classesRepresented[] = $cls;
+	}
+
+	public function getRepresentedClasses() {
+		return $this->classesRepresented;
+	}
+
+	public function isClassRepresentative($cls) {
+		return in_array($cls, $this->classesRepresented);
 	}
 }

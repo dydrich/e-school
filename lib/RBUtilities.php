@@ -147,6 +147,12 @@ final class RBUtilities{
 				$sel_children_names = "SELECT CONCAT_WS(' ', cognome, nome) AS nome FROM rb_alunni WHERE id_alunno IN (".implode(", ", $figli).") ORDER BY attivo DESC";
 				$children_names = $this->datasource->executeQuery($sel_children_names);
 				$user->setChildrenNames($children_names);
+				$classes_represented = $this->datasource->executeQuery("SELECT classe FROM rb_rappresentanti_classe WHERE anno = {$_SESSION['__current_year__']->get_ID()} AND genitore = $uid");
+				if ($classes_represented) {
+					foreach ($classes_represented as $item) {
+						$user->addRepresentedClass($item);
+					}
+				}
 				break;
 			case "simple_school":
 				$sel_user = "SELECT nome, cognome, username, accessi, permessi FROM rb_utenti WHERE rb_utenti.uid = {$uid} ";
