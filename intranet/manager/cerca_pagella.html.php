@@ -56,14 +56,17 @@
 					else{
 						//alert(response);
 						print_string = "";
-						for(data in json){
+                        for(data in json){
 							var t = json[data];
 							//alert(t.del);
 							if (t.del == 1){
-								print_string += "<p><a href='#' onclick='dwld_file(\"../../modules/documents/download_manager.php?doc=report&school_order=<?php echo $_SESSION['__school_order__'] ?>&area=manager&f="+t.file+"&sess=1&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1&delete=1\")' style=''>"+t.nome+" (1 quadrimestre)</a></p>";
+								print_string += "<p><a href='#' onclick='dwld_file(\"../." + "./modules/documents/download_manager.php?doc=report&school_order=<?php echo $_SESSION['__school_order__'] ?>&area=manager&f="+t.file+"&sess=1&stid="+ t.alunno+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1&delete=1\")' style=''>"+t.nome+" (1 quadrimestre)</a></p>";
 							}
 							else {
-								print_string += "<p><a href='../../modules/documents/download_manager.php?doc=report&school_order=<?php echo $_SESSION['__school_order__'] ?>&area=manager&f="+t.file+"&sess=2&stid="+t.id+"&y="+y+"&noread=1' style=''>"+t.nome+" (2 quadrimestre)</a></p>";
+								print_string += "<p><a href='../../modules/documents/download_manager" +".php?doc=report&school_order=<?php echo $_SESSION['__school_order__']
+                                                ?>&area=manager&f="+t.file+"&sess=2&stid="+t
+                                                .alunno+"&y="+y+"&noread=1' style=''>"+t.nome+" (2 quadrimestre)" +
+                                        "</a></p>";
 							}
 						}
 						$('#container').html(print_string);
@@ -73,8 +76,8 @@
 		};
 
 		var dwld_file = function(href){
-			document.location = href;
-			$('container').update('');
+			document.location.href = href;
+			$('#container').text('');
 		};
 
 		$(function(){
