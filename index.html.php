@@ -232,7 +232,7 @@ foreach ($colors as $color) {
 			$('#login_form').fadeOut(400);
 
 			setTimeout(function(){
-				$('#login_form').html("<form id='myform' method='post' action='#'><div id='r1' style='margin: 40px auto 0 auto; height: 60px; '><div style='width: 50%; float: left; text-align: right'>			<input type='text' autofocus name='nick' id='nick' style='' />		</div>		<div class='login_label'>Username</div>	</div>	<div id='r2' style='clear: left; margin: 0 auto 0 auto; height: 60px;'>		<div style='width: 50%; float: left; text-align: right'>			<input type='password' name='pass' id='pass' style='' />		</div>		<div class='login_label'>Password</div>		<div style='width: 25%; float: left; text-align: center; color: #FFFFFF'>			<img src='images/login.jpeg' />		</div>	</div>	<div id='r3' style='clear: left; height: 120px; text-align: center'><input id='button' type='button' onclick='do_login("+area+")' style='' value='LOGIN' />	</dv></form>");
+				$('#login_form').html("<form id='myform' method='post' style='flex: 1 1 auto' action='#'><div id='r1' style='width: 100%; margin: 40px auto 0 auto; height: 60px; '><div style='width: 50%; float: left; text-align: right'>			<input type='text' autofocus name='nick' id='nick' style='' />		</div>		<div class='login_label'>Username</div>	</div>	<div id='r2' style='clear: left; margin: 0 auto 0 auto; height: 60px;'>		<div style='width: 50%; float: left; text-align: right'>			<input type='password' name='pass' id='pass' style='' />		</div>		<div class='login_label'>Password</div>		<div style='width: 25%; float: left; text-align: center; color: #FFFFFF'>			<img src='images/login.jpeg' />		</div>	</div>	<div id='r3' style='clear: left; height: 120px; text-align: center'><input id='button' type='button' onclick='do_login("+area+")' style='' value='LOGIN' />	</dv></form>");
 				$('#login_form').fadeIn(300);
 				$('#nick').focus();
 				$('#back').show();
@@ -346,7 +346,7 @@ foreach ($colors as $color) {
 		</div>
 	</header>
 	<section class="wrap">
-		<div id="login_form" style="<?php if (isset($_SESSION['__user__'])) echo "height: ".$col_length."px; width: 500px; padding: 30px; " ?>">
+		<div id="login_form" style="display: flex; display: -webkit-flex; flex-direction: row; flex-wrap: wrap; align-items: center; <?php if (isset($_SESSION['__user__'])) echo "height: ".$col_length."px; width: 500px; padding: 30px; " ?>">
 		<?php 
 		if(!isset($_SESSION['__user__'])){ 
 		?>
