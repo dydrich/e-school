@@ -281,7 +281,7 @@
 		</div>
 	</form>
 </div>
-<div id="mtrasf">
+<div id="mtrasf" style="display: none">
 	<p class="_center _bold">Motivo della cancellazione</p>
 	<p>
 		<a href="#" class="trasf normal" data-reason="TRASFERITO">Trasferito ad altra scuola</a>

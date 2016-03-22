@@ -57,11 +57,17 @@
 							//alert(t.del);
 							if (t.del == 1){
 								//print_string += "<p><a href='#' onclick='dwld_file(\"../../../lib/download_manager.php?dw_type=report&f="+t.file+"&sess=1&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1&delete=1\")' style=''>"+t.nome+" (1 quadrimestre)</a></p>";
-								print_string += "<p><a href='#' onclick='dwld_file(\"../../../modules/documents/download_manager.php?doc=report&school_order=<?php echo $school ?>&area=teachers&f="+t.file+"&sess=1&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1&delete=1\")' style=''>"+t.nome+" (1 quadrimestre)</a></p>";
+								print_string += "<p><a href='#' onclick='dwld_file(\"../../." +
+                                        "./modules/documents/download_manager.php?doc=report&school_order=<?php echo
+                                        $school ?>&area=teachers&f="+t.file+"&sess=1&stid="+t.alunno+"&y=<?php echo
+                                        $_SESSION['__current_year__']->get_ID() ?>&noread=1&delete=1\")' style=''>"+t.nome+" (1 quadrimestre)</a></p>";
 							}
 							else {
 								//print_string += "<p><a href='../../../lib/download_manager.php?dw_type=report&f="+t.file+"&sess=2&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1' style=''>"+t.nome+" (2 quadrimestre)</a></p>";
-								print_string += "<p><a href='../../../modules/documents/download_manager.php?doc=report&school_order=<?php echo $school ?>&area=teachers&f="+t.file+"&sess=2&stid="+t.id+"&y=<?php echo $_SESSION['__current_year__']->get_ID() ?>&noread=1' style=''>"+t.nome+" (2 quadrimestre)</a></p>";
+								print_string += "<p><a href='../../../modules/documents/download_manager" +
+                                        ".php?doc=report&school_order=<?php echo $school ?>&area=teachers&f="+t
+                                                .file+"&sess=2&stid="+t.alunno+"&y=<?php echo
+                                        $_SESSION['__current_year__']->get_ID() ?>&noread=1' style=''>"+t.nome+" (2 quadrimestre)</a></p>";
 							}
 						}
 						$('#container').html(print_string);
@@ -71,8 +77,9 @@
 		};
 
 		var dwld_file = function(href){
+            $('#container').text('');
+            $('#cognome').val('');
 			document.location = href;
-			$('#container').text('');
 		};
 
 		var _show = function(e, off) {
