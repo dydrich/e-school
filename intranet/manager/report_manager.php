@@ -72,10 +72,10 @@ if ($q == 0){
 
 switch ($_REQUEST['action']){
 	case "search":
-		// create on-fly pdf report and download it
 		header("Content-type: application/json");
-		$params = array("lname" => $_POST['lname'], "cls" => $_POST['cls'], "session" => $q);
+		$params = array("lname" => rtrim($_POST['lname']), "cls" => $_POST['cls'], "session" => $q);
 		if ($q == 1){
+			// create on-fly pdf report and download it
 			try {
 				$response = $report_manager->searchReport($q, $params);
 			} catch (MySQLException $ex){
