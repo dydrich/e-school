@@ -161,7 +161,13 @@ while($row = $res_note->fetch_assoc()){
 	<td style="width: 10%; text-align: center; "><a id="datlink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php if ($row['docente'] == $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" class="note_link" href="#" style="font-weight: normal"><?php print format_date($row['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></a></td>
 	<td style="width: 25%; text-align: center; "><a id="typlink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php if ($row['docente'] == $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" class="note_link" href="#" style="font-weight: normal"><?php print $row['tipo_nota'] ?></a></td>
 	<td style="width: 20%; text-align: center; "><a id="doclink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php if ($row['docente'] == $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" class="note_link" href="#" style="font-weight: normal"><?php if($row['id_tiponota'] > 10) print "--"; else print $row['cognome']." ".$row['nome'] ?></a></td>
-	<td style="width: 45%; text-align: center; "><a id="comlink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php if ($row['docente'] == $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" class="note_link" href="#" style="font-weight: normal"><?php print $row['descrizione'] ?></a></td>
+	<td style="width: 45%; text-align: center; ">
+        <a id="comlink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php
+        if ($row['docente'] == $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" class="note_link" href="#" style="font-weight: normal">
+            <?php print utf8_decode
+            ($row['descrizione']) ?>
+        </a>
+    </td>
 </tr>
 <?php 
 	$index++;
