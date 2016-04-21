@@ -49,7 +49,7 @@ class ReportPDF extends SchoolPDF {
 		$this->Cell(0, 20, "Vista la valutazione del consiglio di classe, si attesta che", 'LTR', 1, 'C', 0, '', 0);
 		$this->SetFont('', 'B', '13');
 		if ($esito['id_esito'] != 17){
-			$this->Cell(0, 10, "l'alunn{$final_letter} ".utf8_encode($esito['desc_pagella'])." ", 'LR', 1, 'C', 0, '', 0);
+			$this->Cell(0, 10, "l'alunn{$final_letter} ".$esito['desc_pagella']." ", 'LR', 1, 'C', 0, '', 0);
 			$this->Cell(0, 10, "della scuola secondaria di primo grado", 'LBR', 1, 'C', 0, '', 0, 0, 'T', 'T');
 		}
 		else {

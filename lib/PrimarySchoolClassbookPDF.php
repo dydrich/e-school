@@ -55,7 +55,7 @@ class PrimarySchoolClassbookPDF extends ClassbookPDF {
 		$index = 0;
 
 		foreach ($days as $day) {
-			$giorno_str = strtolower(utf8_encode(strftime("%A %d %B", strtotime($day['data']))));
+			$giorno_str = strtolower(strftime("%A %d %B", strtotime($day['data'])));
 			if ($index > 5) {
 				$this->AddPage("P", "A4");
 				$this->_page = $this->getPage();
@@ -63,7 +63,7 @@ class PrimarySchoolClassbookPDF extends ClassbookPDF {
 				$index = 0;
 			}
 			$this->SetFont('helvetica', 'B', '10');
-			$this->Cell(0, 5, "Registro del giorno ".utf8_decode($giorno_str), array("B" => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(25, 25, 25))), 1, "C", 0);
+			$this->Cell(0, 5, "Registro del giorno ".$giorno_str, array("B" => array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(25, 25, 25))), 1, "C", 0);
 			$this->Cell(0, 2, "", 0, 1, "C", 0);
 			$this->Cell(90, 2, "Ingresso: " . substr($day['ingresso'], 0, 5), 0, 0, "C", 0);
 			$this->Cell(90, 2, "Uscita: " . substr($day['uscita'], 0, 5), 0, 0, "C", 0);

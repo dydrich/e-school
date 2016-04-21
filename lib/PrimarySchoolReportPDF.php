@@ -61,11 +61,11 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 		$this->SetFont('', 'B', '13');
 		if ($esito['id_esito'] != 17){
 			if ($st['anno_corso'] != 5){
-				$this->Cell(0, 10, "l'alunn{$final_letter} ".utf8_encode($esito['desc_pagella'])." ", 'LR', 1, 'C', 0, '', 0);
+				$this->Cell(0, 10, "l'alunn{$final_letter} ".$esito['desc_pagella']." ", 'LR', 1, 'C', 0, '', 0);
 				$this->Cell(0, 10, "della scuola primaria", 'LBR', 1, 'C', 0, '', 0, 0, 'T', 'T');
 			}
 			else {
-				$this->Cell(0, 10, "l'alunn{$final_letter} ".utf8_encode($esito['desc_pagella'])." ", 'LRB', 1, 'C', 0, '', 0);
+				$this->Cell(0, 10, "l'alunn{$final_letter} ".$esito['desc_pagella']." ", 'LRB', 1, 'C', 0, '', 0);
 				//$this->Cell(0, 10, "della scuola secondaria di primo grado", 'LBR', 1, 'C', 0, '', 0, 0, 'T', 'T');
 			}
 		}
@@ -179,7 +179,7 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 			$this->setCellPaddings(10, 0, 0, 0);
 			$this->Cell(60, 6, $row['nome'], 'LR', 0, 'L', $fill);
 			$this->SetCellPadding(0);
-			$this->Cell(120, 6,utf8_encode($vals1q[$row['id']]), 'LR', 0, 'C', $fill);
+			$this->Cell(120, 6,$vals1q[$row['id']], 'LR', 0, 'C', $fill);
 			$this->Ln();
 			$fill=!$fill;
 		}
@@ -198,7 +198,7 @@ class PrimarySchoolReportPDF extends SchoolPDF {
 			$this->setCellPaddings(10, 0, 0, 0);
 			$this->Cell(60, 6, $row['nome'], 'LR', 0, 'L', $fill);
 			$this->SetCellPadding(0);
-			$this->Cell(120, 6, utf8_encode($vals2q[$row['id']]), 'LR', 0, 'C', $fill);
+			$this->Cell(120, 6, $vals2q[$row['id']], 'LR', 0, 'C', $fill);
 			$this->Ln();
 			$fill=!$fill;
 		}

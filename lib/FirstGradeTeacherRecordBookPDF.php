@@ -460,7 +460,7 @@ class FirstGradeTeacherRecordBookPDF extends TeacherRecordBookPDF{
 		$this->SetFont('helvetica', '', '10');
 		if (count($this->att) > 0){
 			foreach ($this->att as $row){
-				$this->Cell(180, 6, ucfirst(utf8_decode($row['file'])), 0, 1, 'L', 0, '', 0, 0, '', 'C');
+				$this->Cell(180, 6, ucfirst($row['file']), 0, 1, 'L', 0, '', 0, 0, '', 'C');
 			}
 		}
 	}

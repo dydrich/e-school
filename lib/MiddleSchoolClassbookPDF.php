@@ -67,12 +67,12 @@ class MiddleSchoolClassbookPDF extends ClassbookPDF {
 		$days = $this->days;
 		setlocale(LC_TIME, "it_IT.UTF8");
 		foreach ($days as $day) {
-			$giorno_str = strtolower(utf8_encode(strftime("%A %d %B", strtotime($day['data']))));
+			$giorno_str = strtolower(strftime("%A %d %B", strtotime($day['data'])));
 			$this->AddPage("P", "A4");
 			$this->_page = $this->getPage();
 			$this->setPage($this->_page, true);
 			$this->SetFont('helvetica', 'B', '12');
-			$this->Cell(0, 8, "Registro del giorno ".utf8_decode($giorno_str), "B", 1, "C", 0);
+			$this->Cell(0, 8, "Registro del giorno ".$giorno_str, "B", 1, "C", 0);
 			$this->Cell(0, 5, "", 0, 1, "C", 0);
 			$this->Cell(90, 5, "Ingresso: " . substr($day['ingresso'], 0, 5), 0, 0, "C", 0);
 			$this->Cell(90, 5, "Uscita: " . substr($day['uscita'], 0, 5), 0, 0, "C", 0);

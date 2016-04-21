@@ -79,7 +79,7 @@ class Classbook {
 					}
 					if ($nota['alunno'] != ""){
 						//var_dump($nota);
-						$nota['desc_alunno'] = $this->datasource->executeCount("SELECT CONCAT_WS(cognome, nome) FROM rb_alunni WHERE id_alunno = {$nota['alunno']}");
+						$nota['desc_alunno'] = $this->datasource->executeCount("SELECT CONCAT_WS(' ', cognome, nome) FROM rb_alunni WHERE id_alunno = {$nota['alunno']}");
 					}
 					$this->days[$day['data']]['note'][] = $nota;
 				}
