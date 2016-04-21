@@ -25,7 +25,7 @@ if(isset($_REQUEST['gruppo']) && $_REQUEST['gruppo']){
 
 switch($gruppo){
 	case 2:
-		$sel_utenti = "SELECT id_alunno AS id, cognome, nome FROM rb_alunni {$search} {$params} ORDER BY cognome, nome";
+		$sel_utenti = "SELECT id_alunno AS id, cognome, nome FROM rb_alunni {$search} ORDER BY cognome, nome";
 		break;
 	case 3:
 		$sel_utenti = "SELECT rb_utenti.uid AS id, cognome, nome FROM rb_utenti, rb_gruppi_utente WHERE rb_utenti.uid = rb_gruppi_utente.uid AND gid <> 4 $search ORDER BY cognome, nome";
