@@ -41,7 +41,7 @@
 					</div>
 					<div class="cardcontent">
 						<p>
-							<?php echo utf8_decode($nota['descrizione']) ?>
+							<?php echo $nota['descrizione'] ?>
 						</p>
 						<p style="margin-top: 5px; border-top: 1px solid #CCCCCC; font-style: italic">
 							<?php if($nota['tipo'] < 10) echo "Docente: ".$nota['cognome']." ".$nota['nome'] ?>

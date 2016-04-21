@@ -112,7 +112,7 @@
 				<div class="card_row" style="overflow: auto">
 					<div><?php echo $data_nota."::".$row['tipo_nota'].$teacher ?></div>
 					<div class="normal" style="width: 95%; border-top: 1px solid rgba(30, 67, 137, .1); padding: 10px">
-						<?php echo utf8_decode($row['descrizione']) ?>
+						<?php echo $row['descrizione'] ?>
 					</div>
 				</div>
 				<?php

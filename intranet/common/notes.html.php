@@ -73,7 +73,7 @@ else{
 				</div>
 			</div>
 			<div class="card_minicontent">
-				<?php echo utf8_decode($row['descrizione']) ?>
+				<?php echo $row['descrizione'] ?>
 			</div>
 		</div>
 <?php
