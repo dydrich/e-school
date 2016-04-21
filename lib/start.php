@@ -38,6 +38,8 @@ if (isset($_SESSION['__config__'])){
 	define("DISPLAY_ERRORS", $_SESSION['__config__']['debug']);
 }
 
+ini_set("default_charset", "utf-8");
+
 /*
  * default theme
  */
