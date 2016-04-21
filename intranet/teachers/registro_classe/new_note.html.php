@@ -238,7 +238,8 @@
 				<?php 
 				while($t = $res_types->fetch_assoc()){
 				?>
-					<option <?php if(isset($nota) && $nota['tipo'] == $t['id_tiponota']) print("selected='selected'") ?> value="<?php echo $t['id_tiponota'] ?>"><?= utf8_decode($t['descrizione']) ?></option>
+					<option <?php if(isset($nota) && $nota['tipo'] == $t['id_tiponota']) print("selected='selected'") ?> value="<?php echo $t['id_tiponota']
+                    ?>"><?php echo $t['descrizione'] ?></option>
 				<?php } ?>
 				</select>
 			</td>
@@ -246,7 +247,7 @@
 			<tr>
 			<td style="width: 25%; font-weight: bold" id="desc_lab">Descrizione *</td>
 			<td style="width: 75%; " colspan="3">
-				<textarea style="width: 100%; height: 80px; font-size: 11px; border: 1px solid gray" id="desc" name="desc"><?php if(isset($nota)) print(utf8_decode($nota['descrizione'])) ?></textarea>
+				<textarea style="width: 100%; height: 80px; font-size: 11px; border: 1px solid gray" id="desc" name="desc"><?php if(isset($nota)) print($nota['descrizione']) ?></textarea>
 			</td>
 			</tr>
 			<tr>

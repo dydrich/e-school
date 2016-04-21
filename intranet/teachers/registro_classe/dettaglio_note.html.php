@@ -92,6 +92,11 @@
 <?php include "../header.php" ?>
 <?php include "navigation.php" ?>
 <div id="main" style="clear: both; ">
+    <div style="top: -8px; margin-left: 15px; margin-bottom: -39px" class="rb_button">
+        <a href="registro_classe.php?data=<?php echo date("Y-m-d") ?>">
+            <img src="../../../images/47bis.png" style="padding: 12px 0 0 12px" />
+        </a>
+    </div>
 	<div style="top: -8px; margin-left: 855px; margin-bottom: -39px" class="rb_button">
 		<a href="#" onclick="filter(event)">
 			<img src="../../../images/69.png" style="padding: 12px 0 0 12px" />
@@ -140,10 +145,28 @@ while($row = $res_note->fetch_assoc()){
 	}
 ?>
 <tr id="row<?php echo $row['id_nota'] ?>" style="<?php echo $background ?>">
-	<td style="width: 10%; text-align: center; "><a id="datlink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php if ($row['docente'] == $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" data-stid="<?php echo $student_id ?>" class="note_link<?php echo $attention ?>" href="#" style=""><?php echo format_date($row['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></a></td>
-	<td style="width: 25%; text-align: center; "><a id="typlink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php if ($row['docente'] == $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" data-stid="<?php echo $student_id ?>" class="note_link<?php echo $attention ?>" href="#" style=""><?php echo $row['tipo_nota'] ?></a></td>
-	<td style="width: 20%; text-align: center; "><a id="doclink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php if ($row['docente'] == $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" data-stid="<?php echo $student_id ?>" class="note_link<?php echo $attention ?>" href="#" style=""><?php if($row['id_tiponota'] > 2) echo "--"; else echo $row['cognome']." ".$row['nome'] ?></a></td>
-	<td style="width: 45%; text-align: center; "><a id="comlink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php if ($row['docente'] == $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" data-stid="<?php echo $student_id ?>" class="note_link<?php echo $attention ?>" href="#" style=""><?php echo utf8_decode($row['descrizione']) ?></a></td>
+	<td style="width: 10%; text-align: center; ">
+        <a id="datlink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php if ($row['docente'] == $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" data-stid="<?php echo $student_id ?>" class="note_link<?php echo $attention ?>" href="#" style="">
+            <?php echo format_date($row['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>
+        </a>
+    </td>
+	<td style="width: 25%; text-align: center; ">
+        <a id="typlink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php if ($row['docente'] == $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" data-stid="<?php echo $student_id ?>" class="note_link<?php echo $attention ?>" href="#" style="">
+            <?php echo $row['tipo_nota'] ?>
+        </a>
+    </td>
+	<td style="width: 20%; text-align: center; ">
+        <a id="doclink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php if ($row['docente'] == $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" data-stid="<?php echo $student_id ?>" class="note_link<?php echo $attention ?>" href="#" style="">
+            <?php if($row['id_tiponota'] > 2) echo "--"; else echo $row['cognome']." ".$row['nome'] ?>
+        </a>
+    </td>
+	<td style="width: 45%; text-align: center; ">
+        <a id="comlink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php if ($row['docente'] ==
+                $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" data-stid="<?php echo $student_id ?>" class="note_link<?php echo $attention ?>"
+                                                    href="#" style="">
+            <?php echo $row['descrizione'] ?>
+        </a>
+    </td>
 </tr>
 <?php 
 	$index++;

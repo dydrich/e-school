@@ -164,8 +164,7 @@ while($row = $res_note->fetch_assoc()){
 	<td style="width: 45%; text-align: center; ">
         <a id="comlink<?php echo $row['id_nota'] ?>" data-id="<?php echo $row['id_nota'] ?>" data-permission="<?php
         if ($row['docente'] == $_SESSION['__user__']->getUid()) echo 1; else echo 0 ?>" class="note_link" href="#" style="font-weight: normal">
-            <?php print utf8_decode
-            ($row['descrizione']) ?>
+            <?php print ($row['descrizione']) ?>
         </a>
     </td>
 </tr>

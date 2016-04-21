@@ -110,7 +110,7 @@ while ($row = $res_alunni->fetch_assoc()){
 		<?php
 		foreach ($giudizi[$param['id']] as $k => $g){
 		?>
-					<option value="<?php echo $k ?>" <?php if (isset($vals[$param['id']]) && $vals[$param['id']] == $k) echo "selected" ?>><?php echo utf8_encode($g) ?></option>
+					<option value="<?php echo $k ?>" <?php if (isset($vals[$param['id']]) && $vals[$param['id']] == $k) echo "selected" ?>><?php echo $g ?></option>
 		<?php 
 		}
 		?>

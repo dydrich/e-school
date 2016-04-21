@@ -138,15 +138,15 @@
 			</tr>
 			<tr>
 				<td style="width: 50%; font-weight: bold; text-align: left; border: 0">Prova</td>
-				<td style="width: 50%; text-align: center; border: 0"><?php echo utf8_decode($grade->getDescription()) ?></td>
+				<td style="width: 50%; text-align: center; border: 0"><?php echo $grade->getDescription() ?></td>
 			</tr>
 			<tr>
 				<td style="width: 50%; font-weight: bold; text-align: left; border: 0">Argomento</td>
-				<td style="width: 50%; text-align: center; border: 0"><?php echo utf8_decode($grade->getTopic()) ?></td>
+				<td style="width: 50%; text-align: center; border: 0"><?php echo $grade->getTopic() ?></td>
 			</tr>
 			<tr>
 				<td style="width: 50%; font-weight: bold; text-align: left; border: 0">Note</td>
-				<td style="width: 50%; text-align: center; border: 0"><?php echo utf8_decode($grade->getNote()) ?></td>
+				<td style="width: 50%; text-align: center; border: 0"><?php echo $grade->getNote() ?></td>
 			</tr>				
 		</table>
 	</fieldset>

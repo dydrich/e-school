@@ -53,7 +53,7 @@ if($_REQUEST['do'] == "insert" || $_REQUEST['do'] == "update" ){
 	$data['valutata'] = 0;
 	$data['tipologia'] = $tipo;
 	$data['prova'] = $prova;
-	$data['argomento'] = utf8_encode($subject);
+	$data['argomento'] = $subject;
 	$data['note'] = $notes;
 	$data['id_attivita'] = 0;
 }

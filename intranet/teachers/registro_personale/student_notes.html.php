@@ -514,7 +514,7 @@ else{
 						$res_tipi->data_seek(0);
 						while($t = $res_tipi->fetch_assoc()){
 							?>
-							<option value="<?php echo $t['id_tiponota'] ?>"><?php echo utf8_decode($t['descrizione']) ?></option>
+							<option value="<?php echo $t['id_tiponota'] ?>"><?php echo $t['descrizione'] ?></option>
 						<?php } ?>
 					</select>
 				</td>

@@ -109,7 +109,7 @@ class MYPDF extends SchoolPDF {
         			$this->SetY($this->y_position);
         			$this->SetFont('', '', 9);
         			$this->SetX(30.0);
-        			$this->Cell(20, 5, utf8_encode($giorno_str), 0, 0);
+        			$this->Cell(20, 5, $giorno_str, 0, 0);
         			$this->Cell(20, 5, format_date($day['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/"), 0, 0);
         			$this->Cell(20, 5, " ore ".substr($day['uscita'], 0, 5), 0, 0);
         		}

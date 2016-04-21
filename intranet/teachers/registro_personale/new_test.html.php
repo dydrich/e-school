@@ -173,11 +173,11 @@
 		</tr>
 		<tr>
 			<td id="td_argomento" style="width: 30%; font-weight: bold">Argomento *</td>
-			<td style=""><textarea id="subject" name="subject" style="width: 95%; font-size: 11px; height: 30px"><?php if($_REQUEST['test'] != 0) print utf8_decode($test->getTopic()) ?></textarea></td>
+			<td style=""><textarea id="subject" name="subject" style="width: 95%; font-size: 11px; height: 30px"><?php if($_REQUEST['test'] != 0) print $test->getTopic() ?></textarea></td>
 		</tr>
 		<tr>
 			<td id="td_note" style="width: 30%; font-weight: bold">Note</td>
-			<td style=""><textarea id="notes" name="notes" style="width: 95%; font-size: 11px; height: 30px"><?php if($_REQUEST['test'] != 0) print utf8_decode($test->getAnnotation()) ?></textarea></td>
+			<td style=""><textarea id="notes" name="notes" style="width: 95%; font-size: 11px; height: 30px"><?php if($_REQUEST['test'] != 0) print $test->getAnnotation() ?></textarea></td>
 		</tr>
 		<tr>
 			<td colspan="2" style="padding: 20px 15px 30px 0; text-align: right">

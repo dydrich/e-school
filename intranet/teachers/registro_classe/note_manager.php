@@ -27,7 +27,7 @@ switch($_REQUEST['action']){
 		$data['alunno'] = $stid;
 		$data['tipo'] = $type;
 		$data['anno'] = $_SESSION['__current_year__']->get_ID();
-		$data['descrizione'] = utf8_encode($desc);
+		$data['descrizione'] = $desc;
 		$data['data'] = $date;
 		$data['sanzione'] = "";
 		try{

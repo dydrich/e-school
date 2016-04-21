@@ -113,7 +113,7 @@ for($x = $prima_ora; $x <= $ultima_ora; $x++){
 if($res_firme->num_rows > 0){
 	while($sig = $res_firme->fetch_assoc()){
 		if (date('Ymd') < '20131017'){
-			$sig['argomento'] = utf8_decode($sig['argomento']);
+			$sig['argomento'] = $sig['argomento'];
 		}
 		$firme[$sig['ora']] = array("docente" => $sig['docente'], "argomento" => $sig['argomento'], "materia" => $sig['materia'], "doc_compresenza" => $sig['docente_compresenza'], "mat_compresenza" => $sig['materia_compresenza']);
 		$argomenti[$sig['ora']] = $sig['argomento'];
@@ -137,7 +137,7 @@ if($res_firme->num_rows > 0){
 //print_r($firme);
 
 setlocale(LC_TIME, "it_IT.utf8");
-$giorno_str = utf8_encode(strftime("%A", strtotime($dati['data'])));
+$giorno_str = strftime("%A", strtotime($dati['data']));
 
 /*
  * estrazione delle materie insegnate

@@ -22,7 +22,7 @@ if ($_REQUEST['action'] == "new" || $_REQUEST['action'] == "update") {
 	$year = $_SESSION['__current_year__']->get_ID();
 	$stid = $_REQUEST['stid'];
 	$type = $_REQUEST['ntype'];
-	$desc = utf8_encode($db->real_escape_string($_REQUEST['desc']));
+	$desc = $db->real_escape_string($_REQUEST['desc']);
 	$date = format_date($_REQUEST['ndate'], IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 }
 

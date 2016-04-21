@@ -129,7 +129,7 @@
 		<td colspan="2" style="width: 25%; text-align: left; padding-left: 20px; font-weight: normal"><?php if($print_day) print $giorno_str ?></td>
 		<td style="width: 15%; text-align: center; font-weight: normal"><?php echo $voto['voto'] ?></td>
 		<td style="width: 15%; text-align: center; font-weight: normal"><?php echo $voto['mat'] ?></td>
-		<td style="width: 55%; text-align: center; font-weight: normal"><?php print utf8_decode($voto['descrizione']) ?></td>
+		<td style="width: 55%; text-align: center; font-weight: normal"><?php print $voto['descrizione'] ?></td>
 	</tr>
 	<?php
 		$day = $voto['data_voto'];

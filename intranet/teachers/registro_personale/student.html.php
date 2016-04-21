@@ -623,9 +623,9 @@ while($row = $res_voti->fetch_assoc()){
 	<td style="width: 10%; text-align: center"><a href="#" id="grade_<?php echo $row['id_voto'] ?>" data-id="<?php echo $row['id_voto'] ?>" data-type="<?php echo $row['tipologia'] ?>" data-permission="<?php echo $can_modify ?>" class="grade_link" style="font-weight: bold; <?php if($row['voto'] < 6) print("color: rgb(172, 21, 21)") ?>"><?php echo $_voto ?></a></td>
 	<td style="width: 10%; text-align: center"><span id="data_<?php echo $row['id_voto'] ?>" style="font-weight: normal; "><?php print format_date($row['data_voto'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></span></td>
 	<td style="width: 5%; text-align: center"><span id="type_<?php echo $row['id_voto'] ?>" style="font-weight: normal; "><?php print substr($row['label'], 0, 1) ?></span></td>
-	<td style="width: 25%; text-align: center"><span id="desc_<?php echo $row['id_voto'] ?>" style="font-weight: normal; "><?php print utf8_decode($row['descrizione']) ?></span></td>
-	<td style="width: 25%; text-align: center"><span id="topic_<?php echo $row['id_voto'] ?>" style="font-weight: normal; "><?php print utf8_decode($row['argomento']) ?></span></td>
-	<td style="width: 25%; text-align: center"><span id="note_<?php echo $row['id_voto'] ?>" style="font-weight: normal; "><?php print utf8_decode($row['note']) ?></span></td>
+	<td style="width: 25%; text-align: center"><span id="desc_<?php echo $row['id_voto'] ?>" style="font-weight: normal; "><?php print $row['descrizione'] ?></span></td>
+	<td style="width: 25%; text-align: center"><span id="topic_<?php echo $row['id_voto'] ?>" style="font-weight: normal; "><?php print $row['argomento'] ?></span></td>
+	<td style="width: 25%; text-align: center"><span id="note_<?php echo $row['id_voto'] ?>" style="font-weight: normal; "><?php print $row['note'] ?></span></td>
 </tr>
 <?php 
 	$index++;

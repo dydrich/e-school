@@ -759,7 +759,7 @@ codice per il popup nuovo voto
 						<?php
 						while($t = $res_types->fetch_assoc()){
 							?>
-							<option value="<?php echo $t['id_tiponota'] ?>"><?php echo utf8_decode($t['descrizione']) ?></option>
+							<option value="<?php echo $t['id_tiponota'] ?>"><?php echo $t['descrizione'] ?></option>
 						<?php } ?>
 					</select>
 				</td>

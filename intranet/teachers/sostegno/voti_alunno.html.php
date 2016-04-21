@@ -104,8 +104,8 @@
 			<tr class="title_tr">
 				<td style="width: 8%" class="_center _bold <?php if($voto['voto'] < 6 && $voto['voto'] > 0) echo "attention" ?>"><?php echo $voto['voto'] ?></td>
 				<td style="width: 10%" class="_center"><?php echo format_date($voto['data_voto'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?></td>
-				<td style="width: 27%; padding-left: 5px" class="_center"><?php echo utf8_decode($voto['descrizione']) ?></td>
-				<td style="width: 55%; padding-left: 5px"><?php echo utf8_decode($voto['argomento']) ?></td>
+				<td style="width: 27%; padding-left: 5px" class="_center"><?php echo $voto['descrizione'] ?></td>
+				<td style="width: 55%; padding-left: 5px"><?php echo $voto['argomento'] ?></td>
 			</tr>
 		<?php
 		}

@@ -516,7 +516,7 @@
 				setlocale(LC_TIME, "it_IT");
 				//$idx = 0;
 				foreach($assenze_ingiustificate[$k] as $dt => $ass){
-					$giorno_str = utf8_encode(strftime("%A", strtotime($dt)));
+					$giorno_str = strftime("%A", strtotime($dt));
 				?>
 					<div id="giust_<?php echo $k ?>_<?php echo $ass ?>" style="height: 20px; padding-bottom: 0px; vertical-align: middle; border-bottom: 1px solid #CCCCCC; padding-left: 20px"><?php print substr($giorno_str, 0, 3)." ". format_date($dt, SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>
 						<span style="float: right; margin-right: 45px;">

@@ -54,7 +54,7 @@ foreach($mesi as $mese){
 		<div id="<?php print $mese."_ritardi" ?>" style="text-align: left; display: none; margin-left: 15px; margin-top: 0px; margin-bottom: 15px">
 		<?php 
 		foreach($ritardi[$x_str] as $day){
-			$giorno_str = utf8_encode(strftime("%A", strtotime($day['data'])));
+			$giorno_str = strftime("%A", strtotime($day['data']));
 		?>
 			<span style="color: #222222"><?php print $giorno_str." ".format_date($day['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>: ore <?php print substr($day['ingresso'], 0, 5) ?></span><br />
 		<?php 
@@ -65,7 +65,7 @@ foreach($mesi as $mese){
 		<div id="<?php print $mese."_uscite" ?>" style="text-align: left; display: none; margin-left: 15px; margin-top: 0px; margin-bottom: 15px">
 		<?php 
 		foreach($uscite[$x_str] as $day){
-			$giorno_str = utf8_encode(strftime("%A", strtotime($day['data'])));
+			$giorno_str = strftime("%A", strtotime($day['data']));
 		?>
 			<span style="color: #222222"><?php print $giorno_str." ".format_date($day['data'], SQL_DATE_STYLE, IT_DATE_STYLE, "/") ?>: ore <?php print substr($day['uscita'], 0, 5) ?></span><br />
 		<?php 
