@@ -6,7 +6,7 @@ check_session(POPUP_WINDOW);
 check_permission(ADM_PERM|AIS_PERM|AMS_PERM|APS_PERM);
 
 if($_POST['action'] != 2){
-	$materia = $db->real_escape_string(utf8_encode($_POST['materia']));
+	$materia = $db->real_escape_string($_POST['materia']);
 	if (isset($_POST['parent'])) {
 		$parent = $_POST['parent'];
 	}

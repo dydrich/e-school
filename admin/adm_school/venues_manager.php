@@ -6,8 +6,8 @@ check_session(POPUP_WINDOW);
 check_permission(ADM_PERM);
 
 if($_POST['action'] != 2){
-	$name = $db->real_escape_string(utf8_encode($_POST['titolo']));
-	$address = $db->real_escape_string(utf8_encode(nl2br($_POST['testo'])));
+	$name = $db->real_escape_string($_POST['titolo']);
+	$address = $db->real_escape_string(nl2br($_POST['testo']));
 }
 
 header("Content-type: application/json");

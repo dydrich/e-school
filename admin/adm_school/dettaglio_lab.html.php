@@ -89,7 +89,7 @@
 				<tr class="popup_row header_row">
 					<td style="width: 30%"><label for="titolo" class="popup_title">Nome</label></td>
 					<td style="width: 70%">
-						<input class="form_input" type="text" name="titolo" id="titolo" style="width: 100%" <?php if(isset($lab)) print("value='".utf8_decode($lab->getName())."'"); else print "autofocus" ?> />
+						<input class="form_input" type="text" name="titolo" id="titolo" style="width: 100%" <?php if(isset($lab)) print("value='".$lab->getName()."'"); else print "autofocus" ?> />
 					</td>
 				</tr>
 				<tr class="popup_row">

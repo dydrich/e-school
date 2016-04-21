@@ -599,7 +599,7 @@
 		</div>
         <div id="tb10" style="display: none" data-tablabel="moduli" class="card_container">
             <?php if(is_installed("com")){ ?>
-            <a href="adm_modules/communication/index.php">
+            <a href="../modules/communication/load_module.php?page=admin&area=admin">
 	            <div class="card">
 		            <div class="card_title">Comunicazioni</div>
 		            <div class="card_minicontent">Gestione modulo communication</div>

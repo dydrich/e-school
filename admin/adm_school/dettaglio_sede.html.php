@@ -89,13 +89,13 @@
         <tr class="popup_row header_row">
             <td style="width: 30%"><label for="titolo" class="popup_title">Nome</label></td>
             <td style="width: 70%">
-                <input class="form_input" type="text" name="titolo" id="titolo" style="width: 100%" <?php if(isset($sede)) print("value='".utf8_decode($sede['nome'])."'"); else print "autofocus" ?> />
+                <input class="form_input" type="text" name="titolo" id="titolo" style="width: 100%" <?php if(isset($sede)) print("value='".$sede['nome']."'"); else print "autofocus" ?> />
             </td>
         </tr>
         <tr class="popup_row">
             <td style="width: 30%"><label for="testo" class="popup_title">Indirizzo</label></td>
             <td style="width: 70%">     
-                <input class="form_input" type="text" name="testo" id="testo" style="width: 100%" <?php if(isset($sede)) print("value='".utf8_decode($sede['indirizzo'])."'") ?> />
+                <input class="form_input" type="text" name="testo" id="testo" style="width: 100%" <?php if(isset($sede)) print("value='".$sede['indirizzo']."'") ?> />
             </td>
         </tr>
         <tr class="popup_row">

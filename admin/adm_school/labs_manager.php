@@ -7,7 +7,7 @@ check_session(POPUP_WINDOW);
 check_permission(ADM_PERM);
 
 if($_POST['action'] != 2){
-	$name = $db->real_escape_string(utf8_encode($_POST['titolo']));
+	$name = $db->real_escape_string($_POST['titolo']);
 	$venue = $_REQUEST['sede'];
 }
 else {

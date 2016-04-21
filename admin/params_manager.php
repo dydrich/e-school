@@ -6,7 +6,7 @@ check_session();
 check_permission(ADM_PERM|APS_PERM|AMS_PERM|AIS_PERM);
 
 if($_POST['action'] == 1 || $_POST['action'] == 3){
-	$name = $db->real_escape_string(utf8_encode($_POST['titolo']));
+	$name = $db->real_escape_string($_POST['titolo']);
 	$q = $_POST['q'];
 	if ($q = 0) $q = "";
 }

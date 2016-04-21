@@ -133,7 +133,7 @@
     <?php while($giudizio = $res_g->fetch_assoc()){ ?>
         <tr class="borrom_decoration" id="tr_<?php echo $giudizio['id'] ?>" style="">
             <td style="width: 90%; border-bottom: 1px solid #CCC">
-            	<p style="height: 20px; margin: 0" id="val_<?php echo $giudizio['id'] ?>" class="edit"><?php echo utf8_encode($giudizio['giudizio']) ?></p>
+            	<p style="height: 20px; margin: 0" id="val_<?php echo $giudizio['id'] ?>" class="edit"><?php echo $giudizio['giudizio'] ?></p>
             </td>
             <td style="width: 10%; border-bottom: 1px solid #CCC; padding-top: 2px">
                 <a href="#" id="del_<?php echo $giudizio['id'] ?>" class="del" style="color: red">x</a>
