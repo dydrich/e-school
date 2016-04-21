@@ -99,6 +99,7 @@ class StudentActivityReport
 					  WHERE alunno = {$studID}
 					  AND rb_voti.materia = id_materia
 					  AND data_voto BETWEEN DATE_SUB(NOW(), INTERVAL 15 DAY) AND NOW()
+					  AND privato = 0
 					  ORDER BY data_voto DESC";
 		$res_grades = $this->datasource->executeQuery($sel_grades);
 		if($res_grades) {
