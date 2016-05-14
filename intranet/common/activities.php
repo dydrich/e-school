@@ -89,7 +89,7 @@ else{
 				</div>
 			</div>
 			<div class="card_minicontent">
-				<?php echo $row['descrizione'] ?>
+				<?php echo $row['descrizione'] ?> (<?php echo $row['note'] ?>)
 			</div>
 		</div>
 <?php
