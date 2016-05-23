@@ -22,10 +22,10 @@ if(isset($_REQUEST['son'])){
 }
 
 if(isset($_REQUEST['q'])){
-	$q = $_REQUEST['q'];
+	$quadrimestre = $_REQUEST['q'];
 }
 else{
-	$q = 0;
+	$quadrimestre = 0;
 }
 	
 $navigation_label = "alunno ".$_SESSION['__sons__'][$_SESSION['__current_son__']][0];

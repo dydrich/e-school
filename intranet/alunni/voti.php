@@ -10,10 +10,10 @@ $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
 
 if(isset($_REQUEST['q'])){
-	$q = $_REQUEST['q'];
+	$quadrimestre = $_REQUEST['q'];
 }
 else{
-	$q = 0;
+	$quadrimestre = 0;
 }
 
 $navigation_label = "scuola secondaria";

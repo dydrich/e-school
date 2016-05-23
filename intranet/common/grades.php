@@ -8,7 +8,7 @@ $inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE
 $fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 $fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 
-switch($q){
+switch($quadrimestre){
 	case 0:
 		$int_time = "AND data_voto <= NOW()";
 		$nt_time = "AND data <= NOW()";
@@ -18,13 +18,13 @@ switch($q){
 	case 1:
 		$int_time = "AND data_voto <= '{$fine_q}'";
 		$nt_time = "AND data <= '$fine_q'";
-		$scr_par = "AND quadrimestre = {$q}";
+		$scr_par = "AND quadrimestre = {$quadrimestre}";
 		$drawer_label = "Medie voto primo quadrimestre";
 		break;
 	case 2:
 		$int_time = "AND (data_voto > '$fine_q' AND data_voto <= NOW()) ";
 		$nt_time = "AND (data > '$fine_q' AND data <= NOW()) ";
-		$scr_par = "AND quadrimestre = {$q}";
+		$scr_par = "AND quadrimestre = {$quadrimestre}";
 		$drawer_label = "Medie voto secondo quadrimestre";
 }
 
@@ -109,7 +109,7 @@ $voti_religione = array("4" => "Insufficiente", "6" => "Sufficiente", "8" => "Bu
 				$.ajax({
 					type: "POST",
 					url: url,
-					data: {subjectID: subjectID, q: <?php print $q ?>, ric: "<?php echo $area ?>"},
+					data: {subjectID: subjectID, q: <?php print $quadrimestre ?>, ric: "<?php echo $area ?>"},
 					dataType: 'json',
 					error: function() {
 						j_alert("error", "Errore di trasmissione dei dati");
@@ -201,7 +201,7 @@ while($row = $res_materie->fetch_assoc()){
 		$note = "--";
 	}
 	else {
-		$note = "<a href='elenco_note_didattiche.php?q=" . $q . "&materia=" . $row['id_materia'] . "'>" . $res_note->num_rows . " note</a>";
+		$note = "<a href='elenco_note_didattiche.php?q=" . $quadrimestre . "&materia=" . $row['id_materia'] . "'>" . $res_note->num_rows . " note</a>";
 	}
 ?>
 	<div style="width: 90%; height: auto; margin: auto;" class="_hov">
@@ -269,7 +269,7 @@ while($row = $res_materie->fetch_assoc()){
 			}
 			?>
 			<div class="drawer_link">
-				<a href="<?php print $page ?>?son=<?php print $key ?>" clas="<?php echo $cl ?>"><?php print $val[0] ?></a>
+				<a href="<?php print $page ?>?son=<?php print $key ?>" class="<?php echo $cl ?>"><?php print $val[0] ?></a>
 			</div>
 		<?php
 		}
