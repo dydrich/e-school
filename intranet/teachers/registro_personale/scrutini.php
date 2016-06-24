@@ -55,7 +55,12 @@ else
 /*
  * verifica se scrutini ancora aperti, per modifica
  */
-$sel_scr_op = "SELECT stato_scrutinio, quadrimestre FROM rb_pubblicazione_pagelle WHERE anno = {$_SESSION['__current_year__']->get_ID()} ORDER BY quadrimestre DESC";
+$suffix = '';
+if ($ordine_scuola == 2) {
+	$suffix = '_sp';
+}
+$sel_scr_op = "SELECT stato_scrutinio{$suffix}, quadrimestre FROM rb_pubblicazione_pagelle WHERE anno = {$_SESSION['__current_year__']->get_ID()} ORDER BY 
+quadrimestre DESC";
 $res_scr_op = $db->execute($sel_scr_op);
 $scr_1q = $scr_2q = 0;
 while ($row = $res_scr_op->fetch_assoc()){
