@@ -260,7 +260,7 @@ class ReportManager {
 			$student_name = preg_replace("/\'/", "", $student_name);
 
 			$esonerato = 0;
-			if (in_array($student['id_alunno'], $esonerati)) {
+			if ($esonerati && in_array($student['id_alunno'], $esonerati)) {
 				$esonerato = 1;
 				if (in_array($student['id_classe'], $materia_alternativa)) {
 					$esonerato = 2;
