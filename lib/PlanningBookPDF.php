@@ -96,7 +96,7 @@ class PlanningBookPDF extends SchoolPDF {
 			$this->SetFont('helvetica', '', '9');
 			$this->MultiCell(0, 10, $meeting->getOther(), 0, 'L', false, 1);
 			$this->AddPage("P", "A4");
-			$this->_page++;
+			$this->_page = $this->getNumPages();
 			$this->setPage($this->_page, true);
 		}
 
