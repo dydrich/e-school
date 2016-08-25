@@ -119,7 +119,7 @@
 				$('#stud_td').html("<input type='text' name='student' style='font-size: 10px; width: 150px; border: 1px solid #CCCCCC; color: #777' />&nbsp;&nbsp;<input type='button' value='filtra' style='border: 1px solid #CCCCCC; width: 40px' onclick='go(2)' />");
 			}
 			else{
-				$('#$par_td').html("<input type='text' name='parent' style='font-size: 10px; width: 150px; border: 1px solid #CCCCCC; color: #777' />&nbsp;&nbsp;<input type='button' value='filtra' style='border: 1px solid #CCCCCC; width: 40px' onclick='go(1)' />");
+				$('#par_td').html("<input type='text' name='parent' style='font-size: 10px; width: 150px; border: 1px solid #CCCCCC; color: #777' />&nbsp;&nbsp;<input type='button' value='filtra' style='border: 1px solid #CCCCCC; width: 40px' onclick='go(1)' />");
 			}
 		};
 
