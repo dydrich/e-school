@@ -95,7 +95,7 @@
 		<div class="welcome">
 			<p id="w_head">Registri</p>
 			<p class="w_text" style="width: 350px">
-				<a href="../../shared/no_js.php" id="createbooks">Scarica archivio dei registri docente</a>
+				<a href="../../shared/no_js.php" id="createbooks">Crea archivio dei registri docente</a>
 			</p>
 			<p id="" class="w_text" style="width: 350px; margin-bottom: 0; margin-top: 0">
 				<?php
