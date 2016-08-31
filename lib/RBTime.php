@@ -67,6 +67,29 @@ class RBTime{
 		$c->setTime($t);
 		return $c;
 	}
+
+	public function humanFriendlyDistance(RBTime $rb) {
+		$distance = $this->calculateDistance($rb);
+		$distance_in_seconds = $distance->getTime();
+		if ($distance_in_seconds < 60) {
+			return 'meno di un minuto fa';
+		}
+		else if ($distance_in_seconds < 300) {
+			return 'meno di 5 minuti fa';
+		}
+		else if ($distance_in_seconds < 600) {
+			return 'meno di 10 minuti fa';
+		}
+		else if ($distance_in_seconds < 1800) {
+			return "meno di mezz'ora fa";
+		}
+		else if ($distance_in_seconds < 3600) {
+			return "meno di un'ora fa";
+		}
+		else {
+			return "oltre un'ora fa";
+		}
+	}
 	
 	public function compare(RBTime $rb){
 		if($this->time > $rb->getTime()){
