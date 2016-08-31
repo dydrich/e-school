@@ -130,7 +130,8 @@ class ReportPDF extends SchoolPDF {
 		$this->SetFont('helvetica', '', '10');
 		$this->MultiCell(100, 10, "Il consiglio di classe: {$cdc}", 0, 'L', false, 0, 15);
 		$this->MultiCell(60, 2, "Il Dirigente scolastico", 0, 'C', false, 1, 125);
-		$this->MultiCell(60, 2, "Prof.ssa Giorgia Floris", 0, 'C', false, 1, 125);
+		//$this->MultiCell(60, 2, "Prof.ssa Giorgia Floris", 0, 'C', false, 1, 125);
+		$this->MultiCell(60, 2, "Prof. Ubaldo Scanu", 0, 'C', false, 1, 125);
 		$this->SetFont('', 'I', '7');
 		$this->MultiCell(150, 20, "\n\nfirma autografa sostituita a mezzo stampa ai sensi dell'articolo 3 comma 2 del decreto legislativo 12 dicembre 1993, n. 39", 0, 'R', false, 0, 35);
 
@@ -206,7 +207,8 @@ class ReportPDF extends SchoolPDF {
 			$this->setY(230);
 			$this->setX(146);
 			$this->SetFont('helvetica', 'I', '9');
-			$this->Write(10, "Prof.ssa Giorgia Floris");
+			//$this->Write(10, "Prof.ssa Giorgia Floris");
+			$this->Write(10, "Prof. Ubaldo Scanu");
 		}
 
 		/*
@@ -251,7 +253,8 @@ class ReportPDF extends SchoolPDF {
 			$this->MultiCell(180, 20, $text, 0, 'J', false, 0, 15, 125);
 			$this->MultiCell(100, 10, "", 0, 'L', false, 0, 15);
 			$this->MultiCell(60, 2, "Il Dirigente scolastico", 0, 'C', false, 1, 125, 220);
-			$this->MultiCell(60, 2, "Prof.ssa Giorgia Floris", 0, 'C', false, 1, 125, 225);
+			//$this->MultiCell(60, 2, "Prof.ssa Giorgia Floris", 0, 'C', false, 1, 125, 225);
+			$this->MultiCell(60, 2, "Prof. Ubaldo Scanu", 0, 'C', false, 1, 125, 225);
 			$this->SetFont('', 'I', '7');
 			$this->MultiCell(170, 20, "\n\nfirma autografa sostituita a mezzo stampa ai sensi dell'articolo 3 comma 2 del decreto legislativo 12 dicembre 1993, n. 39", 0, 'R', false, 0, 35, 240);
 		}
