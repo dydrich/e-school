@@ -1,268 +1,83 @@
 @CHARSET "UTF-8";
 
-.bold_ {
-    font-weight: bold
-}
-
-.fleft {
-    float: left;
-}
-
-.fright {
-    float: right
-}
-
-a.no_decoration {
-    text-decoration: none;
-}
-
 #navbar {
-    width: 90%;
-    height: 45px;
-    margin: auto;
-    border-radius: 0 0 0 0;
-    padding-left: 25px;
     border-bottom: 1px solid #FF9100;
 }
 
-#threads, #sel_thread {
-    width: 80%;
-    margin-left: 5%;
-}
-
-#sel_thread {
-    /*border: 1px solid #FF9100;*/
-    background-color: white;
-}
-
 #oth_user {
-    width: 98%;
-    margin: auto;
     background-color: rgba(131, 2, 29, 0.3);
     border: 1px solid rgba(131, 2, 29, 1);
     color: black;
-    height: 15px;
-    font-size: 0.9em;
-    padding-left: 10px
 }
 
 .thread {
-    width: 100%;
-    height: 50px;
     border-right: 3px solid #EF6C6C;
     border-left: 1px solid #EF6C6C;
     border-bottom: 5px solid #EF6C6C;
 }
 
 .thread_header {
-    width: 90%;
-    margin: auto;
-    height: 20px;
     border-bottom: 1px solid #EF6C6C;
-    font-size: 1em;
     color: #111;
 }
 
-.thread_user {
-    width: 80%;
-    float: left;
-    height: 20px;
-}
-
 .new_msg_sign {
-    padding-left: 3px;
     color: rgba(131, 2, 29, 1);
 }
 
-.thread_msg_count {
-    width: 20%;
-    float: left;
-    height: 20px;
-    text-align: right;
-}
-
 .thread_lm {
-    width: 100%;
-    height: 20px;
     color: #666;
 }
 
-.thread_text {
-    width: 90%;
-    margin: auto;
-    height: 30px;
-    font-size: 0.9em;
-    padding-top: 3px
-}
-
 #username {
-    width: 60%;
-    float: left;
-    height: 20px;
-    margin: 10px 0 0 10px;
-    font-weight: bold;
-    font-size: 1.1em;
-    position: relative;
     color: #242424;
-    top: 10%
-}
-
-#newmsg {
-    float: left;
-    background-position: right top;
-    width: 20%;
-    height: 40px;
-    margin: auto;
-    text-align: right;
-}
-
-#newmsg img {
-    position: relative;
-    top: 10%
-}
-
-#viewlist {
-    float: left;
-    background-position: right top;
-    width: 20%;
-    height: 40px;
-    margin: auto;
-    text-align: left;
-    display: none
-}
-
-#viewlist img {
-    position: relative;
-    top: 10%
 }
 
 #message {
-    float: left;
-    width: 65%;
-    height: 195px;
-    margin-left: 5%;
     border: 1px solid rgba(30, 67, 137, .7);
     border-radius: 0 0 5px 5px;
-    display: none;
     color: #484848
 }
 
 #targets {
-    width: 28%;
     border-left: 1px solid rgba(30, 67, 137, .7);
-    display: none;
     color: #484848;
-    float: right;
-    padding: 10px 0 0 5px;
-    font-weight: bold
 }
 
 #to {
-    float: left;
-    width: 90%;
-    height: 25px;
     border: 1px solid rgba(30, 67, 137, .7);
-    margin-top: 5px;
-    text-align: left
 }
 
 #target {
-    width: 98%;
-    height: 25px;
-    border: none;
-    float: left;
-    text-align: left;
-    padding-left: 10px;
     color: #484848;
-    font-weight: bold
 }
 
 #get_to {
-    float: left;
-    width: 9%;
-    height: 25px;
     border: 1px solid rgba(30, 67, 137, .7);
-    margin-top: 5px;
-    text-align: center;
-    font-size: 1.4em;
-    font-weight: bold
-}
-
-#get_target {
-    width: 100%;
-    border: none;
-    text-align: center;
 }
 
 #txt {
-    width: 99%;
-    height: 115px;
     border: 1px solid rgba(30, 67, 137, .7);
-    margin: 10px auto 0 auto;
-}
-
-#send_lnk{
-    float: right;
-    margin-right: 10px;
-    margin-top: 0px;
-    height: 24px
-}
-
-.th_link {
-    text-decoration: none
 }
 
 .message_detail {
-    width: 80%;
     border: 1px solid rgba(30, 67, 137, .7);
-    background-color: rgba(30, 67, 137, .1);
-    margin-top: 8px;
-    margin-bottom: 8px;
+    background-color: rgba(255, 209, 128, .8);
 }
 
 .message_header {
-    width: 90%;
-    margin: auto;
-    height: 20px;
-    font-size: 0.9em;
     color: #111;
 }
 
 .msg_send {
-    width: 50%;
-    float: left;
-    height: 20px;
     color: rgba(0,0,0,.54);
-    font-size: 0.8em;
-    padding-left: 10px
 }
 
 .msg_read {
-    width: 45%;
-    float: left;
-    height: 20px;
-    text-align: right;
-    padding-right: 10px;
     color: rgba(0,0,0,.54);
-    font-size: 0.8em;
-}
-
-.msg_text {
-    width: 90%;
-    margin: auto;
-    font-size: 1em;
-    padding-top: 3px;
-    padding-bottom: 5px
-}
-
-.my_msg {
-    border-radius: 8px;
-    margin-left: 18%
 }
 
 .target_msg {
-    margin-left: 2%;
-    border-radius: 8px;
     background-color: white;
     border: 1px solid #FF9100;
 }
@@ -270,17 +85,6 @@ a.no_decoration {
 .notification {
     border: 1px solid rgba(30, 67, 137, .7);
     background-color: rgba(30, 67, 137, .2);
-    font-weight: bold;
-    font-size: 1.1em;
-    text-align: left;
-    padding-left: 5px;
-    padding-top: 5px;
-    display: none;
-    width: 90%;
-    height: 30px;
-    margin-left: 8%;
-    margin-top: 10px;
-    margin-bottom: 10px;
     color: #484848
 }
 
@@ -290,45 +94,18 @@ a.no_decoration {
     color: black;
 }
 
-#iframe {
-    clear: both;
-    width: 70%;
-    border: 0;
-    height: 80px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-left: 15px;
-    display: inline-block
-}
-
 .evento {
-    width: 90%;
-    margin-top: 0;
     border: 1px solid rgba(211, 222, 199, 1);
-    padding: 3px
 }
 
 #groups {
-    width: 100%;
-    margin: auto;
-    height: 30px;
     background-color: #B0BEC5;
-    position: relative;
-    top: -15px;
-    font-weight: normal;
-}
-
-#groups table {
-    width: 95%;
-    margin: 15px auto;
 }
 
 #groups table thead tr {
-    height: 40px;
     border-bottom: 1px solid #CFD8DC;
 }
 
 #groups table tbody tr {
-    height: 20px;
     border-bottom: 1px solid #CFD8DC;
 }
