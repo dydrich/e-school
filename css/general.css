@@ -1488,7 +1488,7 @@ table.registro tr.riepilogo {
 /*
 j_alert
 */
-.alert_msg, .error_msg {
+.alert_msg, .error_msg, .confirm_msg {
     width: 300px;
     min-height: 150px;
     border-radius: 3px;
@@ -1497,7 +1497,7 @@ j_alert
     z-index: 777;
 }
 
-.alert_title, .error_title {
+.alert_title, .error_title, .confirm_title {
     margin: auto;
     padding: 5px 0 5px 10px;
     width: 90%;
@@ -1505,7 +1505,7 @@ j_alert
     font-size: 1.6em;
 }
 
-.alert_title span, .error_title span {
+.alert_title span, .error_title span, .confirm_title span {
     padding-left: 10px;
     font-size: 1em
 }
@@ -1520,6 +1520,39 @@ j_alert
     width: 90%;
     margin: 10px auto;
     font-size: 1.2em;
+}
+
+.confirm_msg .confirmmessage {
+    width: 90%;
+    margin: 10px auto;
+    font-size: 1.2em;
+}
+
+.confirmbuttons {
+    width: 98%;
+    margin: 10px auto 0 auto;
+    overflow: hidden;
+    height: 55px;
+}
+
+.confirmbuttonscontainer {
+    float: left;
+    width: 50%;
+    text-align: center;
+}
+
+.alert_button {
+    width: 65px;
+    height: 25px;
+    border-radius: 2px;
+    text-align: center;
+    margin: 15px auto 0 auto;
+    padding-top: 5px
+}
+
+.alert_button span {
+    padding-top: 15px;
+    color: white;
 }
 
 /*documents */
@@ -1616,3 +1649,333 @@ a.material_link {
     font-size: 1em;
     font-weight: bold;
 }
+
+/* communication */
+#navbar {
+    width: 90%;
+    height: 40px;
+    margin: auto;
+    padding-left: 25px;
+}
+
+#threads, #sel_thread {
+    width: 95%;
+    margin: auto;
+}
+
+#sel_thread {
+    /*border: 1px solid #EF6C6C;*/
+    background-color: white;
+}
+
+#oth_user {
+    width: 98%;
+    margin: auto;
+    height: 15px;
+    font-size: 0.9em;
+    padding-left: 10px
+}
+
+.thread {
+    width: 100%;
+    height: 50px;
+}
+
+.thread_header {
+    width: 90%;
+    margin: auto;
+    height: 20px;
+    font-size: 1em;
+}
+
+.thread_user {
+    width: 65%;
+    float: left;
+    height: 20px;
+}
+
+.new_msg_sign {
+    padding-left: 3px;
+}
+
+.thread_msg_count {
+    width: 35%;
+    float: left;
+    height: 20px;
+    text-align: right;
+}
+
+.thread_lm {
+    width: 100%;
+    height: 20px;
+}
+
+.thread_text {
+    width: 90%;
+    margin: auto;
+    height: 30px;
+    font-size: 0.9em;
+    padding-top: 3px
+}
+
+#username {
+    width: 60%;
+    float: left;
+    height: 20px;
+    margin: 10px 0 0 10px;
+    font-weight: bold;
+    font-size: 1.1em;
+    position: relative;
+    top: 10%
+}
+
+#newmsg {
+    float: left;
+    background-position: right top;
+    margin: auto;
+}
+
+#newmsg img {
+    position: relative;
+    top: 10%
+}
+
+#viewlist {
+    float: left;
+    background-position: right top;
+    margin: auto;
+    display: none
+}
+
+#viewlist img {
+    position: relative;
+    top: 10%
+}
+
+#message {
+    float: left;
+    width: 65%;
+    height: 165px;
+    margin-left: 5%;
+    display: none;
+}
+
+#targets {
+    width: 28%;
+    display: none;
+    float: right;
+    padding: 10px 0 0 5px;
+    font-weight: bold
+}
+
+#to {
+    float: left;
+    width: 90%;
+    height: 25px;
+    margin-top: 5px;
+    text-align: left
+}
+
+#target {
+    width: 98%;
+    height: 25px;
+    border: none;
+    float: left;
+    text-align: left;
+    padding-left: 10px;
+    font-weight: bold
+}
+
+#get_to {
+    float: left;
+    width: 9%;
+    height: 25px;
+    margin-top: 5px;
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: bold
+}
+
+#get_target {
+    width: 100%;
+    border: none;
+    text-align: center;
+}
+
+#txt {
+    width: 99%;
+    height: 115px;
+    margin: 10px auto 0 auto;
+}
+
+#send_lnk{
+    float: right;
+    margin-right: 10px;
+    margin-top: 0;
+    height: 24px
+}
+
+.th_link {
+    text-decoration: none
+}
+
+.message_detail {
+    width: 50%;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.message_header {
+    width: 90%;
+    margin: auto;
+    height: 20px;
+    font-size: 0.9em;
+}
+
+.msg_send {
+    width: 50%;
+    float: left;
+    height: 20px;
+    padding-left: 10px;
+    font-size: 0.8em;
+}
+
+.msg_read {
+    width: 42%;
+    float: left;
+    height: 20px;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 0.8em;
+}
+
+.msg_text {
+    width: 90%;
+    margin: auto;
+    font-size: 1em;
+    padding: 5px;
+    clear: both;
+}
+
+.my_msg {
+    border-radius: 8px;
+    margin-left: 48%;
+}
+
+.target_msg {
+    border-radius: 8px;
+}
+
+.notification {
+    font-weight: bold;
+    font-size: 1.1em;
+    text-align: left;
+    padding-left: 5px;
+    padding-top: 5px;
+    display: none;
+    width: 90%;
+    height: 30px;
+    margin-left: 8%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#iframe {
+    clear: both;
+    width: 70%;
+    border: 0;
+    height: 80px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    display: inline-block
+}
+
+.evento {
+    width: 90%;
+    margin-top: 0;
+    padding: 3px
+}
+
+#groups {
+    width: 100%;
+    margin: auto;
+    height: 30px;
+    position: relative;
+    font-weight: normal;
+}
+
+#groups table {
+    width: 95%;
+    margin: 15px auto;
+}
+
+#groups table thead tr {
+    height: 40px;
+}
+
+#groups table tbody tr {
+    height: 20px;
+}
+
+/*
+reported and deleted messages
+communication
+*/
+.reported {
+    background-color: #F4FF81 !important;
+    border-width: 2px !important;
+}
+
+.deleted {
+    background-color: rgba(63, 63, 63, 0.15) !important;
+    border-width: 2px !important;
+    border-color: rgba(63, 63, 63, 0.45) !important;
+}
+
+.deleted i {
+}
+
+/*
+albo pretorio
+*/
+div.albo_document {
+    width: 95%;
+    min-height: 45px;
+    margin-left: 2%;
+    margin-top: 5px;
+    color: #4B4B4B;
+    border-bottom: 1px solid rgba(228, 228, 228,1);
+    border-radius: 10px 0 0 0;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+
+div.odd {
+    background-color: rgba(242, 252, 253, .6);
+}
+
+.albo_title {
+    line-height: 12px;
+    min-height: 2px;
+    font-size: 13px;
+    text-transform: uppercase;
+    margin-left: 10px;
+    width: 90%
+}
+
+.albo_data {
+    width: 90%;
+    clear: both;
+    position: relative;
+    top: -5px;
+    height: 20px
+}
+
+.albo_data_line {
+    height: 2px;
+    font-size: 11px;
+    margin-left: 10px
+}
+
