@@ -50,7 +50,7 @@ class MiddleSchoolFinalExamPDF extends SchoolPDF{
 		$this->Ln();
 		$this->Cell(130, 2, "", 0, 0, 'L', 0);
 		$this->SetFont('', 'I', '10');
-		$this->Cell(50, 2, "Prof.ssa Angela Sanna", 0, 0, 'C', 0);
+		$this->Cell(50, 2, "Prof.ssa Lai Maria Romina", 0, 0, 'C', 0);
 		$this->Ln();
 	}
 }
