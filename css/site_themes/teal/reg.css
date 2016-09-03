@@ -166,12 +166,12 @@ p#menu_label, .pop_label {
     border-bottom: 1px solid #00796B;
 }
 
-#ticker li {
+#ticker li, #tr_ticker li {
     border-bottom:1px solid #009688;;
     background-color: white;
 }
 
-#ticker li a {
+#ticker li a, #tr_ticker li a {
     color: #1E4389 !important;
 }
 

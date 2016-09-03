@@ -193,13 +193,13 @@ p#menu_label, .pop_label {
 }
 
 
-#ticker li {
+#ticker li, #tr_ticker li {
     color:#fff;
     border-bottom:1px solid #FF4081;;
     background-color: white;
 }
 
-#ticker li a {
+#ticker li a, #tr_ticker li a {
     color: #303F9F !important;
 }
 

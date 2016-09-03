@@ -166,13 +166,13 @@ p#menu_label, .pop_label {
     border-bottom: 1px solid #e91e63;
 }
 
-#ticker li {
+#ticker li, #tr_ticker li {
     color:#fff;
     border-bottom:1px solid #e91e63;;
     background-color: white;
 }
 
-#ticker li a {
+#ticker li a , #tr_ticker li a{
     color: #1E4389 !important;
 }
 
@@ -208,12 +208,12 @@ input.android:focus, select.android:focus, textarea.android:focus {
     color: #e91e63 !important;
 }
 
-.alert_msg, .error_msg {
+.alert_msg, .error_msg, .confirm_msg {
     background-color: #FFFFFF;
     border: 1px solid #c2185b;
 }
 
-.alert_title {
+.alert_title, .confirm_title {
     border-bottom: 1px solid #82b1ff;
     color: #c2185b;
 }
@@ -223,7 +223,7 @@ input.android:focus, select.android:focus, textarea.android:focus {
     border-bottom: 1px solid #64ffda;
 }
 
-.alert_title span, .error_title span {
+.alert_title span, .error_title span, .confirm_title span {
     padding-left: 10px;
     font-size: 1em
 }

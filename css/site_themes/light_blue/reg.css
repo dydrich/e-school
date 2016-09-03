@@ -171,13 +171,13 @@ div.mdselected_tab a > span {
     color: #0097A7 !important;
 }
 
-#ticker li {
+#ticker li, #tr_ticker li {
     color:#fff;
     border-bottom:1px solid #03A9F4;;
     background-color: white;
 }
 
-#ticker li a {
+#ticker li a, #tr_ticker li a {
     color: #1E4389 !important;
 }
 
