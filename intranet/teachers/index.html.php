@@ -95,6 +95,7 @@
 	</div>
 	<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_notices.php'; ?>
 	<?php include $_SESSION['__path_to_root__'].'modules/documents/w_highlighteddocs_flow.php'; ?>
+	<?php include $_SESSION['__path_to_root__'].'modules/documents/w_trainingdocs_flow.php'; ?>
 	<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_circ.php'; ?>
 	<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_news.php'; ?>
 	<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_events.php'; ?>
