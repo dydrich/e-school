@@ -77,20 +77,21 @@ class StudentActivityReport
 					  AND data BETWEEN DATE_SUB(NOW(), INTERVAL 15 DAY) AND NOW()
 					  ORDER BY data DESC, rb_reg_alunni.ingresso";
 		$res_delays = $this->datasource->executeQuery($sel_delays);
-		foreach ($res_delays as $as) {
-			if ($as['ingresso'] == "") {
-				if (!isset($activities[$as['data']])) {
-					$activities[$as['data']] = [];
-				}
-				$activities[$as['data']][] = ["tipo" => "Assenza", "descrizione" => "Assente"];
-			}
-			else if ($as['ingresso'] > $as['enter']) {
-				if (!isset($activities[$as['data']])) {
-					$activities[$as['data']] = [];
-				}
-				$activities[$as['data']][] = ["tipo" => "Ritardo", "descrizione" => " - ingresso ore " . substr($as['ingresso'], 0, 5)];
-			}
-		}
+        if ($res_delays) {
+            foreach ($res_delays as $as) {
+                if ($as['ingresso'] == "") {
+                    if (!isset($activities[$as['data']])) {
+                        $activities[$as['data']] = [];
+                    }
+                    $activities[$as['data']][] = ["tipo" => "Assenza", "descrizione" => "Assente"];
+                } else if ($as['ingresso'] > $as['enter']) {
+                    if (!isset($activities[$as['data']])) {
+                        $activities[$as['data']] = [];
+                    }
+                    $activities[$as['data']][] = ["tipo" => "Ritardo", "descrizione" => " - ingresso ore " . substr($as['ingresso'], 0, 5)];
+                }
+            }
+        }
 		/*
 		 * voti
 		 */

@@ -102,20 +102,9 @@ final class RBUtilities{
 	 * @param string $area - type of user
 	 */
 	public function loadUserFromUid($uid, $area){
-
 		switch ($area){
 			case "student":
-				/*
-				$sel_user = "SELECT id_alunno, nome, cognome, username, nickname, accessi, stile, rb_alunni.id_classe, CONCAT(anno_corso, sezione) AS desc_cls FROM rb_alunni, rb_classi WHERE rb_alunni.id_classe = rb_classi.id_classe AND id_alunno = {$uid}";
-				$ut = $this->datasource->executeQuery($sel_user);
-				$utente = $ut[0];
-				$gid = array(8);
-				$perms = 256;
-				$user = new StudentBean($uid, $utente['nome'], $utente['cognome'], $gid, $perms, $utente['username']);
-				$user->setClass($utente['id_classe']);
-				$user->setClassDescritption($utente['desc_cls']);
-				*/
-				$sel_user = "SELECT id_alunno, nome, cognome, username, nickname, accessi, stile, rb_alunni.id_classe, CONCAT(anno_corso, sezione) AS desc_cls, ordine_di_scuola, attivo FROM rb_alunni, rb_classi WHERE rb_alunni.id_classe = rb_classi.id_classe AND id_alunno = {$uid} AND attivo = '1'";
+				$sel_user = "SELECT id_alunno, nome, cognome, username, nickname, accessi, stile, rb_alunni.id_classe, CONCAT(anno_corso, sezione) AS desc_cls, ordine_di_scuola, attivo, token FROM rb_alunni, rb_classi WHERE rb_alunni.id_classe = rb_classi.id_classe AND id_alunno = {$uid} AND attivo = '1'";
 				$res_user = $this->datasource->executeQuery($sel_user);
 				if($res_user == null){
 					return false;
@@ -130,9 +119,10 @@ final class RBUtilities{
 				$perms = 256;
 				$user = new StudentBean($utente['id_alunno'], $utente['nome'], $utente['cognome'], $gid, $perms, $utente['username']);
 				$user->setClass($utente['id_classe']);
-				$user->setClassDescritption($utente['desc_cls']);
+				$user->setClassDescription($utente['desc_cls']);
 				$user->setSchoolOrder($utente['ordine_di_scuola']);
 				$user->setActive($attivo);
+                $user->setToken($utente['token']);
 				break;
 			case "parent":
 				$sel_user = "SELECT nome, cognome, username, accessi FROM rb_utenti WHERE uid = {$uid}";
@@ -317,10 +307,24 @@ final class RBUtilities{
 				}
 				break;
 		}
-		if (is_installed("com")) {
+
+		if (is_installed("messenger")) {
+			if ($area == 'simple_school') {
+				$area = 'school';
+			}
 			$uniqID = $this->datasource->executeCount("SELECT id FROM rb_com_users WHERE uid = {$uid} AND type = '{$area}'");
+            if ($uniqID == null) {
+				$table_name = 'rb_utenti';
+				if ($area == 'student') {
+					$table_name = 'rb_alunni';
+				}
+				$uniqID = $this->datasource->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, '{$table_name}'), '{$area}'");
+			}
 			$user->setUniqID($uniqID);
 		}
+		else {
+		    $user->setUniqID(0);
+        }
 		return $user;
 	}
 	
@@ -527,7 +531,7 @@ final class RBUtilities{
 	 * @param integer $cls - the class ID
 	 * @return array $data - array of teachers and subjects
 	 */
-	public function getSubjectsOfTeacher($teacher) {
+	public function getSubjectsOfTeacher(SchoolUserBean $teacher) {
 		$subjects = array();
 		$mat = $teacher->getSubject();
 		$main_subject = $this->datasource->executeQuery("SELECT * FROM rb_materie WHERE id_materia = ".$mat);
@@ -542,6 +546,58 @@ final class RBUtilities{
 			$subjects[] = array("id" => $main_subject[0]['id_materia'], "materia" => $main_subject[0]['materia']);
 		}
 		return $subjects;
+	}
+
+	/**
+	 * Returns the distance between dates in a human readable style
+	 * @param DateTime $start_date
+	 * @param DateTime|null $end_date
+	 * @return bool|DateInterval
+	 */
+	public static function getDateTimeDistance(DateTime $start_date, DateTime $end_date = null) {
+		if ($end_date == null) {
+			$end_date = new DateTime();
+		}
+		$distance = $end_date->diff($start_date);
+		if ($distance->y > 1) {
+			return "oltre ".$distance->y." anni fa";
+		}
+		else if ($distance->y == 1) {
+			return "oltre un anno fa";
+		}
+		else if ($distance->m > 1) {
+			return "oltre ".$distance->m." mesi fa";
+		}
+		else if ($distance->m == 1) {
+			return "oltre un mese fa";
+		}
+		else if ($distance->d > 1) {
+			return "oltre ".$distance->d." giorni fa";
+		}
+		else if ($distance->d == 1) {
+			return "oltre un giorno fa";
+		}
+		else if ($distance->h > 1) {
+			return "oltre ".$distance->h." ore fa";
+		}
+		else if ($distance->h == 1) {
+			return "oltre un'ora fa";
+		}
+		else if ($distance->i > 35) {
+			return "meno di un'ora fa";
+		}
+		else if ($distance->i < 35 && $distance->i > 30) {
+			return "circa mezz'ora fa";
+		}
+		else if ($distance->i > 10) {
+			return "meno di mezz'ora fa";
+		}
+		else if ($distance->i > 1) {
+			return "pochi minuti fa";
+		}
+		else if ($distance->i == 0) {
+			return "pochi secondi fa";
+		}
 	}
 	
 }

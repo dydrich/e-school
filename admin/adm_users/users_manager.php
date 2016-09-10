@@ -54,7 +54,7 @@ switch($_POST['action']){
 			$statement = "INSERT INTO rb_utenti (username, password, nome, cognome, accessi, permessi) VALUES ('$uname', '$pwd', '$nome', '$cognome', 0, $sum)";
            	$recordset = $db->executeUpdate($statement);
            	$uid = $recordset;
-			if (is_installed("com")) {
+			if (is_installed("messenger")) {
 				//echo "INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_utenti', '$type')";
 				$db->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_utenti', '$type')");
 			}

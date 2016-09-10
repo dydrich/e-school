@@ -31,7 +31,16 @@ $utils->registerCurrentClassFromUser($_SESSION['__current_son__'], "__classe__")
 $rb = RBUtilities::getInstance($db);
 $student = $rb->loadUserFromUid($_SESSION['__current_son__'], "student");
 
-if ($student && $student->isActive()) {
+$school_year = $_SESSION['__school_year__'][$_SESSION['__classe__']->getSchoolOrder()];
+$inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+$today = date("Y-m-d");
+
+$preschool = false;
+if($today < $inizio_lezioni){
+    $preschool = true;
+}
+
+if ($student && $student->isActive() && !$preschool) {
 	$stAcR = new \eschool\StudentActivityReport($student, 15, new MySQLDataLoader($db));
 	$activities = $stAcR->getActivities();
 	$has_report = $stAcR->checkMonthlyReport();

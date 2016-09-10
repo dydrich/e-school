@@ -30,18 +30,20 @@ class ClassbookData{
 		$totali['giorni'] = count($res_giorni);
 		$totali['limite_giorni'] = intval($totali['giorni'] / 4);
 		$totali['ore'] = 0;
-		foreach ($res_giorni as $giorno){
-			$day_number = date("w", strtotime($giorno['data']));
-			$day = $mod->getDay($day_number);
-			list($h, $m, $s) = explode(":", $giorno['ingresso']);
-			$ingresso = new RBTime(intval($h), intval($m), intval($s));
-			list($h, $m, $s) = explode(":", $giorno['uscita']);
-			$uscita = new RBTime(intval($h), intval($m), intval($s));
-			$totali['ore'] += $uscita->getTime() - $ingresso->getTime();
-			if($day->hasCanteen()){
-				$totali['ore'] -= $day->getCanteenDuration()->getTime();
-			}
-		}
+        if ($res_giorni) {
+            foreach ($res_giorni as $giorno) {
+                $day_number = date("w", strtotime($giorno['data']));
+                $day = $mod->getDay($day_number);
+                list($h, $m, $s) = explode(":", $giorno['ingresso']);
+                $ingresso = new RBTime(intval($h), intval($m), intval($s));
+                list($h, $m, $s) = explode(":", $giorno['uscita']);
+                $uscita = new RBTime(intval($h), intval($m), intval($s));
+                $totali['ore'] += $uscita->getTime() - $ingresso->getTime();
+                if ($day->hasCanteen()) {
+                    $totali['ore'] -= $day->getCanteenDuration()->getTime();
+                }
+            }
+        }
 		$totali['limite_ore'] = $totali['ore'] / 4;
 		
 		$times_array = [];
@@ -77,47 +79,46 @@ class ClassbookData{
 		$current_student = 0;
 		$presence = new RBTime(0, 0, 0);
 		$previous = "";
-		foreach ($res_assenze_alunni as $abs){
-			if($current_student != $abs['id_alunno'] && $current_student != 0){
-				$presence->setTime($time);
-				$students_data[$current_student] = ["name" => $previous, "absences" => $absences, "presence" => $presence];
-				$absences = 0;
-				$time = 0;
-				$presence = new RBTime(0, 0, 0);
-			}
-			$current_student = $abs['id_alunno'];
-			$previous = $abs['cognome']." ".$abs['nome'];
-			$day_number = date("w", strtotime($abs['data']));
-			if ($abs['ingresso'] == ""){
-				$absences++;
-			}
-			else {
-				list($h, $m, $s) = explode(":", $abs['ingresso']);
-				$ing = new RBTime($h, $m, $s);
-				list($h, $m, $s) = explode(":", $abs['uscita']);
-				$usc = new RBTime($h, $m, $s);
-				//$presence = new RBTime(0, 0, 0);
-				
-				$day = $mod->getDay($day_number);
-				if($day->hasCanteen()){
-					$cstart = $day->getCanteenStart()->getTime();
-					$cduration = $day->getCanteenDuration()->getTime();
-					$restart = new RBTime(0, 0, 0);
-					$restart->setTime($cstart + $cduration);
-					if ($usc->compare($restart) == 1 || $usc->compare($restart) == 0){
-						$time += ($usc->getTime() - $ing->getTime() - $cduration);
-					}
-					else {
-						if ($usc->compare($day->getCanteenStart()) == 1){
-							$time += ($cstart - $ing->getTime());
-						}
-					}
-				}
-				else {
-					$time += ($usc->getTime() - $ing->getTime());
-				}
-			}
-		}
+        if($res_assenze_alunni) {
+            foreach ($res_assenze_alunni as $abs) {
+                if ($current_student != $abs['id_alunno'] && $current_student != 0) {
+                    $presence->setTime($time);
+                    $students_data[$current_student] = ["name" => $previous, "absences" => $absences, "presence" => $presence];
+                    $absences = 0;
+                    $time = 0;
+                    $presence = new RBTime(0, 0, 0);
+                }
+                $current_student = $abs['id_alunno'];
+                $previous = $abs['cognome'] . " " . $abs['nome'];
+                $day_number = date("w", strtotime($abs['data']));
+                if ($abs['ingresso'] == "") {
+                    $absences++;
+                } else {
+                    list($h, $m, $s) = explode(":", $abs['ingresso']);
+                    $ing = new RBTime($h, $m, $s);
+                    list($h, $m, $s) = explode(":", $abs['uscita']);
+                    $usc = new RBTime($h, $m, $s);
+                    //$presence = new RBTime(0, 0, 0);
+
+                    $day = $mod->getDay($day_number);
+                    if ($day->hasCanteen()) {
+                        $cstart = $day->getCanteenStart()->getTime();
+                        $cduration = $day->getCanteenDuration()->getTime();
+                        $restart = new RBTime(0, 0, 0);
+                        $restart->setTime($cstart + $cduration);
+                        if ($usc->compare($restart) == 1 || $usc->compare($restart) == 0) {
+                            $time += ($usc->getTime() - $ing->getTime() - $cduration);
+                        } else {
+                            if ($usc->compare($day->getCanteenStart()) == 1) {
+                                $time += ($cstart - $ing->getTime());
+                            }
+                        }
+                    } else {
+                        $time += ($usc->getTime() - $ing->getTime());
+                    }
+                }
+            }
+        }
 		$presence->setTime($time);
 		$students_data[$current_student] = array("name" => $previous, "absences" => $absences, "presence" => $presence);
 		return $students_data;

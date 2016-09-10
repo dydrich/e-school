@@ -63,7 +63,7 @@ else {
 	$user_type = "student";
 }
 $_SESSION['user_type'] = $user_type;
-if (is_installed("com")) {
+if (is_installed("messenger")) {
 	$uniqID = $db->executeCount("SELECT id FROM rb_com_users WHERE uid = {$user->getUid()} AND type = '{$user_type}'");
 	$_SESSION['__user__']->setUniqID($uniqID);
 }

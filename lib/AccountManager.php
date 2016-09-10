@@ -167,4 +167,28 @@ class AccountManager{
 		}
 		return true;
 	}
+
+	public function createToken() {
+	    $token = hash("md5", $this->user_->getFullName().$this->user_->getUsername().$this->user_->getUniqID());
+        $this->user_->setToken($token);
+        if ($this->user_ instanceof StudentBean){
+            $table = 'rb_alunni';
+            $field = 'id_alunno';
+        }
+        else {
+            $table = 'rb_utenti';
+            $field = 'uid';
+        }
+        $smt = $this->datasource_->prepare("UPDATE {$table} SET token = ? WHERE $field = ?");
+        $uid = $this->user_->getUid();
+        $smt->bind_param("si", $token, $uid);
+        $smt->execute();
+        return $token;
+    }
+
+    public function checkToken() {
+        if ($this->table_ == 'rb_alunni') {
+            return true;
+        }
+    }
 }

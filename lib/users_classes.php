@@ -23,6 +23,11 @@ abstract class UserBean {
 	 * from table: profili
 	 */
 	protected $profile;
+    /**
+     * token for authentication from mobile devices
+     * @var $token string
+     */
+    protected $token;
 
 	public function __construct($u, $fn, $ln, $gr, $pr, $un){
 		$this->uid = $u;
@@ -281,6 +286,34 @@ abstract class UserBean {
 		return $this->uniqID;
 	}
 
+    /**
+     * @return string
+     */
+    public function getToken() {
+        return $this->token;
+    }
+
+    /**
+     * @param string $token
+     */
+    public function setToken($token) {
+        $this->token = $token;
+    }
+
+    /**
+     * return an array of data in json string format
+     * @return string
+     */
+    public function toJSON() {
+        $json_array = [];
+        $json_array['uid'] = $this->uid;
+        $json_array['uniqID'] = $this->uniqID;
+        $json_array['fname'] = $this->firstName;
+        $json_array['lname'] = $this->lastName;
+        $json_array['username'] = $this->username;
+        $json_array['token'] = $this->token;
+        return $json_array;
+    }
 }
 
 class SchoolUserBean extends UserBean{
@@ -396,7 +429,7 @@ class SchoolUserBean extends UserBean{
 class StudentBean extends UserBean {
 	
 	private $class;
-	private $classDescritption;
+	private $classDescription;
 	private $schoolOrder;
 	private $birthPlace;
 	private $active;
@@ -409,12 +442,12 @@ class StudentBean extends UserBean {
 		return $this->class;
 	}
 	
-	public function setClassDescritption($cl){
-		$this->classDescritption = $cl;
+	public function setClassDescription($cl){
+		$this->classDescription = $cl;
 	}
 	
 	public function getClassDescritption(){
-		return $this->classDescritption;
+		return $this->classDescription;
 	}
 	
 	public function getSchoolOrder(){
@@ -441,7 +474,6 @@ class StudentBean extends UserBean {
 		return $this->active;
 	}
 
-	
 	/**
 	 * if $full print class description
 	 * @see UserBean::getFullName()
@@ -451,7 +483,7 @@ class StudentBean extends UserBean {
 			return parent::getFullName($order);
 		}
 		$n = parent::getFullName($order);
-		$n .= " (" . $this->classDescritption .")";
+		$n .= " (" . $this->classDescription .")";
 		return $n;
 	}
 	
@@ -462,6 +494,17 @@ class StudentBean extends UserBean {
 	public function isAdministrator(){
 		return false;
 	}
+
+    public function toJSON() {
+        $ar = parent::toJSON();
+        $ar['school'] = $this->schoolOrder;
+        $ar['classID'] = $this->class;
+        $ar['classDesc'] = $this->classDescription;
+        $ar['area'] = 'student';
+        return json_encode($ar);
+    }
+
+
 }
 
 class ParentBean extends UserBean {

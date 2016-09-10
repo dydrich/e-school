@@ -14,6 +14,10 @@ class Authenticator {
 	private $stringAjax;
 
 	private $response;
+
+    public static $PARENT_AREA = 1;
+    public static $STUDENT_AREA = 2;
+    public static $SCHOOL_AREA = 3;
 	
 	public function __construct(DataLoader $dl){
 		$this->datasource = $dl;
@@ -152,7 +156,7 @@ class Authenticator {
 
 		$rb = RBUtilities::getInstance($this->datasource->getSource());
 		$user = $rb->loadUserFromUid($res_user, 'student');
-				
+
 		$_SESSION['__nick__'] = $nick;
 		$_SESSION['__accessi__'] = $user->getAccesses() + 1;
 		$_SESSION['__perms__'] = 256;
@@ -165,7 +169,36 @@ class Authenticator {
 		$upd = $this->datasource->executeUpdate($update);
 
 		$this->stringAjax = "S;".$user->getUsername().";".$res_user.";".$user->getFirstName().";".$user->getLastName().";".$nick.";".$_SESSION['__accessi__'].";".$first_access;
-		
+
 		return $user;
 	}
+
+	public function loginWithToken($token, $area) {
+	    $table = 'rb_utenti';
+        $field = 'uid';
+        if ($area == self::$STUDENT_AREA) {
+            $table = 'rb_alunni';
+            $field = 'id_alunno';
+            $rbArea = 'student';
+        }
+        $sel_user = "SELECT $field FROM $table WHERE token = '{$token}'";
+        $uid = $this->datasource->executeCount($sel_user);
+        if ($uid == null || $uid == false) {
+            return false;
+        }
+        $rb = RBUtilities::getInstance($this->datasource->getSource());
+        $user = $rb->loadUserFromUid($uid, $rbArea);
+
+        if ($area == self::$STUDENT_AREA) {
+            $smt = $this->datasource->prepare("UPDATE rb_alunni SET accessi = (accessi + 1) WHERE id_alunno = ?");
+        }
+        else {
+            // TODO: update last_mobile_access field (must be added on table)
+            $smt = $this->datasource->prepare("UPDATE rb_utenti SET accessi = (accessi + 1), previous_access = last_access, last_access = NOW() WHERE uid = ?");
+        }
+        $smt->bind_param("i", $uid);
+        $smt->execute();
+
+        return $user;
+    }
 }

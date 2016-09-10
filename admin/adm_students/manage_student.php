@@ -40,7 +40,7 @@ $nome = $db->real_escape_string($nome);
 $insert = "INSERT INTO rb_alunni (username, password, cognome, nome, data_nascita, luogo_nascita, codice_fiscale, sesso, id_classe, attivo, accessi) VALUES ('$username', '$pwd', '$cognome', '$nome', ".field_null($data_nascita, true).", ".field_null($luogo_nascita, true).",  NULL, '$sex', $cls, '1', 0)";
 try{
 	$uid = $db->executeUpdate($insert);
-	if (is_installed("com")) {
+	if (is_installed("messenger")) {
 		$db->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_alunni', 'student')");
 	}
 	fwrite($log, "{$cognome} {$nome}:{$username}:{$pwd_chiaro}\n");

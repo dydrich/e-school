@@ -53,7 +53,7 @@ switch($_REQUEST['action']) {
 			/*
 			 * rb_com_users
 			 */
-			if (is_installed("com")) {
+			if (is_installed("messenger")) {
 				$db->executeUpdate("INSERT INTO rb_com_users (uid, table_name, type) VALUES ({$uid}, 'rb_utenti', 'parent')");
 			}
 			$db->executeUpdate("COMMIT");
