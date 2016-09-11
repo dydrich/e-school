@@ -14,7 +14,7 @@
 	<script type="text/javascript">
 		var upd_cls = function(){
 			if($('#anno_corso').val() < 0 || $('#sezione').val() == -1 || $('#sede').val() == -1){
-				alert("I campi anno, sezione e sede sono obbligatori");
+				j_alert("error", "I campi anno, sezione e sede sono obbligatori");
 				return false;
 			}
 		    var url = "class_manager.php";
@@ -37,11 +37,11 @@
 					}
 					var json = $.parseJSON(r);
 					if (json.status == "kosql"){
-						alert(json.message);
+						j_alert("error", json.message);
 						console.log(json.dbg_message);
 					}
 					else {
-						alert("Operazione conclusa con successo");
+						j_alert("alert", "Operazione conclusa con successo");
 					}
 				}
 			});
@@ -84,11 +84,11 @@
 					}
 					var json = $.parseJSON(r);
 					if (json.status == "kosql"){
-						alert(json.message);
+						j_alert("error", json.message);
 						console.log(json.dbg_message);
 					}
 					else {
-						alert("Operazione conclusa con successo");
+						j_alert("alert", "Operazione conclusa con successo");
 					}
 				}
 			});
