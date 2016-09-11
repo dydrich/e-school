@@ -91,7 +91,7 @@
 		        </div>
 	        </div>
 	        <div class="card_content">
-		        <?php echo $sede['indirizzo'] ?>
+		        Responsabile di plesso: <strong><?php echo $sede['responsabile'] ?></strong>
 	        </div>
         </div>
         <?php

@@ -98,6 +98,36 @@
                 <input class="form_input" type="text" name="testo" id="testo" style="width: 100%" <?php if(isset($sede)) print("value='".$sede['indirizzo']."'") ?> />
             </td>
         </tr>
+		<tr class="popup_row">
+			<td style="width: 30%"><label for="ordine" class="popup_title">Ordine di scuola</label></td>
+			<td style="width: 70%">
+				<select class="form_input" type="text" name="ordine" id="ordine" style="width: 100%">
+					<option value="0">Seleziona</option>
+					<?php
+					foreach ($school_orders as $k => $order) {
+					?>
+					<option value="<?php echo $k ?>" <?php if ($k == $sede['ordine_di_scuola']) echo 'selected' ?>><?php echo $order['tipo'] ?></option>
+					<?php
+					}
+					?>
+				</select>
+			</td>
+		</tr>
+        <tr class="popup_row">
+            <td style="width: 30%"><label for="docente" class="popup_title">Responsabile</label></td>
+            <td style="width: 70%">
+                <select class="form_input" type="text" name="docente" id="docente" style="width: 100%">
+                    <option value="0">Seleziona</option>
+                    <?php
+                    foreach ($teachers as $k => $teacher) {
+                        ?>
+                        <option value="<?php echo $k ?>" <?php if ($k == $sede['responsabile']) echo 'selected' ?>><?php echo $teacher['cognome']." ".$teacher['nome']." (".$teacher['tipologia'].")" ?></option>
+                        <?php
+                    }
+                    ?>
+                </select>
+            </td>
+        </tr>
         <tr class="popup_row">
             <td colspan="2">
             	<input type="hidden" name="action" id="action" />
