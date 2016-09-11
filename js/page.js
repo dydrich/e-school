@@ -319,13 +319,11 @@ var j_alert = function(type, msg){
         }, 2500);
     }
     else if (type == "confirm") {
-        $('#confirmmessage').html(msg);
-        $('#confirm').css({
+        $('#confirmmessage').html(msg).css({
             top: mtop,
             left: mleft
-        });
+        }).fadeIn(300);
         $('#overlay').fadeIn(100);
-        $('#confirm').fadeIn(300);
     }
     else if (type == "working") {
         $('#alert .alert_title i').removeClass("fa-thumbs-up").addClass("fa-circle-o-notch fa-spin");
