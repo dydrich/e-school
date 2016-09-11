@@ -35,7 +35,7 @@
 					}
 					var json = $.parseJSON(r);
 					if (json.status == "kosql"){
-						alert(json.message);
+						j_alert("error", json.message);
 						console.log(json.dbg_message);
 					}
 					else {
@@ -108,15 +108,15 @@
 					}
 					var json = $.parseJSON(r);
 					if (json.status == "kosql"){
-						alert(json.message);
+						j_alert("error", json.message);
 						console.log(json.dbg_message);
 					}
 					else if (json.status == "no_del"){
-						alert(json.message);
+						j_alert("error", json.message);
 						return false;
 					}
 					else {
-						alert("Classe cancellata correttamente");
+						j_alert("alert", "Classe cancellata correttamente");
 						$('#row_'+class_id).hide();
 					}
 				}
@@ -144,7 +144,7 @@
 					}
 					var json = $.parseJSON(r);
 					if (json.status == "kosql"){
-						alert(json.message);
+						j_alert("error", json.message);
 						console.log(json.dbg_message);
 					}
 					else {
