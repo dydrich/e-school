@@ -262,45 +262,18 @@ var select_level = function(path, page, level){
 };
 
 var load_jalert = function(){
-    /*
-    $('#alert').dialog({
-        autoOpen: false,
-        dialogClass: 'no_display ui-state-highlight',
-        show: {
-            effect: "fadeIn",
-            duration: 800
-        },
-        hide: {
-            effect: "fadeOut",
-            duration: 500
-        },
-        modal: true,
-        width: 200,
-        title: '',
-        open: function(event, ui){
+    var resp_confirm = false;
 
-        }
+    $('#okbutton').on('click', function (event) {
+        event.preventDefault();
+        resp_confirm = true;
+        $('#confirm').hide();
     });
 
-    $('#error').dialog({
-        autoOpen: false,
-        dialogClass: 'no_display ui-state-error',
-        show: {
-            effect: "fadeIn",
-            duration: 800
-        },
-        hide: {
-            effect: "fadeOut",
-            duration: 500
-        },
-        modal: true,
-        width: 200,
-        title: '',
-        open: function(event, ui){
-
-        }
-    });
-    */
+    $('#nobutton').on('click', function (event) {
+        event.preventDefault();
+        resp_confirm = false;
+    })
 };
 
 var j_alert = function(type, msg){
@@ -327,7 +300,7 @@ var j_alert = function(type, msg){
         }, 2500);
     }
     else if (type == "error") {
-        $('#errormessage').text(msg);
+        $('#errormessage').html(msg);
         /*
         $('#error').dialog("open");
         window.setTimeout(function(){
@@ -346,7 +319,13 @@ var j_alert = function(type, msg){
         }, 2500);
     }
     else if (type == "confirm") {
-
+        $('#confirmmessage').html(msg);
+        $('#confirm').css({
+            top: mtop,
+            left: mleft
+        });
+        $('#overlay').fadeIn(100);
+        $('#confirm').fadeIn(300);
     }
     else if (type == "working") {
         $('#alert .alert_title i').removeClass("fa-thumbs-up").addClass("fa-circle-o-notch fa-spin");

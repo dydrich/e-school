@@ -23,3 +23,26 @@
 	<p id="background_msg" class="alertmessage"></p>
 </div>
 <div class="overlay" id="overlay" style="display:none;"></div>
+<div id="confirm" class="confirm_msg" style="display: none">
+    <div class="confirm_title">
+        <i class="fa fa-question-circle"></i>
+        <span>Conferma</span>
+    </div>
+    <p class="confirmmessage" id="confirmmessage"></p>
+    <div class="confirmbuttons _center">
+        <div class="confirmbuttonscontainer">
+            <a href="#" id="okbutton">
+                <div class="alert_button material_dark_bg">
+                    <span class="material_link">OK</span>
+                </div>
+            </a>
+        </div>
+        <div class="confirmbuttonscontainer">
+            <a href="#" id="nobutton">
+                <div class="alert_button material_dark_bg">
+                    <span>Cancella</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
