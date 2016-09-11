@@ -1,44 +1,61 @@
 <?php
 
 include "../lib/start.php";
+include "../lib/Authenticator.php";
+include "../lib/AccountManager.php";
 header("Content-type: application/json");
-$sel_user = "SELECT uid, nome, cognome, gruppi, username, accessi, permessi FROM utenti WHERE username = '".trim($_REQUEST['nick'])."' AND password = '".md5(trim($_REQUEST['pass']))."'";
-$_SESSION['sel'] = $sel_user;
-try{
-	$res_user = $db->executeQuery($sel_user);
-} catch(MySQLException $ex){
-	$er = "ko;".$ex->getQuery().";".$ex->getMessage();
-	print $er;
-	exit;
-}
-$exist = $res_user->num_rows;
-if($exist < 1){
-	$res_user->free();
-	print("ko");
-	exit;
-}
+$response = ['status' => 'ok', 'message' => 'ok'];
 
-$user = $res_user->fetch_array();
-$token = hash("md5", $user['nome']." ".$user['cognome'].$user['uid']);
+if (isset($_POST['token']) && $_POST['token'] != '') {
+    // get the user
+    $token = $db->real_escape_string($_POST['token']);
+    $auth = new Authenticator(new MySQLDataLoader($db));
+    $user = $auth->loginWithToken($token, $_POST['area']);
 
-$sel_classes = "SELECT classi.* FROM classi, cdc WHERE classi.id_classe = cdc.id_classe AND cdc.id_docente = ".$user['uid']." ORDER BY sezione, anno_corso";
-print $sel_classes;
-try{
-    $res_classes = $db->executeQuery($sel_classes);
-} catch(MySQLException $ex){
-    $er = "ko;".$ex->getQuery().";".$ex->getMessage();
-    print $er;
-    exit;
+    if ($user == null) {
+        $response['message'] = 'Token non presente. Rifare il login';
+        $response['status'] = 'ko';
+        echo json_encode($response);
+        exit;
+    }
+    $acc_man = new AccountManager($user, new MySQLDataLoader($db));
+    if ($acc_man->checkToken()) {
+        $json = $user->toJSON();
+        $response['user'] = $json;
+        echo json_encode($response);
+        exit;
+    }
+    else {
+        // TODO: catch error
+    }
 }
-$json = "{'token' : '$token', 'name' : '".$user['nome']." ".$user['cognome']."', 'uid': '".$user['uid']."', 'classes': {";
-while($cls = $res_classes->fetch_array()){
-    $st = "{'id': '".$cls['id_classe']."', '_class': '".$cls['anno_corso'].$cls['sezione']."'},";
-    $json .= $st;
+else {
+    if (isset($_POST['nick']) && isset($_POST['pwd'])) {
+        // get the user
+        $auth = new Authenticator(new MySQLDataLoader($db));
+        $nick = $db->real_escape_string($_POST['nick']);
+        $pass = md5($db->real_escape_string($_POST['pwd']));
+        $user = $auth->login($_POST['area'], $nick, $pass);
+
+        if ($user != null) {
+            $acc_man = new AccountManager($user, new MySQLDataLoader($db));
+            $token = $acc_man->createToken();
+            $user->setToken($token);
+            $json = $user->toJSON();
+            $response['user'] = $json;
+            echo json_encode($response);
+            exit;
+        }
+        else {
+            $response['status'] = 'ko';
+            $response['message'] = "errore user null";
+            $response['nick'] = $nick;
+            $response['pass'] = $pass;
+            echo json_encode($response);
+            exit;
+        }
+    }
+    else {
+        // TODO: catch error
+    }
 }
-$json = substr($json, 0, strlen($json) - 1);
-
-$json .= "}}";
-print $json;
-exit;
-
-?>
