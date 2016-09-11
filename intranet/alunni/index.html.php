@@ -36,7 +36,7 @@
 <?php include "class_working.php" ?>
 </div>
 <div id="left_col">
-	<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_msg.php'; ?>
+	<?php if(is_installed("messenger")) include $_SESSION['__path_to_root__'].'modules/communication/w_msg.php'; ?>
 	<div id="schedule">
 		<p id="s_head"><?php echo $label ?></p>
 	<?php 
