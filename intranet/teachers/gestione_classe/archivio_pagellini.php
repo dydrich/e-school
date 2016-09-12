@@ -54,10 +54,12 @@ $sel_voti = "SELECT materia, alunno FROM rb_segnalazioni_pagellino WHERE id_page
 try{
 	$res_voti = $db->executeQuery($sel_voti);
 } catch (MySQLException $ex){
-	$ex->redirect();
+	//$ex->redirect();
 }
-while ($row = $res_voti->fetch_assoc()) {
-	$alunni[$row['alunno']]['ins'][] = $row['materia'];
+if ($res_voti) {
+    while ($row = $res_voti->fetch_assoc()) {
+        $alunni[$row['alunno']]['ins'][] = $row['materia'];
+    }
 }
 
 $num_colonne = 1;
@@ -105,6 +107,9 @@ $num_colonne += $num_materie;
 $column_width = intval($available_space / ($num_colonne - 1));
 
 $navigation_label = "Registro personale ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
-$drawer_label = "Segnalazione insufficienze mese di {$months[$month]}";
+$drawer_label = "Segnalazione insufficienze ";
+if ($months[$month]) {
+    $drawer_label .= "mese di {$months[$month]}";
+}
 
 include "archivio_pagellini.html.php";

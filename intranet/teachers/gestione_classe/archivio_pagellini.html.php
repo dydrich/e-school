@@ -70,59 +70,79 @@
 	}
 
 	?>
-	<table class="registro">
-		<thead>
-		<tr class="head_tr_no_bg">
-			<td style="text-align: right; "><span id="ingresso" style=""><?php print $_SESSION['__classe__']->to_string() ?></span></td>
-			<td colspan="<?php echo ($num_colonne - 1) ?>" style="text-align: center">Quadro riassuntivo della classe</td>
-		</tr>
-		<tr class="title_tr">
-			<td style="width: <?php echo $first_column_width ?>%; font-weight: bold; padding-left: 12px">Alunno</td>
-			<?php
-			foreach ($materie as $materia){
-				?>
-				<td <?php if($materia['id_materia'] == 1111) print ("rowspan='2'") ?> style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold"><?php echo strtoupper(substr($materia['materia'], 0, 3)) ?></td>
-				<?php
-			}
-			?>
-		</tr>
-		</thead>
-		<tbody>
-		<?php
-		$idx = 1;
-		foreach ($alunni as $al){
-		$esonerato = 0;
-		if (in_array($al['id_alunno'], $esonerati)) {
-			$esonerato = 1;
-		}
+	<?php
+	if (count($active) < 1) {
 		?>
-		<tr style="border-bottom: 1px solid #CCC">
-			<td style="width: <?php print $first_column_width ?>%; padding-left: 8px; font-weight:normal;">
-				<?php if($idx < 10) print "&nbsp;&nbsp;"; ?><?php echo $idx.". " ?>
-				<span><?php print $al['cognome']." ".$al['nome'] ?> (<?php echo count($al['ins'])." su ".count($materie) ?>)</span>
-			</td>
-			<?php
-			reset($materie);
-			foreach ($materie as $idm => $materia){
-				$val = "Suff";
-				if (in_array($idm, $al['ins'])) {
-					$val = "Insuff";
+    <div style="margin-left: 40px; margin-bottom: 50px; font-size: 1.2em" class="_bold">
+        Nessuna segnalazione presente
+    </div>
+		<?php
+	}
+	else {
+		?>
+		<table class="registro">
+			<thead>
+			<tr class="head_tr_no_bg">
+				<td style="text-align: right; "><span id="ingresso"
+													  style=""><?php print $_SESSION['__classe__']->to_string() ?></span>
+				</td>
+				<td colspan="<?php echo($num_colonne - 1) ?>" style="text-align: center">Quadro riassuntivo della
+					classe
+				</td>
+			</tr>
+			<tr class="title_tr">
+				<td style="width: <?php echo $first_column_width ?>%; font-weight: bold; padding-left: 12px">Alunno</td>
+				<?php
+				foreach ($materie as $materia) {
+					?>
+					<td <?php if ($materia['id_materia'] == 1111) print ("rowspan='2'") ?>
+						style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold"><?php echo strtoupper(substr($materia['materia'], 0, 3)) ?></td>
+					<?php
 				}
 				?>
-				<td style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold;<?php if (($materia['id_materia'] == 26 || $materia['id_materia'] == 30) && $esonerato == 1) echo "background-color: #DDDDDD" ?>"><span class="<?php if($val == 'Insuff') print("attention") ?>"><?php echo $val ?></span></td>
-				<?php
-			}
-			$idx++;
-			echo "</tr>";
+			</tr>
+			</thead>
+			<tbody>
+			<?php
+			$idx = 1;
+			foreach ($alunni as $al){
+			$esonerato = 0;
+			if (in_array($al['id_alunno'], $esonerati)) {
+				$esonerato = 1;
 			}
 			?>
-		</tbody>
-		<tfoot>
-		<tr>
-			<td colspan="<?php echo $num_colonne ?>" style="height: 15px"></td>
-		</tr>
-		</tfoot>
-	</table>
+			<tr style="border-bottom: 1px solid #CCC">
+				<td style="width: <?php print $first_column_width ?>%; padding-left: 8px; font-weight:normal;">
+					<?php if ($idx < 10) print "&nbsp;&nbsp;"; ?><?php echo $idx . ". " ?>
+					<span><?php print $al['cognome'] . " " . $al['nome'] ?>
+						(<?php echo count($al['ins']) . " su " . count($materie) ?>)</span>
+				</td>
+				<?php
+				reset($materie);
+				foreach ($materie as $idm => $materia) {
+					$val = "Suff";
+					if (in_array($idm, $al['ins'])) {
+						$val = "Insuff";
+					}
+					?>
+					<td style="width: <?php echo $column_width ?>%; text-align: center; font-weight: bold;<?php if (($materia['id_materia'] == 26 || $materia['id_materia'] == 30) && $esonerato == 1) echo "background-color: #DDDDDD" ?>">
+						<span class="<?php if ($val == 'Insuff') print("attention") ?>"><?php echo $val ?></span></td>
+					<?php
+				}
+				$idx++;
+				echo "</tr>";
+				}
+				?>
+			</tbody>
+			<tfoot>
+			<tr>
+				<td colspan="<?php echo $num_colonne ?>" style="height: 15px"></td>
+			</tr>
+			</tfoot>
+		</table>
+		<?php
+	}
+	?>
 </div>
 <?php include "../footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">
