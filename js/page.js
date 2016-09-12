@@ -262,17 +262,11 @@ var select_level = function(path, page, level){
 };
 
 var load_jalert = function(){
-    var resp_confirm = false;
-
-    $('#okbutton').on('click', function (event) {
-        event.preventDefault();
-        resp_confirm = true;
-        $('#confirm').hide();
-    });
-
     $('#nobutton').on('click', function (event) {
         event.preventDefault();
-        resp_confirm = false;
+        $('#overlay').fadeOut(100);
+        $('#confirm').fadeOut(300);
+        return false;
     })
 };
 
@@ -319,11 +313,14 @@ var j_alert = function(type, msg){
         }, 2500);
     }
     else if (type == "confirm") {
-        $('#confirmmessage').html(msg).css({
+        $('#confirmmessage').html(msg).css({height: '50px'});
+        $('#confirm').css({
             top: mtop,
-            left: mleft
-        }).fadeIn(300);
+            left: mleft,
+            minHeight: '170px'
+        });
         $('#overlay').fadeIn(100);
+        $('#confirm').fadeIn(300);
     }
     else if (type == "working") {
         $('#alert .alert_title i').removeClass("fa-thumbs-up").addClass("fa-circle-o-notch fa-spin");

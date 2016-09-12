@@ -214,12 +214,12 @@ input.android:focus, select.android:focus, textarea.android:focus {
     color: #00BCD4 !important;
 }
 
-.alert_msg, .error_msg {
+.alert_msg, .error_msg, .confirm_msg {
     background-color: #FFFFFF;
     border: 1px solid #006064;
 }
 
-.alert_title {
+.alert_title, .confirm_title {
     border-bottom: 1px solid #0097A7;
     color: #006064;
 }
@@ -229,7 +229,7 @@ input.android:focus, select.android:focus, textarea.android:focus {
     border-bottom: 1px solid #00BCD4;
 }
 
-.alert_title span, .error_title span {
+.alert_title span, .error_title span, .confirm_title span {
     padding-left: 10px;
     font-size: 1em
 }

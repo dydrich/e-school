@@ -1541,6 +1541,10 @@ j_alert
     text-align: center;
 }
 
+.confirmbuttonscontainer a {
+    text-decoration: none;
+}
+
 .alert_button {
     width: 65px;
     height: 25px;
