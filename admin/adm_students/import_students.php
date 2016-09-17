@@ -83,13 +83,15 @@ foreach($rows as $row){
 		}
 	}
 	else if ($school_order == 2){
-		list($cognome, $nothing, $nome, $cf, $dataluogo, $boh, $cls) = explode(";", $row);
-		$annoc = substr($cls, 0, 1);
+		list($cognome, $nome, $cf, $data, $luogo, $cls) = explode(";", $row);
+		/*
+        $annoc = substr($cls, 0, 1);
 		$sezione = substr($cls, 1, 1);
 		$sel_id = "SELECT id_classe FROM rb_classi WHERE ordine_di_scuola = {$school_order} AND anno_corso = {$annoc} AND sezione = '{$sezione}' AND anno_scolastico = ".$_SESSION['__current_year__']->get_ID();
 		$id_classe = $db->executeCount($sel_id);
 		$data = format_date(substr($dataluogo, 0, 10), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
 		$luogo = substr($dataluogo, 11);
+		*/
 		$names = array();
 		$sel_usernames = "SELECT username FROM rb_alunni";
 		$res_usernames = $db->executeQuery($sel_usernames);
@@ -104,12 +106,12 @@ foreach($rows as $row){
 		$pwd = AccountManager::generatePassword();
 		$names[] = $username;
 		
-		$cognome = $db->real_escape_string($cognome);
-		$nome = $db->real_escape_string($nome);
-		$luogo = $db->real_escape_string($luogo);
+		$cognome = trim($db->real_escape_string($cognome));
+		$nome = trim($db->real_escape_string($nome));
+		$luogo = trim($db->real_escape_string($luogo));
 		
 		$insert = "INSERT INTO rb_alunni (username, password, cognome, nome, codice_fiscale, data_nascita, luogo_nascita, sesso, id_classe, attivo, accessi)
-				   VALUES ('{$username}', '{$pwd['e']}', '{$cognome}', '{$nome}', NULL, '{$data}', '{$luogo}', '$sex', $id_classe, '1', 0)";
+				   VALUES ('{$username}', '{$pwd['e']}', '{$cognome}', '{$nome}', '{$cf}', '{$data}', '{$luogo}', '$sex', $cls, '1', 0)";
 		try{
 			$uid = $db->executeUpdate($insert);
 			if (is_installed("messenger")) {
@@ -133,6 +135,6 @@ $response['ok'] = $ok;
 $response['tot'] = $tot;
 $response['ko'] = $ko;
 $response['log_path'] = $log_path;
-//echo "ok;{$ok};{$tot};{$ko};{$errs};{$log_path};tmp;";
+
 echo json_encode($response);
 exit;
