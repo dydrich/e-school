@@ -40,7 +40,7 @@
         <div class="confirmbuttonscontainer">
             <a href="#" id="nobutton">
                 <div class="alert_button material_dark_bg">
-                    <span>Cancella</span>
+                    <span>NO</span>
                 </div>
             </a>
         </div>

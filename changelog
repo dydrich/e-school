@@ -1,3 +1,173 @@
+4.8.277
+font awesome in widget orario (intranet teachers index)
+
+4.8.276
+aggiunta ata in check_permission
+
+4.8.275
+apertura area ata (issue #150)
+import_students.php (admin) aggiornato al 2016-17
+
+4.8.274
+j_confirm javascript function (importazione iniziale)
+j_alert in classe.php, classi.php (admin)
+
+4.8.273
+classi per app mobile
+classi per conversione voti (creazione iniziale)
+
+4.8.272
+funzioni per app mobile (autenticazione e calendario)
+
+4.8.271
+separazione modulo messenger da communication
+
+4.8.270
+widget flow Formazione in home teachers
+
+4.8.269
+modifiche grafiche per secondo widget flow in home teachers
+
+4.8.268
+modifiche grafiche per:
+modulo communication
+modulo albo-pretorio
+j_confirm
+
+4.8.267
+bug fix per cambio pagina nel ciclo di stampa in PlanningBookPDF
+
+4.8.266
+bug fix in ReportManager
+
+4.8.265
+risolto bug che non controllava l'ordine di scuola nel verificare lo stato degli scrutini in teachers
+
+4.8.264
+risolto il bug relativo alla visualizzazione delle note didattiche per alunni e genitori
+
+4.8.263
+visualizzazione note delle attivita' per genitori e alunni
+
+4.8.262
+bug fix (issue #139)
+
+4.8.261
+eliminazione amministrazione moduli
+
+4.8
+utf8 fix
+
+4.7.260
+bug fix
+
+4.7.259
+bug fix (voti privati mostrati ai genitori) in StudentActivityReport
+
+4.7.258
+bug fix in genitori/pagella.php
+
+4.7.257
+fix utf8 in notes.html.php
+
+4.7.256
+(documents) recupero progressivi non utilizzati (per cancellazione o errore) in AlboDocument
+
+4.7
+(albo-pretorio) porting grafica albo
+
+4.6.255
+(documents) gestione download reports in android, che sembra non supportare il delete on download
+(documents) bug fix in print_summary.php
+
+4.6.254
+bug fix in manager/cerca_pagella.php
+
+4.6.253
+pulizia codice
+
+4.6.252
+pulizia codice (lib)
+
+4.6.251
+flexbox in index
+
+4.6.250
+bug fix in general.css
+
+4.6.249
+bug fix in documents
+
+4.6.248
+scroll infinito in communication
+eliminazione voci di Eventi e news da communication per area genitori
+
+4.6.247
+bug fix
+
+4.6.246
+aggiornamento last_access per genitori
+
+4.6.245
+bug fix in pagella.php (area genitori)
+
+4.6.244
+!important in disabled_link (general.css)
+
+4.6.243
+issue #133: gestione rappresentanti di classe
+
+4.6.242
+bug #134: mancato aggiornamneto rb_scrutini in changeClass
+
+4.6.241
+pulizia codice admin/cdc.php
+
+4.6.240
+pulizia codice di admin/index.php
+
+4.6.239
+modificato l'ordine in schedule.php (admin) per dividere le classi per ordine
+
+4.6.238
+risolto un serio bug (bug #131) che causava la cancellazione dei dati di scrutinio del quadrimestre selezionato per gli ordini di scuola diversi
+da quello selezionato. L'errore era il mancato controllo dell'ordine di scuola nel codice di controllo dati contenuto in assignment.php.
+Modificata anche la gestione dei dati:
+- eliminata la funzione javascript (ajax) in index.php per la creazione dei dati in archivio
+- inserita in EndOfYearEvaluation una funzione fix, che completa i dati senza modificare quelli presenti in archivio
+
+4.6.237
+bug fix in scrutini.php (posizione pulsanti)
+
+4.6.236
+menu di scorrimento in scheda alunno (issue #130)
+
+4.6.235
+impedita modifica orario alunno assente (bug #129)
+
+4.6.234
+sistema di prenotazione aule speciali (issue #127)
+
+4.6.233
+gestione aule speciali (issue #128)
+
+4.6
+gestione schede di segnalazione insufficienze ("pagellino")
+issue #125
+issue #123
+
+4.5.232
+storico pagellini genitore (issue #124)
+
+4.5.231
+gestione tipo file in upload (documents: issue #11)
+
+4.5.230
+bug fix
+
+4.5.229
+apertura funzione sudo (scegli_utente.php) agli amministratori di livello scolare (per ordine di scuola)
+
 4.5.228
 gestione pagellini (issue #116)
 

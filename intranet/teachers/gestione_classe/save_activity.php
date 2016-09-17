@@ -35,7 +35,7 @@ if($_POST['id_act'] == 0){
 else{
 	if($_POST['del'] == 1){
 		$query = "DELETE FROM rb_impegni WHERE id_impegno = ".$_POST['id_act'];
-		$response['message'] = "L'attività e' stata cancellata";
+		$response['message'] = "L'attività è stata cancellata";
 	}
 	else{
 		$query = "UPDATE rb_impegni SET data_inizio = '$data_inizio', data_fine = '$data_fine', docente = $doc, classe = $classe, anno = $anno, materia = $materia, descrizione = '$descrizione', note = '$note' WHERE id_impegno = ".$_POST['id_act'];

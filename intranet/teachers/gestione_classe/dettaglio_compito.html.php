@@ -15,11 +15,7 @@
 	<script type="text/javascript" src="../../../js/page.js"></script>
 	<script type="text/javascript">
 		var save_homework = function(){
-			//alert($('myform').serialize());
-			if(document.forms[0].del.value == 1){
-				if(!confirm("Sei sicuro di voler cancellare questo compito?"))
-					return false;
-			}
+			$('#confirm').fadeOut(100);
 			$.ajax({
 				type: "POST",
 				url: "save_homework.php",
@@ -66,6 +62,11 @@
 			$('#del_button').click(function(event){
 				event.preventDefault();
 				document.forms[0].del.value = 1;
+				//save_homework();
+				j_alert("confirm", "Eliminare il compito?");
+			});
+			$('#okbutton').on('click', function (event) {
+				event.preventDefault();
 				save_homework();
 			});
 		});
