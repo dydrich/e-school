@@ -281,6 +281,9 @@ function check_permission($admitted, $window = MAIN_WINDOW){
 			case "teachers":
 				$basepath = $_SESSION['__path_to_root__']."intranet/teachers/";
 				break;
+            case "ata":
+                $basepath = $_SESSION['__path_to_root__']."intranet/ata/";
+                break;
 		}
 		switch($window){
     		case POPUP_WINDOW:

@@ -72,7 +72,10 @@
 </div>
 <div id="left_col">
 	<div class="welcome" style="padding-top: 0">
-		<p id="s_head"><?php echo $label ?></p>
+		<p id="s_head" style="margin-bottom: 0; background-image: none">
+			<i class="fa fa-calendar" style="position: relative; left: -30px; font-size: 1.4em"></i>
+			<span style="position: relative; left: -20px"><?php echo $label ?></span>
+		</p>
 		<?php
 		if(!$free_day){
 			for($x = 1; $x < 6; $x++){

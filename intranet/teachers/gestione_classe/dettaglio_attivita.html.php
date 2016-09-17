@@ -15,11 +15,7 @@
 	<script type="text/javascript" src="../../../js/page.js"></script>
 	<script type="text/javascript">
 		var save_activity = function(){
-			//alert($('myform').serialize());
-			if(document.forms[0].del.value == 1){
-				if(!confirm("Sei sicuro di voler cancellare questa attività?"))
-					return false;
-			}
+			$('#confirm').fadeOut(100);
 			$.ajax({
 				type: "POST",
 				url: "save_activity.php",
@@ -43,7 +39,7 @@
 					}
 					else {
 						j_alert('alert', json.message);
-						//document.location.href = "elenco_attivita.php";
+						document.location.href = "elenco_attivita.php";
 					}
 				}
 			});
@@ -56,11 +52,6 @@
 			setOverlayEvent();
 			$('#save_button').click(function(event){
 				event.preventDefault();
-				save_activity();
-			});
-			$('#del_button').click(function(event){
-				event.preventDefault();
-				document.forms[0].del.value = 1;
 				save_activity();
 			});
 			$('#sel3').datepicker({
@@ -76,6 +67,16 @@
 			$('#ora_fine').timepicker({
 				hour: 8,
 				minute: 0
+			});
+			$('#del_button').click(function(event){
+				event.preventDefault();
+				document.forms[0].del.value = 1;
+				//save_homework();
+				j_alert("confirm", "Eliminare l'attività?");
+			});
+			$('#okbutton').on('click', function (event) {
+				event.preventDefault();
+				save_activity();
 			});
 		});
 
