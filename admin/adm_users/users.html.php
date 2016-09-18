@@ -12,16 +12,15 @@
 	<script type="text/javascript" src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
 	<script type="text/javascript">
-
-		var del_user = function(id){
-			if(!confirm("Sei sicuro di voler cancellare questo utente?"))
-		        return false;
+		var user_to_del = 0;
+		var del_user = function(){
+            $('#confirm').fadeOut(10);
 			var url = "users_manager.php";
 
 			$.ajax({
 				type: "POST",
 				url: url,
-				data: {action: 2, _i: id},
+				data: {action: 2, _i: user_to_del},
 				dataType: 'json',
 				error: function() {
 					j_alert("error", "Errore di trasmissione dei dati");
@@ -41,7 +40,7 @@
 					}
 					else {
 						j_alert("alert", json.message);
-						$('#row_'+id).hide();
+						$('#row_'+user_to_del).hide();
 					}
 				}
 			});
@@ -85,7 +84,9 @@
 			$('a.del_link').click(function(event){
 				event.preventDefault();
 				var strs = this.parentNode.id.split("_");
-				del_user(strs[1]);
+				user_to_del = strs[1];
+				j_alert("confirm", "Eliminare l'utente?");
+				//del_user(strs[1]);
 			});
 			$('#go_link').click(function(event){
 				event.preventDefault();
@@ -115,6 +116,11 @@
 					$('#top_btn').fadeOut('slow');
 				}
 			});
+
+            $('#okbutton').on('click', function (event) {
+                event.preventDefault();
+                del_user();
+            });
 		});
 
 	</script>
