@@ -300,3 +300,12 @@ input.android:focus, select.android:focus, textarea.android:focus {
     padding-left: 10px;
     font-size: 1em
 }
+
+.material_dark_bg {
+    background-color: #1a237e;
+}
+
+.material_light_bg {
+    background-color: #7986cb;
+    color: #ffffff;
+}

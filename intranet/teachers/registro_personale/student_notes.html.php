@@ -222,10 +222,8 @@
 		var del_note = function(){
 			count_notes--;
 			note_id = $('#id_nota').val();
-			if(!confirm("Cancellare la nota?")) {
-				$('#pop_note').dialog("close");
-				return false;
-			}
+            $('#pop_note').dialog("close");
+            $('#confirm').fadeOut(100);
 			var url = "note_manager.php";
 			$.ajax({
 				type: "POST",
@@ -253,6 +251,7 @@
 						}
 					}
 					$('#pop_note').dialog("close");
+                    $('#overlay').hide();
 				}
 			});
 		};
@@ -290,7 +289,7 @@
 			});
 			$('#del_button').click(function(event){
 				event.preventDefault();
-				del_note();
+				j_alert("confirm", "Eliminare la nota?");
 			});
 
 			$('#overlay').click(function(event) {
@@ -302,6 +301,10 @@
 			$('#showsub').click(function(event){
 				var off = $(this).parent().offset();
 				show_subdrawer(event, off);
+			});
+			$('#okbutton').on('click', function (event) {
+				event.preventDefault();
+				del_note();
 			});
 		});
 
