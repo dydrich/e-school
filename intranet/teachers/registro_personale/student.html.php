@@ -108,9 +108,7 @@
 		};
 
 		var del_mark = function(){
-			if(!confirm("Sei sicuro di voler cancellare questo voto?")){
-				return false;
-			}
+            $('#confirm').fadeOut(100);
 			id_voto = grade_id;
 			action = "delete";
 			$.ajax({
@@ -150,6 +148,7 @@
 							$('#mark').dialog("close");
 						}
 					}
+					$('#overlay').hide();
 				}
 			});
 		};
@@ -496,8 +495,12 @@
 			});
 			$('#del_button').click(function(event){
 				event.preventDefault();
-				del_mark();
+				j_alert("confirm", "Eliminare il voto?");
 			});
+            $('#del_lnk').click(function(event){
+                event.preventDefault();
+                j_alert("confirm", "Eliminare il voto?");
+            });
 			$('#weighted_avg').click(function(event){
 				event.preventDefault();
 				avg();
@@ -511,6 +514,10 @@
 			$('#showsub').click(function(event){
 				var off = $(this).parent().offset();
 				_show(event, off);
+			});
+			$('#okbutton').on('click', function (event) {
+				event.preventDefault();
+				del_mark();
 			});
 		});
 
@@ -702,7 +709,7 @@ else{
 <!-- menu contestuale -->
 <div id="context_menu" style="position: absolute; width: 170px; height: 60px; display: none">
     <a style="font-weight: normal" href="#" onclick="modifica_voto()">Modifica il voto</a><br />
-	<a style="font-weight: normal" href="#" onclick="del_mark()">Elimina il voto</a><br />
+	<a style="font-weight: normal" href="#" id="del_lnk">Elimina il voto</a><br />
 	<?php
 	if (isset($_SESSION['__user_config__']['registro_obiettivi'][0]) && 1 == $_SESSION['__user_config__']['registro_obiettivi'][0]): ?>
     <a style="font-weight: normal" href="#" onclick="obiettivi()">Gestisci obiettivi</a><br />
