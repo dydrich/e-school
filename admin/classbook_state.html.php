@@ -230,8 +230,6 @@
 			});
 			$('#menu_cls').mouseleave(function(event){
 				event.preventDefault();
-		        $('#menu_cls').hide();
-				$('#list_div').hide();
 				$('#tr'+selected_class.id).removeClass("accent_decoration");
 		    });
 
