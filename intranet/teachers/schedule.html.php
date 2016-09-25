@@ -49,7 +49,6 @@
 		};
 
 		var mod_ora = function(giorno, ora, classe, materia, descrizione){
-			alert(materia);
 			if (readonly) {
 				j_alert("error", "Non hai i permessi per modificare l'orario");
 				return false;
@@ -110,7 +109,6 @@
 				act = 1;
 			}
 			desc = $('#desc').val();
-			alert(subject);
 
 			$.ajax({
 				type: "POST",
