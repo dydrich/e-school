@@ -4,7 +4,7 @@
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<title>Gestione record registro di classe</title>
 	<link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
-	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../css/general.css" type="text/css" />
 	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
 	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
@@ -230,8 +230,6 @@
 			});
 			$('#menu_cls').mouseleave(function(event){
 				event.preventDefault();
-		        $('#menu_cls').hide();
-				$('#list_div').hide();
 				$('#tr'+selected_class.id).removeClass("accent_decoration");
 		    });
 
@@ -351,7 +349,7 @@
 		<div class="drawer_link separator"><a href="../shared/no_js.php" id="day_insert" class="day_link" style="padding-left: 10px;"><img src="../images/70.png" style="margin-right: 10px; position: relative; top: 5%" />Inserisci un giorno</a></div>
 		<div class="drawer_link"><a href="../index.php"><img src="../images/6.png" style="margin-right: 10px; position: relative; top: 5%" />Home</a></div>
 		<div class="drawer_link"><a href="index.php"><img src="../images/31.png" style="margin-right: 10px; position: relative; top: 5%" />Admin</a></div>
-		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><img src="../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
+		<div class="drawer_link"><a href="https://www.istitutoiglesiasserraperdosa.gov.it"><img src="../images/78.png" style="margin-right: 10px; position: relative; top: 5%" />Home Page Nivola</a></div>
 	</div>
 	<div class="drawer_lastlink"><a href="../shared/do_logout.php"><img src="../images/51.png" style="margin-right: 10px; position: relative; top: 5%" />Logout</a></div>
 </div>
