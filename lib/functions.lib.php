@@ -410,7 +410,7 @@ function minutes2hours($time_from, $zero_string){
 @Copyright:             
 @Created at:            
 @Last Modified Time:    31 mag 2011
-@source:				http://www.senamion.it/2006/05/30/c-troncare-una-stringa-senza-tagliare-una-parola/
+@source:				https://www.senamion.it/2006/05/30/c-troncare-una-stringa-senza-tagliare-una-parola/
 
 @DESC:      restituisce una stringa troncandola ad un numero max di caratteri, aggiungendo se necessario dei caratteri di "continua"
 @param:     $txt - la stringa da formattare
@@ -559,7 +559,7 @@ function formatBytes($bytes, $precision = 2) {
 /**
 
 fix_magic_quotes
-http://www.nyphp.org/phundamentals/5_Storing-Data-Submitted-Form-Displaying-Database
+https://www.nyphp.org/phundamentals/5_Storing-Data-Submitted-Form-Displaying-Database
 
 *****************************************************************************************/
 function fix_magic_quotes ($var = NULL, $sybase = NULL)

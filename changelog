@@ -1,3 +1,22 @@
+4.8.283
+aggiunte le attivita (tipo impegno = 2) ai dati trattati da Calendar
+
+4.8.282
+bug fix
+
+4.8.281
+j_alert(confirm) nei reg_classe.css
+porting completo del registro personale
+
+4.8.280
+font awesome in manager/index
+
+4.8.279
+j_alert(confirm) in admin/adm_users/users.php
+
+4.8.278
+j_alert(confirm) inserito nei footer
+
 4.8.277
 font awesome in widget orario (intranet teachers index)
 

@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<title>Attivazione del software</title>
-	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../css/general.css" type="text/css" />
 	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" />
@@ -337,7 +337,7 @@
 	<div style="width: 100%; height: 430px">
 		<div class="drawer_link"><a href="../index.php" class=""><i class="fa fa-home _right material_label" style="font-size: 1.15em; margin-right: 10px; position: relative; top: 2%; width: 20px"></i>Home</a></div>
 		<div class="drawer_link"><a href="index.php"><i class="fa fa-keyboard-o" style="font-size: 1.15em; margin-right: 10px; position: relative; top: 2%; width: 20px"></i>Admin</a></div>
-		<div class="drawer_link"><a href="http://www.istitutoiglesiasserraperdosa.it"><i class="fa fa-university" style="font-size: 1.15em; margin-right: 10px; position: relative; top: 2%; width: 20px"></i>Home Page Nivola</a></div>
+		<div class="drawer_link"><a href="https://www.istitutoiglesiasserraperdosa.gov.it"><i class="fa fa-university" style="font-size: 1.15em; margin-right: 10px; position: relative; top: 2%; width: 20px"></i>Home Page Nivola</a></div>
 	</div>
 	<div class="drawer_lastlink"><a href="../shared/do_logout.php"><i class="fa fa-desktop" style="font-size: 1.15em; margin-right: 10px; position: relative; top: 2%; width: 20px"></i>Logout</a></div>
 </div>
