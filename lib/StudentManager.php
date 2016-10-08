@@ -159,9 +159,11 @@ class StudentManager
 		$quadrimestre = date("Y-m-d") > $fq ? 2 : 1;
 		$alunno = $this->student->getUid();
 		$subjects = $this->getSubjects($id_anno, $quadrimestre, $id_classe);
-		foreach($subjects as $subject){
-			$this->datasource->executeUpdate("INSERT INTO rb_scrutini (alunno, classe, anno, quadrimestre, materia) VALUES ({$alunno}, {$id_classe}, {$id_anno}, 1, {$subject})");
-			$this->datasource->executeUpdate("INSERT INTO rb_scrutini (alunno, classe, anno, quadrimestre, materia) VALUES ({$alunno}, {$id_classe}, {$id_anno}, 2, {$subject})");
+		if ($subjects && count($subjects) > 0) {
+			foreach($subjects as $subject){
+				$this->datasource->executeUpdate("INSERT INTO rb_scrutini (alunno, classe, anno, quadrimestre, materia) VALUES ({$alunno}, {$id_classe}, {$id_anno}, 1, {$subject})");
+				$this->datasource->executeUpdate("INSERT INTO rb_scrutini (alunno, classe, anno, quadrimestre, materia) VALUES ({$alunno}, {$id_classe}, {$id_anno}, 2, {$subject})");
+			}
 		}
 		/* report data */
 		$desc_class = $this->datasource->executeCount("SELECT CONCAT(anno_corso, sezione) FROM rb_classi WHERE id_classe = {$id_classe}");
