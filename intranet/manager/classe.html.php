@@ -147,6 +147,16 @@
 		</div>
 		<?php
 	}
+	else if ($_REQUEST['show'] == 'cdc') {
+		?>
+		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: 10px; " class="rb_button">
+			<a href="pdf_cdc.php?id=<?php echo $cls ?>" id="pdf_cdc">
+				<i class="fa fa-file-pdf-o _center" style="font-size: 2.1em; margin: 6px 0 0 8px; color: black"></i>
+			</a>
+		</div>
+
+		<?php
+	}
 	?>
    	<table style="width: 95%; margin: 20px auto 0 auto">
    		<tbody>
