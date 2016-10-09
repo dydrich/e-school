@@ -33,6 +33,7 @@
 			Ti trovi nell'area riservata al personale ATA.
 	 	</p>	
 	</div>
+	<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_notices.php'; ?>
 	<?php if(is_installed("messenger")) include $_SESSION['__path_to_root__'].'modules/messenger/w_msg.php'; ?>
 	<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_news.php'; ?>
 	<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_events.php'; ?>
