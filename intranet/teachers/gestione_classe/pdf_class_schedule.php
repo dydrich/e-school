@@ -2,6 +2,7 @@
 
 require_once "../../../lib/start.php";
 require_once "../../../lib/SchoolPDF.php";
+require_once "../../../lib/LessonHour.php";
 
 ini_set("display_errors", DISPLAY_ERRORS);
 
@@ -19,7 +20,15 @@ $sel_orario = "SELECT * FROM rb_orario WHERE classe = ".$_SESSION['__classe__']-
 //print $sel_orario;
 $res_orario = $db->execute($sel_orario);
 while($ora = $res_orario->fetch_assoc()){
-	$a = new OraDiLezione($ora);
+	$a = new \eschool\LessonHour($ora, new MySQLDataLoader($db));
+	$res_sost = $db->executeQuery("SELECT id_docente FROM rb_orario_sostegno WHERE id_ora = ".$a->getID());
+	$sost = array();
+	if ($res_sost->num_rows > 0) {
+		while ($row = $res_sost->fetch_assoc()) {
+			$sost[] = $row['id_docente'];
+		}
+	}
+	$a->setSostegno($sost);
 	$orario_classe->addHour($a);
 	//print $a->getClasse();
 }
@@ -87,11 +96,13 @@ class MYPDF extends SchoolPDF {
         $fill = 0;
         for($i = 0; $i < $this->ore; $i++){
         	reset($materie);
-        	
+        	$t1 = $orario_classe->searchHour(1, $i+1, $classe);
+			$t2 = $orario_classe->searchHour(2, $i+1, $classe);
+			$t3 = $orario_classe->searchHour(3, $i+1, $classe);
         	$this->Cell($w[0], 6, $this->inizio_ore[$i + 1], 'LR', 0, 'C', $fill);
-            $this->Cell($w[1], 6, ($materie[$orario_classe->getMateria($classe, "1", $i+1)][0] != "Scegli") ? $materie[$orario_classe->getMateria($classe, "1", $i+1)][0] : "--", 'LR', 0, 'C', $fill);
-            $this->Cell($w[2], 6, ($materie[$orario_classe->getMateria($classe, "2", $i+1)][0] != "Scegli") ? $materie[$orario_classe->getMateria($classe, "2", $i+1)][0] : "--", 'LR', 0, 'C', $fill);
-            $this->Cell($w[3], 6, ($materie[$orario_classe->getMateria($classe, "3", $i+1)][0] != "Scegli") ? $materie[$orario_classe->getMateria($classe, "3", $i+1)][0] : "--", 'LR', 0, 'C', $fill);
+            $this->Cell($w[1], 6, $t1->toString(), 'LR', 0, 'C', $fill);
+            $this->Cell($w[2], 6, $t2->toString(), 'LR', 0, 'C', $fill);
+            $this->Cell($w[3], 6, $t3->toString(), 'LR', 0, 'C', $fill);
             $this->Ln();
             $fill=!$fill;
         }
@@ -120,10 +131,13 @@ class MYPDF extends SchoolPDF {
         $fill = 0;
     	for($i = 0; $i < $this->ore; $i++){
         	reset($materie);
+			$t1 = $orario_classe->searchHour(1, $i+1, $classe);
+			$t2 = $orario_classe->searchHour(2, $i+1, $classe);
+			$t3 = $orario_classe->searchHour(3, $i+1, $classe);
         	$this->Cell($w[0], 6, $this->inizio_ore[$i + 1], 'LR', 0, 'C', $fill);
-            $this->Cell($w[1], 6, ($materie[$orario_classe->getMateria($classe, "4", $i+1)][0] != "Scegli") ? $materie[$orario_classe->getMateria($classe, "4", $i+1)][0] : "--", 'LR', 0, 'C', $fill);
-            $this->Cell($w[2], 6, ($materie[$orario_classe->getMateria($classe, "5", $i+1)][0] != "Scegli") ? $materie[$orario_classe->getMateria($classe, "5", $i+1)][0] : "--", 'LR', 0, 'C', $fill);
-            $this->Cell($w[3], 6, ($materie[$orario_classe->getMateria($classe, "6", $i+1)][0] != "Scegli") ? $materie[$orario_classe->getMateria($classe, "6", $i+1)][0] : "--", 'LR', 0, 'C', $fill);
+            $this->Cell($w[1], 6, $t1->toString(), 'LR', 0, 'C', $fill);
+            $this->Cell($w[2], 6, $t2->toString(), 'LR', 0, 'C', $fill);
+            $this->Cell($w[3], 6, $t3->toString(), 'LR', 0, 'C', $fill);
             $this->Ln();
             $fill=!$fill;
         }
@@ -181,5 +195,3 @@ $pdf->ColoredTable($header, $orario_classe, $materie, $classe, $_SESSION['__clas
 
 //Close and output PDF document
 $pdf->Output('orario.pdf', 'D');
-
-?>

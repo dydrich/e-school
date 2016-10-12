@@ -17,6 +17,25 @@ $response = array("status" => "ok", "message" => "");
 header("Content-type: application/json");
 
 $teacher = $_SESSION['__user__']->getUid();
+
+if (isset($_REQUEST['sost']) && $_REQUEST['sost'] == 'sost') {
+	// modifica orario sostegno
+	$id_ora = $_REQUEST['ora'];
+	$del_q = "SELECT id FROM rb_orario_sostegno WHERE id_docente = $teacher AND id_ora = $id_ora";
+	$delete = $db->executeCount($del_q);
+	if ($delete != null && $delete) {
+		$db->executeUpdate("DELETE FROM rb_orario_sostegno WHERE id = $delete");
+		$response['action'] = 'delete';
+	}
+	else {
+		$db->executeUpdate("INSERT INTO rb_orario_sostegno (id_docente, id_ora) VALUES ($teacher, $id_ora)");
+		$response['action'] = 'insert';
+	}
+	$res = json_encode($response);
+	echo $res;
+	exit;
+}
+
 if(isset($_REQUEST['getID'])){
 	$ora = $_REQUEST['ora'];
 	$giorno = $_REQUEST['giorno'];

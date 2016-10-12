@@ -84,6 +84,37 @@ abstract class UserBean {
 		return $ret;
 	}
 
+	/**
+	 * print name's initials
+	 * @param number $order: the order of printing
+	 * @param number $dot: print a dot after every initial (@see ParentBean::getFullName)
+	 * @return string
+	 */
+	public function getInitials($order = 1, $dot = 0) {
+		$fn_init = $ln_init = "";
+		$fname = explode(" ", $this->firstName);
+		foreach ($fname as $item) {
+			$fn_init .= substr($item, 0, 1);
+			if ($dot) {
+				$fn_init .= ".";
+			}
+		}
+		$lname = explode(" ", $this->lastName);
+		foreach ($lname as $item) {
+			$ln_init .= substr($item, 0, 1);
+			if ($dot) {
+				$ln_init .= ".";
+			}
+		}
+		if ($dot) {
+			($order == 1) ? ($ret = $fn_init." ".$ln_init) : ($ret = $ln_init." ".$fn_init);
+		}
+		else {
+			($order == 1) ? ($ret = $fn_init.$ln_init) : ($ret = $ln_init.$fn_init);
+		}
+		return $ret;
+	}
+
 	public function getPerms(){
 		return $this->perms;
 	}
