@@ -114,6 +114,20 @@
 		<?php if(is_installed("com")){ ?>
 		<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=teachers"><img src="../../images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
 		<?php } ?>
+		<?php if ($_SESSION['__user__']->hasConnectedAccounts()) {
+			$acc = $_SESSION['__user__']->getConnectedAccounts();
+			foreach ($acc as $ca) {
+				$mat = $db->executeCount("SELECT rb_materie.materia FROM rb_materie, rb_docenti WHERE rb_docenti.materia = id_materia AND id_docente = $ca");
+				?>
+				<div class="drawer_link">
+					<a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=sudo&area=3&uid=<?php echo $ca ?>">
+						<img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%"/>
+						Cambia utente (<?php echo $mat ?>)</a>
+				</div>
+				<?php
+			}
+		}
+		?>
 	</div>
 	<?php if (isset($_SESSION['__sudoer__'])): ?>
 	<div class="drawer_lastlink"><a href="<?php echo $_SESSION['__path_to_root__'] ?>admin/sudo_manager.php?action=back"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />DeSuDo</a></div>

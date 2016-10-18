@@ -372,6 +372,11 @@ class SchoolUserBean extends UserBean{
 	 */
 	private $modules;
 
+	/*
+	 * connected accounts
+	 */
+	private $connectedAccounts;
+
 	public function setSubject($subject){
 		$this->subject = $subject;
 	}
@@ -453,6 +458,18 @@ class SchoolUserBean extends UserBean{
 	 */
 	public function getModules() {
 		return $this->modules;
+	}
+
+	public function getConnectedAccounts() {
+		return $this->connectedAccounts;
+	}
+
+	public function setConnectedAccounts($ca) {
+		$this->connectedAccounts = $ca;
+	}
+
+	public function hasConnectedAccounts() {
+		return count($this->connectedAccounts) > 0;
 	}
 
 }

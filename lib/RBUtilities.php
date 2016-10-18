@@ -300,6 +300,27 @@ final class RBUtilities{
 						}
 						$user->setModules($modules);
 					}
+
+					/**
+					 * check for connected accounts
+					 */
+					$_uid = $user->getUid();
+					$conn_acc = $this->datasource->executeQuery("SELECT id_base, id_collegato FROM rb_account_collegati WHERE id_base = {$_uid} OR id_collegato = {$_uid}");
+					$connected_accounts = [];
+					if ($conn_acc != null) {
+						foreach ($conn_acc as $item) {
+							if ($item['id_base'] != $_uid) {
+								$connected_accounts[] = $item['id_base'];
+							}
+							if ($item['id_collegato'] != $_uid) {
+								$connected_accounts[] = $item['id_collegato'];
+							}
+						}
+					}
+					if (count($connected_accounts) > 0) {
+						$user->setConnectedAccounts($connected_accounts);
+					}
+
 					if ($user == null) {
 						$user = $this->loadUserFromUid($uid, 'simple_school');
 					}

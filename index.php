@@ -23,5 +23,5 @@ if (isset($_SESSION['__user__'])) {
 	$col_length = 50 * (count($groups) + 2);
 }
 
-//include "index.html.php";
-include "manutention.php";
+include "index.html.php";
+//include "manutention.php";
