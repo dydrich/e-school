@@ -46,7 +46,7 @@
 				data:  {uid: uid, mat: mat, teacher: teacher},
 				dataType: 'json',
 				error: function() {
-					alert("Errore di trasmissione dei dati");
+					j_alert("error", "Errore di trasmissione dei dati");
 				},
 				succes: function() {
 
@@ -75,14 +75,14 @@
 
 		var visualizza = function(e, elem) {
 			<?php
-		    if($_SESSION['__classe__']->getSchoolOrder() == 1 && !$coordinatore){
+		    if($_SESSION['__classe__']->getSchoolOrder() == 1 && !$coordinatore && !$support_teacher){
 		    ?>
 		    //do_nothing();
 		    j_alert("error", "Modifica permessa solamente al coordinatore della classe");
 		    return false;
 		    <?php
 		    }
-		    else{
+		    else if ($coordinatore) {
 		    ?>
 			if ($('#hid').is(":visible")) {
 				$('#hid').slideUp(400);
@@ -95,7 +95,57 @@
 		    return true;
 		    <?php
 		    }
-		    ?>
+		    else if ($support_teacher) {
+			?>
+			add_support();
+			<?php
+			}
+			?>
+		};
+
+		var add_support = function () {
+			var uid = document.forms[0].id_ora.value;
+			var url = "../../../shared/upd_ora.php";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data:  {ora: uid, sost: 'sost'},
+				dataType: 'json',
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						j_alert("error", json.message);
+						console.log(json.dbg_message);
+					}
+					else {
+						$('#ora'+uid).fadeOut(400);
+						mat = $('#ora'+uid).text();
+						if (json.action == 'delete') {
+							setTimeout(function () {
+								if (mat.slice(-2) == "/S") {
+									mat = mat.substr(0, mat.length -2);
+								}
+								$('#ora' + uid).text(mat).css({'fontWeight': 'normal'}).fadeIn(400);
+							}, 400);
+						}
+						else {
+							setTimeout(function () {
+								$('#ora' + uid).text(mat+"/S").css({'fontWeight': 'bold'}).fadeIn(400);
+							}, 400);
+						}
+					}
+				}
+			});
 		};
 
 		var _show = function(e, off) {

@@ -64,8 +64,13 @@ while($mat = $res_materie->fetch_assoc()){
  * allora si va in sola visualizzazione 
  */
 $coordinatore = false;
-if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID()))
+$support_teacher = false;
+if($_SESSION['__user__']->isCoordinator($_SESSION['__classe__']->get_ID())) {
 	$coordinatore = true;
+}
+if ($_SESSION['__user__']->getSubject() == 27) {
+	$support_teacher = true;
+}
 
 $navigation_label = "gestione classe";
 $drawer_label = "Orario delle lezioni";

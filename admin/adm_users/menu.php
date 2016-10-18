@@ -4,6 +4,7 @@
 		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>index.php?tab=2">Home</a></li>
 		<?php if($_SESSION['__school_order__'] == 0): ?><li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>adm_users/users.php">Utenti</a></li><?php endif; ?>
 		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>adm_users/teachers.php?school_order=<?php echo $_SESSION['__school_order__'] ?>">Docenti</a></li>
+		<li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>adm_users/accounts_to_connect.php">Connetti accounts docente</a></li>
 		<?php if($_SESSION['__school_order__'] == 0): ?><li><a href="<?php echo $_SESSION['__path_to_mod_home__'] ?>new_pwd.php">Modifica password utente</a></li><?php endif; ?>
 	</ul>
 		<?php if((count($_SESSION['__school_level__']) > 1) && $_SESSION['__school_order__'] == 0){

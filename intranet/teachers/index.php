@@ -52,7 +52,27 @@ else{
 		$schedule = array();
 		//for($i = 0; $i < 6; $i++)
 		//	$schedule[$i] = array();
-		$sel_sched = "SELECT rb_orario.descrizione, rb_orario.ora, rb_classi.anno_corso AS cl, rb_classi.sezione AS sez, rb_materie.materia AS materia FROM rb_orario, rb_classi, rb_materie WHERE docente = ".$_SESSION['__user__']->getUid()." AND rb_orario.classe = rb_classi.id_classe AND rb_orario.materia = rb_materie.id_materia AND giorno = {$num_day} AND anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY ora ";
+		if ($_SESSION['__user__']->getSubject() != 27) {
+			$sel_sched = "SELECT rb_orario.descrizione, rb_orario.ora, rb_classi.anno_corso AS cl, rb_classi.sezione AS sez, rb_materie.materia AS materia 
+						  FROM rb_orario, rb_classi, rb_materie 
+						  WHERE docente = " . $_SESSION['__user__']->getUid() . " 
+						  AND rb_orario.classe = rb_classi.id_classe 
+						  AND rb_orario.materia = rb_materie.id_materia 
+						  AND giorno = {$num_day} 
+						  AND anno = " . $_SESSION['__current_year__']->get_ID() . " 
+						  ORDER BY ora ";
+		}
+		else {
+			$sel_sched = "SELECT rb_orario.descrizione, rb_orario.ora, rb_classi.anno_corso AS cl, rb_classi.sezione AS sez, rb_materie.materia AS materia 
+						  FROM rb_orario, rb_classi, rb_materie, rb_orario_sostegno
+						  WHERE rb_orario.classe = rb_classi.id_classe 
+						  AND rb_orario.materia = rb_materie.id_materia 
+						  AND giorno = {$num_day} 
+						  AND anno = " . $_SESSION['__current_year__']->get_ID() . " 
+						  AND rb_orario.id IN (SELECT id_ora FROM rb_orario_sostegno WHERE id_docente = " . $_SESSION['__user__']->getUid() . ")
+						  GROUP BY rb_orario.descrizione, rb_orario.ora, rb_classi.anno_corso, rb_classi.sezione, rb_materie.materia
+						  ORDER BY ora ";
+		}
 		$res_sched = $db->execute($sel_sched);
 		if($res_sched->num_rows == 0){
 			$free_day = true;
