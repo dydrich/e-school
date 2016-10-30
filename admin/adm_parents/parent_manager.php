@@ -129,7 +129,7 @@ switch($_REQUEST['action']) {
 		$uid = $_REQUEST['_i'];
 		$uname = $_REQUEST['email'];
 		$to = $_REQUEST['email'];
-		$from = "registro@istitutoiglesiasserraperdosa.it";
+		$from = "registro@istitutoiglesiasserraperdosa.gov.it";
 		$subject = "Registro elettronico {$_SESSION['__config__']['intestazione_scuola']}";
 		$headers = "From: {$from}\r\n" . "Reply-To: {$from}\r\n" . 'X-Mailer: PHP/' . phpversion();
 		$new_clear_passwd = AccountManager::generatePassword(8, 4);
