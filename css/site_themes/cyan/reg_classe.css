@@ -250,7 +250,7 @@ table.registro tr.riepilogo {
     top: -30px
 }
 
-#gotoday {
+#gotoday, #newweek {
     background-color: #0097A7;
     border-color: #0097A7;
     color: white;

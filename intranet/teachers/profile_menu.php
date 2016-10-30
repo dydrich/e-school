@@ -6,6 +6,9 @@
 		<?php if (27 != $_SESSION['__user__']->getSubject() && 41 != $_SESSION['__user__']->getSubject()): ?>
 		<li><a href="schedule.php" style="text-decoration: none">Orario lezioni</a></li>
 		<?php endif; ?>
+		<?php if (1 == $_SESSION['__user__']->getSchoolOrder()): ?>
+			<li><a href="colloqui.php" style="text-decoration: none">Colloqui quindicinali</a></li>
+		<?php endif; ?>
 	</ul>
 	<p class="menu_label schedule_icon">Didattica</p>
 	<ul class="menublock" style="" dir="rtl">

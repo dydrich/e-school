@@ -224,3 +224,10 @@ input.android:focus, select.android:focus, textarea.android:focus {
     background-color: #FFD740 !important;
     color: #000000;
 }
+
+#gotoday, #newweek {
+    background-color: #7b1fa2;
+    border-color: #7b1fa2;
+    color: white;
+    font-weight: bold;
+}

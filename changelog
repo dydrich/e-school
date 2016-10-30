@@ -1,3 +1,9 @@
+4.10.285
+function searchMultidimensionalArrayForValue($array, $val, $key)
+
+4.10
+gestione collegamento account docente (per gestire l'insegnamento di materie in diverse classi di concorso, ad esempio sostegno e materia curricolare)
+
 4.9.284
 sostegno nella gestione orario (issue #164 e #168)
 
