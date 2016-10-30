@@ -689,3 +689,21 @@ function getFileName() {
 	$last_pos = strrpos($_SERVER['PHP_SELF'], "/");
 	return substr($_SERVER['PHP_SELF'], $last_pos+1);
 }
+
+/**
+ * searchMultidimensionalArrayForValue
+ *
+ * @array array nel quale cercare
+ * @val valore da cercare
+ * @key chiave nella quale cercare il valore
+ * @return indice dell'array (-1 se non trovato)
+ *
+ */
+function searchMultidimensionalArrayForValue($array, $val, $key) {
+	foreach ($array as $k => $item) {
+		if($item[$key] == $val) {
+			return $k;
+		}
+	}
+	return -1;
+}
