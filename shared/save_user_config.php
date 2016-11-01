@@ -70,6 +70,12 @@ switch ($_POST['field']){
 		break;
 	case "data_colloqui":
 		$string = $_POST['day'].";".$_POST['hour'];
+		if(isset($_POST['mandatory'])) {
+			$string .= ";1;".$_POST['max'];
+		}
+		else {
+			$string .= ";0";
+		}
 		$check_exist = $db->executeCount("SELECT COUNT(*) FROM rb_parametri_utente WHERE id_utente = {$_SESSION['__user__']->getUid()} AND id_parametro = 4");
 		try {
 			if($check_exist){

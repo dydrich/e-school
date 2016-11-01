@@ -91,6 +91,24 @@
 						}
 						?>
 					</select>
+					<p>
+						<label for="mandatory">Prenotazione obbligatoria</label>
+						<input type="checkbox" value="1" id="mandatory" name="mandatory" <?php if(isset($data['mandatory']) && $data['mandatory'] == 1) echo "checked" ?> />
+					</p>
+					<p>
+						<label for="max">Numero max. di prenotazioni</label>
+						<select id="max" name="max">
+							<option value="0">.</option>
+							<option value="-1" <?php if(isset($data['max']) && $data['max'] == -1) echo "selected" ?>>Nessun limite</option>
+							<?php
+							for($i = 1; $i < 12; $i++) {
+								?>
+								<option value="<?php echo $i ?>" <?php if(isset($data['max']) && $data['max'] == $i) echo "selected" ?>><?php echo $i ?></option>
+								<?php
+							}
+							?>
+						</select>
+					</p>
 				</div>
 				<div>
 

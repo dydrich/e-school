@@ -24,7 +24,57 @@
 				var off = $(this).parent().offset();
 				_show(event, off);
 			});
+
+			$('.book').on('click', function(event) {
+				_date = $(this).data('date');
+				_teacher = $(this).data('teacher');
+				_reserved = $(this).data('reserved');
+				book_meeting(_date, _teacher, _reserved);
+			});
 		});
+
+		var book_meeting = function(date, teacher, reserved){
+			var url = "booking_manager.php";
+			if (reserved == 1) {
+				action = 'delete_booking';
+			}
+			else {
+				action = 'book';
+			}
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {action: action, date: date, teacher: teacher},
+				error: function() {
+					j_alert("error", "Errore di trasmissione dei dati");
+				},
+				succes: function() {
+
+				},
+				complete: function(data){
+					r = data.responseText;
+					if(r == "null"){
+						return false;
+					}
+					var json = $.parseJSON(r);
+					if (json.status == "kosql"){
+						sqlalert();
+						console.log(json.dbg_message);
+						return;
+					}
+					else if(json.status == "ko") {
+						j_alert("error", "Impossibile completare l'operazione richiesta. Riprovare tra qualche secondo o segnalare l'errore al webmaster");
+						return;
+					}
+					else {
+						j_alert("alert", json.message);
+						window.setTimeout(function(){
+							location.reload();
+						}, 2000);
+					}
+				}
+			});
+		};
 
 		var _show = function(e, off) {
 			if ($('#other_drawer').is(":visible")) {
@@ -51,11 +101,80 @@
 <div id="left_col">
 	<div class="card_container">
 	<?php 
-	foreach ($data as $a){
+	foreach ($data as $k => $a){
+		$meetings = $meetings_manager->getNextTeacherMeetings($k, 2);
+		$label = "prenotazione non necessaria";
+		$mandatory = 0;
+		/*
+		 * prenotazioni esistenti
+		 */
+		$res = $db->executeQuery("SELECT data FROM rb_prenotazioni_colloqui WHERE genitore = ".$_SESSION['__user__']->getUid()." AND docente = $k");
+		$reservations = [];
+		while($row = $res->fetch_assoc()) {
+			$reservations[] = $row['data'];
+		}
+
+		if ($meetings['settings']['mandatory'] == 1) {
+			$label = "prenotazione obbligatoria: clicca sulla data per prenotare";
+			$mandatory = 1;
+		}
 	?>
-	<div class="card_row normal">
-		<span class="normal"><?php echo $a['nome'] ?></span>
-		<div style="float: right; width: 60%; margin-right: 10px" class="main_700"><?php echo implode(", ", $a['sec_f']) ?></div>
+	<div class="card">
+		<div class="card_title">
+			<?php echo $a['nome'] ?>
+			<div style="float: right; width: 50%; margin-right: 10px" class="main_700">
+				<?php echo implode(", ", $a['sec_f']) ?>
+			</div>
+		</div>
+		<div class="card_varcontent">
+			<span class="">Prossimi colloqui (<?php echo $label ?>)</span>
+			<?php
+			if ($meetings['meetings'] == null) {
+				echo "<p>Non registrati</p>";
+			}
+			else {
+				foreach ($meetings['meetings'] as $meeting) {
+					/*
+					 * dati orario classe
+					 */
+					$d = date("w", strtotime($meeting['data']));
+					$day = $schedule_module->getDay($d);
+					$starts = $day->getLessonsStartTime();
+					$start = $starts[$meetings['settings']['hour']];
+					if ($meetings['settings']['hour'] == 3) {
+						$start->add(600);
+					}
+
+					/*
+					 * verifica prenotazione effettuata
+					 */
+					$search_str = $meeting['data']." ".$start->toString(RBTime::$RBTIME_LONG);
+					$reserved = 0;
+					$reserved_label = '';
+					if (is_array($reservations) && in_array($search_str, $reservations)) {
+						$reserved = 1;
+						$reserved_label = " (prenotazione effettuata: clicca per cancellare)";
+					}
+
+					$giorno_str = strftime("%A %d %B", strtotime($meeting['data']));
+					if ($mandatory) {
+					?>
+						<p style="margin: 5px 0 0 0">
+							<a href="#" class="book normal" data-reserved="<?php echo $reserved ?>" data-teacher="<?php echo $k ?>" data-date="<?php echo $meeting['data']." ".$start->toString(RBTime::$RBTIME_LONG) ?>" style="margin: 5px 0 0 0">
+								<?php echo $giorno_str.", ore ".$start->toString().$reserved_label ?>
+							</a>
+						</p>
+					<?php
+					}
+					else {
+					?>
+						<p style="margin: 5px 0 0 0"><?php echo $giorno_str ?></p>
+					<?php
+					}
+				}
+			}
+			?>
+		</div>
 	</div>
 	<?php 
 	}

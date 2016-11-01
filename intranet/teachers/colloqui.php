@@ -25,6 +25,11 @@ try {
 		$r = explode(";", $res_data);
 		$data['day'] = $r[0];
 		$data['hour'] = $r[1];
+		$data['mandatory'] = $r[2];
+		$data['max'] = 0;
+		if ($r[2] == 1 && isset($r[3])) {
+			$data['max'] = $r[3];
+		}
 	}
 } catch (MySQLException $ex){
 	//$ex->redirect();
