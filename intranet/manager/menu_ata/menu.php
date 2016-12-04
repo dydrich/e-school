@@ -5,6 +5,7 @@
 	?>
 	<ul class="menublock" style="" dir="rtl">
 		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>elenco_docenti.php">Docenti</a></li>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>gestione_incarichi.php">Incarichi</a></li>
 		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>supplenze.php">Supplenze</a></li>
 		<li><a href="../../admin/adm_students/alunni.php?area_from=SEG">Alunni</a></li>
 		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>sostegno.php">Sostegno</a></li>
