@@ -137,7 +137,7 @@ div.mdselected_tab a > span {
 }
 
 .conf_frame {
-    border: 1px solid #00796B;
+    border: 1px solid #4db6ac;
 }
 
 .accent_button a, a.material_link, .material_label {
@@ -207,6 +207,10 @@ input.android:focus, select.android:focus, textarea.android:focus {
     color: #009688 !important;
 }
 
+.main_300 {
+    color: #4db6ac;
+}
+
 .alert_msg, .error_msg, .confirm_msg {
     background-color: #FFFFFF;
     border: 1px solid #00796B;
@@ -248,4 +252,11 @@ input.android:focus, select.android:focus, textarea.android:focus {
 .float_button:hover {
     background-color: #18FFFF !important;
     color: #000000;
+}
+
+#gotoday, #newweek {
+    background-color: #00796B;
+    border-color: #00796B;
+    color: white;
+    font-weight: bold;
 }

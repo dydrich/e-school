@@ -5,6 +5,7 @@
 	?>
 	<ul class="menublock" style="" dir="rtl">
 		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>elenco_docenti.php">Docenti</a></li>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>gestione_incarichi.php">Incarichi</a></li>
 		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>supplenze.php">Supplenze</a></li>
 		<li><a href="../../admin/adm_students/alunni.php?area_from=SEG">Alunni</a></li>
 		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>sostegno.php">Sostegno</a></li>
@@ -12,6 +13,9 @@
 		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>pagelle.php">Pagelle online</a></li>
 		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>gestione_scrutini.php">Gestione scrutini</a></li>
 		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>pagellini.php">Gestione pagellini</a></li>
+		<?php if ($_SESSION['__school_order__'] == 1): ?>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>colloqui.php">Gestione colloqui</a></li>
+		<?php endif; ?>
 	</ul>
 	<p class="menu_label act_icon">Registro di classe</p>
 	<ul class="menublock" style="" dir="rtl">

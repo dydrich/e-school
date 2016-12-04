@@ -237,7 +237,7 @@ table.registro tbody tr:hover {
     border: 1px solid #4d73ff;
 }
 
-#gotoday {
+#gotoday, #newweek {
     background-color: #B0120A;
     border: 1px solid #B0120A;
     color: white;

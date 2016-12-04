@@ -50,7 +50,7 @@ class AccountManager{
 		 */
 		$to = $this->user_->getUsername();
 		$subject = "Richiesta nuova password";
-		$from = "admin@istitutoiglesiasserraperdosa.it";
+		$from = "admin@istitutoiglesiasserraperdosa.gov.it";
 		$headers = "From: {$from}\r\n"."Reply-To: {$from}\r\n" .'X-Mailer: PHP/' . phpversion();
 		$message = "Gentile utente,\nabbiamo ricevuto la sua richiesta di una nuova password di accesso al Registro Elettronico.\n ";
 		$message .= "Per modificare la password, clicchi sul link seguente entro 24 ore:\n\n";

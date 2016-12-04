@@ -287,6 +287,12 @@
 			        <div class="card_minicontent">Inserisci nuovi utenti, modifica i dati di quelli gi&agrave; presenti e cancellali dal db...</div>
 		        </div>
 	        </a>
+            <a href="adm_users/roles.php">
+                <div class="card">
+                    <div class="card_title">Incarichi</div>
+                    <div class="card_minicontent">Gestisci le tipologie di incarico</div>
+                </div>
+            </a>
             <?php } ?>
 	        <a href="adm_users/teachers.php?school_order=<?php echo $admin_level ?>">
 		        <div class="card">

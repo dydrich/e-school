@@ -139,6 +139,9 @@ else {
     	
     	print("</li>");
     }
+    if ($_SESSION['__user__']->getSchoolOrder() == 1) {
+		echo "<li><a href='registro_personale/colloqui.php'>Prenotazioni colloqui</a>";
+	}
     ?>
 	</ul>
 <?php
