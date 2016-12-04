@@ -38,6 +38,9 @@
 			if (reserved == 1) {
 				action = 'delete_booking';
 			}
+			else if (reserved == -1) {
+				return;
+			}
 			else {
 				action = 'book';
 			}
@@ -149,8 +152,13 @@
 					 * verifica prenotazione effettuata
 					 */
 					$search_str = $meeting['data']." ".$start->toString(RBTime::$RBTIME_LONG);
+					$books = $meetings_manager->getReservationCountForATeacherOnADate($k, $meeting['data']);
 					$reserved = 0;
 					$reserved_label = '';
+					if ($books > 5) {
+						$reserved = -1;
+						$reserved_label = ": numero massimo di presentazioni già raggiunto";
+					}
 					if (is_array($reservations) && in_array($search_str, $reservations)) {
 						$reserved = 1;
 						$reserved_label = " (prenotazione effettuata: clicca per cancellare)";
