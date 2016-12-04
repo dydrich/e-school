@@ -170,6 +170,70 @@ class ParentsMeetingsManager{
 		return null;
 	}
 
+	/**
+	 * @param int $teacher
+	 * @param int $numberOfMeetings
+	 * @return mixed
+	 */
+	public function getNextTeacherReservation($teacher, $numberOfMeetings) {
+		$sel_data = "SELECT valore FROM rb_parametri_utente WHERE id_parametro = 4 AND id_utente = $teacher";
+		$res_data = $this->datasource->executeCount($sel_data);
+		if($res_data && $res_data != null) {
+			$r = explode(";", $res_data);
+			$data['day'] = $r[0];
+			$data['hour'] = $r[1];
+			$data['mandatory'] = $r[2];
+			$data['max'] = 0;
+			if ($r[2] == 1 && isset($r[3])) {
+				$data['max'] = $r[3];
+			}
+			/*
+		 * misura la distanza dal lunedi`
+		 */
+			$d = $data['day'] - 1;
+			$today = new \DateTime();
+
+			$colloqui = $this->schoolMeetings;
+			$teachers_meetings = [];
+			foreach ($colloqui as $item) {
+				foreach ($item as $row) {
+					$date = new \DateTime($row['data']);
+					$my_date = new \DateTime($row['data']);
+					$my_date->add(new \DateInterval('P'.$d.'D'));
+					if($my_date > $today) {
+						$row['data'] = $my_date->format("Y-m-d");
+						//$row['reservations'] = [];
+						// recupero le prenotazioni effettuate
+						$sel_res = "SELECT id, nome, cognome FROM rb_prenotazioni_colloqui, rb_utenti 
+									WHERE docente = $teacher AND uid = genitore AND DATE(data) = '{$row['data']}' ORDER BY nome, cognome";
+						$reservations = $this->datasource->executeQuery($sel_res);
+						$row['reservations'] = $reservations;
+
+						$teachers_meetings[] = $row;
+					}
+				}
+			}
+			if (count($teachers_meetings) > $numberOfMeetings) {
+				$teachers_meetings = array_slice($teachers_meetings, 0, $numberOfMeetings);
+			}
+
+			return $teachers_meetings;
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param int $teacher
+	 * @param int $numberOfMeetings
+	 * @return mixed
+	 */
+	public function getReservationCountForATeacherOnADate($teacher, $date) {
+		$teachers_meetings = $this->datasource->executeCount("SELECT COUNT(*) FROM rb_prenotazioni_colloqui 
+								WHERE docente = $teacher AND DATE(data) = '$date'");
+		return $teachers_meetings;
+	}
+
 	public function bookAMeeting($date, $teacher, $parent) {
 		$this->datasource->executeUpdate("INSERT INTO rb_prenotazioni_colloqui (genitore, docente, data) VALUES ($parent, $teacher, '$date')");
 	}
