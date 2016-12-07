@@ -4,7 +4,8 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Sostegno</title>
 	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
 	<script type="text/javascript" src="../../js/jquery-2.0.3.min.js"></script>
@@ -29,7 +30,12 @@
 	<?php 
 	while ($row = $res_classes->fetch_assoc()){
 	?>
-		<div class="rowcard"><img src="../../images/14.png" style="margin-right: 15px"><a href="registro_classe.php?idc=<?php echo $row['id_classe'] ?>" style="text-decoration: none; font-size: 1em; text-transform: uppercase; font-weight: bold">Classe <?php echo $row['anno_corso'].$row['sezione'] ?></a></div>
+		<div class="rowcard">
+            <i class="fa fa-users accent_color" style="font-size: 0.8em"></i>
+            <a href="registro_classe.php?idc=<?php echo $row['id_classe'] ?>" style="margin-left: 15px; text-decoration: none; font-size: 0.9em; text-transform: uppercase; font-weight: normal">
+                Classe <?php echo $row['anno_corso'].$row['sezione'] ?>
+            </a>
+        </div>
 	<?php 
 	}
 	?>
