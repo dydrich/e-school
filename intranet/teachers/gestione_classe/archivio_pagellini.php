@@ -20,6 +20,7 @@ $ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
 $anno = $_SESSION['__current_year__']->get_ID();
 
 $months = ["11" => "Novembre", "12" => "Dicembre", "1" => "Gennaio", "3" => "Marzo", "4" => "Aprile", "5" => "Maggio"];
+$month = 0;
 $sel_active = "SELECT * FROM rb_pagellini WHERE anno_scolastico = {$anno} AND data_chiusura < NOW() ORDER BY id_pagellino DESC";
 $res_active = $db->executeQuery($sel_active);
 $active = [];
@@ -41,37 +42,44 @@ while ($row = $res_alunni->fetch_assoc()){
 	$alunni[$row['id_alunno']]['ins'] = [];
 }
 
+$idp = null;
+
 if (isset($_REQUEST['idp'])) {
 	$idp = $_REQUEST['idp'];
 	$month = $_REQUEST['m'];
 }
-else {
+else if (count($active) > 0) {
 	$idp = $active[count($active) - 1]['id_pagellino'];
 	$month = $active[count($active) - 1]['mese'];
 }
 
-$sel_voti = "SELECT materia, alunno FROM rb_segnalazioni_pagellino WHERE id_pagellino = {$idp} AND classe = {$_SESSION['__classe__']->get_ID()} ORDER BY alunno, materia ";
-try{
-	$res_voti = $db->executeQuery($sel_voti);
-} catch (MySQLException $ex){
-	//$ex->redirect();
+if ($idp != null) {
+	$sel_voti = "SELECT materia, alunno FROM rb_segnalazioni_pagellino WHERE id_pagellino = {$idp} AND classe = {$_SESSION['__classe__']->get_ID()} ORDER BY alunno, materia ";
+	try{
+		$res_voti = $db->executeQuery($sel_voti);
+	} catch (MySQLException $ex){
+		//$ex->redirect();
+	}
+	if ($res_voti) {
+		while ($row = $res_voti->fetch_assoc()) {
+			$alunni[$row['alunno']]['ins'][] = $row['materia'];
+		}
+	}
 }
-if ($res_voti) {
-    while ($row = $res_voti->fetch_assoc()) {
-        $alunni[$row['alunno']]['ins'][] = $row['materia'];
-    }
-}
+
 
 $num_colonne = 1;
 $first_column_width = 25;
 $column_width = null;
 $available_space = 100 - $first_column_width;
+$res_materie = null;
 $sel_materie = "SELECT rb_materie.id_materia, rb_materie.materia FROM rb_materie, rb_scrutini WHERE id_materia = rb_scrutini.materia AND id_materia <> 40 AND classe = {$_SESSION['__classe__']->get_ID()} AND anno = {$anno} AND id_materia > 2 AND tipologia_scuola = {$ordine_scuola} GROUP BY rb_materie.id_materia, rb_materie.materia ORDER BY rb_materie.id_materia";
 try {
 	$res_materie = $db->executeQuery($sel_materie);
 } catch (MySQLException $ex) {
 	$ex->redirect();
 }
+$musicale = 0;
 if ($res_materie->num_rows < 1) {
 	$sel_materie = "SELECT rb_materie.id_materia, materia FROM rb_materie WHERE pagella = 1 AND id_materia > 2 AND tipologia_scuola = {$ordine_scuola}";
 	if($musicale != "1"){
@@ -108,7 +116,7 @@ $column_width = intval($available_space / ($num_colonne - 1));
 
 $navigation_label = "Registro personale ".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione();
 $drawer_label = "Segnalazione insufficienze ";
-if ($months[$month]) {
+if (isset($months[$month])) {
     $drawer_label .= "mese di {$months[$month]}";
 }
 
