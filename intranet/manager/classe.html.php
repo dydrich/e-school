@@ -132,7 +132,7 @@
 		?>
 		<div style="position: absolute; top: 75px; margin-left: 575px; margin-bottom: 10px; " class="rb_button">
 			<a href="#" id="ods">
-				<img src="../../../images/ods-32.png" style="padding: 4px 0 0 5px" />
+				<img src="../../images/ods-32.png" style="padding: 4px 0 0 5px" />
 			</a>
 		</div>
 		<div style="position: absolute; top: 75px; margin-left: 625px; margin-bottom: 10px; " class="rb_button">
