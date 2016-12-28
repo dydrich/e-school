@@ -39,8 +39,23 @@ if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
 	exit("cannot open <$filename>\n");
 }
 
+$sel_anni = "SELECT id_anno, descrizione FROM rb_anni ORDER BY id_anno DESC";
+try{
+	$res_anni = $db->executeQuery($sel_anni);
+} catch(MySQLException $ex){
+	$ex->redirect();
+}
+$anni = array();
+while ($row = $res_anni->fetch_assoc()) {
+	$anni[$row['id_anno']] = $row;
+}
+$descrizione = $_SESSION['__current_year__']->get_descrizione();
+if (isset($_REQUEST['y'])) {
+	$descrizione = $anni[$_REQUEST['y']]['descrizione'];
+}
+
 $docs_11 = array();
-chdir("../download/registri/{$_SESSION['__current_year__']->get_descrizione()}/{$school_order_directory}/docenti/");
+chdir("../download/registri/{$descrizione}/{$school_order_directory}/docenti/");
 foreach ($docs as $doc) {
 	if ($doc['tipo'] == 11) {
 		// documenti del cdc

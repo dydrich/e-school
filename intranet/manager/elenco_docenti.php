@@ -19,15 +19,6 @@ switch($_SESSION['__school_order__']) {
 		break;
 }
 
-if(!isset($_GET['offset']))
-    $offset = 0;
-else
-    $offset = $_GET['offset'];
-
-$limit = 15;
-$l_ext = $offset + 1;
-$r_ext = $limit + $offset;
-
 $order = "name";
 $param_order = "rb_utenti.cognome, rb_utenti.nome";
 if(isset($_REQUEST['order'])){
@@ -43,37 +34,21 @@ if ($_SESSION['__school_order__']){
 }
 
 $sel_docenti = "SELECT rb_utenti.uid, rb_utenti.nome, rb_utenti.cognome, rb_docenti.*, rb_materie.materia, rb_materie.id_materia FROM rb_docenti, rb_utenti, rb_materie WHERE rb_utenti.uid = rb_docenti.id_docente AND rb_docenti.materia = rb_materie.id_materia {$school_order} ORDER BY $param_order";
-
-if(!isset($_GET['second'])){
-	$res_docenti = $db->execute($sel_docenti);
-	//print $sel_links;
-	$count = $res_docenti->num_rows;
-	$_SESSION['count_teac'] = $count;
-}
-else{
-	$sel_docenti .= " LIMIT $limit OFFSET $offset";
-	$res_docenti = $db->execute($sel_docenti);
-}
-
-if($offset == 0)
-	$page = 1;
-else
-	$page = ($offset / $limit) + 1;
-
-$pagine = ceil($_SESSION['count_teac'] / $limit);
-if($pagine < 1)
-	$pagine = 1;
+$res_docenti = $db->execute($sel_docenti);
+//print $sel_links;
+$count = $res_docenti->num_rows;
+$_SESSION['count_teac'] = $count;
 
 if($r_ext > $_SESSION['count_teac']){
 	$r_ext = $_SESSION['count_teac'];
 }
 
-// dati per la paginazione (navigate.php)
-$colspan = 4;
-$link = basename($_SERVER['PHP_SELF']);
-$count_name = "count_teac";
-$row_class = "list_row";
-$row_class_menu = " list_row_menu";
-$nav_params = "&order=$order";
+$res = $db->executeQuery("SELECT id_utente, valore FROM rb_parametri_utente WHERE id_parametro = 4");
+$meetings = [];
+if ($res->num_rows > 0) {
+	while ($row = $res->fetch_assoc()) {
+		$meetings[$row['id_utente']] = $row['valore'];
+	}
+}
 
 include "elenco_docenti.html.php";

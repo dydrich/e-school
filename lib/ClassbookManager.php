@@ -70,10 +70,10 @@ class ClassbookManager
 	}
 	
 	public function delete(){
-		$query = "DELETE FROM rb_reg_classi, rb_reg_alunni USING rb_reg_classi JOIN rb_reg_alunni WHERE id_reg = id_registro AND id_anno = {$this->year->getYear()->get_ID()}";
+		$query = "DELETE FROM rb_reg_classi, rb_reg_alunni USING rb_reg_classi JOIN rb_reg_alunni WHERE id_reg = rb_reg_alunni.id_registro AND id_anno = {$this->year->getYear()->get_ID()}";
 		$this->datasource->executeUpdate("BEGIN");
-		$this->datasource->executeUpdate("DELETE FROM rb_reg_alunni USING rb_classi JOIN rb_reg_classi ON rb_reg_classi.id_classe = rb_classi.id_classe JOIN rb_reg_alunni WHERE id_reg = id_registro AND ordine_di_scuola = {$this->year->getSchoolOrder()} AND id_anno = {$this->year->getYear()->get_ID()}");
-		$this->datasource->executeUpdate("DELETE FROM rb_reg_classi USING rb_classi JOIN rb_reg_classi ON rb_reg_classi.id_classe = rb_classi.id_classe WHERE ordine_di_scuola = {$this->year->getSchoolOrder()} AND id_anno = {$this->year->getYear()->get_ID()}");
+		$this->datasource->executeUpdate("DELETE FROM rb_reg_alunni USING rb_classi JOIN rb_reg_classi ON rb_reg_classi.id_classe = rb_classi.id_classe JOIN rb_reg_alunni WHERE rb_reg_classi.id_reg = id_registro AND rb_classi.ordine_di_scuola = {$this->year->getSchoolOrder()} AND id_anno = {$this->year->getYear()->get_ID()}");
+		$this->datasource->executeUpdate("DELETE FROM rb_reg_classi USING rb_classi JOIN rb_reg_classi ON rb_reg_classi.id_classe = rb_classi.id_classe WHERE rb_classi.ordine_di_scuola = {$this->year->getSchoolOrder()} AND id_anno = {$this->year->getYear()->get_ID()}");
 		$this->datasource->executeUpdate("COMMIT");		
 		return true;
 	}
@@ -87,7 +87,7 @@ class ClassbookManager
 	
 	public function deleteClass($cl){
 		$this->datasource->executeUpdate("BEGIN");
-		$this->datasource->executeUpdate("DELETE FROM rb_reg_alunni USING rb_reg_classi JOIN rb_reg_alunni WHERE id_reg = id_registro AND rb_reg_classi.id_classe = {$cl} AND id_anno = {$this->year->getYear()->get_ID()}");
+		$this->datasource->executeUpdate("DELETE FROM rb_reg_alunni USING rb_reg_classi JOIN rb_reg_alunni WHERE rb_reg_classi.id_reg = id_registro AND rb_reg_classi.id_classe = {$cl} AND id_anno = {$this->year->getYear()->get_ID()}");
 		$this->datasource->executeUpdate("DELETE FROM rb_reg_classi WHERE rb_reg_classi.id_classe = {$cl} AND id_anno = {$this->year->getYear()->get_ID()}");
 		$this->datasource->executeUpdate("COMMIT");
 		return true;
@@ -95,8 +95,8 @@ class ClassbookManager
 	
 	public function deleteDay($day){
 		$this->datasource->executeUpdate("BEGIN");
-		$this->datasource->executeUpdate("DELETE FROM rb_reg_alunni USING rb_classi JOIN rb_reg_classi ON rb_reg_classi.id_classe = rb_classi.id_classe JOIN rb_reg_alunni WHERE id_reg = id_registro AND ordine_di_scuola = {$this->year->getSchoolOrder()} AND data = '{$day}'");
-		$this->datasource->executeUpdate("DELETE FROM rb_reg_classi WHERE data = '{$day}'");
+		$this->datasource->executeUpdate("DELETE FROM rb_reg_alunni USING rb_classi JOIN rb_reg_classi ON rb_reg_classi.id_classe = rb_classi.id_classe JOIN rb_reg_alunni WHERE rb_reg_classi.id_reg = id_registro AND rb_classi.ordine_di_scuola = {$this->year->getSchoolOrder()} AND data = '{$day}'");
+		$this->datasource->executeUpdate("DELETE rb_reg_classi FROM rb_reg_classi JOIN rb_classi ON rb_reg_classi.id_classe = rb_classi.id_classe WHERE rb_classi.ordine_di_scuola = {$this->year->getSchoolOrder()} AND data = '{$day}'");
 		$this->datasource->executeUpdate("COMMIT");
 		return true;
 	}
@@ -108,7 +108,7 @@ class ClassbookManager
 			return false;
 		}
 		$this->datasource->executeUpdate("BEGIN");
-		$this->datasource->executeUpdate("DELETE FROM rb_reg_alunni USING rb_reg_classi JOIN rb_reg_alunni WHERE id_reg = id_registro AND data = '{$day}' AND rb_reg_alunni.id_classe = {$cl}");
+		$this->datasource->executeUpdate("DELETE FROM rb_reg_alunni USING rb_reg_classi JOIN rb_reg_alunni WHERE rb_reg_classi.id_reg = id_registro AND rb_reg_classi.data = '{$day}' AND rb_reg_alunni.id_classe = {$cl}");
 		$this->datasource->executeUpdate("DELETE FROM rb_reg_classi WHERE data = '{$day}' AND id_classe = {$cl}");
 		$this->datasource->executeUpdate("COMMIT");
 		return true;

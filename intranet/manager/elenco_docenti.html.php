@@ -25,17 +25,9 @@
 	</div>
 	<div id="left_col">
 		<div class="card_container">
-
-	 	    <?php 
-	 	    if($res_docenti->num_rows > $limit)
-	 	    	$max = $limit;
-	 	    else
-	 	    	$max = $res_docenti->num_rows;
-	 	    $x = 0;
+	 	    <?php
 	 	    $bgcolor = "";
 	 	    while($docente = $res_docenti->fetch_assoc()){
-	 	    	if($x >= $limit) break;
-	 	    	
 	 	    	if ($docente['id_materia'] != 27 && $docente['id_materia'] != 41){
 			        if ($docente['ruolo'] == 'N') {
 				        $sel_classes = "SELECT anno_corso, sezione FROM rb_classi, rb_classi_supplenza, rb_supplenze WHERE id_classe = classe AND id_supplente = ".$docente['uid']." AND anno = ".$_SESSION['__current_year__']->get_ID()." ORDER BY rb_classi.sezione, rb_classi.anno_corso";
@@ -72,13 +64,33 @@
 				        </div>
 				        <div class="card_minicontent">
 					        Classi: <?php echo join(", ", $classi) ?>
+                            <div style="float: right; margin-right: 0; width: 350px" class="normal">
+                                Colloqui:
+								<?php
+                                $days = [1 => 'lunedì', 2 => 'martedì', 3 => 'mercoledì', 4 => 'giovedì', 5 => 'venerdì', 6 => 'sabato'];
+                                $hours = [1 => '08:25', 2 => '09:25', 3 => '10:35', 4 => '11:25', 5 => '12:25'];
+                                if (isset($meetings[$docente['uid']])) {
+                                    $str_day = '';
+                                    list ($day, $hour, $reservation_required, $max_reserved) = explode(";", $meetings[$docente['uid']]);
+                                    $str_day .= $days[$day]." ore ".$hours[$hour]." (";
+                                    if ($reservation_required) {
+                                        $str_day .= "prenotazione obbligatoria)";
+                                    }
+                                    else {
+                                        $str_day .= "prenotazione non richiesta)";
+                                    }
+									echo $str_day;
+                                }
+                                else {
+                                    echo "dato non registrato";
+                                }
+                                ?>
+                            </div>
 				        </div>
 			        </div>
 				</a>
-	 	    <?php 
-	 	    	$x++;
+	 	    <?php
 	 	    }
-	 	    include "../../shared/navigate.php";
             ?>
 	 	 </div>
 	</div>

@@ -559,6 +559,8 @@ class ParentBean extends UserBean {
 	private $children;
 	private $childrenNames;
 	private $classesRepresented;
+	private $schoolOrder;
+	private $classes = [];
 
 	public function __construct($u, $fn, $ln, $gr, $pr, $un) {
 		parent::__construct($u, $fn, $ln, $gr, $pr, $un);
@@ -603,7 +605,28 @@ class ParentBean extends UserBean {
 	}
 
 	public function getSchoolOrder() {
+		return $this->schoolOrder;
+	}
 
+	/**
+	 * @param mixed $schoolOrder
+	 */
+	public function setSchoolOrder($schoolOrder) {
+		$this->schoolOrder = $schoolOrder;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getClasses() {
+		return $this->classes;
+	}
+
+	/**
+	 * @param array $classes
+	 */
+	public function setClasses($classes) {
+		$this->classes = $classes;
 	}
 
 	public function addRepresentedClass($cls) {

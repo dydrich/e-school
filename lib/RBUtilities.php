@@ -134,6 +134,25 @@ final class RBUtilities{
 				$sel_figli = "SELECT rb_genitori_figli.id_alunno FROM rb_genitori_figli, rb_alunni WHERE id_genitore = {$uid} AND rb_genitori_figli.id_alunno = rb_alunni.id_alunno ORDER BY attivo DESC";
 				$figli = $this->datasource->executeQuery($sel_figli);
 				$user->setChildren($figli);
+				/*
+				 * aggiunta 28/12/2016 per issue #199
+				 * 1. ordine di scuola dei figli
+				 * 2. classi dei figli
+				 */
+				$school_orders = [];
+				$str_figli = implode(",", $figli);
+				$sel = "SELECT distinct(ordine_di_scuola) AS ordine FROM rb_classi WHERE id_classe IN (select id_classe from rb_alunni WHERE id_alunno IN ({$str_figli}))";
+				$res = $this->datasource->executeQuery($sel);
+				$user->setSchoolOrder($res);
+				$sel2 = "SELECT id_classe from rb_alunni WHERE id_alunno IN ({$str_figli})";
+				$res2 = $this->datasource->executeQuery($sel2);
+				$cls = [];
+				foreach ($res2 as $item) {
+					$cls[$item] = $item;
+				}
+				$user->setClasses($cls);
+
+				
 				$sel_children_names = "SELECT CONCAT_WS(' ', cognome, nome) AS nome FROM rb_alunni WHERE id_alunno IN (".implode(", ", $figli).") ORDER BY attivo DESC";
 				$children_names = $this->datasource->executeQuery($sel_children_names);
 				$user->setChildrenNames($children_names);
