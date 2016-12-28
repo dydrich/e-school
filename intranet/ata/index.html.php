@@ -30,9 +30,6 @@
 	<div class="welcome">
 		<p id="w_head">Bentornato <?php echo $_SESSION['__user__']->getFullName() ?></p>
 		<p class="w_text" style="width: 350px">
-			Ti trovi nell'area riservata al personale ATA.
-	 	</p>
-		<p class="w_text" style="width: 350px">
 			<a href="../../modules/documents/load_module.php?module=docs&area=<?php echo $_SESSION['__area__'] ?>&page=ata" class="_bold">Area documenti ATA</a>
 		</p>
 	</div>

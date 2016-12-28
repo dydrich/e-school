@@ -106,6 +106,7 @@
 			</p>
 		</div>
 		<?php endif; ?>
+		<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_notices.php'; ?>
 		<div class="welcome">
 			<p id="w_head">Ultime attivit&agrave;</p>
 			<div id="ticker_container" style="height: <?php echo $ticker_height ?>px">

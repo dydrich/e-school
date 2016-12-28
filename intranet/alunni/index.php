@@ -11,6 +11,7 @@ if(!isset($_SESSION['__user__'])){
 
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
+$_SESSION['__area__'] = "students";
 
 if(!isset($_SESSION['__classe__'])){
 	$utils = SessionUtils::getInstance($db);

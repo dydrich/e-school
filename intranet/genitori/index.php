@@ -14,6 +14,7 @@ check_permission(GEN_PERM);
 
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_mod_home__'] = "./";
+$_SESSION['__area__'] = "parents";
 
 // pagina da ricaricare in header.php
 $page = "index.php";
