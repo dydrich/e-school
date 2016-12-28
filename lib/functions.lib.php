@@ -23,6 +23,9 @@ define("STD_PERM", 256);
 define("APS_PERM", 512);
 define("AMS_PERM", 1024);
 define("AIS_PERM", 2048);
+// ruoli
+define("FSH_PERM", 8192);
+define("FST_PERM", 16384);
 /*
  * raggruppa i permessi di accesso alle statistiche alunni
  */
@@ -351,6 +354,7 @@ function get_login($names, $nome, $cognome){
 			$index++;
 		}
 	}
+	return null;
 }
 
 function get_password($str1, $str2, &$pwd_chiaro){
@@ -696,7 +700,7 @@ function getFileName() {
  * @array array nel quale cercare
  * @val valore da cercare
  * @key chiave nella quale cercare il valore
- * @return indice dell'array (-1 se non trovato)
+ * @return $k - indice dell'array (-1 se non trovato)
  *
  */
 function searchMultidimensionalArrayForValue($array, $val, $key) {
