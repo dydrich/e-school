@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php print $_SESSION['__config__']['intestazione_scuola'] ?></title>
+    <link rel="stylesheet" href="../../font-awesome/css/font-awesome.min.css" />
 	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,600,600italic,700,700italic,900,200' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="../../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
@@ -18,6 +19,28 @@
 		$(function(){
 			load_jalert();
 			setOverlayEvent();
+
+            $('#top_btn').click(function() {
+                $('html,body').animate({
+                    scrollTop: 0
+                }, 700);
+                return false;
+            });
+
+            var amountScrolled = 200;
+
+            $(window).scroll(function() {
+                if ($(window).scrollTop() > amountScrolled) {
+                    $('#plus_btn').fadeOut('slow');
+                    $('#float_btn').fadeIn('slow');
+                    $('#top_btn').fadeIn('slow');
+                } else {
+                    $('#float_btn').fadeOut('slow');
+                    $('#plus_btn').fadeIn();
+                    $('#top_btn').fadeOut('slow');
+                }
+            });
+
 			$('.showmenu').click(function(event){
 				event.preventDefault();
 				cls = $(this).attr("data-idclass");
@@ -28,23 +51,23 @@
 			});
 			$('#context_menu').mouseleave(function(){
 				$('#context_menu').hide();
-			})
+			});
 			$('.cdc_link').click(function(event){
 				event.preventDefault();
 				document.location.href = "classe.php?id="+cls+"&show=cdc&tp="+tp+"&desc="+desc;
-			})
+			});
 			$('.schedule_link').click(function(event){
 				event.preventDefault();
 				document.location.href = "classe.php?id="+cls+"&show=orario&tp="+tp+"&desc="+desc;
-			})
+			});
 			$('.students_link').click(function(event){
 				event.preventDefault();
 				document.location.href = "classe.php?id="+cls+"&show=alunni&tp="+tp+"&desc="+desc;
-			})
+			});
 			$('.grades_link').click(function(event){
 				event.preventDefault();
 				document.location.href = "medie_classe.php?cls="+cls;
-			})
+			});
 			$('.notes_link').click(function(event){
 				event.preventDefault();
 				document.location.href = "note_classe.php?cls="+cls;
@@ -126,5 +149,8 @@
 	<a href="#" class="grades_link">Voti</a><br />
 	<a href="#" class="notes_link">Provvedimenti disciplinari</a>
 </div>
+<a href="#" id="top_btn" class="rb_button float_button top_button">
+    <i class="fa fa-arrow-up"></i>
+</a>
 </body>
 </html>
