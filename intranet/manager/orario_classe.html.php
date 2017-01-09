@@ -80,7 +80,7 @@
 </div>
 <?php include "footer.php" ?>
 <div id="drawer" class="drawer" style="display: none; position: absolute">
-	<div style="width: 100%; height: 360px">
+	<div style="width: 100%; height: 430px">
 		<div class="drawer_label"><span>Classe <?php echo $_REQUEST['desc'] ?></span></div>
 		<div class="drawer_link submenu"><a href="classe.php?id=<?php echo $_REQUEST['id'] ?>&show=cdc&desc=<?php echo $_REQUEST['desc'] ?>&tp=<?php echo $_REQUEST['tp'] ?>"><img src="../../images/14.png" style="margin-right: 10px; position: relative; top: 5%" />Elenco docenti</a></div>
 		<div class="drawer_link submenu"><a href="classe.php?id=<?php echo $_REQUEST['id'] ?>&show=alunni&desc=<?php echo $_REQUEST['desc'] ?>&tp=<?php echo $_REQUEST['tp'] ?>"><img src="../../images/35.png" style="margin-right: 10px; position: relative; top: 5%" />Elenco alunni</a></div>
