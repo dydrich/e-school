@@ -73,14 +73,7 @@
 <div id="left_col">
    	<div class="card_container">
         <?php
-        if($res_cls->num_rows > $limit)
-            $max = $limit;
-        else
-            $max = $res_cls->num_rows;
-        $x = 0;
-        $bgcolor = "";
         while($cls = $res_cls->fetch_assoc()){
-            if($x >= $limit) break;
         ?>
 	        <div class="card">
 		        <div class="card_title">
@@ -105,7 +98,6 @@
         <?php
             $x++;
         }
-        include "../../shared/navigate.php";
         ?>
 		</div>
 	</div>
