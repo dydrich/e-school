@@ -15,15 +15,16 @@
 		$(function(){
 			load_jalert();
 			setOverlayEvent();
+
+			$('#upd_stats').on('click', function (event) {
+                j_alert("confirm", "L'aggiornamento potrebbe richiedere fino a un minuto, su una connessione lenta. Procedere?");
+            });
+
+            $('#okbutton').on('click', function (event) {
+                event.preventDefault();
+                document.location.href = "registro.php?nocache=1&do=<?php print $_REQUEST['do'] ?>";
+            });
 		});
-	var update_stats = function(){
-		if(confirm("L'aggiornamento delle statistiche richiede alcuni minuti (circa 3). Sei sicuro di voler continuare?")){
-			document.location.href = "registro.php?nocache=1&do=<?php print $_REQUEST['do'] ?>";
-		}
-		else{
-			return false;
-		}
-	}
 	</script>
 </head>
 <body>
@@ -35,7 +36,7 @@
 </div>
 <div id="left_col">
 	<div style="position: absolute; top: 74px; margin-left: 645px; margin-bottom: 0; z-index: 100" class="rb_button">
-		<a href="#" onclick="update_stats()">
+		<a href="#" id="upd_stats"">
 			<img src="../../images/45.png" style="padding: 12px 0 0 12px" />
 		</a>
 	</div>
