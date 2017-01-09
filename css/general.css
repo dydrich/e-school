@@ -1566,7 +1566,7 @@ j_alert
     height: 45px;
     position: fixed;
     z-index: 990;
-    right: 625px;
+    right: 475px;
     bottom: 15%;
     box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.2) !important;
 }
@@ -1577,7 +1577,7 @@ j_alert
 }
 
 .top_button {
-    right: 555px;
+    right: 405px;
 }
 
 /*
