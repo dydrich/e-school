@@ -34,30 +34,31 @@
 	</div>
 	<div id="left_col">
 		<?php
-		foreach ($data as $item) {
-			$giorno_str = strftime("%A %d %B", strtotime($item['data']));
-		?>
-		<div class="welcome" style="padding-top: 0">
-			<p id="s_head" style="margin-bottom: 0; background-image: none">
-				<i class="fa fa-calendar" style="position: relative; left: -30px; font-size: 1.4em"></i>
-				<span style="position: relative; left: -20px"><?php echo $giorno_str ?></span>
-			</p>
-			<?php
-			if(is_array($item['reservations']) && count($item['reservations']) > 0) {
-				foreach ($item['reservations'] as $reservation) {
-					?>
-			<p><?php echo $reservation['nome']." ".$reservation['cognome'] ?></p>
-			<?php
-				}
-			}
-			else {
+        if ($data) {
+			foreach ($data as $item) {
+				$giorno_str = strftime("%A %d %B", strtotime($item['data']));
 				?>
-			<p>Nessuna prenotazione</p>
-			<?php
+                <div class="welcome" style="padding-top: 0">
+                    <p id="s_head" style="margin-bottom: 0; background-image: none">
+                        <i class="fa fa-calendar" style="position: relative; left: -30px; font-size: 1.4em"></i>
+                        <span style="position: relative; left: -20px"><?php echo $giorno_str ?></span>
+                    </p>
+					<?php
+					if (is_array($item['reservations']) && count($item['reservations']) > 0) {
+						foreach ($item['reservations'] as $reservation) {
+							?>
+                            <p><?php echo $reservation['nome'] . " " . $reservation['cognome'] ?></p>
+							<?php
+						}
+					} else {
+						?>
+                        <p>Nessuna prenotazione</p>
+						<?php
+					}
+					?>
+                </div>
+				<?php
 			}
-			?>
-		</div>
-		<?php
 		}
 		?>
 
