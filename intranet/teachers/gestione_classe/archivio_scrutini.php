@@ -38,6 +38,12 @@ while ($row = $res_anni->fetch_assoc()) {
 	$anni_corso_classe[] = $row;
 }
 
+$ordine_scuola = $_SESSION['__user__']->getSchoolOrder();
+$school_year = $_SESSION['__school_year__'][$ordine_scuola];
+$inizio_lezioni = format_date($school_year->getClassesStartDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+$fine_lezioni = format_date($school_year->getClassesEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+$fine_q = format_date($school_year->getFirstSessionEndDate(), IT_DATE_STYLE, SQL_DATE_STYLE, "-");
+
 $anno_corso = $_SESSION['__classe__']->get_anno();
 $sezione = $_SESSION['__classe__']->get_sezione();
 
