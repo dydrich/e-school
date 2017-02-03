@@ -131,8 +131,6 @@ function get_absences_time($db, $teacher, $materia, $anno, $abs_time, $class, $i
 	return $st_absence;
 }
 
-ini_set("display_errors", "1");
-
 check_session();
 check_permission(DOC_PERM);
 
@@ -221,7 +219,5 @@ switch($_REQUEST['req']){
 }
 
 header("Content-type: text/plain");
-print "$ret";
+echo "$ret";
 exit;
-
-?>
