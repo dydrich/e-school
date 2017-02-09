@@ -40,7 +40,8 @@ function get_absences_time($db, $teacher, $materia, $anno, $abs_time, $class, $i
 	if ($ordine_scuola == 2){
 		return 0;
 	}
-	$sel_hours = "SELECT id_reg, rb_reg_classi.data, rb_reg_classi.ingresso, rb_reg_classi.uscita, ora FROM rb_reg_classi, rb_reg_firme WHERE rb_reg_classi.id_reg = rb_reg_firme.id_registro AND docente = {$teacher} AND materia = {$materia} AND id_classe = $class AND id_anno = ".$_SESSION['__current_year__']->get_ID()." $abs_time  ORDER BY data, ingresso DESC, ora ASC";
+	$sel_hours = "SELECT id_reg, rb_reg_classi.data, rb_reg_classi.ingresso, rb_reg_classi.uscita, ora FROM rb_reg_classi, rb_reg_firme WHERE rb_reg_classi.id_reg = rb_reg_firme.id_registro AND materia = {$materia} AND id_classe = $class AND id_anno = ".$_SESSION['__current_year__']->get_ID()." $abs_time  ORDER BY data, ingresso DESC, ora ASC";
+	$res_hours = null;
 	try{
 		$res_hours = $db->executeQuery($sel_hours);
 	} catch (MySQLException $ex){
