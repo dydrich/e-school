@@ -380,7 +380,7 @@ class ReportPDF extends SchoolPDF {
 			}
 			$this->Cell(0, 10, "Iscritt{$final_letter} alla classe {$cls}, sezione ".$st['sezione'], 0, 1, 'C', 0, '', 0);
 			$this->SetY(140);
-			$this->SetFont('helvetica', '', '14');
+			$this->SetFont('helvetica', '', '12');
 			$this->Cell(180, 22, "Dio e l'uomo. I valori etici e religiosi. La Bibbia e le altre fonti. Il linguaggio religioso", "LTRB", 1, 'C', 0, '', 0);
 			$this->SetFont('helvetica', 'B', '13');
 			$this->Cell(180, 8, "VALUTAZIONI PERIODICHE", "LRB", 1, 'C', 0, '', 0);
