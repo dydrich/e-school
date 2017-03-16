@@ -140,7 +140,7 @@ else{
 			}
 			?>
 			<div class="drawer_link">
-				<a href="<?php print $page ?>?son=<?php print $key ?>" clas="<?php echo $cl ?>"><?php print $val[0] ?></a>
+				<a href="<?php print $page ?>?son=<?php print $key ?>" class="<?php echo $cl ?>"><?php print $val[0] ?></a>
 			</div>
 		<?php
 		}

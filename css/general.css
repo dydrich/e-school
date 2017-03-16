@@ -1983,3 +1983,15 @@ div.odd {
     margin-left: 10px
 }
 
+.icon_button {
+    font-size: 30px;
+    width: 80px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 3px;
+    height: 80px;
+}
+
+.icon_button > i {
+    padding: 25px 0 0 0;
+}

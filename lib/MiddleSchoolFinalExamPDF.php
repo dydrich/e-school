@@ -10,7 +10,7 @@ require_once "SchoolPDF.php";
 
 class MiddleSchoolFinalExamPDF extends SchoolPDF{
 
-	public function createTable($data, $cls){
+	public function createTable($data, $cls, $president){
 
 		$classe = $cls->get_anno().$cls->get_sezione();
 		$this->setPage(1, true);
@@ -50,7 +50,7 @@ class MiddleSchoolFinalExamPDF extends SchoolPDF{
 		$this->Ln();
 		$this->Cell(130, 2, "", 0, 0, 'L', 0);
 		$this->SetFont('', 'I', '10');
-		$this->Cell(50, 2, "Prof.ssa Lai Maria Romina", 0, 0, 'C', 0);
+		$this->Cell(50, 2, $president, 0, 0, 'C', 0);
 		$this->Ln();
 	}
 }

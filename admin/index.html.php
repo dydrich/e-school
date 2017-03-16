@@ -564,7 +564,7 @@
         </div>
 		<div id="tb8" style="display: none" data-tablabel="varie" class="card_container">
 				<?php if(is_installed("wflow")){ ?>
-			<a href="adm_workflow/index.php">
+			<a href="../modules/workflow/load_module.php?module=wflow&area=admin&page=admin">
 				<div class="card">
 					<div class="card_title">Workflow</div>
 					<div class="card_minicontent">Gestisce tutto ci&ograve; che riguarda i processi di workflow relativi alle richieste ...</div>

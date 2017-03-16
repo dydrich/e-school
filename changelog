@@ -1,3 +1,70 @@
+4.12.305
+teachers/gestione_classe: correzione per mostrare anche gli impegni del giorno in corso, anche se terminati come orario
+
+4.12.304
+correzione grafica scheda di religione in ReportPDF
+
+4.12.303
+bug fix: eliminazione dell'indicazione del docente nel calcolo delle assenze per scrutinio, che falsava i dati in caso di supplenze
+
+4.12.302
+permessi per segreteria in stampa_assenze
+
+4.12.301
+ripristino nome dirigente in Report
+
+4.12.300
+bug fix (archivio_scrutini)
+
+4.12.299
+bug fix (intranet/teachers/registro_personale/colloqui.html.php)
+
+4.12.298
+top button in manager/elenco_docenti, manager/elenco_classi
+
+4.12.297
+modifica posizione float button
+
+4.12.296
+j_alert confirm in manager/registro.php
+
+4.12.295
+bug fix
+
+4.12.294
+eliminazione paginazione in manager/elenco_classi.php
+
+4.12
+modifica gestione avvisi (issue #188)
+
+4.11.292
+codici per funzioni strumentali in functions.lib.php
+
+4.11.291
+aggiunto parametro per il livello scolare in admin/adm_parents/get_all_classes.php
+
+4.11.290
+bug fix in ClassbookManager
+
+4.11.289
+bug fix
+
+4.11.288
+archivio documenti di classe (issue #182)
+
+4.11.287
+modifiche grafiche in verifica_registro.php
+
+4.11.286
+visualizzazione orari colloqui quindicinali docente in area segreteria
+
+4.11
+gestione colloqui
+inserimento delle settimane nelle quali sono previsti i colloqui (segreteria)
+inserimento giorno e ora dei colloqui personali, con indicazione dell'appuntamento e del numero max di prenotazioni (teachers)
+prenotazione colloquio (genitori)
+visualizzazione colloqui prenotati (teachers)
+
 4.10.285
 function searchMultidimensionalArrayForValue($array, $val, $key)
 
@@ -12,7 +79,7 @@ milestone ATA
 avvisi diversificati per gruppo
 
 4.8.283
-aggiunte le attivita (tipo impegno = 2) ai dati trattati da Calendar
+aggiunte le attività (tipo impegno = 2) ai dati trattati da Calendar
 
 4.8.282
 bug fix
@@ -987,7 +1054,7 @@ pulizia codice
 eliminate alcune errate chiamate a executeQuery, invece di executeUpdate, in ScheduleManager
 
 3.0.24
-porting della gestione regsitro a jquery
+porting della gestione registro a jquery
 miglioramento della funzione background_process per mostrare l'avanzamento
 code cleaning
 
