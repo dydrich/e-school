@@ -12,7 +12,7 @@
 	<p class="menu_label act_icon">Registro di classe</p>
 	<ul class="menublock" style="" dir="rtl">
 		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>registro.php?do=cls">Riepilogo classi</a></li>
-		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>registro.php?do=abs">Alunni a rischio</a></li>
+		<li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>registro.php?nocache=1&do=abs">Alunni a rischio</a></li>
 	</ul>
 	<?php 
 	}
