@@ -563,14 +563,8 @@
             <?php } ?>
         </div>
 		<div id="tb8" style="display: none" data-tablabel="varie" class="card_container">
-				<?php if(is_installed("wflow")){ ?>
-			<a href="../modules/workflow/load_module.php?module=wflow&area=admin&page=admin">
-				<div class="card">
-					<div class="card_title">Workflow</div>
-					<div class="card_minicontent">Gestisce tutto ci&ograve; che riguarda i processi di workflow relativi alle richieste ...</div>
-				</div>
-			</a>
-				<?php } if(is_installed("projects")){ ?>
+
+				<?php if(is_installed("projects")){ ?>
 			<a href="adm_projects/progetti.php">
 				<div class="card">
 					<div class="card_title">Progetti</div>
