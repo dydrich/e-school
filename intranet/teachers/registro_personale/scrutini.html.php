@@ -26,6 +26,7 @@
 		<?php
 		}
 		?>
+
 		$(function(){
 			load_jalert();
 			setOverlayEvent();
@@ -260,8 +261,8 @@ if ($subject_number > 1) {
 	<tbody>
 	<?php
 	$idx = 0;
-	$res_dati->data_seek(0);
-	while($al = $res_dati->fetch_assoc()){
+
+	foreach ($studenti as $k => $al) {
 		$esonerato = 0;
 		if (in_array($al['alunno'], $esonerati)) {
 			$esonerato = 1;
@@ -325,7 +326,9 @@ if ($subject_number > 1) {
 				}
 			}
 			?>
-			<span id="grade_<?php echo $al['alunno'] ?>" style="margin-left: 15px; display: none"></span>
+			<span id="grade_<?php echo $al['alunno'] ?>" style="margin-left: 15px">
+                (<?php echo $al['media_voto'] ?>)
+            </span>
 		</td>
 		<td style="width: 10%; text-align: center; font-weight: normal">
 			<span id="abstd_<?php echo $al['alunno'] ?>" style="<?php if ($ordine_scuola == 1) : ?>font-weight: bold;<?php endif; ?> font-size: 1.1em">
@@ -336,7 +339,9 @@ if ($subject_number > 1) {
 					echo "ND";
 				} ?>
 			</span>
-			<span id="abs_<?php echo $al['alunno'] ?>" style="margin-left: 15px; display: none"></span>
+			<span id="abs_<?php echo $al['alunno'] ?>" style="margin-left: 15px">
+                (<?php echo $al['assenze_calcolate'] ?>)
+            </span>
 		</td>
 		</tr>
 		<?php

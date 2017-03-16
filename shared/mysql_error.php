@@ -66,7 +66,7 @@ include "../lib/start.php";
 			<table class="admin_table">
 			<thead>
 	            <tr class="admin_title_row" >
-	                <td colspan="2">Si &egrave; verificato un errore nell'accesso al database MySQL</td>
+	                <td colspan="2">Si è verificato un errore nell'accesso al database MySQL</td>
 	            </tr>
 				<tr>
 					<td style="width: 20%; border: 1px solid gray; padding-left: 10px; font-weight: bold">Var</td>
@@ -124,11 +124,11 @@ include "../lib/start.php";
 			<table class="admin_table" style="margin: auto; width: 75%">
 			<thead>
 	            <tr class="admin_title_row" >
-	                <td colspan="2">Si &egrave; verificato un errore non previsto</td>
+	                <td colspan="2">Si è verificato un errore non previsto</td>
 	            </tr>
 			</thead>
 				<tr class="admin_void">
-					<td colspan="2" style="text-align: center; line-height: 20px"><br />Si &egrave; verificato un errore imprevisto, che ha impedito di caricare la pagina richiesta.<br />
+					<td colspan="2" style="text-align: center; line-height: 20px"><br />Si è verificato un errore imprevisto, che ha impedito di caricare la pagina richiesta.<br />
 					Il problema &egrave; stato segnalato agli sviluppatori e sar&agrave; risolto al pi&ugrave; presto.<br />
 					<!-- <a href="no_js.php" id="send_bug" style="font-weight: bold; font-size: 1em">Segnala il problema</a> -->
 					</td>

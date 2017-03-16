@@ -72,6 +72,7 @@
 	<?php include "class_working.php" ?>
 	</div>
 	<div id="left_col">
+		<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_notices.php'; ?>
 		<?php if (count($avvisi) > 0): ?>
 		<div class="welcome" style="padding-bottom: 25px;">
 			<p class="beware">
@@ -106,7 +107,6 @@
 			</p>
 		</div>
 		<?php endif; ?>
-		<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_notices.php'; ?>
 		<div class="welcome">
 			<p id="w_head">Ultime attivit&agrave;</p>
 			<div id="ticker_container" style="height: <?php echo $ticker_height ?>px">

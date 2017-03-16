@@ -30,4 +30,8 @@
 		<?php endif; ?>
 		<li><a href="themes.php?area=teachers" style="text-decoration: none">Tema</a></li>
 	</ul>
+    <p class="menu_label mod_icon">Segreteria</p>
+    <ul class="menublock" style="" dir="rtl">
+        <li><a href="richiesta_permesso.php" style="text-decoration: none">Richiesta permesso</a></li>
+    </ul>
 </div>
