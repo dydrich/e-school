@@ -229,7 +229,7 @@
 				<?php
 				if ($_REQUEST['id'] != 0):
 					?>
-					<a href="#" onclick="del()" class="material_link nav_link_first">Elimina</a>|
+					<a href="#" onclick="del()" class="material_link nav_link_first">Elimina</a>
 				<?php
 				endif;
 				?>
