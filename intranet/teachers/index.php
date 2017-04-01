@@ -11,6 +11,7 @@ check_permission(DOC_PERM);
 $_SESSION['__path_to_root__'] = "../../";
 $_SESSION['__path_to_reg_home__'] = "./";
 $_SESSION['__area__'] = "teachers";
+$_SESSION['active_group'] = ['perms' => DOC_PERM, 'desc' => 'docenti'];
 
 $ses_ut = SessionUtils::getInstance($db);
 $ses_ut->registerUserConfig($_SESSION['__user__']->getUID(), "__user_config__");
