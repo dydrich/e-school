@@ -48,7 +48,7 @@ $classbook_data = new ClassbookData($_SESSION['__classe__'], $school_year, $par_
 $totali = $classbook_data->getClassSummary();
 $presence = $classbook_data->getStudentsSummary();
 
-setlocale(LC_ALL, "it_IT");
+setlocale(LC_ALL, "it_IT.utf8");
 
 $author = $_SESSION['__user__']->getFullName();
 
