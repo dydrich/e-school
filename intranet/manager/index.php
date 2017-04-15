@@ -20,16 +20,22 @@ if (isset($_GET['role'])){
 			$_SESSION['__role__'] = "Segreteria";
 			$_SESSION['__administration_group__'] = "menu_ata";
 			$_SESSION['area_from']['area'] = "SEG";
+			$_SESSION['active_group'] = ['perms' => SEG_PERM, 'desc' => 'segreteria'];
+			$_SESSION['wflow_office'] = 1;
 			break;
 		case 6:
 			$_SESSION['__role__'] = "Dirigente scolastico";
 			$_SESSION['__administration_group__'] = "menu_ds";
 			$_SESSION['area_from']['area'] = "DS";
+			$_SESSION['active_group'] = ['perms' => DIR_PERM, 'desc' => 'dirigenza'];
+			$_SESSION['wflow_office'] = 2;
 			break;
 		case 7:
 			$_SESSION['__role__'] = "DSGA";
 			$_SESSION['__administration_group__'] = "menu_dsga";
 			$_SESSION['area_from']['area'] = "DSGA";
+			$_SESSION['active_group'] = ['perms' => DSG_PERM, 'desc' => 'dsga'];
+			$_SESSION['wflow_office'] = 3;
 			break;
 	}
 }

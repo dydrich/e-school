@@ -32,6 +32,6 @@
 	</ul>
     <p class="menu_label mod_icon">Segreteria</p>
     <ul class="menublock" style="" dir="rtl">
-        <li><a href="richiesta_permesso.php" style="text-decoration: none">Richiesta permesso</a></li>
+        <li><a href="../../modules/workflow/load_module.php?module=wflow&area=teachers&page=front" style="text-decoration: none">Richieste di permesso</a></li>
     </ul>
 </div>
