@@ -2,6 +2,10 @@
 
 include "../lib/start.php";
 
+$_SESSION['__path_to_root__'] = "../";
+
+$drawer_label = "Errore SQL";
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,6 +15,7 @@ include "../lib/start.php";
 	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/reg.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../css/general.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="../css/site_themes/<?php echo getTheme() ?>/jquery-ui.min.css" type="text/css" media="screen,projection" />
+    <link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
 	<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript" src="../../js/page.js"></script>
@@ -44,33 +49,23 @@ include "../lib/start.php";
 			}
 		});
 	};
-	/*
-	document.observe("dom:loaded", function(){
-		$('send_bug').observe("click", function(event){
-			event.preventDefault();
-			send_email();
-		});
-	});
-	*/
 	</script>
 </head>
 <body>
-	<div id="header">
-		<div class="wrap">
-			<?php include '../admin/header.php'; ?>
-		</div>
-	</div>
-	<div class="wrap">
-		<div id="main" style="width: 100%">
+<?php include "../intranet/".$_SESSION['__area__']."/header.php" ?>
+<?php include "../intranet/".$_SESSION['__area__']."/navigation.php" ?>
+<div id="main">
 		<?php if($_SESSION['__config__']['debug']){ ?>
-			<table class="admin_table">
+			<table style="width: 75%; margin: 25px auto">
 			<thead>
-	            <tr class="admin_title_row" >
-	                <td colspan="2">Si è verificato un errore nell'accesso al database MySQL</td>
+	            <tr>
+	                <td colspan="2" class="_bold" style="padding-bottom: 15px; font-size: 1.2em">
+                        <i class="fa fa-warning attention"></i>
+                        Si è verificato un errore nell'accesso al database MySQL
+                    </td>
 	            </tr>
 				<tr>
-					<td style="width: 20%; border: 1px solid gray; padding-left: 10px; font-weight: bold">Var</td>
-					<td style="width: 80%; border: 1px solid gray; padding-left: 10px; font-weight: bold">Valore</td>
+					<td colspan="2"> </td>
 				</tr>
 			</thead>
 					<?php
@@ -81,23 +76,24 @@ include "../lib/start.php";
 								$referer = $v;
 					?>
 				<tr>
-					<td style="width: 20%; border: 1px solid gray; padding-left: 10px"><?php print $k ?></td>
-					<td style="width: 80%; border: 1px solid gray; padding-left: 10px"><?php print $v ?></td>
+					<td style="width: 20%; padding-left: 10px" class="accent_decoration material_label"><?php print $k ?></td>
+					<td style="width: 80%; padding-left: 10px" class="accent_decoration _bold normal"><?php print $v ?></td>
 				</tr>
 				<?php } ?>
-				<tr class="admin_void">
-					<td colspan="2"></td>
+				<tr>
+					<td colspan="2">
+                        <p class="spacer"></p>
+                    </td>
 				</tr>
-				<tr class="admin_void">
-					<td colspan="2"></td>
-				</tr>
-				<tr class="admin_menu">
+				<tr>
 	                <td colspan="2" align="right">
 	                    <a href="<?php echo $referer ?>" style="margin-left: 10px">Torna indietro</a>
 	                </td>
             </tr>
             <tr>
-                <td colspan="3" class="admin_void"></td>
+                <td colspan="2">
+                    &nbsp;
+                </td>
             </tr>
 			</table>
 			<?php }
@@ -121,33 +117,29 @@ include "../lib/start.php";
 				
 				mail($to, $subject, $text, $headers);
 			?>
-			<table class="admin_table" style="margin: auto; width: 75%">
+			<table style="margin: auto; width: 75%">
 			<thead>
-	            <tr class="admin_title_row" >
+	            <tr>
 	                <td colspan="2">Si è verificato un errore non previsto</td>
 	            </tr>
 			</thead>
-				<tr class="admin_void">
+				<tr>
 					<td colspan="2" style="text-align: center; line-height: 20px"><br />Si è verificato un errore imprevisto, che ha impedito di caricare la pagina richiesta.<br />
-					Il problema &egrave; stato segnalato agli sviluppatori e sar&agrave; risolto al pi&ugrave; presto.<br />
-					<!-- <a href="no_js.php" id="send_bug" style="font-weight: bold; font-size: 1em">Segnala il problema</a> -->
-					</td>
 				</tr>
-				<tr class="admin_void">
+				<tr>
 					<td colspan="2"></td>
 				</tr>
-				<tr class="admin_menu">
+				<tr>
 	                <td colspan="2" align="right">
 	                    <a href="<?php echo $referer ?>" style="margin-left: 10px">Torna indietro</a>
 	                </td>
             </tr>
             <tr>
-                <td colspan="3" class="admin_void"></td>
+                <td colspan="3"></td>
             </tr>
 			</table>
 			<?php } ?>
 		</div>
 		<?php include "../admin/footer.php" ?>
-	</div>	
 </body>
 </html>
