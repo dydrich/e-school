@@ -74,7 +74,7 @@
 	<div class="welcome" style="padding-top: 0">
 		<p id="s_head" style="margin-bottom: 0; background-image: none">
 			<i class="fa fa-calendar" style="position: relative; left: -30px; font-size: 1.4em"></i>
-			<span style="position: relative; left: -20px" class="material_label"><?php echo $label ?></span>
+			<span style="position: relative; left: -20px" class="normal"><?php echo $label ?></span>
 		</p>
 		<?php
 		if(!$free_day){
