@@ -74,7 +74,7 @@
 	<div class="welcome" style="padding-top: 0">
 		<p id="s_head" style="margin-bottom: 0; background-image: none">
 			<i class="fa fa-calendar" style="position: relative; left: -30px; font-size: 1.4em"></i>
-			<span style="position: relative; left: -20px"><?php echo $label ?></span>
+			<span style="position: relative; left: -20px" class="normal"><?php echo $label ?></span>
 		</p>
 		<?php
 		if(!$free_day){
@@ -96,6 +96,7 @@
 		}
 		?>
 	</div>
+	<?php if(is_installed("wflow")) include $_SESSION['__path_to_root__'].'modules/workflow/w_front.php'; ?>
 	<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_notices.php'; ?>
 	<?php include $_SESSION['__path_to_root__'].'modules/documents/w_highlighteddocs_flow.php'; ?>
 	<?php include $_SESSION['__path_to_root__'].'modules/documents/w_trainingdocs_flow.php'; ?>
