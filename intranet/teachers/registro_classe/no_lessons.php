@@ -106,14 +106,14 @@ if($summer){
 	//siamo nelle vacanze estive
 	$_SESSION['no_file'] = array("referer" => "intranet/teachers/registro_classe/registro_classe.php?data=".date("Y-m-d")."&cls=".$_REQUEST['cls'], "path" => "intranet/teachers/", "relative" => "documenti/documenti.php");
 	setlocale(LC_TIME, "it_IT.utf8");
-	$giorno_str = strftime("%A", strtotime($today)) ." ". format_date($fine_lezioni, SQL_DATE_STYLE, IT_DATE_STYLE, "-");
+	$giorno_str = strftime("%A", strtotime($today)) ." ". format_date($last_day, SQL_DATE_STYLE, IT_DATE_STYLE, "-");
 ?>
 	<div class="welcome">
 		<p id="w_head">Classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?>: registro non disponibile</p>
 		<p class="w_text" style="">Le lezioni sono terminate <?php echo $giorno_str ?>. Puoi ancora accedere al registro di classe, utilizzando i link seguenti:</p>
 		<p class="w_text">
 			<span style="padding-left: 5px; ">&middot;</span>
-			<a href="registro_classe.php?data=<?php echo format_date($fine_lezioni, IT_DATE_STYLE, SQL_DATE_STYLE, "-") ?>">Vai al registro dell'ultimo giorno di scuola</a><br /><br />
+			<a href="registro_classe.php?data=<?php echo format_date($last_day, IT_DATE_STYLE, SQL_DATE_STYLE, "-") ?>">Vai al registro dell'ultimo giorno di scuola</a><br /><br />
 			<span style="padding-left: 5px">&middot;</span>
 			<a href="stats.php">Visualizza le statistiche</a>
 		</p>
