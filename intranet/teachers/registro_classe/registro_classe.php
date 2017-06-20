@@ -103,6 +103,21 @@ else if($today < $inizio_lezioni){
 	$preschool = true;
 }
 
+/*
+ * data ultimo giorno dopo il termine delle lezioni
+ * se ultimo giorno = sabato per il tempo pieno occorre il giorno precedente
+ */
+$last_day = $fine_lezioni;
+$desc_day = strftime("%w", strtotime($fine_lezioni));
+if ($desc_day == 6) {
+	/*
+	 * tempo pieno
+	 */
+	$dt = new DateTime($fine_lezioni);
+	$ld = $dt->sub(new DateInterval("P1D"));
+	$last_day = $ld->format("Y-m-d");
+}
+
 if ($is_today){
 	$ass_ingiustificate = 0;
 	
