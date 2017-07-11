@@ -5,7 +5,7 @@ require_once "TeacherRecordBookPDF.php";
 abstract class TeacherRecordBook{
 	
 	protected $teacher;
-	protected $RecordBooks;
+	protected $recordBooks;
 	protected $datasource;
 	protected $pdf;
 	protected $path;

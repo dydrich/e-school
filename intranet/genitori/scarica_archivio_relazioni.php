@@ -29,9 +29,10 @@ if ($ordine_di_scuola == 2){
 	$school_order_directory = "scuola_primaria";
 }
 
+$root = $_SESSION['__config__']['html_root'];
 $rb = RBUtilities::getInstance($db);
 
-chdir('../../tmp');
+chdir($root.'/tmp');
 
 $zip = new ZipArchive();
 $filename = "relazioni".$dir.".zip";
@@ -53,7 +54,7 @@ foreach ($docs as $doc) {
 
 $zip->close();
 
-chdir("../../tmp/");
+chdir($root."/tmp/");
 
 $mime = MimeType::getMimeContentType($filename);
 

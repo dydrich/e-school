@@ -198,7 +198,7 @@ class PrimarySchoolTeacherRecordBook extends TeacherRecordBook{
 	}
 
 	private function registerRecordBook($cls, $subject){
-		$file = "registro_{$this->year->get_ID()}_{$this->teacher->getUid()}_{$cls}_{$subject}.pdf";
+		$file = "registro_{$this->year->get_ID()}_{$cls}_{$subject}.pdf";
 		/*
 		 * check for existing record
 		*/
@@ -213,7 +213,7 @@ class PrimarySchoolTeacherRecordBook extends TeacherRecordBook{
 	}
 
 	public function getRecordBook($cls, $subject){
-		return "registro_{$this->year->get_ID()}_{$this->teacher->getUid()}_{$cls}_{$subject}.pdf";
+		return "registro_{$this->year->get_ID()}_{$cls}_{$subject}.pdf";
 	}
 
 	public function existsRecordBook($cls, $subject){

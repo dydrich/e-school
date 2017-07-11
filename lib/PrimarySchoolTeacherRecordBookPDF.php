@@ -33,7 +33,7 @@ class PrimarySchoolTeacherRecordBookPDF extends TeacherRecordBookPDF{
 		 */
 		$this->SetCreator(PDF_CREATOR);
 		$this->SetAuthor("Istituto comprensivo Nivola, Iglesias");
-		$this->SetTitle('Registro del docente di sostegno');
+		$this->SetTitle('Registro del docente di scuola primaria');
 		
 		// set default monospaced font
 		$this->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
@@ -80,7 +80,7 @@ class PrimarySchoolTeacherRecordBookPDF extends TeacherRecordBookPDF{
 		$this->lessons($lessons);
 		@$this->studentGrades($students, $subject);
 		@$this->attachments();
-		$file = $this->path."registro_".$this->year->get_ID()."_".$teacher->getUid()."_".$cls."_".$subject.".pdf";
+		$file = $this->path."registro_".$this->year->get_ID()."_".$cls."_".$subject.".pdf";
 		$this->Output($file, 'F');
 	}
 	

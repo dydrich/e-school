@@ -78,12 +78,12 @@
 					}
 					var json = $.parseJSON(r);
 					if (json.status == "kosql"){
-						alert(json.message);
+						j_alert("error", json.message);
 						console.log(json.dbg_message);
 						return false;
 					}
 					else {
-						alert(json.message);
+						j_alert("alert", json.message);
 						if (act == "new") {
 							document.location.href = "elenco_supplenze.php?status=open";
 						}
@@ -94,9 +94,7 @@
 		};
 
 		var del = function(){
-			if (!confirm("Sei sicuro di voler eliminare la supplenza?")){
-				return false;
-			}
+            $('#confirm').fadeOut(10);
 			var url = "substitution_manager.php";
 			$('#action').val("delete");
 			$.ajax({
@@ -117,12 +115,12 @@
 					}
 					var json = $.parseJSON(r);
 					if (json.status == "kosql"){
-						alert(json.message);
+						j_alert("error", json.message);
 						console.log(json.dbg_message);
 						return false;
 					}
 					else {
-						alert(json.message);
+						j_alert("alert", json.message);
 						document.location.href = "elenco_supplenze.php?status=open";
 					}
 				}
@@ -156,6 +154,16 @@
 				dateFormat: "dd/mm/yy",
 				altFormat: "dd/mm/yy"
 			});
+
+			$('#del_btn').on('click', function (event) {
+                event.preventDefault();
+                j_alert("confirm", "Eliminare la supplenza?");
+            });
+
+            $('#okbutton').on('click', function (event) {
+                event.preventDefault();
+                del();
+            });
 		});
 	</script>
 </head>
@@ -229,7 +237,7 @@
 				<?php
 				if ($_REQUEST['id'] != 0):
 					?>
-					<a href="#" onclick="del()" class="material_link nav_link_first">Elimina</a>
+					<a href="#" id="del_btn" class="material_link nav_link_first">Elimina</a>
 				<?php
 				endif;
 				?>
