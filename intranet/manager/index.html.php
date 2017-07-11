@@ -41,6 +41,7 @@
 			<?php } ?>
 	 	</p>	
 	</div>
+	<?php if(is_installed("com")) include $_SESSION['__path_to_root__'].'modules/communication/w_notices.php'; ?>
 	<?php if(is_installed("wflow")) include $_SESSION['__path_to_root__'].'modules/workflow/w_urgent.php'; ?>
 	<?php if(is_installed("wflow")) include $_SESSION['__path_to_root__'].'modules/workflow/w_home.php'; ?>
 	<?php if(is_installed("messenger")) include $_SESSION['__path_to_root__'].'modules/messenger/w_msg.php'; ?>
