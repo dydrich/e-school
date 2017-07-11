@@ -170,9 +170,11 @@ final class RBUtilities{
 				$sel_gr = "SELECT gid FROM rb_gruppi_utente WHERE uid = {$uid}";
 				$groups = $this->datasource->executeQuery($sel_gr);
 				$gid = array();
-				foreach ($groups as $group) {
+				if ($groups) {
+					foreach ($groups as $group) {
 
-					$gid[] = $group;
+						$gid[] = $group;
+					}
 				}
 				$str_groups = join(",", $gid);
 				$user = new SchoolUserBean($uid, $utente['nome'], $utente['cognome'], $gid, $utente['permessi'], $utente['username']);
