@@ -33,13 +33,13 @@
 		};
 
 		var downloadLog = function(){
-			file = "registro_<?php echo $_SESSION['__current_year__']->get_ID() ?>_<?php echo $_SESSION['__user__']->getUid(true) ?>_"+cls+"_"+sub;
+			file = "registro_<?php echo $_SESSION['__current_year__']->get_ID() ?>_"+cls+"_"+sub;
 			document.location.href = "../../modules/documents/download_manager.php?doc=teacherbook&area=teachers&f="+file;
 			$('#context_menu').hide();
 		};
 
 		var downloadAll = function(){
-			file = "registro_<?php echo $_SESSION['__current_year__']->get_ID() ?>_<?php echo $_SESSION['__user__']->getUid(true) ?>_"+cls+"_"+sub;
+			file = "registro_<?php echo $_SESSION['__current_year__']->get_ID() ?>_"+cls+"_"+sub;
 			document.location.href = "../../modules/documents/download_manager.php?doc=teacherbookall&area=teachers&f="+file;
 			$('#context_menu').hide();
 		};
@@ -50,10 +50,12 @@
 
 		var createLog = function(batch){
 			if (batch) {
-				loading("Creazione registri in corso", 20);
+				//loading("Creazione registri in corso", 200);
+                background_process("Creazione registri in corso", 20, false);
 			}
 			else {
-				loading("Creazione registro in corso", 20);
+				//loading("Creazione registro in corso", 200);
+                background_process("Creazione registro in corso", 20, false);
 			}
 			$.ajax({
 				type: "POST",
@@ -81,7 +83,7 @@
 						return;
 					}
 					else {
-						loaded(json.message);
+					    loaded(json.message);
 					}
 				}
 			});

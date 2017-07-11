@@ -36,6 +36,7 @@ if ($_SESSION['__user__']->isSupplyTeacher()) {
 else {
 	$user = $_SESSION['__user__'];
 }
+$user = $_SESSION['__user__'];
 
 $user_directory = $user->getFullName();
 $user_directory = preg_replace("/ /", "_", $user_directory);
