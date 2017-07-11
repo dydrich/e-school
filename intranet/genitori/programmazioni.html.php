@@ -60,12 +60,14 @@
 		<div id="card_container" class="card_container" style="margin-top: 40px">
 			<?php
 			$tipo = "";
-			foreach ($relazioni as $relazione) {
+			foreach ($relazioni as $id => $relazione) {
 			?>
 				<div class="card" style="<?php if ($relazione['tipo'] == 10 && $tipo != "" && $tipo != $relazione['tipo']) echo "margin-top: 30px" ?>">
 					<div class="card_title card_nocontent">
 						<?php echo $relazione['titolo'] ?>
-
+                        <a href="../../modules/documents/load_module.php?module=docs&area=genitori&page=document&value=<?php echo $id ?>">
+                            <div class="fright" style="width: 5%"><i class="fa fa-download normal"></i></div>
+                        </a>
 					</div>
 				</div>
 				<?php
