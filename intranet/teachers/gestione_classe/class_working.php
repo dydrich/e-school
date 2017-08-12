@@ -51,6 +51,9 @@ $is_teacher_in_this_class = $_SESSION['__user__']->isTeacherInClass($_SESSION['_
         }
         ?>
         <li><a href="laboratori.php" style="font-weight: normal">Prenota laboratorio</a></li>
+        <?php if ($_SESSION['__classe__']->get_anno() == 3 && is_installed('exams')): ?>
+        <li><a href="../../../modules/exams/load_module.php?module=exams&page=front" style="font-weight: normal">Esame conclusivo primo ciclo</a></li>
+        <?php endif; ?>
      </ul>
     <p class="menu_label act_icon">Archivio anni precedenti</p>
     <ul class="menublock" dir="rtl">

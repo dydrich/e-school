@@ -53,5 +53,3 @@ while($row = $res_y->fetch_assoc()){
 	$sy->setSessions($row['sessioni']);
 	$_SESSION['__school_year__'][$row['id_ordine_scuola']] = $sy;
 }
-
-?>

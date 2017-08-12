@@ -449,9 +449,11 @@ while($al = $res_alunni->fetch_assoc()){
 	<div style="width: 100%; height: 430px">
 		<div class="drawer_label"><span>Classe <?php echo $_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione() ?></span></div>
 		<?php if ($ordine_scuola == 1 && $_SESSION['__classe__']->get_anno() == 3 && $q == 2): ?>
-		<div class="drawer_link submenu">
-			<a href="esiti_esame.php"><img src="../../../images/27.png" style="margin-right: 10px; position: relative; top: 5%"/>Esiti esame</a>
-		</div>
+			<?php if(is_installed("exams")): ?>
+                <div class="drawer_link submenu">
+                    <a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/exams/load_module.php?module=exams&page=esiti_esame"><img src="../../../images/27.png" style="margin-right: 10px; position: relative; top: 5%"/>Esiti esame</a>
+                </div>
+			<?php endif; ?>
 		<?php endif; ?>
 		<div class="drawer_link submenu">
 			<a href="scrutini.php?q=<?php echo $_q ?>"><img src="../../../images/34.png" style="margin-right: 10px; position: relative; top: 5%"/>Scrutini</a>

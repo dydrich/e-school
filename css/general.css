@@ -22,7 +22,7 @@ form {
 
 input, select, textarea {
     border-radius: 2px;
-    font-size: 1em
+    font-size: 0.9em
 }
 
 table {
@@ -1989,11 +1989,80 @@ div.odd {
     font-size: 30px;
     width: 80px;
     margin: 0 auto;
-    text-align: center;
     border-radius: 3px;
     height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .icon_button > i {
-    padding: 25px 0 0 0;
+    margin:auto;
+}
+
+.dashboard_card {
+    width: 150px;
+    border: 1px solid #c0c0c0;
+    margin: 15px auto 0 auto;
+    flex: 0 1 auto;
+    -webkit-flex: 0 1 auto;
+}
+
+.dashboard_minicard {
+    width: 150px;
+    height: 80px;
+    border: 1px solid #c0c0c0;
+    margin: auto;
+    flex: 0 1 auto;
+    -webkit-flex: 0 1 auto;
+}
+
+.dashboard_card_title {
+    width: 150px;
+    height: 20px;
+    margin-top: 0;
+    padding-top: 5px;
+    border-bottom: 1px solid #c0c0c0;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.dashboard_card_body {
+    width: 140px;
+    height:60%;
+    margin: 0;
+    padding: 5px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard_card_row {
+    width: 150px;
+    height: 25px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 5px;
+    border-bottom: 1px solid #c0c0c0;
+    text-align: center;
+}
+
+div.dashboard_card_row p {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 5px;
+}
+
+.dashboard_fieldset {
+    margin: 20px auto 0 auto;
+    width: 80%;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
 }

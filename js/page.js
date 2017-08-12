@@ -341,7 +341,6 @@ versione per jquery
  */
 var exec_code;
 var bckg_timer;
-var timeout;
 var background_process = function(msg, tm, show_progress) {
     $('#background .alert_title i').removeClass("fa-thumbs-up").addClass("fa-circle-o-notch fa-spin");
     $('#background .alert_title span').text("Attendi");
