@@ -84,7 +84,7 @@ if ($res_voti->num_rows > 0) {
 	}
 }
 
-$presidente = $db->executeCount("SELECT presidente FROM rb_dati_amministrativi_esame WHERE anno = {$anno}");
+
 
 $file = "esiti_esame".$_SESSION['__classe__']->get_anno().$_SESSION['__classe__']->get_sezione().".pdf";
 $pdf = new MiddleSchoolFinalExamPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -103,5 +103,5 @@ $pdf->setLanguageArray($l);
 $pdf->SetDisplayMode('fullpage', 'SinglePage', 'UseNone');
 $pdf->SetFont('helvetica', '', 12);
 $pdf->AddPage("P", "A4");
-$pdf->createTable($alunni, $_SESSION['__classe__'], $presidente);
+$pdf->createTable($alunni, $_SESSION['__classe__'], "Franca Fara");
 $pdf->Output($file, 'D');

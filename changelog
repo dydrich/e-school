@@ -1,3 +1,57 @@
+4.14
+gestione creazione edownload registro supplente migliorata (vedi document)
+
+4.13.319
+apertura programmazioni (download) area genitori
+bug fix
+
+4.13.318
+j_alert in manager/supplenza
+
+4.13.317
+avvisi per area segreteria in home
+
+4.13.316
+bug fix per duplicazione dati in rb_pagelle (REPLACE per INSERT) in StudentManager
+
+4.13.315
+bug fix registro di classe: in no_lessons.php, se l'ultimo giorno di scuola era un sabato, non essendo il sabato tra i giorni
+del tempo pieno, si vien rimandati sempre a no_lessons.php
+
+4.13.314
+widget di segnalazione pratiche urgenti in manager home (workflow#9)
+
+4.13.313
+ritocco grafico in teachers/index.html.php
+
+4.13.312
+apertura workflow per segreteria
+eliminazione distinzione tra docenti e ata nei workflow permessi
+apertura workflow (front) alla segreteria
+bug fix
+
+4.13.311
+widget workflow in home manager
+
+4.13
+apertura modulo workflow per docenti, ata e amministrazione
+
+4.12.310
+bug fix grafici per mysql_error.php
+
+4.12.309
+teachers/registro_personale/index.php: bug fix per errore nel caricare la pagina passando da pagina firma
+
+4.12.308
+big fix per utf8 in PDF (registro di classe)
+bug fix link (registro_personale/colloqui.php)
+
+4.12.307
+registrazione in sessione dl gruppo attivo per i docenti
+
+4.12.306
+modifiche grafiche (general.css, manager/supplenze.html.php)
+
 4.12.305
 teachers/gestione_classe: correzione per mostrare anche gli impegni del giorno in corso, anche se terminati come orario
 

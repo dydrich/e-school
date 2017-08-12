@@ -24,7 +24,9 @@
             <li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>pagellini.php">Gestione pagellini</a></li>
 			<?php if ($_SESSION['__school_order__'] == 1): ?>
                 <li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>colloqui.php">Gestione colloqui</a></li>
-                <li><a href="<?php echo $_SESSION['__config__']['root_site']."/intranet/manager/"; ?>esami.php">Gestione esame di licenza</a></li>
+                <?php if(is_installed("exams")): ?>
+                <li><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/exams/load_module.php?module=exams&page=admin">Gestione esame di licenza</a></li>
+                <?php endif; ?>
 			<?php endif; ?>
         </ul>
 	<?php 
