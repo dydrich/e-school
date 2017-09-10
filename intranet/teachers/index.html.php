@@ -115,6 +115,9 @@
 		<?php if(is_installed("com")){ ?>
 		<div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=teachers"><img src="../../images/57.png" style="margin-right: 10px; position: relative; top: 5%" />Comunicazioni</a></div>
 		<?php } ?>
+		<?php if(is_installed("messenger")): ?>
+            <div class="drawer_link"><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/messenger/load_module.php?module=messenger&area=teachers"><img src="../../images/60.png" style="margin-right: 10px; position: relative; top: 5%" />Messaggi</a></div>
+		<?php endif; ?>
 		<?php if ($_SESSION['__user__']->hasConnectedAccounts()) {
 			$acc = $_SESSION['__user__']->getConnectedAccounts();
 			foreach ($acc as $ca) {

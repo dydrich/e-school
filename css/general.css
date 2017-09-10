@@ -2066,3 +2066,44 @@ div.dashboard_card_row p {
     justify-content: space-around;
     align-items: flex-start;
 }
+
+.round_label {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border-bottom: 1px solid #c0c0c0;
+    color: white;
+    font-weight: bold;
+    background-color: #1a237e;
+    align-items: center;
+    align-content: center;
+    flex: 0 1 auto;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.round_label div {
+    margin-top: 3px;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+}
+
+.round_minilabel {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border-bottom: 1px solid #c0c0c0;
+    color: white;
+    font-weight: bold;
+    background-color: #1a237e;
+    align-items: center;
+    align-content: center;
+    flex: 0 1 auto;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.round_minilabel div {
+    font-size: 0.8em;
+}
