@@ -333,7 +333,7 @@ abstract class UserBean {
 
     /**
      * return an array of data in json string format
-     * @return string
+     * @return array
      */
     public function toJSON() {
         $json_array = [];
