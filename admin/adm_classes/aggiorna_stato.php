@@ -15,7 +15,7 @@ $response = array("status" => "ok", "message" => "Operazione completata");
 $step = $_REQUEST['step'];
 $school_order = $_REQUEST['school_order'];
 
-$upd = "UPDATE rb_config SET valore = $step WHERE variabile = 'stato_avanzamento_nuove_classi_{$school_order}'";
+$upd = "UPDATE rb_config SET valore = 1 WHERE variabile = 'stato_avanzamento_nuove_classi_{$school_order}'";
 try{
 	$db->executeUpdate($upd);
 } catch (MySQLException $ex){
@@ -26,7 +26,7 @@ try{
 	exit;
 }
 
-$_SESSION['__new_classes_step__'] = $step;
+$_SESSION['__new_classes_step__'] = 1;
 
 echo json_encode($response);
 exit;
