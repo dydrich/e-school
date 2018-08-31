@@ -1,5 +1,15 @@
+5.0.323
+gestione configurazione ordine di visualizzazione circolari
+
+5.0.322
+bug fix
+modifiche grafiche
+
+5.0
+gestione esami conclusivi del primo ciclo dell'istruzione (modulo exams)
+
 4.14
-gestione creazione edownload registro supplente migliorata (vedi document)
+gestione creazione e download registro supplente migliorata (vedi document)
 
 4.13.319
 apertura programmazioni (download) area genitori
@@ -16,7 +26,7 @@ bug fix per duplicazione dati in rb_pagelle (REPLACE per INSERT) in StudentManag
 
 4.13.315
 bug fix registro di classe: in no_lessons.php, se l'ultimo giorno di scuola era un sabato, non essendo il sabato tra i giorni
-del tempo pieno, si vien rimandati sempre a no_lessons.php
+del tempo pieno, si viene rimandati sempre a no_lessons.php
 
 4.13.314
 widget di segnalazione pratiche urgenti in manager home (workflow#9)
