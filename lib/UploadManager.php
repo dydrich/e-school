@@ -83,6 +83,7 @@ class UploadManager {
 	public function upload($ext = null){
 		$file_ext = pathinfo($this->file['name'], PATHINFO_EXTENSION);
 		if ($ext != null && !in_array($file_ext, $ext)) {
+			echo 'returning '.self::WRONG_FILE_EXT;
 			return self::WRONG_FILE_EXT;
 		}
 		switch ($this->uploadType){
@@ -95,6 +96,9 @@ class UploadManager {
 				break;
 			case "teacherbook_att":
 				return $this->teacherbookAttach();
+				break;
+			case "circular_att":
+				return $this->circularAttach();
 				break;
 		}
 	}
@@ -109,6 +113,19 @@ class UploadManager {
 			$last = $this->datasource->executeUpdate("INSERT INTO rb_allegati_registro_docente (registro, file) VALUES ({$this->data['id']}, '{$file_name}')");
 			$ff = preg_replace("/ /", "_", $file_name);
 			return $last;
+		}
+	}
+
+	private function circularAttach(){
+		$ret = $this->moveFile();
+		if ($ret != 3){
+			return $ret;
+		}
+		else {
+			$file_name = basename($this->file['name']);
+			$last = $this->datasource->executeUpdate("INSERT INTO rb_com_allegati_circolari (id_circolare, file) VALUES ({$this->data['idc']}, '{$file_name}')");
+			$ff = preg_replace("/ /", "_", $file_name);
+			return [$ret, $last];
 		}
 	}
 	
