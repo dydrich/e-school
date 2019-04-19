@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+/**
 
 require_once $_SESSION['__path_to_root__']."lib/ArrayMultiSort.php";
 
@@ -169,4 +171,17 @@ if ($_SESSION['__user__']->getSchoolOrder() == 2) {
 <?php
 }
 ?>
+</div>
+
+ */
+?>
+<div class="smallbox" id="working">
+    <p class="menu_label classbook_icon">Menu</p>
+    <ul class="menublock" style="" dir="rtl">
+        <li><a href="index.php">Home</a></li>
+        <li><a href="profile.php">Profilo</a></li>
+        <li><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/documents/load_module.php?module=docs&area=teachers">Documenti</a></li>
+        <li><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=teachers">Comunicazioni</a></li>
+        <li><a href="<?php echo $_SESSION['__path_to_root__'] ?>modules/communication/load_module.php?module=com&area=teachers&page=vedi_circolari">Circolari</a></li>
+    </ul>
 </div>
